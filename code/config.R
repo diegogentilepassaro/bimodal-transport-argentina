@@ -48,6 +48,15 @@ dir_raw_industrial   <- file.path(dir_raw, "industrial")   # Ind. census 1954, 1
 # ---- 4. Derived data paths (written by pipeline scripts) ------------------
 dir_derived <- file.path(dir_data, "derived")
 
+# base/ — cleaned source datasets (one subfolder per raw data source)
+dir_derived_base        <- file.path(dir_derived, "base")
+dir_derived_ipums       <- file.path(dir_derived_base, "ipums")
+dir_derived_agr         <- file.path(dir_derived_base, "agricultural")
+dir_derived_ind         <- file.path(dir_derived_base, "industrial")
+dir_derived_geo         <- file.path(dir_derived_base, "geo")
+dir_derived_networks    <- file.path(dir_derived_base, "networks")
+
+# Pipeline step outputs
 # 01 — cost rasters (.tif) produced by 01_build_rasters.py
 dir_derived_rasters     <- file.path(dir_derived, "01_cost_rasters")
 # 02 — gdistance transition grid objects (.rds) from 02_transition_grids.R
@@ -56,12 +65,7 @@ dir_derived_transitions <- file.path(dir_derived, "02_transition_grids")
 dir_derived_taus        <- file.path(dir_derived, "03_taus")
 # 04 — market access indices (.parquet) from 04_market_access.R
 dir_derived_ma          <- file.path(dir_derived, "04_market_access")
-# 05 — intermediate cleaned source files and final estimation panel
-dir_derived_census      <- file.path(dir_derived, "05a_census")
-dir_derived_agr         <- file.path(dir_derived, "05b_agricultural")
-dir_derived_ind         <- file.path(dir_derived, "05c_industrial")
-dir_derived_geo         <- file.path(dir_derived, "05d_geo_controls")
-dir_derived_networks    <- file.path(dir_derived, "05e_networks")
+# 05 — final estimation panel (merges all base/ sources + MA)
 dir_derived_panel       <- file.path(dir_derived, "05_panel")
 # 06 — regression output (model objects, coefficient extracts)
 dir_derived_analysis    <- file.path(dir_derived, "06_analysis")

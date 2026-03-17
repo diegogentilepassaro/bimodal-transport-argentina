@@ -64,15 +64,17 @@ create_output_dirs <- function() {
     message("\n[setup] Step 2 — creating output directory tree")
 
     dirs_to_create <- c(
-        dir_derived_rasters,
-        dir_derived_transitions,
-        dir_derived_taus,
-        dir_derived_ma,
-        dir_derived_census,
+        # ---- base (cleaned source datasets) ----
+        dir_derived_ipums,
         dir_derived_agr,
         dir_derived_ind,
         dir_derived_geo,
         dir_derived_networks,
+        # ---- pipeline steps ----
+        dir_derived_rasters,
+        dir_derived_transitions,
+        dir_derived_taus,
+        dir_derived_ma,
         dir_derived_panel,
         dir_derived_analysis,
         dir_tables,
