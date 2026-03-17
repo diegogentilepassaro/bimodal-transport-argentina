@@ -1,0 +1,65 @@
+# ==============================================================================
+# .gitignore — Argentina transport replication package (new_repo/)
+# ==============================================================================
+
+# ---- Generated data (everything under data/derived/) ----------------------
+data/derived/**
+!data/derived/.gitkeep
+
+# ---- Generated results (re-created by running main.R) ---------------------
+results/tables/**
+!results/tables/.gitkeep
+results/figures/**
+!results/figures/.gitkeep
+results/scalars.tex
+
+# ---- Log files (directory kept via .gitkeep) -------------------------------
+logs/*.log
+logs/*.Rout
+*.Rout
+
+# ---- R session artefacts ---------------------------------------------------
+.Rhistory
+.RData
+.Rproj.user/
+
+# ---- renv cache (not the lockfile) -----------------------------------------
+renv/library/
+renv/staging/
+renv/.cache/
+
+# ---- Python bytecode -------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ---- Python virtual environments -------------------------------------------
+.venv/
+venv/
+env/
+
+# ---- macOS / editor noise --------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ---- LaTeX build artefacts -------------------------------------------------
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.blg
+paper/*.pdf
+paper/*.synctex.gz
+paper/*.fls
+paper/*.fdb_latexmk
+
+# ---- Large spatial files ---------------------------------------------------
+*.tif
+*.geotiff
+*.img
+
+# ---- .gitkeep files ARE committed ------------------------------------------
+!**/.gitkeep

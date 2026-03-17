@@ -1,0 +1,27 @@
+{
+  "R": {
+    "Version": "TODO — populate after running renv::init()",
+    "Repositories": [
+      {
+        "Name": "CRAN",
+        "URL": "https://cloud.r-project.org"
+      }
+    ]
+  },
+  "Packages": {
+    "_PLACEHOLDER_": {
+      "Package": "_PLACEHOLDER_",
+      "Version": "0.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "TODO"
+    }
+  },
+  "_README_": [
+    "PLACEHOLDER renv.lock. To populate with real pinned versions:",
+    "  1. Install all required R packages (see 00_setup.R key_pkgs list).",
+    "  2. Run: renv::init(project = here::here())",
+    "  3. Run: renv::snapshot()",
+    "  4. Commit the resulting renv.lock."
+  ]
+}

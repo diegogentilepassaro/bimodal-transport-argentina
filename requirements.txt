@@ -1,0 +1,21 @@
+# ==============================================================================
+# requirements.txt — Python dependencies for 01_build_rasters.py
+#
+# PLACEHOLDER: populate with exact pinned versions after testing.
+#   pip freeze > requirements.txt
+#
+# Python version: 3.9+ required
+# ==============================================================================
+
+# Raster processing
+rasterio==TODO
+numpy==TODO
+fiona==TODO
+shapely==TODO
+pyproj==TODO
+
+# GDAL — version must match system GDAL installation
+GDAL==TODO
+
+# Utility
+scipy==TODO
