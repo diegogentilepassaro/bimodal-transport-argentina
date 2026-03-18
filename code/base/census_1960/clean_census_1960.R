@@ -13,7 +13,7 @@
 #
 # PRODUCES:
 #   data/derived/05a_census/census_1960_ipums.parquet
-#       Key: geolev2. Variables: pop, urb, rur, year.
+#       Key: geolev2. Variables: pop, urbpop, rur, year.
 #
 #   data/derived/05a_census/census_1960_manifest.log
 #
@@ -80,10 +80,9 @@ read_raw_1960 <- function() {
     message("\n[c1960] Step 1 -- Reading raw Excel files")
 
     raw_dir <- file.path(dir_raw_census, "censo1960")
-    stopifnot(
-        dir.exists(raw_dir),
-        sprintf("Raw data directory not found: %s", raw_dir)
-    )
+    if (!dir.exists(raw_dir)) {
+        stop(sprintf("Raw data directory not found: %s", raw_dir))
+    }
 
     all_rows <- list()
 
@@ -321,6 +320,9 @@ collapse_to_districts <- function(raw) {
     districts$pop <- districts$rur + districts$urb
     districts$year <- 1960L
 
+    # Rename to match project convention (urbpop, not urb)
+    names(districts)[names(districts) == "urb"] <- "urbpop"
+
     message(sprintf(
         "[c1960]   %d districts after collapsing", nrow(districts)
     ))
@@ -515,17 +517,25 @@ merge_to_ipums <- function(df) {
             )],
             census_rows[, c(
                 "provmerge", "distmerge",
-                "pop", "urb", "rur", "year"
+                "pop", "urbpop", "rur", "year"
             )],
             by = c("provmerge", "distmerge"),
             all.x = TRUE
         )
 
+        # Align columns before rbind to avoid mismatch
+        matched <- census_rows[!is.na(census_rows$geolev2), ]
+        remapped_ok <- remapped[!is.na(remapped$pop), ]
+        common_cols <- intersect(names(matched), names(remapped_ok))
         census_rows <- rbind(
-            census_rows[!is.na(census_rows$geolev2), ],
-            remapped[!is.na(remapped$pop), ]
+            matched[, common_cols],
+            remapped_ok[, common_cols]
         )
     }
+
+    message(sprintf(
+        "[c1960]   After merge cleanup: %d rows", nrow(census_rows)
+    ))
 
     census_rows
 }
@@ -547,7 +557,7 @@ collapse_to_geolev2 <- function(df) {
     df$n_alloc <- as.integer(alloc_counts[df$alloc_key])
 
     # Default: divide equally
-    for (v in c("pop", "urb", "rur")) {
+    for (v in c("pop", "urbpop", "rur")) {
         df[[v]] <- df[[v]] / df$n_alloc
     }
 
@@ -555,7 +565,7 @@ collapse_to_geolev2 <- function(df) {
     quilmes_idx <- df$geolev2 == 32006076
     beraz_idx   <- df$geolev2 == 32006087
     if (any(quilmes_idx) && any(beraz_idx)) {
-        for (v in c("pop", "urb", "rur")) {
+        for (v in c("pop", "urbpop", "rur")) {
             total <- df[[v]][quilmes_idx] * df$n_alloc[quilmes_idx]
             df[[v]][quilmes_idx] <- total * (2 / 3)
             df[[v]][beraz_idx]   <- total * (1 / 3)
@@ -564,14 +574,18 @@ collapse_to_geolev2 <- function(df) {
 
     # Collapse to geolev2
     final <- aggregate(
-        cbind(pop, urb, rur) ~ geolev2,
+        cbind(pop, urbpop, rur) ~ geolev2,
         data = df[!is.na(df$geolev2), ],
         FUN = sum, na.rm = TRUE
     )
     final$year <- 1960L
 
-    # Exclude non-mainland territories
-    final <- final[!(final$geolev2 %in% geolev2_exclude), ]
+    # Exclude non-mainland territories, Capital Federal, Tierra del Fuego
+    geo_cf <- 32002001L
+    geo_tdf <- c(94094001L, 94094002L)  # Ushuaia, Río Grande
+    excl <- final$geolev2 %in% geolev2_exclude |
+        final$geolev2 %in% c(geo_cf, geo_tdf)
+    final <- final[!excl, ]
 
     message(sprintf("[c1960]   Final: %d districts", nrow(final)))
     final
@@ -620,7 +634,7 @@ save_output <- function(final) {
     cat(sprintf("Year: %d\n", unique(final$year)))
 
     cat("\nSummary of key variables:\n")
-    for (v in c("pop", "urb", "rur")) {
+    for (v in c("pop", "urbpop", "rur")) {
         vals <- final[[v]]
         cat(sprintf(
             "  %-10s  N=%d  mean=%.0f  min=%.0f  max=%.0f  NA=%d\n",

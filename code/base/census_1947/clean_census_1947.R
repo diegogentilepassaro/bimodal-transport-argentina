@@ -83,10 +83,9 @@ read_raw_1947 <- function() {
     message("\n[c1947] Step 1 -- Reading raw Excel files")
 
     raw_dir <- file.path(dir_raw_census, "censo1947")
-    stopifnot(
-        dir.exists(raw_dir),
-        sprintf("Raw data directory not found: %s", raw_dir)
-    )
+    if (!dir.exists(raw_dir)) {
+        stop(sprintf("Raw data directory not found: %s", raw_dir))
+    }
 
     # Province names matching the Excel filenames (same order as old code)
     provinces <- c(
@@ -194,10 +193,20 @@ collapse_to_districts <- function(raw) {
         urb ~ provincia + partido,
         data = raw, FUN = sum, na.rm = TRUE
     )
-    # Pop is already at distrito level (same value repeated) — take mean
+    # Pop is already at distrito level (same value repeated) — take
+    # first value per group after asserting they're all equal.
     pop_agg <- aggregate(
         pop ~ provincia + partido,
-        data = raw, FUN = mean, na.rm = TRUE
+        data = raw, FUN = function(x) {
+            vals <- unique(x[!is.na(x)])
+            if (length(vals) > 1) {
+                warning(sprintf(
+                    "Multiple pop values for same distrito: %s",
+                    paste(vals, collapse = ", ")
+                ))
+            }
+            vals[1]
+        }
     )
     districts <- merge(agg, pop_agg, by = c("provincia", "partido"))
 
@@ -283,6 +292,11 @@ apply_name_changes <- function(df) {
     # Camarones comprised territories of current Escalante and
     # Florentino Ameghino.
     # https://es.wikipedia.org/wiki/Departamento_Camarones
+    # NOTE: We split pop 50/50 here. The allocation step in
+    # collapse_to_geolev2() counts n_alloc by (provincia, distrito),
+    # not by distmerge. Since we set distmerge to ESCALANTE and
+    # FLORENTINOAMEGHINO (each mapping 1:1 to a geolev2), n_alloc=1
+    # for each, so no double-division occurs.
     cam_idx <- df$distmerge == "CAMARONES" & df$provmerge == "CHUBUT"
     if (any(cam_idx)) {
         cam_row <- df[cam_idx, ][1, ]
@@ -480,6 +494,10 @@ merge_to_ipums <- function(df) {
         merged <- merged[!redundant, ]
     }
 
+    message(sprintf(
+        "[c1947]   After merge cleanup: %d rows", nrow(merged)
+    ))
+
     merged
 }
 
@@ -502,19 +520,19 @@ handle_post1947_districts <- function(df) {
         return(census_rows)
     }
 
-    # For each unmatched IPUMS district, map it to its 1947 parent
-    # These are districts created after 1947 by splitting older ones.
-    # The mapping assigns the new district's distmerge to its parent's
-    # distmerge so the merge can proceed.
+    # For each unmatched IPUMS district, map it to its 1947 parent.
+    # child = the post-1947 IPUMS district name
+    # parent = the 1947 district it was carved from
     post1947 <- ipums_only[, c(
         "provmerge", "distmerge", "geolev2",
         "provname", "districtIPUMS"
     )]
 
-    ch <- function(new_dist, old_dist, prov) {
-        idx <- post1947$distmerge == new_dist &
+    # Helper: remap a child district to its 1947 parent
+    to_parent <- function(parent, child, prov) {
+        idx <- post1947$distmerge == child &
             post1947$provmerge == prov
-        post1947$distmerge[idx] <<- old_dist
+        post1947$distmerge[idx] <<- parent
     }
 
     # -- BUENOS AIRES --
@@ -532,58 +550,82 @@ handle_post1947_districts <- function(df) {
 
     # Berisso: segregated in 1957 from La Plata
     # https://es.wikipedia.org/wiki/Partido_de_Berisso
-    ch("LAPLATA", "BERISSO", "BUENOSAIRES")
+    to_parent("LAPLATA", "BERISSO", "BUENOSAIRES")
 
     # Ensenada: also from La Plata
-    ch("LAPLATA", "ENSENADA", "BUENOSAIRES")
+    to_parent("LAPLATA", "ENSENADA", "BUENOSAIRES")
 
     # Tres de Febrero: segregated from General San Martín
     # https://es.wikipedia.org/wiki/Partido_de_Tres_de_Febrero
-    ch("GENERALSANMARTIN", "TRESDEFEBRERO", "BUENOSAIRES")
+    to_parent("GENERALSANMARTIN", "TRESDEFEBRERO", "BUENOSAIRES")
 
     # Berazategui: segregated from Quilmes in 1960
-    ch("QUILMES", "BERAZATEGUI", "BUENOSAIRES")
+    to_parent("QUILMES", "BERAZATEGUI", "BUENOSAIRES")
 
     # -- MISIONES --
     # Several districts created from older ones upon provincialization
     # https://biblioteca.indec.gob.ar/bases/minde/1c1947x4_2.pdf
-    ch("CANDELARIA", "OBERA", "MISIONES")
-    ch("IGUAZU", "ELDORADO", "MISIONES")
-    ch("CAINGUAS", "LIBERTADORGENERALSANMARTIN", "MISIONES")
-    ch("SANPEDRO", "MONTECARLO", "MISIONES")
-    ch("SANJAVIER", "25DEMAYO", "MISIONES")
+    to_parent("CANDELARIA", "OBERA", "MISIONES")
+    to_parent("IGUAZU", "ELDORADO", "MISIONES")
+    to_parent("CAINGUAS", "LIBERTADORGENERALSANMARTIN", "MISIONES")
+    to_parent("SANPEDRO", "MONTECARLO", "MISIONES")
+    to_parent("SANJAVIER", "25DEMAYO", "MISIONES")
 
     # -- SALTA --
     # General José de San Martín was part of Orán in 1947
     # https://es.wikipedia.org/wiki/Departamento_General_José_de_San_Martín
-    ch("ORAN", "GENERALJOSEDESANMARTIN", "SALTA")
+    to_parent("ORAN", "GENERALJOSEDESANMARTIN", "SALTA")
 
     # -- MENDOZA --
     # Malargüe was part of San Rafael (then called 25 de Mayo)
     # https://es.wikipedia.org/wiki/Departamento_Malargüe
-    ch("SANRAFAEL", "MALARGUE", "MENDOZA")
+    to_parent("SANRAFAEL", "MALARGUE", "MENDOZA")
 
     message(sprintf(
         "[c1947]   %d post-1947 districts mapped to parents",
         nrow(post1947)
     ))
 
-    # Merge post-1947 mappings back to census data
-    # Each post1947 row now has distmerge pointing to its 1947 parent
+    # Merge post-1947 mappings back to census data.
+    # post1947$distmerge now points to the 1947 parent name, so we
+    # can look up the parent's pop/urb values from census_rows.
+    # Use a targeted merge on provmerge+distmerge, then keep only
+    # the columns we need to avoid suffix collisions.
+    parent_data <- census_rows[
+        !is.na(census_rows$geolev2),
+        c("provmerge", "distmerge", "provincia", "distrito",
+          "urb", "pop", "year")
+    ]
+    # De-duplicate: a parent may appear multiple times if it already
+    # mapped to multiple geolev2 codes — take the first (values are
+    # identical across rows for the same parent).
+    parent_data <- parent_data[
+        !duplicated(paste(parent_data$provmerge,
+                          parent_data$distmerge)),
+    ]
+
     merged <- merge(
-        post1947, census_rows,
+        post1947, parent_data,
         by = c("provmerge", "distmerge"),
-        all.x = TRUE, suffixes = c("", "_census")
+        all.x = TRUE
     )
 
-    # Combine: original matched rows + newly matched post-1947 rows
-    # For post-1947 rows, they inherit the parent's pop/urb values
-    # (will be divided at the allocation step)
+    # Build result rows with the same columns as census_rows
+    # (which has: provmerge, distmerge, provincia, distrito, urb,
+    #  pop, year, geolev2, provname, districtIPUMS)
+    matched_census <- census_rows[!is.na(census_rows$geolev2), ]
+    matched_post <- merged[!is.na(merged$pop), ]
+
+    # Align columns before rbind
+    common_cols <- intersect(names(matched_census), names(matched_post))
     result <- rbind(
-        census_rows[!is.na(census_rows$geolev2), ],
-        merged[!is.na(merged$geolev2) & !is.na(merged$pop), ]
+        matched_census[, common_cols],
+        matched_post[, common_cols]
     )
 
+    message(sprintf(
+        "[c1947]   After post-1947 handling: %d rows", nrow(result)
+    ))
     result
 }
 
@@ -658,9 +700,16 @@ collapse_to_geolev2 <- function(df) {
     final$urbpop[final$note == 1] <- NA
     final$pop[final$note == 1]    <- NA
 
-    # Exclude Tierra del Fuego and Capital Federal
-    # (not in the estimation sample)
-    final <- final[!(final$geolev2 %in% geolev2_exclude), ]
+    # Exclude Tierra del Fuego, Capital Federal, and non-mainland
+    # territories (not in the estimation sample).
+    # Tierra del Fuego and Capital Federal are excluded because the old
+    # code drops them explicitly; they are not part of the 312-district
+    # estimation sample.
+    geo_cf <- 32002001L
+    geo_tdf <- c(94094001L, 94094002L)  # Ushuaia, Río Grande
+    excl <- final$geolev2 %in% geolev2_exclude |
+        final$geolev2 %in% c(geo_cf, geo_tdf)
+    final <- final[!excl, ]
 
     message(sprintf(
         "[c1947]   Final: %d districts (%d flagged as imputed)",
