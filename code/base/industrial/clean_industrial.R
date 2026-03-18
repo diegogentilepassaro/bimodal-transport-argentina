@@ -218,6 +218,10 @@ load_crosswalk <- function() {
 
 # ---------------------------------------------------------------------------
 # Helper: harmonize and merge 1954
+# The old pipeline's approach: (1) fix names in data, (2) expand the crosswalk
+# with mappings for districts created after 1954 (child → parent), (3) merge
+# data with expanded crosswalk, (4) divide values by count of IPUMS targets
+# per census district, (5) collapse to geolev2.
 # ---------------------------------------------------------------------------
 harmonize_and_merge_1954 <- function(ind, xwalk) {
     message("\n[ind] Step 4 — Harmonizing 1954 names and merging")
@@ -226,10 +230,10 @@ harmonize_and_merge_1954 <- function(ind, xwalk) {
     ind$distmerge <- ind$distrito
     val_cols <- c("nestab", "nemp", "nobr", "massal", "valprod")
 
-    # --- District splits (before name fixes) ---
-    # Camarones → Escalante + Florentino Ameghino (Chubut military zone)
+    # --- District splits in the data (before name fixes) ---
     ind$provmerge[ind$provmerge == "ZONAMILITARDECOMODORORIVADAVIA"] <- "CHUBUT"
 
+    # Camarones → Escalante + Florentino Ameghino
     cam_mask <- ind$distmerge == "CAMARONES" & ind$provmerge == "CHUBUT"
     if (any(cam_mask)) {
         cam_row <- ind[cam_mask, ]
@@ -237,13 +241,12 @@ harmonize_and_merge_1954 <- function(ind, xwalk) {
         new_row$distmerge <- "FLORENTINOAMEGHINO"
         ind$distmerge[cam_mask] <- "ESCALANTE"
         ind <- rbind(ind, new_row)
-        # Split equally (old pipeline divides by number of target districts)
-        esc_mask <- ind$distmerge == "ESCALANTE" & ind$provmerge == "CHUBUT" &
-                    ind$distrito == "CAMARONES"
-        fam_mask <- ind$distmerge == "FLORENTINOAMEGHINO" & ind$provmerge == "CHUBUT"
         for (v in val_cols) {
-            ind[[v]][esc_mask] <- ind[[v]][esc_mask] / 2
-            ind[[v]][fam_mask] <- ind[[v]][fam_mask] / 2
+            esc <- ind$distmerge == "ESCALANTE" & ind$provmerge == "CHUBUT" &
+                   ind$distrito == "CAMARONES"
+            fam <- ind$distmerge == "FLORENTINOAMEGHINO" & ind$provmerge == "CHUBUT"
+            ind[[v]][esc] <- ind[[v]][esc] / 2
+            ind[[v]][fam] <- ind[[v]][fam] / 2
         }
         message("[ind]   Split Camarones → Escalante + Florentino Ameghino")
     }
@@ -257,21 +260,21 @@ harmonize_and_merge_1954 <- function(ind, xwalk) {
         new_row$provmerge <- "SANTACRUZ"
         ind$distmerge[cr_mask] <- "ESCALANTE"
         ind <- rbind(ind, new_row)
-        esc2_mask <- ind$distmerge == "ESCALANTE" & ind$provmerge == "CHUBUT" &
-                     ind$distrito == "COMODORORIVADAVIA"
-        des_mask <- ind$distmerge == "DESEADO" & ind$provmerge == "SANTACRUZ" &
-                    ind$distrito == "COMODORORIVADAVIA"
         for (v in val_cols) {
-            ind[[v]][esc2_mask] <- ind[[v]][esc2_mask] / 2
-            ind[[v]][des_mask]  <- ind[[v]][des_mask] / 2
+            esc2 <- ind$distmerge == "ESCALANTE" & ind$provmerge == "CHUBUT" &
+                    ind$distrito == "COMODORORIVADAVIA"
+            des <- ind$distmerge == "DESEADO" & ind$provmerge == "SANTACRUZ" &
+                   ind$distrito == "COMODORORIVADAVIA"
+            ind[[v]][esc2] <- ind[[v]][esc2] / 2
+            ind[[v]][des]  <- ind[[v]][des] / 2
         }
         message("[ind]   Split Comodoro Rivadavia → Escalante + Deseado")
     }
 
+    # Apply name fixes
     ind <- apply_name_fixes_1954(ind)
-    ind <- apply_district_reassignments_1954(ind, xwalk, val_cols)
 
-    # Quilmes/Berazategui split
+    # Quilmes/Berazategui split (same as agricultural)
     q_mask <- ind$provmerge == "BUENOSAIRES" & ind$distmerge == "QUILMES"
     if (any(q_mask)) {
         q_row <- ind[q_mask, ]
@@ -285,13 +288,20 @@ harmonize_and_merge_1954 <- function(ind, xwalk) {
         message("[ind]   Applied Quilmes/Berazategui 1/3-2/3 split")
     }
 
-    # Merge with crosswalk
-    merged <- merge(ind, xwalk[, c("provmerge", "distmerge", "geolev2")],
+    # --- Expand crosswalk with post-1954 district mappings ---
+    # Districts created after 1954: map child IPUMS district → parent census
+    # district. This way when we merge, the parent's data row matches both
+    # the parent and child crosswalk entries, and the 1/x division splits
+    # the values correctly among all targets.
+    xwalk_expanded <- expand_crosswalk_1954(xwalk)
+
+    # Merge with expanded crosswalk
+    merged <- merge(ind, xwalk_expanded[, c("provmerge", "distmerge", "geolev2")],
                     by = c("provmerge", "distmerge"), all.x = TRUE)
     n_matched <- sum(!is.na(merged$geolev2))
-    n_unmatched <- sum(is.na(merged$geolev2))
     message(sprintf("[ind]   Matched: %d / %d", n_matched, nrow(ind)))
 
+    n_unmatched <- sum(is.na(merged$geolev2))
     if (n_unmatched > 0) {
         unmatched <- merged[is.na(merged$geolev2),
                             c("provmerge", "distmerge")]
@@ -304,8 +314,8 @@ harmonize_and_merge_1954 <- function(ind, xwalk) {
         merged <- merged[!is.na(merged$geolev2), ]
     }
 
-    # Collapse: equal split for 1-to-many, then sum by geolev2
-    # (old pipeline divides by count of target districts per source district)
+    # Divide values by count of IPUMS targets per census district
+    # (old pipeline: replace var = var * (1/x) where x = count by provincia distrito)
     merged_count <- ave(rep(1, nrow(merged)),
                         merged$provincia, merged$distrito,
                         FUN = length)
@@ -432,6 +442,9 @@ apply_name_fixes_1954 <- function(ind) {
     fix("SANLUIS", "SANMARTIN", "LIBERTADORGENERALSANMARTIN")
     fix("SANLUIS", "GENERALBELGRANO", "BELGRANO")
 
+    # Formosa: Bermejo → Patiño (same geolev2 in IPUMS: 32034004)
+    fix("FORMOSA", "BERMEJO", "PATINO")
+
     fix("SANTAFE", "NUEVEDEJULIO", "9DEJULIO")
 
     fix("SANTIAGODELESTERO", "MATARA", "JUANFIBARRA")
@@ -447,49 +460,49 @@ apply_name_fixes_1954 <- function(ind) {
 }
 
 # ---------------------------------------------------------------------------
-# District reassignments for 1954 (districts created after 1954)
-# These IPUMS districts didn't exist in 1954 — map them back to their
-# parent district. Ported from match_districts in merge_in1954_to_IPUMS.do.
+# Expand crosswalk for 1954: add mappings for districts created after 1954.
+# These IPUMS districts didn't exist in 1954 — we map them back to their
+# parent census district so the parent's data gets split across all targets.
+# Ported from match_districts in merge_in1954_to_IPUMS.do.
 # ---------------------------------------------------------------------------
-apply_district_reassignments_1954 <- function(ind, xwalk, val_cols) {
-    # These are IPUMS districts that were carved out of existing districts
-    # after 1954. We need to create entries for them by reassigning from
-    # the parent district. The old pipeline does this via a "match" step.
-    # Here we add the reassignment mappings to the data before merging.
-
-    reassign <- function(prov, parent, child) {
-        # Find the parent row and create a child copy
-        mask <- ind$provmerge == prov & ind$distmerge == parent
-        if (any(mask)) {
-            child_row <- ind[mask, ][1, ]
-            child_row$distmerge <- child
-            ind <<- rbind(ind, child_row)
+expand_crosswalk_1954 <- function(xwalk) {
+    add_mapping <- function(prov, child, parent) {
+        # child = IPUMS district that didn't exist in 1954
+        # parent = census district it was carved from
+        # We add a row: provmerge=prov, distmerge=parent, geolev2=child's geolev2
+        child_row <- xwalk[xwalk$provmerge == prov & xwalk$distmerge == child, ]
+        if (nrow(child_row) > 0) {
+            new_row <- child_row[1, ]
+            new_row$distmerge <- parent
+            xwalk <<- rbind(xwalk, new_row)
         }
     }
 
     # Buenos Aires: Escobar carved from Pilar + Tigre (1959)
-    reassign("BUENOSAIRES", "PILAR", "ESCOBAR")
-    # Berisso and Ensenada carved from La Plata (1957)
-    reassign("BUENOSAIRES", "LAPLATA", "BERISSO")
-    reassign("BUENOSAIRES", "LAPLATA", "ENSENADA")
+    add_mapping("BUENOSAIRES", "ESCOBAR", "PILAR")
+    add_mapping("BUENOSAIRES", "ESCOBAR", "TIGRE")
+    # Berisso carved from La Plata (1957)
+    add_mapping("BUENOSAIRES", "BERISSO", "LAPLATA")
+    # Ensenada carved from La Plata
+    add_mapping("BUENOSAIRES", "ENSENADA", "LAPLATA")
     # Tres de Febrero carved from General San Martín
-    reassign("BUENOSAIRES", "GENERALSANMARTIN", "TRESDEFEBRERO")
+    add_mapping("BUENOSAIRES", "TRESDEFEBRERO", "GENERALSANMARTIN")
 
     # Formosa: Ramón Lista and Matacos were part of Bermejo
-    reassign("FORMOSA", "BERMEJO", "RAMONLISTA")
-    reassign("FORMOSA", "BERMEJO", "MATACOS")
-    # Bermejo → Patiño (same geolev2 in IPUMS)
-    fix_mask <- ind$provmerge == "FORMOSA" & ind$distmerge == "BERMEJO"
-    ind$distmerge[fix_mask] <- "PATINO"
+    # But Bermejo and Patiño share the same geolev2 (32034004) in IPUMS,
+    # so we map to PATINO (which is what the data uses after name fix)
+    add_mapping("FORMOSA", "RAMONLISTA", "PATINO")
+    add_mapping("FORMOSA", "MATACOS", "PATINO")
 
     # Misiones: several districts carved from older ones (pre-1954 boundaries)
-    reassign("MISIONES", "CANDELARIA", "OBERA")
-    reassign("MISIONES", "IGUAZU", "ELDORADO")
-    reassign("MISIONES", "CAINGUAS", "LIBERTADORGENERALSANMARTIN")
-    reassign("MISIONES", "SANPEDRO", "MONTECARLO")
-    reassign("MISIONES", "SANJAVIER", "25DEMAYO")
+    add_mapping("MISIONES", "OBERA", "CANDELARIA")
+    add_mapping("MISIONES", "ELDORADO", "IGUAZU")
+    add_mapping("MISIONES", "LIBERTADORGENERALSANMARTIN", "CAINGUAS")
+    add_mapping("MISIONES", "MONTECARLO", "SANPEDRO")
+    add_mapping("MISIONES", "25DEMAYO", "SANJAVIER")
 
-    ind
+    message(sprintf("[ind]   Expanded crosswalk: %d rows (was 513)", nrow(xwalk)))
+    xwalk
 }
 
 # ---------------------------------------------------------------------------
