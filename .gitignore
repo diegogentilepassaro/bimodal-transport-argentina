@@ -89,6 +89,12 @@ paper/*.synctex.gz
 paper/*.fls
 paper/*.fdb_latexmk
 
+# ---- Raw data files (large; only readmes and .gitkeep committed) -----------
+data/raw/**/*.xlsx
+data/raw/**/*.dta
+data/raw/**/*.csv
+data/raw/**/*.sav
+
 # ---- Large spatial files ---------------------------------------------------
 *.tif
 *.geotiff
