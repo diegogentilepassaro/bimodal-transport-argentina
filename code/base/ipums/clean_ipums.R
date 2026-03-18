@@ -472,6 +472,10 @@ clean_district_name <- function(x) {
     x <- gsub("\u00e3\u00b1", "n", x)
     x <- gsub("\u00e3\u00ba", "u", x)
     x <- gsub("\u00e3\u00bc", "u", x)
+    # Double-encoded Ñ/ñ: original Ñ → UTF-8 C3 91 → misread as
+    # Latin-1 → re-encoded → C3 A3 C2 91 (lowercase) or C3 83 C2 91 (uppercase).
+    x <- gsub("\u00e3\u0091", "n", x)  # lowercase ñ double-encoded
+    x <- gsub("\u00c3\u0091", "N", x)  # uppercase Ñ double-encoded
 
     toupper(x)
 }
