@@ -35,6 +35,7 @@
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "base", "utils.R"))
 
     message("\n", strrep("=", 72))
     message("clean_agricultural.R  |  Agricultural census → geolev2 panel")
@@ -158,7 +159,8 @@ read_and_clean_1988 <- function() {
 
     # Create district ID for reshape
     ag88$id <- paste(ag88$provincia, ag88$distrito, sep = "_")
-    ag88$valor <- as.numeric(ag88$valor)
+    # Some valor entries are non-numeric (e.g., "s" for suppressed) — coerce to NA
+    ag88$valor <- suppressWarnings(as.numeric(ag88$valor))
 
     # Pivot: one row per district with nexp and areatot_ha columns
     wide <- reshape(
@@ -212,6 +214,14 @@ load_crosswalk <- function() {
     message(sprintf("[agr]   Crosswalk: %d rows, %d unique geolev2",
                     nrow(xwalk), length(unique(xwalk$geolev2))))
     xwalk
+}
+
+# Helper to get all 312 geolev2 codes (for missing district reporting)
+xwalk_geolev2 <- function() {
+    xwalk_path <- file.path(dir_derived_ipums,
+                            "ipums_districts_for_merge.parquet")
+    xwalk <- as.data.frame(arrow::read_parquet(xwalk_path))
+    unique(xwalk$geolev2)
 }
 
 # ---------------------------------------------------------------------------
@@ -641,6 +651,19 @@ stack_validate_save <- function(ag60, ag88) {
     cat(sprintf("Years: %s\n", paste(sort(unique(panel$year)), collapse = ", ")))
     cat(sprintf("Districts 1960: %d\n", n_districts_60))
     cat(sprintf("Districts 1988: %d\n", n_districts_88))
+
+    # Document which geolev2 codes are missing (for downstream zero-filling)
+    all_geolev2 <- sort(unique(xwalk_geolev2()))
+    missing_60 <- setdiff(all_geolev2, unique(panel$geolev2[panel$year == 1960]))
+    missing_88 <- setdiff(all_geolev2, unique(panel$geolev2[panel$year == 1988]))
+    if (length(missing_60) > 0) {
+        cat(sprintf("\nMissing geolev2 in 1960 (%d): %s\n",
+                    length(missing_60), paste(missing_60, collapse = ", ")))
+    }
+    if (length(missing_88) > 0) {
+        cat(sprintf("\nMissing geolev2 in 1988 (%d): %s\n",
+                    length(missing_88), paste(missing_88, collapse = ", ")))
+    }
     cat("\nSummary by year:\n")
     for (y in sort(unique(panel$year))) {
         sub <- panel[panel$year == y, ]
@@ -656,24 +679,6 @@ stack_validate_save <- function(ag60, ag88) {
 
     message(sprintf("[agr]   Manifest written: %s", log_path))
     panel
-}
-
-# ---------------------------------------------------------------------------
-# Helper: clean name string (uppercase, remove spaces/punctuation)
-# ---------------------------------------------------------------------------
-clean_name <- function(x) {
-    x <- toupper(x)
-    x <- gsub(" ", "", x)
-    x <- gsub("-", "", x)
-    x <- gsub("\\.", "", x)
-    x <- gsub("\u00e1", "A", x)  # á
-    x <- gsub("\u00e9", "E", x)  # é
-    x <- gsub("\u00ed", "I", x)  # í
-    x <- gsub("\u00f3", "O", x)  # ó
-    x <- gsub("\u00fa", "U", x)  # ú
-    x <- gsub("\u00f1", "N", x)  # ñ
-    x <- gsub("\u00fc", "U", x)  # ü
-    x
 }
 
 # ---------------------------------------------------------------------------

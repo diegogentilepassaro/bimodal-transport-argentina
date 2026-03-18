@@ -24,6 +24,7 @@ data/raw/**/*.gpkg
 data/raw/**/*.geojson
 data/raw/**/*.xml
 data/raw/**/*.pdf
+data/raw/**/*.txt
 # Keep readmes and .gitkeep
 !data/raw/**/readme.md
 !data/raw/**/.gitkeep
