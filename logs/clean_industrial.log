@@ -1,0 +1,62 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source(file.path(here::here(), "code", "base", "industrial", "clean_industrial.R"))
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+clean_industrial.R  |  Industrial census → geolev2 panel
+========================================================================
+
+[ind] Step 1 — Reading 1954 industrial census
+[ind]   1954: 444 rows, 24 provinces
+
+[ind] Step 2 — Reading 1985 economic census
+New names:
+• `` -> `...8`
+[ind]   Dropping 21 Capital Federal obs from 1985
+[ind]   Dropping 19 GranBuenosAires obs (dupes of BA)
+[ind]   1985: 487 rows, 23 provinces
+
+[ind] Step 3 — Loading IPUMS crosswalk
+[ind]   Crosswalk: 513 rows, 312 unique geolev2
+
+[ind] Step 4 — Harmonizing 1954 names and merging
+[ind]   Split Camarones → Escalante + Florentino Ameghino
+[ind]   Split Comodoro Rivadavia → Escalante + Deseado
+[ind]   Applied Quilmes/Berazategui 1/3-2/3 split
+[ind]   Expanded crosswalk: 525 rows (was 513)
+[ind]   Matched: 458 / 447
+[ind]   After collapse: 310 geolev2 districts
+
+[ind] Step 5 — Harmonizing 1985 names and merging
+[ind]   Matched: 487 / 487
+[ind]   After collapse: 311 geolev2 districts
+
+[ind] Step 6 — Stacking, validating, saving
+[ind]   Key (geolev2 + year) is unique: OK
+[ind]   Districts: 310 in 1954, 311 in 1985
+[ind]   Total obs: 621
+[ind]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/industrial/ind_census.parquet
+[ind]   Manifest written: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/industrial/data_file_manifest.log
+========================================================================
+clean_industrial.R  |  Complete.
+========================================================================
+
+There were 44 warnings (use warnings() to see them)
+> 
