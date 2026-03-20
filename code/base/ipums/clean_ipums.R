@@ -115,11 +115,16 @@ aggregate_to_districts <- function(df) {
     df$has_secondary <- ifelse(df$edattain >= 3 & df$edattain <= 4, 1, 0)
     df$has_secondary[df$edattain %in% c(0, 9)] <- NA
 
-    # -- Migration: share of 5-year migrants within province
+    # -- Migration: share of 5-year inter-province migrants
     # Kept for: migration outcome (Table 11)
-    # migrate5: 10-12 = same province, 20-30 = different province/country
-    df$is_migrant <- ifelse(df$migrate5 >= 10 & df$migrate5 <= 12, 1, 0)
+    # migrate5: 10-12 = same province (stayers), 20 = different province,
+    #           30 = abroad. We want the share who MOVED (codes 20-30).
+    # NOTE: The old Stata pipeline (clean_ipums.do) coded 10-12 as the
+    #   numerator, producing the share of stayers. That was inverted
+    #   relative to the variable name "mig5" (migration share). Fixed here
+    #   so mig5 = share of people who moved between provinces or from abroad.
     df$has_mig_info <- ifelse(df$migrate5 >= 10 & df$migrate5 <= 30, 1, 0)
+    df$is_migrant <- ifelse(df$migrate5 >= 20 & df$migrate5 <= 30, 1, 0)
     df$is_migrant[df$has_mig_info == 0] <- NA
     df$has_mig_info[df$has_mig_info == 0] <- NA
 

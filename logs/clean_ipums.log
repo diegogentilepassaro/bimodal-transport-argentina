@@ -1,0 +1,65 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source(file.path(here::here(), "code", "base", "ipums", "clean_ipums.R"))
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+clean_ipums.R  |  IPUMS census microdata → district-year panel
+========================================================================
+
+[ipums] Step 1 — Reading raw IPUMS extract
+[ipums]   Raw data: 15013401 rows, 35 columns
+[ipums]   Years: 1970, 1980, 1991, 2001, 2010
+[ipums]   Unique geolev2: 314
+
+[ipums] Step 2 — Aggregating to district-year level
+[ipums]   Dummy columns: 15 indgen, 10 occisco, 3 classwk, 3 empstat
+[ipums]   Aggregated: 1562 district-year observations
+
+[ipums] Step 3 — Merging province names
+[ipums]   WARNING: dropping 1 obs with UNKNOWN province
+[ipums]   Province names matched: 1561 / 1561
+
+[ipums] Step 4 — Excluding non-mainland territories
+[ipums]   Dropping 1 obs with residual geolev2 codes: 32030000
+[ipums]   Dropped 1 obs total
+[ipums]   Remaining: 1560 obs, 312 unique districts
+
+[ipums] Step 5 — Validating panel
+[ipums]   Key (geolev2 + year) is unique: OK
+[ipums]   Key has no missing values: OK
+[ipums]   Unique districts: 312 (expected: 312)
+[ipums]   Years: 1970, 1980, 1991, 2001, 2010
+[ipums]   Total obs: 1560
+
+[ipums] Step 6 — Saving panel
+[ipums]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/ipums/ipums_panel.parquet (1560 rows, 74 cols)
+
+[ipums] Step 7 — Building district name crosswalk
+[ipums]   Unique districts in 1991: 312
+[ipums]   Crosswalk: 513 rows, 312 unique geolev2
+[ipums]   Saved crosswalk: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/ipums/ipums_districts_for_merge.parquet (513 rows)
+
+[ipums] Step 8 — Writing manifest
+[ipums]   Manifest written: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/ipums/data_file_manifest.log
+========================================================================
+clean_ipums.R  |  Complete.
+========================================================================
+
+> 
