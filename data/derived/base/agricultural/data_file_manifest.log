@@ -1,0 +1,27 @@
+Data file manifest — clean_agricultural.R
+Generated: 2026-03-20 18:54:23.253883
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: agr_census.parquet
+============================================================ 
+Rows: 606
+Columns: 4
+Key: geolev2 + year
+Years: 1960, 1988
+Districts 1960: 306
+Districts 1988: 300
+
+Missing geolev2 in 1960 (6): 32002001, 32006079, 32006085, 32050008, 32094001, 32094002
+
+Missing geolev2 in 1988 (12): 32002001, 32006076, 32006079, 32006082, 32006088, 32006091, 32034001, 32034002, 32034003, 32034004, 32034005, 32050008
+
+Summary by year:
+
+  Year 1960 (N=306):
+    nexp             mean=1538.2  sd=1332.7  min=3.0  max=10098.0  NA=0
+    areatot_ha       mean=568707.2  sd=1152184.0  min=3.0  max=12994554.0  NA=0
+
+  Year 1988 (N=300):
+    nexp             mean=1228.7  sd=1116.3  min=5.0  max=7911.0  NA=0
+    areatot_ha       mean=577565.5  sd=1164156.6  min=5.6  max=13948491.5  NA=0
