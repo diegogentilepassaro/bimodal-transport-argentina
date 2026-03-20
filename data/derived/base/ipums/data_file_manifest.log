@@ -1,0 +1,104 @@
+Data file manifest — clean_ipums.R
+Generated: 2026-03-20 18:05:03.651057
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: ipums_panel.parquet
+============================================================ 
+Rows: 1560
+Columns: 74
+Key: geolev2 + year
+Unique geolev2: 312
+Years: 1970, 1980, 1991, 2001, 2010
+
+Column names:
+  geolev1
+  year
+  geolev2
+  pop
+  urbpop
+  college
+  ncollege
+  secondary
+  nsecondary
+  mig5
+  nmig5
+  indgen_10
+  nindgen_10
+  indgen_20
+  nindgen_20
+  indgen_30
+  nindgen_30
+  indgen_40
+  nindgen_40
+  indgen_50
+  nindgen_50
+  indgen_60
+  nindgen_60
+  indgen_70
+  nindgen_70
+  indgen_80
+  nindgen_80
+  indgen_90
+  nindgen_90
+  indgen_100
+  nindgen_100
+  indgen_111
+  nindgen_111
+  indgen_112
+  nindgen_112
+  indgen_113
+  nindgen_113
+  indgen_114
+  nindgen_114
+  indgen_120
+  nindgen_120
+  occisco_1
+  noccisco_1
+  occisco_2
+  noccisco_2
+  occisco_3
+  noccisco_3
+  occisco_4
+  noccisco_4
+  occisco_5
+  noccisco_5
+  occisco_6
+  noccisco_6
+  occisco_7
+  noccisco_7
+  occisco_8
+  noccisco_8
+  occisco_9
+  noccisco_9
+  occisco_11
+  noccisco_11
+  classwk_1
+  nclasswk_1
+  classwk_2
+  nclasswk_2
+  classwk_3
+  nclasswk_3
+  empstat_1
+  nempstat_1
+  empstat_2
+  nempstat_2
+  empstat_3
+  nempstat_3
+  provname 
+
+Summary of key variables:
+  pop              N=1560  mean=107237.47  sd=239138.17  min=4750.00  max=3979588.00  NA=0
+  urbpop           N=1560  mean=53306.09  sd=171464.59  min=0.00  max=2843877.00  NA=0
+  college          N=1560  mean=0.02  sd=0.02  min=0.00  max=0.18  NA=0
+  secondary        N=1560  mean=0.13  sd=0.09  min=0.00  max=0.51  NA=0
+  mig5             N=1246  mean=0.10  sd=0.11  min=0.00  max=0.92  NA=314
+
+ ============================================================ 
+FILE: ipums_districts_for_merge.parquet
+============================================================ 
+Rows: 513
+Columns: 5
+Key: provmerge + distmerge
+Unique geolev2: 312
+Unique provmerge: 24

@@ -2,9 +2,40 @@
 # .gitignore — Argentina transport replication package (new_repo/)
 # ==============================================================================
 
+# ---- Raw data files (large; only readmes and .gitkeep are committed) -------
+# Data files in any format — replicators obtain these per readme.md instructions
+data/raw/**/*.dta
+data/raw/**/*.csv
+data/raw/**/*.xlsx
+data/raw/**/*.xls
+data/raw/**/*.parquet
+data/raw/**/*.sav
+data/raw/**/*.dat
+data/raw/**/*.dat.gz
+data/raw/**/*.zip
+data/raw/**/*.shp
+data/raw/**/*.shx
+data/raw/**/*.dbf
+data/raw/**/*.prj
+data/raw/**/*.cpg
+data/raw/**/*.sbn
+data/raw/**/*.sbx
+data/raw/**/*.gpkg
+data/raw/**/*.geojson
+data/raw/**/*.xml
+data/raw/**/*.pdf
+# Keep readmes and .gitkeep
+!data/raw/**/readme.md
+!data/raw/**/.gitkeep
+
 # ---- Generated data (everything under data/derived/) ----------------------
 data/derived/**
 !data/derived/.gitkeep
+# Keep data file manifests (documentation of what the code produces)
+# Must un-ignore parent dirs for the exception to work
+!data/derived/base/
+!data/derived/base/*/
+!data/derived/**/data_file_manifest.log
 
 # ---- Generated results (re-created by running main.R) ---------------------
 results/tables/**
@@ -14,9 +45,10 @@ results/figures/**
 results/scalars.tex
 
 # ---- Log files (directory kept via .gitkeep) -------------------------------
-logs/*.log
 logs/*.Rout
 *.Rout
+# Keep run logs (evidence of successful execution)
+!logs/clean_*.log
 
 # ---- R session artefacts ---------------------------------------------------
 .Rhistory
