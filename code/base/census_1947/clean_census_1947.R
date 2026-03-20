@@ -111,7 +111,7 @@ read_raw_1947 <- function() {
         names(pop_df) <- tolower(names(pop_df))
         pop_df$provincia <- clean_name(pop_df$provincia)
         pop_df$partido   <- clean_name(pop_df$partido)
-        pop_df$pop <- as.numeric(pop_df$n1947)
+        pop_df$pop <- suppressWarnings(as.numeric(pop_df$n1947))
 
         # -- Read Cuadro 14: urban population
         urb_file <- file.path(
@@ -123,7 +123,7 @@ read_raw_1947 <- function() {
         names(urb_df) <- tolower(names(urb_df))
         urb_df$provincia <- clean_name(urb_df$provincia)
         urb_df$partido   <- clean_name(urb_df$partido)
-        urb_df$urb <- as.numeric(urb_df$n1947)
+        urb_df$urb <- suppressWarnings(as.numeric(urb_df$n1947))
 
         # -- Fix known typos in raw data before merging pop + urban
         pop_df <- fix_raw_typos(pop_df)
@@ -143,8 +143,9 @@ read_raw_1947 <- function() {
     }
 
     raw <- do.call(rbind, all_rows)
-    raw$urb <- as.numeric(raw$urb)
-    raw$pop <- as.numeric(raw$pop)
+    # suppressWarnings: NAs from non-numeric entries (totals, headers) expected
+    raw$urb <- suppressWarnings(as.numeric(raw$urb))
+    raw$pop <- suppressWarnings(as.numeric(raw$pop))
 
     message(sprintf(
         "[c1947]   Read %d rows from %d provinces",
@@ -706,7 +707,7 @@ collapse_to_geolev2 <- function(df) {
     # code drops them explicitly; they are not part of the 312-district
     # estimation sample.
     geo_cf <- 32002001L
-    geo_tdf <- c(94094001L, 94094002L)  # Ushuaia, Río Grande
+    geo_tdf <- c(32094001L, 32094002L)  # Ushuaia + Antártida, Río Grande
     excl <- final$geolev2 %in% geolev2_exclude |
         final$geolev2 %in% c(geo_cf, geo_tdf)
     final <- final[!excl, ]

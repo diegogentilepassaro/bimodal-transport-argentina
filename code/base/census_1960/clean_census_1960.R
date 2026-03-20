@@ -182,6 +182,8 @@ fix_district_typos <- function(df) {
     fix("SANNICOLAS", "SANNICOLAN")
     fix("TRENQUELAUQUEN", "TRANQUELAUQUEN")
     fix("UTRACAN", "ULTRACAN")
+    # NOTE: old data had garbled "X&L¬AC16N..." prefix; current xlsx is clean.
+    # Kept as defensive fix in case older data versions are used.
     fix("EXALTACIONDELACRUZ", "XLAC16NEXALTACIONDELACRUZ")
     fix("VILLARINO", "VILLAMARINO")
     fix("VILLARINO", "VILLARINAO")
@@ -582,7 +584,7 @@ collapse_to_geolev2 <- function(df) {
 
     # Exclude non-mainland territories, Capital Federal, Tierra del Fuego
     geo_cf <- 32002001L
-    geo_tdf <- c(94094001L, 94094002L)  # Ushuaia, Río Grande
+    geo_tdf <- c(32094001L, 32094002L)  # Ushuaia + Antártida, Río Grande
     excl <- final$geolev2 %in% geolev2_exclude |
         final$geolev2 %in% c(geo_cf, geo_tdf)
     final <- final[!excl, ]

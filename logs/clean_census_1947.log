@@ -15,6 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> 
 > source(file.path(here::here(), "code", "base", "census_1947", "clean_census_1947.R"))
 [config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
 [config.R] Configuration loaded successfully.
@@ -61,15 +62,5 @@ clean_census_1947.R  |  1947 census -> geolev2 panel
 clean_census_1947.R  |  Complete.
 ========================================================================
 
-Warning messages:
-1: In read_raw_1947() : NAs introduced by coercion
-2: In read_raw_1947() : NAs introduced by coercion
-3: In read_raw_1947() : NAs introduced by coercion
-4: In read_raw_1947() : NAs introduced by coercion
-5: In read_raw_1947() : NAs introduced by coercion
-6: In read_raw_1947() : NAs introduced by coercion
-7: In read_raw_1947() : NAs introduced by coercion
-8: In read_raw_1947() : NAs introduced by coercion
-9: In read_raw_1947() : NAs introduced by coercion
-10: In read_raw_1947() : NAs introduced by coercion
+> 
 > 

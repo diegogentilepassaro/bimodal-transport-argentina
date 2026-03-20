@@ -15,6 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> 
 > source(file.path(here::here(), "code", "base", "census_1960", "clean_census_1960.R"))
 [config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
 [config.R] Configuration loaded successfully.
@@ -45,14 +46,15 @@ clean_census_1960.R  |  1960 census -> geolev2 panel
 [c1960]   After merge cleanup: 483 rows
 
 [c1960] Step 6 -- Allocating splits, collapsing to geolev2
-[c1960]   Final: 311 districts
+[c1960]   Final: 309 districts
 
 [c1960] Step 7 -- Validating and saving
 [c1960]   Key (geolev2) is unique and non-missing: OK
-[c1960]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/census_1960/census_1960_ipums.parquet (311 rows)
+[c1960]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/census_1960/census_1960_ipums.parquet (309 rows)
 [c1960]   Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/census_1960/data_file_manifest.log
 ========================================================================
 clean_census_1960.R  |  Complete.
 ========================================================================
 
+> 
 > 
