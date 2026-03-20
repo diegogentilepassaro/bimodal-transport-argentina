@@ -66,6 +66,8 @@ create_output_dirs <- function() {
     dirs_to_create <- c(
         # ---- base (cleaned source datasets) ----
         dir_derived_ipums,
+        dir_derived_census1947,
+        dir_derived_census1960,
         dir_derived_agr,
         dir_derived_ind,
         dir_derived_geo,

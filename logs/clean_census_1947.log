@@ -1,0 +1,66 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> source(file.path(here::here(), "code", "base", "census_1947", "clean_census_1947.R"))
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+clean_census_1947.R  |  1947 census -> geolev2 panel
+========================================================================
+
+[c1947] Step 1 -- Reading raw Excel files
+[c1947]   Read 503 rows from 23 provinces
+
+[c1947] Step 2 -- Collapsing to district level
+[c1947]   276 districts after collapsing
+
+[c1947] Step 3 -- Applying historical name changes
+[c1947]   277 districts after name changes
+
+[c1947] Step 4 -- Merging to IPUMS crosswalk
+[c1947]   Matched: 271
+[c1947]   Census only (unmatched): 6
+[c1947]   IPUMS only (no 1947 data): 243
+[c1947]   Unmatched census districts:
+          CHACO - CAMPODELCIELO
+          CHACO - MARTINEZDEHOZ
+          CHACO - NAPALPI
+          CHACO - RESISTENCIA
+          CHACO - RIOBERMEJO
+          CHACO - TOBAS
+[c1947]   Dropping 101 redundant IPUMS-only rows
+[c1947]   After merge cleanup: 419 rows
+
+[c1947] Step 5 -- Handling post-1947 districts
+[c1947]   143 post-1947 districts mapped to parents
+[c1947]   After post-1947 handling: 280 rows
+
+[c1947] Step 6 -- Allocating splits, collapsing to geolev2
+[c1947]   Final: 240 districts (5 flagged as imputed)
+
+[c1947] Step 7 -- Validating and saving
+[c1947]   Key (geolev2) is unique and non-missing: OK
+[c1947]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/census_1947/census_1947_ipums.parquet (240 rows)
+[c1947]   Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/census_1947/data_file_manifest.log
+========================================================================
+clean_census_1947.R  |  Complete.
+========================================================================
+
+> 
+> 
