@@ -1,0 +1,22 @@
+Data file manifest — clean_industrial.R
+Generated: 2026-03-20 19:12:53.112646
+============================================================ 
+Rows: 621
+Columns: 10
+Key: geolev2 + year
+Districts 1954: 310
+Districts 1985: 311
+
+Summary by year:
+
+  Year 1954 (N=310):
+    nestab       mean=356.4 sd=594.5 min=3.0 max=6163.0 NA=0
+    nemp         mean=318.3 sd=908.7 min=1.0 max=10242.0 NA=0
+    massal       mean=28393.5 sd=79061.6 min=113.0 max=885787.0 NA=0
+    valprod      mean=152595.7 sd=447270.8 min=208.0 max=5618791.0 NA=0
+
+  Year 1985 (N=311):
+    nestab       mean=300.5 sd=566.4 min=3.0 max=4960.0 NA=0
+    npers        mean=3116.7 sd=7003.6 min=0.0 max=51817.0 NA=0
+    massal       mean=1378686.9 sd=3332809.5 min=0.0 max=24723489.0 NA=0
+    valprod      mean=11207308.2 sd=28924929.8 min=5722.0 max=306279137.0 NA=0
