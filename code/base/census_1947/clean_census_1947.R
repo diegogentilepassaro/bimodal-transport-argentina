@@ -733,7 +733,7 @@ save_output <- function(final) {
     final <- final[order(final$geolev2), ]
 
     # -- Ensure output directory exists
-    out_dir <- dir_derived_census
+    out_dir <- dir_derived_census1947
     if (!dir.exists(out_dir)) {
         dir.create(out_dir, recursive = TRUE)
     }
@@ -744,7 +744,7 @@ save_output <- function(final) {
     message(sprintf("[c1947]   Saved: %s (%d rows)", out_path, nrow(final)))
 
     # -- Write manifest
-    log_path <- file.path(out_dir, "census_1947_manifest.log")
+    log_path <- file.path(out_dir, "data_file_manifest.log")
     sink(log_path)
     on.exit(sink(), add = TRUE)
 

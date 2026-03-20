@@ -21,5 +21,8 @@ clean_name <- function(x) {
     x <- gsub("\u00fa", "U", x)  # ú
     x <- gsub("\u00f1", "N", x)  # ñ
     x <- gsub("\u00fc", "U", x)  # ü
+    # Strip any remaining non-alphanumeric chars (catches OCR garbage:
+    # trailing apostrophes, middle dots, ¬, &, etc. from digitized files)
+    x <- gsub("[^A-Z0-9]", "", x)
     x
 }

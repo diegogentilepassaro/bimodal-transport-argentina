@@ -1,0 +1,18 @@
+Data file manifest -- clean_census_1947.R
+Generated: 2026-03-20 19:25:58.732317
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: census_1947_ipums.parquet
+============================================================ 
+Rows: 240
+Columns: 7
+Key: geolev2
+Year: 1947
+Districts with note=1 (imputed): 5
+
+Summary of key variables:
+  pop                   N=235  mean=47074  min=4405  max=529801  NA=5
+  urbpop                N=235  mean=28610  min=2002  max=487454  NA=5
+  pop_imputed           N=240  mean=46677  min=4405  max=529801  NA=0
+  urbpop_imputed        N=240  mean=28235  min=2002  max=487454  NA=0

@@ -1,0 +1,16 @@
+Data file manifest -- clean_census_1960.R
+Generated: 2026-03-20 19:25:23.462189
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: census_1960_ipums.parquet
+============================================================ 
+Rows: 311
+Columns: 5
+Key: geolev2
+Year: 1960
+
+Summary of key variables:
+  pop         N=311  mean=43597  min=1069  max=663443  NA=0
+  urbpop      N=311  mean=37961  min=0  max=650056  NA=0
+  rur         N=311  mean=5636  min=0  max=30262  NA=0

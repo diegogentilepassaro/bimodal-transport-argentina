@@ -182,7 +182,7 @@ fix_district_typos <- function(df) {
     fix("SANNICOLAS", "SANNICOLAN")
     fix("TRENQUELAUQUEN", "TRANQUELAUQUEN")
     fix("UTRACAN", "ULTRACAN")
-    fix("EXALTACIONDELACRUZ", "X&L\u00acAC16NEXALTACIONDELACRUZ")
+    fix("EXALTACIONDELACRUZ", "XLAC16NEXALTACIONDELACRUZ")
     fix("VILLARINO", "VILLAMARINO")
     fix("VILLARINO", "VILLARINAO")
     fix("GONZALEZCHAVES", "GONZALEZCHAVEZ")
@@ -552,7 +552,7 @@ collapse_to_geolev2 <- function(df) {
     message("\n[c1960] Step 6 -- Allocating splits, collapsing to geolev2")
 
     # Count how many geolev2 codes each 1960 district maps to
-    df$alloc_key <- paste(df$provincia, df$distrito, sep = "_")
+    df$alloc_key <- paste(df$provmerge, df$distmerge, sep = "_")
     alloc_counts <- table(df$alloc_key)
     df$n_alloc <- as.integer(alloc_counts[df$alloc_key])
 
@@ -606,7 +606,7 @@ save_output <- function(final) {
     final <- final[order(final$geolev2), ]
 
     # -- Ensure output directory exists
-    out_dir <- dir_derived_census
+    out_dir <- dir_derived_census1960
     if (!dir.exists(out_dir)) {
         dir.create(out_dir, recursive = TRUE)
     }
@@ -617,7 +617,7 @@ save_output <- function(final) {
     message(sprintf("[c1960]   Saved: %s (%d rows)", out_path, nrow(final)))
 
     # -- Write manifest
-    log_path <- file.path(out_dir, "census_1960_manifest.log")
+    log_path <- file.path(out_dir, "data_file_manifest.log")
     sink(log_path)
     on.exit(sink(), add = TRUE)
 
