@@ -38,6 +38,7 @@
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
 
     message("\n", strrep("=", 72))
     message("clean_industrial.R  |  Industrial census → geolev2 panel")
@@ -68,14 +69,17 @@ read_and_clean_1954 <- function() {
         path <- file.path(dir_raw_industrial,
                           sprintf("Industrial1954_%d.xlsx", n))
         stopifnot(file.exists(path))
-        df <- readxl::read_excel(path)
+        df <- suppressWarnings(suppressMessages(
+            readxl::read_excel(path)
+        ))
         df <- as.data.frame(df)
         names(df) <- tolower(names(df))
         # Replace dashes with NA and destring
+        # suppressWarnings: NAs from non-numeric entries are expected
         for (v in c("nestab", "nemp", "nobr", "massal", "valprod")) {
             if (v %in% names(df)) {
                 df[[v]][grepl("^-+$", df[[v]])] <- NA
-                df[[v]] <- as.numeric(df[[v]])
+                df[[v]] <- suppressWarnings(as.numeric(df[[v]]))
             }
         }
         df
@@ -116,15 +120,18 @@ read_and_clean_1985 <- function() {
         data_path <- file.path(dir_raw_industrial,
                                sprintf("Economico1985_%s.xlsx", prov))
         stopifnot(file.exists(data_path))
-        df <- readxl::read_excel(data_path)
+        df <- suppressWarnings(suppressMessages(
+            readxl::read_excel(data_path)
+        ))
         df <- as.data.frame(df)
         names(df) <- tolower(names(df))
 
         # Destring numeric columns
+        # suppressWarnings: NAs from non-numeric entries are expected
         for (v in c("nestab", "npers", "massal", "valprod1", "valprod2")) {
             if (v %in% names(df)) {
                 df[[v]][grepl("^-+$", as.character(df[[v]]))] <- NA
-                df[[v]] <- as.numeric(df[[v]])
+                df[[v]] <- suppressWarnings(as.numeric(df[[v]]))
             }
         }
 
@@ -139,7 +146,9 @@ read_and_clean_1985 <- function() {
         code_path <- file.path(dir_raw_industrial,
                                sprintf("Codigo_%s.xlsx", prov))
         stopifnot(file.exists(code_path))
-        codes <- readxl::read_excel(code_path)
+        codes <- suppressWarnings(suppressMessages(
+            readxl::read_excel(code_path)
+        ))
         codes <- as.data.frame(codes)
         names(codes) <- tolower(names(codes))
         codes$provincia <- gsub(" ", "", codes$provincia)
@@ -655,6 +664,9 @@ stack_validate_save <- function(ind54, ind85) {
 
     # Harmonize column names: 1954 has nemp+nobr, 1985 has npers
     # Keep both; downstream panel build can decide which to use
+    # NOTE: valprod = valprod1 for both years. 1985 also has valprod2
+    # (different valuation method). Paper currently uses valprod1 —
+    # confirm with coauthors if valprod2 is needed for robustness.
     if (!"npers" %in% names(ind54)) ind54$npers <- NA
     if (!"valprod1" %in% names(ind54)) ind54$valprod1 <- ind54$valprod
     if (!"valprod2" %in% names(ind54)) ind54$valprod2 <- NA
@@ -709,24 +721,6 @@ stack_validate_save <- function(ind54, ind85) {
         }
     }
     message(sprintf("[ind]   Manifest written: %s", log_path))
-}
-
-# ---------------------------------------------------------------------------
-# Helper: clean name string
-# ---------------------------------------------------------------------------
-clean_name <- function(x) {
-    x <- toupper(x)
-    x <- gsub(" ", "", x)
-    x <- gsub("-", "", x)
-    x <- gsub("\\.", "", x)
-    x <- gsub("\u00e1", "A", x)
-    x <- gsub("\u00e9", "E", x)
-    x <- gsub("\u00ed", "I", x)
-    x <- gsub("\u00f3", "O", x)
-    x <- gsub("\u00fa", "U", x)
-    x <- gsub("\u00f1", "N", x)
-    x <- gsub("\u00fc", "U", x)
-    x
 }
 
 # ---------------------------------------------------------------------------
