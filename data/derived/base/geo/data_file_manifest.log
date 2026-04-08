@@ -1,27 +1,27 @@
 Data file manifest — clean_geo_controls.R
-Generated: 2026-04-08 14:07:54.10459
+Generated: 2026-04-08 14:40:10.830301
 rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: geo_controls.parquet
 ============================================================ 
-Rows: 312
+Rows: 309
 Columns: 14
 Key: geolev2
 
 Summary of variables:
-  area_km2             N=312  mean=8140.40  sd=11757.22  min=26.76  max=85003.06  NA=0
-  elev_mean            N=312  mean=418.49  sd=688.55  min=4.01  max=3999.80  NA=0
-  rugged_mea           ALL NA (312 obs) — BLOCKED: raw data missing
-  wheat                N=312  mean=2718.17  sd=1626.41  min=0.14  max=7320.28  NA=0
-  preCal               N=312  mean=3383.39  sd=1788.55  min=0.00  max=5190.41  NA=0
-  postCal              N=312  mean=2043.14  sd=1013.22  min=0.00  max=3108.69  NA=0
-  dist_to_BA           N=312  mean=668.64  sd=436.19  min=5.11  max=2320.74  NA=0
-  elev_mean_std        N=312  mean=0.00  sd=1.00  min=-0.60  max=5.20  NA=0
-  rugged_mea_std       ALL NA (312 obs) — BLOCKED: raw data missing
-  wheat_std            N=312  mean=0.00  sd=1.00  min=-1.67  max=2.83  NA=0
-  preCal_std           N=312  mean=-0.00  sd=1.00  min=-1.89  max=1.01  NA=0
-  postCal_std          N=312  mean=-0.00  sd=1.00  min=-2.02  max=1.05  NA=0
-  dist_to_BA_std       N=312  mean=-0.00  sd=1.00  min=-1.52  max=3.79  NA=0
+  area_km2             N=309  mean=8152.02  sd=11803.83  min=26.76  max=85003.06  NA=0
+  elev_mean            N=309  mean=420.90  sd=691.35  min=4.01  max=3999.80  NA=0
+  rugged_mea           ALL NA (309 obs) — BLOCKED: raw data missing
+  wheat                N=309  mean=2743.76  sd=1613.24  min=0.14  max=7320.28  NA=0
+  preCal               N=309  mean=3401.06  sd=1774.80  min=0.00  max=5190.41  NA=0
+  postCal              N=309  mean=2053.78  sd=1003.66  min=0.00  max=3108.69  NA=0
+  dist_to_BA           N=309  mean=660.22  sd=416.46  min=5.11  max=2095.45  NA=0
+  elev_mean_std        N=309  mean=-0.00  sd=1.00  min=-0.60  max=5.18  NA=0
+  rugged_mea_std       ALL NA (309 obs) — BLOCKED: raw data missing
+  wheat_std            N=309  mean=-0.00  sd=1.00  min=-1.70  max=2.84  NA=0
+  preCal_std           N=309  mean=-0.00  sd=1.00  min=-1.92  max=1.01  NA=0
+  postCal_std          N=309  mean=-0.00  sd=1.00  min=-2.05  max=1.05  NA=0
+  dist_to_BA_std       N=309  mean=0.00  sd=1.00  min=-1.57  max=3.45  NA=0
 
 FLAG: rugged_mea is all NA — tri.tif not found in data/raw/geo/

@@ -75,6 +75,9 @@ load_districts <- function() {
     # Standardize column name — keep as character (project convention)
     names(d)[names(d) == "GEOLEVEL2"] <- "geolev2"
     d$geolev2 <- as.character(d$geolev2)
+    # Strip leading zeros — shapefile stores 9-digit (032006001) but
+    # IPUMS and all other sources use 8-digit (32006001)
+    d$geolev2 <- sub("^0+", "", d$geolev2)
 
     # Drop empty geometries first (e.g., residual codes with no polygon)
     d <- d[!sf::st_is_empty(d), ]
