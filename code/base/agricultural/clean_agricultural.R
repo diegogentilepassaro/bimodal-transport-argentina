@@ -211,6 +211,7 @@ load_crosswalk <- function() {
     stopifnot(file.exists(xwalk_path))
     xwalk <- arrow::read_parquet(xwalk_path)
     xwalk <- as.data.frame(xwalk)
+    xwalk <- ensure_geolev2_char(xwalk)
     message(sprintf("[agr]   Crosswalk: %d rows, %d unique geolev2",
                     nrow(xwalk), length(unique(xwalk$geolev2))))
     xwalk

@@ -1,5 +1,5 @@
 Data file manifest — clean_agricultural.R
-Generated: 2026-03-20 18:54:23.253883
+Generated: 2026-04-08 15:02:20.360693
 rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
@@ -23,5 +23,5 @@ Summary by year:
     areatot_ha       mean=568707.2  sd=1152184.0  min=3.0  max=12994554.0  NA=0
 
   Year 1988 (N=300):
-    nexp             mean=1228.7  sd=1116.3  min=5.0  max=7911.0  NA=0
-    areatot_ha       mean=577565.5  sd=1164156.6  min=5.6  max=13948491.5  NA=0
+    nexp             mean=1226.3  sd=1116.5  min=5.0  max=7911.0  NA=0
+    areatot_ha       mean=576313.2  sd=1164262.1  min=5.6  max=13948491.5  NA=0

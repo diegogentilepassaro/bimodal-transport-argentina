@@ -445,6 +445,7 @@ merge_to_ipums <- function(df) {
     stopifnot(file.exists(xwalk_path))
     xwalk <- arrow::read_parquet(xwalk_path)
     xwalk <- as.data.frame(xwalk)
+    xwalk <- ensure_geolev2_char(xwalk)
 
     merged <- merge(
         df, xwalk,
@@ -497,7 +498,7 @@ merge_to_ipums <- function(df) {
         message("[c1960]   Remaining IPUMS-only districts:")
         for (i in seq_len(nrow(ipums_only))) {
             message(sprintf(
-                "          %s - %s (geolev2=%d)",
+                "          %s - %s (geolev2=%s)",
                 ipums_only$provmerge[i],
                 ipums_only$distmerge[i],
                 ipums_only$geolev2[i]
@@ -564,8 +565,8 @@ collapse_to_geolev2 <- function(df) {
     }
 
     # Special case: Quilmes split
-    quilmes_idx <- df$geolev2 == 32006076
-    beraz_idx   <- df$geolev2 == 32006087
+    quilmes_idx <- df$geolev2 == "32006076"
+    beraz_idx   <- df$geolev2 == "32006087"
     if (any(quilmes_idx) && any(beraz_idx)) {
         for (v in c("pop", "urbpop", "rur")) {
             total <- df[[v]][quilmes_idx] * df$n_alloc[quilmes_idx]
@@ -583,8 +584,8 @@ collapse_to_geolev2 <- function(df) {
     final$year <- 1960L
 
     # Exclude non-mainland territories, Capital Federal, Tierra del Fuego
-    geo_cf <- 32002001L
-    geo_tdf <- c(32094001L, 32094002L)  # Ushuaia + Antártida, Río Grande
+    geo_cf <- "32002001"
+    geo_tdf <- c("32094001", "32094002")  # Ushuaia + Antártida, Río Grande
     excl <- final$geolev2 %in% geolev2_exclude |
         final$geolev2 %in% c(geo_cf, geo_tdf)
     final <- final[!excl, ]
