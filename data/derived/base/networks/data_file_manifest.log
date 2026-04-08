@@ -1,0 +1,31 @@
+Data file manifest — clean_roads.R
+Generated: 2026-04-08 15:19:14.54928
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: roads_by_district.parquet
+============================================================ 
+Rows: 309
+Columns: 15
+Key: geolev2
+
+type2 taxonomy (verified):
+  1=1954+1970+1986, 2=new 1970, 3=new 1986,
+  4=gone by 1986, 5=1954+1986 (absent 1970),
+  6=1970 only, 7=1954 only
+
+Summary of variables:
+  roadsall_type_1                mean=83.49  sd=138.81  min=0.00  max=1078.34
+  roadsall_type_2                mean=33.70  sd=82.60  min=0.00  max=920.75
+  roadsall_type_3                mean=135.58  sd=194.10  min=0.00  max=1880.06
+  roadsall_type_4                mean=5.84  sd=17.38  min=0.00  max=180.39
+  roadsall_type_5                mean=5.55  sd=27.02  min=0.00  max=303.67
+  roadsall_type_6                mean=7.99  sd=21.70  min=0.00  max=229.18
+  roadsall_type_7                mean=3.20  sd=11.52  min=0.00  max=122.56
+  pav_and_grav_1954              mean=89.04  sd=148.59  min=0.00  max=1133.12
+  pav_and_grav_1970              mean=122.73  sd=197.57  min=0.00  max=1731.32
+  pav_and_grav_1986              mean=258.32  sd=350.62  min=3.71  max=3611.38
+  chg_pav_and_grav_86_54         mean=169.28  sd=248.49  min=0.00  max=2514.90
+  chg_pav_and_grav_70_54         mean=33.70  sd=82.60  min=0.00  max=920.75
+  chg_pav_and_grav_86_70         mean=135.58  sd=194.10  min=0.00  max=1880.06
+  connected_pav_grav_86_54       mean=0.27  sd=0.44  min=0.00  max=1.00
