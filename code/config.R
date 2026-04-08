@@ -204,9 +204,12 @@ year_rail_post  <- 1986L
 
 # ---- 11. Geographic identifiers to exclude --------------------------------
 # IPUMS geolev2 codes for non-mainland territories.
+# CONVENTION: geolev2 is ALWAYS stored as character to avoid issues with
+# leading zeros, type coercion, and silent comparison failures.
+# All comparisons must use character values (e.g., "32006032", not 32006032L).
 geolev2_exclude <- c(
-    238094004L,   # Islas Malvinas
-    239094003L    # South Georgia and South Sandwich Islands
+    "238094004",   # Islas Malvinas
+    "239094003"    # South Georgia and South Sandwich Islands
 )
 
 # ---- 12. Parallel computation parameters ----------------------------------

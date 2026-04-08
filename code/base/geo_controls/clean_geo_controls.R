@@ -72,9 +72,9 @@ load_districts <- function() {
     # Fix geometries (equivalent to old QGIS fixgeometries step)
     d <- sf::st_make_valid(d)
 
-    # Standardize column name and ensure numeric
+    # Standardize column name — keep as character (project convention)
     names(d)[names(d) == "GEOLEVEL2"] <- "geolev2"
-    d$geolev2 <- as.numeric(as.character(d$geolev2))
+    d$geolev2 <- as.character(d$geolev2)
 
     # Drop empty geometries first (e.g., residual codes with no polygon)
     d <- d[!sf::st_is_empty(d), ]
@@ -83,9 +83,9 @@ load_districts <- function() {
     d <- d[!(d$geolev2 %in% geolev2_exclude), ]
 
     # Exclude Tierra del Fuego, Capital Federal, and residual codes
-    geo_cf  <- 32002001L
-    geo_tdf <- c(32094001L, 32094002L)
-    residual <- d$geolev2[d$geolev2 %% 10000 == 0]
+    geo_cf  <- "32002001"
+    geo_tdf <- c("32094001", "32094002")
+    residual <- d$geolev2[grepl("0000$", d$geolev2)]
     d <- d[!(d$geolev2 %in% c(geo_cf, geo_tdf, residual)), ]
 
     message(sprintf("[geo]   Loaded %d districts, CRS: %s",
