@@ -26,3 +26,14 @@ clean_name <- function(x) {
     x <- gsub("[^A-Z0-9]", "", x)
     x
 }
+
+#' Ensure geolev2 column is character.
+#' Project convention: geolev2 is ALWAYS character to avoid type coercion
+#' bugs (e.g., silent comparison failures when shapefile stores it as
+#' factor/numeric). Call this after reading any dataset with geolev2.
+ensure_geolev2_char <- function(df, col = "geolev2") {
+    if (col %in% names(df)) {
+        df[[col]] <- as.character(df[[col]])
+    }
+    df
+}
