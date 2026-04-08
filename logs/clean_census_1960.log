@@ -15,7 +15,6 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> 
 > source(file.path(here::here(), "code", "base", "census_1960", "clean_census_1960.R"))
 [config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
 [config.R] Configuration loaded successfully.
@@ -56,5 +55,4 @@ clean_census_1960.R  |  1960 census -> geolev2 panel
 clean_census_1960.R  |  Complete.
 ========================================================================
 
-> 
 > 

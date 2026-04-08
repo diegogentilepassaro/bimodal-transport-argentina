@@ -450,6 +450,7 @@ merge_to_ipums <- function(df) {
     stopifnot(file.exists(xwalk_path))
     xwalk <- arrow::read_parquet(xwalk_path)
     xwalk <- as.data.frame(xwalk)
+    xwalk <- ensure_geolev2_char(xwalk)
 
     merged <- merge(
         df, xwalk,
@@ -654,8 +655,8 @@ collapse_to_geolev2 <- function(df) {
     # Special case: Quilmes split (override equal division)
     # geolev2=32006076 = Quilmes proper (~2/3)
     # geolev2=32006087 = Berazategui (~1/3)
-    quilmes_idx <- df$geolev2 == 32006076
-    beraz_idx   <- df$geolev2 == 32006087
+    quilmes_idx <- df$geolev2 == "32006076"
+    beraz_idx   <- df$geolev2 == "32006087"
     if (any(quilmes_idx) && any(beraz_idx)) {
         # Undo the equal split, apply 2/3 - 1/3
         for (v in c("urb", "pop")) {
@@ -706,8 +707,8 @@ collapse_to_geolev2 <- function(df) {
     # Tierra del Fuego and Capital Federal are excluded because the old
     # code drops them explicitly; they are not part of the 312-district
     # estimation sample.
-    geo_cf <- 32002001L
-    geo_tdf <- c(32094001L, 32094002L)  # Ushuaia + Antártida, Río Grande
+    geo_cf <- "32002001"
+    geo_tdf <- c("32094001", "32094002")  # Ushuaia + Antártida, Río Grande
     excl <- final$geolev2 %in% geolev2_exclude |
         final$geolev2 %in% c(geo_cf, geo_tdf)
     final <- final[!excl, ]

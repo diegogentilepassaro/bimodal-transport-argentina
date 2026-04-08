@@ -220,6 +220,7 @@ load_crosswalk <- function() {
                             "ipums_districts_for_merge.parquet")
     stopifnot(file.exists(xwalk_path))
     xwalk <- as.data.frame(arrow::read_parquet(xwalk_path))
+    xwalk <- ensure_geolev2_char(xwalk)
     message(sprintf("[ind]   Crosswalk: %d rows, %d unique geolev2",
                     nrow(xwalk), length(unique(xwalk$geolev2))))
     xwalk

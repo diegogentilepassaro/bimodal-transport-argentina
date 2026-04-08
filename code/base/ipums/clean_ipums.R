@@ -84,6 +84,10 @@ read_ipums_raw <- function() {
 
     df <- haven::read_dta(raw_path)
     df <- as.data.frame(df)  # strip haven labelled class for cleaner ops
+
+    # Enforce character geolev2 (project convention — see config.R)
+    df$geolev2 <- as.character(as.numeric(df$geolev2))
+    df$geolev1 <- as.character(as.numeric(df$geolev1))
     message(sprintf("[ipums]   Raw data: %d rows, %d columns", nrow(df), ncol(df)))
     message(sprintf("[ipums]   Years: %s", paste(sort(unique(df$year)), collapse = ", ")))
     message(sprintf("[ipums]   Unique geolev2: %d", length(unique(df$geolev2))))
@@ -295,7 +299,7 @@ exclude_territories <- function(panel) {
     # in Entre Ríos 1970 with no district assignment). These are province-level
     # residuals that can't be matched to any named district.
     # Pattern: codes ending in 0000 that aren't in the standard 312-district set.
-    residual_codes <- panel$geolev2[panel$geolev2 %% 10000 == 0]
+    residual_codes <- panel$geolev2[grepl("0000$", panel$geolev2)]
     if (length(residual_codes) > 0) {
         message(sprintf("[ipums]   Dropping %d obs with residual geolev2 codes: %s",
                         sum(panel$geolev2 %in% residual_codes),
@@ -421,7 +425,7 @@ build_crosswalk <- function(df) {
     # --- Manual fix: IPUMS typo ---
     # geolev2=32006032 is Marcos Paz, but IPUMS labels it as "Maipu"
     # Discovered during merge validation in old pipeline
-    xwalk$distmerge[xwalk$geolev2 == 32006032 & xwalk$distmerge == "MAIPU"] <- "MARCOSPAZ"
+    xwalk$distmerge[xwalk$geolev2 == "32006032" & xwalk$distmerge == "MAIPU"] <- "MARCOSPAZ"
 
     # Check for duplicate provmerge + distmerge
     dup_key <- paste(xwalk$provmerge, xwalk$distmerge)
