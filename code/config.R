@@ -103,6 +103,15 @@ raster_nrows <- 3090L
 # and then cropped. Rasterization extent is wider to leave margin around the
 # country polygon during rasterize(), so coastlines near the final extent
 # don't get clipped by rasterization artifacts.
+#
+# Cost formula (Faber 2014, RES):
+#   c_i = cost_land_baseline
+#       + slope_deg_i
+#       + cost_developed * is_developed_i
+#       + cost_wetland   * is_wetland_i
+#       + cost_water     * is_water_i
+# Cells outside Argentina are set to cost_out_of_country (hard barrier).
+# See Plan/cost_raster_and_lcp_decisions.md for documentation.
 
 # Rasterization extent (EPSG:4326 degrees). Covers mainland + margin.
 cost_raster_rast_xmin <- -80.0
@@ -114,9 +123,18 @@ cost_raster_rast_ymax <- -21.4
 cost_raster_ncols <- 1000L
 cost_raster_nrows <- 1000L
 
-# Cost values used in 01_cost_raster.R.
-cost_out_of_country <- 1000  # cells outside Argentina: barrier
-cost_obstacle       <- 25    # cells covered by water/wetland/settlement: +25
+# Cost values for 01_cost_raster.R (Faber 2014 formula).
+cost_out_of_country  <- 1000000L  # cells outside Argentina, beyond coastal buffer
+cost_land_baseline   <- 1L        # inside Argentina, no features
+cost_developed       <- 25L       # urban settlements surcharge
+cost_wetland         <- 25L       # wetlands surcharge
+cost_water           <- 25L       # water bodies / rivers surcharge
+
+# Out-of-country cells within this distance (km) of Argentine land are
+# treated as water crossings (cost_land_baseline + cost_water = 26) rather
+# than hard barriers. Lets LCPs cross the Paraná river and the Strait of
+# Magellan while still blocking Río de la Plata mouth and open Atlantic.
+cost_coastal_buffer_km <- 30
 
 # ---- 7. Transport cost parameters (Baumgartner & Palazzo 1969) -----------
 #

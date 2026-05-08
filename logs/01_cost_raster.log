@@ -20,32 +20,37 @@ Type 'q()' to quit R.
 [config.R] Configuration loaded successfully.
 
 ========================================================================
-01_cost_raster.R  |  Building construction cost raster
+01_cost_raster.R  |  Building construction cost raster (Faber 2014)
 ========================================================================
 
-[cost] Step 1 — Country barrier raster
-[cost]   base raster: 1000 x 1000 cells
+[cost] Step 1 — Country mask
+[cost]   base: 1000 x 1000 cells; 255630 inside Argentina
 
-[cost] Step 2 — Obstacle raster
-[cost]     rasterizing banados
-[cost]     rasterizing cuerpos
-[cost]     rasterizing cursos
-[cost]     rasterizing aguas
-[cost]     rasterizing settle
-[cost]   obstacle cells: 139508
+[cost] Step 2 — Category indicator rasters
+[cost]     developed  cells: 1057
+[cost]     wetland    cells: 7762
+[cost]     water (union of cuerpos + cursos + aguas):
+[cost]       cuerpos  cells: 26403
+[cost]       cursos   cells: 117775
+[cost]       aguas    cells: 3708
+[cost]     water      cells: 136974
 
 [cost] Step 3 — Slope raster
-[cost]   slope range after resample: 0.00 – 39.91
+[cost]   slope range: 0.00 – 39.91 deg
 
-[cost] Step 4 — Summing layers
+[cost] Step 4 — Computing cost (Faber 2014 formula)
 
-[cost] Step 5 — Burning city points as land
-[cost]   cities before burn: 2 on barrier (>=1000)
-[cost]   cities after burn:  0 on barrier (>=1000)
+[cost] Step 4a — Coastal buffer for near-shore out-of-country cells
+[cost]   near-shore cells (<= 30 km from land): 39454
+
+[cost] Step 5 — Burning cities as reachable urban cells
+[cost]   before burn: 0 cities on barrier
+[cost]   after burn:  0 cities on barrier
+[cost]   city cell cost range: 26.0 – 37.3
 
 [cost] Step 6 — Cropping to analysis extent
-[cost]   final raster: 977 x 618 cells, extent -73.55, -53.71, -55.09, -21.78
-[cost]   cost range: 0.0 – 1057.3  (mean 583.8)
+[cost]   final raster: 977 x 618 cells
+[cost]   cost range: 1.0 – 1000000.0 (mean 513768.9)
 
 [cost] Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/construction_costs.tif
 ========================================================================
