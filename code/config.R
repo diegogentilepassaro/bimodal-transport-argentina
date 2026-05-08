@@ -97,6 +97,27 @@ raster_ymax  <- -21.780814
 raster_ncols <- 2399L
 raster_nrows <- 3090L
 
+# ---- 6b. Cost-raster pipeline parameters (01_cost_raster.R) ---------------
+#
+# The cost raster is built on a larger grid than the final analysis extent
+# and then cropped. Rasterization extent is wider to leave margin around the
+# country polygon during rasterize(), so coastlines near the final extent
+# don't get clipped by rasterization artifacts.
+
+# Rasterization extent (EPSG:4326 degrees). Covers mainland + margin.
+cost_raster_rast_xmin <- -80.0
+cost_raster_rast_xmax <- -47.9
+cost_raster_rast_ymin <- -55.5
+cost_raster_rast_ymax <- -21.4
+
+# Grid resolution for the cost raster (before crop to final extent).
+cost_raster_ncols <- 1000L
+cost_raster_nrows <- 1000L
+
+# Cost values used in 01_cost_raster.R.
+cost_out_of_country <- 1000  # cells outside Argentina: barrier
+cost_obstacle       <- 25    # cells covered by water/wetland/settlement: +25
+
 # ---- 7. Transport cost parameters (Baumgartner & Palazzo 1969) -----------
 #
 # Unit: USD per ton-km (constant prices).
