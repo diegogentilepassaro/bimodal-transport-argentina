@@ -1,0 +1,17 @@
+Data file manifest — 02_hypothetical_networks.R
+Generated: 2026-05-08 23:24:38.721093
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+city_layer: ciudades_seleccion2
+n_cities: 54
+
+============================================================ 
+lcp_network: 1431 edges, total cost = 3920775620.3
+lcp_mst: 53 edges, total cost = 43094696.4
+euc_network: 1431 edges, total distance_m = 1350741483.7
+euc_mst: 53 edges, total distance_m = 7938566.7
+
+Sanity checks:
+  LCP-MST edges = N-1 ?  TRUE
+  EUC-MST edges = N-1 ?  TRUE
+  Sum(LCP)   >= Sum(LCP-MST) ?  TRUE
+  Sum(EUC_m) >= Sum(EUC-MST_m) ?  TRUE

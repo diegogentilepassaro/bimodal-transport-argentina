@@ -37,6 +37,7 @@ data/derived/**
 # Must un-ignore parent dirs for the exception to work
 !data/derived/base/
 !data/derived/base/*/
+!data/derived/02_hypothetical_networks/
 !data/derived/**/data_file_manifest.log
 
 # ---- Generated results (re-created by running main.R) ---------------------
