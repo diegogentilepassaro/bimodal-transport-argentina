@@ -39,7 +39,11 @@ Type 'q()' to quit R.
 
 [cost] Step 4 — Summing layers
 
-[cost] Step 5 — Cropping to analysis extent
+[cost] Step 5 — Burning city points as land
+[cost]   cities before burn: 2 on barrier (>=1000)
+[cost]   cities after burn:  0 on barrier (>=1000)
+
+[cost] Step 6 — Cropping to analysis extent
 [cost]   final raster: 977 x 618 cells, extent -73.55, -53.71, -55.09, -21.78
 [cost]   cost range: 0.0 – 1057.3  (mean 583.8)
 

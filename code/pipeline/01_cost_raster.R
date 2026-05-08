@@ -23,13 +23,15 @@
 #
 # NOTES:
 #   - All inputs and output in EPSG:4326.
-#   - Base grid: 1000x1000 cells over the rasterization extent.
-#   - Final raster cropped to mainland Argentina:
-#       xmin=-73.56, xmax=-53.70, ymin=-55.10, ymax=-21.78.
+#   - Base grid: cost_raster_ncols × cost_raster_nrows cells (config.R).
+#   - Final raster cropped to mainland Argentina (raster_xmin/xmax/ymin/ymax).
 #   - Cost values (matching old pipeline):
-#       * Outside Argentina: 1000 (barrier)
-#       * Obstacle cells (water, wetlands, settlements): + 25
+#       * Outside Argentina: cost_out_of_country (barrier)
+#       * Obstacle cells (water, wetlands, settlements): + cost_obstacle
 #       * All cells: + slope value (degrees)
+#   - City cells (ciudades_seleccion2.shp) are burned in as cost=0 at the
+#     end to ensure coastal cities (Puerto Madryn, Río Grande) are not
+#     barriers. See Step 5 for details.
 # ===========================================================================
 
 main <- function() {
@@ -39,19 +41,8 @@ main <- function() {
     message("01_cost_raster.R  |  Building construction cost raster")
     message(strrep("=", 72))
 
-    # Parameters
-    cost_out_of_country <- 1000
-    cost_obstacle       <- 25
-    # river_buffer_deg kept for reference; unused because rasterize(touches=TRUE)
-    # marks every cell a river line crosses as an obstacle directly.
-    river_buffer_deg    <- 0
-
-    # Rasterization extent — covers mainland + a bit of margin for the grid.
-    # Final crop brings it down to the analysis extent.
-    rast_ext <- terra::ext(-80, -47.9, -55.5, -21.4)
-    rast_ncol <- 1000L
-    rast_nrow <- 1000L
-
+    rast_ext <- terra::ext(cost_raster_rast_xmin, cost_raster_rast_xmax,
+                           cost_raster_rast_ymin, cost_raster_rast_ymax)
     final_ext <- terra::ext(raster_xmin, raster_xmax,
                             raster_ymin, raster_ymax)
 
@@ -62,13 +53,15 @@ main <- function() {
     pais <- sf::st_make_valid(pais)
 
     base <- terra::rast(rast_ext,
-                        ncol = rast_ncol, nrow = rast_nrow,
+                        ncol = cost_raster_ncols,
+                        nrow = cost_raster_nrows,
                         crs = "EPSG:4326")
     terra::values(base) <- cost_out_of_country
     pais_rast <- terra::rasterize(terra::vect(pais), base, field = 1,
                                   background = cost_out_of_country)
     pais_rast[pais_rast == 1] <- 0  # inside Argentina: no country-barrier cost
-    message(sprintf("[cost]   base raster: %d x %d cells", rast_nrow, rast_ncol))
+    message(sprintf("[cost]   base raster: %d x %d cells",
+                    cost_raster_nrows, cost_raster_ncols))
 
     # --- 2. Obstacle raster (rasterize each layer separately, combine) ----
     #
@@ -77,8 +70,7 @@ main <- function() {
     # independently and taking the max in raster space is equivalent and
     # much faster.
     message("\n[cost] Step 2 — Obstacle raster")
-    obstacles_rast <- build_obstacles_raster(base, cost_obstacle,
-                                             river_buffer_deg)
+    obstacles_rast <- build_obstacles_raster(base, cost_obstacle)
     n_obstacle_cells <- sum(terra::values(obstacles_rast) == cost_obstacle,
                             na.rm = TRUE)
     message(sprintf("[cost]   obstacle cells: %d", n_obstacle_cells))
@@ -99,8 +91,17 @@ main <- function() {
     cost <- pais_rast + obstacles_rast + slope_resampled
     names(cost) <- "construction_costs"
 
-    # --- 5. Crop to final analysis extent ----------------------------------
-    message("\n[cost] Step 5 — Cropping to analysis extent")
+    # --- 5. Burn in city points as land (fix coastal-barrier bug) ---------
+    #
+    # 2 of 68 cities (Puerto Madryn, Río Grande) are coastal and land on
+    # barrier cells after rasterization at this resolution. Burn cities as
+    # 0-cost cells so LCP endpoints are always on land. For interior
+    # cities this is a no-op (they already have near-0 base cost).
+    message("\n[cost] Step 5 — Burning city points as land")
+    cost <- burn_cities_as_land(cost)
+
+    # --- 6. Crop to final analysis extent ----------------------------------
+    message("\n[cost] Step 6 — Cropping to analysis extent")
     cost <- terra::crop(cost, final_ext)
     message(sprintf("[cost]   final raster: %d x %d cells, extent %s",
                     terra::nrow(cost), terra::ncol(cost),
@@ -110,7 +111,7 @@ main <- function() {
     message(sprintf("[cost]   cost range: %.1f – %.1f  (mean %.1f)",
                     r$min, r$max, r$mean))
 
-    # --- 6. Save -----------------------------------------------------------
+    # --- 7. Save -----------------------------------------------------------
     out_dir <- dir_derived_rasters
     if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
     out_path <- file.path(out_dir, "construction_costs.tif")
@@ -126,7 +127,7 @@ main <- function() {
 # Helper: build obstacles raster by rasterizing each layer independently
 # and taking the union in raster space.
 # ---------------------------------------------------------------------------
-build_obstacles_raster <- function(base, cost_obstacle, river_buffer_deg) {
+build_obstacles_raster <- function(base, cost_obstacle) {
     hypo <- file.path(dir_raw, "networks_hypo")
     geo  <- file.path(dir_raw_geo)
 
@@ -166,6 +167,51 @@ build_obstacles_raster <- function(base, cost_obstacle, river_buffer_deg) {
         rm(x, r); gc(verbose = FALSE)
     }
     acc
+}
+
+# ---------------------------------------------------------------------------
+# Helper: burn city points into the cost raster as 0-cost cells.
+#
+# Some cities sit right on the coast (e.g. Puerto Madryn, Río Grande) and
+# after rasterization at ~0.02° x 0.033° per cell they fall on ocean cells
+# that have cost = 1000 (barrier). This makes Dijkstra from those nodes
+# either fail or produce garbage. The fix: at the end of cost-raster
+# construction, set the cell containing each city to cost = 0 (plus slope,
+# which we preserve by using the current cell value if it's < threshold
+# but forcing it to 0 for barrier cells only).
+#
+# We overwrite barrier cells unconditionally for cities. Interior cities
+# already have cost near 0 and we overwrite them with 0 too — the loss
+# of a few units of slope/obstacle cost at a point cell is negligible.
+# ---------------------------------------------------------------------------
+burn_cities_as_land <- function(cost) {
+    cities_path <- file.path(dir_raw, "networks_hypo",
+                             "ciudades_seleccion2.shp")
+    cities <- sf::st_read(cities_path, quiet = TRUE)
+    if (sf::st_crs(cities) != sf::st_crs("EPSG:4326")) {
+        cities <- sf::st_transform(cities, "EPSG:4326")
+    }
+
+    # Values before burning (diagnostic)
+    before <- terra::extract(cost, terra::vect(cities))[[2]]
+    n_on_barrier <- sum(before >= 1000, na.rm = TRUE)
+    message(sprintf("[cost]   cities before burn: %d on barrier (>=1000)",
+                    n_on_barrier))
+
+    # Burn: set the cell containing each city to 0.
+    cell_idx <- terra::cellFromXY(cost, sf::st_coordinates(cities))
+    cost[cell_idx] <- 0
+
+    after <- terra::extract(cost, terra::vect(cities))[[2]]
+    n_on_barrier_after <- sum(after >= 1000, na.rm = TRUE)
+    message(sprintf("[cost]   cities after burn:  %d on barrier (>=1000)",
+                    n_on_barrier_after))
+    if (n_on_barrier_after > 0) {
+        warning(sprintf("[cost] %d cities still on barrier after burn",
+                        n_on_barrier_after))
+    }
+
+    cost
 }
 
 main()
