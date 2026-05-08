@@ -1,0 +1,50 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source(file.path(here::here(), "code", "base", "networks", "clean_hypo_networks.R"))
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+clean_hypo_networks.R  |  Hypothetical networks → district km
+========================================================================
+
+[hypo] Loading district shapefile
+[hypo]   Loaded 312 districts
+
+[hypo] Intersecting hypo_LCP_kms
+[hypo]   1431 edges → 224 districts, total 1617011 km
+
+[hypo] Intersecting hypo_LCP_MST_kms
+[hypo]   53 edges → 143 districts, total 11474 km
+
+[hypo] Intersecting hypo_EUC_kms
+[hypo]   1431 edges → 285 districts, total 1245039 km
+
+[hypo] Intersecting hypo_EUC_MST_kms
+[hypo]   53 edges → 126 districts, total 7025 km
+
+[hypo] Validating and saving
+[hypo]   Key (geolev2) is unique and non-missing: OK
+[hypo]   Districts: 312
+[hypo]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/networks/hypo_networks_by_district.parquet (312 rows, 5 cols)
+[hypo]   Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/networks/data_file_manifest_hypo.log
+========================================================================
+clean_hypo_networks.R  |  Complete.
+========================================================================
+
+> 

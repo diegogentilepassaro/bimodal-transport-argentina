@@ -1,0 +1,16 @@
+Data file manifest — clean_hypo_networks.R
+Generated: 2026-05-09 00:12:15.223544
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: hypo_networks_by_district.parquet
+============================================================ 
+Rows: 312
+Columns: 5
+Key: geolev2
+
+Summary of variables:
+  hypo_LCP_kms         mean=5182.73  sd=8414.44  min=0.00  max=79355.97  n_pos=224
+  hypo_LCP_MST_kms     mean=36.77  sd=62.59  min=0.00  max=301.49  n_pos=143
+  hypo_EUC_kms         mean=3990.51  sd=5780.14  min=0.00  max=56972.82  n_pos=285
+  hypo_EUC_MST_kms     mean=22.52  sd=44.63  min=0.00  max=372.70  n_pos=126
