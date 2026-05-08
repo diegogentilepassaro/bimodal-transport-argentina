@@ -38,7 +38,7 @@ data/derived/**
 !data/derived/base/
 !data/derived/base/*/
 !data/derived/02_hypothetical_networks/
-!data/derived/**/data_file_manifest.log
+!data/derived/**/data_file_manifest*.log
 
 # ---- Generated results (re-created by running main.R) ---------------------
 results/tables/**
