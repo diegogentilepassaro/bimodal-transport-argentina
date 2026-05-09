@@ -80,14 +80,13 @@ load_districts <- function() {
     # Drop empty geometries first (e.g., residual codes with no polygon)
     d <- d[!sf::st_is_empty(d), ]
 
-    # Exclude non-mainland territories
-    d <- d[!(d$geolev2 %in% geolev2_exclude), ]
-
-    # Exclude Tierra del Fuego, Capital Federal, and residual codes
-    geo_cf  <- "32002001"
-    geo_tdf <- c("32094001", "32094002")
+    # Exclude non-mainland territories (Malvinas, South Georgia) and any
+    # residual codes (ending in 0000). Capital Federal and Tierra del
+    # Fuego are KEPT so the base layer matches the IPUMS panel (312
+    # districts). Downstream panel/analysis scripts can filter further
+    # if the estimation sample should exclude them.
     residual <- d$geolev2[grepl("0000$", d$geolev2)]
-    d <- d[!(d$geolev2 %in% c(geo_cf, geo_tdf, residual)), ]
+    d <- d[!(d$geolev2 %in% c(geolev2_exclude, residual)), ]
 
     message(sprintf("[geo]   Loaded %d districts, CRS: %s",
                     nrow(d), sf::st_crs(d)$input))
