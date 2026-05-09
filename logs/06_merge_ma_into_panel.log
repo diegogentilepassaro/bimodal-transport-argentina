@@ -4,18 +4,46 @@
 ========================================================================
 06_merge_ma_into_panel.R  |  merge MA into wide panel
 ========================================================================
-[panel] Starting panel: 312 × 118
-[panel] actual_1960_s0             2 districts with logMA=-Inf recoded to NA
-[panel] Merged actual_1960_s0 as logMA_actual_1960_s0_elow
-[panel] actual_1986_s0             2 districts with logMA=-Inf recoded to NA
-[panel] Merged actual_1986_s0 as logMA_actual_1986_s0_elow
-[panel] instrument_stu_s0          2 districts with logMA=-Inf recoded to NA
-[panel] Merged instrument_stu_s0 as logMA_instrument_stu_s0_elow
-[panel] Merged instrument_lcp_mst_s0 as logMA_instrument_lcp_mst_s0_elow
-[panel] chg_logMA_86_60_s0_elow       N=310  mean=+1.837  sd=2.791
-[panel] chg_logMA_stu_s0_elow         N=310  mean=-1.305  sd=2.253
-[panel] chg_logMA_lcp_mst_s0_elow     N=310  mean=-0.444  sd=2.564
-[panel] Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/departments_wide_panel.parquet (312 × 125)
+[panel] Starting panel: 312 × 125
+[panel] Removing 7 stale MA columns: logMA_actual_1960_s0_elow, logMA_actual_1986_s0_elow, logMA_instrument_stu_s0_elow, logMA_instrument_lcp_mst_s0_elow, chg_logMA_86_60_s0_elow, chg_logMA_stu_s0_elow, chg_logMA_lcp_mst_s0_elow
+[panel] actual_1960_s0_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1960_s0_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] actual_1960_s1_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1960_s1_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] actual_1960_s2_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1960_s2_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s0_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s0_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s1_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s1_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s2_elow                  2 districts with logMA=-Inf recoded to NA
+[panel] actual_1986_s2_ehigh                 2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s0_elow               2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s0_ehigh              2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s1_elow               2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s1_ehigh              2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s2_elow               2 districts with logMA=-Inf recoded to NA
+[panel] instrument_stu_s2_ehigh              2 districts with logMA=-Inf recoded to NA
+[panel] 18 change variables built:
+  chg_logMA_86_60_s0_elow                   N=310  mean=+1.837  sd=2.791
+  chg_logMA_stu_s0_elow                     N=310  mean=-1.305  sd=2.253
+  chg_logMA_lcp_mst_s0_elow                 N=310  mean=-0.444  sd=2.564
+  chg_logMA_86_60_s0_ehigh                  N=310  mean=+3.479  sd=5.560
+  chg_logMA_stu_s0_ehigh                    N=310  mean=-2.342  sd=4.404
+  chg_logMA_lcp_mst_s0_ehigh                N=310  mean=-0.887  sd=5.216
+  chg_logMA_86_60_s1_elow                   N=310  mean=+1.950  sd=3.666
+  chg_logMA_stu_s1_elow                     N=310  mean=-1.713  sd=3.092
+  chg_logMA_lcp_mst_s1_elow                 N=310  mean=-0.570  sd=3.288
+  chg_logMA_86_60_s1_ehigh                  N=310  mean=+3.550  sd=6.966
+  chg_logMA_stu_s1_ehigh                    N=310  mean=-3.052  sd=5.766
+  chg_logMA_lcp_mst_s1_ehigh                N=310  mean=-1.101  sd=6.361
+  chg_logMA_86_60_s2_elow                   N=310  mean=+1.752  sd=1.811
+  chg_logMA_stu_s2_elow                     N=310  mean=-0.707  sd=1.222
+  chg_logMA_lcp_mst_s2_elow                 N=310  mean=-0.596  sd=1.879
+  chg_logMA_86_60_s2_ehigh                  N=310  mean=+3.159  sd=3.617
+  chg_logMA_stu_s2_ehigh                    N=310  mean=-1.345  sd=2.548
+  chg_logMA_lcp_mst_s2_ehigh                N=310  mean=-1.161  sd=3.879
+[panel] Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/departments_wide_panel.parquet (312 × 160)
 [panel] Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/data_file_manifest.log
 ========================================================================
 06_merge_ma_into_panel.R  |  Complete.

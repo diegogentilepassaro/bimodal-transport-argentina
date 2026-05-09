@@ -87,3 +87,121 @@ Cases to build: actual_1986_s0, instrument_stu_s0, instrument_lcp_mst_s0
 03a_build_cost_raster.R  |  Complete.
 ========================================================================
 
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘terra’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03a_build_cost_raster.R  |  Phase 1+2a, land-only, sectors 0/1/2
+========================================================================
+Cases to build: actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1, actual_1960_s2, actual_1986_s2, instrument_stu_s2, instrument_lcp_mst_s2
+
+
+[cost] ==== CASE: actual_1986_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 424 / 565 segments
+[cost]     Rail pixels (value=1): 46250
+[cost]   Rasterising roads (selected subset)
+[cost]     Selected 1506 / 1741 segments
+[cost]     Road pixels (value=1): 111456
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: rail_only=0.4650 road_only=1.0000 both=0.4650
+[cost]   Cost summary: min=0.465  mean=136.95  max=773.11  N=1916005
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1986_s1.tif
+
+[cost] ==== CASE: instrument_stu_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 328 / 565 segments
+[cost]     Rail pixels (value=1): 30521
+[cost]   Rasterising roads (selected subset)
+[cost]     Selected 582 / 1741 segments
+[cost]     Road pixels (value=1): 40777
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: rail_only=0.4650 road_only=1.0000 both=0.4650
+[cost]   Cost summary: min=0.465  mean=142.91  max=773.11  N=1915827
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_stu_s1.tif
+
+[cost] ==== CASE: instrument_lcp_mst_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical LCP-MST road network
+[cost]     Hypo road pixels (value=1): 15148
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: rail_only=0.4650 road_only=1.0000 both=0.4650
+[cost]   Cost summary: min=0.465  mean=141.98  max=773.11  N=1915872
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_mst_s1.tif
+
+[cost] ==== CASE: actual_1960_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising roads (selected subset)
+[cost]     Selected 582 / 1741 segments
+[cost]     Road pixels (value=1): 40777
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: rail_only=13.4900 road_only=8.2660 both=8.2660
+[cost]   Cost summary: min=8.266  mean=141.27  max=773.11  N=1915855
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1960_s2.tif
+
+[cost] ==== CASE: actual_1986_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 424 / 565 segments
+[cost]     Rail pixels (value=1): 46250
+[cost]   Rasterising roads (selected subset)
+[cost]     Selected 1506 / 1741 segments
+[cost]     Road pixels (value=1): 111456
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: rail_only=13.4900 road_only=8.2660 both=8.2660
+[cost]   Cost summary: min=8.266  mean=137.58  max=773.11  N=1916005
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1986_s2.tif
+
+[cost] ==== CASE: instrument_stu_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 328 / 565 segments
+[cost]     Rail pixels (value=1): 30521
+[cost]   Rasterising roads (selected subset)
+[cost]     Selected 582 / 1741 segments
+[cost]     Road pixels (value=1): 40777
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: rail_only=13.4900 road_only=8.2660 both=8.2660
+[cost]   Cost summary: min=8.266  mean=143.24  max=773.11  N=1915827
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_stu_s2.tif
+
+[cost] ==== CASE: instrument_lcp_mst_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical LCP-MST road network
+[cost]     Hypo road pixels (value=1): 15148
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: rail_only=13.4900 road_only=8.2660 both=8.2660
+[cost]   Cost summary: min=8.266  mean=142.43  max=773.11  N=1915872
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_mst_s2.tif
+========================================================================
+03a_build_cost_raster.R  |  Complete.
+========================================================================
+

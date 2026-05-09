@@ -15,26 +15,35 @@
 # PRODUCES:
 #   data/derived/01_cost_rasters/ucost_<case>.tif
 #
-# DESIGN DECISIONS (Phase 1; see Plan/tau_rebuild_plan.md Sección 6):
-#   - Phase 1: land-only cost surface. No navigation layer. Added in Phase 2.
-#   - Sector 0 (overall, medium cargo density per Baumgartner & Palazzo 1969).
-#     One script run per case; sector is part of the case label.
+# DESIGN DECISIONS (Phase 1 + 2a; see Plan/tau_rebuild_plan.md Sección 6):
+#   - Land-only cost surface. No navigation layer yet — added in Phase 2b.
+#   - Three cost sectors, all with the same spatial formula but different
+#     parameter values from Baumgartner & Palazzo 1969:
+#       s0 (overall)       — medium cargo density, main specification
+#       s1 (agricultural)  — high  cargo density, rail cheaper than road
+#       s2 (manufacturing) — low   cargo density, road cheaper than rail
 #   - Rasterise in ESRI:54034 (World Cylindrical Equal Area) at the old
 #     pipeline's 2399 × 3090 grid over mainland Argentina.
 #   - Linear networks buffered by 1 km before rasterization (matches old
 #     pipeline). Guarantees at least one full pixel per segment.
-#   - Cost formula (see cost_of_pixel() below):
+#   - Cost formula (see combine_cost() below):
 #       if rail & road:           cost_mininfra[sector]
 #       elif rail only:           cost_rail[sector]
 #       elif road only:           cost_road[sector]
-#       elif in Argentina + HMI:  cost_land × HMI
+#       elif in Argentina + HMI:  cost_land × HMI    (constant across sectors)
 #       else (outside Argentina): NA (hard barrier for Dijkstra)
 #
-# CASES (Phase 1, see Plan/tau_rebuild_plan.md Sección 6):
-#   actual_1960_s0        — 1960 rails + 1954 roads + HMI
-#   actual_1986_s0        — 1986 rails + 1986 roads + HMI
-#   instrument_stu_s0     — non-studied rails only + 1954 roads + HMI
-#   instrument_lcp_mst_s0 — 1960 rails + LCP-MST hypothetical roads + HMI
+# CASES (Phase 1 + 2a):
+#   Four network specs × three sectors = twelve cases.
+#
+#   Network specs:
+#     actual_1960        — 1960 rails + 1954 roads + HMI
+#     actual_1986        — 1986 rails + 1986 roads + HMI
+#     instrument_stu     — non-studied rails only + 1954 roads + HMI
+#     instrument_lcp_mst — 1960 rails + LCP-MST hypothetical roads + HMI
+#
+#   Each of the above is generated at sector s0, s1, s2 (case label
+#   `<network>_<sector>`, e.g. `actual_1960_s1`).
 #
 # HYPOTHETICAL-NETWORK CAVEAT:
 #   The LCP-MST hypothetical road network was routed on a Faber (2014)
@@ -63,35 +72,52 @@ suppressPackageStartupMessages({
 # Case registry — declarative spec of what each case is built from.
 # Adding a new case means adding a new entry here plus (if needed) a new
 # ingredient loader.
+#
+# The registry is generated programmatically across three sectors
+# (overall / agricultural / manufacturing, labelled s0 / s1 / s2) by
+# combining a "network spec" (which rails/roads to include) with each
+# sector. This means adding a new network case requires touching only
+# `base_specs` below; the sector fan-out is automatic.
 # ---------------------------------------------------------------------------
 case_registry <- function() {
-    list(
-        actual_1960_s0 = list(
+    base_specs <- list(
+        actual_1960 = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
-            use_hypo = FALSE,
-            sector   = "overall"
+            use_hypo = FALSE
         ),
-        actual_1986_s0 = list(
+        actual_1986 = list(
             rail_sel = function(r) r$status1979 == 1,
             road_sel = function(r) r$type2      %in% c(1, 2, 3, 5),
-            use_hypo = FALSE,
-            sector   = "overall"
+            use_hypo = FALSE
         ),
-        instrument_stu_s0 = list(
+        instrument_stu = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3) &
                                     r$studied_co == 0,
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
-            use_hypo = FALSE,
-            sector   = "overall"
+            use_hypo = FALSE
         ),
-        instrument_lcp_mst_s0 = list(
+        instrument_lcp_mst = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
-            road_sel = NULL,          # no observed roads; hypo network replaces
-            use_hypo = TRUE,
-            sector   = "overall"
+            road_sel = NULL,       # hypothetical network takes road slot
+            use_hypo = TRUE
         )
     )
+
+    # Sector index → sector name mapping (must match names in cost_road etc.)
+    sector_map <- list("s0" = "overall",
+                       "s1" = "agricultural",
+                       "s2" = "manufacturing")
+
+    reg <- list()
+    for (base in names(base_specs)) {
+        for (scode in names(sector_map)) {
+            case_label <- paste(base, scode, sep = "_")
+            reg[[case_label]] <- c(base_specs[[base]],
+                                   list(sector = sector_map[[scode]]))
+        }
+    }
+    reg
 }
 
 main <- function() {
@@ -102,7 +128,7 @@ main <- function() {
     cases <- if (length(args) > 0) args else names(case_registry())
 
     message("\n", strrep("=", 72))
-    message("03a_build_cost_raster.R  |  Phase 1, land-only, sector 0")
+    message("03a_build_cost_raster.R  |  Phase 1+2a, land-only, sectors 0/1/2")
     message(strrep("=", 72))
     message(sprintf("Cases to build: %s\n", paste(cases, collapse = ", ")))
 

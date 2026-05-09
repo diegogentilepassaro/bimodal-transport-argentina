@@ -74,3 +74,63 @@ Warning messages:
   [tau] Asymmetry > 1e-6: max |τ_ij - τ_ji| = 7.48783e-06
 4: In compute_one_case(case, centroids) :
   [tau] Asymmetry > 1e-6: max |τ_ij - τ_ji| = 4.4331e-06
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus_parallel.R  |  ncores = 4
+========================================================================
+Cases (4): actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1
+
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: 4, actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1
+
+[tau] Loading and centroid-ing district polygons
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: 4, actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1
+
+[tau] Loading and centroid-ing district polygons
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: 4, actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1
+
+[tau] Loading and centroid-ing district polygons
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: 4, actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1
+
+[tau] Loading and centroid-ing district polygons
+[tau]   312 districts loaded
+[tau]   312 districts loaded
+[tau]   312 districts loaded
+[tau]   312 districts loaded
+
+[tau] ==== CASE: 4 ====
+
+[tau] ==== CASE: 4 ====
+
+[tau] ==== CASE: 4 ====
+
+[tau] ==== CASE: 4 ====
+
+All cases done in 0.1 minutes.
+Status summary:
+  actual_1960_s1: FAIL
+  actual_1986_s1: FAIL
+  instrument_stu_s1: FAIL
+  instrument_lcp_mst_s1: FAIL
+Error in main() : 4 cases failed
+In addition: Warning message:
+In mclapply(cases, run_one_case, mc.cores = ncores, mc.preschedule = FALSE,  :
+  4 function calls resulted in an error
+Execution halted
