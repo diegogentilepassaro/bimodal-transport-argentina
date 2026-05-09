@@ -28,18 +28,20 @@
 #   tot_rails_1960, tot_rails_1986             — period rail-km totals
 #   chg_tot_rails_86_60                        — change in rail km 1960→1986
 #   studied_larkin                             — km of Larkin-studied rail
-#   share_studied_larkin                       — studied_1 / (studied_0 +
-#                                                 studied_1), NA if no rail
+#   share_studied_larkin                       — studied_1 / tot_rails_1960,
+#                                                 NA if no rail
 #
-# ASSUMPTION (flag for Diego):
-#   `status1979 == 3` = closed *before* 1976. I interpret this as "closed
-#   between 1960 and 1976" — i.e., these segments WERE active in 1960.
-#   So `tot_rails_1960 = status1979_1 + status1979_2 + status1979_3` and
-#   `tot_rails_1986 = status1979_1`.
-#   If instead status == 3 means "closed before 1960", switch to
-#   `tot_rails_1960 = status1979_1 + status1979_2` and set the status3
-#   column to an informational-only field. The manifest prints both
-#   interpretations side by side for inspection.
+# DATA DECISIONS (see Plan/railroad_pipeline.md):
+#   - status1979 == 3 segments ("closed pre-dictatorship, 1960–1966") are
+#     counted as active in 1960. This matches the old pipeline's preclean
+#     definition (see preclean_departments_wide.do). The manifest prints
+#     the alt interpretation (status==3 excluded from 1960) for reference,
+#     but the exported `tot_rails_1960` follows the old-pipeline spec.
+#   - share_studied_larkin uses (studied_0 + studied_1) as denominator
+#     rather than tot_rails_1960. The two are identical by construction
+#     because every segment has both a status1979 and a studied_co value,
+#     and (studied_0 + studied_1) sums all segments the same as
+#     (status1979_1 + status1979_2 + status1979_3).
 # ===========================================================================
 
 main <- function() {
