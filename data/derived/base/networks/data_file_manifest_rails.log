@@ -1,0 +1,38 @@
+Data file manifest — clean_railroads.R
+Generated: 2026-05-09 13:36:56.36825
+rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: rails_by_district.parquet
+============================================================ 
+Rows: 312
+Columns: 11
+Key: geolev2
+
+status1979 taxonomy:
+  1 = active in 1979 and 1986
+  2 = closed during the military dictatorship (1976-1983)
+  3 = closed before 1976 (pre-dictatorship)
+
+Period-total interpretation:
+  tot_rails_1986 = status1979_1
+  tot_rails_1960 = status1979_1 + status1979_2 + status1979_3
+    (assumes status==3 segments existed in 1960,
+     i.e., were closed between 1960 and 1976)
+
+Sanity check — alternate interpretation
+  (if status==3 means closed before 1960):
+  tot_rails_1960_alt mean = 124.6 km
+  tot_rails_1960_alt sum  = 38866 km
+
+Summary of variables:
+  status1979_1              N=312  mean=106.741  sd=117.606  min=0.000  max=778.967  NA=0
+  status1979_2              N=312  mean=17.829  sd=42.096  min=0.000  max=299.905  NA=0
+  status1979_3              N=312  mean=12.545  sd=28.047  min=0.000  max=167.478  NA=0
+  studied_0                 N=312  mean=70.267  sd=82.346  min=0.000  max=420.283  NA=0
+  studied_1                 N=312  mean=66.849  sd=97.856  min=0.000  max=766.294  NA=0
+  tot_rails_1986            N=312  mean=106.741  sd=117.606  min=0.000  max=778.967  NA=0
+  tot_rails_1960            N=312  mean=137.115  sd=139.972  min=0.000  max=778.967  NA=0
+  chg_tot_rails_86_60       N=312  mean=-30.374  sd=56.018  min=-306.367  max=0.000  NA=0
+  studied_larkin            N=312  mean=66.849  sd=97.856  min=0.000  max=766.294  NA=0
+  share_studied_larkin      N=282  mean=0.437  sd=0.375  min=0.000  max=1.000  NA=30
