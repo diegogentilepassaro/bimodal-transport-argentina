@@ -103,8 +103,11 @@ load_centroids <- function() {
 
     message(sprintf("[tau]   %d districts loaded", nrow(shp)))
 
-    # Centroid, then reproject to the transition's CRS (ESRI:54034)
-    cents_sf <- sf::st_centroid(shp)
+    # Centroid, then reproject to the transition's CRS (ESRI:54034).
+    # suppressWarnings: st_centroid() warns "assumes attributes are
+    # constant over geometries" — harmless here since we're only keeping
+    # the geolev2 column.
+    cents_sf <- suppressWarnings(sf::st_centroid(shp))
     cents_sf <- sf::st_transform(cents_sf, crs = crs_raster)
 
     # Convert to sp::SpatialPoints for gdistance::costDistance

@@ -36,6 +36,17 @@
 #   instrument_stu_s0     — non-studied rails only + 1954 roads + HMI
 #   instrument_lcp_mst_s0 — 1960 rails + LCP-MST hypothetical roads + HMI
 #
+# HYPOTHETICAL-NETWORK CAVEAT:
+#   The LCP-MST hypothetical road network was routed on a Faber (2014)
+#   construction-cost raster that treats water as 25× baseline, not as
+#   an infinite barrier. As a result, the MST includes a water-crossing
+#   segment to Tierra del Fuego. In the actual and instrument_stu cases
+#   (which use HMI for off-network cost), TdF is unreachable on the land
+#   surface (τ = Inf), but in instrument_lcp_mst it is reachable via
+#   the hypothetical water-crossing road. This is a known limitation of
+#   the hypothetical instrument, not a bug. Phase 2 navigation will add
+#   an explicit water layer that applies consistently to all cases.
+#
 # USAGE:
 #   Rscript code/pipeline/03a_build_cost_raster.R <case_label>
 #   Example: Rscript code/pipeline/03a_build_cost_raster.R actual_1960_s0

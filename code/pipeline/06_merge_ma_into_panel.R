@@ -175,6 +175,18 @@ save_and_manifest <- function(panel) {
     cat(sprintf("Rows: %d\nColumns: %d\nKey: geolev2\n\n",
                 nrow(panel), ncol(panel)))
 
+    cat(
+      "NOTE ON logMA/chg_logMA COLUMNS:\n",
+      "  Tierra del Fuego districts (32094001, 32094002) are NA in all\n",
+      "  land-only logMA columns (actual_*, instrument_stu) because they\n",
+      "  are disconnected from the mainland on the Phase 1 land-only cost\n",
+      "  surface. Phase 2 navigation will reconnect them via sea routes.\n",
+      "  The instrument_lcp_mst column has values for them because the\n",
+      "  LCP-MST hypothetical network was routed on a Faber cost surface\n",
+      "  that treats water as passable (25x baseline), not infinite.\n",
+      "\n", sep = ""
+    )
+
     cat("Summary of every variable:\n")
     for (v in names(panel)) {
         if (v == "geolev2") next

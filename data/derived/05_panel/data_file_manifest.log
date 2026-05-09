@@ -1,5 +1,5 @@
 Data file manifest — 05_build_panel.R + 06_merge_ma_into_panel.R
-Regenerated: 2026-05-09 19:21:24.56438
+Regenerated: 2026-05-09 19:33:46.528287
 rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
@@ -8,6 +8,15 @@ FILE: departments_wide_panel.parquet
 Rows: 312
 Columns: 125
 Key: geolev2
+
+NOTE ON logMA/chg_logMA COLUMNS:
+  Tierra del Fuego districts (32094001, 32094002) are NA in all
+  land-only logMA columns (actual_*, instrument_stu) because they
+  are disconnected from the mainland on the Phase 1 land-only cost
+  surface. Phase 2 navigation will reconnect them via sea routes.
+  The instrument_lcp_mst column has values for them because the
+  LCP-MST hypothetical network was routed on a Faber cost surface
+  that treats water as passable (25x baseline), not infinite.
 
 Summary of every variable:
   area_km2                         N=312  mean=8.14e+03  sd=1.18e+04  min=26.8  max=8.5e+04  NA=0
