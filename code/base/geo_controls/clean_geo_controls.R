@@ -26,8 +26,6 @@
 # NOTES:
 #   - The old pipeline used QGIS Python for zonal stats. We use terra and
 #     exactextractr in R, which produce equivalent results.
-#   - Ruggedness (tri.tif) is MISSING from raw data. The variable is
-#     computed if the file exists, otherwise set to NA and flagged.
 #   - All continuous variables get standardized (_std) versions.
 #   - Distance to BA uses the centroid of the "Gran Buenos Aires" polygon
 #     from the IGN settlements shapefile, matching the old pipeline.
@@ -157,12 +155,21 @@ extract_ruggedness <- function(d) {
     tri_path <- file.path(dir_raw_geo, "tri.tif")
     if (!file.exists(tri_path)) {
         message("[geo]   WARNING: tri.tif not found — rugged_mea set to NA")
-        message("[geo]   FLAG: Cote is searching backup for this file")
         d$rugged_mea <- NA_real_
         return(d)
     }
 
     tri <- terra::rast(tri_path)
+    # tri.tif is a global raster (~1.5 GB, 21600 x 43200 cells at 30".
+    # Crop to Argentina'\''s bbox with a small margin before extraction to
+    # avoid working with the full global raster in memory.
+    arg_bbox <- sf::st_bbox(d)
+    crop_ext <- terra::ext(
+        arg_bbox["xmin"] - 0.5, arg_bbox["xmax"] + 0.5,
+        arg_bbox["ymin"] - 0.5, arg_bbox["ymax"] + 0.5
+    )
+    tri <- terra::crop(tri, crop_ext)
+
     d$rugged_mea <- exactextractr::exact_extract(tri, d, fun = "mean")
 
     message(sprintf("[geo]   Ruggedness range: %.1f – %.1f",
