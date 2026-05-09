@@ -1,0 +1,41 @@
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+clean_railroads.R  |  Rail network → district-level km
+========================================================================
+
+[rails] Step 1 — Loading district shapefile
+[rails]   Loaded 312 districts
+
+[rails] Step 2 — Loading rail shapefile
+[rails]   Loaded 565 rail segments
+[rails]   status1979 distribution:
+[rails]     status1979=1: 424 segments
+[rails]     status1979=2: 69 segments
+[rails]     status1979=3: 72 segments
+[rails]   studied_co distribution:
+[rails]     studied_co=0: 328 segments
+[rails]     studied_co=1: 237 segments
+
+[rails] Step 3 — Intersecting rails with districts
+[rails]   Clipped segments: 1322
+[rails]   Total rail km: 42780
+
+[rails] Step 4 — Collapsing by district
+[rails]   Districts with rail: 282 / 312
+[rails]   Mean tot_rails_1960: 137.1 km  (alt: 124.6 km)
+[rails]   Mean tot_rails_1986: 106.7 km
+[rails]   Mean chg 86-60: -30.4 km
+[rails]   Mean studied_larkin: 66.8 km
+[rails]   Mean share_studied_larkin: 0.437 (N=282)
+
+[rails] Step 5 — Validating and saving
+[rails]   Key (geolev2) is unique and non-missing: OK
+[rails]   Districts: 312
+[rails]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/networks/rails_by_district.parquet (312 rows, 11 cols)
+[rails]   Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/base/networks/data_file_manifest_rails.log
+========================================================================
+clean_railroads.R  |  Complete.
+========================================================================
+
