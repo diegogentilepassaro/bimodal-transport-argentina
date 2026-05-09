@@ -95,7 +95,11 @@ main <- function() {
             message(sprintf("  FAIL  %s: %s", r$case, r$msg))
             fails <- fails + 1L
         } else {
-            message(sprintf("  OK    %s", r$case))
+            message(sprintf(
+                "  OK    %s  %.0fs  (median τ = %.0f, BA→Córdoba τ = %.0f, %d Inf)",
+                r$case, r$elapsed_sec, r$median_tau,
+                r$ba_cba_tau, r$n_inf
+            ))
         }
     }
     if (fails > 0L) stop(sprintf("%d cases failed", fails))
@@ -137,8 +141,10 @@ compute_one_case <- function(case, centroids) {
     n_inf <- sum(is.infinite(mat))
     asym <- abs(mat - t(mat))
     asym[!is.finite(asym)] <- 0
-    if (max(asym) > 1) {
-        warning(sprintf("[tau:%s] asymmetry %.3f > 1", case, max(asym)))
+    max_asym <- max(asym)
+    if (max_asym > 1e-6) {
+        warning(sprintf("[tau:%s] asymmetry > 1e-6: max |τ_ij − τ_ji| = %g",
+                        case, max_asym))
     }
     stopifnot(max(abs(diag(mat))) < 1e-6)
 
@@ -156,10 +162,20 @@ compute_one_case <- function(case, centroids) {
                           sprintf("tau_%s.parquet", case))
     arrow::write_parquet(tau_df, out_path)
 
+    # Eyeball τ (BA → Córdoba) for parent-side logging
+    ba_cba <- tau_df$tau[
+        (tau_df$origin_geolev2 == "32002001" &
+             tau_df$destination_geolev2 == "32014014") |
+        (tau_df$origin_geolev2 == "32014014" &
+             tau_df$destination_geolev2 == "32002001")
+    ]
+    ba_cba <- if (length(ba_cba) == 1L) ba_cba else NA_real_
+
     finite_tau <- tau_df$tau[is.finite(tau_df$tau)]
     list(case = case, status = "OK",
          elapsed_sec = elapsed, n_inf = n_inf,
-         median_tau = median(finite_tau))
+         median_tau = median(finite_tau),
+         ba_cba_tau = ba_cba)
 }
 
 main()
