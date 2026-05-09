@@ -1,0 +1,35 @@
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+05_build_panel.R  |  merge base sources → wide panel
+========================================================================
+[panel] geo spine: 312 districts
+[panel] IPUMS wide: 312 rows, 41 cols (years: 1970, 1980, 1991, 2001, 2010)
+[panel] merge IPUMS wide                 x=312  y=312  matched=312  unmatched_in_panel=0
+[panel] merge census_1947                x=312  y=240  matched=240  unmatched_in_panel=72
+[panel] merge census_1960                x=312  y=309  matched=309  unmatched_in_panel=3
+[panel] merge agricultural census        x=312  y=309  matched=309  unmatched_in_panel=3
+[panel] merge industrial census          x=312  y=311  matched=311  unmatched_in_panel=1
+[panel] merge rails                      x=312  y=312  matched=312  unmatched_in_panel=0
+[panel] merge roads                      x=312  y=309  matched=309  unmatched_in_panel=3
+[panel] merge hypo networks              x=312  y=312  matched=312  unmatched_in_panel=0
+
+[panel] Adding log-change variables
+  chg_log_pop_91_60         N=309  mean=1.015  sd=0.525
+  chg_log_urbpop_91_60      N=284  mean=0.858  sd=0.504
+  chg_log_placebo_pop_60_47 N=235  mean=-0.091  sd=0.574
+  chg_log_nestab_85_54      N=310  mean=-0.216  sd=0.675
+  chg_log_massal_85_54      N=309  mean=3.529  sd=1.380
+  chg_log_valprod_85_54     N=310  mean=3.887  sd=1.372
+  chg_log_nexp_88_60        N=297  mean=-0.254  sd=0.497
+  chg_log_areatot_ha_88_60  N=297  mean=0.077  sd=0.656
+
+[panel] Saving
+[panel]   Key unique, non-missing. Districts: 312
+[panel]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/departments_wide_panel.parquet (312 rows, 118 cols)
+[panel]   Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/data_file_manifest.log
+========================================================================
+05_build_panel.R  |  Complete.
+========================================================================
+
