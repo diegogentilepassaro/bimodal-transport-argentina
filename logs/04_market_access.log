@@ -1,0 +1,45 @@
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+04_market_access.R  |  MA_i = sum_{j≠i} Pop_j / τ_ij^θ
+========================================================================
+Cases: actual_1960_s0, actual_1986_s0, instrument_lcp_mst_s0, instrument_stu_s0
+
+Elasticity θ = 4.550 (low; see config.R)
+[ma] Loaded 1960 pop: 309 districts, total=13,551,523
+
+[ma] ==== CASE: actual_1960_s0 ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 2 have logMA = -Inf (MA = 0)
+[ma]   logMA -Inf for: 32094001, 32094002
+[ma]   MA summary (MA>0): min=2.971e-28 median=1.251e-22 max=2.566e-13
+[ma]   logMA summary (finite): min=-63.38  mean=-49.61  max=-28.99
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_actual_1960_s0.parquet
+
+[ma] ==== CASE: actual_1986_s0 ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 2 have logMA = -Inf (MA = 0)
+[ma]   logMA -Inf for: 32094001, 32094002
+[ma]   MA summary (MA>0): min=8.222e-27 median=5.445e-22 max=2.601e-13
+[ma]   logMA summary (finite): min=-60.06  mean=-47.78  max=-28.98
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_actual_1986_s0.parquet
+
+[ma] ==== CASE: instrument_lcp_mst_s0 ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=2.264e-28 median=1.205e-22 max=7.021e-14
+[ma]   logMA summary (finite): min=-63.66  mean=-50.10  max=-30.29
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_instrument_lcp_mst_s0.parquet
+
+[ma] ==== CASE: instrument_stu_s0 ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 2 have logMA = -Inf (MA = 0)
+[ma]   logMA -Inf for: 32094001, 32094002
+[ma]   MA summary (MA>0): min=1.612e-28 median=3.726e-23 max=2.566e-13
+[ma]   logMA summary (finite): min=-63.99  mean=-50.92  max=-28.99
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_instrument_stu_s0.parquet
+========================================================================
+04_market_access.R  |  Complete.
+========================================================================
+

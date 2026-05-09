@@ -1,0 +1,23 @@
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+06_merge_ma_into_panel.R  |  merge MA into wide panel
+========================================================================
+[panel] Starting panel: 312 × 118
+[panel] actual_1960_s0             2 districts with logMA=-Inf recoded to NA
+[panel] Merged actual_1960_s0 as logMA_actual_1960_s0_elow
+[panel] actual_1986_s0             2 districts with logMA=-Inf recoded to NA
+[panel] Merged actual_1986_s0 as logMA_actual_1986_s0_elow
+[panel] instrument_stu_s0          2 districts with logMA=-Inf recoded to NA
+[panel] Merged instrument_stu_s0 as logMA_instrument_stu_s0_elow
+[panel] Merged instrument_lcp_mst_s0 as logMA_instrument_lcp_mst_s0_elow
+[panel] chg_logMA_86_60_s0_elow       N=310  mean=+1.837  sd=2.791
+[panel] chg_logMA_stu_s0_elow         N=310  mean=-1.305  sd=2.253
+[panel] chg_logMA_lcp_mst_s0_elow     N=310  mean=-0.444  sd=2.564
+[panel] Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/departments_wide_panel.parquet (312 × 125)
+[panel] Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/05_panel/data_file_manifest.log
+========================================================================
+06_merge_ma_into_panel.R  |  Complete.
+========================================================================
+

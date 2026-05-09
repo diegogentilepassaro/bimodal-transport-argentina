@@ -1,0 +1,76 @@
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: actual_1960_s0
+
+[tau] Loading and centroid-ing district polygons
+[tau]   312 districts loaded
+
+[tau] ==== CASE: actual_1960_s0 ====
+[tau]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1960_s0.rds
+[tau]   Running gdistance::costDistance (312x312 Dijkstra)
+[tau]   costDistance() took 184.0 s
+Error in if (max_asym > 1e-06) { : missing value where TRUE/FALSE needed
+Calls: main -> compute_one_case
+In addition: Warning message:
+st_centroid assumes attributes are constant over geometries 
+Execution halted
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus.R  |  Dijkstra on 312 district centroids
+========================================================================
+Cases: actual_1986_s0, instrument_stu_s0, instrument_lcp_mst_s0
+
+[tau] Loading and centroid-ing district polygons
+[tau]   312 districts loaded
+
+[tau] ==== CASE: actual_1986_s0 ====
+[tau]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1986_s0.rds
+[tau]   Running gdistance::costDistance (312x312 Dijkstra)
+[tau]   costDistance() took 293.8 s
+[tau]   1240 Inf entries (disconnected; e.g. TdF on land-only surface)
+[tau]   eyeball BA (32002001) → Córdoba (32014014): τ = 1639445.2
+[tau]   τ summary (finite): min=9504.489  median=3308872.3  mean=3853716.1  max=26585406.4  (Inf pairs: 620)
+[tau]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/03_taus/tau_actual_1986_s0.parquet (48516 rows)
+
+[tau] ==== CASE: instrument_stu_s0 ====
+[tau]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_stu_s0.rds
+[tau]   Running gdistance::costDistance (312x312 Dijkstra)
+[tau]   costDistance() took 215.1 s
+[tau]   1240 Inf entries (disconnected; e.g. TdF on land-only surface)
+[tau]   eyeball BA (32002001) → Córdoba (32014014): τ = 2964422.0
+[tau]   τ summary (finite): min=9504.489  median=7145695.4  mean=11184987.3  max=90172896.9  (Inf pairs: 620)
+[tau]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/03_taus/tau_instrument_stu_s0.parquet (48516 rows)
+
+[tau] ==== CASE: instrument_lcp_mst_s0 ====
+[tau]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_lcp_mst_s0.rds
+[tau]   Running gdistance::costDistance (312x312 Dijkstra)
+[tau]   costDistance() took 214.0 s
+[tau]   eyeball BA (32002001) → Córdoba (32014014): τ = 3060435.9
+[tau]   τ summary (finite): min=13073.774  median=5125550.0  mean=8325550.2  max=74653151.5  (Inf pairs: 0)
+[tau]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/03_taus/tau_instrument_lcp_mst_s0.parquet (48516 rows)
+========================================================================
+03c_compute_taus.R  |  Complete.
+========================================================================
+
+Warning messages:
+1: st_centroid assumes attributes are constant over geometries 
+2: In compute_one_case(case, centroids) :
+  [tau] Asymmetry > 1e-6: max |τ_ij - τ_ji| = 1.64658e-06
+3: In compute_one_case(case, centroids) :
+  [tau] Asymmetry > 1e-6: max |τ_ij - τ_ji| = 7.48783e-06
+4: In compute_one_case(case, centroids) :
+  [tau] Asymmetry > 1e-6: max |τ_ij - τ_ji| = 4.4331e-06

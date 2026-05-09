@@ -1,129 +1,145 @@
-Data file manifest — 05_build_panel.R
-Generated: 2026-05-09 17:43:42.373792
+Data file manifest — 05_build_panel.R + 06_merge_ma_into_panel.R
+Regenerated: 2026-05-09 19:33:46.528287
 rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: departments_wide_panel.parquet
 ============================================================ 
 Rows: 312
-Columns: 118
+Columns: 125
 Key: geolev2
 
+NOTE ON logMA/chg_logMA COLUMNS:
+  Tierra del Fuego districts (32094001, 32094002) are NA in all
+  land-only logMA columns (actual_*, instrument_stu) because they
+  are disconnected from the mainland on the Phase 1 land-only cost
+  surface. Phase 2 navigation will reconnect them via sea routes.
+  The instrument_lcp_mst column has values for them because the
+  LCP-MST hypothetical network was routed on a Faber cost surface
+  that treats water as passable (25x baseline), not infinite.
+
 Summary of every variable:
-  area_km2                       N=312  mean=8.14e+03  sd=1.18e+04  min=26.8  max=8.5e+04  NA=0
-  elev_mean                      N=312  mean=418  sd=689  min=4.01  max=4e+03  NA=0
-  rugged_mea                     N=312  mean=5.82e+04  sd=9.29e+04  min=3.63e+03  max=5.87e+05  NA=0
-  wheat                          N=312  mean=2.72e+03  sd=1.63e+03  min=0.142  max=7.32e+03  NA=0
-  preCal                         N=312  mean=3.38e+03  sd=1.79e+03  min=0  max=5.19e+03  NA=0
-  postCal                        N=312  mean=2.04e+03  sd=1.01e+03  min=0  max=3.11e+03  NA=0
-  dist_to_BA                     N=312  mean=669  sd=436  min=5.11  max=2.32e+03  NA=0
-  elev_mean_std                  N=312  mean=1.67e-16  sd=1  min=-0.602  max=5.2  NA=0
-  rugged_mea_std                 N=312  mean=-3.61e-17  sd=1  min=-0.587  max=5.7  NA=0
-  wheat_std                      N=312  mean=3.27e-17  sd=1  min=-1.67  max=2.83  NA=0
-  preCal_std                     N=312  mean=-2.78e-16  sd=1  min=-1.89  max=1.01  NA=0
-  postCal_std                    N=312  mean=-1.82e-16  sd=1  min=-2.02  max=1.05  NA=0
-  dist_to_BA_std                 N=312  mean=-9.39e-17  sd=1  min=-1.52  max=3.79  NA=0
-  pop_1970                       N=312  mean=7.48e+04  sd=1.91e+05  min=4.75e+03  max=2.91e+06  NA=0
-  urbpop_1970                     ALL NA
-  college_1970                   N=312  mean=0.0067  sd=0.00733  min=0  max=0.0497  NA=0
-  secondary_1970                 N=312  mean=0.0476  sd=0.0308  min=0  max=0.194  NA=0
-  mig5_1970                      N=312  mean=0.0655  sd=0.0564  min=0  max=0.432  NA=0
-  empstat_1_1970                 N=312  mean=0.487  sd=0.0477  min=0.36  max=0.75  NA=0
-  empstat_2_1970                 N=312  mean=0.00961  sd=0.00642  min=0  max=0.0438  NA=0
-  empstat_3_1970                 N=312  mean=0.504  sd=0.0462  min=0.237  max=0.62  NA=0
-  pop_1980                       N=312  mean=1.03e+05  sd=2.63e+05  min=8.49e+03  max=3.98e+06  NA=0
-  urbpop_1980                    N=312  mean=7.29e+04  sd=2e+05  min=0  max=2.79e+06  NA=0
-  college_1980                   N=312  mean=0.0117  sd=0.0116  min=0  max=0.102  NA=0
-  secondary_1980                 N=312  mean=0.0843  sd=0.0454  min=0.0108  max=0.268  NA=0
-  mig5_1980                      N=310  mean=0.113  sd=0.136  min=0.0113  max=0.925  NA=2
-  empstat_1_1980                 N=312  mean=0.495  sd=0.0807  min=0.3  max=0.9  NA=0
-  empstat_2_1980                 N=312  mean=0.00687  sd=0.00338  min=0.000497  max=0.0258  NA=0
-  empstat_3_1980                 N=312  mean=0.498  sd=0.0806  min=0.0914  max=0.692  NA=0
-  pop_1991                       N=312  mean=1.15e+05  sd=2.64e+05  min=1.48e+04  max=3.77e+06  NA=0
-  urbpop_1991                    N=312  mean=8.97e+04  sd=2.16e+05  min=0  max=2.84e+06  NA=0
-  college_1991                   N=312  mean=0.0148  sd=0.0131  min=0.000388  max=0.0977  NA=0
-  secondary_1991                 N=312  mean=0.125  sd=0.0573  min=0.0258  max=0.375  NA=0
-  mig5_1991                      N=312  mean=0.182  sd=0.103  min=0.0266  max=0.672  NA=0
-  empstat_1_1991                 N=312  mean=0.548  sd=0.0708  min=0.179  max=0.872  NA=0
-  empstat_2_1991                 N=312  mean=0.0252  sd=0.0114  min=0.00341  max=0.057  NA=0
-  empstat_3_1991                 N=312  mean=0.427  sd=0.0679  min=0.123  max=0.814  NA=0
-  pop_2001                       N=312  mean=1.16e+05  sd=2.25e+05  min=1.50e+04  max=2.77e+06  NA=0
-  urbpop_2001                    N=312  mean=1.04e+05  sd=2.25e+05  min=2.14e+03  max=2.77e+06  NA=0
-  college_2001                   N=312  mean=0.0236  sd=0.0199  min=0.000469  max=0.155  NA=0
-  secondary_2001                 N=312  mean=0.188  sd=0.0765  min=0.0357  max=0.513  NA=0
-  mig5_2001                      N=312  mean=0.039  sd=0.0268  min=0.00918  max=0.234  NA=0
-  empstat_1_2001                 N=312  mean=0.413  sd=0.0596  min=0.195  max=0.586  NA=0
-  empstat_2_2001                 N=312  mean=0.14  sd=0.0378  min=0.0466  max=0.259  NA=0
-  empstat_3_2001                 N=312  mean=0.447  sd=0.0515  min=0.304  max=0.671  NA=0
-  pop_2010                       N=312  mean=1.27e+05  sd=2.43e+05  min=2.01e+04  max=2.82e+06  NA=0
-  urbpop_2010                     ALL NA
-  college_2010                   N=312  mean=0.0302  sd=0.0239  min=0.000896  max=0.183  NA=0
-  secondary_2010                 N=312  mean=0.217  sd=0.0688  min=0.0587  max=0.503  NA=0
-  mig5_2010                       ALL NA
-  empstat_1_2010                 N=312  mean=0.579  sd=0.0666  min=0.298  max=0.747  NA=0
-  empstat_2_2010                 N=312  mean=0.0329  sd=0.0102  min=0.00637  max=0.0599  NA=0
-  empstat_3_2010                 N=312  mean=0.388  sd=0.0696  min=0.218  max=0.66  NA=0
-  pop_1947                       N=235  mean=4.71e+04  sd=5.79e+04  min=4.40e+03  max=5.3e+05  NA=77
-  urbpop_1947                    N=235  mean=2.86e+04  sd=5.4e+04  min=2e+03  max=4.87e+05  NA=77
-  pop_imputed_1947               N=240  mean=4.67e+04  sd=5.74e+04  min=4.40e+03  max=5.3e+05  NA=72
-  urbpop_imputed_1947            N=240  mean=2.82e+04  sd=5.36e+04  min=2e+03  max=4.87e+05  NA=72
-  note_1947                      N=240  mean=0.0208  sd=0.143  min=0  max=1  NA=72
-  pop_1960                       N=309  mean=4.39e+04  sd=7.85e+04  min=1.07e+03  max=6.63e+05  NA=3
-  urbpop_1960                    N=309  mean=3.82e+04  sd=7.86e+04  min=0  max=6.5e+05  NA=3
-  rur_1960                       N=309  mean=5.67e+03  sd=5.36e+03  min=0  max=3.03e+04  NA=3
-  nexp_1960                      N=306  mean=1.54e+03  sd=1.33e+03  min=3  max=1.01e+04  NA=6
-  areatot_ha_1960                N=306  mean=5.69e+05  sd=1.15e+06  min=3  max=1.3e+07  NA=6
-  nexp_1988                      N=300  mean=1.23e+03  sd=1.12e+03  min=5  max=7.91e+03  NA=12
-  areatot_ha_1988                N=300  mean=5.76e+05  sd=1.16e+06  min=5.6  max=1.39e+07  NA=12
-  nestab_1954                    N=310  mean=356  sd=594  min=3  max=6.16e+03  NA=2
-  nemp_1954                      N=310  mean=318  sd=909  min=1  max=1.02e+04  NA=2
-  nobr_1954                      N=310  mean=2.28e+03  sd=5.46e+03  min=8  max=5.3e+04  NA=2
-  npers_1954                      ALL NA
-  massal_1954                    N=310  mean=2.84e+04  sd=7.91e+04  min=113  max=8.86e+05  NA=2
-  valprod_1954                   N=310  mean=1.53e+05  sd=4.47e+05  min=208  max=5.62e+06  NA=2
-  valprod1_1954                  N=310  mean=1.53e+05  sd=4.47e+05  min=208  max=5.62e+06  NA=2
-  valprod2_1954                   ALL NA
-  nestab_1985                    N=311  mean=300  sd=566  min=3  max=4.96e+03  NA=1
-  nemp_1985                       ALL NA
-  nobr_1985                       ALL NA
-  npers_1985                     N=311  mean=3.12e+03  sd=7e+03  min=0  max=5.18e+04  NA=1
-  massal_1985                    N=311  mean=1.38e+06  sd=3.33e+06  min=0  max=2.47e+07  NA=1
-  valprod_1985                   N=311  mean=1.12e+07  sd=2.89e+07  min=5.72e+03  max=3.06e+08  NA=1
-  valprod1_1985                  N=311  mean=1.12e+07  sd=2.89e+07  min=5.72e+03  max=3.06e+08  NA=1
-  valprod2_1985                  N=311  mean=5.41e+05  sd=1.41e+06  min=0  max=1.06e+07  NA=1
-  status1979_1                   N=312  mean=107  sd=118  min=0  max=779  NA=0
-  status1979_2                   N=312  mean=17.8  sd=42.1  min=0  max=300  NA=0
-  status1979_3                   N=312  mean=12.5  sd=28  min=0  max=167  NA=0
-  studied_0                      N=312  mean=70.3  sd=82.3  min=0  max=420  NA=0
-  studied_1                      N=312  mean=66.8  sd=97.9  min=0  max=766  NA=0
-  tot_rails_1986                 N=312  mean=107  sd=118  min=0  max=779  NA=0
-  tot_rails_1960                 N=312  mean=137  sd=140  min=0  max=779  NA=0
-  chg_tot_rails_86_60            N=312  mean=-30.4  sd=56  min=-306  max=0  NA=0
-  studied_larkin                 N=312  mean=66.8  sd=97.9  min=0  max=766  NA=0
-  share_studied_larkin           N=282  mean=0.437  sd=0.375  min=0  max=1  NA=30
-  roadsall_type_1                N=309  mean=83.5  sd=139  min=0  max=1.08e+03  NA=3
-  roadsall_type_2                N=309  mean=33.7  sd=82.6  min=0  max=921  NA=3
-  roadsall_type_3                N=309  mean=136  sd=194  min=0  max=1.88e+03  NA=3
-  roadsall_type_4                N=309  mean=5.84  sd=17.4  min=0  max=180  NA=3
-  roadsall_type_5                N=309  mean=5.55  sd=27  min=0  max=304  NA=3
-  roadsall_type_6                N=309  mean=7.99  sd=21.7  min=0  max=229  NA=3
-  roadsall_type_7                N=309  mean=3.2  sd=11.5  min=0  max=123  NA=3
-  pav_and_grav_1954              N=309  mean=89  sd=149  min=0  max=1.13e+03  NA=3
-  pav_and_grav_1970              N=309  mean=123  sd=198  min=0  max=1.73e+03  NA=3
-  pav_and_grav_1986              N=309  mean=258  sd=351  min=3.71  max=3.61e+03  NA=3
-  chg_pav_and_grav_86_54         N=309  mean=169  sd=248  min=0  max=2.51e+03  NA=3
-  chg_pav_and_grav_70_54         N=309  mean=33.7  sd=82.6  min=0  max=921  NA=3
-  chg_pav_and_grav_86_70         N=309  mean=136  sd=194  min=0  max=1.88e+03  NA=3
-  connected_pav_grav_86_54       N=309  mean=0.265  sd=0.442  min=0  max=1  NA=3
-  hypo_LCP_kms                   N=312  mean=5.18e+03  sd=8.41e+03  min=0  max=7.94e+04  NA=0
-  hypo_LCP_MST_kms               N=312  mean=36.8  sd=62.6  min=0  max=301  NA=0
-  hypo_EUC_kms                   N=312  mean=3.99e+03  sd=5.78e+03  min=0  max=5.7e+04  NA=0
-  hypo_EUC_MST_kms               N=312  mean=22.5  sd=44.6  min=0  max=373  NA=0
-  chg_log_pop_91_60              N=309  mean=1.01  sd=0.525  min=0.0508  max=3.1  NA=3
-  chg_log_urbpop_91_60           N=284  mean=0.858  sd=0.504  min=-0.0717  max=2.99  NA=28
-  chg_log_placebo_pop_60_47      N=235  mean=-0.0908  sd=0.574  min=-2.37  max=1.69  NA=77
-  chg_log_nestab_85_54           N=310  mean=-0.216  sd=0.675  min=-2.43  max=4.24  NA=2
-  chg_log_massal_85_54           N=309  mean=3.53  sd=1.38  min=-1.7  max=7.21  NA=3
-  chg_log_valprod_85_54          N=310  mean=3.89  sd=1.37  min=-1.97  max=9.75  NA=2
-  chg_log_nexp_88_60             N=297  mean=-0.254  sd=0.497  min=-3.35  max=2.29  NA=15
-  chg_log_areatot_ha_88_60       N=297  mean=0.0766  sd=0.656  min=-3.22  max=3.76  NA=15
+  area_km2                         N=312  mean=8.14e+03  sd=1.18e+04  min=26.8  max=8.5e+04  NA=0
+  elev_mean                        N=312  mean=418  sd=689  min=4.01  max=4e+03  NA=0
+  rugged_mea                       N=312  mean=5.82e+04  sd=9.29e+04  min=3.63e+03  max=5.87e+05  NA=0
+  wheat                            N=312  mean=2.72e+03  sd=1.63e+03  min=0.142  max=7.32e+03  NA=0
+  preCal                           N=312  mean=3.38e+03  sd=1.79e+03  min=0  max=5.19e+03  NA=0
+  postCal                          N=312  mean=2.04e+03  sd=1.01e+03  min=0  max=3.11e+03  NA=0
+  dist_to_BA                       N=312  mean=669  sd=436  min=5.11  max=2.32e+03  NA=0
+  elev_mean_std                    N=312  mean=1.67e-16  sd=1  min=-0.602  max=5.2  NA=0
+  rugged_mea_std                   N=312  mean=-3.61e-17  sd=1  min=-0.587  max=5.7  NA=0
+  wheat_std                        N=312  mean=3.27e-17  sd=1  min=-1.67  max=2.83  NA=0
+  preCal_std                       N=312  mean=-2.78e-16  sd=1  min=-1.89  max=1.01  NA=0
+  postCal_std                      N=312  mean=-1.82e-16  sd=1  min=-2.02  max=1.05  NA=0
+  dist_to_BA_std                   N=312  mean=-9.39e-17  sd=1  min=-1.52  max=3.79  NA=0
+  pop_1970                         N=312  mean=7.48e+04  sd=1.91e+05  min=4.75e+03  max=2.91e+06  NA=0
+  urbpop_1970                       ALL NA
+  college_1970                     N=312  mean=0.0067  sd=0.00733  min=0  max=0.0497  NA=0
+  secondary_1970                   N=312  mean=0.0476  sd=0.0308  min=0  max=0.194  NA=0
+  mig5_1970                        N=312  mean=0.0655  sd=0.0564  min=0  max=0.432  NA=0
+  empstat_1_1970                   N=312  mean=0.487  sd=0.0477  min=0.36  max=0.75  NA=0
+  empstat_2_1970                   N=312  mean=0.00961  sd=0.00642  min=0  max=0.0438  NA=0
+  empstat_3_1970                   N=312  mean=0.504  sd=0.0462  min=0.237  max=0.62  NA=0
+  pop_1980                         N=312  mean=1.03e+05  sd=2.63e+05  min=8.49e+03  max=3.98e+06  NA=0
+  urbpop_1980                      N=312  mean=7.29e+04  sd=2e+05  min=0  max=2.79e+06  NA=0
+  college_1980                     N=312  mean=0.0117  sd=0.0116  min=0  max=0.102  NA=0
+  secondary_1980                   N=312  mean=0.0843  sd=0.0454  min=0.0108  max=0.268  NA=0
+  mig5_1980                        N=310  mean=0.113  sd=0.136  min=0.0113  max=0.925  NA=2
+  empstat_1_1980                   N=312  mean=0.495  sd=0.0807  min=0.3  max=0.9  NA=0
+  empstat_2_1980                   N=312  mean=0.00687  sd=0.00338  min=0.000497  max=0.0258  NA=0
+  empstat_3_1980                   N=312  mean=0.498  sd=0.0806  min=0.0914  max=0.692  NA=0
+  pop_1991                         N=312  mean=1.15e+05  sd=2.64e+05  min=1.48e+04  max=3.77e+06  NA=0
+  urbpop_1991                      N=312  mean=8.97e+04  sd=2.16e+05  min=0  max=2.84e+06  NA=0
+  college_1991                     N=312  mean=0.0148  sd=0.0131  min=0.000388  max=0.0977  NA=0
+  secondary_1991                   N=312  mean=0.125  sd=0.0573  min=0.0258  max=0.375  NA=0
+  mig5_1991                        N=312  mean=0.182  sd=0.103  min=0.0266  max=0.672  NA=0
+  empstat_1_1991                   N=312  mean=0.548  sd=0.0708  min=0.179  max=0.872  NA=0
+  empstat_2_1991                   N=312  mean=0.0252  sd=0.0114  min=0.00341  max=0.057  NA=0
+  empstat_3_1991                   N=312  mean=0.427  sd=0.0679  min=0.123  max=0.814  NA=0
+  pop_2001                         N=312  mean=1.16e+05  sd=2.25e+05  min=1.50e+04  max=2.77e+06  NA=0
+  urbpop_2001                      N=312  mean=1.04e+05  sd=2.25e+05  min=2.14e+03  max=2.77e+06  NA=0
+  college_2001                     N=312  mean=0.0236  sd=0.0199  min=0.000469  max=0.155  NA=0
+  secondary_2001                   N=312  mean=0.188  sd=0.0765  min=0.0357  max=0.513  NA=0
+  mig5_2001                        N=312  mean=0.039  sd=0.0268  min=0.00918  max=0.234  NA=0
+  empstat_1_2001                   N=312  mean=0.413  sd=0.0596  min=0.195  max=0.586  NA=0
+  empstat_2_2001                   N=312  mean=0.14  sd=0.0378  min=0.0466  max=0.259  NA=0
+  empstat_3_2001                   N=312  mean=0.447  sd=0.0515  min=0.304  max=0.671  NA=0
+  pop_2010                         N=312  mean=1.27e+05  sd=2.43e+05  min=2.01e+04  max=2.82e+06  NA=0
+  urbpop_2010                       ALL NA
+  college_2010                     N=312  mean=0.0302  sd=0.0239  min=0.000896  max=0.183  NA=0
+  secondary_2010                   N=312  mean=0.217  sd=0.0688  min=0.0587  max=0.503  NA=0
+  mig5_2010                         ALL NA
+  empstat_1_2010                   N=312  mean=0.579  sd=0.0666  min=0.298  max=0.747  NA=0
+  empstat_2_2010                   N=312  mean=0.0329  sd=0.0102  min=0.00637  max=0.0599  NA=0
+  empstat_3_2010                   N=312  mean=0.388  sd=0.0696  min=0.218  max=0.66  NA=0
+  pop_1947                         N=235  mean=4.71e+04  sd=5.79e+04  min=4.40e+03  max=5.3e+05  NA=77
+  urbpop_1947                      N=235  mean=2.86e+04  sd=5.4e+04  min=2e+03  max=4.87e+05  NA=77
+  pop_imputed_1947                 N=240  mean=4.67e+04  sd=5.74e+04  min=4.40e+03  max=5.3e+05  NA=72
+  urbpop_imputed_1947              N=240  mean=2.82e+04  sd=5.36e+04  min=2e+03  max=4.87e+05  NA=72
+  note_1947                        N=240  mean=0.0208  sd=0.143  min=0  max=1  NA=72
+  pop_1960                         N=309  mean=4.39e+04  sd=7.85e+04  min=1.07e+03  max=6.63e+05  NA=3
+  urbpop_1960                      N=309  mean=3.82e+04  sd=7.86e+04  min=0  max=6.5e+05  NA=3
+  rur_1960                         N=309  mean=5.67e+03  sd=5.36e+03  min=0  max=3.03e+04  NA=3
+  nexp_1960                        N=306  mean=1.54e+03  sd=1.33e+03  min=3  max=1.01e+04  NA=6
+  areatot_ha_1960                  N=306  mean=5.69e+05  sd=1.15e+06  min=3  max=1.3e+07  NA=6
+  nexp_1988                        N=300  mean=1.23e+03  sd=1.12e+03  min=5  max=7.91e+03  NA=12
+  areatot_ha_1988                  N=300  mean=5.76e+05  sd=1.16e+06  min=5.6  max=1.39e+07  NA=12
+  nestab_1954                      N=310  mean=356  sd=594  min=3  max=6.16e+03  NA=2
+  nemp_1954                        N=310  mean=318  sd=909  min=1  max=1.02e+04  NA=2
+  nobr_1954                        N=310  mean=2.28e+03  sd=5.46e+03  min=8  max=5.3e+04  NA=2
+  npers_1954                        ALL NA
+  massal_1954                      N=310  mean=2.84e+04  sd=7.91e+04  min=113  max=8.86e+05  NA=2
+  valprod_1954                     N=310  mean=1.53e+05  sd=4.47e+05  min=208  max=5.62e+06  NA=2
+  valprod1_1954                    N=310  mean=1.53e+05  sd=4.47e+05  min=208  max=5.62e+06  NA=2
+  valprod2_1954                     ALL NA
+  nestab_1985                      N=311  mean=300  sd=566  min=3  max=4.96e+03  NA=1
+  nemp_1985                         ALL NA
+  nobr_1985                         ALL NA
+  npers_1985                       N=311  mean=3.12e+03  sd=7e+03  min=0  max=5.18e+04  NA=1
+  massal_1985                      N=311  mean=1.38e+06  sd=3.33e+06  min=0  max=2.47e+07  NA=1
+  valprod_1985                     N=311  mean=1.12e+07  sd=2.89e+07  min=5.72e+03  max=3.06e+08  NA=1
+  valprod1_1985                    N=311  mean=1.12e+07  sd=2.89e+07  min=5.72e+03  max=3.06e+08  NA=1
+  valprod2_1985                    N=311  mean=5.41e+05  sd=1.41e+06  min=0  max=1.06e+07  NA=1
+  status1979_1                     N=312  mean=107  sd=118  min=0  max=779  NA=0
+  status1979_2                     N=312  mean=17.8  sd=42.1  min=0  max=300  NA=0
+  status1979_3                     N=312  mean=12.5  sd=28  min=0  max=167  NA=0
+  studied_0                        N=312  mean=70.3  sd=82.3  min=0  max=420  NA=0
+  studied_1                        N=312  mean=66.8  sd=97.9  min=0  max=766  NA=0
+  tot_rails_1986                   N=312  mean=107  sd=118  min=0  max=779  NA=0
+  tot_rails_1960                   N=312  mean=137  sd=140  min=0  max=779  NA=0
+  chg_tot_rails_86_60              N=312  mean=-30.4  sd=56  min=-306  max=0  NA=0
+  studied_larkin                   N=312  mean=66.8  sd=97.9  min=0  max=766  NA=0
+  share_studied_larkin             N=282  mean=0.437  sd=0.375  min=0  max=1  NA=30
+  roadsall_type_1                  N=309  mean=83.5  sd=139  min=0  max=1.08e+03  NA=3
+  roadsall_type_2                  N=309  mean=33.7  sd=82.6  min=0  max=921  NA=3
+  roadsall_type_3                  N=309  mean=136  sd=194  min=0  max=1.88e+03  NA=3
+  roadsall_type_4                  N=309  mean=5.84  sd=17.4  min=0  max=180  NA=3
+  roadsall_type_5                  N=309  mean=5.55  sd=27  min=0  max=304  NA=3
+  roadsall_type_6                  N=309  mean=7.99  sd=21.7  min=0  max=229  NA=3
+  roadsall_type_7                  N=309  mean=3.2  sd=11.5  min=0  max=123  NA=3
+  pav_and_grav_1954                N=309  mean=89  sd=149  min=0  max=1.13e+03  NA=3
+  pav_and_grav_1970                N=309  mean=123  sd=198  min=0  max=1.73e+03  NA=3
+  pav_and_grav_1986                N=309  mean=258  sd=351  min=3.71  max=3.61e+03  NA=3
+  chg_pav_and_grav_86_54           N=309  mean=169  sd=248  min=0  max=2.51e+03  NA=3
+  chg_pav_and_grav_70_54           N=309  mean=33.7  sd=82.6  min=0  max=921  NA=3
+  chg_pav_and_grav_86_70           N=309  mean=136  sd=194  min=0  max=1.88e+03  NA=3
+  connected_pav_grav_86_54         N=309  mean=0.265  sd=0.442  min=0  max=1  NA=3
+  hypo_LCP_kms                     N=312  mean=5.18e+03  sd=8.41e+03  min=0  max=7.94e+04  NA=0
+  hypo_LCP_MST_kms                 N=312  mean=36.8  sd=62.6  min=0  max=301  NA=0
+  hypo_EUC_kms                     N=312  mean=3.99e+03  sd=5.78e+03  min=0  max=5.7e+04  NA=0
+  hypo_EUC_MST_kms                 N=312  mean=22.5  sd=44.6  min=0  max=373  NA=0
+  chg_log_pop_91_60                N=309  mean=1.01  sd=0.525  min=0.0508  max=3.1  NA=3
+  chg_log_urbpop_91_60             N=284  mean=0.858  sd=0.504  min=-0.0717  max=2.99  NA=28
+  chg_log_placebo_pop_60_47        N=235  mean=-0.0908  sd=0.574  min=-2.37  max=1.69  NA=77
+  chg_log_nestab_85_54             N=310  mean=-0.216  sd=0.675  min=-2.43  max=4.24  NA=2
+  chg_log_massal_85_54             N=309  mean=3.53  sd=1.38  min=-1.7  max=7.21  NA=3
+  chg_log_valprod_85_54            N=310  mean=3.89  sd=1.37  min=-1.97  max=9.75  NA=2
+  chg_log_nexp_88_60               N=297  mean=-0.254  sd=0.497  min=-3.35  max=2.29  NA=15
+  chg_log_areatot_ha_88_60         N=297  mean=0.0766  sd=0.656  min=-3.22  max=3.76  NA=15
+  logMA_actual_1960_s0_elow        N=310  mean=-49.6  sd=6.42  min=-63.4  max=-29  NA=2
+  logMA_actual_1986_s0_elow        N=310  mean=-47.8  sd=5.38  min=-60.1  max=-29  NA=2
+  logMA_instrument_stu_s0_elow     N=310  mean=-50.9  sd=6.8  min=-64  max=-29  NA=2
+  logMA_instrument_lcp_mst_s0_elow N=312  mean=-50.1  sd=6.1  min=-63.7  max=-30.3  NA=0
+  chg_logMA_86_60_s0_elow          N=310  mean=1.84  sd=2.79  min=-7.21  max=10.6  NA=2
+  chg_logMA_stu_s0_elow            N=310  mean=-1.3  sd=2.25  min=-12.2  max=-3.5e-06  NA=2
+  chg_logMA_lcp_mst_s0_elow        N=310  mean=-0.444  sd=2.56  min=-15.8  max=10.8  NA=2
