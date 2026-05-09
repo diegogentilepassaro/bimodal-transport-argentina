@@ -15,9 +15,6 @@
 #   data/derived/base/networks/data_file_manifest.log
 #
 # REFERENCE:
-#   Old data/Train/derived/networks_to_districts/code/networks_to_districts.py
-#   Old data/Train/derived/networks_to_districts/code/infra_to_Stata.do
-#   Old data/Train/derived/preclean/code/preclean_departments_wide.do
 #   Plan/roads_pipeline.md
 #
 # NOTES:

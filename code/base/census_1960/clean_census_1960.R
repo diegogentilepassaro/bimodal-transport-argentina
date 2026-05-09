@@ -17,10 +17,6 @@
 #
 #   data/derived/05a_census/census_1960_manifest.log
 #
-# REFERENCE:
-#   Old data/Train/base/census_1960/code/import_c1960.do
-#   Old data/Train/derived/census_1960/code/merge_c1960_to_IPUMS.do
-#
 # NOTES:
 #   - The 1960 census is organized by geographic region, each with
 #     multiple Excel pages (one per sub-region or province within the
