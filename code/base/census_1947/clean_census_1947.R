@@ -21,10 +21,6 @@
 #
 #   data/derived/05a_census/census_1947_manifest.log
 #
-# REFERENCE:
-#   Old data/Train/base/census_1946/code/clean_censo1946.do
-#   Old data/Train/derived/census_1946/code/merge_popurb1946_to_IPUMS.do
-#
 # NOTES:
 #   - The 1947 census predates the current provincial boundaries. Several
 #     districts were renamed, split, or reassigned to different provinces

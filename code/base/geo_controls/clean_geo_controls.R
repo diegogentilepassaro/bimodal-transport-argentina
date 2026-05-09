@@ -19,8 +19,6 @@
 #   data/derived/base/geo_controls/data_file_manifest.log
 #
 # REFERENCE:
-#   Old data/Train/base/geo_controls/code/geoControls_create_districts.py
-#   Old data/Train/derived/geo_controls/code/run.do
 #   Plan/geo_controls_pipeline.md
 #
 # NOTES:

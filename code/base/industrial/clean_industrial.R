@@ -16,12 +16,6 @@
 #       Variables: nestab, nemp (1954) / npers (1985), massal, valprod.
 #   data/derived/base/industrial/data_file_manifest.log
 #
-# REFERENCE:
-#   Old data/Train/base/ind_census_1954/code/clean_Industrial1954.do
-#   Old data/Train/base/ind_census_1985/code/clean_Economico1985.do
-#   Old data/Train/derived/ind_census_1954/code/merge_in1954_to_IPUMS.do
-#   Old data/Train/derived/ind_census_1985/code/merge_ec1985_to_IPUMS.do
-#
 # NOTES:
 #   - 1954 files are numbered by province code (20, 22, ..., 66), wide format.
 #     Variables: Nestab, Nemp, Nobr, Massal, Valprod.

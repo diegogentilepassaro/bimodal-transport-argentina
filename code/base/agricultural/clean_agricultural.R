@@ -14,12 +14,6 @@
 #       Key: geolev2 + year. Variables: nexp, areatot_ha.
 #   data/derived/base/agricultural/data_file_manifest.log
 #
-# REFERENCE:
-#   Old data/Train/base/agr_census_1960/code/clean_agro1960.do
-#   Old data/Train/base/agr_census_1988/code/clean_agro1988.do
-#   Old data/Train/derived/agr_census_1960/code/merge_ag1960_to_IPUMS.do
-#   Old data/Train/derived/agr_census_1988/code/merge_ag1988_to_IPUMS.do
-#
 # NOTES:
 #   - 1960 data is wide format: provincia, distrito, nexp, areatot_ha
 #   - 1988 data is long format: provincia, distrito, unidad, valor
@@ -306,7 +300,6 @@ harmonize_and_merge <- function(ag, xwalk, year) {
 
 # ---------------------------------------------------------------------------
 # Helper: district name fixes for 1960
-# Ported from: Old data/Train/derived/agr_census_1960/code/merge_ag1960_to_IPUMS.do
 # ---------------------------------------------------------------------------
 apply_name_fixes_1960 <- function(ag) {
     fix <- function(prov, old, new) {
@@ -387,7 +380,6 @@ apply_name_fixes_1960 <- function(ag) {
 
 # ---------------------------------------------------------------------------
 # Helper: district name fixes for 1988
-# Ported from: Old data/Train/derived/agr_census_1988/code/merge_ag1988_to_IPUMS.do
 # The 1988 census has many more abbreviations and typos than 1960.
 # ---------------------------------------------------------------------------
 apply_name_fixes_1988 <- function(ag) {

@@ -23,8 +23,6 @@
 #
 #   data/derived/base/ipums/data_file_manifest.log
 #
-# REFERENCE: Old data/Train/base/ipums/code/clean_ipums.do
-#
 # NOTES:
 #   - The raw .dta file is ~2GB. haven::read_dta() loads it into memory.
 #     Ensure at least 8GB RAM available.
