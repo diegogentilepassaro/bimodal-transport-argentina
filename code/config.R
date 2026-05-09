@@ -138,11 +138,25 @@ cost_coastal_buffer_km <- 30
 
 # ---- 7. Transport cost parameters (Baumgartner & Palazzo 1969) -----------
 #
-# Unit: USD per ton-km (constant prices).
-# Three cost sectors, indexed by name:
-#   overall        = medium cargo density (main specification)
-#   agricultural   = low cargo density
-#   manufacturing  = high cargo density
+# Source: Baumgartner, A. and Palazzo, L. (1969). "Estructura económica del
+# transporte de carga automotor y ferroviario en la Argentina." Argentine
+# Ministry of Economy.
+#
+# Unit: 1960 Argentine pesos per ton-km (nominal). All sectors use the same
+# currency year, so ratios across sectors and across modes are inflation-
+# invariant. Absolute levels are scale-free in the MA formula
+# (MA_i = sum_j Pop_j / tau_ij^theta) — only ratios between on-network
+# and off-network cost matter for routing.
+#
+# Three cost "sectors" are the tabulated cargo-density scenarios in
+# Baumgartner & Palazzo Table II (see Plan/tau_calculation_review.md):
+#   overall        = medium density (500 t/day) — main specification
+#   agricultural   = high  density (1,000 t/day) — bulk grain shipment
+#   manufacturing  = low   density (100 t/day) — small-batch goods
+#
+# At high density (agriculture), rail is cheaper than road. At low density
+# (manufacturing), road is cheaper than rail. This is the scale-economies
+# mechanism that makes railroads specialise in bulk goods.
 #
 # Named vectors allow unambiguous access: cost_road[["manufacturing"]]
 
@@ -176,8 +190,36 @@ cost_mininfra <- c(
 )
 stopifnot(all(cost_mininfra == pmin(cost_road, cost_rail)))
 
-# Land (off-network) traversal cost: derived from HMI.
-# hmi = 0.2018 (average for Argentina), k = 17.9 * roadprice[mfg] / hmi
+# Land (off-network) traversal cost per ton-km per unit HMI.
+#
+# Derivation: cost_land = k × cost_road[manufacturing] / hmi_argentina
+#
+#   k = 17.9 — ratio of motor-vehicle travel speed to walking-equivalent
+#     off-network speed. Project-specific calibration, not from a published
+#     source: estimated by the original authors as the Buenos Aires–Rosario
+#     Google Maps driving-vs-walking ratio. Documented in
+#     Plan/tau_calculation_review.md, "Off-Network Travel Cost" section.
+#
+#   cost_road[manufacturing] = 8.266 — the highest road cost across sectors,
+#     chosen as the anchor so that off-network cost dominates road cost even
+#     in the manufacturing (low-cargo-density) scenario.
+#
+#   hmi_argentina = 0.2018 — mean Human Mobility Index (HMI) for Argentina,
+#     in the global raster from Özak (2010, 2018). HMI measures potential
+#     minimum travel time (hours) per 1km pixel accounting for terrain and
+#     pre-industrial technological constraints. Özak's dataset is often
+#     miscited as "Human Modification Index" — it is the Human *Mobility*
+#     Index. Global raster at https://zenodo.org/records/14285746,
+#     DOI:10.5281/zenodo.14285746, CC BY-SA 4.0.
+#     Reference: Özak, Ömer. 2018. "Distance to the Pre-Industrial
+#     Technological Frontier and Economic Development." Journal of
+#     Economic Growth 23(2): 175–221.
+#
+# cost_land ≈ 733.2 (constant across sectors). Per-pixel off-network cost
+# is cost_land × HMI_pixel_value. HMI ranges 0 to ~8 globally, so per-pixel
+# off-network cost ranges 0 to ~5,900 — two to three orders of magnitude
+# above on-network cost (0.465 to 13.5), which routes the Dijkstra path
+# onto rail/road whenever those are available.
 hmi_argentina <- 0.2018
 cost_land     <- 17.9 * cost_road[["manufacturing"]] / hmi_argentina
 cost_land_vec <- c(
@@ -191,10 +233,21 @@ cost_nodata_sentinel <- 999999L
 
 # ---- 8. Trade elasticity (theta) parameters -------------------------------
 #
-# Used in MA formula: MA_i = sum_j Pop_j / tau_ij^theta
+# Used in market access formula:
+#   MA_i = sum_{j != i} Pop_j / tau_ij^theta
 #
-# theta["low"]  = 4.55 — Eaton & Kortum (2002) lower bound
-# theta["high"] = 8.11 — main specification, Donaldson (2018) estimate
+# theta["low"]  = 4.55
+# theta["high"] = 8.11
+#
+# PENDING JUSTIFICATION. These two values were inherited from the old
+# pipeline. The literature range for theta in gravity / market-access
+# specifications spans roughly 4 to 12 (Eaton & Kortum 2002; Simonovska
+# & Waugh 2014; Donaldson 2018). Section 3.3.2 of the paper is flagged in
+# Plan/tasks.md as needing a literature review to pin down which estimates
+# we adopt and why. Do NOT cite a specific source until that review is done.
+#
+# Main results use theta["low"]; theta["high"] is reported in the appendix
+# robustness table (task C34).
 theta <- c(low = 4.55, high = 8.11)
 
 # ---- 9. Network period codes ----------------------------------------------
