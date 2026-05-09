@@ -14,7 +14,7 @@ distance to Buenos Aires, area).
 | `wheatlo.tif` | Wheat suitability (tons/ha, low inputs) | FAO-GAEZ v3.0 |
 | `pre1500AverageCalories.tif` | Caloric potential pre-1500 | Galor & Özak (2016) |
 | `post1500AverageCalories.tif` | Caloric potential post-1500 | Galor & Özak (2016) |
-| `tri.tif` | Terrain Ruggedness Index | Riley et al. (1999) — **MISSING** |
+| `tri.tif` | Terrain Ruggedness Index | Riley et al. (1999), via Puga (diegopuga.org/data/rugged/) |
 | `areas_de_asentamientos_y_edificios_020105.*` | IGN settlements (for BA centroid) | IGN Argentina |
 
 ## Citations
@@ -37,6 +37,8 @@ Journal of Sciences 5, no. 1-4 (1999): 23–27.
 
 ## Notes
 
-- `tri.tif` is missing from the current data deposit. Cote is searching
-  the backup archive. The script produces all other variables and flags
-  ruggedness as NA until the file is located.
+- `tri.tif` is the Puga terrain ruggedness index raster (Riley et al. 1999
+  formula without the square root, unit (100m)², derived from GTOPO30).
+  Downloaded from https://diegopuga.org/data/rugged/ and converted from
+  the source txt to GeoTIFF. Global coverage at 30" (~1 km) resolution.
+  File size: ~1.5 GB (gitignored).
