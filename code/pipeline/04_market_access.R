@@ -2,14 +2,15 @@
 # 04_market_access.R
 #
 # PURPOSE: Compute district-level market access (MA) from pairwise tau
-#          matrices and 1960 population.
+#          matrices and 1960 population, for all sectors × both elasticities.
 #
 # READS:
 #   data/derived/03_taus/tau_<case>.parquet
 #   data/derived/base/census_1960/census_1960_ipums.parquet  (pop weights)
 #
 # PRODUCES:
-#   data/derived/04_market_access/ma_<case>.parquet
+#   data/derived/04_market_access/ma_<case>_<elas>.parquet
+#       where <elas> ∈ {elow, ehigh} identifies θ = 4.55 vs 8.11.
 #       Columns: geolev2 (chr, key), MA (num), logMA (num).
 #
 # FORMULA:
@@ -23,11 +24,8 @@
 #     in the summation. They still appear as rows in the output but their
 #     contribution to other districts' MA is zero, and their own MA is
 #     computed from the 310 districts that do have population.
-#     This is defensible because (i) the 1960 census literally doesn't
-#     cover those districts in the cleaned data, (ii) using IPUMS 1970
-#     as a fallback would conflate pop and transport changes (IPUMS 1970
-#     is post-1960 so already reflects migration responses).
-#   - theta: θ_low = 4.55 for Phase 1. θ_high = 8.11 sensitivity deferred.
+#   - theta: both θ_low = 4.55 and θ_high = 8.11 are computed in one pass,
+#     yielding two output files per case.
 #   - Inf tau (disconnected pair) contributes exactly 0 to the sum since
 #     1/Inf^θ = 0.
 #   - Self-distance (i == j) is excluded from the sum by construction.
@@ -40,6 +38,9 @@
 suppressPackageStartupMessages({
     library(arrow)
 })
+
+# Elasticity label ↔ theta-name lookup
+elasticity_labels <- c(elow = "low", ehigh = "high")
 
 main <- function() {
 
@@ -64,11 +65,18 @@ main <- function() {
     message("04_market_access.R  |  MA_i = sum_{j≠i} Pop_j / τ_ij^θ")
     message(strrep("=", 72))
     message(sprintf("Cases: %s\n", paste(cases, collapse = ", ")))
-    message(sprintf("Elasticity θ = %.3f (low; see config.R)", theta[["low"]]))
+    message(sprintf("Elasticities: θ_low = %.3f, θ_high = %.3f",
+                    theta[["low"]], theta[["high"]]))
 
     pop <- load_1960_population()
 
-    for (case in cases) compute_ma_one_case(case, pop, theta[["low"]])
+    for (case in cases) {
+        for (elas_lbl in names(elasticity_labels)) {
+            theta_name <- elasticity_labels[[elas_lbl]]
+            compute_ma_one <- compute_ma_one_case
+            compute_ma_one(case, pop, theta[[theta_name]], elas_lbl)
+        }
+    }
 
     message(strrep("=", 72))
     message("04_market_access.R  |  Complete.")
@@ -92,10 +100,11 @@ load_1960_population <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Compute MA for one case
+# Compute MA for one case × one elasticity
 # ---------------------------------------------------------------------------
-compute_ma_one_case <- function(case, pop_df, theta_val) {
-    message(sprintf("\n[ma] ==== CASE: %s ====", case))
+compute_ma_one_case <- function(case, pop_df, theta_val, elas_lbl) {
+    message(sprintf("\n[ma] ==== CASE: %s (%s, θ=%.3f) ====",
+                    case, elas_lbl, theta_val))
 
     tau_path <- file.path(dir_derived_taus,
                           sprintf("tau_%s.parquet", case))
@@ -162,7 +171,7 @@ compute_ma_one_case <- function(case, pop_df, theta_val) {
     ))
 
     out_path <- file.path(dir_derived_ma,
-                          sprintf("ma_%s.parquet", case))
+                          sprintf("ma_%s_%s.parquet", case, elas_lbl))
     arrow::write_parquet(ma_df, out_path)
     message(sprintf("[ma]   Saved: %s", out_path))
 }

@@ -60,3 +60,82 @@ Cases to process: actual_1986_s0, instrument_stu_s0, instrument_lcp_mst_s0
 03b_transition_grids.R  |  Complete.
 ========================================================================
 
+Warning messages:
+1: package ‘sp’ was built under R version 4.5.2 
+2: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03b_transition_grids.R  |  cost raster → gdistance transition
+========================================================================
+Cases to process: actual_1960_s1, actual_1986_s1, instrument_stu_s1, instrument_lcp_mst_s1, actual_1960_s2, actual_1986_s2, instrument_stu_s2, instrument_lcp_mst_s2
+
+
+[trans] ==== CASE: actual_1960_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1960_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 47.5 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 3.7 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1960_s1.rds
+
+[trans] ==== CASE: actual_1986_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1986_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 31.2 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.8 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1986_s1.rds
+
+[trans] ==== CASE: instrument_stu_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_stu_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 31.1 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.7 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_stu_s1.rds
+
+[trans] ==== CASE: instrument_lcp_mst_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_mst_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 27.3 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.4 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_lcp_mst_s1.rds
+
+[trans] ==== CASE: actual_1960_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1960_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 27.4 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.8 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1960_s2.rds
+
+[trans] ==== CASE: actual_1986_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_actual_1986_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 27.4 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.4 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_actual_1986_s2.rds
+
+[trans] ==== CASE: instrument_stu_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_stu_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 30.2 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.9 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_stu_s2.rds
+
+[trans] ==== CASE: instrument_lcp_mst_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_mst_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 27.5 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 2.4 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_instrument_lcp_mst_s2.rds
+========================================================================
+03b_transition_grids.R  |  Complete.
+========================================================================
+

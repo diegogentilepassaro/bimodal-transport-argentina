@@ -1,52 +1,75 @@
 # ===========================================================================
 # 06_merge_ma_into_panel.R
 #
-# PURPOSE: Merge Phase 1 market access columns into the wide estimation
-#          panel. Adds logMA levels and logMA change variables (treatment
-#          + two instruments).
+# PURPOSE: Merge market access columns into the wide estimation panel.
+#          Adds logMA levels and Δ logMA change variables for every
+#          (case × sector × elasticity) combination.
 #
 # READS:
 #   data/derived/05_panel/departments_wide_panel.parquet    (existing)
-#   data/derived/04_market_access/ma_<case>.parquet         (4 cases)
+#   data/derived/04_market_access/ma_<case>_<elas>.parquet  (24 files)
 #
 # PRODUCES:
 #   data/derived/05_panel/departments_wide_panel.parquet    (overwritten)
-#       New columns:
-#         logMA_actual_1960_s0_elow
-#         logMA_actual_1986_s0_elow
-#         logMA_instrument_stu_s0_elow
-#         logMA_instrument_lcp_mst_s0_elow
-#         chg_logMA_86_60_s0_elow            = actual_1986 - actual_1960
-#         chg_logMA_stu_s0_elow              = instrument_stu - actual_1960
-#         chg_logMA_lcp_mst_s0_elow          = instrument_lcp_mst - actual_1960
+#
+#   New columns (Phase 1 + Phase 2a):
+#     logMA_<case>_<s>_<e>           — 24 level columns
+#     chg_logMA_<timing>_<s>_<e>     — 18 change columns
+#   where:
+#     case ∈ {actual_1960, actual_1986, instrument_stu, instrument_lcp_mst}
+#     s    ∈ {s0, s1, s2}
+#     e    ∈ {elow, ehigh}
+#     timing ∈ {86_60, stu, lcp_mst}
 #
 # NAMING CONVENTION:
-#   logMA_<timing>_s<sector>_e<elasticity>
-#     timing ∈ {actual_1960, actual_1986, instrument_stu, instrument_lcp_mst}
-#     sector ∈ {0}  (Phase 1 only)
-#     elasticity ∈ {low}  (θ = 4.55, Phase 1 only)
+#   logMA_<case>_<s>_<e>
+#     s0/s1/s2 = overall / agricultural / manufacturing
+#     elow/ehigh = θ = 4.55 / 8.11
+#   chg_logMA_<timing>_<s>_<e>
+#     86_60   = actual_1986 − actual_1960 (main treatment variable)
+#     stu     = instrument_stu − actual_1960 (Larkin-plan instrument)
+#     lcp_mst = instrument_lcp_mst − actual_1960 (hypothetical-road instrument)
 #
 # NOTES:
-#   - Districts where logMA is -Inf (e.g. TdF on a land-only cost surface)
+#   - Districts where logMA is −Inf (e.g. TdF on a land-only cost surface)
 #     produce NA in the corresponding logMA column, and NA in any change
 #     variable that uses that column. NA is auto-dropped by regression
 #     functions, which is the intended downstream behavior.
-#   - Phase 2 will add sector 1, sector 2, and θ = 8.11 columns. This
-#     script is structured so extending it means adding rows to
-#     `ma_cases_spec` below.
+#   - The idempotent logic drops any pre-existing logMA_* / chg_logMA_*
+#     columns at the start so re-runs don't duplicate columns.
 # ===========================================================================
 
 suppressPackageStartupMessages({
     library(arrow)
 })
 
-# Case spec: case_label → column suffix used in the panel
-ma_cases_spec <- list(
-    list(case = "actual_1960_s0",        suffix = "actual_1960_s0_elow"),
-    list(case = "actual_1986_s0",        suffix = "actual_1986_s0_elow"),
-    list(case = "instrument_stu_s0",     suffix = "instrument_stu_s0_elow"),
-    list(case = "instrument_lcp_mst_s0", suffix = "instrument_lcp_mst_s0_elow")
-)
+# ---------------------------------------------------------------------------
+# Build ma_cases_spec programmatically:
+#   4 network specs × 3 sectors × 2 elasticities = 24 cases.
+# Each entry: the MA file to read is ma_<case>_<elas>.parquet; the
+# column written to the panel is logMA_<case>_<elas>.
+# ---------------------------------------------------------------------------
+build_ma_cases_spec <- function() {
+    network_specs <- c("actual_1960", "actual_1986",
+                       "instrument_stu", "instrument_lcp_mst")
+    sectors       <- c("s0", "s1", "s2")
+    elasticities  <- c("elow", "ehigh")
+
+    out <- list()
+    for (n in network_specs) {
+        for (s in sectors) {
+            for (e in elasticities) {
+                case_lbl <- paste(n, s, sep = "_")
+                suffix   <- paste(case_lbl, e, sep = "_")
+                out[[length(out) + 1L]] <- list(case = case_lbl,
+                                                 elas = e,
+                                                 suffix = suffix)
+            }
+        }
+    }
+    out
+}
+ma_cases_spec <- build_ma_cases_spec()
 
 main <- function() {
 
@@ -73,9 +96,9 @@ main <- function() {
         panel <- panel[, setdiff(names(panel), drop)]
     }
 
-    # Merge each MA case
+    # Merge each MA case × elasticity
     for (spec in ma_cases_spec) {
-        panel <- merge_one_case(panel, spec$case, spec$suffix)
+        panel <- merge_one_case(panel, spec$case, spec$elas, spec$suffix)
     }
 
     # Add change variables
@@ -90,10 +113,11 @@ main <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Merge a single MA case into the panel
+# Merge a single MA case × elasticity into the panel
 # ---------------------------------------------------------------------------
-merge_one_case <- function(panel, case, suffix) {
-    path <- file.path(dir_derived_ma, sprintf("ma_%s.parquet", case))
+merge_one_case <- function(panel, case, elas, suffix) {
+    path <- file.path(dir_derived_ma,
+                      sprintf("ma_%s_%s.parquet", case, elas))
     stopifnot(file.exists(path))
     ma <- arrow::read_parquet(path)
     ma <- ensure_geolev2_char(ma)
@@ -102,8 +126,8 @@ merge_one_case <- function(panel, case, suffix) {
     n_neginf <- sum(!is.finite(ma$logMA) & ma$logMA < 0)
     if (n_neginf > 0) {
         message(sprintf(
-            "[panel] %-25s  %d districts with logMA=-Inf recoded to NA",
-            case, n_neginf
+            "[panel] %-35s  %d districts with logMA=-Inf recoded to NA",
+            suffix, n_neginf
         ))
         ma$logMA[!is.finite(ma$logMA) & ma$logMA < 0] <- NA
     }
@@ -120,31 +144,47 @@ merge_one_case <- function(panel, case, suffix) {
     n_before <- nrow(panel)
     panel <- merge(panel, keep, by = "geolev2", all.x = TRUE)
     stopifnot(nrow(panel) == n_before)
-    message(sprintf("[panel] Merged %s as logMA_%s", case, suffix))
     panel
 }
 
 # ---------------------------------------------------------------------------
-# Build change variables
+# Build change variables.
+#
+# For each (sector, elasticity) combination, build three change variables:
+#   chg_logMA_86_60_<s>_<e>   = logMA_actual_1986 - logMA_actual_1960
+#   chg_logMA_stu_<s>_<e>     = logMA_instrument_stu - logMA_actual_1960
+#   chg_logMA_lcp_mst_<s>_<e> = logMA_instrument_lcp_mst - logMA_actual_1960
+# Total: 3 timings × 3 sectors × 2 elasticities = 18 change variables.
 # ---------------------------------------------------------------------------
 add_change_vars <- function(panel) {
-    base <- "logMA_actual_1960_s0_elow"
-    pairs <- list(
-        list(post = "logMA_actual_1986_s0_elow",
-             out  = "chg_logMA_86_60_s0_elow"),
-        list(post = "logMA_instrument_stu_s0_elow",
-             out  = "chg_logMA_stu_s0_elow"),
-        list(post = "logMA_instrument_lcp_mst_s0_elow",
-             out  = "chg_logMA_lcp_mst_s0_elow")
+    timings <- c(
+        "86_60"   = "logMA_actual_1986",
+        "stu"     = "logMA_instrument_stu",
+        "lcp_mst" = "logMA_instrument_lcp_mst"
     )
-    for (p in pairs) {
-        stopifnot(base %in% names(panel), p$post %in% names(panel))
-        panel[[p$out]] <- panel[[p$post]] - panel[[base]]
-        n_valid <- sum(!is.na(panel[[p$out]]))
-        mn <- mean(panel[[p$out]], na.rm = TRUE)
-        sdv <- sd(panel[[p$out]], na.rm = TRUE)
-        message(sprintf("[panel] %-28s  N=%d  mean=%+.3f  sd=%.3f",
-                        p$out, n_valid, mn, sdv))
+    for (s in c("s0", "s1", "s2")) {
+        for (e in c("elow", "ehigh")) {
+            base <- sprintf("logMA_actual_1960_%s_%s", s, e)
+            stopifnot(base %in% names(panel))
+            for (tlabel in names(timings)) {
+                post <- sprintf("%s_%s_%s", timings[[tlabel]], s, e)
+                stopifnot(post %in% names(panel))
+                out <- sprintf("chg_logMA_%s_%s_%s", tlabel, s, e)
+                panel[[out]] <- panel[[post]] - panel[[base]]
+            }
+        }
+    }
+
+    # Log the 18 change variables in a compact table
+    chg_cols <- grep("^chg_logMA_", names(panel), value = TRUE)
+    message(sprintf("[panel] %d change variables built:", length(chg_cols)))
+    for (v in chg_cols) {
+        vals <- panel[[v]]
+        n_valid <- sum(!is.na(vals))
+        message(sprintf("  %-40s  N=%d  mean=%+.3f  sd=%.3f",
+                        v, n_valid,
+                        mean(vals, na.rm = TRUE),
+                        sd(vals, na.rm = TRUE)))
     }
     panel
 }
@@ -177,13 +217,21 @@ save_and_manifest <- function(panel) {
 
     cat(
       "NOTE ON logMA/chg_logMA COLUMNS:\n",
+      "  24 logMA columns = 4 cases × 3 sectors × 2 elasticities.\n",
+      "  18 chg_logMA columns = 3 timings × 3 sectors × 2 elasticities.\n",
+      "\n",
+      "  Sector labels: s0 = overall (medium density); s1 = agricultural\n",
+      "  (high density); s2 = manufacturing (low density).\n",
+      "  Elasticity labels: elow = θ = 4.55; ehigh = θ = 8.11.\n",
+      "\n",
       "  Tierra del Fuego districts (32094001, 32094002) are NA in all\n",
       "  land-only logMA columns (actual_*, instrument_stu) because they\n",
-      "  are disconnected from the mainland on the Phase 1 land-only cost\n",
-      "  surface. Phase 2 navigation will reconnect them via sea routes.\n",
-      "  The instrument_lcp_mst column has values for them because the\n",
-      "  LCP-MST hypothetical network was routed on a Faber cost surface\n",
-      "  that treats water as passable (25x baseline), not infinite.\n",
+      "  are disconnected from the mainland on the Phase 1/2a land-only\n",
+      "  cost surface. Phase 2b navigation will reconnect them via sea\n",
+      "  routes. The instrument_lcp_mst columns have values for them\n",
+      "  because the LCP-MST hypothetical network was routed on a Faber\n",
+      "  cost surface that treats water as passable (25x baseline), not\n",
+      "  infinite.\n",
       "\n", sep = ""
     )
 
