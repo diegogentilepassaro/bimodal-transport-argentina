@@ -9,25 +9,29 @@
 #   data/raw/networks/lp_1979.shp                                  (rails)
 #   data/raw/networks/comparacion_54_70_86.shp                     (roads)
 #   data/derived/02_hypothetical_networks/lcp_mst.gpkg             (hypo)
+#   data/raw/networks_hypo/cursos_de_agua.shp                      (rivers)
+#   data/raw/networks_hypo/cuerpos_de_agua.shp                     (water bodies)
 #   data/raw/geo/HMI.tif                                           (Özak 2018)
 #   data/raw/networks_hypo/pais.shp                                (country)
 #
 # PRODUCES:
 #   data/derived/01_cost_rasters/ucost_<case>.tif
 #
-# DESIGN DECISIONS (Phase 1 + 2a; see Plan/tau_rebuild_plan.md Sección 6):
-#   - Land-only cost surface. No navigation layer yet — added in Phase 2b.
-#   - Three cost sectors, all with the same spatial formula but different
-#     parameter values from Baumgartner & Palazzo 1969:
+# DESIGN DECISIONS (Phase 1 + 2a + 2b; see Plan/tau_rebuild_plan.md):
+#   - Three cost sectors from Baumgartner & Palazzo 1969:
 #       s0 (overall)       — medium cargo density, main specification
 #       s1 (agricultural)  — high  cargo density, rail cheaper than road
 #       s2 (manufacturing) — low   cargo density, road cheaper than rail
+#   - NAVIGATION layer added in Phase 2b: navigable water gets
+#     cost_nav[sector] and takes precedence over rail/road. Defined as
+#     cursos_de_agua (navegabili == "SI") ∪ Strait of Magellan.
 #   - Rasterise in ESRI:54034 (World Cylindrical Equal Area) at the old
 #     pipeline's 2399 × 3090 grid over mainland Argentina.
 #   - Linear networks buffered by 1 km before rasterization (matches old
 #     pipeline). Guarantees at least one full pixel per segment.
 #   - Cost formula (see combine_cost() below):
-#       if rail & road:           cost_mininfra[sector]
+#       if navigable:             cost_nav[sector]
+#       elif rail & road:         cost_mininfra[sector]
 #       elif rail only:           cost_rail[sector]
 #       elif road only:           cost_road[sector]
 #       elif in Argentina + HMI:  cost_land × HMI    (constant across sectors)
@@ -128,7 +132,7 @@ main <- function() {
     cases <- if (length(args) > 0) args else names(case_registry())
 
     message("\n", strrep("=", 72))
-    message("03a_build_cost_raster.R  |  Phase 1+2a, land-only, sectors 0/1/2")
+    message("03a_build_cost_raster.R  |  Phase 2b, with navigation, sectors 0/1/2")
     message(strrep("=", 72))
     message(sprintf("Cases to build: %s\n", paste(cases, collapse = ", ")))
 
@@ -165,15 +169,19 @@ build_one_case <- function(case, spec) {
     rail_rast <- rasterize_rails(base, spec$rail_sel)
     road_rast <- rasterize_roads_or_hypo(base, spec)
 
-    # --- 4. Rasterise HMI (reproject + crop to Argentina extent) ---
+    # --- 4. Rasterise navigation layer (water = cheap) ---
+    nav_rast <- rasterize_navigation(base)
+
+    # --- 5. Rasterise HMI (reproject + crop to Argentina extent) ---
     hmi_rast  <- rasterize_hmi(base)
 
-    # --- 5. Combine into cost surface ---
-    cost <- combine_cost(rail_rast, road_rast, hmi_rast, arg_mask,
+    # --- 6. Combine into cost surface ---
+    cost <- combine_cost(rail_rast, road_rast, nav_rast,
+                         hmi_rast, arg_mask,
                          sector = spec$sector)
 
-    # --- 6. Validate and save ---
-    validate_cost(cost, rail_rast, road_rast, spec$sector)
+    # --- 7. Validate and save ---
+    validate_cost(cost, rail_rast, road_rast, nav_rast, spec$sector)
     save_cost_raster(cost, case)
 }
 
@@ -297,6 +305,78 @@ rasterize_hypo <- function(base) {
 }
 
 # ---------------------------------------------------------------------------
+# Rasterise navigation layer
+#
+# Source (see Plan/tau_rebuild_plan.md Sección 7):
+#   1. Navigable river segments from cursos_de_agua.shp (navegabili == "SI")
+#   2. Strait of Magellan from cuerpos_de_agua.shp (nombre == "DE MAGALLANES")
+#      The Magellan entries have navegabili = NA in the IGN data but are
+#      navigable by ferry; included manually so Tierra del Fuego connects
+#      to the mainland. This is the only hand-curated inclusion; all other
+#      water bodies rely on the IGN navigability flag.
+#
+# Output raster: 1 = navigable (gets cost_nav[sector] in combine_cost),
+#                0 = not navigable.
+# ---------------------------------------------------------------------------
+rasterize_navigation <- function(base) {
+    message("[cost]   Rasterising navigation layer")
+    rivers_path <- file.path(dir_raw, "networks_hypo",
+                             "cursos_de_agua.shp")
+    bodies_path <- file.path(dir_raw, "networks_hypo",
+                             "cuerpos_de_agua.shp")
+
+    rivers <- sf::st_read(rivers_path, quiet = TRUE)
+    rivers <- sf::st_make_valid(rivers)
+    navigable_rivers <- rivers[!is.na(rivers$navegabili) &
+                                rivers$navegabili == "SI", ]
+    message(sprintf(
+        "[cost]     Navigable river segments (cursos_de_agua): %d",
+        nrow(navigable_rivers)
+    ))
+
+    bodies <- sf::st_read(bodies_path, quiet = TRUE)
+    bodies <- sf::st_make_valid(bodies)
+    magellan <- bodies[!is.na(bodies$nombre) &
+                        bodies$nombre == "DE MAGALLANES", ]
+    message(sprintf(
+        "[cost]     Strait of Magellan polygons (cuerpos_de_agua): %d",
+        nrow(magellan)
+    ))
+
+    # Reproject + buffer rivers by nav_linear_buffer_m (config.R, default 1 km)
+    rivers_proj <- sf::st_transform(navigable_rivers, crs = crs_raster)
+    rivers_buf  <- sf::st_buffer(rivers_proj, dist = nav_linear_buffer_m)
+    rivers_buf  <- sf::st_union(rivers_buf)
+
+    # Reproject Magellan polygons and buffer by nav_magellan_buffer_m.
+    #
+    # The IGN Strait of Magellan polygons trace the water itself, which
+    # in the ~1.2 km raster leaves a gap between the water and the
+    # coastlines on both sides (TdF to the south, mainland to the north).
+    # Dijkstra on 8-connected cells can't bridge that gap, so TdF stays
+    # disconnected with zero buffer.
+    #
+    # The configured buffer extends the polygon across the shoreline on
+    # both sides, so at least one raster cell along each coast becomes
+    # navigable. config.R enforces a minimum of ≥ 2 cells per shore.
+    # The alternative (port-to-port LCPs) is the old pipeline's approach;
+    # noted as a Phase 2c option if this buffer produces routing
+    # artifacts elsewhere.
+    magellan_proj <- sf::st_transform(magellan, crs = crs_raster)
+    magellan_buf  <- sf::st_buffer(magellan_proj,
+                                    dist = nav_magellan_buffer_m)
+    magellan_u    <- sf::st_union(magellan_buf)
+
+    nav_union <- sf::st_union(rivers_buf, magellan_u)
+
+    r <- terra::rasterize(terra::vect(nav_union), base, field = 1L,
+                          background = 0L)
+    n_cells <- sum(terra::values(r) == 1L, na.rm = TRUE)
+    message(sprintf("[cost]     Navigation pixels (value=1): %d", n_cells))
+    r
+}
+
+# ---------------------------------------------------------------------------
 # Rasterise HMI onto the base grid
 # ---------------------------------------------------------------------------
 rasterize_hmi <- function(base) {
@@ -320,41 +400,70 @@ rasterize_hmi <- function(base) {
 }
 
 # ---------------------------------------------------------------------------
-# Combine rail + road + HMI layers into the cost surface
+# Combine rail + road + navigation + HMI layers into the cost surface
+#
+# Order of precedence (matches old pipeline's unitcostrasters.py):
+#   navigation > rail+road overlap > rail only > road only > off-network
+#
+# Navigation goes first because water is the cheapest mode (0.621) and
+# a pixel with both a river and a rail line (e.g. Rosario port) should
+# take the water cost, not the rail cost.
+#
+# NOTE on country mask: the country polygon (pais.shp) covers Argentine
+# LAND territory and excludes oceans, rivers that form borders, and the
+# Strait of Magellan. Navigation cells are therefore allowed OUTSIDE
+# the country mask — a water crossing of the Paraná border with Uruguay
+# or the Strait of Magellan isn't "inside Argentina" in a cadastral
+# sense, but should be traversable. Only non-navigation, non-network
+# pixels are masked to NA when outside pais.shp.
+#
+# Concrete example: the Paraná river bed between Argentina and Uruguay
+# gets cost_nav[sector] even though half of its pixels are outside
+# pais.shp. A shipment from Rosario to Concepción del Uruguay routes
+# through those pixels at nav cost. Without this exception the river
+# would be a hard barrier, forcing the shipment overland.
 # ---------------------------------------------------------------------------
-combine_cost <- function(rail_rast, road_rast, hmi_rast, arg_mask, sector) {
+combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
+                         arg_mask, sector) {
     message(sprintf("[cost]   Combining layers (sector=%s)", sector))
 
     rail <- terra::values(rail_rast)
     road <- terra::values(road_rast)
+    nav  <- terra::values(nav_rast)
     hmi  <- terra::values(hmi_rast)
     mask <- terra::values(arg_mask)
 
     # NA-safe helpers
     is_rail <- !is.na(rail) & rail == 1L
     is_road <- !is.na(road) & road == 1L
+    is_nav  <- !is.na(nav)  & nav  == 1L
     in_arg  <- !is.na(mask) & mask == 1
 
     cost <- rep(NA_real_, length(rail))
 
-    # Overlap: rail and road → mininfra
-    sel <- is_rail & is_road
+    # 1. Navigation takes precedence (cheapest mode). Allowed outside the
+    #    country mask (rivers-as-borders and the Strait of Magellan).
+    sel <- is_nav
+    cost[sel] <- cost_nav[[sector]]
+
+    # 2. Rail + road overlap (mode overlap → use min of the two)
+    sel <- !is_nav & is_rail & is_road
     cost[sel] <- cost_mininfra[[sector]]
 
-    # Rail only
-    sel <- is_rail & !is_road
+    # 3. Rail only
+    sel <- !is_nav & is_rail & !is_road
     cost[sel] <- cost_rail[[sector]]
 
-    # Road only
-    sel <- !is_rail & is_road
+    # 4. Road only
+    sel <- !is_nav & !is_rail & is_road
     cost[sel] <- cost_road[[sector]]
 
-    # Off-network land inside Argentina: cost_land × HMI
+    # 5. Off-network land inside Argentina: cost_land × HMI
     # (HMI may be NA for individual cells — those stay NA → hard barrier)
-    sel <- !is_rail & !is_road & in_arg & !is.na(hmi)
+    sel <- !is_nav & !is_rail & !is_road & in_arg & !is.na(hmi)
     cost[sel] <- cost_land * hmi[sel]
 
-    # Outside Argentina: NA (hard barrier for Dijkstra)
+    # 6. Outside Argentina and not navigable: NA (hard barrier)
     # (already NA_real_ from initialisation)
 
     r <- terra::rast(rail_rast)   # copy grid + crs
@@ -366,27 +475,41 @@ combine_cost <- function(rail_rast, road_rast, hmi_rast, arg_mask, sector) {
 # ---------------------------------------------------------------------------
 # Validation
 # ---------------------------------------------------------------------------
-validate_cost <- function(cost, rail_rast, road_rast, sector) {
+validate_cost <- function(cost, rail_rast, road_rast, nav_rast, sector) {
     v <- terra::values(cost)
     r <- terra::values(rail_rast)
     d <- terra::values(road_rast)
+    n <- terra::values(nav_rast)
 
-    rail_only    <- !is.na(r) & r == 1L & (is.na(d) | d == 0L)
-    road_only    <- !is.na(d) & d == 1L & (is.na(r) | r == 0L)
-    both         <- !is.na(r) & r == 1L & !is.na(d) & d == 1L
+    is_rail <- !is.na(r) & r == 1L
+    is_road <- !is.na(d) & d == 1L
+    is_nav  <- !is.na(n) & n == 1L
 
-    chk_rail <- all.equal(unique(v[rail_only]),
+    nav_only_no_infra <- is_nav & !is_rail & !is_road
+    rail_only         <- !is_nav & is_rail & !is_road
+    road_only         <- !is_nav & !is_rail & is_road
+    both_infra        <- !is_nav & is_rail & is_road
+
+    chk_nav  <- length(v[nav_only_no_infra]) == 0 ||
+                all.equal(unique(v[nav_only_no_infra]),
+                          cost_nav[[sector]], tolerance = 1e-9)
+    chk_rail <- length(v[rail_only]) == 0 ||
+                all.equal(unique(v[rail_only]),
                           cost_rail[[sector]], tolerance = 1e-9)
-    chk_road <- all.equal(unique(v[road_only]),
+    chk_road <- length(v[road_only]) == 0 ||
+                all.equal(unique(v[road_only]),
                           cost_road[[sector]], tolerance = 1e-9)
-    chk_both <- length(both) == 0 ||
-                all.equal(unique(v[both]),
+    chk_both <- length(v[both_infra]) == 0 ||
+                all.equal(unique(v[both_infra]),
                           cost_mininfra[[sector]], tolerance = 1e-9)
 
-    stopifnot(isTRUE(chk_rail), isTRUE(chk_road), isTRUE(chk_both))
+    stopifnot(isTRUE(chk_nav), isTRUE(chk_rail),
+              isTRUE(chk_road), isTRUE(chk_both))
     message(sprintf(
-        "[cost]   Validation OK: rail_only=%.4f road_only=%.4f both=%.4f",
-        cost_rail[[sector]], cost_road[[sector]], cost_mininfra[[sector]]
+        paste0("[cost]   Validation OK: nav=%.4f  rail_only=%.4f  ",
+               "road_only=%.4f  both=%.4f"),
+        cost_nav[[sector]], cost_rail[[sector]],
+        cost_road[[sector]], cost_mininfra[[sector]]
     ))
 
     v_ok <- v[!is.na(v)]
