@@ -320,3 +320,101 @@ Elasticities: θ_low = 4.550, θ_high = 8.110
 04_market_access.R  |  Complete.
 ========================================================================
 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+04_market_access.R  |  MA_i = sum_{j≠i} Pop_j / τ_ij^θ
+========================================================================
+Cases: cf_only_rail_s0, cf_only_rail_s1, cf_only_rail_s2, cf_only_road_s0, cf_only_road_s1, cf_only_road_s2
+
+Elasticities: θ_low = 4.550, θ_high = 8.110
+[ma] Loaded 1960 pop: 309 districts, total=13,551,523
+
+[ma] ==== CASE: cf_only_rail_s0 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=3.802e-28 median=1.038e-22 max=2.566e-13
+[ma]   logMA summary (finite): min=-63.14  mean=-49.43  max=-28.99
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s0_elow.parquet
+
+[ma] ==== CASE: cf_only_rail_s0 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=3.615e-55 median=5.428e-45 max=1.547e-27
+[ma]   logMA summary (finite): min=-125.36  mean=-99.65  max=-61.73
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s0_ehigh.parquet
+
+[ma] ==== CASE: cf_only_rail_s1 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=6.521e-28 median=7.510e-22 max=3.591e-11
+[ma]   logMA summary (finite): min=-62.60  mean=-47.39  max=-24.05
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s1_elow.parquet
+
+[ma] ==== CASE: cf_only_rail_s1 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=9.414e-55 median=1.004e-43 max=1.041e-23
+[ma]   logMA summary (finite): min=-124.40  mean=-96.37  max=-52.92
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s1_ehigh.parquet
+
+[ma] ==== CASE: cf_only_rail_s2 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=3.358e-29 median=3.461e-24 max=8.264e-17
+[ma]   logMA summary (finite): min=-65.56  mean=-53.13  max=-37.03
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s2_elow.parquet
+
+[ma] ==== CASE: cf_only_rail_s2 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=6.947e-57 median=5.372e-47 max=9.474e-34
+[ma]   logMA summary (finite): min=-129.31  mean=-105.43  max=-76.04
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_rail_s2_ehigh.parquet
+
+[ma] ==== CASE: cf_only_road_s0 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=9.472e-27 median=9.928e-22 max=2.602e-13
+[ma]   logMA summary (finite): min=-59.92  mean=-47.28  max=-28.98
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s0_elow.parquet
+
+[ma] ==== CASE: cf_only_road_s0 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=1.112e-52 median=5.438e-43 max=1.548e-27
+[ma]   logMA summary (finite): min=-119.63  mean=-95.47  max=-61.73
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s0_ehigh.parquet
+
+[ma] ==== CASE: cf_only_road_s1 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=1.214e-26 median=9.321e-21 max=3.592e-11
+[ma]   logMA summary (finite): min=-59.67  mean=-44.93  max=-24.05
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s1_elow.parquet
+
+[ma] ==== CASE: cf_only_road_s1 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=1.718e-52 median=1.083e-41 max=1.041e-23
+[ma]   logMA summary (finite): min=-119.19  mean=-91.74  max=-52.92
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s1_ehigh.parquet
+
+[ma] ==== CASE: cf_only_road_s2 (elow, θ=4.550) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=3.589e-27 median=2.294e-23 max=8.405e-17
+[ma]   logMA summary (finite): min=-60.89  mean=-51.28  max=-37.02
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s2_elow.parquet
+
+[ma] ==== CASE: cf_only_road_s2 (ehigh, θ=8.110) ====
+[ma]   τ file has 312 districts (48516 pairs)
+[ma]   MA computed for 312 districts; 0 have logMA = -Inf (MA = 0)
+[ma]   MA summary (MA>0): min=2.140e-53 median=1.410e-45 max=9.610e-34
+[ma]   logMA summary (finite): min=-121.28  mean=-101.96  max=-76.03
+[ma]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/04_market_access/ma_cf_only_road_s2_ehigh.parquet
+========================================================================
+04_market_access.R  |  Complete.
+========================================================================
+

@@ -37,8 +37,8 @@
 #       elif in Argentina + HMI:  cost_land × HMI    (constant across sectors)
 #       else (outside Argentina): NA (hard barrier for Dijkstra)
 #
-# CASES (Phase 1 + 2a + 2b + 2c):
-#   Seven network specs × three sectors = twenty-one cases.
+# CASES (Phase 1 + 2a + 2b + 2c + 3):
+#   Nine network specs × three sectors = twenty-seven cases.
 #
 #   Network specs:
 #     actual_1960         — 1960 rails + 1954 roads + HMI + nav
@@ -48,9 +48,11 @@
 #     instrument_euc_mst  — 1960 rails + Euclidean-MST hypothetical roads
 #     instrument_lcp      — 1960 rails + bilateral-LCP hypothetical roads
 #     instrument_euc      — 1960 rails + bilateral-Euclidean hypothetical roads
+#     cf_only_rail        — 1986 rails + 1954 roads  (isolates rail shock)
+#     cf_only_road        — 1960 rails + 1986 roads  (isolates road shock)
 #
 #   Each of the above is generated at sector s0, s1, s2 (case label
-#   `<network>_<sector>`, e.g. `actual_1960_s1`).
+#   `<network>_<sector>`, e.g. `cf_only_rail_s1`).
 #
 # HYPOTHETICAL-NETWORK CAVEAT:
 #   The LCP-MST hypothetical road network was routed on a Faber (2014)
@@ -130,6 +132,23 @@ case_registry <- function() {
             road_sel = NULL,
             use_hypo = TRUE,
             hypo_file = "euc_network.gpkg"
+        ),
+        # ---- Counterfactual cases (Phase 3) --------------------------------
+        # cf_only_rail: rails_1986 + roads_1954. Freezes roads at baseline
+        # so Δlog MA vs actual_1960 isolates the rail shock.
+        cf_only_rail = list(
+            rail_sel = function(r) r$status1979 == 1,
+            road_sel = function(r) r$type2      %in% c(1, 5, 7),
+            use_hypo = FALSE,
+            hypo_file = NULL
+        ),
+        # cf_only_road: rails_1960 + roads_1986. Freezes rails at baseline
+        # so Δlog MA vs actual_1960 isolates the road shock.
+        cf_only_road = list(
+            rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
+            road_sel = function(r) r$type2      %in% c(1, 2, 3, 5),
+            use_hypo = FALSE,
+            hypo_file = NULL
         )
     )
 

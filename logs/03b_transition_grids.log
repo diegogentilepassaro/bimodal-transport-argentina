@@ -196,3 +196,66 @@ Cases to process: instrument_euc_mst_s0, instrument_euc_mst_s1, instrument_euc_m
 03b_transition_grids.R  |  Complete.
 ========================================================================
 
+Warning messages:
+1: package ‘sp’ was built under R version 4.5.2 
+2: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03b_transition_grids.R  |  cost raster → gdistance transition
+========================================================================
+Cases to process: cf_only_rail_s0, cf_only_rail_s1, cf_only_rail_s2, cf_only_road_s0, cf_only_road_s1, cf_only_road_s2
+
+
+[trans] ==== CASE: cf_only_rail_s0 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_rail_s0.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 48.2 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 4.7 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_rail_s0.rds
+
+[trans] ==== CASE: cf_only_rail_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_rail_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 44.5 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 4.0 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_rail_s1.rds
+
+[trans] ==== CASE: cf_only_rail_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_rail_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 43.9 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 4.8 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_rail_s2.rds
+
+[trans] ==== CASE: cf_only_road_s0 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_road_s0.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 43.8 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 4.0 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_road_s0.rds
+
+[trans] ==== CASE: cf_only_road_s1 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_road_s1.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 44.4 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 3.8 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_road_s1.rds
+
+[trans] ==== CASE: cf_only_road_s2 ====
+[trans]   Reading /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_cf_only_road_s2.tif
+[trans]   Building 8-neighbour transition (1/mean(cost))
+[trans]   transition() took 42.3 s
+[trans]   Applying geoCorrection (diagonal edges)
+[trans]   geoCorrection() took 3.5 s
+[trans]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/02_transition_grids/transition_cf_only_road_s2.rds
+========================================================================
+03b_transition_grids.R  |  Complete.
+========================================================================
+
