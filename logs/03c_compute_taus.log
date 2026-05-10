@@ -48,3 +48,47 @@ All cases done in 12.9 minutes.
   OK    instrument_lcp_mst_s0  443s  (median τ = 4676508, BA→Córdoba τ = 2900820, 0 Inf)
   OK    instrument_lcp_mst_s1  389s  (median τ = 3405625, BA→Córdoba τ = 1631465, 0 Inf)
   OK    instrument_lcp_mst_s2  347s  (median τ = 12602962, BA→Córdoba τ = 10366208, 0 Inf)
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus_parallel.R  |  ncores = 4, 6 cases
+========================================================================
+  instrument_euc_mst_s0
+  instrument_euc_mst_s1
+  instrument_euc_mst_s2
+  instrument_lcp_s0
+  instrument_lcp_s1
+  instrument_lcp_s2
+[tau] Loading district centroids
+
+All cases done in 12.1 minutes.
+  OK    instrument_euc_mst_s0  427s  (median τ = 4873940, BA→Córdoba τ = 2856537, 0 Inf)
+  OK    instrument_euc_mst_s1  426s  (median τ = 3702107, BA→Córdoba τ = 1631465, 0 Inf)
+  OK    instrument_euc_mst_s2  388s  (median τ = 12480050, BA→Córdoba τ = 9630887, 0 Inf)
+  OK    instrument_lcp_s0  439s  (median τ = 3567723, BA→Córdoba τ = 2231441, 0 Inf)
+  OK    instrument_lcp_s1  333s  (median τ = 2558844, BA→Córdoba τ = 1251857, 0 Inf)
+  OK    instrument_lcp_s2  299s  (median τ = 9142525, BA→Córdoba τ = 7260026, 0 Inf)
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus_parallel.R  |  ncores = 3, 3 cases
+========================================================================
+  instrument_euc_s0
+  instrument_euc_s1
+  instrument_euc_s2
+[tau] Loading district centroids
+
+All cases done in 5.7 minutes.
+  OK    instrument_euc_s0  338s  (median τ = 1728282, BA→Córdoba τ = 1147490, 0 Inf)
+  OK    instrument_euc_s1  334s  (median τ = 742586, BA→Córdoba τ = 453479, 0 Inf)
+  OK    instrument_euc_s2  321s  (median τ = 6286744, BA→Córdoba τ = 4507972, 0 Inf)
