@@ -343,27 +343,28 @@ rasterize_navigation <- function(base) {
         nrow(magellan)
     ))
 
-    # Reproject + buffer rivers to 1 km (they're linear features)
+    # Reproject + buffer rivers by nav_linear_buffer_m (config.R, default 1 km)
     rivers_proj <- sf::st_transform(navigable_rivers, crs = crs_raster)
-    rivers_buf  <- sf::st_buffer(rivers_proj, dist = 1000)
+    rivers_buf  <- sf::st_buffer(rivers_proj, dist = nav_linear_buffer_m)
     rivers_buf  <- sf::st_union(rivers_buf)
 
-    # Reproject Magellan polygons and buffer by 5 km.
+    # Reproject Magellan polygons and buffer by nav_magellan_buffer_m.
     #
     # The IGN Strait of Magellan polygons trace the water itself, which
-    # in the 1.2 km raster leaves a gap between the water and the
+    # in the ~1.2 km raster leaves a gap between the water and the
     # coastlines on both sides (TdF to the south, mainland to the north).
     # Dijkstra on 8-connected cells can't bridge that gap, so TdF stays
-    # disconnected.
+    # disconnected with zero buffer.
     #
-    # A 5 km buffer extends the polygon across the shoreline on both
-    # sides, so at least one raster cell along each coast becomes
-    # navigable. This is the minimum intervention that reconnects TdF
-    # in Phase 2b. The alternative (port-to-port LCPs) is the old
-    # pipeline's approach; noted as a Phase 2c option if the 5 km buffer
-    # produces routing artifacts elsewhere.
+    # The configured buffer extends the polygon across the shoreline on
+    # both sides, so at least one raster cell along each coast becomes
+    # navigable. config.R enforces a minimum of ≥ 2 cells per shore.
+    # The alternative (port-to-port LCPs) is the old pipeline's approach;
+    # noted as a Phase 2c option if this buffer produces routing
+    # artifacts elsewhere.
     magellan_proj <- sf::st_transform(magellan, crs = crs_raster)
-    magellan_buf  <- sf::st_buffer(magellan_proj, dist = 5000)
+    magellan_buf  <- sf::st_buffer(magellan_proj,
+                                    dist = nav_magellan_buffer_m)
     magellan_u    <- sf::st_union(magellan_buf)
 
     nav_union <- sf::st_union(rivers_buf, magellan_u)
@@ -415,6 +416,12 @@ rasterize_hmi <- function(base) {
 # or the Strait of Magellan isn't "inside Argentina" in a cadastral
 # sense, but should be traversable. Only non-navigation, non-network
 # pixels are masked to NA when outside pais.shp.
+#
+# Concrete example: the Paraná river bed between Argentina and Uruguay
+# gets cost_nav[sector] even though half of its pixels are outside
+# pais.shp. A shipment from Rosario to Concepción del Uruguay routes
+# through those pixels at nav cost. Without this exception the river
+# would be a hard barrier, forcing the shipment overland.
 # ---------------------------------------------------------------------------
 combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
                          arg_mask, sector) {

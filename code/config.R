@@ -136,6 +136,23 @@ cost_water           <- 25L       # water bodies / rivers surcharge
 # Magellan while still blocking Río de la Plata mouth and open Atlantic.
 cost_coastal_buffer_km <- 30
 
+# ---- 6c. Transport cost raster: navigation-layer parameters --------------
+#
+# Linear network buffer (rivers in cursos_de_agua.shp are linear).
+# 1 km buffer guarantees at least one full raster cell of navigable water
+# per river segment at the ~1.2 km/cell resolution of this raster grid.
+nav_linear_buffer_m <- 1000L
+
+# Strait of Magellan additional buffer (on top of the polygon outline).
+# The IGN polygon traces the water surface; in a ~1.2 km raster the
+# polygon leaves a gap between the water and both coastlines. A 5 km
+# buffer extends the polygon across both shorelines so at least one
+# raster cell per coast is navigable, allowing Dijkstra to cross.
+# Rule of thumb: ≥ 2 × ceiling(cellsize_km), giving one cell of slack
+# per shore. At 1.2 km/cell, 5 km = ~4 cells per shore.
+nav_magellan_buffer_m <- 5000L
+stopifnot(nav_magellan_buffer_m >= 2 * 1200L)  # ≥ 2 cells per shore
+
 # ---- 7. Transport cost parameters (Baumgartner & Palazzo 1969) -----------
 #
 # Source: Baumgartner, A. and Palazzo, L. (1969). "Estructura económica del
