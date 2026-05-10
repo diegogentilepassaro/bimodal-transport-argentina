@@ -238,3 +238,180 @@ Cases to build: actual_1960_s0, actual_1960_s1, actual_1960_s2, actual_1986_s0, 
 03a_build_cost_raster.R  |  Complete.
 ========================================================================
 
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘terra’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03a_build_cost_raster.R  |  Phase 2b, with navigation, sectors 0/1/2
+========================================================================
+Cases to build: instrument_euc_mst_s0, instrument_euc_mst_s1, instrument_euc_mst_s2, instrument_lcp_s0, instrument_lcp_s1, instrument_lcp_s2, instrument_euc_s0, instrument_euc_s1, instrument_euc_s2
+
+
+[cost] ==== CASE: instrument_euc_mst_s0 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_mst.gpkg)
+[cost]     Hypo road pixels (value=1): 10613
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=overall)
+[cost]   Validation OK: nav=0.6210  rail_only=1.8740  road_only=1.7770  both=1.7770
+[cost]   Cost summary: min=0.621  mean=141.33  max=773.11  N=1923708
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_mst_s0.tif
+
+[cost] ==== CASE: instrument_euc_mst_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_mst.gpkg)
+[cost]     Hypo road pixels (value=1): 10613
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: nav=0.6210  rail_only=0.4650  road_only=1.0000  both=0.4650
+[cost]   Cost summary: min=0.465  mean=141.28  max=773.11  N=1923708
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_mst_s1.tif
+
+[cost] ==== CASE: instrument_euc_mst_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_mst.gpkg)
+[cost]     Hypo road pixels (value=1): 10613
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: nav=0.6210  rail_only=13.4900  road_only=8.2660  both=8.2660
+[cost]   Cost summary: min=0.621  mean=141.72  max=773.11  N=1923708
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_mst_s2.tif
+
+[cost] ==== CASE: instrument_lcp_s0 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (lcp_network.gpkg)
+[cost]     Hypo road pixels (value=1): 94661
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=overall)
+[cost]   Validation OK: nav=0.6210  rail_only=1.8740  road_only=1.7770  both=1.7770
+[cost]   Cost summary: min=0.621  mean=134.78  max=773.11  N=1922878
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_s0.tif
+
+[cost] ==== CASE: instrument_lcp_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (lcp_network.gpkg)
+[cost]     Hypo road pixels (value=1): 94661
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: nav=0.6210  rail_only=0.4650  road_only=1.0000  both=0.4650
+[cost]   Cost summary: min=0.465  mean=134.70  max=773.11  N=1922878
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_s1.tif
+
+[cost] ==== CASE: instrument_lcp_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (lcp_network.gpkg)
+[cost]     Hypo road pixels (value=1): 94661
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: nav=0.6210  rail_only=13.4900  road_only=8.2660  both=8.2660
+[cost]   Cost summary: min=0.621  mean=135.42  max=773.11  N=1922878
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_lcp_s2.tif
+
+[cost] ==== CASE: instrument_euc_s0 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_network.gpkg)
+[cost]     Hypo road pixels (value=1): 851566
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=overall)
+[cost]   Validation OK: nav=0.6210  rail_only=1.8740  road_only=1.7770  both=1.7770
+[cost]   Cost summary: min=0.621  mean=78.59  max=773.11  N=1982213
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_s0.tif
+
+[cost] ==== CASE: instrument_euc_s1 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_network.gpkg)
+[cost]     Hypo road pixels (value=1): 851566
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=agricultural)
+[cost]   Validation OK: nav=0.6210  rail_only=0.4650  road_only=1.0000  both=0.4650
+[cost]   Cost summary: min=0.465  mean=78.23  max=773.11  N=1982213
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_s1.tif
+
+[cost] ==== CASE: instrument_euc_s2 ====
+[cost]   Rasterising country polygon (pais.shp)
+[cost]   Rasterising rails (selected subset)
+[cost]     Selected 565 / 565 segments
+[cost]     Rail pixels (value=1): 59254
+[cost]   Rasterising hypothetical network (euc_network.gpkg)
+[cost]     Hypo road pixels (value=1): 851566
+[cost]   Rasterising navigation layer
+[cost]     Navigable river segments (cursos_de_agua): 1128
+[cost]     Strait of Magellan polygons (cuerpos_de_agua): 3
+[cost]     Navigation pixels (value=1): 13016
+[cost]   Projecting HMI to base raster
+[cost]     HMI pixels with value (not NA): 3191580
+[cost]   Combining layers (sector=manufacturing)
+[cost]   Validation OK: nav=0.6210  rail_only=13.4900  road_only=8.2660  both=8.2660
+[cost]   Cost summary: min=0.621  mean=81.50  max=773.11  N=1982213
+[cost]   Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/01_cost_rasters/ucost_instrument_euc_s2.tif
+========================================================================
+03a_build_cost_raster.R  |  Complete.
+========================================================================
+

@@ -37,14 +37,17 @@
 #       elif in Argentina + HMI:  cost_land × HMI    (constant across sectors)
 #       else (outside Argentina): NA (hard barrier for Dijkstra)
 #
-# CASES (Phase 1 + 2a):
-#   Four network specs × three sectors = twelve cases.
+# CASES (Phase 1 + 2a + 2b + 2c):
+#   Seven network specs × three sectors = twenty-one cases.
 #
 #   Network specs:
-#     actual_1960        — 1960 rails + 1954 roads + HMI
-#     actual_1986        — 1986 rails + 1986 roads + HMI
-#     instrument_stu     — non-studied rails only + 1954 roads + HMI
-#     instrument_lcp_mst — 1960 rails + LCP-MST hypothetical roads + HMI
+#     actual_1960         — 1960 rails + 1954 roads + HMI + nav
+#     actual_1986         — 1986 rails + 1986 roads + HMI + nav
+#     instrument_stu      — non-studied rails only + 1954 roads + HMI + nav
+#     instrument_lcp_mst  — 1960 rails + LCP-MST hypothetical roads + HMI + nav
+#     instrument_euc_mst  — 1960 rails + Euclidean-MST hypothetical roads
+#     instrument_lcp      — 1960 rails + bilateral-LCP hypothetical roads
+#     instrument_euc      — 1960 rails + bilateral-Euclidean hypothetical roads
 #
 #   Each of the above is generated at sector s0, s1, s2 (case label
 #   `<network>_<sector>`, e.g. `actual_1960_s1`).
@@ -88,23 +91,45 @@ case_registry <- function() {
         actual_1960 = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
-            use_hypo = FALSE
+            use_hypo = FALSE,
+            hypo_file = NULL
         ),
         actual_1986 = list(
             rail_sel = function(r) r$status1979 == 1,
             road_sel = function(r) r$type2      %in% c(1, 2, 3, 5),
-            use_hypo = FALSE
+            use_hypo = FALSE,
+            hypo_file = NULL
         ),
         instrument_stu = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3) &
                                     r$studied_co == 0,
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
-            use_hypo = FALSE
+            use_hypo = FALSE,
+            hypo_file = NULL
         ),
         instrument_lcp_mst = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
             road_sel = NULL,       # hypothetical network takes road slot
-            use_hypo = TRUE
+            use_hypo = TRUE,
+            hypo_file = "lcp_mst.gpkg"
+        ),
+        instrument_euc_mst = list(
+            rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
+            road_sel = NULL,
+            use_hypo = TRUE,
+            hypo_file = "euc_mst.gpkg"
+        ),
+        instrument_lcp = list(
+            rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
+            road_sel = NULL,
+            use_hypo = TRUE,
+            hypo_file = "lcp_network.gpkg"
+        ),
+        instrument_euc = list(
+            rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
+            road_sel = NULL,
+            use_hypo = TRUE,
+            hypo_file = "euc_network.gpkg"
         )
     )
 
@@ -250,7 +275,7 @@ rasterize_rails <- function(base, sel) {
 # ---------------------------------------------------------------------------
 rasterize_roads_or_hypo <- function(base, spec) {
     if (isTRUE(spec$use_hypo)) {
-        return(rasterize_hypo(base))
+        return(rasterize_hypo(base, spec$hypo_file))
     }
     if (is.null(spec$road_sel)) {
         # Empty road raster (no roads at all)
@@ -282,10 +307,11 @@ rasterize_roads <- function(base, sel) {
     r
 }
 
-rasterize_hypo <- function(base) {
-    message("[cost]   Rasterising hypothetical LCP-MST road network")
+rasterize_hypo <- function(base, hypo_file) {
+    message(sprintf("[cost]   Rasterising hypothetical network (%s)",
+                    hypo_file))
     hypo_path <- file.path(
-        dir_derived, "02_hypothetical_networks", "lcp_mst.gpkg"
+        dir_derived, "02_hypothetical_networks", hypo_file
     )
     if (!file.exists(hypo_path)) {
         stop("Hypo network not found at: ", hypo_path)
@@ -294,7 +320,7 @@ rasterize_hypo <- function(base) {
     hypo <- sf::st_make_valid(hypo)
 
     hypo_proj <- sf::st_transform(hypo, crs = crs_raster)
-    hypo_buf  <- sf::st_buffer(hypo_proj, dist = 1000)
+    hypo_buf  <- sf::st_buffer(hypo_proj, dist = nav_linear_buffer_m)
     hypo_buf  <- sf::st_union(hypo_buf)
 
     r <- terra::rasterize(terra::vect(hypo_buf), base, field = 1L,
