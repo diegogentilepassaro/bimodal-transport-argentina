@@ -92,3 +92,28 @@ All cases done in 5.7 minutes.
   OK    instrument_euc_s0  338s  (median τ = 1728282, BA→Córdoba τ = 1147490, 0 Inf)
   OK    instrument_euc_s1  334s  (median τ = 742586, BA→Córdoba τ = 453479, 0 Inf)
   OK    instrument_euc_s2  321s  (median τ = 6286744, BA→Córdoba τ = 4507972, 0 Inf)
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+03c_compute_taus_parallel.R  |  ncores = 4, 6 cases
+========================================================================
+  cf_only_rail_s0
+  cf_only_rail_s1
+  cf_only_rail_s2
+  cf_only_road_s0
+  cf_only_road_s1
+  cf_only_road_s2
+[tau] Loading district centroids
+
+All cases done in 15.2 minutes.
+  OK    cf_only_rail_s0  552s  (median τ = 4770800, BA→Córdoba τ = 2676906, 0 Inf)
+  OK    cf_only_rail_s1  565s  (median τ = 3404423, BA→Córdoba τ = 1631465, 0 Inf)
+  OK    cf_only_rail_s2  475s  (median τ = 11780923, BA→Córdoba τ = 6999915, 0 Inf)
+  OK    cf_only_road_s0  598s  (median τ = 3033069, BA→Córdoba τ = 1365217, 0 Inf)
+  OK    cf_only_road_s1  432s  (median τ = 1931658, BA→Córdoba τ = 481408, 0 Inf)
+  OK    cf_only_road_s2  352s  (median τ = 8303270, BA→Córdoba τ = 5646248, 0 Inf)

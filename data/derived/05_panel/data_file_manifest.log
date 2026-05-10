@@ -1,12 +1,12 @@
 Data file manifest — 05_build_panel.R + 06_merge_ma_into_panel.R
-Regenerated: 2026-05-10 09:25:37.399453
+Regenerated: 2026-05-10 10:22:31.614024
 rootdir: /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: departments_wide_panel.parquet
 ============================================================ 
 Rows: 312
-Columns: 196
+Columns: 220
 Key: geolev2
 
 NOTE ON logMA/chg_logMA COLUMNS:
@@ -186,39 +186,63 @@ Summary of every variable:
   logMA_instrument_euc_s1_ehigh    N=312  mean=-82.8  sd=14.2  min=-119  max=-52.6  NA=0
   logMA_instrument_euc_s2_elow     N=312  mean=-48.9  sd=5.15  min=-62.1  max=-35.7  NA=0
   logMA_instrument_euc_s2_ehigh    N=312  mean=-97.4  sd=9.59  min=-123  max=-73.9  NA=0
+  logMA_cf_only_rail_s0_elow       N=312  mean=-49.4  sd=6  min=-63.1  max=-29  NA=0
+  logMA_cf_only_rail_s0_ehigh      N=312  mean=-99.6  sd=11.5  min=-125  max=-61.7  NA=0
+  logMA_cf_only_rail_s1_elow       N=312  mean=-47.4  sd=7.09  min=-62.6  max=-24.1  NA=0
+  logMA_cf_only_rail_s1_ehigh      N=312  mean=-96.4  sd=13.5  min=-124  max=-52.9  NA=0
+  logMA_cf_only_rail_s2_elow       N=312  mean=-53.1  sd=5.03  min=-65.6  max=-37  NA=0
+  logMA_cf_only_rail_s2_ehigh      N=312  mean=-105  sd=9.4  min=-129  max=-76  NA=0
+  logMA_cf_only_road_s0_elow       N=312  mean=-47.3  sd=5.5  min=-59.9  max=-29  NA=0
+  logMA_cf_only_road_s0_ehigh      N=312  mean=-95.5  sd=10.6  min=-120  max=-61.7  NA=0
+  logMA_cf_only_road_s1_elow       N=312  mean=-44.9  sd=6.63  min=-59.7  max=-24  NA=0
+  logMA_cf_only_road_s1_ehigh      N=312  mean=-91.7  sd=12.7  min=-119  max=-52.9  NA=0
+  logMA_cf_only_road_s2_elow       N=312  mean=-51.3  sd=4.52  min=-60.9  max=-37  NA=0
+  logMA_cf_only_road_s2_ehigh      N=312  mean=-102  sd=8.41  min=-121  max=-76  NA=0
   chg_logMA_86_60_s0_elow          N=312  mean=1.56  sd=2.48  min=-7.18  max=9.58  NA=0
   chg_logMA_stu_s0_elow            N=312  mean=-1.24  sd=2.22  min=-12.5  max=-3.5e-06  NA=0
   chg_logMA_lcp_mst_s0_elow        N=312  mean=-0.494  sd=2.48  min=-15.8  max=8.86  NA=0
   chg_logMA_euc_mst_s0_elow        N=312  mean=-0.64  sd=2.4  min=-17.7  max=11.6  NA=0
   chg_logMA_lcp_s0_elow            N=312  mean=0.71  sd=3.33  min=-15.7  max=11.9  NA=0
   chg_logMA_euc_s0_elow            N=312  mean=5.47  sd=4.61  min=-17  max=16.4  NA=0
+  chg_logMA_only_rail_s0_elow      N=312  mean=-0.397  sd=1.35  min=-11.3  max=-1.17e-06  NA=0
+  chg_logMA_only_road_s0_elow      N=312  mean=1.75  sd=2.24  min=-3.49  max=9.6  NA=0
   chg_logMA_86_60_s0_ehigh         N=312  mean=3.07  sd=5.14  min=-14.5  max=18.1  NA=0
   chg_logMA_stu_s0_ehigh           N=312  mean=-2.22  sd=4.32  min=-23.5  max=-3.47e-10  NA=0
   chg_logMA_lcp_mst_s0_ehigh       N=312  mean=-0.979  sd=5.02  min=-29  max=17.2  NA=0
   chg_logMA_euc_mst_s0_ehigh       N=312  mean=-1.41  sd=4.81  min=-33.2  max=22.2  NA=0
   chg_logMA_lcp_s0_ehigh           N=312  mean=1.44  sd=6.83  min=-29  max=25  NA=0
   chg_logMA_euc_s0_ehigh           N=312  mean=11  sd=9.43  min=-32.8  max=32.8  NA=0
+  chg_logMA_only_rail_s0_ehigh     N=312  mean=-0.728  sd=2.61  min=-21.7  max=-1e-10  NA=0
+  chg_logMA_only_road_s0_ehigh     N=312  mean=3.44  sd=4.69  min=-9.27  max=18.1  NA=0
   chg_logMA_86_60_s1_elow          N=312  mean=1.57  sd=3.3  min=-12.8  max=11.8  NA=0
   chg_logMA_stu_s1_elow            N=312  mean=-1.61  sd=3.02  min=-16.8  max=-3.05e-06  NA=0
   chg_logMA_lcp_mst_s1_elow        N=312  mean=-0.663  sd=3.17  min=-17.1  max=10.7  NA=0
   chg_logMA_euc_mst_s1_elow        N=312  mean=-0.903  sd=3.13  min=-18.8  max=15.8  NA=0
   chg_logMA_lcp_s1_elow            N=312  mean=0.666  sd=4.28  min=-16.9  max=14.9  NA=0
   chg_logMA_euc_s1_elow            N=312  mean=6.36  sd=5.83  min=-18.3  max=17.8  NA=0
+  chg_logMA_only_rail_s1_elow      N=312  mean=-0.557  sd=1.94  min=-14.4  max=-5.42e-05  NA=0
+  chg_logMA_only_road_s1_elow      N=312  mean=1.9  sd=2.89  min=-6.8  max=11.8  NA=0
   chg_logMA_86_60_s1_ehigh         N=312  mean=3  sd=6.48  min=-24.9  max=21.3  NA=0
   chg_logMA_stu_s1_ehigh           N=312  mean=-2.88  sd=5.63  min=-31.3  max=-1.7e-10  NA=0
   chg_logMA_lcp_mst_s1_ehigh       N=312  mean=-1.23  sd=6.19  min=-33  max=21.7  NA=0
   chg_logMA_euc_mst_s1_ehigh       N=312  mean=-1.73  sd=6.1  min=-36.8  max=29.9  NA=0
   chg_logMA_lcp_s1_ehigh           N=312  mean=1.35  sd=8.45  min=-33  max=27.8  NA=0
   chg_logMA_euc_s1_ehigh           N=312  mean=12.5  sd=11.6  min=-36.2  max=36.3  NA=0
+  chg_logMA_only_rail_s1_ehigh     N=312  mean=-1.02  sd=3.67  min=-27.8  max=-5.7e-08  NA=0
+  chg_logMA_only_road_s1_ehigh     N=312  mean=3.61  sd=5.71  min=-15.8  max=23.6  NA=0
   chg_logMA_86_60_s2_elow          N=312  mean=1.57  sd=1.6  min=-1.99  max=6.66  NA=0
   chg_logMA_stu_s2_elow            N=312  mean=-0.636  sd=1.23  min=-6.42  max=-6.6e-07  NA=0
   chg_logMA_lcp_mst_s2_elow        N=312  mean=-0.682  sd=1.73  min=-9.6  max=6.66  NA=0
   chg_logMA_euc_mst_s2_elow        N=312  mean=-0.693  sd=1.71  min=-11.8  max=6.3  NA=0
   chg_logMA_lcp_s2_elow            N=312  mean=0.565  sd=2.36  min=-9.59  max=7.75  NA=0
   chg_logMA_euc_s2_elow            N=312  mean=4.03  sd=3.05  min=-11.6  max=12.1  NA=0
+  chg_logMA_only_rail_s2_elow      N=312  mean=-0.197  sd=0.649  min=-5.76  max=-1.6e-07  NA=0
+  chg_logMA_only_road_s2_elow      N=312  mean=1.65  sd=1.54  min=-0.965  max=6.67  NA=0
   chg_logMA_86_60_s2_ehigh         N=312  mean=2.91  sd=3.38  min=-4.23  max=14  NA=0
   chg_logMA_stu_s2_ehigh           N=312  mean=-1.24  sd=2.51  min=-14.6  max=-4.97e-11  NA=0
   chg_logMA_lcp_mst_s2_ehigh       N=312  mean=-1.29  sd=3.61  min=-17.3  max=13.1  NA=0
   chg_logMA_euc_mst_s2_ehigh       N=312  mean=-1.56  sd=3.42  min=-21.5  max=12.7  NA=0
   chg_logMA_lcp_s2_ehigh           N=312  mean=0.905  sd=4.9  min=-17.3  max=16.1  NA=0
   chg_logMA_euc_s2_ehigh           N=312  mean=7.63  sd=6.28  min=-21.3  max=22.4  NA=0
+  chg_logMA_only_rail_s2_ehigh     N=312  mean=-0.388  sd=1.33  min=-11.5  max=-9.28e-12  NA=0
+  chg_logMA_only_road_s2_ehigh     N=312  mean=3.08  sd=3.25  min=-3.24  max=14  NA=0

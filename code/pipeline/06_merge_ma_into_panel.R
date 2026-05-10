@@ -12,16 +12,18 @@
 # PRODUCES:
 #   data/derived/05_panel/departments_wide_panel.parquet    (overwritten)
 #
-#   New columns (Phase 1 + Phase 2a + Phase 2b + Phase 2c):
-#     logMA_<case>_<s>_<e>           — 42 level columns
-#     chg_logMA_<timing>_<s>_<e>     — 36 change columns
+#   New columns (Phase 1 + Phase 2a + Phase 2b + Phase 2c + Phase 3):
+#     logMA_<case>_<s>_<e>           — 54 level columns
+#     chg_logMA_<timing>_<s>_<e>     — 48 change columns
 #   where:
 #     case ∈ {actual_1960, actual_1986, instrument_stu,
 #             instrument_lcp_mst, instrument_euc_mst,
-#             instrument_lcp, instrument_euc}
+#             instrument_lcp, instrument_euc,
+#             cf_only_rail, cf_only_road}
 #     s    ∈ {s0, s1, s2}
 #     e    ∈ {elow, ehigh}
-#     timing ∈ {86_60, stu, lcp_mst, euc_mst, lcp, euc}
+#     timing ∈ {86_60, stu, lcp_mst, euc_mst, lcp, euc,
+#               only_rail, only_road}
 #
 # NAMING CONVENTION:
 #   logMA_<case>_<s>_<e>
@@ -55,7 +57,8 @@ build_ma_cases_spec <- function() {
     network_specs <- c("actual_1960", "actual_1986",
                        "instrument_stu",
                        "instrument_lcp_mst", "instrument_euc_mst",
-                       "instrument_lcp",     "instrument_euc")
+                       "instrument_lcp",     "instrument_euc",
+                       "cf_only_rail",       "cf_only_road")
     sectors       <- c("s0", "s1", "s2")
     elasticities  <- c("elow", "ehigh")
 
@@ -162,12 +165,14 @@ merge_one_case <- function(panel, case, elas, suffix) {
 # ---------------------------------------------------------------------------
 add_change_vars <- function(panel) {
     timings <- c(
-        "86_60"   = "logMA_actual_1986",
-        "stu"     = "logMA_instrument_stu",
-        "lcp_mst" = "logMA_instrument_lcp_mst",
-        "euc_mst" = "logMA_instrument_euc_mst",
-        "lcp"     = "logMA_instrument_lcp",
-        "euc"     = "logMA_instrument_euc"
+        "86_60"     = "logMA_actual_1986",
+        "stu"       = "logMA_instrument_stu",
+        "lcp_mst"   = "logMA_instrument_lcp_mst",
+        "euc_mst"   = "logMA_instrument_euc_mst",
+        "lcp"       = "logMA_instrument_lcp",
+        "euc"       = "logMA_instrument_euc",
+        "only_rail" = "logMA_cf_only_rail",
+        "only_road" = "logMA_cf_only_road"
     )
     for (s in c("s0", "s1", "s2")) {
         for (e in c("elow", "ehigh")) {
