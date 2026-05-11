@@ -44,6 +44,13 @@ suppressPackageStartupMessages({
     library(modelsummary)
 })
 
+# ---- Main hypo-road instrument ----------------------------------------------
+# The paper's main specification uses the LCP-MST hypothetical network as
+# the hypo-road instrument. Alternatives (euc_mst, lcp, euc) are reported
+# in the robustness table. Change this constant to produce an alternate
+# main-spec table; panel columns for all four variants already exist.
+HYPO_INSTRUMENT <- "chg_logMA_lcp_mst_s0_elow"
+
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
@@ -94,16 +101,16 @@ main <- function() {
 
         # (3) IV-Hypo
         f_iv_h <- as.formula(sprintf(
-            "%s ~ %s | chg_logMA_86_60_s0_elow ~ chg_logMA_lcp_mst_s0_elow",
-            y, geo_controls_expr
+            "%s ~ %s | chg_logMA_86_60_s0_elow ~ %s",
+            y, geo_controls_expr, HYPO_INSTRUMENT
         ))
         m_iv_h <- feols(f_iv_h, data = d, vcov = "hetero")
 
         # (4) IV-Both
         f_iv_b <- as.formula(sprintf(paste(
             "%s ~ %s | chg_logMA_86_60_s0_elow ~",
-            "chg_logMA_stu_s0_elow + chg_logMA_lcp_mst_s0_elow"
-        ), y, geo_controls_expr))
+            "chg_logMA_stu_s0_elow + %s"
+        ), y, geo_controls_expr, HYPO_INSTRUMENT))
         m_iv_b <- feols(f_iv_b, data = d, vcov = "hetero")
 
         all_models[[paste(y, "OLS",   sep = "_")]] <- m_ols
@@ -167,16 +174,13 @@ main <- function() {
 
         # Add first-stage F as a row
         fs <- f_stats[[y]]
-        add_rows <- data.frame(
-            term         = "First-stage $F$",
-            `(1) OLS`    = "---",
-            `(2) IV-LP`  = sprintf("%.1f", fs$lp),
-            `(3) IV-Hypo`= sprintf("%.1f", fs$hypo),
-            `(4) IV-Both`= sprintf("%.1f", fs$both),
-            check.names  = FALSE,
-            stringsAsFactors = FALSE
+        add_rows <- tibble::tibble(
+            ` `           = "First-stage $F$",
+            `(1) OLS`     = "---",
+            `(2) IV-LP`   = sprintf("%.1f", fs$lp),
+            `(3) IV-Hypo` = sprintf("%.1f", fs$hypo),
+            `(4) IV-Both` = sprintf("%.1f", fs$both)
         )
-        names(add_rows)[1] <- " "  # keep the blank first-column label
 
         tbl <- modelsummary(
             models_this,
