@@ -285,6 +285,22 @@ network_periods_instru <- c(
 # Sector codes: 0 = overall, 1 = agricultural, 2 = manufacturing
 network_sectors <- 0:2
 
+# ---- 9b. Main-spec analysis constants -------------------------------------
+#
+# The paper's main specification uses a single hypothetical-road instrument
+# (the LCP minimum spanning tree). Other variants (euc_mst, lcp, euc) appear
+# only in the robustness table. Centralizing the choice here keeps Tables
+# 6, 7, 9 (and any future tables using the hypo instrument) in sync.
+main_hypo_instrument <- "chg_logMA_lcp_mst_s0_elow"
+
+# Baseline MA and pop controls common to Tables 6, 7, 8, 9.
+# Standardized geographic controls + baseline log MA (1960) + log pop (1960).
+geo_controls_main <- c(
+    "elev_mean_std", "rugged_mea_std", "wheat_std",
+    "preCal_std", "postCal_std", "dist_to_BA_std",
+    "logMA_actual_1960_s0_elow", "log_pop_1960"
+)
+
 # ---- 10. Sample parameters ------------------------------------------------
 
 n_districts <- 312L
