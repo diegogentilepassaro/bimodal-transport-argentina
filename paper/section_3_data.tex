@@ -232,19 +232,58 @@ mask (e.g.\ the Paraná river border).
 \paragraph{Cost parameters.}
 Sector-specific cost parameters come from \citet{baumgartnerpalazzo1969}
 Table~II. Three sectors $s \in \{0, 1, 2\}$ correspond to three cargo
-density scenarios (medium, high, low); the mapping to units and values
-is reported in Table~\ref{tab:cost_params} [PLACEHOLDER TABLE].
+density scenarios (medium, high, low); Table~\ref{tab:cost_params}
+summarises the values.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Transport Costs by Mode and Cargo Density
+         (1960 pesos per ton-km)}
+\label{tab:cost_params}
+\begin{tabular}{lccc}
+\toprule
+              & Low density  & Medium density & High density \\
+              & (100 t/day)  & (500 t/day)    & (1{,}000 t/day) \\
+\midrule
+Road          & 8.266        & 1.777          & 1.000 \\
+Railroad      & 13.490       & 1.874          & 0.465 \\
+Navigation    & 0.621        & 0.621          & 0.621 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+{\footnotesize
+\begin{minipage}{0.85\textwidth}
+\emph{Notes}: Ground-transport costs from
+\citet{baumgartnerpalazzo1969}. Navigation costs from
+\citet{larkin1962}. Medium-density costs are used in the main
+analysis (sector $s = 0$); high- and low-density costs (sectors
+$s = 1$ and $s = 2$) are reported in extensions exploring
+sector-specific effects.
+\end{minipage}
+}
+\end{table}
+
 In particular, rail is cheaper than road at high cargo density
-(\texttt{cost\_rail}$_1 = 0.465 < \text{cost\_road}_1 = 1.000$) but more
-expensive at low density
-(\texttt{cost\_rail}$_2 = 13.490 > \text{cost\_road}_2 = 8.266$), which
-is the scale-economies channel that motivates sector-specific analysis.
-The off-network cost $\text{cost}_{\mathrm{land}}$ is $17.9 \times
-\text{cost\_road}_2 / \overline{\mathrm{HMI}}$, where $\overline{\mathrm{HMI}}
-= 0.2018$ is the national mean of the Özak~\citeyearpar{ozak2018} Human
-Mobility Index, giving $\text{cost}_{\mathrm{land}} \approx 733.2$. The
-per-pixel off-network cost scales with the local HMI value and is one
-to two orders of magnitude above on-network cost.
+($\text{cost}_\mathrm{rail}(s{=}1) = 0.465 <
+\text{cost}_\mathrm{road}(s{=}1) = 1.000$) but more expensive at low
+density ($\text{cost}_\mathrm{rail}(s{=}2) = 13.490 >
+\text{cost}_\mathrm{road}(s{=}2) = 8.266$), which is the
+scale-economies channel that motivates sector-specific analysis. At
+medium density, rail and road costs are nearly identical (1.874 vs.\
+1.777), so mode choice matters less for the overall market-access
+index. We therefore use the medium-density scenario as the main
+specification and report the other two as extensions. The
+off-network cost $\text{cost}_{\mathrm{land}}$ is
+$17.9 \times \text{cost}_\mathrm{road}(s{=}2) / \overline{\mathrm{HMI}}$,
+where $\overline{\mathrm{HMI}} = 0.2018$ is the national mean of the
+Özak~\citeyearpar{ozak2018} Human Mobility Index. The factor~17.9 is
+the ratio of motor-vehicle speed to walking-equivalent speed, calibrated
+on a Buenos~Aires--Rosario comparison. This gives
+$\text{cost}_{\mathrm{land}} \approx 733.2$; the per-pixel off-network
+cost scales with the local HMI value and is one to two orders of
+magnitude above on-network cost.
 
 \paragraph{Least-cost path and elasticity.}
 We compute $\tau_{ij,t,s}$ by running Dijkstra's algorithm on an

@@ -1,0 +1,103 @@
+% ===========================================================================
+% Section 4: Empirical Strategy
+%
+% Ported from paper/paper_planned.pdf. The coauthor draft is partially
+% written and partially scaffolded — estimating equation, first-stage
+% equation, and validation-package table plans are final; several
+% subsections contain author-written TODO markers flagging where
+% analysis output is needed before the prose can be written.
+%
+% All coauthor scaffolding is preserved verbatim as LaTeX comments so
+% no TODO is lost in the port. The analysis outputs that unblock the
+% TODOs come from:
+%   - First-stage F-stats: Phase 1/2 analysis (already in panel)
+%   - Pre-period balance: Table 6 script (not yet written)
+%   - Pre-trends: Table 7 script (not yet written)
+%
+% CITATION KEYS introduced:
+%   (none beyond Section 3; equation structure reuses MA formalism)
+% ===========================================================================
+
+\section{Empirical Strategy}
+\label{sec:identification}
+
+\subsection{Estimating Equation}
+
+Our main specification relates changes in district-level outcomes to
+changes in market access:
+\begin{equation}
+\Delta Y_i = \beta \cdot \Delta \ln \mathrm{MA}^{\mathrm{full}}_i
+             + X'_i \gamma + \varepsilon_i,
+\label{eq:main}
+\end{equation}
+where $\Delta Y_i$ is the change in outcome, $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ is the change in log market access, and
+$X_i$ includes baseline log market access, baseline log population, and
+geographic characteristics. The parameter $\beta$ is the elasticity of
+regional outcomes with respect to market access.
+
+\subsection{Endogeneity Concerns}
+
+% [PLACEHOLDER: 1–2 paragraphs on:
+%   (1) Governments may close rail in declining regions (downward
+%       bias).
+%   (2) Roads built where growth expected (upward bias).
+%   (3) Direction of overall bias ambiguous.]
+
+\subsection{Instrumental Variables}
+
+\subsubsection{Instrument 1: Larkin Plan Discontinuity}
+\label{sssec:iv_larkin}
+
+% [PLACEHOLDER: 2 paragraphs on:
+%   (1) LP only "studied" segments below freight threshold.
+%   (2) Studied segments 3× more likely to close.
+%   (3) Instrument construction.
+%   (4) Exclusion restriction.]
+% WRITE: Formalize LP instrument construction.
+
+\subsubsection{Instrument 2: Hypothetical Road Networks}
+\label{sssec:iv_hypo}
+
+% [PLACEHOLDER: 2 paragraphs on:
+%   (1) Least-cost paths connecting major cities.
+%   (2) Euclidean and terrain-based variants.
+%   (3) Predict road expansion, orthogonal to local shocks.
+%   (4) Instrument construction.]
+% WRITE: Formalize hypothetical road instrument.
+
+\subsubsection{First Stage}
+\label{sssec:first_stage}
+
+The first stage regression is:
+\begin{equation}
+\Delta \ln \mathrm{MA}^{\mathrm{full}}_i
+  = \alpha_1 \cdot \Delta \ln \mathrm{MA}^{\mathrm{LP}}_i
+  + \alpha_2 \cdot \Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i
+  + X'_i \delta + u_i.
+\label{eq:first_stage}
+\end{equation}
+
+\subsection{Validation Package}
+
+\paragraph{Table 6 — Pre-Period Balance.}
+% [PLACEHOLDER: Regress baseline characteristics on instruments +
+%  controls. Should show no correlation.]
+% ANALYSIS: Run pre-balance regressions.
+
+\paragraph{Table 7 — Pre-Trends.}
+% [PLACEHOLDER: Dep var: Δln population 1947–1960. Regress on
+%  instruments. Should show no effect.]
+% ANALYSIS: Run pre-trend regressions.
+
+\paragraph{Table 8 — First-Stage Results.}
+% [PLACEHOLDER: Dep var: Δln MA^full. Columns: (1) LP only, (2) Hypo
+%  only, (3) Both. Report F-stat, Hansen J.]
+% CODE: Run first stage with MA specification.
+
+\subsection{Additional Robustness Approaches}
+
+We assess robustness by varying the distance decay parameter
+($\theta$), the set of controls, the sample (excluding major cities,
+border regions), and the time period (1960--1970, 1970--1991).
+Results are reported in Table~\ref{tab:robustness}.

@@ -1,0 +1,135 @@
+% ===========================================================================
+% Section 1: Introduction
+%
+% Ported from paper/paper_planned.pdf (the authoritative coauthor draft).
+% Follows Shapiro's contractual-intro template (see Plan/foursteps.pdf):
+%   ¶1-2 Motivation        ¶3-4 Challenges         ¶5 This paper
+%   ¶6-7 Model/framework   ¶8-9 Data               ¶10-11 Methods
+%   ¶12-13 Findings        ¶14-15 Contributions    ¶16-17 Roadmap
+%
+% PLACEHOLDERS (all authored by coauthors; preserve as-is):
+%   - Paragraph on main findings (pending MA regressions)
+%   - Paragraph on counterfactual findings (pending Block 2)
+%   - Paragraph on mechanisms findings (pending Block 2)
+%   - Numbers in square brackets (pending AutoFill): [10,000], [18,000],
+%     [312]
+% ===========================================================================
+
+\section{Introduction}
+\label{sec:intro}
+
+How do large-scale transport infrastructure changes reshape regional
+economies? While most research examines infrastructure expansions
+designed to promote development, governments often face a different
+challenge: fiscal consolidation that forces difficult choices about
+which infrastructure to maintain. Argentina's experience between 1960
+and 1991 provides a unique window into this question. Facing severe
+fiscal pressure, the government implemented a massive transport
+restructuring: closing [10{,}000] kilometers of railway lines while
+expanding paved roads by [18{,}000] kilometers. This episode offers
+rare evidence on how fiscal consolidation-driven infrastructure
+changes—rather than development-oriented investments—affect regional
+market access and economic outcomes.
+
+This setting is valuable for two reasons. First, it speaks to a
+policy-relevant question: when governments must cut infrastructure
+spending, how do these cuts reshape the economic geography? The
+Argentine plan, motivated by fiscal rationalization rather than
+regional development goals, effectively acted as an unintended
+industrial and regional policy by shifting the dominant transport
+mode from rail to road. Second, it provides an opportunity to estimate
+how regional outcomes respond to market access changes in a multimodal
+infrastructure shock. Unlike typical infrastructure studies that
+examine single-mode expansions, Argentina's bundled rail-road
+restructuring allows us to study elasticities of population and
+sectoral employment to market access changes that integrate both
+transport modes.
+
+Estimating the causal effects of such infrastructure changes faces
+two fundamental challenges. First, infrastructure placement and
+removal decisions are endogenous. Even when motivated by fiscal
+consolidation, governments may close lines in already-declining
+regions or expand roads where growth is expected. This makes it
+difficult to separate the causal effect of market access changes
+from pre-existing economic trends.
+
+Second, when both rail and road networks change simultaneously, their
+effects are difficult to disentangle. The changes are often spatially
+correlated—regions losing rail access may or may not gain road
+access—creating multicollinearity problems if we try to estimate
+mode-specific effects in a single regression. Moreover, the
+theoretical framework suggests that what matters for regional
+outcomes is total market access integrating all transport modes, not
+the separate contribution of each mode. This raises a methodological
+question: what can and cannot be identified about mode-specific
+effects in multimodal infrastructure episodes?
+
+This paper addresses these challenges by studying Argentina's
+transport restructuring through the lens of market access. We
+construct a unified market access index that integrates both rail and
+road networks using a standard spatial economics framework, computing
+generalized transport costs and shortest-path routes on the historical
+networks. Our main analysis estimates how regional outcomes—population,
+sectoral employment, and economic activity—respond to changes in
+total market access induced by the observed infrastructure plan. We
+then use counterfactual market access measures to explore the relative
+roles of rail closures versus road expansion, constructing separate
+scenarios where only rail changes (roads frozen) or only roads change
+(rail frozen).
+
+Our empirical framework follows the market access approach standard
+in spatial economics and trade. We model each district's economic
+outcomes as functions of its market access, defined as the
+population-weighted sum of inverse generalized transport costs to all
+other districts. To address endogeneity, we instrument for observed
+market access changes using two sources of variation. First, we
+exploit the Larkin Plan's technical rules: the World Bank study that
+motivated the reforms only examined railway segments below a specific
+freight threshold for potential closure, creating a discontinuity in
+closure probability. Second, we construct hypothetical road networks
+connecting major cities via least-cost paths, which predict road
+expansion but are orthogonal to local economic shocks.
+
+We construct a novel dataset combining historical transport networks
+with census data at the district level, covering [312] districts
+across Argentina. We validate our identification strategy with
+pre-period balance checks, pre-trend tests, spatial placebo tests,
+and over-identification tests.
+
+% [PLACEHOLDER paragraph on main findings — fill in after running MA
+%  regressions. Expected: MA elasticity ≈ 0.3. Effects on sectoral
+%  composition consistent with differential transport costs across
+%  modes.]
+
+% [PLACEHOLDER paragraph on counterfactual findings — fill in after
+%  computing counterfactual MA. Expected: rail-driven MA changes
+%  account for most effects. Language: "suggestive evidence." Block 2.
+%  If we pursue sector-specific analysis, flag that extension here.]
+
+% [PLACEHOLDER paragraph on mechanisms — fill in after mechanism
+%  regressions. Expected: districts losing stations/depots experienced
+%  larger declines than MA alone predicts. Block 2.]
+
+This paper contributes to several literatures. First, we provide
+causal evidence on the regional effects of infrastructure
+disinvestment driven by fiscal consolidation. The Argentine episode
+involved not just the removal of rail infrastructure but a
+technological shift in the dominant transport mode—from rail to
+road—that effectively acted as an unintentional industrial policy,
+reshaping the country's economic geography. Second, we contribute to
+understanding mode-specific effects in multimodal infrastructure
+episodes, proposing a counterfactual market access approach that
+clarifies what can and cannot be identified. Third, our findings
+speak to contemporary policy debates about modal shifts in transport,
+as many countries face ongoing transitions between rail and road.
+Fourth, we contribute to a longstanding debate in Argentine economic
+history about whether railroad closures caused the decline of
+hinterland towns or merely followed pre-existing trends.
+
+The paper proceeds as follows. Section~\ref{sec:history} provides
+historical context. Section~\ref{sec:data} describes data and market
+access construction. Section~\ref{sec:identification} presents the
+empirical strategy. Section~\ref{sec:results} reports main results.
+Section~\ref{sec:counterfactuals} explores mode-specific patterns.
+Section~\ref{sec:mechanisms} examines mechanisms and heterogeneity.
+Section~\ref{sec:conclusion} concludes.
