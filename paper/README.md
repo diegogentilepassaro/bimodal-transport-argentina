@@ -17,8 +17,10 @@ updated.
 | File | Section | Status |
 |---|---|---|
 | `paper_planned.pdf` | Full planned paper (coauthor draft) | Reference |
+| `section_1_intro.tex` | Section 1 (Introduction) | Ported from PDF |
 | `section_2_history.tex` | Section 2 (Historical Context) | Ported from PDF |
-| `section_3_data.tex` | Section 3 (Data) | First draft |
+| `section_3_data.tex` | Section 3 (Data) | First draft (cost table now in) |
+| `section_4_empirical_strategy.tex` | Section 4 (Empirical Strategy) | Ported (scaffolded) |
 
 ## Writing conventions (Shapiro Robot mode, see `Plan/foursteps.pdf`)
 
@@ -71,6 +73,7 @@ Citation keys used so far:
 
 ## Compilation
 
-Not yet set up. The first compilable target will be when the intro,
-Section 2, Section 3, and Section 4 are all drafted plus
-`references.bib` exists.
+Not yet set up. The master `paper.tex` that wraps these into a full
+document is a pending task. Current sections compile individually
+(they use `\ref{}` for cross-references to sections not yet written,
+so standalone compile produces reference warnings but not errors).
