@@ -46,14 +46,17 @@ suppressPackageStartupMessages({
     library(modelsummary)
 })
 
-# Main hypo-road instrument — matches Table 9. Change here to run sensitivity.
-HYPO_INSTRUMENT <- "chg_logMA_lcp_mst_s0_elow"
+# Main hypo-road instrument — read from config.R (main_hypo_instrument).
+# Kept as a local alias for readability in formulas below.
+HYPO_INSTRUMENT <- NULL  # set in main() after sourcing config
 
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
+
+    HYPO_INSTRUMENT <- main_hypo_instrument
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -214,9 +217,17 @@ main <- function() {
     }
 
     tex_lines <- c(tex_lines,
-        "\\midrule",
+        "\\midrule"
+    )
+    # N is supposed to be the same across all outcomes (they all share the
+    # same estimation sample: baseline log MA + log pop + six geo controls
+    # non-missing). Assert it before emitting a single Observations row,
+    # so silent N disagreement in a future run becomes a loud error.
+    stopifnot(length(unique(df$n_obs)) == 1L)
+    n_common <- df$n_obs[1]
+    tex_lines <- c(tex_lines,
         sprintf("Observations & %d & %d & \\multicolumn{2}{c}{%d} \\\\",
-                df$n_obs[1], df$n_obs[1], df$n_obs[1]),
+                n_common, n_common, n_common),
         "\\bottomrule",
         "\\end{tabular}",
         "",

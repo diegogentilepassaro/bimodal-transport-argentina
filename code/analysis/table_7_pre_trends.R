@@ -45,13 +45,15 @@ suppressPackageStartupMessages({
     library(modelsummary)
 })
 
-HYPO_INSTRUMENT <- "chg_logMA_lcp_mst_s0_elow"
+HYPO_INSTRUMENT <- NULL  # set in main() from config.R (main_hypo_instrument)
 
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
+
+    HYPO_INSTRUMENT <- main_hypo_instrument
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -185,24 +187,24 @@ main <- function() {
     ), out_tex)
     message("Saved: ", out_tex)
 
-    # CSV
+    # CSV — iterate over models directly so the loop doesn't depend on
+    # string-matching column labels to keys.
     csv_rows <- list()
-    for (spec_name in c("OLS", "IV-LP", "IV-Hypo", "IV-Both")) {
-        m <- models[[paste0("(", match(spec_name,
-                                       c("OLS","IV-LP","IV-Hypo","IV-Both")),
-                           ") ", spec_name)]]
-        coef_name <- if (spec_name == "OLS") "chg_logMA_86_60_s0_elow"
+    for (nm in names(models)) {
+        m <- models[[nm]]
+        is_ols <- grepl("OLS", nm, fixed = TRUE)
+        coef_name <- if (is_ols) "chg_logMA_86_60_s0_elow"
                      else "fit_chg_logMA_86_60_s0_elow"
+        spec_label <- sub("^\\(\\d+\\)\\s*", "", nm)  # strip "(1) "
         co <- safe_coef(m, coef_name)
         csv_rows[[length(csv_rows) + 1L]] <- data.frame(
-            spec          = spec_name,
+            spec          = spec_label,
             estimate      = co$est,
             std_err       = co$se,
             t_value       = co$t,
             p_value       = co$p,
             n_obs         = nobs(m),
-            first_stage_F = if (spec_name == "OLS") NA_real_ else
-                            fitstat_F(m),
+            first_stage_F = if (is_ols) NA_real_ else fitstat_F(m),
             stringsAsFactors = FALSE
         )
     }
