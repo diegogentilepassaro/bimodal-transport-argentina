@@ -1,0 +1,19 @@
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+
+========================================================================
+build_estimation_sample.R  |  Table 9 outcomes + controls
+========================================================================
+[est] Loaded panel: 312 rows, 220 cols
+  chg_log_pop_91_60                    N=309  mean=+1.015  sd=0.525
+  chg_log_urbpop_91_60                 N=284  mean=+0.858  sd=0.504
+  chg_log_rur_91_60                    N=272  mean=+1.329  sd=0.911
+  chg_urbshr_91_60                     N=309  mean=-0.043  sd=0.192
+  chg_logMA_86_60_s0_elow              N=312  mean=+1.559  sd=2.483
+  chg_logMA_stu_s0_elow                N=312  mean=-1.240  sd=2.225
+  chg_logMA_lcp_mst_s0_elow            N=312  mean=-0.494  sd=2.479
+  log_pop_1960                         N=309  mean=+9.958  sd=1.115
+  logMA_actual_1960_s0_elow            N=312  mean=-49.031  sd=6.051
+
+[est] Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/06_analysis/estimation_sample.parquet (312 rows, 226 cols)
+[est] Manifest: /Users/diegogp/Desktop/Diego/Trains/new_repo/data/derived/06_analysis/data_file_manifest.log
