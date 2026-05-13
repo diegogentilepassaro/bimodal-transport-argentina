@@ -1,21 +1,15 @@
 # ==============================================================================
-# requirements.txt — Python dependencies for 01_build_rasters.py
+# requirements.txt — Python dependencies
 #
-# PLACEHOLDER: populate with exact pinned versions after testing.
-#   pip freeze > requirements.txt
+# STATUS: Not used.
 #
-# Python version: 3.9+ required
+# This replication package is pure R. All raster operations (cost surfaces,
+# hypothetical networks, counterfactual networks) are implemented in R via
+# terra, raster, and sf. No Python scripts are required to reproduce any
+# paper result. See code/pipeline/01_cost_raster.R and
+# code/pipeline/02_hypothetical_networks.R for the raster-building logic.
+#
+# This file is kept as documentation for the AEA checklist (which expects
+# a requirements.txt alongside any multi-language project) but is
+# intentionally empty.
 # ==============================================================================
-
-# Raster processing
-rasterio==TODO
-numpy==TODO
-fiona==TODO
-shapely==TODO
-pyproj==TODO
-
-# GDAL — version must match system GDAL installation
-GDAL==TODO
-
-# Utility
-scipy==TODO

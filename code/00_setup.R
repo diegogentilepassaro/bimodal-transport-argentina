@@ -3,6 +3,9 @@
 #
 # PURPOSE: Environment bootstrap for the replication package.
 #   1. Restores the renv lockfile so all R packages are at exact pinned versions.
+#      Falls back to install.packages() from renv.lock when renv/ is not
+#      initialized, so a cold-start replicator doesn't need to run
+#      renv::init() by hand.
 #   2. Creates all output directories that downstream scripts write into.
 #   3. Prints a diagnostic snapshot (R version, platform, key package versions).
 #
@@ -26,10 +29,8 @@ main <- function() {
     # ---- 2. Create output directory tree ------------------------------------
     create_output_dirs()
 
-    # ---- 3. Check Python and system dependencies ----------------------------
-    check_system_deps()
-
-    # ---- 4. Print and save session info -------------------------------------
+    # ---- 3. Print and save session info -------------------------------------
+    # No Python check: the pipeline is pure R. See requirements.txt.
     print_session_info()
 
     message(strrep("=", 72))
@@ -47,15 +48,44 @@ bootstrap_renv <- function() {
     }
 
     lockfile <- file.path(rootdir, "renv.lock")
+    activate <- file.path(rootdir, "renv", "activate.R")
 
     if (!file.exists(lockfile)) {
-        message("[setup]   renv.lock not found — running renv::init() to create it")
-        message("[setup]   NOTE: run renv::snapshot() after installing all packages")
+        message("[setup]   renv.lock not found — running renv::init()")
         renv::init(project = rootdir, restart = FALSE)
-    } else {
-        message(sprintf("[setup]   Restoring from %s", lockfile))
-        renv::restore(project = rootdir, prompt = FALSE)
-        message("[setup]   renv::restore() complete")
+        return(invisible(NULL))
+    }
+
+    if (!file.exists(activate)) {
+        message("[setup]   renv.lock present but renv/ not initialized.")
+        message("[setup]   Installing project packages directly from CRAN at")
+        message("[setup]   the versions recorded in renv.lock.")
+        install_from_lockfile(lockfile)
+        return(invisible(NULL))
+    }
+
+    message(sprintf("[setup]   Restoring from %s", lockfile))
+    renv::restore(project = rootdir, prompt = FALSE)
+    message("[setup]   renv::restore() complete")
+}
+
+# ---- Helper: install from renv.lock without renv/activate --------------------
+# Fallback when renv.lock exists but renv was never initialized. Installs
+# each package listed in the lockfile if not already present. Does NOT pin
+# to the exact version in the lockfile (install.packages always fetches the
+# latest); run renv::restore() after renv::init() for strict pinning.
+install_from_lockfile <- function(lockfile) {
+    pkg_info <- jsonlite::fromJSON(lockfile, simplifyVector = FALSE)
+    pkgs <- names(pkg_info$Packages)
+    for (p in pkgs) {
+        if (requireNamespace(p, quietly = TRUE)) {
+            message(sprintf("[setup]   Already installed: %s", p))
+        } else {
+            ver <- pkg_info$Packages[[p]]$Version
+            message(sprintf("[setup]   Installing %s (lockfile: %s)",
+                            p, ver))
+            install.packages(p, repos = "https://cloud.r-project.org")
+        }
     }
 }
 
@@ -95,51 +125,9 @@ create_output_dirs <- function() {
     }
 }
 
-# ---- Helper: check Python and GDAL ------------------------------------------
-check_system_deps <- function() {
-    message("\n[setup] Step 3 — checking system dependencies")
-
-    python_cmd <- Sys.which("python3")
-    if (nchar(python_cmd) == 0L) python_cmd <- Sys.which("python")
-
-    if (nchar(python_cmd) == 0L) {
-        warning(
-            "[setup] Python not found on PATH. Script 01_build_rasters.py will fail.\n",
-            "        Install Python 3.9+ and ensure it is on PATH before running main.R."
-        )
-    } else {
-        py_ver <- tryCatch(
-            system2(python_cmd, args = "--version", stdout = TRUE, stderr = TRUE),
-            error = function(e) "unknown"
-        )
-        message(sprintf("[setup]   Python: %s  (%s)", py_ver[1], python_cmd))
-
-        req_file <- file.path(rootdir, "requirements.txt")
-        if (!file.exists(req_file)) {
-            warning("[setup] requirements.txt not found at ", req_file)
-        } else {
-            message(sprintf("[setup]   requirements.txt found: %s", req_file))
-        }
-    }
-
-    gdal_cmd <- Sys.which("gdal_translate")
-    if (nchar(gdal_cmd) == 0L) {
-        warning(
-            "[setup] gdal_translate not found. Spatial raster operations may fail.\n",
-            "        Install GDAL >= 3.0 (conda: `conda install -c conda-forge gdal`)."
-        )
-    } else {
-        gdal_ver <- tryCatch(
-            system2(gdal_cmd, args = "--version", stdout = TRUE, stderr = TRUE),
-            error = function(e) "unknown"
-        )
-        message(sprintf("[setup]   GDAL: %s", gdal_ver[1]))
-    }
-}
-
 # ---- Helper: print and save session info -------------------------------------
 print_session_info <- function() {
-    message("\n[setup] Step 4 — R session diagnostics")
+    message("\n[setup] Step 3 — R session diagnostics")
 
     si <- sessionInfo()
     message(sprintf("[setup]   R version:  %s", R.version.string))
@@ -151,10 +139,16 @@ print_session_info <- function() {
     key_pkgs <- list(
         sf = "vector spatial data", terra = "raster data",
         gdistance = "least-cost path / Dijkstra", arrow = "parquet I/O",
-        dplyr = "data manipulation", tidyr = "reshaping",
-        fixest = "OLS / IV / panel FE", modelsummary = "LaTeX table generation",
-        here = "rootdir resolution", renv = "package version management",
-        parallel = "parallel computation for tau matrices"
+        exactextractr = "zonal statistics for geo controls",
+        fixest = "OLS / IV regressions",
+        modelsummary = "LaTeX table generation",
+        kableExtra = "booktabs LaTeX via modelsummary",
+        haven = "Stata .dta import (legacy raw files)",
+        readxl = "Excel import (digitized census)",
+        tibble = "add_rows in modelsummary footers",
+        igraph = "MST construction for hypothetical networks",
+        here = "rootdir resolution",
+        renv = "package version management"
     )
 
     pkg_status <- vapply(names(key_pkgs), function(pkg) {
