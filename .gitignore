@@ -41,10 +41,12 @@ data/derived/**
 !data/derived/**/data_file_manifest*.log
 
 # ---- Generated results (re-created by running main.R) ---------------------
-results/tables/**
-!results/tables/.gitkeep
-results/figures/**
-!results/figures/.gitkeep
+# Tables: commit CSV (GitHub-readable) so coauthors can see numbers in-repo.
+# Keep .tex gitignored since they're consumed by paper.tex at compile time.
+results/tables/*.tex
+# Figures: commit PNG (GitHub-previewable) so coauthors can see visuals.
+# Keep .pdf gitignored since they're consumed by paper.tex at compile time.
+results/figures/*.pdf
 results/scalars.tex
 
 # ---- Log files (directory kept via .gitkeep) -------------------------------
@@ -86,10 +88,13 @@ paper/*.aux
 paper/*.log
 paper/*.out
 paper/*.blg
-paper/*.pdf
+paper/*.bbl
 paper/*.synctex.gz
 paper/*.fls
 paper/*.fdb_latexmk
+# Commit the built PDFs (paper.pdf + paper_planned.pdf) so coauthors
+# and reviewers can read the latest draft without running LaTeX.
+# Everything *.pdf else lives outside paper/ and is covered by specific rules.
 
 # ---- Raw data files (large; only readmes and .gitkeep committed) -----------
 data/raw/**/*.xlsx
