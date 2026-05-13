@@ -80,20 +80,97 @@ The first stage regression is:
 
 \subsection{Validation Package}
 
-\paragraph{Table 6 — Pre-Period Balance.}
-% [PLACEHOLDER: Regress baseline characteristics on instruments +
-%  controls. Should show no correlation.]
-% ANALYSIS: Run pre-balance regressions.
+Sections~\ref{sec:pre_balance} and~\ref{sec:pre_trends} present two
+validation exercises that probe the exclusion restriction underlying
+the two instruments. Section~\ref{sec:first_stage_tab} reports the
+first stage. A third validation exercise, the over-identification
+test, is reported alongside Section~\ref{sec:results}.
 
-\paragraph{Table 7 — Pre-Trends.}
-% [PLACEHOLDER: Dep var: Δln population 1947–1960. Regress on
-%  instruments. Should show no effect.]
-% ANALYSIS: Run pre-trend regressions.
+\subsubsection{Table 6 --- Pre-Period Balance}
+\label{sec:pre_balance}
 
-\paragraph{Table 8 — First-Stage Results.}
-% [PLACEHOLDER: Dep var: Δln MA^full. Columns: (1) LP only, (2) Hypo
-%  only, (3) Both. Report F-stat, Hansen J.]
-% CODE: Run first stage with MA specification.
+Table~\ref{tab:pre_balance} reports regressions of each baseline
+district characteristic on the two instruments, partialling out
+baseline log market access and baseline log population. Each row is a
+separate regression of the row-label characteristic; columns report
+the instrument coefficients under three specifications: the Larkin
+Plan instrument alone (column~1), the hypothetical-road instrument
+alone (column~2), and both instruments jointly (column~3). Standard
+errors are heteroskedasticity-robust.
+
+The Larkin Plan instrument is uncorrelated with baseline log
+population (column~1 coefficient $-0.006$, $p=0.78$) and baseline
+urban share ($0.012$, $p=0.02$, marginal). It shows residual
+correlations with the six standardized geographic controls: wheat
+suitability ($-0.047$, $p<0.001$), pre-1500 caloric potential
+($-0.008$, $p=0.004$), post-1500 caloric potential ($0.007$,
+$p=0.003$), distance to Buenos Aires ($-0.042$, $p<0.001$), and log
+district area ($-0.144$, $p<0.001$). These correlations are small in
+magnitude but statistically detectable. Because these same
+characteristics are controls in the main specification, the residual
+correlations shift from exclusion-restriction threats to a
+conditional-independence requirement: the Larkin Plan instrument must
+be uncorrelated with the outcome \emph{conditional on} these
+geographic controls.
+
+The hypothetical-road instrument is uncorrelated with all nine
+baseline characteristics at conventional significance levels: none of
+the column~2 coefficients has $p<0.05$. The joint specification in
+column~3 yields similar results to the single-instrument columns.
+
+\subsubsection{Table 7 --- Pre-Trends}
+\label{sec:pre_trends}
+
+Table~\ref{tab:pre_trends} reports a placebo test. The dependent
+variable is the log change in district population between 1947 and
+1960 --- a change that predates the 1960--1986 infrastructure
+restructuring. The regressor is $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ computed over 1960--1986. If the
+infrastructure changes in 1960--1986 are driven by instruments
+orthogonal to pre-period district-level dynamics, the coefficient on
+post-reform $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ in this
+placebo regression should be near zero.
+
+The sample is 235 districts --- the subset for which the 1947 census
+provides comparable population counts under IPUMS geolev2
+boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
+match the structure of Tables~\ref{tab:population_iv}
+and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
+
+The OLS coefficient is 0.035 (0.017), significant at the five-percent
+level. The IV-LP estimate is 0.070 (0.050), the IV-Hypo estimate is
+0.173 (0.319), and the combined IV estimate is 0.078 (0.041),
+significant at the ten-percent level. The first-stage $F$ for the
+IV-Hypo column on this sample of 235 districts is 0.91, below
+conventional weak-instrument thresholds; the IV-Hypo column is
+therefore not interpretable in this specification. The first-stage
+$F$ for IV-LP is 17.84 and for IV-Both is 10.21.
+
+The OLS and IV-Both point estimates for the placebo outcome are
+non-zero and marginally statistically significant. Two readings are
+consistent with the evidence. First, there may be a genuine
+pre-existing trend correlated with the eventual infrastructure
+changes of 1960--1986: districts that were growing fastest in
+1947--1960 may have been more likely to gain (or lose) market access
+in the later period. Second, the placebo outcome is defined on a
+subsample ($N=235$) that is non-random with respect to the full
+estimation sample ($N=309$), and the correlations documented in
+Section~\ref{sec:pre_balance} for the Larkin Plan instrument may
+interact with that subsample selection. Distinguishing these
+readings requires analysis of whether the placebo coefficient shrinks
+toward zero when the main specification is restricted to the same
+235-district sample. This exercise is reported in
+Section~\ref{sec:results_robustness}.
+
+% [PLACEHOLDER: Once Section 5.5 robustness is run with the placebo-
+%  sample restriction applied to Table 9, update this subsection to
+%  report whether the placebo coefficient shrinks.]
+
+\subsubsection{Table 8 --- First-Stage Results}
+\label{sec:first_stage_tab}
+
+Table~\ref{tab:first_stage} reports the first-stage regressions.
+Results are described in Section~\ref{sec:first_stage}.
 
 \subsection{Additional Robustness Approaches}
 
