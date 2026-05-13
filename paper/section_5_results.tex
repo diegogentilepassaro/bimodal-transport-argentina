@@ -1,0 +1,180 @@
+% ===========================================================================
+% Section 5: Main Results
+%
+% Robot-mode (Shapiro Step 3): state facts, do not argue; define concepts
+% before use; no forward references to undefined constructs; plain precise
+% language.
+%
+% Subsections drafted here (anchored by Tables 8, 9, 10):
+%   5.1 First Stage
+%   5.2 Population Effects
+%   5.3 Sectoral Activity (renamed from "Employment and Sectoral Effects"
+%       per PR #49 -- the paper-skeleton employment outcomes could not
+%       be implemented; the industrial and agricultural census activity
+%       outcomes are used instead. See table_10_sectoral.R header.)
+%
+% Subsections deferred (need more analysis before drafting):
+%   5.4 Other Outcomes   (pending Table 11: education, migration,
+%                        employment status)
+%   5.5 Robustness       (pending Table 12: alternative theta, alternative
+%                        hypo instruments, subsample stability)
+%
+% Numbers inline for now; moved to scalars.tex AutoFill macros once the
+% analysis pipeline stabilizes.
+%
+% CITATION KEYS: none new beyond Sections 1-4.
+% ===========================================================================
+
+\section{Main Results}
+\label{sec:results}
+
+\subsection{First Stage}
+\label{sec:first_stage}
+
+Table~\ref{tab:first_stage} reports the first-stage regressions
+corresponding to equation~\eqref{eq:first_stage}. Column~(1) uses only
+the Larkin Plan instrument $\Delta \ln \mathrm{MA}^{\mathrm{LP}}_i$,
+column~(2) uses only the hypothetical-road instrument
+$\Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i$, and column~(3) uses both
+jointly. All columns include baseline log market access, baseline log
+population, and the six standardized geographic controls. Standard
+errors are heteroskedasticity-robust.
+
+The Larkin Plan instrument has a coefficient of 0.240 with a robust
+standard error of 0.054 in column~(1). The corresponding first-stage
+$F$ statistic is 19.97. The hypothetical-road instrument has a
+coefficient of 0.123 (0.069) in column~(2), with a first-stage $F$ of
+3.14. In the joint specification in column~(3), both instruments
+retain predictive power: the Larkin Plan coefficient is 0.254 (0.055)
+and the hypothetical-road coefficient is 0.146 (0.063); the joint $F$
+is 13.05.
+
+The Larkin Plan instrument alone exceeds the Stock--Yogo rule-of-thumb
+threshold of 10. The hypothetical-road instrument alone does not. The
+joint specification exceeds the threshold and is adopted as the main
+specification throughout this section. The hypothetical-road-only
+column is reported so that the two sources of variation can be
+inspected separately.
+
+\subsection{Population Effects}
+\label{sec:population}
+
+Table~\ref{tab:population_iv} reports estimates of equation~\eqref{eq:main}
+for four population outcomes: the log change in total population, in
+urban population, and in rural population between 1960 and 1991, and
+the level change in the urban share over the same period. Each
+outcome panel reports four columns: OLS in column~(1), instrumental
+variables using the Larkin Plan instrument in column~(2), the
+hypothetical-road instrument in column~(3), and both instruments in
+column~(4).
+
+For total population (Panel~A), the OLS coefficient on $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ is 0.022 (0.012), significant at the
+ten-percent level. The IV-LP estimate is 0.042 (0.042), the IV-Hypo
+estimate is 0.059 (0.082), and the combined IV estimate is 0.046
+(0.033). The sample is 309 districts.
+
+For urban population (Panel~B), the OLS coefficient is 0.030 (0.013),
+significant at the five-percent level. The IV-LP estimate is 0.062
+(0.046), the IV-Hypo estimate is 0.049 (0.129), and the combined IV
+estimate is 0.060 (0.040). The sample is 284 districts, reflecting
+districts with positive urban population in both census years.
+
+For rural population (Panel~C), the OLS coefficient is 0.031 (0.025).
+The IV-LP estimate is 0.107 (0.108), the IV-Hypo estimate is 0.119
+(0.165), and the combined IV estimate is 0.111 (0.087). The sample is
+272 districts.
+
+For the urban share (Panel~D), all four estimates are close to zero
+and statistically indistinguishable from zero (OLS: 0.004 (0.005);
+IV-Both: 0.002 (0.017)). A one-unit increase in $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a change in the urban
+share of less than one percentage point.
+
+Across the three log-change outcomes, the IV point estimates exceed
+the OLS estimates by a factor of approximately two to four. This
+pattern is consistent with a downward bias in OLS that would arise if
+infrastructure changes were concentrated in districts with declining
+pre-period trends; the direction of bias was a possibility raised in
+Section~\ref{sec:identification}. The standard errors on the IV
+estimates are large enough that individual point estimates are not
+statistically distinguishable from zero at conventional levels. The
+IV-Both column reports the narrowest confidence intervals among the
+three IV columns.
+
+% [PLACEHOLDER: A1 (OLS vs IV bias direction) — 1-2 paragraphs on the
+%  direction and interpretation of the OLS-IV gap. Deferred until the
+%  robustness in Section 5.5 is run.]
+
+\subsection{Sectoral Activity}
+\label{sec:sectoral}
+
+Table~\ref{tab:sectoral_iv} reports estimates of
+equation~\eqref{eq:main} for five sectoral outcomes drawn from the
+industrial and agricultural censuses. Panel~A covers three
+manufacturing outcomes from the 1954 and 1985 industrial censuses:
+the log change in the number of establishments, in the value of
+production, and in the total wage mass. Panel~B covers two
+agricultural outcomes from the 1960 and 1988 agricultural censuses:
+the log change in the number of farms and in the total farmed area.
+Column structure matches Table~\ref{tab:population_iv}.
+
+For manufacturing establishments, the OLS estimate is 0.025 (0.017)
+and the combined IV estimate is 0.055 (0.061). Neither is
+statistically distinguishable from zero.
+
+For manufacturing production value, the OLS estimate is 0.060
+(0.037). The IV-LP estimate is 0.239 (0.138), significant at the
+ten-percent level. The combined IV estimate is 0.259 (0.119),
+significant at the five-percent level. The sample is 308 districts.
+
+For manufacturing wage mass, the OLS estimate is 0.092 (0.035),
+significant at the one-percent level. The IV-LP estimate is 0.258
+(0.146), significant at the ten-percent level. The combined IV
+estimate is 0.330 (0.126), significant at the one-percent level.
+The sample is 307 districts.
+
+For the number of agricultural farms (Panel~B), the OLS estimate is
+$-0.011$ (0.012). The combined IV estimate is 0.095 (0.079).
+Neither is statistically distinguishable from zero.
+
+For total agricultural farmed area, the OLS estimate is $-0.001$
+(0.018). The combined IV estimate is 0.104 (0.078). Neither is
+statistically distinguishable from zero.
+
+The estimates differ substantially across the two panels. The
+manufacturing outcomes related to activity intensity --- production
+value and wage mass --- respond strongly and positively to
+$\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$: combined-IV point estimates
+are 0.259 and 0.330, respectively. The number of manufacturing
+establishments does not respond detectably. The agricultural
+outcomes show point estimates close to zero with wide confidence
+intervals. Section~\ref{sec:mechanisms} returns to the question of
+whether this pattern is consistent with the scale-economies
+hypothesis introduced in Section~\ref{sec:history}.
+
+% [PLACEHOLDER: A2 (sectoral patterns and scale economies) — 2 paragraphs
+%  connecting these empirical patterns to the Baumgartner-Palazzo cost
+%  differences. Deferred until Section 7 interpretation is drafted,
+%  because the scale-economies argument has to be articulated once,
+%  consistently, across Sections 5, 6, and 7.]
+
+% [PLACEHOLDER: Note on the OLS--IV gap for manufacturing wage mass.
+%  The gap is large (0.092 OLS vs 0.330 IV-Both, a factor of 3.6).
+%  One sentence on why: consistent with the downward-OLS-bias argument
+%  from Section 5.2; specific to wage mass, possibly because wage
+%  levels were rising in declining districts as worker composition
+%  changed. Discuss with Cote before drafting.]
+
+\subsection{Other Outcomes}
+\label{sec:other_outcomes}
+
+% [PLACEHOLDER: Section 5.4 pending. Depends on Table 11 (education,
+%  migration, employment status from IPUMS). Draft after Table 11 runs.]
+
+\subsection{Robustness}
+\label{sec:results_robustness}
+
+% [PLACEHOLDER: Section 5.5 pending. Depends on Table 12 (alternative
+%  theta = 8.11, alternative hypo instruments, subsample stability).
+%  Draft after Table 12 runs.]
