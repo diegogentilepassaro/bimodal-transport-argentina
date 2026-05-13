@@ -43,14 +43,15 @@ main <- function() {
         file.path(dir_derived_analysis, "estimation_sample.parquet")
     )
 
-    # Controls (all present in the panel)
-    geo_controls_expr <- paste(c(
-        "elev_mean_std", "rugged_mea_std", "wheat_std",
-        "preCal_std", "postCal_std", "dist_to_BA_std",
-        "logMA_actual_1960_s0_elow", "log_pop_1960"
-    ), collapse = " + ")
+    # Controls — read from config.R (geo_controls_main)
+    geo_controls_expr <- paste(geo_controls_main, collapse = " + ")
 
     # --- Three specifications --------------------------------------------
+    # Hypo instrument is Table 8's role: document strength of each of the
+    # alternative hypo instruments (main spec = lcp_mst; robustness table
+    # reports euc_mst, lcp, euc). Kept hardcoded to lcp_mst here to
+    # mirror the main-spec choice while signaling to the reader that the
+    # variants lcp / euc_mst / euc would sit in the robustness table.
     f1 <- as.formula(sprintf(
         "chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow + %s",
         geo_controls_expr

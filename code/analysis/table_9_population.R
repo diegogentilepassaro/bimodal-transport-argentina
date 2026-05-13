@@ -46,14 +46,14 @@ suppressPackageStartupMessages({
 
 # ---- Main hypo-road instrument ----------------------------------------------
 # The paper's main specification uses the LCP-MST hypothetical network as
-# the hypo-road instrument. Alternatives (euc_mst, lcp, euc) are reported
-# in the robustness table. Change this constant to produce an alternate
-# main-spec table; panel columns for all four variants already exist.
-HYPO_INSTRUMENT <- "chg_logMA_lcp_mst_s0_elow"
+# the hypo-road instrument, sourced from config.R (main_hypo_instrument).
+# Alternatives (euc_mst, lcp, euc) are reported in the robustness table.
+# The panel already contains columns for all four variants.
 
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -76,53 +76,27 @@ main <- function() {
              label = "$\\Delta (\\mathrm{Urban\\ share})$")
     )
 
-    geo_controls_expr <- paste(c(
-        "elev_mean_std", "rugged_mea_std", "wheat_std",
-        "preCal_std", "postCal_std", "dist_to_BA_std",
-        "logMA_actual_1960_s0_elow", "log_pop_1960"
-    ), collapse = " + ")
-
     # Build 16 model fits (4 outcomes × 4 specifications)
     all_models <- list()
     f_stats    <- list()
     for (out in outcomes) {
         y <- out$var
-        # (1) OLS
-        f_ols <- as.formula(sprintf("%s ~ chg_logMA_86_60_s0_elow + %s",
-                                    y, geo_controls_expr))
-        m_ols <- feols(f_ols, data = d, vcov = "hetero")
-
-        # (2) IV-LP
-        f_iv_lp <- as.formula(sprintf(
-            "%s ~ %s | chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow",
-            y, geo_controls_expr
-        ))
-        m_iv_lp <- feols(f_iv_lp, data = d, vcov = "hetero")
-
-        # (3) IV-Hypo
-        f_iv_h <- as.formula(sprintf(
-            "%s ~ %s | chg_logMA_86_60_s0_elow ~ %s",
-            y, geo_controls_expr, HYPO_INSTRUMENT
-        ))
-        m_iv_h <- feols(f_iv_h, data = d, vcov = "hetero")
-
-        # (4) IV-Both
-        f_iv_b <- as.formula(sprintf(paste(
-            "%s ~ %s | chg_logMA_86_60_s0_elow ~",
-            "chg_logMA_stu_s0_elow + %s"
-        ), y, geo_controls_expr, HYPO_INSTRUMENT))
-        m_iv_b <- feols(f_iv_b, data = d, vcov = "hetero")
-
-        all_models[[paste(y, "OLS",   sep = "_")]] <- m_ols
-        all_models[[paste(y, "IV-LP", sep = "_")]] <- m_iv_lp
-        all_models[[paste(y, "IV-H",  sep = "_")]] <- m_iv_h
-        all_models[[paste(y, "IV-B",  sep = "_")]] <- m_iv_b
+        fits <- fit_iv_quad(
+            y = y, data = d,
+            endog = "chg_logMA_86_60_s0_elow",
+            lp_instr = "chg_logMA_stu_s0_elow",
+            hypo_instr = main_hypo_instrument,
+            ctrls_vec = geo_controls_main
+        )
+        for (spec in names(fits)) {
+            all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
+        }
 
         # Pull out IV first-stage F for reporting
         f_stats[[y]] <- list(
-            lp   = fitstat_first_F(m_iv_lp),
-            hypo = fitstat_first_F(m_iv_h),
-            both = fitstat_first_F(m_iv_b)
+            lp   = fitstat_F(fits[["IV-LP"]]),
+            hypo = fitstat_F(fits[["IV-H"]]),
+            both = fitstat_F(fits[["IV-B"]])
         )
     }
 
@@ -239,7 +213,7 @@ main <- function() {
                 first_stage_F = ifelse(
                     spec == "OLS",
                     NA_real_,
-                    fitstat_first_F(m)
+                    fitstat_F(m)
                 )
             )
         }
@@ -251,22 +225,8 @@ main <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Helpers
+# Helpers (table-local: console-print format differs from shared safe_coef)
 # ---------------------------------------------------------------------------
-fitstat_first_F <- function(iv_model) {
-    # Extract first-stage F via fitstat(); format depends on fixest
-    # version, so be defensive.
-    fs <- fitstat(iv_model, type = "ivf")
-    if (is.list(fs) && !is.null(fs[[1]]$stat)) {
-        return(as.numeric(fs[[1]]$stat))
-    }
-    fs_simp <- fitstat(iv_model, type = "ivf", simplify = TRUE)
-    if (is.list(fs_simp) && !is.null(fs_simp$stat)) {
-        return(as.numeric(fs_simp$stat))
-    }
-    NA_real_
-}
-
 get_ma_coef <- function(m, coef_name) {
     co <- summary(m)$coeftable
     if (!(coef_name %in% rownames(co))) return(c(NA_real_, NA_real_))

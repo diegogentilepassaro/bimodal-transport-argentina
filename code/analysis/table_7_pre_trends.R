@@ -45,15 +45,12 @@ suppressPackageStartupMessages({
     library(modelsummary)
 })
 
-HYPO_INSTRUMENT <- NULL  # set in main() from config.R (main_hypo_instrument)
-
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
-
-    HYPO_INSTRUMENT <- main_hypo_instrument
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -62,37 +59,17 @@ main <- function() {
     )
 
     y <- "chg_log_placebo_pop_60_47"
-    geo_controls_expr <- paste(c(
-        "elev_mean_std", "rugged_mea_std", "wheat_std",
-        "preCal_std", "postCal_std", "dist_to_BA_std",
-        "logMA_actual_1960_s0_elow", "log_pop_1960"
-    ), collapse = " + ")
-
-    # (1) OLS
-    f_ols <- as.formula(sprintf("%s ~ chg_logMA_86_60_s0_elow + %s",
-                                y, geo_controls_expr))
-    m_ols <- feols(f_ols, data = d, vcov = "hetero")
-
-    # (2) IV-LP
-    f_iv_lp <- as.formula(sprintf(
-        "%s ~ %s | chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow",
-        y, geo_controls_expr
-    ))
-    m_iv_lp <- feols(f_iv_lp, data = d, vcov = "hetero")
-
-    # (3) IV-Hypo
-    f_iv_h <- as.formula(sprintf(
-        "%s ~ %s | chg_logMA_86_60_s0_elow ~ %s",
-        y, geo_controls_expr, HYPO_INSTRUMENT
-    ))
-    m_iv_h <- feols(f_iv_h, data = d, vcov = "hetero")
-
-    # (4) IV-Both
-    f_iv_b <- as.formula(sprintf(paste(
-        "%s ~ %s | chg_logMA_86_60_s0_elow ~",
-        "chg_logMA_stu_s0_elow + %s"
-    ), y, geo_controls_expr, HYPO_INSTRUMENT))
-    m_iv_b <- feols(f_iv_b, data = d, vcov = "hetero")
+    fits <- fit_iv_quad(
+        y = y, data = d,
+        endog = "chg_logMA_86_60_s0_elow",
+        lp_instr = "chg_logMA_stu_s0_elow",
+        hypo_instr = main_hypo_instrument,
+        ctrls_vec = geo_controls_main
+    )
+    m_ols   <- fits[["OLS"]]
+    m_iv_lp <- fits[["IV-LP"]]
+    m_iv_h  <- fits[["IV-H"]]
+    m_iv_b  <- fits[["IV-B"]]
 
     # First-stage F-stats per IV spec
     fs_lp <- fitstat_F(m_iv_lp)
@@ -215,28 +192,8 @@ main <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Helpers
+# Helpers (table-local: console-print formatter)
 # ---------------------------------------------------------------------------
-fitstat_F <- function(iv_model) {
-    fs <- fitstat(iv_model, type = "ivf")
-    if (is.list(fs) && !is.null(fs[[1]]$stat)) {
-        return(as.numeric(fs[[1]]$stat))
-    }
-    fs2 <- fitstat(iv_model, type = "ivf", simplify = TRUE)
-    if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
-    NA_real_
-}
-
-safe_coef <- function(model, cname) {
-    co <- summary(model)$coeftable
-    if (!(cname %in% rownames(co))) {
-        return(list(est = NA_real_, se = NA_real_,
-                    t = NA_real_, p = NA_real_))
-    }
-    list(est = co[cname, 1], se = co[cname, 2],
-         t = co[cname, 3], p = co[cname, 4])
-}
-
 format_co <- function(co) {
     if (is.na(co$est)) return("NA")
     stars <- ifelse(co$p < 0.01, "***",
