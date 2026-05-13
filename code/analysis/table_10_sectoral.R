@@ -76,19 +76,24 @@ main <- function() {
     outcomes <- list(
         list(var = "chg_log_nestab_85_54",
              label = "Mfg.\\ establishments",
-             panel = "A. Manufacturing (industrial census 1954-1985)"),
+             panel = "A",
+             panel_title = "A. Manufacturing (industrial census 1954-1985)"),
         list(var = "chg_log_valprod_85_54",
              label = "Mfg.\\ production value",
-             panel = "A. Manufacturing (industrial census 1954-1985)"),
+             panel = "A",
+             panel_title = "A. Manufacturing (industrial census 1954-1985)"),
         list(var = "chg_log_massal_85_54",
              label = "Mfg.\\ wage mass",
-             panel = "A. Manufacturing (industrial census 1954-1985)"),
+             panel = "A",
+             panel_title = "A. Manufacturing (industrial census 1954-1985)"),
         list(var = "chg_log_nexp_88_60",
              label = "Ag.\\ farms",
-             panel = "B. Agriculture (agricultural census 1960-1988)"),
+             panel = "B",
+             panel_title = "B. Agriculture (agricultural census 1960-1988)"),
         list(var = "chg_log_areatot_ha_88_60",
              label = "Ag.\\ farmed area",
-             panel = "B. Agriculture (agricultural census 1960-1988)")
+             panel = "B",
+             panel_title = "B. Agriculture (agricultural census 1960-1988)")
     )
 
     # Build and fit 5 × 4 = 20 models
@@ -183,7 +188,7 @@ main <- function() {
             stars    = c("*" = .1, "**" = .05, "***" = .01),
             escape   = FALSE,
             add_rows = add_rows,
-            title    = sprintf("%s. Outcome: %s", out$panel, out$label)
+            title    = sprintf("%s. Outcome: %s", out$panel_title, out$label)
         )
         tex_chunks <- c(tex_chunks, as.character(tbl), "", "\\bigskip", "")
     }
@@ -218,7 +223,7 @@ main <- function() {
                          else "fit_chg_logMA_86_60_s0_elow"
             co <- safe_coef(m, coef_name)
             csv_rows[[length(csv_rows) + 1L]] <- data.frame(
-                panel    = substr(out$panel, 1, 1),  # "A" or "B"
+                panel    = out$panel,
                 outcome  = y,
                 spec     = spec,
                 estimate = co$est,
