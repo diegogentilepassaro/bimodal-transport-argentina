@@ -43,12 +43,8 @@ main <- function() {
         file.path(dir_derived_analysis, "estimation_sample.parquet")
     )
 
-    # Controls (all present in the panel)
-    geo_controls_expr <- paste(c(
-        "elev_mean_std", "rugged_mea_std", "wheat_std",
-        "preCal_std", "postCal_std", "dist_to_BA_std",
-        "logMA_actual_1960_s0_elow", "log_pop_1960"
-    ), collapse = " + ")
+    # Controls — read from config.R (geo_controls_main)
+    geo_controls_expr <- paste(geo_controls_main, collapse = " + ")
 
     # --- Three specifications --------------------------------------------
     f1 <- as.formula(sprintf(
