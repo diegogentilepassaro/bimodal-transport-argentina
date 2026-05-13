@@ -3,254 +3,328 @@
 #
 # PURPOSE: Master controller for the full replication pipeline. Sources every
 #          script in sequence, from environment bootstrap through final tables
-#          and figures. Running this file end-to-end (via R CMD BATCH) is the
-#          single required step to reproduce all results from raw data.
+#          and figures. Running this file end-to-end is the single required
+#          step to reproduce all results from raw data.
 #
 # USAGE:
 #   From a terminal at the repo root:
 #     R CMD BATCH --no-save --no-restore code/main.R logs/main.Rout
-#   Or interactively in RStudio (for development):
+#   Or interactively:
 #     source("code/main.R")
 #
-# READS:   code/config.R, code/00_setup.R, code/01–07_*.R
+# STAGES:
+#   Stage A. Bootstrap    — load config, restore renv
+#   Stage B. Base cleaning — one script per raw data source
+#   Stage C. Pipeline      — cost rasters → taus → MA → panel
+#   Stage D. Analysis      — estimation sample → tables and figures
+#
 # PRODUCES:
-#   logs/main.Rout             — full console log (via R CMD BATCH)
-#   logs/makelog.log           — timestamped build log written by this script
-#   results/tables/*.tex       — LaTeX table fragments
-#   results/figures/*.pdf      — figures
-#   results/scalars.tex        — in-text numbers via AutoFill pattern
+#   logs/main.Rout           — console log (via R CMD BATCH)
+#   logs/makelog.log         — timestamped per-step build log
+#   data/derived/**          — all intermediate datasets
+#   results/tables/*.{tex,csv} — LaTeX table fragments + CSV summaries
+#   results/figures/*.{pdf,png} — figures
+#
+# DESIGN:
+#   Each step is wrapped in `run_step()` which logs START/END timestamps,
+#   sources the script, and logs elapsed wall time. If a script errors,
+#   the error propagates and main.R halts with the stack trace in the log.
+#
+#   verify_outputs() checks expected files exist after each step and stops
+#   with a clear error if anything is missing.
 # ==============================================================================
 
-# ---- 0. Bootstrap: here guard then config and renv -------------------------
+# ---- Stage A. Bootstrap -----------------------------------------------------
 if (!requireNamespace("here", quietly = TRUE)) {
-    stop(
-        "[main.R] The 'here' package is not installed.\n",
-        "         Install it once with: install.packages('here')\n",
-        "         Then re-run: R CMD BATCH --no-save --no-restore code/main.R"
-    )
+    stop("[main.R] The 'here' package is not installed.\n",
+         "         Install it once with: install.packages('here')")
 }
 
 source(file.path(here::here(), "code", "config.R"), echo = FALSE)
-source(file.path(dir_code, "00_setup.R"),            echo = TRUE)
+source(file.path(dir_code, "00_setup.R"), echo = TRUE)
 
 # ==============================================================================
-# LOW-LEVEL HELPERS
+# LOGGING HELPERS
 # ==============================================================================
 
 log_step <- function(status, step_id, description, logfile) {
     ts  <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
     sep <- strrep("-", 72)
     msg <- sprintf("[%s]  %s  |  %s  |  %s", ts, status, step_id, description)
-    cat(sep,  "\n", file = logfile, append = TRUE)
-    cat(msg,  "\n", file = logfile, append = TRUE)
-    message(sep)
-    message(msg)
+    cat(sep, "\n", msg, "\n", file = logfile, append = TRUE)
+    message(sep); message(msg)
 }
 
-run_r_step <- function(step_id, script, description, logfile) {
-    log_step("START", step_id, description, logfile)
+run_step <- function(step_id, script, description, makelog) {
+    log_step("START", step_id, description, makelog)
     t_start <- proc.time()
     source(script, echo = TRUE)
     elapsed <- round((proc.time() - t_start)[["elapsed"]])
-    log_step(sprintf("END [%ds]", elapsed), step_id, description, logfile)
+    log_step(sprintf("END [%ds]", elapsed), step_id, description, makelog)
     invisible(elapsed)
 }
 
-run_py_step <- function(step_id, script, description, logfile, py_logfile) {
-    log_step("START", step_id, description, logfile)
-    t_start <- proc.time()
-
-    python_exe <- Sys.which("python3")
-    if (nchar(python_exe) == 0L) python_exe <- Sys.which("python")
-    if (nchar(python_exe) == 0L) {
-        stop("[main.R] Python executable not found on PATH.")
-    }
-
-    env_vars <- c(
-        sprintf("ROOTDIR=%s",   rootdir),
-        sprintf("PATH=%s",      Sys.getenv("PATH")),
-        sprintf("GDAL_DATA=%s", Sys.getenv("GDAL_DATA"))
-    )
-
-    exit_code <- system2(
-        command = python_exe,
-        args    = shQuote(script),
-        stdout  = py_logfile,
-        stderr  = py_logfile,
-        wait    = TRUE,
-        env     = env_vars
-    )
-
-    elapsed <- round((proc.time() - t_start)[["elapsed"]])
-    cat(sprintf("  Python log: %s\n", py_logfile), file = logfile, append = TRUE)
-
-    if (exit_code != 0L) {
-        py_tail <- tryCatch(
-            tail(readLines(py_logfile, warn = FALSE), 30L),
-            error = function(e) character(0)
-        )
-        stop(
-            sprintf("[main.R] %s failed with exit code %d.\n",
-                    basename(script), exit_code),
-            "Last lines of Python log:\n",
-            paste(py_tail, collapse = "\n")
-        )
-    }
-
-    log_step(sprintf("END [%ds]", elapsed), step_id, description, logfile)
-    invisible(elapsed)
-}
-
-verify_outputs <- function(step_id, files, logfile) {
+verify_outputs <- function(step_id, files, makelog) {
     missing <- files[!file.exists(files)]
     if (length(missing) > 0L) {
         msg <- sprintf(
             "[main.R] Step %s: %d expected output(s) missing:\n%s",
             step_id, length(missing),
-            paste(" -", missing, collapse = "\n")
-        )
-        cat(msg, "\n", file = logfile, append = TRUE)
+            paste(" -", missing, collapse = "\n"))
+        cat(msg, "\n", file = makelog, append = TRUE)
         stop(msg)
     }
     cat(sprintf("  [verify] All %d expected outputs present.\n", length(files)),
-        file = logfile, append = TRUE)
-    message(sprintf("[main.R] verify_outputs: %d/%d present for %s.",
-                    length(files), length(files), step_id))
+        file = makelog, append = TRUE)
 }
 
-log_output_inventory <- function(logfile) {
-    cat(sprintf("\n%s\nOUTPUT FILE INVENTORY  (%s)\n%s\n",
-                strrep("-", 72),
-                format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
-                strrep("-", 72)),
-        file = logfile, append = TRUE)
-
+log_output_inventory <- function(makelog) {
+    cat(strrep("-", 72), "\nOUTPUT INVENTORY (",
+        format(Sys.time(), "%Y-%m-%d %H:%M:%S"), ")\n",
+        strrep("-", 72), "\n",
+        file = makelog, append = TRUE, sep = "")
     result_files <- list.files(dir_results, recursive = TRUE, full.names = TRUE)
-
     if (length(result_files) == 0L) {
-        cat("  (no files in results/)\n", file = logfile, append = TRUE)
+        cat("  (no files in results/)\n", file = makelog, append = TRUE)
         return(invisible(NULL))
     }
-
     for (f in sort(result_files)) {
         info <- file.info(f)
         cat(sprintf("  %-65s  %8.1f KB  %s\n",
                     sub(rootdir, "", f, fixed = TRUE),
                     info$size / 1024,
                     format(info$mtime, "%Y-%m-%d %H:%M")),
-            file = logfile, append = TRUE)
+            file = makelog, append = TRUE)
     }
 }
 
 # ==============================================================================
-# PIPELINE STEP FUNCTIONS
-# Each step function encapsulates one numbered script: it declares expected
-# outputs, calls run_r_step / run_py_step, then calls verify_outputs.
+# STAGE B. BASE CLEANING
+# One script per raw data source. Each produces data/derived/base/<source>/*.
 # ==============================================================================
 
-step_01_rasters <- function(makelog) {
-    expected <- unlist(lapply(network_periods_main, function(p)
-        lapply(network_sectors, function(s)
-            file.path(dir_derived_rasters,
-                      sprintf("ucost_%s_%d.tif", p, s)))))
+stage_b_base <- function(makelog) {
+    b <- function(subdir, fname) file.path(dir_code, "base", subdir, fname)
 
-    run_py_step(
-        step_id     = "01_build_rasters",
-        script      = file.path(dir_code, "01_build_rasters.py"),
-        description = "Build cost rasters from network shapefiles (Python/rasterio)",
-        logfile     = makelog,
-        py_logfile  = file.path(dir_logs, "01_build_rasters.log")
-    )
-    verify_outputs("01_build_rasters", expected, makelog)
+    run_step("B.1  geo_controls",
+             b("geo_controls", "clean_geo_controls.R"),
+             "Geographic controls (elevation, ruggedness, wheat, caloric, etc.)",
+             makelog)
+    verify_outputs("B.1",
+        file.path(dir_derived_geo, "geo_controls.parquet"), makelog)
+
+    run_step("B.2  census_1947",
+             b("census_1947", "clean_census_1947.R"),
+             "Digitized 1947 census (placebo population)", makelog)
+    verify_outputs("B.2",
+        file.path(dir_derived_census1947, "census_1947.parquet"), makelog)
+
+    run_step("B.3  census_1960",
+             b("census_1960", "clean_census_1960.R"),
+             "Digitized 1960 census (baseline population, urban share)",
+             makelog)
+    verify_outputs("B.3",
+        file.path(dir_derived_census1960, "census_1960.parquet"), makelog)
+
+    run_step("B.4  ipums",
+             b("ipums", "clean_ipums.R"),
+             "IPUMS 1970-2010 microdata aggregated to district-year", makelog)
+    verify_outputs("B.4",
+        file.path(dir_derived_ipums, "ipums_panel.parquet"), makelog)
+
+    run_step("B.5  industrial",
+             b("industrial", "clean_industrial.R"),
+             "Industrial census 1954 and 1985", makelog)
+    verify_outputs("B.5",
+        file.path(dir_derived_ind, "industrial_panel.parquet"), makelog)
+
+    run_step("B.6  agricultural",
+             b("agricultural", "clean_agricultural.R"),
+             "Agricultural census 1960 and 1988", makelog)
+    verify_outputs("B.6",
+        file.path(dir_derived_agr, "agricultural_panel.parquet"), makelog)
+
+    run_step("B.7  railroads",
+             b("networks", "clean_railroads.R"),
+             "Railroad network: Larkin Plan, 1979 status, studied flags",
+             makelog)
+    verify_outputs("B.7",
+        file.path(dir_derived_networks, "rails_district_panel.parquet"),
+        makelog)
+
+    run_step("B.8  roads",
+             b("networks", "clean_roads.R"),
+             "Road network: paved and gravel, 1954/1970/1986", makelog)
+    verify_outputs("B.8",
+        file.path(dir_derived_networks, "roads_district_panel.parquet"),
+        makelog)
+
+    run_step("B.9  hypo_networks",
+             b("networks", "clean_hypo_networks.R"),
+             "Hypothetical networks (LCP-MST, Euc-MST, LCP, Euc)", makelog)
+    verify_outputs("B.9",
+        file.path(dir_derived_networks, "hypo_networks.parquet"), makelog)
 }
 
-step_02_transitions <- function(makelog) {
-    expected <- unlist(lapply(network_periods_main, function(p)
-        lapply(network_sectors, function(s)
-            file.path(dir_derived_transitions,
-                      sprintf("transition_%s_%d.rds", p, s)))))
+# ==============================================================================
+# STAGE C. PIPELINE
+# Cost rasters → transition grids → tau matrices → MA indices → wide panel.
+# ==============================================================================
 
-    run_r_step(
-        step_id     = "02_transition_grids",
-        script      = file.path(dir_code, "02_transition_grids.R"),
-        description = "Convert cost rasters to gdistance transition grids",
-        logfile     = makelog
-    )
-    verify_outputs("02_transition_grids", expected, makelog)
+stage_c_pipeline <- function(makelog) {
+    p <- function(fname) file.path(dir_code, "pipeline", fname)
+
+    # Cost rasters for the main actual network configurations
+    run_step("C.1  cost_raster (actual)",
+             p("01_cost_raster.R"),
+             "Build cost rasters from actual rail+road networks",
+             makelog)
+
+    # Cost rasters for hypothetical networks and counterfactual configs
+    run_step("C.2  cost_raster (hypothetical)",
+             p("02_hypothetical_networks.R"),
+             "Build cost rasters for hypothetical-road instruments",
+             makelog)
+
+    # Combined cost raster builder (full grid expansion)
+    run_step("C.3a build_cost_raster",
+             p("03a_build_cost_raster.R"),
+             "Assemble all cost rasters (period × sector × elasticity)",
+             makelog)
+
+    # Transition grids for Dijkstra
+    run_step("C.3b transition_grids",
+             p("03b_transition_grids.R"),
+             "Convert cost rasters to gdistance transition grids",
+             makelog)
+
+    # Tau matrices (parallel Dijkstra)
+    run_step("C.3c compute_taus",
+             p("03c_compute_taus_parallel.R"),
+             "Pairwise transport costs via Dijkstra (parallel)",
+             makelog)
+
+    # Market access indices
+    run_step("C.4  market_access",
+             p("04_market_access.R"),
+             "MA = Σ Pop_j / tau_ij^θ, all cases × sectors × elasticities",
+             makelog)
+
+    # Wide panel assembly
+    run_step("C.5  build_panel",
+             p("05_build_panel.R"),
+             "Merge all cleaned sources into 312-district wide panel",
+             makelog)
+    verify_outputs("C.5",
+        file.path(dir_derived_panel, "departments_wide_panel.parquet"),
+        makelog)
+
+    # Merge MA columns into the panel (overwrites departments_wide_panel)
+    run_step("C.6  merge_ma_into_panel",
+             p("06_merge_ma_into_panel.R"),
+             "Merge all MA columns into the wide panel", makelog)
+    verify_outputs("C.6",
+        file.path(dir_derived_panel, "departments_wide_panel.parquet"),
+        makelog)
 }
 
-step_03_taus <- function(makelog) {
-    expected <- unlist(lapply(network_periods_main, function(p)
-        lapply(network_sectors, function(s)
-            file.path(dir_derived_taus,
-                      sprintf("tau_%s_%d.parquet", p, s)))))
+# ==============================================================================
+# STAGE D. ANALYSIS
+# Estimation sample → figures → tables.
+# ==============================================================================
 
-    run_r_step(
-        step_id     = "03_compute_taus",
-        script      = file.path(dir_code, "03_compute_taus.R"),
-        description = "Dijkstra least-cost paths → 312×312 tau matrices (parallel)",
-        logfile     = makelog
-    )
-    verify_outputs("03_compute_taus", expected, makelog)
-}
+stage_d_analysis <- function(makelog) {
+    a <- function(fname) file.path(dir_code, "analysis", fname)
+    bn <- function(fname) file.path(dir_code, "base", "networks", fname)
 
-step_04_ma <- function(makelog) {
-    expected <- file.path(dir_derived_ma, "market_access.parquet")
+    # Estimation sample
+    run_step("D.1  build_estimation_sample",
+             a("build_estimation_sample.R"),
+             "Derive outcomes and controls → 312-district estimation sample",
+             makelog)
+    verify_outputs("D.1",
+        file.path(dir_derived_analysis, "estimation_sample.parquet"),
+        makelog)
 
-    run_r_step(
-        step_id     = "04_market_access",
-        script      = file.path(dir_code, "04_market_access.R"),
-        description = "Market access indices MA = Σ Pop_j / tau_ij^θ",
-        logfile     = makelog
-    )
-    verify_outputs("04_market_access", expected, makelog)
-}
+    # Figures (from networks and from the estimation sample)
+    run_step("D.2  figure_1_networks",
+             bn("plot_figure_1.R"),
+             "Figure 1: rail and road network changes, 1960-1986",
+             makelog)
+    verify_outputs("D.2",
+        file.path(dir_figures, "figure_1_network_changes.pdf"), makelog)
 
-step_05_panel <- function(makelog) {
-    expected <- file.path(dir_derived_panel, "panel_estimation.parquet")
+    run_step("D.3  figure_2_ma",
+             a("plot_figure_2.R"),
+             "Figure 2: ΔlogMA choropleth",
+             makelog)
+    verify_outputs("D.3",
+        file.path(dir_figures, "figure_2_ma_change_choropleth.pdf"), makelog)
 
-    run_r_step(
-        step_id     = "05_build_panel",
-        script      = file.path(dir_code, "05_build_panel.R"),
-        description = "Merge all sources → 312-district estimation panel",
-        logfile     = makelog
-    )
-    verify_outputs("05_build_panel", expected, makelog)
-}
+    run_step("D.4  figure_3_rail_road",
+             bn("plot_figure_3.R"),
+             "Figure 3: Δrail-km vs Δroad-km scatter", makelog)
+    verify_outputs("D.4",
+        file.path(dir_figures, "figure_3_rail_vs_road_change.pdf"), makelog)
 
-step_06_analysis <- function(makelog) {
-    expected <- c(
-        file.path(dir_results, "scalars.tex"),
-        file.path(dir_tables,  "table_first_stage.tex"),
-        file.path(dir_tables,  "table_main_population.tex"),
-        file.path(dir_tables,  "table_main_employment.tex"),
-        file.path(dir_tables,  "table_summary_stats.tex")
-    )
+    run_step("D.5  figure_4_infra_ma",
+             a("plot_figure_4.R"),
+             "Figure 4: infrastructure change vs ΔlogMA", makelog)
+    verify_outputs("D.5",
+        file.path(dir_figures, "figure_4_infra_vs_ma_scatter.pdf"), makelog)
 
-    run_r_step(
-        step_id     = "06_analysis",
-        script      = file.path(dir_code, "06_analysis.R"),
-        description = "OLS + IV regressions, modelsummary tables, AutoFill scalars",
-        logfile     = makelog
-    )
-    verify_outputs("06_analysis", expected, makelog)
-}
+    run_step("D.6  table_1_networks",
+             bn("make_table_network_changes.R"),
+             "Table 1: summary of network changes by period", makelog)
+    verify_outputs("D.6",
+        file.path(dir_tables, "table_1_network_changes.tex"), makelog)
 
-step_07_maps <- function(makelog) {
-    expected <- c(
-        file.path(dir_figures, "figure_1_network_changes.pdf"),
-        file.path(dir_figures, "figure_2_delta_ma.pdf"),
-        file.path(dir_figures, "figure_3_rail_road_scatter.pdf"),
-        file.path(dir_figures, "figure_4_infra_ma_scatter.pdf")
-    )
+    # Tables 6-12 (validation, first stage, main results, sectoral,
+    # other outcomes, robustness)
+    run_step("D.7  table_6_pre_balance",
+             a("table_6_pre_balance.R"),
+             "Table 6: pre-period balance on instruments", makelog)
+    verify_outputs("D.7",
+        file.path(dir_tables, "table_6_pre_balance.tex"), makelog)
 
-    run_r_step(
-        step_id     = "07_maps",
-        script      = file.path(dir_code, "07_maps.R"),
-        description = "Maps and figures (tmap + ggplot2 → PDF + PNG)",
-        logfile     = makelog
-    )
-    verify_outputs("07_maps", expected, makelog)
+    run_step("D.8  table_7_pre_trends",
+             a("table_7_pre_trends.R"),
+             "Table 7: pre-trends placebo (1947-1960 population)", makelog)
+    verify_outputs("D.8",
+        file.path(dir_tables, "table_7_pre_trends.tex"), makelog)
+
+    run_step("D.9  table_8_first_stage",
+             a("table_8_first_stage.R"),
+             "Table 8: first-stage regressions", makelog)
+    verify_outputs("D.9",
+        file.path(dir_tables, "table_8_first_stage.tex"), makelog)
+
+    run_step("D.10 table_9_population",
+             a("table_9_population.R"),
+             "Table 9: main IV regressions on population outcomes",
+             makelog)
+    verify_outputs("D.10",
+        file.path(dir_tables, "table_9_population_iv.tex"), makelog)
+
+    run_step("D.11 table_10_sectoral",
+             a("table_10_sectoral.R"),
+             "Table 10: sectoral activity (manufacturing + agriculture)",
+             makelog)
+    verify_outputs("D.11",
+        file.path(dir_tables, "table_10_sectoral_iv.tex"), makelog)
+
+    run_step("D.12 table_11_other_outcomes",
+             a("table_11_other_outcomes.R"),
+             "Table 11: education, migration, employment rate", makelog)
+    verify_outputs("D.12",
+        file.path(dir_tables, "table_11_other_outcomes_iv.tex"), makelog)
+
+    run_step("D.13 table_12_robustness",
+             a("table_12_robustness.R"),
+             "Table 12: robustness (alt theta, alt hypo, subsample)",
+             makelog)
+    verify_outputs("D.13",
+        file.path(dir_tables, "table_12_robustness.tex"), makelog)
 }
 
 # ==============================================================================
@@ -258,51 +332,35 @@ step_07_maps <- function(makelog) {
 # ==============================================================================
 
 main <- function() {
-
     makelog <- file.path(dir_logs, "makelog.log")
     dir.create(dir_logs, recursive = TRUE, showWarnings = FALSE)
 
-    cat(strrep("=", 72), "\n",              file = makelog, append = FALSE)
-    cat("REPLICATION PACKAGE — BUILD LOG\n", file = makelog, append = TRUE)
-    cat(sprintf("Started:   %s\n", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
-        file = makelog, append = TRUE)
-    cat(sprintf("rootdir:   %s\n", rootdir), file = makelog, append = TRUE)
-    cat(sprintf("R version: %s\n", R.version.string), file = makelog, append = TRUE)
-    cat(strrep("=", 72), "\n",              file = makelog, append = TRUE)
+    cat(strrep("=", 72), "\n",
+        "REPLICATION PACKAGE - BUILD LOG\n",
+        sprintf("Started:   %s\n", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
+        sprintf("rootdir:   %s\n", rootdir),
+        sprintf("R version: %s\n", R.version.string),
+        strrep("=", 72), "\n",
+        file = makelog, append = FALSE, sep = "")
 
     build_start <- proc.time()
 
-    # ---- Run pipeline steps -------------------------------------------------
-    step_01_rasters(makelog)
-    step_02_transitions(makelog)
-    step_03_taus(makelog)
-    step_04_ma(makelog)
-    step_05_panel(makelog)
-    step_06_analysis(makelog)
-    step_07_maps(makelog)
+    stage_b_base(makelog)
+    stage_c_pipeline(makelog)
+    stage_d_analysis(makelog)
 
-    # ---- Timing summary -----------------------------------------------------
     total_elapsed <- round((proc.time() - build_start)[["elapsed"]])
-    summary_msg   <- sprintf(
+    summary_msg <- sprintf(
         "\nBuild complete: %s\nTotal wall-clock time: %d min %d sec\n",
         format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
-        total_elapsed %/% 60L,
-        total_elapsed %%  60L
-    )
+        total_elapsed %/% 60L, total_elapsed %% 60L)
 
-    cat(strrep("=", 72), "\n", file = makelog, append = TRUE)
-    cat(summary_msg,            file = makelog, append = TRUE)
-    cat(strrep("=", 72), "\n", file = makelog, append = TRUE)
-    message(strrep("=", 72))
-    message(summary_msg)
-    message(strrep("=", 72))
+    cat(strrep("=", 72), "\n", summary_msg, strrep("=", 72), "\n",
+        file = makelog, append = TRUE, sep = "")
+    message(strrep("=", 72)); message(summary_msg); message(strrep("=", 72))
 
     log_output_inventory(makelog)
-
     invisible(TRUE)
 }
 
-# ==============================================================================
-# ENTRY POINT
-# ==============================================================================
 main()
