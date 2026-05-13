@@ -169,12 +169,103 @@ hypothesis introduced in Section~\ref{sec:history}.
 \subsection{Other Outcomes}
 \label{sec:other_outcomes}
 
-% [PLACEHOLDER: Section 5.4 pending. Depends on Table 11 (education,
-%  migration, employment status from IPUMS). Draft after Table 11 runs.]
+Table~\ref{tab:other_outcomes_iv} reports estimates of
+equation~\eqref{eq:main} for four outcomes drawn from IPUMS
+microdata: the level change in the share of adults with college
+education, the level change in the share with secondary education,
+the level change in the share of residents who migrated in the past
+five years, and the level change in the employment rate (the share
+of individuals classified as employed in IPUMS EMPSTAT). All four
+outcomes are level differences in population shares between 1970 and
+1991. The regressor remains $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$
+computed over 1960--1986; infrastructure restructuring predates the
+1970 outcome measurement. Column structure matches
+Table~\ref{tab:population_iv}.
+
+For the college share, all four estimates are statistically
+indistinguishable from zero, with point estimates between $-0.003$
+and $0.001$. For the secondary share, the OLS and combined-IV
+point estimates are 0.000; the IV-LP estimate alone is 0.005
+($p=0.04$).
+
+For the recent-migration share, the OLS estimate is $-0.007$ (0.002),
+significant at the one-percent level. The combined IV estimate is
+$-0.020$ (0.009), significant at the five-percent level. The sample
+is 309 districts. A one-unit increase in $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a 0.020 decrease in the
+share of residents reporting recent migration.
+
+For the employment rate, the OLS estimate is $-0.001$ (0.002) and the
+combined IV estimate is $-0.010$ (0.005), marginally significant at
+the ten-percent level.
+
+The direction of the recent-migration coefficient runs opposite to a
+naive prediction that market-access gains attract in-migrants. Two
+readings are consistent with the sign. First, high-market-access
+districts may have retained their existing populations, producing
+lower recent-migrant shares because turnover was low. Second, districts
+that lost population through out-migration to high-market-access
+receiving districts may have ended with small remaining populations
+among whom a given absolute inflow of recent migrants generates a
+higher share. Distinguishing these readings requires data on
+migration flows by origin and destination, which are beyond the
+cross-sectional sample available here.
+
+The window for these four outcomes is 1970--1991 because Argentine
+IPUMS microdata begins in 1970, one decade after the start of the
+estimation window for Table~\ref{tab:population_iv}. The infrastructure
+restructuring and the bulk of rail closures occurred before 1970, so
+the timing of outcome measurement post-dates treatment.
 
 \subsection{Robustness}
 \label{sec:results_robustness}
 
-% [PLACEHOLDER: Section 5.5 pending. Depends on Table 12 (alternative
-%  theta = 8.11, alternative hypo instruments, subsample stability).
-%  Draft after Table 12 runs.]
+Table~\ref{tab:robustness} reports three stress tests of the main
+population elasticity estimated in
+Section~\ref{sec:population} (Panel~A of
+Table~\ref{tab:population_iv}): the coefficient on $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ is 0.046 (0.033) under the combined
+IV specification on the full 309-district sample.
+
+\paragraph{Panel A --- alternative trade elasticity.}
+The main specification sets the trade elasticity $\theta = 4.55$.
+Panel~A reports the same four specifications with $\theta = 8.11$,
+which corresponds to a higher-elasticity calibration in the
+market-access literature. All MA variables, including the
+treatment, the two instruments, and the baseline log-MA control,
+switch to the $\theta = 8.11$ variant. The combined IV coefficient
+is 0.020 (0.017). The coefficient is approximately half the
+main-specification value. The direction of the effect is unchanged,
+and no coefficient flips sign.
+
+\paragraph{Panel B --- alternative hypothetical-road instruments.}
+The main specification uses the least-cost-path minimum spanning
+tree as the hypothetical-road instrument. Panel~B reports results
+using three alternative hypothetical networks: the Euclidean
+minimum spanning tree, the full bilateral least-cost path network,
+and the full bilateral Euclidean network. Holding $\theta$ at 4.55,
+the combined-IV coefficient on $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$
+ranges from 0.019 to 0.062 across the four choices. Individual
+IV-Hypo columns show wide variation; the large point estimates and
+standard errors in that column reflect weak-instrument noise in
+some of the alternative networks and are not interpretable in
+isolation. The combined-IV column is more stable.
+
+\paragraph{Panel C --- sample robustness.}
+Panel~C refits the main specification on the 235-district subsample
+for which the 1947 placebo outcome is defined, as reported in
+Section~\ref{sec:pre_trends}. On this subsample, the OLS coefficient
+is 0.027 (0.013), significant at the five-percent level, and the
+combined IV coefficient is 0.067 (0.036), significant at the
+ten-percent level. Both estimates are larger than their
+full-sample counterparts.
+
+The Panel~C estimate bears on the interpretation of
+Section~\ref{sec:pre_trends}. The placebo coefficient on the
+1947--1960 population change was 0.078 on the same 235-district
+subsample. The main-specification coefficient on the 1960--1991
+population change on the same subsample is 0.067. The pre-reform
+coefficient and the post-reform coefficient are of the same order
+of magnitude on the common sample. This co-movement is consistent
+with both candidate readings offered in Section~\ref{sec:pre_trends}
+and does not adjudicate between them.
