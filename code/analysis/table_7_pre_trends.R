@@ -45,8 +45,6 @@ suppressPackageStartupMessages({
     library(modelsummary)
 })
 
-HYPO_INSTRUMENT <- NULL  # set in main() from config.R (main_hypo_instrument)
-
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)

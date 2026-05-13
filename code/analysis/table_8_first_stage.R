@@ -47,6 +47,11 @@ main <- function() {
     geo_controls_expr <- paste(geo_controls_main, collapse = " + ")
 
     # --- Three specifications --------------------------------------------
+    # Hypo instrument is Table 8's role: document strength of each of the
+    # alternative hypo instruments (main spec = lcp_mst; robustness table
+    # reports euc_mst, lcp, euc). Kept hardcoded to lcp_mst here to
+    # mirror the main-spec choice while signaling to the reader that the
+    # variants lcp / euc_mst / euc would sit in the robustness table.
     f1 <- as.formula(sprintf(
         "chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow + %s",
         geo_controls_expr
