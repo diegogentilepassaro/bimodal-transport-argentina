@@ -325,6 +325,14 @@ stage_d_analysis <- function(makelog) {
              makelog)
     verify_outputs("D.13",
         file.path(dir_tables, "table_12_robustness.tex"), makelog)
+
+    # AutoFill scalars — must run after all tables so it has every CSV
+    run_step("D.14 generate_scalars",
+             a("generate_scalars.R"),
+             "AutoFill macros for in-text numbers (results/scalars.tex)",
+             makelog)
+    verify_outputs("D.14",
+        file.path(dir_results, "scalars.tex"), makelog)
 }
 
 # ==============================================================================
