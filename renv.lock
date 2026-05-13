@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "TODO — populate after running renv::init()",
+    "Version": "4.5.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -9,19 +9,101 @@
     ]
   },
   "Packages": {
-    "_PLACEHOLDER_": {
-      "Package": "_PLACEHOLDER_",
-      "Version": "0.0.0",
+    "arrow": {
+      "Package": "arrow",
+      "Version": "21.0.0.1",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "TODO"
+      "Repository": "CRAN"
+    },
+    "exactextractr": {
+      "Package": "exactextractr",
+      "Version": "0.10.1",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "fixest": {
+      "Package": "fixest",
+      "Version": "0.13.2",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "gdistance": {
+      "Package": "gdistance",
+      "Version": "1.6.5",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "haven": {
+      "Package": "haven",
+      "Version": "2.5.5",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "here": {
+      "Package": "here",
+      "Version": "1.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "igraph": {
+      "Package": "igraph",
+      "Version": "2.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "modelsummary": {
+      "Package": "modelsummary",
+      "Version": "2.6.0",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "raster": {
+      "Package": "raster",
+      "Version": "3.6.32",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "readxl": {
+      "Package": "readxl",
+      "Version": "1.4.5",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "renv": {
+      "Package": "renv",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "sf": {
+      "Package": "sf",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "sp": {
+      "Package": "sp",
+      "Version": "2.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "terra": {
+      "Package": "terra",
+      "Version": "1.9.11",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "tibble": {
+      "Package": "tibble",
+      "Version": "3.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
+    "kableExtra": {
+      "Package": "kableExtra",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN"
     }
-  },
-  "_README_": [
-    "PLACEHOLDER renv.lock. To populate with real pinned versions:",
-    "  1. Install all required R packages (see 00_setup.R key_pkgs list).",
-    "  2. Run: renv::init(project = here::here())",
-    "  3. Run: renv::snapshot()",
-    "  4. Commit the resulting renv.lock."
-  ]
+  }
 }
