@@ -1,0 +1,115 @@
+% ===========================================================================
+% paper.tex
+%
+% Master LaTeX file for the paper. Each Section lives in its own file;
+% this master wraps the preamble + \input{}s. Sections not yet drafted
+% appear as stub \section headers with a visible PLACEHOLDER note.
+%
+% To build:
+%   cd paper && latexmk -pdf paper.tex
+% or:
+%   pdflatex paper && bibtex paper && pdflatex paper && pdflatex paper
+%
+% The planned paper (coauthor's Quip draft) is mirrored in paper_planned.pdf
+% and as a text-searchable Markdown in paper_planned.md.
+% ===========================================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+% ---- Page layout ----------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- Fonts and encoding ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% ---- Math -----------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsthm}
+
+% ---- Graphics and tables --------------------------------------------------
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{float}
+
+% ---- Citations (natbib for author-year \citep / \citet) -------------------
+\usepackage[round, authoryear]{natbib}
+
+% ---- Hyperlinks (load last) -----------------------------------------------
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue,
+            urlcolor=blue]{hyperref}
+
+% ---- Paths ----------------------------------------------------------------
+\graphicspath{{../results/figures/}{figures/}}
+
+% ---- Commands for placeholders (visible in draft) -------------------------
+\newcommand{\placeholder}[1]{\textcolor{red}{\textbf{[PLACEHOLDER:} #1\textbf{]}}}
+
+% ---- Title ----------------------------------------------------------------
+\title{Transport Restructuring and Regional Development:\\
+       Evidence from Argentina, 1960--1991\\[0.5em]
+       \large (Working title; alternatives under discussion)}
+\author{Jos\'e Belmar\thanks{Brown University.}\\[-0.2em]
+        \and Diego Gentile Passaro\thanks{Brown University.}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent \placeholder{Abstract -- write last. (1) setting,
+(2) method, (3) MA elasticity, (4) counterfactual rail vs road,
+(5) local infrastructure mechanisms. Under 150 words.}
+\bigskip
+
+\noindent \textbf{Keywords:} Regional Development, Market Access,
+Transport Infrastructure, Railroads, Highways, Fiscal Consolidation,
+Argentina
+
+\noindent \textbf{JEL Codes:} R12, R42, N76, O18, H54
+\end{abstract}
+
+\clearpage
+
+% ---- Drafted sections -----------------------------------------------------
+\input{section_1_intro.tex}
+
+\input{section_2_history.tex}
+
+\input{section_3_data.tex}
+
+\input{section_4_empirical_strategy.tex}
+
+% ---- Pending sections (stubs) ---------------------------------------------
+\section{Main Results}
+\label{sec:results}
+\placeholder{Section 5 pending. Anchor tables available:
+Table~8 (first-stage strength), Table~9 (main IV regressions on
+population outcomes). Validation tables: Table~6 (pre-balance),
+Table~7 (pre-trends placebo). Prose draft is the next writing task.}
+
+\section{Mode-Specific Patterns via Counterfactuals}
+\label{sec:mode_specific}
+\placeholder{Section 6 pending (Block 2). Counterfactual MA measures
+(rail-only, road-only) not yet computed; deferred until Block 1 is
+stable.}
+
+\section{Mechanisms and Heterogeneity}
+\label{sec:mechanisms}
+\placeholder{Section 7 pending (Block 2). Local-infrastructure
+regressions (stations, depots) and heterogeneity analysis.}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\placeholder{Section 8 pending -- write last.}
+
+% ---- References -----------------------------------------------------------
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
