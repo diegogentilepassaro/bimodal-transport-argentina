@@ -1,0 +1,42 @@
+Data file manifest — build_estimation_sample.R
+Generated: 2026-05-14 21:46:46.415018
+rootdir:   /Users/diegogp/Desktop/Diego/Trains/new_repo
+
+============================================================ 
+FILE: estimation_sample.parquet
+============================================================ 
+Rows: 312
+Columns: 228
+Key: geolev2
+
+New outcome / control / Z_i columns added by this script:
+  rur_1991              = pop_1991 - urbpop_1991
+  chg_log_rur_91_60     = log(rur_1991) - log(rur_1960)
+  urbshr_1960           = urbpop_1960 / pop_1960
+  urbshr_1991           = urbpop_1991 / pop_1991
+  chg_urbshr_91_60      = urbshr_1991 - urbshr_1960 (level, not log)
+  log_pop_1960          = log(pop_1960)
+  lost_all_rails_86     = (tot_rails_1960 > 0 & tot_rails_1986 == 0)
+  gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)
+
+Non-NA counts (regression sample sizes):
+  chg_log_pop_91_60                    N=309
+  chg_log_urbpop_91_60                 N=284
+  chg_log_rur_91_60                    N=272
+  chg_urbshr_91_60                     N=309
+  chg_logMA_86_60_s0_elow              N=312
+  chg_logMA_stu_s0_elow                N=312
+  chg_logMA_lcp_mst_s0_elow            N=312
+  log_pop_1960                         N=309
+  logMA_actual_1960_s0_elow            N=312
+  elev_mean_std                        N=312
+  rugged_mea_std                       N=312
+  wheat_std                            N=312
+  preCal_std                           N=312
+  postCal_std                          N=312
+  dist_to_BA_std                       N=312
+  lost_all_rails_86                    N=312
+  gained_first_road_86                 N=309
+  chg_tot_rails_86_60                  N=312
+  chg_pav_and_grav_86_54               N=309
+  share_studied_larkin                 N=282
