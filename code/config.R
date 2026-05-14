@@ -260,7 +260,7 @@ cost_nodata_sentinel <- 999999L
 # pipeline. The literature range for theta in gravity / market-access
 # specifications spans roughly 4 to 12 (Eaton & Kortum 2002; Simonovska
 # & Waugh 2014; Donaldson 2018). Section 3.3.2 of the paper is flagged in
-# Plan/tasks.md as needing a literature review to pin down which estimates
+# .kiro/tasks.md as needing a literature review to pin down which estimates
 # we adopt and why. Do NOT cite a specific source until that review is done.
 #
 # Main results use theta["low"]; theta["high"] is reported in the appendix

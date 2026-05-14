@@ -39,7 +39,7 @@ with source comments at the top of each file pointing to the script
 and file that generated them.
 
 TODOs flagged as `[PLACEHOLDER: ...]` are bracketed decisions or open
-tasks in `Plan/tasks.md`.
+tasks in `.kiro/tasks.md`.
 
 ## Cross-references between sections
 
