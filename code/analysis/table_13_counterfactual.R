@@ -28,7 +28,7 @@
 #   We do NOT put Δlog MA^only_rail and Δlog MA^only_road in the same
 #   regression. They are spatially correlated, and each isolates a
 #   different shock. Compare magnitudes across panels, not within a
-#   single equation. (See Plan/tasks.md C5 and §6.3 caveats.)
+#   single equation. (See .kiro/tasks.md C5 and §6.3 caveats.)
 #
 # DEP VARS (four outcomes; same as Table 9):
 #   chg_log_pop_91_60     Total population (log change)
