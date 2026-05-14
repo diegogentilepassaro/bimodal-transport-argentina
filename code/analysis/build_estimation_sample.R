@@ -20,6 +20,10 @@
 #         urbshr_1991           = urbpop_1991 / pop_1991
 #         chg_urbshr_91_60      = urbshr_1991 - urbshr_1960 (share, not log)
 #         log_pop_1960          = log(pop_1960)   (baseline control)
+#         lost_all_rails_86     = 1 if rails 1960 > 0 & rails 1986 == 0
+#         gained_first_road_86  = 1 if pav_and_grav 1954 == 0 & 1986 > 0
+#       Existing infrastructure-change columns used as Z_i (mechanism):
+#         chg_tot_rails_86_60, chg_pav_and_grav_86_54, share_studied_larkin
 #   data/derived/06_analysis/data_file_manifest.log
 #
 # DESIGN:
@@ -84,7 +88,44 @@ main <- function() {
     # log MA in 1960 is already a column (logMA_actual_1960_s0_elow);
     # no transformation needed.
 
-    # ---- 4. Validation / logging ------------------------------------------
+    # ---- 4. Local infrastructure variables (Z_i) ---------------------------
+    # Block 2 mechanism analysis: how much of the population effect runs
+    # through local infrastructure presence vs. global market access?
+    # Z_i is a small set of district-level infrastructure features whose
+    # change between 1960 and 1986 (or 1954 and 1986 for roads) is the
+    # mechanism candidate.
+    #
+    # Available from the panel:
+    #   chg_tot_rails_86_60       (already present)
+    #   chg_pav_and_grav_86_54    (already present)
+    #   share_studied_larkin      (already present; Larkin exposure)
+    #
+    # Derived here:
+    #   lost_all_rails_86         1 if district had rails in 1960 but
+    #                             zero by 1986; 0 otherwise. NA if
+    #                             tot_rails_1960 or tot_rails_1986 is NA.
+    #   gained_first_road_86      1 if district had no paved/gravel
+    #                             roads in 1954 but has some by 1986;
+    #                             0 otherwise. NA if either is NA.
+    #
+    # Not available (would need additional raw data; flagged for Cote):
+    #   gained/lost national highway, gained/lost railway station,
+    #   lost railway depot.
+    valid_rails <- !is.na(d$tot_rails_1960) & !is.na(d$tot_rails_1986)
+    d$lost_all_rails_86 <- NA_integer_
+    d$lost_all_rails_86[valid_rails] <- as.integer(
+        d$tot_rails_1960[valid_rails] > 0 &
+        d$tot_rails_1986[valid_rails] == 0
+    )
+
+    valid_roads <- !is.na(d$pav_and_grav_1954) & !is.na(d$pav_and_grav_1986)
+    d$gained_first_road_86 <- NA_integer_
+    d$gained_first_road_86[valid_roads] <- as.integer(
+        d$pav_and_grav_1954[valid_roads] == 0 &
+        d$pav_and_grav_1986[valid_roads] > 0
+    )
+
+    # ---- 5. Validation / logging ------------------------------------------
     for (v in c("chg_log_pop_91_60",
                 "chg_log_urbpop_91_60",
                 "chg_log_rur_91_60",
@@ -93,7 +134,13 @@ main <- function() {
                 "chg_logMA_stu_s0_elow",
                 "chg_logMA_lcp_mst_s0_elow",
                 "log_pop_1960",
-                "logMA_actual_1960_s0_elow")) {
+                "logMA_actual_1960_s0_elow",
+                "lost_all_rails_86",
+                "gained_first_road_86",
+                "chg_tot_rails_86_60",
+                "chg_pav_and_grav_86_54",
+                "share_studied_larkin")) {
+        if (!(v %in% names(d))) next
         n <- sum(!is.na(d[[v]]))
         mn <- mean(d[[v]], na.rm = TRUE)
         sdv <- sd(d[[v]], na.rm = TRUE)
@@ -101,14 +148,14 @@ main <- function() {
                         v, n, mn, sdv))
     }
 
-    # ---- 5. Save ------------------------------------------------------------
+    # ---- 6. Save ------------------------------------------------------------
     out_path <- file.path(dir_derived_analysis,
                           "estimation_sample.parquet")
     arrow::write_parquet(d, out_path)
     message(sprintf("\n[est] Saved: %s (%d rows, %d cols)",
                     out_path, nrow(d), ncol(d)))
 
-    # ---- 6. Manifest --------------------------------------------------------
+    # ---- 7. Manifest --------------------------------------------------------
     log_path <- file.path(dir_derived_analysis, "data_file_manifest.log")
     sink(log_path); on.exit(sink(), add = TRUE)
     cat("Data file manifest — build_estimation_sample.R\n")
@@ -119,13 +166,15 @@ main <- function() {
     cat(strrep("=", 60), "\n")
     cat(sprintf("Rows: %d\nColumns: %d\nKey: geolev2\n\n",
                 nrow(d), ncol(d)))
-    cat("New outcome / control columns added by this script:\n")
-    cat("  rur_1991           = pop_1991 - urbpop_1991\n")
-    cat("  chg_log_rur_91_60  = log(rur_1991) - log(rur_1960)\n")
-    cat("  urbshr_1960        = urbpop_1960 / pop_1960\n")
-    cat("  urbshr_1991        = urbpop_1991 / pop_1991\n")
-    cat("  chg_urbshr_91_60   = urbshr_1991 - urbshr_1960 (level, not log)\n")
-    cat("  log_pop_1960       = log(pop_1960)\n\n")
+    cat("New outcome / control / Z_i columns added by this script:\n")
+    cat("  rur_1991              = pop_1991 - urbpop_1991\n")
+    cat("  chg_log_rur_91_60     = log(rur_1991) - log(rur_1960)\n")
+    cat("  urbshr_1960           = urbpop_1960 / pop_1960\n")
+    cat("  urbshr_1991           = urbpop_1991 / pop_1991\n")
+    cat("  chg_urbshr_91_60      = urbshr_1991 - urbshr_1960 (level, not log)\n")
+    cat("  log_pop_1960          = log(pop_1960)\n")
+    cat("  lost_all_rails_86     = (tot_rails_1960 > 0 & tot_rails_1986 == 0)\n")
+    cat("  gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)\n\n")
     cat("Non-NA counts (regression sample sizes):\n")
     for (v in c("chg_log_pop_91_60",
                 "chg_log_urbpop_91_60",
@@ -137,7 +186,10 @@ main <- function() {
                 "log_pop_1960",
                 "logMA_actual_1960_s0_elow",
                 "elev_mean_std", "rugged_mea_std", "wheat_std",
-                "preCal_std", "postCal_std", "dist_to_BA_std")) {
+                "preCal_std", "postCal_std", "dist_to_BA_std",
+                "lost_all_rails_86", "gained_first_road_86",
+                "chg_tot_rails_86_60", "chg_pav_and_grav_86_54",
+                "share_studied_larkin")) {
         if (!(v %in% names(d))) next
         cat(sprintf("  %-35s  N=%d\n", v, sum(!is.na(d[[v]]))))
     }
