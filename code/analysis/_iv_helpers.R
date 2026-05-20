@@ -92,3 +92,12 @@ fitstat_F <- function(iv_model) {
     if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
     NA_real_
 }
+
+# Insert a \label{...} right after the FIRST \caption{...} in a tex string.
+# Used by multi-panel tables (e.g. Tables 9, 10, 11) so that paper-side
+# \ref{tab:foo} resolves to the first panel rather than going undefined.
+inject_first_label <- function(tex_text, label) {
+    pattern  <- "(\\\\caption\\{[^}]*\\})"
+    replace  <- sprintf("\\1\n\\\\label{%s}", label)
+    sub(pattern, replace, tex_text, perl = TRUE)
+}

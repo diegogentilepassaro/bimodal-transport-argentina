@@ -36,6 +36,7 @@ suppressPackageStartupMessages({
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -150,7 +151,8 @@ main <- function() {
     )
 
     out_tex <- file.path(dir_tables, "table_8_first_stage.tex")
-    writeLines(as.character(tbl), out_tex)
+    tbl_txt <- inject_first_label(as.character(tbl), "tab:first_stage")
+    writeLines(tbl_txt, out_tex)
     message("Saved: ", out_tex)
 
     # CSV with the coefficient matrix for convenience

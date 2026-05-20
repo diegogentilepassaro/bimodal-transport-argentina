@@ -135,8 +135,10 @@ main <- function() {
     )
 
     # One table per outcome, concatenated into a single .tex file with
-    # a \bigskip between panels.
+    # a \bigskip between panels. The first panel carries the canonical
+    # \label{tab:population_iv} so paper-side \ref{} resolves cleanly.
     tex_chunks <- character()
+    is_first_panel <- TRUE
     for (out in outcomes) {
         y <- out$var
         models_this <- list(
@@ -166,7 +168,12 @@ main <- function() {
             add_rows = add_rows,
             title    = sprintf("Outcome: %s", out$label)
         )
-        tex_chunks <- c(tex_chunks, as.character(tbl), "", "\\bigskip", "")
+        tbl_txt <- as.character(tbl)
+        if (is_first_panel) {
+            tbl_txt <- inject_first_label(tbl_txt, "tab:population_iv")
+            is_first_panel <- FALSE
+        }
+        tex_chunks <- c(tex_chunks, tbl_txt, "", "\\bigskip", "")
     }
 
     out_tex <- file.path(dir_tables, "table_9_population_iv.tex")
