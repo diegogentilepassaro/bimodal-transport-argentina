@@ -124,6 +124,7 @@ main <- function() {
     )
 
     tex_chunks <- character()
+    is_first_panel <- TRUE
     for (out in outcomes) {
         y <- out$var
         models_this <- list(
@@ -150,7 +151,12 @@ main <- function() {
             add_rows = add_rows,
             title    = sprintf("Outcome: %s", out$label)
         )
-        tex_chunks <- c(tex_chunks, as.character(tbl), "", "\\bigskip", "")
+        tbl_txt <- as.character(tbl)
+        if (is_first_panel) {
+            tbl_txt <- inject_first_label(tbl_txt, "tab:other_outcomes_iv")
+            is_first_panel <- FALSE
+        }
+        tex_chunks <- c(tex_chunks, tbl_txt, "", "\\bigskip", "")
     }
 
     out_tex <- file.path(dir_tables, "table_11_other_outcomes_iv.tex")

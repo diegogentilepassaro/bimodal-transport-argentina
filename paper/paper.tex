@@ -96,7 +96,7 @@ Argentina
 
 % ---- Pending sections (stubs) ---------------------------------------------
 \section{Mode-Specific Patterns via Counterfactuals}
-\label{sec:mode_specific}
+\label{sec:counterfactuals}
 \placeholder{Section 6 pending (Block 2). Counterfactual MA measures
 (rail-only, road-only) not yet computed; deferred until Block 1 is
 stable.}
@@ -109,6 +109,60 @@ regressions (stations, depots) and heterogeneity analysis.}
 \section{Conclusion}
 \label{sec:conclusion}
 \placeholder{Section 8 pending -- write last.}
+
+% ---- Figures and Tables (appended at end) ---------------------------------
+% In a final manuscript these would be placed in-text near their first
+% reference. For the current draft, we collect them at the end so the
+% prose reads cleanly without floats interrupting it. \ref{} resolves
+% to these objects regardless of position.
+
+\clearpage
+\section*{Figures}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure_1_network_changes.pdf}
+\caption{Transport network changes, 1960--1986.}
+\label{fig:networks}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_2_ma_change_choropleth.pdf}
+\caption{Change in log market access, 1960--1986.}
+\label{fig:ma_choropleth}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure_c13_ma_counterfactual_trio.pdf}
+\caption{Market access changes under three scenarios: full, only-rail
+counterfactual, only-road counterfactual.}
+\label{fig:ma_counterfactual}
+\end{figure}
+
+\clearpage
+\section*{Tables}
+
+\input{../results/tables/table_1_network_changes.tex}
+
+\input{../results/tables/table_6_pre_balance.tex}
+
+\input{../results/tables/table_7_pre_trends.tex}
+
+\input{../results/tables/table_8_first_stage.tex}
+
+\input{../results/tables/table_9_population_iv.tex}
+
+\input{../results/tables/table_10_sectoral_iv.tex}
+
+\input{../results/tables/table_11_other_outcomes_iv.tex}
+
+\input{../results/tables/table_12_robustness.tex}
+
+\input{../results/tables/table_13_counterfactual.tex}
+
+\input{../results/tables/table_14_mechanisms.tex}
 
 % ---- References -----------------------------------------------------------
 \bibliographystyle{plainnat}

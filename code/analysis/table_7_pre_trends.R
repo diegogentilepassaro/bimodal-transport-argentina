@@ -148,6 +148,7 @@ main <- function() {
     # Inject the notes just before \end{table}. Use gsub with fixed = TRUE
     # on the replacement to avoid backreference interpretation of backslashes.
     tbl_txt <- as.character(tbl)
+    tbl_txt <- inject_first_label(tbl_txt, "tab:pre_trends")
     end_marker <- "\\end{table}"
     tbl_txt <- sub(end_marker, paste0(notes_tex, "\n", end_marker),
                    tbl_txt, fixed = TRUE)
