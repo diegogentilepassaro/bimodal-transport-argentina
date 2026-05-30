@@ -472,6 +472,16 @@ combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
                          arg_mask, sector) {
     message(sprintf("[cost]   Combining layers (sector=%s)", sector))
 
+    # Bloque-1 test (a): allow disabling the fluvial/navigation channel via
+    # an environment variable so the no-fluvial counterfactual can be built
+    # without altering the default behaviour. DISABLE_NAVIGATION=1 treats
+    # navigable water as non-navigable (it then falls through to the
+    # off-network land/HMI rule or stays NA outside Argentina).
+    disable_nav <- identical(Sys.getenv("DISABLE_NAVIGATION"), "1")
+    if (disable_nav) {
+        message("[cost]   DISABLE_NAVIGATION=1 -> fluvial channel OFF")
+    }
+
     rail <- terra::values(rail_rast)
     road <- terra::values(road_rast)
     nav  <- terra::values(nav_rast)
@@ -482,6 +492,7 @@ combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
     is_rail <- !is.na(rail) & rail == 1L
     is_road <- !is.na(road) & road == 1L
     is_nav  <- !is.na(nav)  & nav  == 1L
+    if (disable_nav) is_nav <- rep(FALSE, length(is_nav))
     in_arg  <- !is.na(mask) & mask == 1
 
     cost <- rep(NA_real_, length(rail))
@@ -568,8 +579,12 @@ validate_cost <- function(cost, rail_rast, road_rast, nav_rast, sector) {
 # Save
 # ---------------------------------------------------------------------------
 save_cost_raster <- function(cost, case) {
+    # Bloque-1 test (a): when navigation is disabled, write to a distinct
+    # filename so the no-fluvial rasters never clobber the baseline ones.
+    suffix <- if (identical(Sys.getenv("DISABLE_NAVIGATION"), "1"))
+        "_nofluvial" else ""
     out_path <- file.path(dir_derived_rasters,
-                          sprintf("ucost_%s.tif", case))
+                          sprintf("ucost_%s%s.tif", case, suffix))
     terra::writeRaster(cost, out_path, overwrite = TRUE,
                        datatype = "FLT4S")
     message(sprintf("[cost]   Saved: %s", out_path))
