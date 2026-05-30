@@ -1,0 +1,25 @@
+====================================================================== 
+MA NO-FLUVIAL DIAGNOSTIC (Bloque 1 test a / C28) 
+Navigation channel disabled vs baseline 
+Generated: 2026-05-30 11:35:33 
+====================================================================== 
+
+---------------------------------------------------------------------- 
+[A] MA GAIN: baseline (with fluvial) vs no-fluvial 
+---------------------------------------------------------------------- 
+  baseline:    share gain 91.0%  mean 1.559  median 0.639 
+  no-fluvial:  share gain 91.0%  mean 1.837  median 0.778 
+
+---------------------------------------------------------------------- 
+[B] POPULATION ELASTICITY, no-fluvial (sector 0, theta low) 
+---------------------------------------------------------------------- 
+  OLS  beta = +0.026 (0.010)  N=309 
+  IV   beta = +0.016 (0.020)  N=309 
+  (baseline-with-fluvial IV-Both was +0.046 (0.033); D-H ~0.5-0.7) 
+
+====================================================================== 
+READING: if no-fluvial gain share drops well below 91% and the 
+IV beta moves up toward 0.5-0.7, the fluvial channel (C28) was 
+inflating MA. If both are basically unchanged, fluvial is NOT the 
+driver and the issue is the overall road-cost magnitude / HMI. 
+====================================================================== 

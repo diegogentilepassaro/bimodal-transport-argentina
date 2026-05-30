@@ -540,6 +540,12 @@ validate_cost <- function(cost, rail_rast, road_rast, nav_rast, sector) {
     is_rail <- !is.na(r) & r == 1L
     is_road <- !is.na(d) & d == 1L
     is_nav  <- !is.na(n) & n == 1L
+    # Mirror the no-fluvial toggle from combine_cost: when navigation is
+    # disabled, navigable cells were treated as land, so don't validate
+    # them against cost_nav.
+    if (identical(Sys.getenv("DISABLE_NAVIGATION"), "1")) {
+        is_nav <- rep(FALSE, length(is_nav))
+    }
 
     nav_only_no_infra <- is_nav & !is_rail & !is_road
     rail_only         <- !is_nav & is_rail & !is_road
