@@ -472,6 +472,28 @@ combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
                          arg_mask, sector) {
     message(sprintf("[cost]   Combining layers (sector=%s)", sector))
 
+    # Bloque-1 toggles via environment variables. Default (unset) reproduces
+    # the baseline multimodal surface exactly.
+    #   DISABLE_NAVIGATION=1   -> fluvial channel off (test a)
+    #   MODE_VARIANT=roadonly  -> only roads + off-network land (unimodal)
+    #   MODE_VARIANT=railonly  -> only rails + off-network land (unimodal)
+    #   MODE_VARIANT=wateronly -> only navigation + off-network land
+    # The MODE_VARIANT options build the single-mode surfaces used to bound
+    # the transshipment assumption (test c): the unimodal (infinite-
+    # transshipment) tau is the element-wise min across the three single-
+    # mode tau matrices.
+    disable_nav <- identical(Sys.getenv("DISABLE_NAVIGATION"), "1")
+    mode_variant <- Sys.getenv("MODE_VARIANT")  # "", roadonly, railonly, wateronly
+    drop_rail <- mode_variant %in% c("roadonly", "wateronly")
+    drop_road <- mode_variant %in% c("railonly", "wateronly")
+    drop_nav  <- disable_nav | mode_variant %in% c("roadonly", "railonly")
+    if (nzchar(mode_variant)) {
+        message(sprintf("[cost]   MODE_VARIANT=%s (rail=%s road=%s nav=%s)",
+                        mode_variant, !drop_rail, !drop_road, !drop_nav))
+    } else if (disable_nav) {
+        message("[cost]   DISABLE_NAVIGATION=1 -> fluvial channel OFF")
+    }
+
     rail <- terra::values(rail_rast)
     road <- terra::values(road_rast)
     nav  <- terra::values(nav_rast)
@@ -482,6 +504,9 @@ combine_cost <- function(rail_rast, road_rast, nav_rast, hmi_rast,
     is_rail <- !is.na(rail) & rail == 1L
     is_road <- !is.na(road) & road == 1L
     is_nav  <- !is.na(nav)  & nav  == 1L
+    if (drop_rail) is_rail <- rep(FALSE, length(is_rail))
+    if (drop_road) is_road <- rep(FALSE, length(is_road))
+    if (drop_nav)  is_nav  <- rep(FALSE, length(is_nav))
     in_arg  <- !is.na(mask) & mask == 1
 
     cost <- rep(NA_real_, length(rail))
@@ -529,6 +554,16 @@ validate_cost <- function(cost, rail_rast, road_rast, nav_rast, sector) {
     is_rail <- !is.na(r) & r == 1L
     is_road <- !is.na(d) & d == 1L
     is_nav  <- !is.na(n) & n == 1L
+    # Mirror the Bloque-1 toggles from combine_cost so validation matches
+    # whichever modes were actually used.
+    mode_variant <- Sys.getenv("MODE_VARIANT")
+    drop_rail <- mode_variant %in% c("roadonly", "wateronly")
+    drop_road <- mode_variant %in% c("railonly", "wateronly")
+    drop_nav  <- identical(Sys.getenv("DISABLE_NAVIGATION"), "1") |
+                 mode_variant %in% c("roadonly", "railonly")
+    if (drop_rail) is_rail <- rep(FALSE, length(is_rail))
+    if (drop_road) is_road <- rep(FALSE, length(is_road))
+    if (drop_nav)  is_nav  <- rep(FALSE, length(is_nav))
 
     nav_only_no_infra <- is_nav & !is_rail & !is_road
     rail_only         <- !is_nav & is_rail & !is_road
@@ -568,8 +603,18 @@ validate_cost <- function(cost, rail_rast, road_rast, nav_rast, sector) {
 # Save
 # ---------------------------------------------------------------------------
 save_cost_raster <- function(cost, case) {
+    # Bloque-1 variants: write to a distinct filename so variant rasters
+    # never clobber the baseline ones. Suffix reflects the active toggle.
+    mode_variant <- Sys.getenv("MODE_VARIANT")
+    suffix <- if (nzchar(mode_variant)) {
+        paste0("_", mode_variant)
+    } else if (identical(Sys.getenv("DISABLE_NAVIGATION"), "1")) {
+        "_nofluvial"
+    } else {
+        ""
+    }
     out_path <- file.path(dir_derived_rasters,
-                          sprintf("ucost_%s.tif", case))
+                          sprintf("ucost_%s%s.tif", case, suffix))
     terra::writeRaster(cost, out_path, overwrite = TRUE,
                        datatype = "FLT4S")
     message(sprintf("[cost]   Saved: %s", out_path))

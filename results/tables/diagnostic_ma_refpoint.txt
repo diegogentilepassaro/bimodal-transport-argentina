@@ -1,0 +1,32 @@
+====================================================================== 
+MA REFERENCE-POINT DIAGNOSTIC (Bloque 1 test b / C16) 
+Interior point (st_point_on_surface) vs geographic centroid 
+Generated: 2026-05-31 12:28:06 
+====================================================================== 
+
+Reference points: 312 districts (st_point_on_surface) 
+[tau] actual_1960_s0 already exists, skipping recompute 
+[tau] actual_1986_s0 already exists, skipping recompute 
+[tau] instrument_stu_s0 already exists, skipping recompute 
+[tau] instrument_lcp_mst_s0 already exists, skipping recompute 
+
+---------------------------------------------------------------------- 
+[A] MA GAIN: baseline centroid vs interior point 
+---------------------------------------------------------------------- 
+  baseline (centroid):  share gain 91.0%  mean 1.559  median 0.639 
+  interior point:       share gain 89.1%  mean 1.429  median 0.523 
+
+---------------------------------------------------------------------- 
+[B] POPULATION ELASTICITY under interior point (sector 0, theta low) 
+---------------------------------------------------------------------- 
+  OLS  beta = +0.010 (0.008)   N=309 
+  IV   beta = +0.036 (0.031)   N=309 
+  (baseline-centroid IV-Both was +0.046 (0.033); Gibbons 2024 ~0.3) 
+
+====================================================================== 
+READING: if interior-point gain share drops well below 91% and/or 
+the IV beta moves toward 0.3 (Gibbons), the geographic centroid + HMI 
+off-network coupling (C16) was inflating MA. If both are basically 
+unchanged, the reference point is NOT the driver and suspicion 
+shifts to the fluvial channel (test a) or the cost magnitudes. 
+====================================================================== 
