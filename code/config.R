@@ -256,12 +256,30 @@ cost_nodata_sentinel <- 999999L
 # theta["low"]  = 4.55
 # theta["high"] = 8.11
 #
-# PENDING JUSTIFICATION. These two values were inherited from the old
-# pipeline. The literature range for theta in gravity / market-access
-# specifications spans roughly 4 to 12 (Eaton & Kortum 2002; Simonovska
-# & Waugh 2014; Donaldson 2018). Section 3.3.2 of the paper is flagged in
-# .kiro/tasks.md as needing a literature review to pin down which estimates
-# we adopt and why. Do NOT cite a specific source until that review is done.
+# PENDING JUSTIFICATION — and a deeper conceptual flag (see
+# .kiro/theta_benchmark_note.md for the full analysis).
+#
+# These two values were inherited from the old pipeline. They ARE
+# trade-elasticity numbers: 8.11 = Caliendo-Parro agricultural trade
+# elasticity; 4.55 is near Simonovska-Waugh (4.10) / Donaldson-Raj (3.80).
+# The literature trade-elasticity range is ~3.6-12.9 (Eaton & Kortum 2002;
+# Donaldson & Hornbeck 2016 use theta=8.22 estimated by NLS).
+#
+# BUT: the trade elasticity is the correct exponent ONLY on a NORMALIZED
+# ICEBERG trade cost (a dimensionless multiplier >= 1, = absolute cost
+# divided by the value of goods shipped; D&H 2016 footnote 32). Our tau is
+# the RAW accumulated generalized transport cost (pesos/ton-km over the
+# least-cost path), NOT normalized. Applying a trade-elasticity exponent to
+# a raw cost is a category mismatch and is the leading suspect for why the
+# estimated MA elasticity (0.046) is an order of magnitude below the
+# Gibbons et al. 2024 benchmark (~0.3, which they obtain with a decay
+# exponent of 0.5 on raw travel time). The theta sweep (PR #67) shows our
+# elasticity reaches ~0.3 at theta ~ 1.
+#
+# RESOLUTION PENDING coauthor decision: either (a) normalize tau to a true
+# iceberg cost and keep theta ~ 4-8, or (b) treat the index as a centrality
+# measure with decay ~ 0.5-1. Do NOT cite a specific source as
+# justification for 4.55/8.11 until this is resolved.
 #
 # Main results use theta["low"]; theta["high"] is reported in the appendix
 # robustness table (task C34).
