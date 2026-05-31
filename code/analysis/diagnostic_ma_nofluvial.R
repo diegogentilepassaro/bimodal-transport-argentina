@@ -5,7 +5,7 @@
 #          produced the _nofluvial MA files, this script compares the
 #          no-fluvial market access against the baseline: does disabling
 #          the navigation channel reduce the 91% MA-gain share and/or move
-#          the population elasticity toward the Donaldson-Hornbeck 0.5-0.7
+#          the population elasticity toward the Gibbons et al. 2024 ~0.3
 #          benchmark?
 #
 # READS:
@@ -111,11 +111,11 @@ main <- function() {
         coef(m_ols)["chg_v"], m_ols$se["chg_v"], m_ols$nobs)
     rep("  IV   beta = %+.3f (%.3f)  N=%d",
         coef(m_iv)["fit_chg_v"], m_iv$se["fit_chg_v"], m_iv$nobs)
-    rep("  (baseline-with-fluvial IV-Both was +0.046 (0.033); D-H ~0.5-0.7)")
+    rep("  (baseline-with-fluvial IV-Both was +0.046 (0.033); Gibbons 2024 ~0.3)")
 
     rep("\n%s", strrep("=", 70))
     rep("READING: if no-fluvial gain share drops well below 91%% and the")
-    rep("IV beta moves up toward 0.5-0.7, the fluvial channel (C28) was")
+    rep("IV beta moves up toward 0.3 (Gibbons), the fluvial channel (C28) was")
     rep("inflating MA. If both are basically unchanged, fluvial is NOT the")
     rep("driver and the issue is the overall road-cost magnitude / HMI.")
     rep("%s", strrep("=", 70))

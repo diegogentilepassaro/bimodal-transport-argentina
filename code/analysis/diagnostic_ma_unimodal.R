@@ -143,7 +143,7 @@ main <- function() {
         data = m, vcov = "hetero"))
     rep("  OLS  beta = %+.3f (%.3f)  N=%d",
         coef(m_ols)["chg_uni"], m_ols$se["chg_uni"], m_ols$nobs)
-    rep("  (baseline OLS was +0.022; baseline IV-Both +0.046; D-H ~0.5-0.7)")
+    rep("  (baseline OLS was +0.022; baseline IV-Both +0.046; Gibbons 2024 ~0.3)")
     rep("  NOTE: full IV needs unimodal instruments too — built only if")
     rep("  this screen implicates transshipment.")
 

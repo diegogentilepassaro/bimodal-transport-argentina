@@ -165,11 +165,11 @@ main <- function() {
     se_iv  <- m_iv$se["fit_chg_logMA_86_60_v"]
     rep("  OLS  beta = %+.3f (%.3f)   N=%d", co_ols, se_ols, m_ols$nobs)
     rep("  IV   beta = %+.3f (%.3f)   N=%d", co_iv, se_iv, m_iv$nobs)
-    rep("  (baseline-centroid IV-Both was +0.046 (0.033); D-H benchmark ~0.5-0.7)")
+    rep("  (baseline-centroid IV-Both was +0.046 (0.033); Gibbons 2024 ~0.3)")
 
     rep("\n%s", strrep("=", 70))
     rep("READING: if interior-point gain share drops well below 91%% and/or")
-    rep("the IV beta moves toward 0.5-0.7, the geographic centroid + HMI")
+    rep("the IV beta moves toward 0.3 (Gibbons), the geographic centroid + HMI")
     rep("off-network coupling (C16) was inflating MA. If both are basically")
     rep("unchanged, the reference point is NOT the driver and suspicion")
     rep("shifts to the fluvial channel (test a) or the cost magnitudes.")
