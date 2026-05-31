@@ -7,7 +7,8 @@
 #          MA gain may be an artefact of how MA is constructed (fluvial
 #          channel, centroid + HMI off-network cost), and the artefact
 #          could explain the implausibly small main population elasticity
-#          (0.046 vs Donaldson-Hornbeck ~0.5-0.7).
+#          (0.046 vs Gibbons et al. 2024 ~0.3, the clean rail-removal /
+#          20th-century / population comparator; see Cote review).
 #
 #   This is a DESCRIPTIVE diagnostic on existing pipeline outputs. It does
 #   NOT re-run the pipeline. Questions that require alternate cost surfaces
