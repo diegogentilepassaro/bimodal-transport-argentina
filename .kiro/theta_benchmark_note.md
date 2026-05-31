@@ -124,10 +124,27 @@ not comparable operations:
   At 4.55 the measure is dominated by a handful of cheapest neighbours,
   which is why broad road-cost reductions move it so much and 91% gain.
 
-So our theta is mislabeled as a "trade elasticity": the trade elasticity
-is the right exponent ONLY for a normalized iceberg tau. As built, our
-tau is closer to Gibbons' raw cost/time object, for which the defensible
-decay is ~0.5-1, not ~4.5-8.
+VERIFIED EMPIRICALLY (two checks on the actual tau matrices):
+- Constant rescale cancels: multiplying every tau by 1000 leaves
+  Delta log MA identical (mean 1.5589, sd 2.4829, 91.0% gain, to 4 d.p.).
+  So a Fogel-style DIVISION OF TAU BY A CONSTANT value-of-goods would do
+  NOTHING to our results -- the scale drops out of the first difference.
+  This is the critical caveat for option 1 below.
+- Spread + convexity: raw tau (1960 s0) has p90/p10 ~ 6.7 and max/min
+  ~ 6000. Raised to 4.55, a p10-vs-p90 pair contributes ~6.7^4.55 ~ 7000x
+  more. MA is therefore dominated by the few cheapest pairs. D&H's tau,
+  by contrast, lives in a narrow band near 1 where x^(-8) is locally
+  gentle; the SAME exponent behaves completely differently on a variable
+  that spans orders of magnitude (ours) vs one bounded near 1 (theirs).
+
+So the real difference from D&H is NOT the scale of tau (that cancels);
+it is that D&H's tau is a dimensionless ratio in a narrow band near 1,
+while ours spans orders of magnitude. The exponent's curvature does
+different things on the two. Our theta is mislabeled as a "trade
+elasticity": the trade elasticity is the right exponent ONLY for a
+normalized iceberg tau confined near 1. As built, our tau is closer to
+Gibbons' raw cost/time object, for which the defensible decay is ~0.5-1,
+not ~4.5-8.
 
 ## Implication / options for the team
 
@@ -135,23 +152,31 @@ This is a framing-blocking decision (Cote's point: identification and
 measurement before narrative). Options, now sharpened by the D&H source:
 
 1. **Make tau a proper normalized iceberg trade cost and keep a trade-
-   elasticity theta (~4-8) from the literature.** This is the D&H-
-   consistent fix: divide the accumulated transport cost by a value-of-
-   goods normalization so tau becomes a dimensionless multiplier >= 1,
-   THEN the 4.55/8.22 exponent is the correct trade elasticity. Most
-   defensible if we want the structural market-access interpretation and
-   comparability to D&H. Requires re-deriving tau as a normalized cost
-   (a transform of the existing tau matrices + a value normalization;
-   does NOT require re-running Dijkstra). NOTE: in a first-difference
-   spec a constant normalization cancels, so this only changes results
-   if the normalization varies across pairs/over time -- needs thought.
+   elasticity theta (~4-8).** The D&H-consistent fix. CAUTION (verified
+   above): dividing tau by a CONSTANT does nothing -- it cancels in the
+   first difference. To actually change behaviour, tau must become a
+   dimensionless ratio confined near 1, i.e. the normalization must vary
+   across pairs. Candidate constructions:
+     - per-unit-value iceberg: (accumulated cost / value of goods), where
+       value is high enough that tau sits in, say, [1, 2] rather than
+       spanning orders of magnitude; this compresses the spread so the
+       high exponent behaves like D&H's.
+     - cost relative to a free-trade / minimum-cost benchmark per pair.
+   This is real modeling work, not a rescale. Requires deciding the
+   value-of-goods normalization (which D&H take from Fogel) and checking
+   it varies meaningfully over 1960->1986. Does NOT require re-running
+   Dijkstra (transform of existing tau matrices), but DOES require getting
+   the normalization conceptually right. Most defensible for a structural
+   market-access framing comparable to D&H.
 
-2. **Adopt the Gibbons centrality parameterization** (decay ~0.5 on the
-   cost or time metric, no normalization). Most defensible if we frame as
-   a centrality / accessibility paper. Gives elasticities comparable to
-   Gibbons (~0.3) by construction. Cheapest: it is just a theta change in
-   the existing pipeline (the sweep already shows theta~0.5-1 lands near
-   0.3).
+2. **Adopt the Gibbons centrality parameterization** (decay ~0.5-1 on the
+   raw cost or a travel-time metric, no normalization). Most defensible if
+   we frame as a centrality / accessibility paper. Gives elasticities
+   comparable to Gibbons (~0.3) by construction. CHEAPEST: the sweep
+   already shows theta~0.5-1 on our existing raw tau lands near 0.3, so
+   this is essentially just adopting a low theta and reframing what the
+   index represents. The honest description would then be "network
+   centrality / accessibility," not "structural market access."
 
 3. **Report the elasticity as a function of theta** (the sweep itself)
    and defend the qualitative pattern (manufacturing responds, agriculture
