@@ -1,0 +1,54 @@
+====================================================================== 
+MA GAINS DIAGNOSTIC  (Cote review P2 / C28 / Bloque 1) 
+Generated: 2026-05-30 10:21:50 
+====================================================================== 
+
+[1] MA CHANGE 1960->1986 (sector 0, theta=4.55) 
+    N districts:        312 
+    Share gaining (>0):  91.0% 
+    Share losing (<0):   9.0% 
+    mean=1.559  median=0.639  sd=2.483  min=-7.176  max=9.580 
+
+[2] PAIRWISE TRANSPORT-COST (tau) CHANGES, 1960 -> 1986 
+    O-D pairs with finite tau both years: 48516 
+    Share of pairs CHEAPER in 1986 (ratio<1): 91.6% 
+    Median tau ratio (1986/1960): 0.795 
+    (ratio 0.50 = pair got twice as cheap; 1.0 = unchanged) 
+    tau-ratio quantiles: p5=0.26 p25=0.55 p50=0.80 p75=0.95 p95=1.04 
+
+[3] MA GAIN vs LOCAL ROAD DENSIFICATION (C16: centroid+HMI) 
+    cor(dlogMA, d road km) = 0.279   (N=309) 
+    If high & positive: MA gain tracks LOCAL road building, 
+    consistent with the centroid+HMI off-network channel inflating 
+    MA where roads densify near the district reference point. 
+
+[4] MA GAIN vs DISTANCE TO BUENOS AIRES (C28: fluvial/BA corridor) 
+    cor(dlogMA, dist_to_BA) = 0.268   (N=312) 
+    Negative => districts FAR from BA gain LESS; near gain more. 
+
+[5] THE 28 DISTRICTS THAT LOSE MA 
+    mean dist_to_BA, losers:  518.677  (vs 668.644 all) 
+    mean d road km, losers:   123.8  (vs 169.3 all) 
+    mean d rail km, losers:   -79.8  (vs -30.4 all) 
+
+====================================================================== 
+INTERPRETATION GUIDE (for the meeting) 
+====================================================================== 
+- If [2] shows nearly all pairs cheaper and the median ratio is 
+  well below 1, road expansion is lowering costs broadly. That is 
+  mechanically why ~everyone gains. Question for the team: is a 
+  ~20%-cheaper median O-D cost plausible for 1960-1986? 
+- If [3] cor is high & positive, MA gain tracks LOCAL road km, 
+  pointing at the centroid+HMI off-network channel (C16). 
+- If [4] cor is weak, the gain is NOT mainly a BA-distance story; 
+  if strongly negative, the BA-corridor/fluvial channel (C28) is 
+  a live suspect for the spatial pattern. 
+ 
+NEEDS A PIPELINE RE-RUN (Bloque 1, not done here): 
+  (a) No-fluvial tau: set navigation cost to Inf, recompute MA, 
+      see if the 91% gain and the riverine pattern shrink. (C28) 
+  (b) Alternate district reference point: pole-of-inaccessibility 
+      or urban-area centroid instead of geographic centroid, to 
+      test the centroid+HMI artefact. (C16/C18 Level 1) 
+  (c) Transshipment cost > 0 at mode-switch points. (C18 Level 2) 
+====================================================================== 
