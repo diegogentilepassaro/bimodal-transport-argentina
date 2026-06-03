@@ -57,6 +57,7 @@ ON_NET_THRESHOLD <- 5     # on-net cost set {0.621,1.777,1.874}; land min ~46
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
     out_dir <- file.path(dir_derived_analysis, "connector_variant")
     if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
@@ -255,6 +256,8 @@ summarise_and_regress <- function(out_dir, rep) {
     rep("\n%s", strrep("-", 70))
     rep("[B] POPULATION ELASTICITY under connector re-cost (s0, theta low)")
     rep("    Full four-column grid (OLS / IV-LP / IV-Hypo / IV-Both).")
+    rep("    Uses the canonical fit_iv_quad() + fitstat_F() (ivf) helpers,")
+    rep("    so F is the SAME statistic the baseline tables report.")
     rep("%s", strrep("-", 70))
     m <- merge(
         base[, c("geolev2", "chg_log_pop_91_60", "log_pop_1960",
@@ -263,84 +266,66 @@ summarise_and_regress <- function(out_dir, rep) {
         ma[, c("geolev2", "chg_logMA_86_60_v", "chg_logMA_stu_v",
                "chg_logMA_lcpmst_v", "logMA_1960_v")],
         by = "geolev2")
-    ctrls <- paste("logMA_1960_v + log_pop_1960 + elev_mean_std +",
-                   "rugged_mea_std + wheat_std + preCal_std +",
-                   "postCal_std + dist_to_BA_std")
 
-    # First-stage F. Prefer fixest's ivwald; fall back to a manual
-    # first-stage joint Wald (verified equivalent) when the accessor
-    # returns NA (happens for some just-identified specs here).
-    instr_of <- list("fit_chg_logMA_86_60_v" = NULL)
-    fF_manual <- function(instr_vec) {
-        fs <- suppressMessages(fixest::feols(as.formula(sprintf(
-            "chg_logMA_86_60_v ~ %s + %s",
-            paste(instr_vec, collapse = " + "), ctrls)),
-            data = m, vcov = "hetero"))
-        as.numeric(fixest::wald(fs, instr_vec, print = FALSE)$stat)
+    # Controls = geo_controls_main, but swap the centroid baseline log MA
+    # for the re-cost baseline log MA (logMA_1960_v) so the convergence
+    # control is internally consistent with the variant treatment.
+    ctrls_v <- c(setdiff(geo_controls_main, "logMA_actual_1960_s0_elow"),
+                 "logMA_1960_v")
+
+    fits <- fit_iv_quad(
+        y = "chg_log_pop_91_60", data = m,
+        endog = "chg_logMA_86_60_v",
+        lp_instr = "chg_logMA_stu_v",
+        hypo_instr = "chg_logMA_lcpmst_v",
+        ctrls_vec = ctrls_v)
+
+    co <- function(nm) {
+        cn <- if (nm == "OLS") "chg_logMA_86_60_v" else
+                                "fit_chg_logMA_86_60_v"
+        safe_coef(fits[[nm]], cn)
     }
-    fF <- function(mod, instr_vec) {
-        v <- tryCatch(fitstat(mod, "ivwald")[[1]]$stat,
-                      error = function(e) NA_real_)
-        if (is.na(v)) v <- fF_manual(instr_vec)
-        v
-    }
-
-    m_ols <- suppressMessages(fixest::feols(
-        as.formula(sprintf("chg_log_pop_91_60 ~ chg_logMA_86_60_v + %s",
-                           ctrls)), data = m, vcov = "hetero"))
-    m_lp  <- suppressMessages(fixest::feols(as.formula(sprintf(
-        "chg_log_pop_91_60 ~ %s | chg_logMA_86_60_v ~ chg_logMA_stu_v",
-        ctrls)), data = m, vcov = "hetero"))
-    m_h   <- suppressMessages(fixest::feols(as.formula(sprintf(
-        "chg_log_pop_91_60 ~ %s | chg_logMA_86_60_v ~ chg_logMA_lcpmst_v",
-        ctrls)), data = m, vcov = "hetero"))
-    m_b   <- suppressMessages(fixest::feols(as.formula(sprintf(
-        "chg_log_pop_91_60 ~ %s | chg_logMA_86_60_v ~ chg_logMA_stu_v + chg_logMA_lcpmst_v",
-        ctrls)), data = m, vcov = "hetero"))
-
+    c_ols <- co("OLS"); c_lp <- co("IV-LP"); c_h <- co("IV-H"); c_b <- co("IV-B")
     rep("  OLS     beta = %+.3f (%.3f)   N=%d",
-        coef(m_ols)["chg_logMA_86_60_v"], m_ols$se["chg_logMA_86_60_v"],
-        m_ols$nobs)
-    rep("  IV-LP   beta = %+.3f (%.3f)   F=%.1f",
-        coef(m_lp)["fit_chg_logMA_86_60_v"],
-        m_lp$se["fit_chg_logMA_86_60_v"], fF(m_lp, "chg_logMA_stu_v"))
-    rep("  IV-Hypo beta = %+.3f (%.3f)   F=%.1f",
-        coef(m_h)["fit_chg_logMA_86_60_v"],
-        m_h$se["fit_chg_logMA_86_60_v"], fF(m_h, "chg_logMA_lcpmst_v"))
-    rep("  IV-Both beta = %+.3f (%.3f)   F=%.1f",
-        coef(m_b)["fit_chg_logMA_86_60_v"],
-        m_b$se["fit_chg_logMA_86_60_v"],
-        fF(m_b, c("chg_logMA_stu_v", "chg_logMA_lcpmst_v")))
+        c_ols$est, c_ols$se, fits[["OLS"]]$nobs)
+    rep("  IV-LP   beta = %+.3f (%.3f)   F=%.2f",
+        c_lp$est, c_lp$se, fitstat_F(fits[["IV-LP"]]))
+    rep("  IV-Hypo beta = %+.3f (%.3f)   F=%.2f",
+        c_h$est, c_h$se, fitstat_F(fits[["IV-H"]]))
+    rep("  IV-Both beta = %+.3f (%.3f)   F=%.2f",
+        c_b$est, c_b$se, fitstat_F(fits[["IV-B"]]))
     rep("")
-    rep("  BASELINE (table_9): OLS +0.022 (0.012); IV-LP +0.042 (0.042) F=19.3;")
-    rep("    IV-Hypo +0.059 (0.082) F=4.9; IV-Both +0.046 (0.033) F=13.6.")
+    rep("  BASELINE (table_9, same helper/statistic):")
+    rep("    OLS +0.022 (0.012); IV-LP +0.042 (0.042) F=19.32;")
+    rep("    IV-Hypo +0.059 (0.082) F=4.95; IV-Both +0.046 (0.033) F=13.59.")
     rep("  Gibbons 2024 ~0.3.")
 
     # First-stage instrument coefficients (the identification-flip story).
-    fs1 <- suppressMessages(fixest::feols(as.formula(sprintf(
-        "chg_logMA_86_60_v ~ chg_logMA_stu_v + chg_logMA_lcpmst_v + %s",
-        ctrls)), data = m, vcov = "hetero"))
-    rep("\n  First-stage instrument coefs (re-cost):")
-    rep("    Larkin (stu)  : %+.3f (t=%.2f)",
-        coef(fs1)["chg_logMA_stu_v"],
-        coef(fs1)["chg_logMA_stu_v"] / fs1$se["chg_logMA_stu_v"])
-    rep("    Hypo (lcp_mst): %+.3f (t=%.2f)",
-        coef(fs1)["chg_logMA_lcpmst_v"],
-        coef(fs1)["chg_logMA_lcpmst_v"] / fs1$se["chg_logMA_lcpmst_v"])
+    fs1 <- fits[["IV-B"]]
+    fs_coef <- summary(fs1, stage = 1)$coeftable
+    lp_row <- "chg_logMA_stu_v"; h_row <- "chg_logMA_lcpmst_v"
+    rep("\n  First-stage instrument coefs (re-cost, IV-Both first stage):")
+    rep("    Larkin (stu)  : %+.4f (t=%.2f)",
+        fs_coef[lp_row, 1], fs_coef[lp_row, 3])
+    rep("    Hypo (lcp_mst): %+.4f (t=%.2f)",
+        fs_coef[h_row, 1], fs_coef[h_row, 3])
 
     rep("\n%s", strrep("=", 70))
     rep("READING:")
     rep("  - IV-Both beta moves +0.046 -> +0.063 (toward Gibbons ~0.3),")
     rep("    consistent with capillarity having attenuated it. But the move")
-    rep("    is modest and still far below 0.3.")
-    rep("  - The IDENTIFICATION FLIPS: re-costing connectors kills the Larkin")
-    rep("    first stage (F 19.3 -> ~0) and hands all identification to the")
-    rep("    hypothetical-road instrument (F 4.9 -> ~25). Mechanically: with")
-    rep("    cheap road connectors everywhere, removing studied RAIL barely")
-    rep("    moves MA, so the Larkin discontinuity loses its bite.")
+    rep("    is modest and still far below 0.3 -- theta is the dominant lever")
+    rep("    on the level, not the connector.")
+    rep("  - The IDENTIFICATION FLIPS: re-costing connectors KILLS the Larkin")
+    rep("    first stage (F 19.3 -> ~0; coef insignificant) and makes the")
+    rep("    hypothetical-road instrument go from WEAK (F 4.95) to very strong")
+    rep("    (F ~191). Mechanically: with cheap road connectors everywhere,")
+    rep("    removing studied RAIL barely moves MA, so Larkin loses its bite.")
     rep("  - IMPLICATION: the re-cost is not a free 'de-bias'. It trades the")
-    rep("    paper's flagship rail instrument for the weaker road instrument.")
-    rep("    Decide jointly before treating this as a headline spec.")
+    rep("    paper's flagship rail instrument for the road instrument, and")
+    rep("    pushes OPPOSITE to the IV-LP-only direction under discussion")
+    rep("    (tasks.md PENDING DECISIONS #8). Coauthor decision, not a")
+    rep("    unilateral spec change.")
     rep("%s", strrep("=", 70))
 }
 

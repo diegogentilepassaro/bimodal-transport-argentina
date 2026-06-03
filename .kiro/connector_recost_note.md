@@ -29,17 +29,25 @@ MA gain (share of districts with ΔlogMA > 0): **91.0% → 76.9%**.
 Mean ΔlogMA 1.559 → 0.506. So re-costing compresses the near-universal
 gain, as expected — the inflated winners deflate.
 
-Population elasticity, sector 0, θ_low, four-column grid:
+Population elasticity, sector 0, θ_low, four-column grid. F is the
+project-canonical first-stage statistic (`fitstat_F`, type `ivf`) — the
+same one the baseline tables report (baseline reproduces exactly):
 
 | spec | baseline β (F) | re-cost β (F) |
 |------|----------------|---------------|
 | OLS | +0.022 | +0.032 |
-| IV-LP (Larkin) | +0.042 (F=19.3) | **−39.5 (F=0.0)** |
-| IV-Hypo (road) | +0.059 (F=4.9) | **+0.064 (F=25.5)** |
-| IV-Both | +0.046 (F=13.6) | **+0.063 (F=13.5)** |
+| IV-LP (Larkin) | +0.042 (F=19.32) | **−39.5 (F=0.00)** |
+| IV-Hypo (road) | +0.059 (F=4.95) | **+0.064 (F=191.0)** |
+| IV-Both | +0.046 (F=13.59) | **+0.063 (F=95.4)** |
 
-First-stage instrument coefs under re-cost: Larkin (stu) −0.024 (t=−0.37),
-Hypo (lcp_mst) +0.566 (t=5.07).
+First-stage instrument coefs under re-cost (IV-Both first stage):
+Larkin (stu) −0.0245 (t=−0.37), Hypo (lcp_mst) +0.566 (t=5.07). In the
+just-identified IV-LP the Larkin coef is −0.0006 (t=−0.01), hence F≈0.
+
+> Note on the statistic: an earlier version of this note reported F via
+> `ivwald` (IV-Hypo 25.5, IV-Both 13.5). That was the WRONG statistic —
+> the baseline tables use `ivf` through `fitstat_F()`. Corrected here and
+> in the script; the qualitative story is unchanged but sharper.
 
 ## Interpretation — two findings, the second is the important one
 
@@ -50,12 +58,13 @@ Hypo (lcp_mst) +0.566 (t=5.07).
    (see theta_benchmark_note: β hits 0.3 only at θ≈1).
 
 2. **The identification FLIPS — this is the headline.** Re-costing the
-   connector kills the Larkin first stage (F 19.3 → ~0; coef insignificant)
-   and hands ALL identification to the hypothetical-road instrument
-   (F 4.9 → 25.5). Mechanism: once cheap road connectors blanket the
-   landscape, removing *studied rail* segments barely changes MA, so the
-   Larkin discontinuity loses its bite. The +0.063 IV-Both is now driven
-   almost entirely by the road instrument, not the rail one.
+   connector kills the Larkin first stage (F 19.32 → 0.00; coef
+   insignificant) and turns the hypothetical-road instrument from WEAK
+   (F 4.95, below Stock-Yogo 10) into very strong (F → 191). Mechanism:
+   once cheap road connectors blanket the landscape, removing *studied
+   rail* segments barely changes MA, so the Larkin discontinuity loses
+   its bite. The +0.063 IV-Both is now driven almost entirely by the road
+   instrument, not the rail one.
 
 ## Why this matters for the paper
 
