@@ -4,7 +4,7 @@ Representative land cost c_repr: 1960=146.6, 1986=146.7
 ======================================================================
 
 Districts: 312
-On-network threshold (cost units): 50
+On-network threshold (cost units): 5
 
 Distance centroid -> nearest on-network cell, 1960 (km):
      0%     10%     25%     50%     75%     90%    100% 
@@ -28,6 +28,12 @@ Land share of a TYPICAL PAIR through district i, 1960
 One-ended land share (leg_i / median_tau_i), 1960:
     0%    10%    25%    50%    75%    90%   100% 
 0.0000 0.0000 0.0767 0.2614 0.4235 0.5361 1.0387 
+
+Change in land leg as share of tau, |delta_leg|/median_tau,
+  among the districts whose connector distance shrank:
+    0%    10%    25%    50%    75%    90%   100% 
+0.0063 0.0535 0.0821 0.2184 0.3399 0.4835 0.8630 
+  (median = 0.2184 over 123 shrinking districts)
 
 INTERPRETATION GUIDE:
   - If median pair land-share is small (<~5%), the centroid->network

@@ -40,7 +40,12 @@ suppressPackageStartupMessages({
     library(arrow)
 })
 
-ON_NET_THRESHOLD <- 50      # cost <= 50 => on-network (gap is 1.874 -> ~95)
+# On-network cost set for s0 is {0.621 nav, 1.777 road, 1.874 rail}; the
+# lowest land cell is ~46 (cost_land × min HMI). Threshold of 5 sits cleanly
+# in the gap: above every on-network value, far below any land cell. (An
+# earlier value of 50 misclassified 5 low-HMI land cells as on-network;
+# harmless to the conclusion but tightened here for an airtight separation.)
+ON_NET_THRESHOLD <- 5
 
 main <- function() {
 
@@ -62,7 +67,11 @@ main <- function() {
         stringsAsFactors = FALSE
     )
     df$delta_d_km <- df$d_1986_km - df$d_1960_km           # <= 0 (densify)
-    df$delta_leg  <- df$leg_1986 - df$leg_1960
+    # Hold c_repr fixed at the 1960 value so delta_leg is a pure distance
+    # (densification) effect, not contaminated by the tiny year-to-year
+    # change in median land cost (146.6 vs 146.7).
+    df$leg_1986_fixc <- res86$d_km * 1000 * res60$c_repr
+    df$delta_leg  <- df$leg_1986_fixc - df$leg_1960
 
     # Per-district median tau (symmetrize the lower-triangle table).
     med_tau <- per_district_median_tau()
@@ -184,6 +193,18 @@ write_outputs <- function(df, c_repr_used, c_repr_86) {
         "",
         "One-ended land share (leg_i / median_tau_i), 1960:",
         capture.output(print(qs(df$land_share_oneend_60))),
+        "",
+        "Change in land leg as share of tau, |delta_leg|/median_tau,",
+        "  among the districts whose connector distance shrank:",
+        {
+            sh <- with(df[df$delta_d_km < -1e-6, ],
+                       abs(delta_leg) / median_tau)
+            capture.output(print(qs(sh)))
+        },
+        sprintf("  (median = %.4f over %d shrinking districts)",
+                median(abs(df$delta_leg[df$delta_d_km < -1e-6]) /
+                       df$median_tau[df$delta_d_km < -1e-6], na.rm = TRUE),
+                sum(df$delta_d_km < -1e-6, na.rm = TRUE)),
         "",
         "INTERPRETATION GUIDE:",
         "  - If median pair land-share is small (<~5%), the centroid->network",
