@@ -1,0 +1,49 @@
+====================================================================== 
+MA CONNECTOR RE-COST DIAGNOSTIC (Cote experiment) 
+Re-cost centroid->network least-cost connector to road cost 1.777 
+Generated: 2026-06-03 19:55:08 
+====================================================================== 
+
+Centroids: 312 districts 
+[actual_1960_s0] tau already exists, skipping 
+[actual_1986_s0] tau already exists, skipping 
+[instrument_stu_s0] tau already exists, skipping 
+[instrument_lcp_mst_s0] tau already exists, skipping 
+
+---------------------------------------------------------------------- 
+[A] MA GAIN: baseline centroid vs connector re-cost 
+---------------------------------------------------------------------- 
+  baseline:          share gain 91.0%  mean 1.559  median 0.639 
+  connector re-cost: share gain 76.9%  mean 0.506  median 0.210 
+
+---------------------------------------------------------------------- 
+[B] POPULATION ELASTICITY under connector re-cost (s0, theta low) 
+    Full four-column grid (OLS / IV-LP / IV-Hypo / IV-Both). 
+---------------------------------------------------------------------- 
+  OLS     beta = +0.032 (0.019)   N=309 
+  IV-LP   beta = -39.541 (4084.461)   F=0.0 
+  IV-Hypo beta = +0.064 (0.033)   F=25.5 
+  IV-Both beta = +0.063 (0.033)   F=13.5 
+ 
+  BASELINE (table_9): OLS +0.022 (0.012); IV-LP +0.042 (0.042) F=19.3; 
+    IV-Hypo +0.059 (0.082) F=4.9; IV-Both +0.046 (0.033) F=13.6. 
+  Gibbons 2024 ~0.3. 
+
+  First-stage instrument coefs (re-cost): 
+    Larkin (stu)  : -0.024 (t=-0.37) 
+    Hypo (lcp_mst): +0.566 (t=5.07) 
+
+====================================================================== 
+READING: 
+  - IV-Both beta moves +0.046 -> +0.063 (toward Gibbons ~0.3), 
+    consistent with capillarity having attenuated it. But the move 
+    is modest and still far below 0.3. 
+  - The IDENTIFICATION FLIPS: re-costing connectors kills the Larkin 
+    first stage (F 19.3 -> ~0) and hands all identification to the 
+    hypothetical-road instrument (F 4.9 -> ~25). Mechanically: with 
+    cheap road connectors everywhere, removing studied RAIL barely 
+    moves MA, so the Larkin discontinuity loses its bite. 
+  - IMPLICATION: the re-cost is not a free 'de-bias'. It trades the 
+    paper's flagship rail instrument for the weaker road instrument. 
+    Decide jointly before treating this as a headline spec. 
+====================================================================== 
