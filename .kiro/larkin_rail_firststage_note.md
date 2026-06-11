@@ -27,22 +27,26 @@ re-cost to `cost_road[overall]`), isolated in `rail_firststage_variant/`.
 
 ## Result — confirms Cote's hypothesis
 
-| spec | Larkin to MA_rail F | (ref) Larkin to total-MA F |
-|------|--------------------|---------------------------|
-| Baseline (HMI) | **75.6** (coef +0.277, t=4.7) | 19.3 |
-| Connector re-cost | **237.9** (coef +0.538, t=6.2) | ~0 |
+F is reported two ways: `ivf` (IID, the statistic the baseline tables use
+via `fitstat_F` — comparable to the total-MA F) and robust HC1 (= t²).
 
-Larkin predicts MA_rail strongly in BOTH specs — stronger after the re-cost.
-So the total-MA F~0 under re-cost is a **composition effect**: cheap road
-connectors make total MA road-dominated, so a rail instrument can't move
-total MA, but Larkin's grip on the rail channel is intact (sharper, even).
-**The instrument is valid for the rail channel.**
+| spec | Larkin→MA_rail F (ivf / robust) | (ref) Larkin→total-MA F (ivf) |
+|------|---------------------------------|-------------------------------|
+| Baseline (HMI) | **75.6 / 22.3** (coef +0.277, t=4.7) | 19.3 |
+| Connector re-cost | **237.9 / 38.3** (coef +0.538, t=6.2) | ~0 |
+
+Larkin predicts MA_rail strongly in BOTH specs (every F ≫ 10) — stronger
+after the re-cost. So the total-MA F~0 under re-cost is a **composition
+effect**: cheap road connectors make total MA road-dominated, so a rail
+instrument can't move total MA, but Larkin's grip on the rail channel is
+intact (sharper, even). **The instrument is valid for the rail channel.**
 
 Bonus (rail-MA IV beta on population): +0.043 (baseline) / +0.026 (re-cost)
 — small, consistent with the total-MA headline (+0.046 / +0.063).
 
-N = 310 districts with finite ΔlogMA_rail (rail-only surface leaves a few
-disconnected, e.g. Tierra del Fuego; 620 Inf pairs per τ, contribute 0 to MA).
+Regression N = 309 (CF + 2 TdF drop on missing pop/controls). The rail-only
+surface leaves a few districts disconnected (e.g. Tierra del Fuego; 620 Inf
+pairs per τ, which contribute 0 to MA).
 
 ## Implication / caveat (decision, not result)
 

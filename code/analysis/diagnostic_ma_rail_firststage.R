@@ -147,10 +147,14 @@ run_first_stage <- function(tau_1960, tau_1986, tau_stu, pop, base, rep) {
     fs1 <- summary(mod, stage = 1)$coeftable["chg_rail_stu", ]
 
     n_fin <- sum(is.finite(d$chg_rail_86_60) & is.finite(d$chg_rail_stu))
-    rep("  N (finite ΔlogMA_rail pairs in sample): %d", n_fin)
+    rep("  N (regression sample): %d   [finite rail-MA pairs: %d]",
+        mod$nobs, n_fin)
     rep("  First-stage: Δrail_stu coef = %+.3f (t=%.2f)",
         fs1["Estimate"], fs1["t value"])
-    rep("  First-stage F (ivf): %.2f", fitstat_F(mod))
+    rep("  First-stage F: %.2f (ivf, IID — comparable to baseline tables)",
+        fitstat_F(mod))
+    rep("  First-stage F: %.2f (robust HC1, = t^2)",
+        as.numeric(fs1["t value"])^2)
     rep("  [bonus] rail-MA IV beta on pop = %+.3f (%.3f)  (the rail estimand)",
         co$est, co$se)
 }
