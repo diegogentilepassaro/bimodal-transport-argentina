@@ -1,0 +1,245 @@
+# ===========================================================================
+# diagnostic_theta_sweep_sectoral.R
+#
+# PURPOSE: Is the QUALITATIVE pattern (manufacturing responds, agriculture
+#          does not) robust across theta? The population theta sweep
+#          (diagnostic_theta_sweep.R) showed the population BETA LEVEL is
+#          highly theta-sensitive. This script extends the same re-weighting
+#          to the sectoral outcomes, so we can read whether the sign /
+#          significance pattern across sectors holds across the whole theta
+#          grid — robustness useful under EITHER theta resolution (structural
+#          iceberg or centrality). Feeds memo Decision A.
+#
+#   MA_i = sum_{j!=i} Pop_j / tau_ij^theta. Different theta only RE-WEIGHTS
+#   the existing tau matrices — no Dijkstra rerun (minutes, not hours).
+#
+# SPEC: IV-Both per outcome, controls = geo_controls_main with the baseline
+#   logMA control recomputed at THIS theta (l60). HC1 SE. First-stage F
+#   reported as ivf (IID, comparable to the tables) AND robust (t^2).
+#
+# OUTCOMES (six):
+#   chg_log_pop_91_60          population (anchor: Table 9)
+#   chg_log_valprod_85_54      mfg production value (Table 10 A)
+#   chg_log_massal_85_54       mfg wage mass (Table 10 A)
+#   chg_log_nestab_85_54       mfg establishments (Table 10 A)
+#   chg_log_nexp_88_60         agriculture farms (Table 10 B)
+#   chg_log_areatot_ha_88_60   agriculture farmed area (Table 10 B)
+#
+# THETA GRID: 1, 2, 3, 4.55 (main), 6, 8.11 (alt), 10, 12 (matches the
+#   population sweep).
+#
+# READS:
+#   data/derived/03_taus/tau_{actual_1960,actual_1986}_s0.parquet
+#   data/derived/03_taus/tau_instrument_{stu,lcp_mst}_s0.parquet
+#   data/derived/base/census_1960/census_1960_ipums.parquet
+#   data/derived/06_analysis/estimation_sample.parquet
+#
+# PRODUCES:
+#   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv}
+# ===========================================================================
+
+suppressPackageStartupMessages({
+    library(arrow)
+    library(fixest)
+})
+
+THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
+
+OUTCOMES <- list(
+    list(var = "chg_log_pop_91_60",        lab = "population"),
+    list(var = "chg_log_valprod_85_54",    lab = "mfg production value"),
+    list(var = "chg_log_massal_85_54",     lab = "mfg wage mass"),
+    list(var = "chg_log_nestab_85_54",     lab = "mfg establishments"),
+    list(var = "chg_log_nexp_88_60",       lab = "ag farms"),
+    list(var = "chg_log_areatot_ha_88_60", lab = "ag farmed area")
+)
+
+GEO6 <- c("elev_mean_std", "rugged_mea_std", "wheat_std",
+          "preCal_std", "postCal_std", "dist_to_BA_std")
+
+main <- function() {
+    source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+
+    report_path <- file.path(dir_tables,
+                             "diagnostic_theta_sweep_sectoral.txt")
+    con <- file(report_path, open = "wt")
+    rep <- function(...) { line <- sprintf(...); cat(line, "\n")
+                           cat(line, "\n", file = con) }
+
+    rep("%s", strrep("=", 70))
+    rep("THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta)")
+    rep("Is 'manufacturing responds, agriculture does not' robust to theta?")
+    rep("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
+    rep("Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE")
+    rep("%s", strrep("=", 70))
+
+    pop <- load_1960_pop()
+    tau <- list(
+        a60 = read_tau("actual_1960_s0"), a86 = read_tau("actual_1986_s0"),
+        stu = read_tau("instrument_stu_s0"),
+        lcp = read_tau("instrument_lcp_mst_s0"))
+
+    base <- arrow::read_parquet(
+        file.path(dir_derived_analysis, "estimation_sample.parquet"))
+    base <- ensure_geolev2_char(base)
+    out_vars <- vapply(OUTCOMES, function(o) o$var, character(1))
+    keep <- c("geolev2", out_vars, "log_pop_1960", GEO6)
+    base <- base[, keep]
+
+    rows <- list()
+    for (th in THETA_GRID) {
+        ma <- build_ma_changes(tau, pop, th)  # geolev2, chg, chgstu, chglcp, l60
+        d0 <- merge(base, ma, by = "geolev2")
+        for (o in OUTCOMES) {
+            r <- fit_iv_both(d0, o$var, th)
+            r$outcome <- o$lab
+            rows[[length(rows) + 1L]] <- r
+        }
+    }
+    df <- do.call(rbind, rows)
+
+    print_matrix(df, rep)
+    write.csv(df[, c("outcome", "theta", "beta", "se", "p", "stars",
+                     "F_ivf", "F_robust", "n_obs")],
+              file.path(dir_tables, "diagnostic_theta_sweep_sectoral.csv"),
+              row.names = FALSE)
+
+    rep("\n%s", strrep("=", 70))
+    rep("READING: scan each row across theta. If the mfg rows stay")
+    rep("positive+significant and the ag rows stay ~0/ns across the grid,")
+    rep("the sectoral pattern is robust to theta even though the population")
+    rep("LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1).")
+    rep("%s", strrep("=", 70))
+    close(con)
+    message("\nSaved: ", report_path)
+}
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+read_tau <- function(case) {
+    arrow::read_parquet(
+        file.path(dir_derived_taus, sprintf("tau_%s.parquet", case)))
+}
+
+load_1960_pop <- function() {
+    d <- arrow::read_parquet(
+        file.path(dir_derived_census1960, "census_1960_ipums.parquet"))
+    d <- ensure_geolev2_char(d)
+    data.frame(geolev2 = d$geolev2, pop = as.numeric(d$pop))
+}
+
+compute_ma <- function(tau_df, pop_df, theta_val) {
+    tau_df <- ensure_geolev2_char(tau_df, "origin_geolev2")
+    tau_df <- ensure_geolev2_char(tau_df, "destination_geolev2")
+    sym <- rbind(
+        tau_df[, c("origin_geolev2", "destination_geolev2", "tau")],
+        data.frame(origin_geolev2      = tau_df$destination_geolev2,
+                   destination_geolev2 = tau_df$origin_geolev2,
+                   tau                 = tau_df$tau))
+    sym <- merge(sym,
+                 data.frame(destination_geolev2 = pop_df$geolev2,
+                            pop_dest = pop_df$pop),
+                 by = "destination_geolev2", all.x = TRUE)
+    sym$pop_dest[is.na(sym$pop_dest)] <- 0
+    sym$weight <- ifelse(is.finite(sym$tau) & sym$tau > 0,
+                         1 / (sym$tau^theta_val), 0)
+    sym$contrib <- sym$weight * sym$pop_dest
+    ma_df <- aggregate(contrib ~ origin_geolev2, data = sym, FUN = sum)
+    names(ma_df) <- c("geolev2", "MA")
+    ma_df$logMA <- log(ma_df$MA)
+    ma_df
+}
+
+# Build the treatment + two instrument changes + baseline logMA at one theta
+build_ma_changes <- function(tau, pop, th) {
+    ma60  <- compute_ma(tau$a60, pop, th)
+    ma86  <- compute_ma(tau$a86, pop, th)
+    mastu <- compute_ma(tau$stu, pop, th)
+    malcp <- compute_ma(tau$lcp, pop, th)
+    ma <- Reduce(function(a, b) merge(a, b, by = "geolev2"), list(
+        data.frame(geolev2 = ma60$geolev2,  l60 = ma60$logMA),
+        data.frame(geolev2 = ma86$geolev2,  l86 = ma86$logMA),
+        data.frame(geolev2 = mastu$geolev2, lstu = mastu$logMA),
+        data.frame(geolev2 = malcp$geolev2, llcp = malcp$logMA)))
+    ma <- ensure_geolev2_char(ma)
+    ma$chg    <- ma$l86  - ma$l60
+    ma$chgstu <- ma$lstu - ma$l60
+    ma$chglcp <- ma$llcp - ma$l60
+    ma[, c("geolev2", "chg", "chgstu", "chglcp", "l60")]
+}
+
+# Fit IV-Both for one outcome at one theta. Mirrors the population template:
+# six standardized geo controls + log_pop_1960 + baseline logMA at THIS theta
+# (l60). Two instruments (chgstu = Larkin, chglcp = LCP-MST). HC1 SE.
+# Returns one row. F_ivf = IID first-stage F (comparable to the paper tables);
+# F_robust = heteroskedasticity-robust joint first-stage Wald (model vcov).
+fit_iv_both <- function(d0, yvar, th) {
+    d0 <- d0[is.finite(d0$chg) & is.finite(d0$chgstu) &
+             is.finite(d0$chglcp) & is.finite(d0$l60) &
+             !is.na(d0[[yvar]]), ]
+    ctrls <- paste(c(GEO6, "log_pop_1960", "l60"), collapse = " + ")
+    fml <- as.formula(
+        sprintf("%s ~ %s | chg ~ chgstu + chglcp", yvar, ctrls))
+    m <- suppressMessages(fixest::feols(fml, data = d0, vcov = "hetero"))
+
+    b  <- unname(coef(m)["fit_chg"])
+    se <- unname(m$se["fit_chg"])
+    p  <- unname(m$coeftable["fit_chg", 4])
+    stars <- if (is.na(p)) "" else if (p < .01) "***" else
+             if (p < .05) "**" else if (p < .10) "*" else ""
+
+    f_ivf <- tryCatch({
+        f <- fitstat(m, type = "ivf")
+        if (is.list(f) && !is.null(f[[1]]$stat)) as.numeric(f[[1]]$stat)
+        else NA_real_
+    }, error = function(e) NA_real_)
+    f_rob <- tryCatch({
+        f <- fitstat(m, type = "ivwald")
+        if (is.list(f) && !is.null(f[[1]]$stat)) as.numeric(f[[1]]$stat)
+        else NA_real_
+    }, error = function(e) NA_real_)
+
+    data.frame(theta = th, beta = b, se = se, p = p, stars = stars,
+               F_ivf = f_ivf, F_robust = f_rob, n_obs = m$nobs,
+               stringsAsFactors = FALSE)
+}
+
+# Readable matrices: rows = outcomes, cols = theta. First the IV-Both beta
+# (with stars), then the IID first-stage F so weak-instrument regions are
+# visible at a glance.
+print_matrix <- function(df, rep) {
+    thetas <- sort(unique(df$theta))
+    outs   <- unique(df$outcome)
+
+    hdr <- sprintf("%-22s", "outcome \\ theta")
+    for (th in thetas) hdr <- paste0(hdr, sprintf(" %9s", sprintf("%.2f", th)))
+
+    rep("\n%s", "IV-Both beta (stars: * .10  ** .05  *** .01):")
+    rep("%s", hdr)
+    rep("%s", strrep("-", nchar(hdr)))
+    for (o in outs) {
+        line <- sprintf("%-22s", o)
+        for (th in thetas) {
+            r <- df[df$outcome == o & abs(df$theta - th) < 1e-9, ]
+            line <- paste0(line, sprintf(" %9s",
+                           sprintf("%+.3f%s", r$beta, r$stars)))
+        }
+        rep("%s", line)
+    }
+
+    rep("\n%s", "First-stage F (ivf, IID — comparable to paper tables):")
+    rep("%s", hdr)
+    rep("%s", strrep("-", nchar(hdr)))
+    for (o in outs) {
+        line <- sprintf("%-22s", o)
+        for (th in thetas) {
+            r <- df[df$outcome == o & abs(df$theta - th) < 1e-9, ]
+            line <- paste0(line, sprintf(" %9.1f", r$F_ivf))
+        }
+        rep("%s", line)
+    }
+}
+
+main()
