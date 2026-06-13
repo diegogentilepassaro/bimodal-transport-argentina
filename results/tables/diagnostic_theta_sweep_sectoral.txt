@@ -1,0 +1,33 @@
+====================================================================== 
+THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta) 
+Is 'manufacturing responds, agriculture does not' robust to theta? 
+Generated: 2026-06-13 23:30:19 
+Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
+====================================================================== 
+
+IV-Both beta (stars: * .10  ** .05  *** .01): 
+outcome \ theta             1.00      2.00      3.00      4.55      6.00      8.11     10.00     12.00 
+------------------------------------------------------------------------------------------------------ 
+population                +0.372    +0.152    +0.084    +0.046    +0.031    +0.020    +0.015    +0.012 
+mfg production value    +2.360**  +0.833**  +0.456**  +0.259**  +0.182**  +0.128**  +0.101**  +0.083** 
+mfg wage mass          +3.107*** +1.061*** +0.576*** +0.330***  +0.234**  +0.166**  +0.132** +0.109*** 
+mfg establishments        +0.429    +0.164    +0.091    +0.055    +0.039    +0.027    +0.021    +0.017 
+ag farms                  +0.843    +0.316    +0.172    +0.095    +0.064    +0.043    +0.033    +0.026 
+ag farmed area            +0.811    +0.312    +0.178    +0.104    +0.072    +0.049    +0.038    +0.030 
+
+First-stage F (ivf, IID — comparable to outcome Tables 9/10/11): 
+outcome \ theta             1.00      2.00      3.00      4.55      6.00      8.11     10.00     12.00 
+------------------------------------------------------------------------------------------------------ 
+population                  10.1      12.3      13.7      13.6      12.8      12.0      11.6      11.5 
+mfg production value        10.3      12.5      14.0      13.9      13.1      12.2      11.9      11.7 
+mfg wage mass               11.0      13.3      14.7      14.5      13.6      12.7      12.3      12.1 
+mfg establishments          10.3      12.5      14.0      13.9      13.1      12.2      11.9      11.7 
+ag farms                    10.5      13.1      14.6      14.6      13.7      12.9      12.5      12.4 
+ag farmed area              10.5      13.1      14.6      14.6      13.7      12.9      12.5      12.4 
+
+====================================================================== 
+READING: scan each row across theta. If the mfg rows stay 
+positive+significant and the ag rows stay ~0/ns across the grid, 
+the sectoral pattern is robust to theta even though the population 
+LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1). 
+====================================================================== 
