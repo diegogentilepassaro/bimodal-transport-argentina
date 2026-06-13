@@ -15,7 +15,8 @@
 #
 # SPEC: IV-Both per outcome, controls = geo_controls_main with the baseline
 #   logMA control recomputed at THIS theta (l60). HC1 SE. First-stage F
-#   reported as ivf (IID, comparable to the tables) AND robust (t^2).
+#   reported as ivf (IID, comparable to outcome Tables 9/10/11) AND robust
+#   (ivwald joint Wald).
 #
 # OUTCOMES (six):
 #   chg_log_pop_91_60          population (anchor: Table 9)
@@ -173,8 +174,9 @@ build_ma_changes <- function(tau, pop, th) {
 # Fit IV-Both for one outcome at one theta. Mirrors the population template:
 # six standardized geo controls + log_pop_1960 + baseline logMA at THIS theta
 # (l60). Two instruments (chgstu = Larkin, chglcp = LCP-MST). HC1 SE.
-# Returns one row. F_ivf = IID first-stage F (comparable to the paper tables);
-# F_robust = heteroskedasticity-robust joint first-stage Wald (model vcov).
+# Returns one row. F_ivf = IID first-stage F (comparable to outcome Tables
+# 9/10/11, which report ivf via fitstat_F); F_robust = heteroskedasticity-
+# robust joint first-stage Wald (model vcov; ~ Table 8's robust Wald).
 fit_iv_both <- function(d0, yvar, th) {
     d0 <- d0[is.finite(d0$chg) & is.finite(d0$chgstu) &
              is.finite(d0$chglcp) & is.finite(d0$l60) &
@@ -229,7 +231,7 @@ print_matrix <- function(df, rep) {
         rep("%s", line)
     }
 
-    rep("\n%s", "First-stage F (ivf, IID — comparable to paper tables):")
+    rep("\n%s", "First-stage F (ivf, IID — comparable to outcome Tables 9/10/11):")
     rep("%s", hdr)
     rep("%s", strrep("-", nchar(hdr)))
     for (o in outs) {
