@@ -1,0 +1,59 @@
+Warning messages:
+1: package ‘sf’ was built under R version 4.5.2 
+2: package ‘sp’ was built under R version 4.5.2 
+3: package ‘terra’ was built under R version 4.5.2 
+4: package ‘igraph’ was built under R version 4.5.2 
+[config.R] rootdir = /Users/diegogp/Desktop/Diego/Trains/new_repo
+[config.R] Configuration loaded successfully.
+====================================================================== 
+MA CONNECTOR RE-COST DIAGNOSTIC (Cote experiment) 
+Re-cost centroid->network least-cost connector to road cost 1.777 
+Generated: 2026-06-03 19:10:49 
+====================================================================== 
+
+Centroids: 312 districts 
+
+---------------------------------------------------------------------- 
+[actual_1960_s0] re-costing connectors 
+[actual_1960_s0]   connector land-cells re-cost: 2819 (0 centroids already on-net) 
+[actual_1960_s0]   building transition + tau (~6 min) 
+[actual_1960_s0]   costDistance done in 291 s 
+
+---------------------------------------------------------------------- 
+[actual_1986_s0] re-costing connectors 
+[actual_1986_s0]   connector land-cells re-cost: 1540 (0 centroids already on-net) 
+[actual_1986_s0]   building transition + tau (~6 min) 
+[actual_1986_s0]   costDistance done in 260 s 
+
+---------------------------------------------------------------------- 
+[instrument_stu_s0] re-costing connectors 
+[instrument_stu_s0]   connector land-cells re-cost: 4094 (0 centroids already on-net) 
+[instrument_stu_s0]   building transition + tau (~6 min) 
+[instrument_stu_s0]   costDistance done in 244 s 
+
+---------------------------------------------------------------------- 
+[instrument_lcp_mst_s0] re-costing connectors 
+[instrument_lcp_mst_s0]   connector land-cells re-cost: 3355 (0 centroids already on-net) 
+[instrument_lcp_mst_s0]   building transition + tau (~6 min) 
+[instrument_lcp_mst_s0]   costDistance done in 270 s 
+
+---------------------------------------------------------------------- 
+[A] MA GAIN: baseline centroid vs connector re-cost 
+---------------------------------------------------------------------- 
+  baseline:          share gain 91.0%  mean 1.559  median 0.639 
+  connector re-cost: share gain 76.9%  mean 0.506  median 0.210 
+
+---------------------------------------------------------------------- 
+[B] POPULATION ELASTICITY under connector re-cost (s0, theta low) 
+---------------------------------------------------------------------- 
+  OLS  beta = +0.032 (0.019)   N=309 
+  IV-B beta = +0.063 (0.033)   F=-1.0   N=309 
+  (baseline IV-Both was +0.046 (0.033), F=13.6; Gibbons 2024 ~0.3) 
+
+====================================================================== 
+READING: if beta rises toward Gibbons (~0.3), capillarity inflation 
+was attenuating it (Cote's hypothesis confirmed). If beta is flat, 
+the connector channel is not the driver. 
+====================================================================== 
+
+Saved report: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_ma_connector.txt

@@ -1,0 +1,45 @@
+Connector pre-check — land leg (centroid -> nearest on-network cell)
+as a share of tau. Main spec: actual networks, sector 0.
+Representative land cost c_repr: 1960=146.6, 1986=146.7
+======================================================================
+
+Districts: 312
+On-network threshold (cost units): 5
+
+Distance centroid -> nearest on-network cell, 1960 (km):
+     0%     10%     25%     50%     75%     90%    100% 
+  0.000   0.000   1.242   6.273  14.997  28.218 245.095 
+
+Distance centroid -> nearest on-network cell, 1986 (km):
+    0%    10%    25%    50%    75%    90%   100% 
+ 0.000  0.000  1.242  3.727  8.958 16.115 89.937 
+
+Change in distance 1960 -> 1986 (km; <=0 means densification):
+      0%      10%      25%      50%      75%      90%     100% 
+-217.965  -13.023   -4.969    0.000    0.000    0.000   13.794 
+  Districts with d shrinking (delta < 0): 123 / 312
+  Districts already on-network in 1960 (d<1km): 47
+
+Land share of a TYPICAL PAIR through district i, 1960
+  (leg_i + median_leg) / median_tau_i:
+    0%    10%    25%    50%    75%    90%   100% 
+0.1612 0.3764 0.4225 0.5105 0.6042 0.6659 1.0976 
+
+One-ended land share (leg_i / median_tau_i), 1960:
+    0%    10%    25%    50%    75%    90%   100% 
+0.0000 0.0000 0.0767 0.2614 0.4235 0.5361 1.0387 
+
+Change in land leg as share of tau, |delta_leg|/median_tau,
+  among the districts whose connector distance shrank:
+    0%    10%    25%    50%    75%    90%   100% 
+0.0063 0.0535 0.0821 0.2184 0.3399 0.4835 0.8630 
+  (median = 0.2184 over 123 shrinking districts)
+
+INTERPRETATION GUIDE:
+  - If median pair land-share is small (<~5%), the centroid->network
+    leg is a minor part of tau: capillarity inflation is limited,
+    the full four-case rebuild is low-value.
+  - If it is large (>~15-20%) AND distances shrink 1960->1986 in many
+    districts, road densification can move Delta log MA materially:
+    the rebuild is worth doing.
+  - Middle ground: report and decide jointly.
