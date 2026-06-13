@@ -1,0 +1,34 @@
+====================================================================== 
+LARKIN FIRST STAGE ON MA_rail (Cote point 1) 
+Does the Larkin instrument predict the rail-only MA component? 
+Generated: 2026-06-11 20:13:13 
+====================================================================== 
+[actual_1960_s0] recost tau exists, skip 
+[actual_1986_s0] recost tau exists, skip 
+[instrument_stu_s0] recost tau exists, skip 
+
+---------------------------------------------------------------------- 
+[A] BASELINE (HMI) surface — Larkin first stage on MA_rail 
+---------------------------------------------------------------------- 
+  N (regression sample): 309   [finite rail-MA pairs: 310] 
+  First-stage: Δrail_stu coef = +0.277 (t=4.72) 
+  First-stage F: 75.59 (ivf, IID — comparable to baseline tables) 
+  First-stage F: 22.32 (robust HC1, = t^2) 
+  [bonus] rail-MA IV beta on pop = +0.043 (0.032)  (the rail estimand) 
+
+---------------------------------------------------------------------- 
+[B] CONNECTOR RE-COST surface — Larkin first stage on MA_rail 
+---------------------------------------------------------------------- 
+  N (regression sample): 309   [finite rail-MA pairs: 310] 
+  First-stage: Δrail_stu coef = +0.538 (t=6.19) 
+  First-stage F: 237.91 (ivf, IID — comparable to baseline tables) 
+  First-stage F: 38.31 (robust HC1, = t^2) 
+  [bonus] rail-MA IV beta on pop = +0.026 (0.028)  (the rail estimand) 
+
+====================================================================== 
+REFERENCE (total MA, connector experiment / table 9): 
+  Larkin first stage on TOTAL MA: baseline F=19.32, re-cost F~0. 
+READING: if Larkin's F on MA_rail stays strong in BOTH specs, the 
+total-MA F~0 under re-cost is a composition effect (total MA 
+dominated by road MA), NOT loss of instrument validity for rail. 
+====================================================================== 
