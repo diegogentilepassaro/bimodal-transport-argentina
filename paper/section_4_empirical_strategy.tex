@@ -38,33 +38,103 @@ regional outcomes with respect to market access.
 
 \subsection{Endogeneity Concerns}
 
-% [PLACEHOLDER: 1–2 paragraphs on:
-%   (1) Governments may close rail in declining regions (downward
-%       bias).
-%   (2) Roads built where growth expected (upward bias).
-%   (3) Direction of overall bias ambiguous.]
+The regressor $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ is not
+exogenous. The infrastructure changes that generate it --- rail
+closures and road construction between 1960 and 1986 --- were policy
+choices, not random assignments, and those choices plausibly responded
+to the same district conditions that drive the outcomes.
+
+The direction of the resulting bias is ambiguous because
+infrastructure was allocated under two opposing logics. Under an
+efficiency logic, investment follows expected growth and divestment
+follows expected decline: roads are built, and rail retained, where
+outcomes were already rising, while rail is closed where outcomes were
+already falling. This aligns market-access gains with positive outcome
+shocks and losses with negative shocks --- a positive correlation
+between $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ and $\varepsilon_i$
+that biases the ordinary-least-squares estimate of $\beta$ upward.
+Under a compensatory logic, investment instead targets lagging
+districts --- for example, roads extended to areas that were declining
+--- aligning market-access gains with negative outcome shocks and
+biasing $\beta$ downward. Because both logics plausibly operated over
+1960--1986, the sign of the net bias is ambiguous. We address the
+endogeneity with two instruments that move market access through
+variation plausibly orthogonal to district-level outcome shocks,
+described next.
 
 \subsection{Instrumental Variables}
+
+We instrument $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ with two
+changes in market access, each computed on a counterfactual network:
+one that isolates rule-based rail closure, and one that isolates
+geography-driven road placement.
 
 \subsubsection{Instrument 1: Larkin Plan Discontinuity}
 \label{sssec:iv_larkin}
 
-% [PLACEHOLDER: 2 paragraphs on:
-%   (1) LP only "studied" segments below freight threshold.
-%   (2) Studied segments 3× more likely to close.
-%   (3) Instrument construction.
-%   (4) Exclusion restriction.]
-% WRITE: Formalize LP instrument construction.
+The first instrument exploits the Larkin Plan (1960--1962), the
+government technical study of the rail network described in
+Section~\ref{ssec:larkin}. The Plan evaluated segments against an
+engineering and freight-traffic standard and designated a subset for
+study toward closure; we label these segments \emph{studied} and the
+remainder \emph{non-studied}
+(\placeholder{studied share of network km: our data give 48.8\%,
+\S2 cites Larkin's 39.6\%; basis unresolved, issue \#68 --- do not fix
+until decided}). The classification predates and is defined
+independently of the regional-development outcomes we study. We
+construct $\Delta \ln \mathrm{MA}^{\mathrm{LP}}_i$ as the change in log
+market access between 1960 and 1986 on a counterfactual network in
+which the rail segments removed are exactly those the Larkin Plan
+studied, and we use it as an instrument for the realized change
+$\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$.
+
+The Larkin classification predicts realized closure: studied segments
+were substantially more likely to be closed than non-studied segments
+(Section~\ref{ssec:larkin}), so the classification shifts the realized
+change $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$, which is the
+relevance condition the instrument must satisfy. The exclusion
+restriction requires that the classification be uncorrelated with
+district outcome shocks over 1960--1986, conditional on the controls in
+equation~(\ref{eq:main}). The assumption is plausible because the Plan
+applied a national, traffic-based engineering rule fixed at the start
+of the period rather than a forecast of regional growth. It is not
+guaranteed: if the traffic rule selected segments in districts already
+on a distinct trajectory, studied status would correlate with
+pre-existing trends. Sections~\ref{sec:pre_balance}
+and~\ref{sec:pre_trends} probe this directly.
 
 \subsubsection{Instrument 2: Hypothetical Road Networks}
 \label{sssec:iv_hypo}
 
-% [PLACEHOLDER: 2 paragraphs on:
-%   (1) Least-cost paths connecting major cities.
-%   (2) Euclidean and terrain-based variants.
-%   (3) Predict road expansion, orthogonal to local shocks.
-%   (4) Instrument construction.]
-% WRITE: Formalize hypothetical road instrument.
+The second instrument is a hypothetical road network that connects
+Argentina's major cities along the cheapest available routes,
+independent of where roads were actually built. The node set is the
+cities with at least 15{,}000 inhabitants in 1960 together with all
+provincial capitals. We connect these nodes in two ways. Edge cost is
+measured either as Euclidean distance or as the least-cost path across
+a terrain-based construction-cost surface, on which steeper and more
+rugged terrain is more expensive to traverse. From each cost notion we
+build a minimum spanning tree --- the lowest-total-cost set of edges
+that connects all cities without cycles --- which yields a parsimonious
+network that does not depend on which individual city pairs happen to
+be linked. This produces four variants: the full bilateral least-cost
+network (LCP) and its spanning tree (LCP-MST), and the full Euclidean
+network (EUC) and its spanning tree (EUC-MST). The main specification
+uses LCP-MST. We construct $\Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i$
+as the change in log market access induced by adding this hypothetical
+network.
+
+The hypothetical network depends only on city locations and terrain,
+both fixed before the reform and unrelated to district outcome shocks
+over 1960--1986. It is relevant to the extent that actual road
+construction followed the same low-cost corridors connecting the same
+cities; this is an empirical relevance condition, evaluated by the
+first-stage fit rather than assumed. It is plausibly excludable because
+the least-cost routing reflects engineering geography fixed before the
+reform and does not respond to the local economic changes we study. As
+with the Larkin instrument, the exclusion restriction is assessed in
+the validation package (Sections~\ref{sec:pre_balance}
+and~\ref{sec:pre_trends}).
 
 \subsubsection{First Stage}
 \label{sssec:first_stage}
