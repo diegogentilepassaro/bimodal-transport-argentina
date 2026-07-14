@@ -4,12 +4,50 @@ Derived from paper.tex skeleton. Color key in paper.tex: RED = placeholder numbe
 
 ---
 
-## CURRENT STATUS (updated after PR #62)
+## CURRENT STATUS (updated after PR #73)
 
 Block 1 is drafted and results are in. Block 2 has its first two substantive
-results (Tables 13 and 14). Awaiting coauthor review of the Block 1 framing
-(see `Plan/email_cote_block1_complete.md`). Block 2 prose (§§6, 7) is held
-until that response, but the analysis side is well underway.
+results (Tables 13 and 14). Cote's review of Block 1 surfaced a deeper
+question than the original framing decisions below: the headline population
+elasticity (β=0.046) is an order of magnitude below the closest benchmark
+(Gibbons et al. 2024, ≈0.3), and a round of diagnostics (PRs #65–71) traced
+this to four entangled measurement/identification decisions — consolidated in
+**`Plan/memo_identification_measurement_decisions.md`** (2026-06-11), which is
+now the authoritative source for Block 1's open decisions. Read that memo's
+Section 6 before touching any Pending Decision below that it supersedes.
+
+Diagnostics since PR #62 (descriptive/exploratory, no pipeline re-run of the
+committed results unless noted):
+- MA-gains diagnostic (PR #65): 91% of districts gain MA 1960–86 despite the
+  rail network contracting ~23%, driven by broad road-cost reduction (median
+  O-D pair ~20% cheaper), not a fluvial or BA-corridor artifact.
+- Bloque-1 mechanical-artifact tests (PR #66): alternate reference point
+  (interior point vs. centroid) and no-fluvial variants both leave the 91%
+  gain share and small elasticity essentially unchanged — centroid/HMI
+  coupling and the fluvial channel are exonerated as the driver. A
+  zero-vs-infinite-transshipment bracket shows transshipment reshapes the MA
+  distribution but does not explain the small elasticity either.
+- Connector-share pre-check and Larkin/MA_rail first stage (PRs #69, #70):
+  the Larkin instrument is strong for the rail component of MA in every
+  specification (F ≈ 20–240 depending on connector re-costing); its apparent
+  weakness on total MA is a composition effect once road connectors are
+  re-costed, not instrument invalidity.
+- θ sweep, overall and sectoral (PRs #67, #71–72): the population elasticity
+  *level* is highly sensitive to θ (0.37 at θ=1 to 0.012 at θ=12), but the
+  *sectoral contrast* (manufacturing value/wages respond, agriculture does
+  not) holds at every θ in {1,2,3,4.55,6,8.11,10,12} — partially de-risking
+  Decision A below.
+- §4.2/4.3 instrument-construction prose drafted (PR #73), including the
+  open placeholder for the studied-share discrepancy (issue #68).
+
+New raw data landed 2026-06-04 (untracked until this PR): the city/locality
+universe at `data/raw/networks_hypo/city_universe/` (517-point IGN
+settlements, 50/68-city curated sets, provincial capitals, 9 legacy zone
+sets) — the source for building a per-district urban-center reference point
+(Decision D below), not yet wired into the pipeline. See its `readme.md`.
+
+Block 2 prose (§§6, 7) is held pending Cote's response on Block 1 framing.
+The analysis side of Block 2 is otherwise underway (see below).
 
 ### Done (Block 1 core)
 
@@ -70,7 +108,9 @@ were already wired into the existing pipeline (Phase 2c of
 ### Pending (order: blocked first, then easiest-value)
 
 **Block 1 loose ends:**
-- [ ] **Cote review response** — decide on pre-trends framing, migration interpretation, hypo-instrument retention, θ justification, sector-specific indgen shares. All flagged in `Plan/email_cote_block1_complete.md`. Until then, Block 1 is feature-complete but may need revisions.
+- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). This is now the blocking item for Block 1 — everything else in this section is downstream of it.
+- [ ] **Urban-center reference point diagnostic (Decision D)** — `code/analysis/diagnostic_ma_urbancenter.R`, using the largest-settlement-by-area proxy from `data/raw/networks_hypo/city_universe/` while Cote's geocoded-census task is pending. Mirrors the `diagnostic_ma_refpoint.R` pattern (PR #66).
+- [ ] Sector-specific indgen shares (Table 10 rebuild) — deferred, see Pending Decision 9.
 - [ ] Paper-wide scalar AutoFill substitution (replace remaining inline numbers in §§4.5, 5.1-5.5 with macros from `scalars.tex`). Deliberately deferred until after Cote locks framing.
 - [ ] A1 (OLS vs IV bias direction) — 1-2 paragraph in §5.2. Deferred until §5.5 robustness is fully decided.
 - [ ] A2 (sectoral patterns + scale economies) — 2 paragraphs. Deferred so the argument lives in one place, after §7 mechanisms is drafted.
@@ -98,21 +138,38 @@ were already wired into the existing pipeline (Phase 2c of
 
 ## PENDING DECISIONS
 
-These need discussion between coauthors before the affected tasks can proceed. Most are flagged in `Plan/email_cote_block1_complete.md`; items 10-11 are new from Block 2.
+**Superseded for Block 1 framing:** items 3, 4, 6, 7, 8 below (θ justification,
+tau/transshipment, pre-trends, migration sign, hypo-instrument weakness) are
+now consolidated with supporting evidence in
+`Plan/memo_identification_measurement_decisions.md` Section 6, as four
+decisions for the upcoming coauthor meeting:
+1. θ / τ object — normalized-iceberg cost vs. Gibbons-style centrality
+   (sets the elasticity level; sectoral contrast is robust to θ per PR #71).
+2. Estimand — report rail-MA effect (Larkin-clean, strong instrument) or
+   total-MA effect (weak once road connectors are re-costed).
+3. Connector re-cost — adopt/report/drop, conditional on 1–2.
+4. Reference point — wait for Cote's geocoded census, or use the
+   largest-settlement-by-area proxy now that raw data has landed (see
+   Decision D in the memo; diagnostic in progress, see below).
+Read the memo before making any of these decisions from the items below —
+they're kept here for traceability but the memo has the current numbers.
+
+Remaining items not covered by the memo (most flagged in
+`Plan/email_cote_block1_complete.md`; items 10-11 are new from Block 2):
 
 1. **Title**: Working title is "Transport Restructuring and Regional Development." Alternatives: "From Rail to Road," "Reshaping the Economic Map." Decide later.
 2. **Sector-specific MA**: We want to do something sector-specific but need to agree on what exactly and how it connects with the paper. The counterfactual exercise (freeze one mode) and sector-specific MA (different cost calibrations) are conceptually distinct — their interaction is unresolved. Defer until Block 1 framing is locked.
-3. **Elasticity justification**: θ = 4.55 and 8.11 need better justification. Literature review needed for Section 3.3.2.
-4. **Tau calculation**: Pushed Block 1 with current taus; limitations acknowledged in §3.3.2. Option remains to rebuild with transshipment costs if referees demand.
+3. ~~**Elasticity justification**~~ — superseded by memo Decision A (θ / τ object).
+4. ~~**Tau calculation**~~ — superseded by memo Decision B/A (connector re-cost, transshipment already screened in PR #66).
 5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.55) throughout.
-6. **Pre-trends not clean null**: discussed in email. Decision (keep-and-defend vs. add-sensitivity) pending.
-7. **Migration sign wrong-way**: discussed in email. Keep "suggestive of retention" framing vs. investigate further pending.
-8. **Hypo instrument is weak**: F ≈ 3 on full sample, F < 1 on 235 subset. LP does the work. Decision (two-instrument IV-Both headline vs IV-LP-only headline) pending.
+6. ~~**Pre-trends not clean null**~~ — superseded by memo Decision E (numbers updated: OLS 0.035**, IV-Both 0.078* on the 235-district placebo subset).
+7. ~~**Migration sign wrong-way**~~ — superseded by memo Decision E (carried unchanged; no new evidence).
+8. ~~**Hypo instrument is weak**~~ — superseded by memo Decision C (estimand) — the rail-vs-total-MA question replaces the two-instrument-vs-LP-only framing.
 9. **Tabla 10 sectoral outcomes**: currently uses industrial + agricultural census activity outcomes (not IPUMS employment). Option to rebuild IPUMS `indgen` shares if coauthor prefers the original framing.
 10. **Counterfactual framing (Table 13)**: rail-only point estimate (+0.032, F=105) is similar magnitude to full-MA headline (+0.046). Decide §6 framing: "rail dominates" vs. "rail and road both contribute, with rail more precisely identified." Currently neither is in prose.
 11. **Mechanism framing (Table 14)**: headline elasticity drops ~50% when Δrail-km + Δroad-km are added as controls. Decide §7 framing: "half the effect is local infrastructure" vs. "MA captures regional connectivity beyond local km." Currently neither is in prose.
 12. **Z_i completeness**: stations and depots Z_i variables not built (lp_1979.shp is lines-only; would need additional raw data, possibly from the Damus source flagged in tasks.md Q1). Decide whether to source the additional data or live with the partial Z_i set.
-13. **Studied-share discrepancy (39.6% vs 48.8%)**: §2 (`section_2_history.tex`) cites Larkin's own figure that 39.6% of the network was studied. Our digitized network gives `studied_1 / tot_rails_1960` = 48.75% (20,857 of 42,780 km; identical whether denominator is `tot_rails_1960` or `studied_0 + studied_1`). The gap is ~9 pp. Likely a basis difference: Larkin's 39.6% is computed on *his* accounting of the 1960 network (route-km, possibly a different network definition or excluding some categories), while ours is on the digitized `lp_1979` line geometry. Decide which basis the paper reports, and reconcile before the §4 instrument description (currently a `[PLACEHOLDER]`) hard-codes the threshold/share language. Tracked as GitHub issue (see below). Surfaced reviewing Cote's Larkin memo, 2026-06-03.
+13. **Studied-share discrepancy (39.6% vs 48.8%)**: tracked as GitHub issue #68 — do not fix until Larkin's own denominator is confirmed (requires archive access) and a reporting basis is chosen. The §4 placeholder explicitly says not to touch it until then.
 
 ---
 
