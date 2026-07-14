@@ -156,7 +156,12 @@ measurement before narrative). Options, now sharpened by the D&H source:
    above): dividing tau by a CONSTANT does nothing -- it cancels in the
    first difference. To actually change behaviour, tau must become a
    dimensionless ratio confined near 1, i.e. the normalization must vary
-   across pairs. Candidate constructions:
+   across pairs. [SUPERSEDED in part -- see decision_a_option1_scoping.md:
+   the actual D&H form is AFFINE, tau = 1 + cost/V, and the "+1" breaks
+   the multiplicative cancellation, so a single scalar V DOES change
+   Delta log MA. The cancellation result above stands; the "must vary
+   across pairs" inference drawn from it was too strong.] Candidate
+   constructions:
      - per-unit-value iceberg: (accumulated cost / value of goods), where
        value is high enough that tau sits in, say, [1, 2] rather than
        spanning orders of magnitude; this compresses the spread so the
