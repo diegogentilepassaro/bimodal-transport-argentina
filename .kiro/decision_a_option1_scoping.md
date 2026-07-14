@@ -33,9 +33,16 @@ Limiting behavior (why this nests what we already know):
 - V -> Inf: tau_iceberg -> 1 for every pair; MA -> sum of Pop (no distance
   decay); beta -> the no-gradient limit.
 - In between, a V-sweep traces a curve of beta against V at FIXED
-  theta = 8.22 (D&H's preferred value). Somewhere on that curve tau spans
-  a D&H-like band (their tau lives roughly in [1, 2.5]); that segment is
-  the economically disciplined region, and V is pinned by data, not by
+  theta = 8.22 (D&H's preferred value). Somewhere on that curve tau is
+  confined to a narrow band above 1, which is the regime D&H's exponent
+  is built for. (Checked against the QJE text: D&H do NOT tabulate their
+  tau distribution in the main text — what is verifiable is the
+  construction: freight rates of 0.63 cents/ton-mile rail, 0.49 water,
+  23.1 wagon, 50 cents/ton transshipment, normalized by Fogel's average
+  value of transported agricultural goods, fn. 32. The "narrow band
+  above 1" follows from that construction, not from a reported table;
+  do not cite a specific interval for D&H.) That segment is the
+  economically disciplined region, and V is pinned by data, not by
   fitting beta.
 
 **VERIFIED on the cached tau matrices (actual_1960/1986 s0)** before
@@ -52,9 +59,12 @@ writing this note (scratch check, 2026-07-14):
 The multiplicative row reproduces the theta note's cancellation exactly;
 the affine rows do not cancel and move the MA distribution monotonically
 with V. At V near the median raw tau (4.4e6 raster units), tau' spans
-[1.36, 3.40] p10-p90 — the D&H-like band. The mechanism works; what V
-should BE is the data question in work item 2. (Regression betas were not
-run in the scratch check — that is the diagnostic in work item 3.)
+[1.36, 3.40] p10-p90 — a narrow band above 1, the regime the D&H
+exponent is built for (see the caveat above: D&H's own interval is not
+tabulated, so "narrow band above 1" is the defensible comparison, not a
+specific range). The mechanism works; what V should BE is the data
+question in work item 2. (Regression betas were not run in the scratch
+check — that is the diagnostic in work item 3.)
 
 ## Construction 1a: Fogel-style scalar V (the D&H-faithful version)
 
@@ -63,13 +73,23 @@ run in the scratch check — that is the diagnostic in work item 3.)
 **Work items:**
 
 1. **Unit audit of the tau matrices (prerequisite, ~half a day).** Our
-   cached tau values are in cost-raster units (B&P pesos per ton-km times
-   cell traversal at ~1.24 km/cell, accumulated along the least-cost path;
-   1960 s0 median ~4.4e6 units). Before any V is applied, the conversion
-   from raster units to actual 1960 pesos per ton must be derived and
-   sanity-checked against a hand-computed route (e.g., BA-Rosario ~300 km
-   on road at 1.777 pesos/ton-km ~ 533 pesos/ton). Deliverable: a scalar
-   `tau_units_to_pesos` with a derivation comment in config.R.
+   cached tau values are in cost-raster units (B&P pesos per ton-km
+   accumulated over meter-scale cell traversals along the least-cost
+   path; 1960 s0 median ~4.4e6 units). A first-order version of this
+   audit was COMPUTED while preparing this note: the cached 1960 s0 tau
+   for City of Buenos Aires (32002001) - Rosario (32082001) is 4.07e5
+   units over a 265.9 km centroid-to-centroid geodesic; the pure-road
+   hand benchmark is 265.9 km x 1.777 pesos/ton-km = 473 pesos/ton,
+   implying ~861 raster units per peso/ton against the ~1000 expected
+   if accumulation is cost x meters. The 14% gap has the right sign and
+   a physical explanation: BA-Rosario is the Parana corridor, where the
+   least-cost path can substitute navigation (0.621 pesos/ton-km) for
+   road. So to first order, tau / 1000 ~ 1960 pesos per ton. The full
+   audit should confirm the meter-based accumulation in 03b/03c and
+   test 2-3 more corridors (including one with no navigable alternative,
+   where the ratio should be ~1000 or slightly above from route
+   deviation). Deliverable: a scalar `tau_units_to_pesos` with a
+   derivation comment in config.R.
 
 2. **Source V, the 1960 value per ton (the real bottleneck, external
    data).** D&H take theirs from Fogel's average value of transported
@@ -94,7 +114,9 @@ run in the scratch check — that is the diagnostic in work item 3.)
    diagnostic_ma_refpoint.R. Deliverable: `diagnostic_ma_iceberg.R`
    reporting beta as a function of V over the sourced band (plus the V -> 0
    and V -> Inf limits as anchors), with the tau distribution (p10/p50/p90)
-   at each V so we can see when it enters the D&H-like [1, 2.5] band.
+   at each V so we can see when it enters a narrow band above 1 (the
+   regime the D&H exponent is built for; see the caveat on D&H's
+   untabulated interval above).
 
 4. **Sensitivity/honesty check (half a day, part of the same script).**
    Because beta varies with V, the write-up must show the whole curve and
