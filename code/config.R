@@ -251,7 +251,8 @@ cost_nodata_sentinel <- 999999L
 # ---- 7b. Tau unit conversion (raster cost units -> 1960 pesos per ton) ----
 #
 # The cached tau matrices (data/derived/03_taus/) are in cost-raster units.
-# Derivation of the conversion (verified in code + on cached taus; see
+# Derivation of the conversion (verified in code, demonstrated numerically
+# on a synthetic raster, and checked on cached taus; see
 # code/analysis/diagnostic_tau_units.R and its report):
 #   - 03b_transition_grids.R builds conductance = 1/mean(cost) and applies
 #     gdistance::geoCorrection, which divides by inter-cell distance in the

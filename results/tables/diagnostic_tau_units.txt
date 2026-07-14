@@ -2,8 +2,15 @@
 TAU UNIT AUDIT (Decision A option 1a, work item 1) 
 Convention from 03b: tau = accumulated cost-value x metres 
 Expected: ~1,000 raster units per peso/ton on a road-priced geodesic 
-Generated: 2026-07-14 15:58:34 
+Generated: 2026-07-14 16:58:56 
 ========================================================================== 
+
+Part A - synthetic convention test (exact 03b chain, uniform grid): 
+  121 x 21 km grid @ 1000 m cells, ESRI:54034; uniform cost 1.777 
+  cell centres 100 km apart -> tau = 177700.0 units 
+  expected cost x metres = 177700.0 | ratio 1.000000 (assert |ratio-1| < 1e-3) 
+  implied units per peso/ton: 1000.0 
+  PASS: accumulation is cost-value x METRES; tau / 1000 = pesos/ton 
 
 City-district resolution (nearest centroid, name-asserted): 
   Buenos Aires   -> 32002001 (City of Buenos Aires) 
@@ -37,6 +44,9 @@ READING - two separate conclusions, do not conflate them:
 (1) THE UNIT CONVERSION IS EXACT BY CONSTRUCTION. 03b builds 
 conductance = 1/mean(cost) and geoCorrection divides by inter-cell 
 distance in metres, so costDistance accumulates (pesos/ton-km) x m. 
+Part A demonstrates this numerically on a synthetic uniform raster 
+(ratio to cost x metres = 1 to <0.1%), so the claim no longer rests 
+on code reading alone. 
 Therefore tau_pesos_per_ton = tau_raster_units / 1000, regardless of 
 which modes or cells the route crosses. This is the number the 
 iceberg normalization (1 + cost/V, V in 1960 pesos/ton) needs; 

@@ -7,7 +7,8 @@
 #          pesos per ton, so an iceberg normalization (1 + cost/V) can
 #          be applied with V in actual pesos.
 #
-# THE CONVENTION (verified in code, 03b_transition_grids.R):
+# THE CONVENTION (verified in code, 03b_transition_grids.R, and
+# demonstrated numerically on a synthetic raster — Part A below):
 #   - conductance = 1 / mean(cost of adjacent cells), 8 neighbours
 #   - geoCorrection() divides conductance by inter-cell distance in map
 #     units; crs_raster (ESRI:54034) is metre-based
@@ -37,6 +38,8 @@
 suppressPackageStartupMessages({
     library(sf)
     library(arrow)
+    library(raster)      # synthetic convention test (Part A)
+    library(gdistance)   # synthetic convention test (Part A)
 })
 
 # Corridor endpoints: located by nearest district centroid to the city
@@ -63,6 +66,52 @@ CORRIDORS <- data.frame(
         "above 1000: inland north; sparse 1960 network -> land legs")
 )
 
+# ---------------------------------------------------------------------------
+# Part A: synthetic convention test.
+#
+# Builds a uniform raster with a known cost value in the pipeline CRS and
+# runs the exact 03b chain (transition 1/mean -> geoCorrection default ->
+# costDistance) between two cell centres a known distance apart. On a
+# uniform grid a straight cardinal path has no route deviation, so IF the
+# accumulation convention is cost-value x metres, tau must equal
+# cost x distance_m to numerical precision. Asserted at 0.1%.
+# ---------------------------------------------------------------------------
+convention_test <- function(rep, cost_value, crs_string) {
+    res_m  <- 1000
+    n_rows <- 21L
+    n_cols <- 121L
+    r <- raster::raster(nrows = n_rows, ncols = n_cols,
+                        xmn = 0, xmx = n_cols * res_m,
+                        ymn = 0, ymx = n_rows * res_m,
+                        crs  = crs_string)
+    raster::values(r) <- cost_value
+
+    tg <- gdistance::transition(r,
+                                transitionFunction = function(x) 1 / mean(x),
+                                directions = 8)
+    tg <- gdistance::geoCorrection(tg)
+
+    # Two cell centres on the middle row, 100 km apart (cols 11 and 111).
+    y_mid  <- (n_rows / 2) * res_m + res_m / 2
+    pts    <- cbind(x = c(10.5, 110.5) * res_m, y = c(y_mid, y_mid))
+    dist_m <- pts[2, "x"] - pts[1, "x"]
+
+    tau_syn  <- as.numeric(gdistance::costDistance(tg, pts))
+    expected <- cost_value * dist_m
+    ratio    <- tau_syn / expected
+    stopifnot(abs(ratio - 1) < 1e-3)
+
+    rep("\nPart A - synthetic convention test (exact 03b chain, uniform grid):")
+    rep("  %d x %d km grid @ %d m cells, %s; uniform cost %.3f",
+        n_cols, n_rows, res_m, crs_string, cost_value)
+    rep("  cell centres %.0f km apart -> tau = %.1f units", dist_m / 1000,
+        tau_syn)
+    rep("  expected cost x metres = %.1f | ratio %.6f (assert |ratio-1| < 1e-3)",
+        expected, ratio)
+    rep("  implied units per peso/ton: %.1f", tau_syn / (cost_value * dist_m / 1000))
+    rep("  PASS: accumulation is cost-value x METRES; tau / 1000 = pesos/ton")
+}
+
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
@@ -80,6 +129,9 @@ main <- function() {
     rep("Expected: ~1,000 raster units per peso/ton on a road-priced geodesic")
     rep("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
     rep("%s", strrep("=", 74))
+
+    # ---- Part A: synthetic convention test --------------------------------
+    convention_test(rep, cost_road[["overall"]], crs_raster)
 
     # ---- Resolve city districts -------------------------------------------
     shp <- load_district_shapes()
@@ -137,6 +189,9 @@ main <- function() {
     rep("(1) THE UNIT CONVERSION IS EXACT BY CONSTRUCTION. 03b builds")
     rep("conductance = 1/mean(cost) and geoCorrection divides by inter-cell")
     rep("distance in metres, so costDistance accumulates (pesos/ton-km) x m.")
+    rep("Part A demonstrates this numerically on a synthetic uniform raster")
+    rep("(ratio to cost x metres = 1 to <0.1%%), so the claim no longer rests")
+    rep("on code reading alone.")
     rep("Therefore tau_pesos_per_ton = tau_raster_units / 1000, regardless of")
     rep("which modes or cells the route crosses. This is the number the")
     rep("iceberg normalization (1 + cost/V, V in 1960 pesos/ton) needs;")
