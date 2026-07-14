@@ -48,6 +48,8 @@ CONLEY_CUTOFFS_KM <- c(100, 250, 500, 1000)
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
@@ -171,26 +173,5 @@ main <- function() {
     message("\nSaved report: ", report_path)
 }
 
-# ---------------------------------------------------------------------------
-# District centroids in lat/lon (EPSG:4326) for Conley distances.
-# Same district-filtering rules as load_centroids() in 03c.
-# ---------------------------------------------------------------------------
-load_district_latlon <- function() {
-    shp <- sf::st_read(file.path(dir_raw_geo, "geo2_ar1970_2010.shp"),
-                       quiet = TRUE)
-    shp <- sf::st_make_valid(shp)
-    names(shp)[names(shp) == "GEOLEVEL2"] <- "geolev2"
-    shp$geolev2 <- sub("^0+", "", as.character(shp$geolev2))
-    shp <- shp[!sf::st_is_empty(shp), ]
-    shp <- shp[!(shp$geolev2 %in% geolev2_exclude), ]
-    shp <- shp[!grepl("0000$", shp$geolev2), ]
-    stopifnot(nrow(shp) == 312L, !any(duplicated(shp$geolev2)))
-
-    cents <- suppressWarnings(sf::st_centroid(shp))
-    cents <- sf::st_transform(cents, crs = "EPSG:4326")
-    xy <- sf::st_coordinates(cents)
-    data.frame(geolev2 = cents$geolev2,
-               lon = xy[, 1], lat = xy[, 2])
-}
 
 main()

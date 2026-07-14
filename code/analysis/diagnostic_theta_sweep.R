@@ -43,6 +43,8 @@ THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)
 
     report_path <- file.path(dir_tables, "diagnostic_theta_sweep.txt")
     con <- file(report_path, open = "wt")
@@ -148,33 +150,6 @@ main <- function() {
     message("\nSaved: ", report_path)
 }
 
-load_1960_pop <- function() {
-    d <- arrow::read_parquet(
-        file.path(dir_derived_census1960, "census_1960_ipums.parquet"))
-    d <- ensure_geolev2_char(d)
-    data.frame(geolev2 = d$geolev2, pop = as.numeric(d$pop))
-}
 
-compute_ma <- function(tau_df, pop_df, theta_val) {
-    tau_df <- ensure_geolev2_char(tau_df, "origin_geolev2")
-    tau_df <- ensure_geolev2_char(tau_df, "destination_geolev2")
-    sym <- rbind(
-        tau_df[, c("origin_geolev2", "destination_geolev2", "tau")],
-        data.frame(origin_geolev2      = tau_df$destination_geolev2,
-                   destination_geolev2 = tau_df$origin_geolev2,
-                   tau                 = tau_df$tau))
-    sym <- merge(sym,
-                 data.frame(destination_geolev2 = pop_df$geolev2,
-                            pop_dest = pop_df$pop),
-                 by = "destination_geolev2", all.x = TRUE)
-    sym$pop_dest[is.na(sym$pop_dest)] <- 0
-    sym$weight <- ifelse(is.finite(sym$tau) & sym$tau > 0,
-                         1 / (sym$tau^theta_val), 0)
-    sym$contrib <- sym$weight * sym$pop_dest
-    ma_df <- aggregate(contrib ~ origin_geolev2, data = sym, FUN = sum)
-    names(ma_df) <- c("geolev2", "MA")
-    ma_df$logMA <- log(ma_df$MA)
-    ma_df
-}
 
 main()

@@ -48,6 +48,8 @@ CASES <- c("actual_1960_s0", "actual_1986_s0",
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)
 
     out_dir <- file.path(dir_derived_analysis, "urbancenter_variant")
     if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
@@ -238,16 +240,9 @@ main <- function() {
 # geographic centroid (same construction as load_centroids() in 03c).
 # ---------------------------------------------------------------------------
 load_urbancenter_points <- function() {
-    shp <- sf::st_read(file.path(dir_raw_geo, "geo2_ar1970_2010.shp"),
-                       quiet = TRUE)
-    shp <- sf::st_make_valid(shp)
-    names(shp)[names(shp) == "GEOLEVEL2"] <- "geolev2"
-    shp$geolev2 <- sub("^0+", "", as.character(shp$geolev2))
-    shp <- shp[!sf::st_is_empty(shp), ]
-    shp <- shp[!(shp$geolev2 %in% geolev2_exclude), ]
-    shp <- shp[!grepl("0000$", shp$geolev2), ]
-    stopifnot(nrow(shp) == 312L, !any(duplicated(shp$geolev2)))
-    shp <- sf::st_transform(shp, crs = crs_raster)
+    # District polygons via the shared loader (_diagnostic_helpers.R),
+    # then projected to the raster CRS for the spatial join below.
+    shp <- sf::st_transform(load_district_shapes(), crs = crs_raster)
 
     settle_path <- file.path(dir_raw_geo,
                              "areas_de_asentamientos_y_edificios_020105.shp")
@@ -289,33 +284,6 @@ load_urbancenter_points <- function() {
     list(points = pts_sp, n_fallback = n_fallback)
 }
 
-load_1960_pop <- function() {
-    path <- file.path(dir_derived_census1960, "census_1960_ipums.parquet")
-    d <- arrow::read_parquet(path)
-    d <- ensure_geolev2_char(d)
-    data.frame(geolev2 = d$geolev2, pop = as.numeric(d$pop))
-}
 
-compute_ma <- function(tau_df, pop_df, theta_val) {
-    tau_df <- ensure_geolev2_char(tau_df, "origin_geolev2")
-    tau_df <- ensure_geolev2_char(tau_df, "destination_geolev2")
-    sym <- rbind(
-        tau_df,
-        data.frame(origin_geolev2      = tau_df$destination_geolev2,
-                   destination_geolev2 = tau_df$origin_geolev2,
-                   tau                 = tau_df$tau))
-    sym <- merge(sym,
-                 data.frame(destination_geolev2 = pop_df$geolev2,
-                            pop_dest = pop_df$pop),
-                 by = "destination_geolev2", all.x = TRUE)
-    sym$pop_dest[is.na(sym$pop_dest)] <- 0
-    sym$weight <- ifelse(is.finite(sym$tau) & sym$tau > 0,
-                         1 / (sym$tau^theta_val), 0)
-    sym$contrib <- sym$weight * sym$pop_dest
-    ma_df <- aggregate(contrib ~ origin_geolev2, data = sym, FUN = sum)
-    names(ma_df) <- c("geolev2", "MA")
-    ma_df$logMA <- log(ma_df$MA)
-    ma_df
-}
 
 main()

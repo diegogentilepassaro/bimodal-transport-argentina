@@ -50,6 +50,9 @@ ON_NET_THRESHOLD <- 5
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
     centroids <- load_centroids_vect()
@@ -87,23 +90,6 @@ main <- function() {
     write_outputs(df, c_repr_used = res60$c_repr, c_repr_86 = res86$c_repr)
 }
 
-# ---------------------------------------------------------------------------
-# Centroids as SpatVector in raster CRS (mirrors 03c load_centroids)
-# ---------------------------------------------------------------------------
-load_centroids_vect <- function() {
-    shp <- sf::st_read(file.path(dir_raw_geo, "geo2_ar1970_2010.shp"),
-                       quiet = TRUE)
-    shp <- sf::st_make_valid(shp)
-    names(shp)[names(shp) == "GEOLEVEL2"] <- "geolev2"
-    shp$geolev2 <- sub("^0+", "", as.character(shp$geolev2))
-    shp <- shp[!sf::st_is_empty(shp), ]
-    shp <- shp[!(shp$geolev2 %in% geolev2_exclude), ]
-    shp <- shp[!grepl("0000$", shp$geolev2), ]
-    stopifnot(nrow(shp) == 312L, !any(duplicated(shp$geolev2)))
-    cents <- suppressWarnings(sf::st_centroid(shp))
-    cents <- sf::st_transform(cents, crs = crs_raster)
-    terra::vect(cents[, "geolev2"])
-}
 
 # ---------------------------------------------------------------------------
 # For one period: distance from each centroid to nearest on-network cell,
