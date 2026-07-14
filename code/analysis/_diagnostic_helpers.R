@@ -19,6 +19,17 @@
 # pipeline is frozen-verified and is not re-run when diagnostics change.
 # ===========================================================================
 
+# Load-order guard: fail immediately with a named error if config.R /
+# base/utils.R were not sourced first, instead of failing later inside a
+# helper with a confusing "object not found."
+stopifnot(
+    "config.R must be sourced before _diagnostic_helpers.R" =
+        exists("dir_raw_geo") && exists("crs_raster") &&
+        exists("geolev2_exclude") && exists("dir_derived_census1960"),
+    "base/utils.R must be sourced before _diagnostic_helpers.R" =
+        exists("ensure_geolev2_char")
+)
+
 # ---------------------------------------------------------------------------
 # District polygons: read, clean, filter to the 312 analysis districts.
 # This is THE canonical filtering block; every point loader below builds
