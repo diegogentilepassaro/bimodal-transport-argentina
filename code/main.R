@@ -333,6 +333,34 @@ stage_d_analysis <- function(makelog) {
              makelog)
     verify_outputs("D.14",
         file.path(dir_results, "scalars.tex"), makelog)
+
+    # Appendix figures A1-A3
+    run_step("D.15 figure_a1_cost_schedule",
+             a("plot_figure_a1_cost_schedule.R"),
+             "Figure A1: B&P transport cost schedule by mode and density",
+             makelog)
+    verify_outputs("D.15",
+        file.path(dir_figures,
+                  paste0("figure_a1_cost_schedule.", c("pdf", "png"))),
+        makelog)
+
+    run_step("D.16 figure_a2_hypothetical_networks",
+             bn("plot_figure_a2_hypothetical_networks.R"),
+             "Figure A2: hypothetical road networks vs actual 1986 roads",
+             makelog)
+    verify_outputs("D.16",
+        file.path(dir_figures,
+                  paste0("figure_a2_hypothetical_networks.", c("pdf", "png"))),
+        makelog)
+
+    run_step("D.17 figure_a3_larkin_studied",
+             bn("plot_figure_a3_larkin_studied.R"),
+             "Figure A3: Larkin Plan studied vs non-studied rail segments",
+             makelog)
+    verify_outputs("D.17",
+        file.path(dir_figures,
+                  paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
+        makelog)
 }
 
 # ==============================================================================
