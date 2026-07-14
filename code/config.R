@@ -248,6 +248,26 @@ cost_land_vec <- c(
 # High-impedance sentinel value: cells outside Argentina or missing data.
 cost_nodata_sentinel <- 999999L
 
+# ---- 7b. Tau unit conversion (raster cost units -> 1960 pesos per ton) ----
+#
+# The cached tau matrices (data/derived/03_taus/) are in cost-raster units.
+# Derivation of the conversion (verified in code, demonstrated numerically
+# on a synthetic raster, and checked on cached taus; see
+# code/analysis/diagnostic_tau_units.R and its report):
+#   - 03b_transition_grids.R builds conductance = 1/mean(cost) and applies
+#     gdistance::geoCorrection, which divides by inter-cell distance in the
+#     CRS map units; crs_raster (ESRI:54034) is metre-based.
+#   - costDistance therefore accumulates cost-value x METRES along the path.
+#   - Raster cost values are Baumgartner & Palazzo 1960 pesos per ton-KM.
+#   => tau_raster_units = (pesos/ton-km) x m = pesos/ton x 1000, exactly.
+# Corridor sanity checks (BA-Rosario, Cordoba-Mendoza, Salta-Cordoba) are
+# in results/tables/diagnostic_tau_units.txt.
+#
+# Use: tau_pesos_per_ton = tau_raster_units / tau_units_to_pesos.
+# Needed by any iceberg normalization (1 + cost/V) with V in 1960 pesos/ton
+# (Decision A option 1a; .kiro/decision_a_option1_scoping.md).
+tau_units_to_pesos <- 1000
+
 # ---- 8. Trade elasticity (theta) parameters -------------------------------
 #
 # Used in market access formula:

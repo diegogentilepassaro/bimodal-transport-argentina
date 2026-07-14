@@ -72,7 +72,10 @@ check — that is the diagnostic in work item 3.)
 
 **Work items:**
 
-1. **Unit audit of the tau matrices (prerequisite, ~half a day).** Our
+1. **Unit audit of the tau matrices (prerequisite, ~half a day).
+   [DONE — code/analysis/diagnostic_tau_units.R + config.R §7b:
+   tau_units_to_pesos = 1000, exact by construction; corridor checks in
+   results/tables/diagnostic_tau_units.txt.]** Our
    cached tau values are in cost-raster units (B&P pesos per ton-km
    accumulated over meter-scale cell traversals along the least-cost
    path; 1960 s0 median ~4.4e6 units). A first-order version of this
