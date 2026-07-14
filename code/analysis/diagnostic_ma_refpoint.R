@@ -43,6 +43,8 @@ CASES <- c("actual_1960_s0", "actual_1986_s0",
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)
 
     out_dir <- file.path(dir_derived_analysis, "refpoint_variant")
     if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
@@ -179,55 +181,7 @@ main <- function() {
     message("\nSaved report: ", report_path)
 }
 
-# ---------------------------------------------------------------------------
-# Interior reference points (pole-of-inaccessibility proxy)
-# ---------------------------------------------------------------------------
-load_interior_points <- function() {
-    shp <- sf::st_read(file.path(dir_raw_geo, "geo2_ar1970_2010.shp"),
-                       quiet = TRUE)
-    shp <- sf::st_make_valid(shp)
-    names(shp)[names(shp) == "GEOLEVEL2"] <- "geolev2"
-    shp$geolev2 <- sub("^0+", "", as.character(shp$geolev2))
-    shp <- shp[!sf::st_is_empty(shp), ]
-    shp <- shp[!(shp$geolev2 %in% geolev2_exclude), ]
-    shp <- shp[!grepl("0000$", shp$geolev2), ]
-    stopifnot(nrow(shp) == 312L, !any(duplicated(shp$geolev2)))
 
-    # st_point_on_surface: guaranteed interior point. Differs from the
-    # geographic centroid for non-convex / coastal districts — exactly
-    # the cases where the centroid can fall near a digitized network edge.
-    pts_sf <- suppressWarnings(sf::st_point_on_surface(shp))
-    pts_sf <- sf::st_transform(pts_sf, crs = crs_raster)
-    sf::as_Spatial(pts_sf[, "geolev2"])
-}
 
-load_1960_pop <- function() {
-    path <- file.path(dir_derived_census1960, "census_1960_ipums.parquet")
-    d <- arrow::read_parquet(path)
-    d <- ensure_geolev2_char(d)
-    data.frame(geolev2 = d$geolev2, pop = as.numeric(d$pop))
-}
-
-compute_ma <- function(tau_df, pop_df, theta_val) {
-    tau_df <- ensure_geolev2_char(tau_df, "origin_geolev2")
-    tau_df <- ensure_geolev2_char(tau_df, "destination_geolev2")
-    sym <- rbind(
-        tau_df,
-        data.frame(origin_geolev2      = tau_df$destination_geolev2,
-                   destination_geolev2 = tau_df$origin_geolev2,
-                   tau                 = tau_df$tau))
-    sym <- merge(sym,
-                 data.frame(destination_geolev2 = pop_df$geolev2,
-                            pop_dest = pop_df$pop),
-                 by = "destination_geolev2", all.x = TRUE)
-    sym$pop_dest[is.na(sym$pop_dest)] <- 0
-    sym$weight <- ifelse(is.finite(sym$tau) & sym$tau > 0,
-                         1 / (sym$tau^theta_val), 0)
-    sym$contrib <- sym$weight * sym$pop_dest
-    ma_df <- aggregate(contrib ~ origin_geolev2, data = sym, FUN = sum)
-    names(ma_df) <- c("geolev2", "MA")
-    ma_df$logMA <- log(ma_df$MA)
-    ma_df
-}
 
 main()
