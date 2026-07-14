@@ -1,0 +1,42 @@
+====================================================================== 
+MA URBAN-CENTER REFERENCE-POINT DIAGNOSTIC (memo Decision D) 
+Largest settlement by area vs geographic centroid 
+Generated: 2026-07-14 13:27:36 
+====================================================================== 
+
+Reference points: 312 districts 
+  276 districts anchored at largest settlement polygon (by area) 
+  36 districts fell back to geographic centroid (no settlement polygon) 
+[tau] actual_1960_s0 already exists, skipping recompute 
+[tau] actual_1986_s0 already exists, skipping recompute 
+[tau] instrument_stu_s0 already exists, skipping recompute 
+[tau] instrument_lcp_mst_s0 already exists, skipping recompute 
+
+---------------------------------------------------------------------- 
+[A] MA GAIN: baseline centroid vs urban-center reference point 
+---------------------------------------------------------------------- 
+  NOTE: 2 district(s) disconnected under the urban-center anchor 
+        (tau = Inf to all destinations in at least one year): 
+        32006055, 32094001 
+        Excluded from the stats below; dropped from regressions. 
+  baseline (centroid):  share gain 91.0%  mean 1.559  median 0.639  (N=312) 
+  urban center:         share gain 87.7%  mean 1.300  median 0.289  (N=310) 
+
+---------------------------------------------------------------------- 
+[B] POPULATION ELASTICITY under urban-center point (sector 0, theta low) 
+---------------------------------------------------------------------- 
+  OLS  beta = +0.021 (0.011)   N=308 
+  IV   beta = +0.005 (0.028)   N=308   first-stage F = 11.0 
+  (baseline-centroid IV-Both was +0.046 (0.033), F = 13.6; 
+   Gibbons 2024 ~0.3) 
+  (interior-point IV-Both from diagnostic_ma_refpoint.R was +0.036) 
+
+====================================================================== 
+READING: if the urban-center gain share drops well below 91% and/or 
+the IV beta moves toward 0.3 (Gibbons), the centroid choice was 
+inflating MA. The interior-point variant (PR #66) already found the 
+reference point was NOT the driver (91.0%->89.1%, beta 0.046->0.036); 
+this is a second, more standard reference-point choice (Gibbons-style 
+urban anchoring) testing whether that conclusion is robust to using 
+an actual settlement location rather than an arbitrary interior point. 
+====================================================================== 
