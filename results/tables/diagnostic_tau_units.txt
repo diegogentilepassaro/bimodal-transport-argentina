@@ -1,0 +1,57 @@
+========================================================================== 
+TAU UNIT AUDIT (Decision A option 1a, work item 1) 
+Convention from 03b: tau = accumulated cost-value x metres 
+Expected: ~1,000 raster units per peso/ton on a road-priced geodesic 
+Generated: 2026-07-14 15:58:34 
+========================================================================== 
+
+City-district resolution (nearest centroid, name-asserted): 
+  Buenos Aires   -> 32002001 (City of Buenos Aires) 
+  Rosario        -> 32082001 (Rosario) 
+  Cordoba        -> 32014001 (Capital) 
+  Mendoza        -> 32050008 (Capital) 
+  Salta          -> 32066001 (Capital) 
+
+-------------------------------------------------------------------------- 
+Corridor checks (tau_actual_1960_s0; road overall = 1.777 pesos/ton-km) 
+-------------------------------------------------------------------------- 
+
+  Buenos Aires - Rosario 
+    geodesic 265.9 km | tau 4.069e+05 units | road benchmark 473 pesos/ton 
+    implied units per peso/ton: 861 
+    expectation: below 1000: Parana corridor, navigation (0.621) substitutes road 
+
+  Cordoba - Mendoza 
+    geodesic 472.9 km | tau 1.906e+06 units | road benchmark 840 pesos/ton 
+    implied units per peso/ton: 2268 
+    expectation: above 1000: inland; sparse 1960 network -> off-network land legs 
+
+  Salta - Cordoba 
+    geodesic 733.4 km | tau 4.157e+06 units | road benchmark 1303 pesos/ton 
+    implied units per peso/ton: 3189 
+    expectation: above 1000: inland north; sparse 1960 network -> land legs 
+
+========================================================================== 
+READING - two separate conclusions, do not conflate them: 
+ 
+(1) THE UNIT CONVERSION IS EXACT BY CONSTRUCTION. 03b builds 
+conductance = 1/mean(cost) and geoCorrection divides by inter-cell 
+distance in metres, so costDistance accumulates (pesos/ton-km) x m. 
+Therefore tau_pesos_per_ton = tau_raster_units / 1000, regardless of 
+which modes or cells the route crosses. This is the number the 
+iceberg normalization (1 + cost/V, V in 1960 pesos/ton) needs; 
+tau_units_to_pesos = 1000 is now in config.R section 7b. 
+ 
+(2) THE CORRIDOR RATIOS DIAGNOSE ROUTE PRICING, NOT UNITS. Ratios 
+of cached tau to a pure-road geodesic benchmark span 861-3189: 
+below 1,000 on the Parana corridor (navigation at 0.621 substitutes 
+road at 1.777), and 2-3x above 1,000 on the 1960 inland corridors. 
+The inland premium is too large for route deviation alone; it is the 
+sparse 1960 network itself - where no road/rail exists, the LCP 
+crosses off-network land at cost_land x HMI (~146 pesos/ton-km), 
+which dominates those segments. This is the same capilarity 
+mechanism the connector experiment (PR #69) quantified, seen from 
+the corridor side, and it is substantive (1960 inland transport WAS 
+expensive), not a unit artifact. In 1960 pesos per ton the corridors 
+read: BA-Rosario ~407, Cordoba-Mendoza ~1,906, Salta-Cordoba ~4,157. 
+========================================================================== 
