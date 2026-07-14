@@ -179,24 +179,39 @@ main <- function() {
     f_ols <- as.formula(sprintf("chg_log_pop_91_60 ~ chg_logMA_86_60_v + %s",
                                 ctrls))
     m_ols <- suppressMessages(fixest::feols(f_ols, data = m, vcov = "hetero"))
+    f_iv_lp <- as.formula(sprintf(
+        "chg_log_pop_91_60 ~ %s | chg_logMA_86_60_v ~ chg_logMA_stu_v",
+        ctrls))
+    m_iv_lp <- suppressMessages(fixest::feols(f_iv_lp, data = m,
+                                              vcov = "hetero"))
     f_iv  <- as.formula(sprintf(
         "chg_log_pop_91_60 ~ %s | chg_logMA_86_60_v ~ chg_logMA_stu_v + chg_logMA_lcpmst_v",
         ctrls))
     m_iv  <- suppressMessages(fixest::feols(f_iv, data = m, vcov = "hetero"))
 
-    co_ols <- coef(m_ols)["chg_logMA_86_60_v"]
-    se_ols <- m_ols$se["chg_logMA_86_60_v"]
-    co_iv  <- coef(m_iv)["fit_chg_logMA_86_60_v"]
-    se_iv  <- m_iv$se["fit_chg_logMA_86_60_v"]
+    co_ols   <- coef(m_ols)["chg_logMA_86_60_v"]
+    se_ols   <- m_ols$se["chg_logMA_86_60_v"]
+    co_iv_lp <- coef(m_iv_lp)["fit_chg_logMA_86_60_v"]
+    se_iv_lp <- m_iv_lp$se["fit_chg_logMA_86_60_v"]
+    co_iv    <- coef(m_iv)["fit_chg_logMA_86_60_v"]
+    se_iv    <- m_iv$se["fit_chg_logMA_86_60_v"]
     # First-stage F: essential for reading the IV beta. The connector
     # experiment (PR #69/#70) showed reference-point/cost changes can kill
     # the instruments' first stage on TOTAL MA via composition effects, so
     # a small IV beta with a dead instrument is uninformative.
+    # IV-LP-only is reported alongside IV-Both because memo Decision C
+    # (rail-MA vs total-MA estimand) turns on how the Larkin instrument
+    # alone behaves under alternative anchoring.
     fs_F <- tryCatch(
         fixest::fitstat(m_iv, "ivf")[[1]]$stat,
         error = function(e) NA_real_)
-    rep("  OLS  beta = %+.3f (%.3f)   N=%d", co_ols, se_ols, m_ols$nobs)
-    rep("  IV   beta = %+.3f (%.3f)   N=%d   first-stage F = %.1f",
+    fs_F_lp <- tryCatch(
+        fixest::fitstat(m_iv_lp, "ivf")[[1]]$stat,
+        error = function(e) NA_real_)
+    rep("  OLS      beta = %+.3f (%.3f)   N=%d", co_ols, se_ols, m_ols$nobs)
+    rep("  IV-LP    beta = %+.3f (%.3f)   N=%d   first-stage F = %.1f",
+        co_iv_lp, se_iv_lp, m_iv_lp$nobs, fs_F_lp)
+    rep("  IV-Both  beta = %+.3f (%.3f)   N=%d   first-stage F = %.1f",
         co_iv, se_iv, m_iv$nobs, fs_F)
     rep("  (baseline-centroid IV-Both was +0.046 (0.033), F = 13.6;")
     rep("   Gibbons 2024 ~0.3)")
@@ -207,9 +222,10 @@ main <- function() {
     rep("the IV beta moves toward 0.3 (Gibbons), the centroid choice was")
     rep("inflating MA. The interior-point variant (PR #66) already found the")
     rep("reference point was NOT the driver (91.0%%->89.1%%, beta 0.046->0.036);")
-    rep("this is a second, more standard reference-point choice (Gibbons-style")
-    rep("urban anchoring) testing whether that conclusion is robust to using")
-    rep("an actual settlement location rather than an arbitrary interior point.")
+    rep("this is a third anchoring choice (Gibbons-style urban anchoring, after")
+    rep("centroid and interior point) testing whether that conclusion is robust")
+    rep("to using an actual settlement location rather than an arbitrary")
+    rep("interior point.")
     rep("%s", strrep("=", 70))
 
     close(con)
@@ -241,9 +257,11 @@ load_urbancenter_points <- function() {
     settlements <- sf::st_transform(settlements, crs = crs_raster)
     settlements$area_m2 <- as.numeric(sf::st_area(settlements))
 
-    # Assign each settlement polygon to the district whose interior it
-    # falls in (a settlement's own centroid, to avoid boundary-straddling
-    # polygons being assigned to multiple districts).
+    # Assign each settlement polygon to a single district via its
+    # point-on-surface (guaranteed interior point; a concave settlement's
+    # centroid could fall outside the polygon and land in a neighboring
+    # district). Avoids boundary-straddling polygons being assigned to
+    # multiple districts.
     settle_pts <- suppressWarnings(sf::st_point_on_surface(settlements))
     joined <- suppressWarnings(sf::st_join(settle_pts, shp["geolev2"],
                                            join = sf::st_within))

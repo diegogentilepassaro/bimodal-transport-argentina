@@ -1,7 +1,7 @@
 ====================================================================== 
 MA URBAN-CENTER REFERENCE-POINT DIAGNOSTIC (memo Decision D) 
 Largest settlement by area vs geographic centroid 
-Generated: 2026-07-14 13:27:36 
+Generated: 2026-07-14 13:45:10 
 ====================================================================== 
 
 Reference points: 312 districts 
@@ -25,8 +25,9 @@ Reference points: 312 districts
 ---------------------------------------------------------------------- 
 [B] POPULATION ELASTICITY under urban-center point (sector 0, theta low) 
 ---------------------------------------------------------------------- 
-  OLS  beta = +0.021 (0.011)   N=308 
-  IV   beta = +0.005 (0.028)   N=308   first-stage F = 11.0 
+  OLS      beta = +0.021 (0.011)   N=308 
+  IV-LP    beta = -0.028 (0.058)   N=308   first-stage F = 5.2 
+  IV-Both  beta = +0.005 (0.028)   N=308   first-stage F = 11.0 
   (baseline-centroid IV-Both was +0.046 (0.033), F = 13.6; 
    Gibbons 2024 ~0.3) 
   (interior-point IV-Both from diagnostic_ma_refpoint.R was +0.036) 
@@ -36,7 +37,8 @@ READING: if the urban-center gain share drops well below 91% and/or
 the IV beta moves toward 0.3 (Gibbons), the centroid choice was 
 inflating MA. The interior-point variant (PR #66) already found the 
 reference point was NOT the driver (91.0%->89.1%, beta 0.046->0.036); 
-this is a second, more standard reference-point choice (Gibbons-style 
-urban anchoring) testing whether that conclusion is robust to using 
-an actual settlement location rather than an arbitrary interior point. 
+this is a third anchoring choice (Gibbons-style urban anchoring, after 
+centroid and interior point) testing whether that conclusion is robust 
+to using an actual settlement location rather than an arbitrary 
+interior point. 
 ====================================================================== 
