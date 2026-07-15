@@ -14,8 +14,9 @@
 #          which — like the sectoral theta sweep (PR #71) — is expected
 #          to be more robust to Decision A than the levels.
 #
-# CHARACTERISTICS (z-scored within the estimation sample so interaction
-# coefficients read as "effect of +1 SD"):
+# CHARACTERISTICS (z-scored within each regression sample — complete
+# cases of all model variables — so interaction coefficients read as
+# "effect of +1 SD" among the districts the model is fit on):
 #   1. log_pop_1960   — initial population (main effect already in
 #                       geo_controls_main; only interaction added).
 #   2. rurshr_1960    — rural share 1960 = 1 - urbshr_1960, proxy for
@@ -41,9 +42,12 @@
 #          Theory prior (tasks.md A5): MA should matter more in
 #          agricultural, less-developed, BA-distant districts, i.e.
 #          b2 < 0 on initial population, b2 > 0 on rural share and
-#          distance to BA. Watch the per-regressor first-stage Fs: the
-#          interaction instruments can be weak even when the level
-#          instruments are fine.
+#          distance to BA. Watch BOTH per-regressor first-stage Fs:
+#          with two endogenous regressors, a weak first stage on either
+#          one contaminates both IV coefficients. In the committed run
+#          it is the LEVEL F that is weak (~7, down from 13.6 in the
+#          single-endogenous Table 9 spec), while the interaction Fs
+#          are 11-15.
 #
 # READS:
 #   data/derived/06_analysis/estimation_sample.parquet
@@ -57,16 +61,6 @@ suppressPackageStartupMessages({
     library(arrow)
     library(fixest)
 })
-
-# Per-endogenous-regressor first-stage Wald Fs (fitstat_F in _iv_helpers.R
-# returns only the first; with 2 endogenous regressors we want both).
-fitstat_F_all <- function(iv_model) {
-    fs <- tryCatch(fitstat(iv_model, type = "ivf"), error = function(e) NULL)
-    if (is.null(fs)) return(NA_real_)
-    vapply(fs, function(x) {
-        if (is.list(x) && !is.null(x$stat)) as.numeric(x$stat) else NA_real_
-    }, numeric(1))
-}
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
@@ -118,8 +112,13 @@ main <- function() {
         rep("[X = %s]", ch$label)
         rep("%s", strrep("-", 74))
 
-        # z-score within the complete-case sample for this characteristic
-        dd <- d[!is.na(d[[ch$var]]), ]
+        # z-score within the REGRESSION sample: complete cases of the
+        # characteristic, the outcome, the endogenous regressor, the
+        # instruments, and all controls — so "+1 SD" and "at the sample
+        # mean" refer to the same 309 districts the model is fit on.
+        model_vars <- c(ch$var, "chg_log_pop_91_60", endog, lp, hypo,
+                        geo_controls_main)
+        dd <- d[stats::complete.cases(d[, model_vars]), ]
         dd$X_z    <- as.numeric(scale(dd[[ch$var]]))
         dd$ma_X   <- dd[[endog]] * dd$X_z
         dd$lp_X   <- dd[[lp]]    * dd$X_z
@@ -153,8 +152,8 @@ main <- function() {
         b1 <- safe_coef(m_iv, paste0("fit_", endog))
         b2 <- safe_coef(m_iv, "fit_ma_X")
         Fs <- fitstat_F_all(m_iv)
-        F_ma  <- if (length(Fs) >= 1) Fs[1] else NA_real_
-        F_int <- if (length(Fs) >= 2) Fs[2] else NA_real_
+        F_ma  <- Fs[[paste0("ivf1::", endog)]]
+        F_int <- Fs[["ivf1::ma_X"]]
         rep("  IV-Both  beta_MA   = %+.4f (SE %.4f, p %.3f)   F = %.1f",
             b1$est, b1$se, b1$p, F_ma)
         rep("           beta_MAxX = %+.4f (SE %.4f, p %.3f)   F = %.1f   N=%d",
@@ -175,8 +174,17 @@ main <- function() {
     rep("READING: beta_MAxX is the change in the MA elasticity per +1 SD of")
     rep("the characteristic; beta_MA is the elasticity at the sample mean.")
     rep("Theory prior (tasks.md A5): negative on initial population,")
-    rep("positive on rural share and distance to BA. Interaction cells with")
-    rep("F_int well below 10 are underpowered — read sign, not magnitude.")
+    rep("positive on rural share and distance to BA.")
+    rep("")
+    rep("CAVEAT (identification strength): with two endogenous regressors,")
+    rep("a weak first stage on EITHER contaminates BOTH IV coefficients.")
+    rep("Here the LEVEL F is ~7 in every spec (vs 13.6 in the single-")
+    rep("endogenous Table 9 baseline) while the interaction Fs are 11-15:")
+    rep("adding the interaction instrument dilutes the level first stage.")
+    rep("Read the IV cells as sign checks, not magnitudes. Also note that")
+    rep("per-equation Fs can overstate joint strength when the two first")
+    rep("stages are correlated; the referee-grade statistic would be the")
+    rep("Sanderson-Windmeijer conditional F (not computed here).")
     rep("Levels inherit memo Decision A; patterns are the object here.")
     rep("%s", strrep("=", 74))
 

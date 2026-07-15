@@ -2,7 +2,7 @@
 HETEROGENEITY DIAGNOSTIC (task C7) 
 d ln(MA) interacted with baseline characteristics, one at a time. 
 Interactions instrumented by instrument x characteristic. 
-Generated: 2026-07-15 12:19:17 
+Generated: 2026-07-15 12:43:19 
 ========================================================================== 
 
 Spec: outcome chg_log_pop_91_60; endog chg_logMA_86_60_s0_elow; 
@@ -29,10 +29,10 @@ NOT run: distance to port (no such variable in the sample).
 -------------------------------------------------------------------------- 
 [X = Distance to Buenos Aires] 
 -------------------------------------------------------------------------- 
-  OLS      beta_MA   = +0.0217 (SE 0.0121, p 0.074) 
-           beta_MAxX = +0.0132 (SE 0.0147, p 0.368)   N=309 
-  IV-Both  beta_MA   = +0.0564 (SE 0.0349, p 0.108)   F = 7.3 
-           beta_MAxX = +0.0088 (SE 0.0305, p 0.773)   F = 14.6   N=309 
+  OLS      beta_MA   = +0.0215 (SE 0.0122, p 0.079) 
+           beta_MAxX = +0.0126 (SE 0.0140, p 0.368)   N=309 
+  IV-Both  beta_MA   = +0.0562 (SE 0.0350, p 0.109)   F = 7.3 
+           beta_MAxX = +0.0084 (SE 0.0292, p 0.773)   F = 14.6   N=309 
 
 Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_heterogeneity.csv 
 
@@ -40,7 +40,16 @@ Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_he
 READING: beta_MAxX is the change in the MA elasticity per +1 SD of 
 the characteristic; beta_MA is the elasticity at the sample mean. 
 Theory prior (tasks.md A5): negative on initial population, 
-positive on rural share and distance to BA. Interaction cells with 
-F_int well below 10 are underpowered — read sign, not magnitude. 
+positive on rural share and distance to BA. 
+ 
+CAVEAT (identification strength): with two endogenous regressors, 
+a weak first stage on EITHER contaminates BOTH IV coefficients. 
+Here the LEVEL F is ~7 in every spec (vs 13.6 in the single- 
+endogenous Table 9 baseline) while the interaction Fs are 11-15: 
+adding the interaction instrument dilutes the level first stage. 
+Read the IV cells as sign checks, not magnitudes. Also note that 
+per-equation Fs can overstate joint strength when the two first 
+stages are correlated; the referee-grade statistic would be the 
+Sanderson-Windmeijer conditional F (not computed here). 
 Levels inherit memo Decision A; patterns are the object here. 
 ========================================================================== 

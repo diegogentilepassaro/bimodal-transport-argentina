@@ -29,6 +29,11 @@
 #       Defensive across fixest versions (handles both the list-of-
 #       stats and the simplified return shapes).
 #
+#   fitstat_F_all(iv_model)
+#       Named vector of per-endogenous-regressor first-stage Wald Fs
+#       (keys "ivf1::<endog_var>"). For models with >1 endogenous
+#       regressor, where fitstat_F reports only the first.
+#
 # USAGE:
 #   source(file.path(dir_code, "analysis", "_iv_helpers.R"))
 #   models <- fit_iv_quad(y = "chg_log_pop_91_60",
@@ -91,6 +96,19 @@ fitstat_F <- function(iv_model) {
     fs2 <- fitstat(iv_model, type = "ivf", simplify = TRUE)
     if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
     NA_real_
+}
+
+# Per-endogenous-regressor first-stage Wald Fs. fitstat_F above returns
+# only the first; with >1 endogenous regressor (e.g. an instrumented
+# interaction, diagnostic_heterogeneity.R) each one has its own first
+# stage. Returns a named vector keyed "ivf1::<endog_var>" so callers can
+# index by name instead of relying on formula position.
+fitstat_F_all <- function(iv_model) {
+    fs <- tryCatch(fitstat(iv_model, type = "ivf"), error = function(e) NULL)
+    if (is.null(fs)) return(c(none = NA_real_))
+    vapply(fs, function(x) {
+        if (is.list(x) && !is.null(x$stat)) as.numeric(x$stat) else NA_real_
+    }, numeric(1))
 }
 
 # Insert a \label{...} right after the FIRST \caption{...} in a tex string.
