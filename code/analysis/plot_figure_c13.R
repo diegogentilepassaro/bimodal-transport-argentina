@@ -30,31 +30,34 @@
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)  # add_map_furniture()
 
     if (!dir.exists(dir_figures)) dir.create(dir_figures, recursive = TRUE)
 
     d <- load_panel_with_geometry()
 
-    # Pooled breakpoints
-    vals <- c(
-        d$chg_logMA_86_60_s0_elow,
-        d$chg_logMA_only_rail_s0_elow,
-        d$chg_logMA_only_road_s0_elow
-    )
-    breaks <- c(-Inf, -2, -1, -0.5, 0, 0.5, 1, 2, 4, Inf)
-    labels <- c("< -2", "(-2, -1]", "(-1, -0.5]",
-                "(-0.5, 0]", "(0, 0.5]", "(0.5, 1]",
+    # Pooled breakpoints, shared across the three panels so magnitudes are
+    # visually comparable. Fine bins near zero are required: the rail-only
+    # shock is small and uniformly negative (IQR roughly -0.09 to -0.02),
+    # so coarse bins would put ~90% of districts in one class and render
+    # panel (b) monochrome.
+    breaks <- c(-Inf, -2, -1, -0.5, -0.1, -0.05, 0, 0.5, 1, 2, 4, Inf)
+    labels <- c("< -2", "(-2, -1]", "(-1, -0.5]", "(-0.5, -0.1]",
+                "(-0.1, -0.05]", "(-0.05, 0]", "(0, 0.5]", "(0.5, 1]",
                 "(1, 2]", "(2, 4]", "> 4")
     palette <- c(
-        "< -2"        = "#08306b",
-        "(-2, -1]"    = "#2171b5",
-        "(-1, -0.5]"  = "#6baed6",
-        "(-0.5, 0]"   = "#c6dbef",
-        "(0, 0.5]"    = "#fddbc7",
-        "(0.5, 1]"    = "#f4a582",
-        "(1, 2]"      = "#d6604d",
-        "(2, 4]"      = "#b2182b",
-        "> 4"         = "#67001f"
+        "< -2"          = "#08306b",
+        "(-2, -1]"      = "#2171b5",
+        "(-1, -0.5]"    = "#4292c6",
+        "(-0.5, -0.1]"  = "#6baed6",
+        "(-0.1, -0.05]" = "#9ecae1",
+        "(-0.05, 0]"    = "#deebf7",
+        "(0, 0.5]"      = "#fddbc7",
+        "(0.5, 1]"      = "#f4a582",
+        "(1, 2]"        = "#d6604d",
+        "(2, 4]"        = "#b2182b",
+        "> 4"           = "#67001f"
     )
 
     for (fmt in c("pdf", "png")) {
@@ -68,7 +71,7 @@ main <- function() {
         par(mar = c(0.5, 0.5, 3, 0.5), oma = c(0, 0, 0, 0))
 
         draw_panel(d, "chg_logMA_86_60_s0_elow",
-                   "(a) Total 1960\u20131986",
+                   "(a) Total 1960-1986",
                    breaks, labels, palette)
         draw_panel(d, "chg_logMA_only_rail_s0_elow",
                    "(b) Rail-only counterfactual",
@@ -76,6 +79,7 @@ main <- function() {
         draw_panel(d, "chg_logMA_only_road_s0_elow",
                    "(c) Road-only counterfactual",
                    breaks, labels, palette)
+        add_map_furniture()  # scale bar + north arrow + CRS, last panel
 
         # Shared legend panel
         par(mar = c(0.5, 0, 3, 0))
