@@ -1,0 +1,136 @@
+% ===========================================================================
+% Section 6: Mode-Specific Patterns via Counterfactuals
+%
+% Robot-mode (Shapiro Step 3): state facts, do not argue; define concepts
+% before use; no forward references to undefined constructs.
+%
+% Anchors: Table 13 (tab:counterfactual), Figure C13 (fig:ma_counterfactual).
+%
+% PROVISIONAL FRAMING (decisions log F1): "both modes contribute, the rail
+% component is better identified." The alternative ("rail dominates") is a
+% one-subsection rewrite; see Plan/provisional_decisions_log.md.
+%
+% Caveat language per task A3: "suggestive evidence," "characterize
+% relative importance," never "the effect of rail closures is X."
+%
+% Numbers inline for now, from results/tables/table_13_counterfactual.csv;
+% AutoFill macros in the paper-wide substitution pass.
+%
+% CITATION KEYS: none new beyond Sections 1-5.
+% ===========================================================================
+
+\section{Mode-Specific Patterns via Counterfactuals}
+\label{sec:counterfactuals}
+
+The estimates in Section~\ref{sec:results} measure the effect of the
+combined change in market access produced by the simultaneous
+contraction of the rail network and expansion of the road network.
+This section decomposes that combined change into its two modal
+components. The decomposition holds one network fixed at its
+pre-reform configuration while the other changes as observed, and
+recomputes market access under each hypothetical configuration.
+
+\subsection{Counterfactual Market Access Measures}
+\label{sec:cf_construction}
+
+We construct two counterfactual market access measures using the same
+cost-surface pipeline as the actual measures described in
+Section~\ref{sec:data}. The \emph{rail-only} measure,
+$\Delta \ln \mathrm{MA}^{\mathrm{rail}}_i$, combines the 1986 rail
+network with the road network frozen at its 1954 configuration; it
+isolates the market-access consequences of the rail contraction. The
+\emph{road-only} measure, $\Delta \ln \mathrm{MA}^{\mathrm{road}}_i$,
+combines the road network of 1986 with the rail network frozen at its
+1960 configuration; it isolates the consequences of the road
+expansion. Both measures use the same trade elasticity
+($\theta = 4.55$), the same destination populations, and the same
+navigation layer as the full measure, so differences across the three
+measures reflect only the network configuration.
+
+Each counterfactual regressor is instrumented with the instrument that
+targets its source of variation. The rail-only measure is instrumented
+with the Larkin Plan instrument alone: the Plan's study designations
+shift rail-driven market access and have no mechanical connection to
+the frozen road layer. The road-only measure is instrumented with the
+hypothetical-road instrument alone. The full measure, reproduced from
+Table~\ref{tab:population_iv} for comparison, uses both instruments.
+The three regressors are never entered jointly in one regression: the
+full change is by construction close to the sum of its components, and
+joint estimation is not informative in a sample of 309 districts.
+
+Figure~\ref{fig:ma_counterfactual} maps the three measures on a common
+scale. The rail-only change is negative in every district: the median
+district loses 3~log points of market access from the rail contraction
+alone (interquartile range $-0.09$ to $-0.02$), and a small number of
+remote districts lose substantially more. The road-only change is
+positive for nearly all districts and reproduces the broad spatial
+pattern of the full measure, consistent with the road expansion being
+the dominant source of the aggregate market-access gains documented in
+Section~\ref{sec:data}.
+
+\subsection{Results}
+\label{sec:cf_results}
+
+Table~\ref{tab:counterfactual} reports estimates of
+equation~\eqref{eq:main} with each of the three regressors, for the
+four population outcomes of Table~\ref{tab:population_iv}. Panel~A
+reproduces the full-measure estimates. Panels~B and~C report the
+rail-only and road-only estimates.
+
+For total population, the IV estimate on the rail-only measure is
+0.032 (0.034) with a first-stage $F$ of 105.0. The IV estimate on the
+road-only measure is 0.039 (0.051) with a first-stage $F$ of 13.2.
+The full-measure estimate is 0.046 (0.033) with an $F$ of 13.6. The
+three point estimates are of similar magnitude; none is statistically
+distinguishable from zero at conventional levels, and none is
+distinguishable from the others. What differs sharply across panels is
+identification strength: the Larkin Plan instrument predicts
+rail-driven market access far more strongly ($F$ between 69.6 and
+117.8 across outcomes) than either instrument predicts its respective
+measure in the other panels.
+
+The urban and rural decomposition shows the same pattern. Rail-only
+estimates are 0.045 (0.035) for urban and 0.078 (0.084) for rural
+population; road-only estimates are 0.026 (0.067) and 0.098 (0.133).
+The urban-share estimates are near zero in all three panels, as in
+Table~\ref{tab:population_iv}. OLS estimates differ across panels: the
+rail-only OLS coefficient is $-0.004$ (0.019), while IV moves it to
+0.032, a pattern consistent with rail lines having been closed in
+districts that were already declining.
+
+\subsection{Interpretation and Caveats}
+\label{sec:cf_caveats}
+
+Three features of this exercise limit what the estimates can support,
+and we state them before drawing any conclusion from the comparison.
+
+First, the counterfactual networks are accounting constructs, not
+equilibrium predictions. Freezing the road network at 1954 does not
+model how firms, households, or the government would have behaved had
+the road program not occurred. The estimates therefore characterize
+the relative importance of the two modal shocks for the market-access
+channel; they are not estimates of the effect of a counterfactual
+policy.
+
+Second, the exclusion restrictions are inherited from
+Section~\ref{sec:identification} and are not separately testable here. The
+Larkin Plan instrument is excludable for the rail-only measure under
+the same conditions as for the full measure. For the road-only
+measure, the hypothetical-network instrument's first-stage $F$ of 13.2
+for total population falls to 9.1 for urban population, so the
+road-only panel is less precisely identified throughout.
+
+Third, differences in precision across panels reflect the instruments,
+not the economics. The rail-only panel is the best-identified object
+in this paper ($F = 105.0$); this makes its estimate the most
+credible, not the largest or the most important.
+
+With these limits stated, the decomposition supports one suggestive
+conclusion: both modal shocks contribute to the population response,
+with similar point estimates, and the rail component is identified
+with far greater precision. The point estimates give no support to the
+view that one mode's market-access channel dominates the other; the
+data are instead consistent with population responding to market
+access itself, whichever mode produces it. Section~\ref{sec:mechanisms}
+examines how much of this response operates through infrastructure
+located in the district itself.
