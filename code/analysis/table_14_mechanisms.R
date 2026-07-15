@@ -138,7 +138,7 @@ main <- function() {
     co_cs <- safe_coef(m_cs, paste0("fit_", endog))
     rows[[length(rows) + 1L]] <- data.frame(
         spec_id    = "(1cs)",
-        spec_label = "Baseline, common 306-district sample (CSV only)",
+        spec_label = "Baseline, common km-measure sample (CSV only)",
         ma_est     = co_cs$est, ma_se = co_cs$se, ma_p = co_cs$p,
         ma_F       = fitstat_F(m_cs),
         chg_rail_est  = NA_real_, chg_rail_se  = NA_real_,

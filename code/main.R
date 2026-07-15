@@ -326,6 +326,33 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.13",
         file.path(dir_tables, "table_12_robustness.tex"), makelog)
 
+    run_step("D.13b table_13_counterfactual",
+             a("table_13_counterfactual.R"),
+             "Table 13: counterfactual decomposition (full/only-rail/only-road)",
+             makelog)
+    verify_outputs("D.13b",
+        file.path(dir_tables,
+                  paste0("table_13_counterfactual.", c("tex", "csv"))),
+        makelog)
+
+    run_step("D.13c table_14_mechanisms",
+             a("table_14_mechanisms.R"),
+             "Table 14: local-infrastructure mechanism (progressive Z_i)",
+             makelog)
+    verify_outputs("D.13c",
+        file.path(dir_tables,
+                  paste0("table_14_mechanisms.", c("tex", "csv"))),
+        makelog)
+
+    run_step("D.13d diagnostic_heterogeneity",
+             a("diagnostic_heterogeneity.R"),
+             "Heterogeneity diagnostic (MA x baseline characteristics)",
+             makelog)
+    verify_outputs("D.13d",
+        file.path(dir_tables,
+                  paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
+        makelog)
+
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),

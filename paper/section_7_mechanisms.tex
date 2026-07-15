@@ -12,9 +12,8 @@
 % give the robustness reading as the complementary interpretation in the
 % following paragraph. Reversal = reorder two paragraphs.
 %
-% Numbers inline, verified against results/tables/table_14_mechanisms.csv
-% and results/tables/diagnostic_heterogeneity.csv; AutoFill macros in the
-% paper-wide substitution pass.
+% Numbers use scalars.tex macros (AutoFill pass), sourced from
+% results/tables/table_14_mechanisms.csv and diagnostic_heterogeneity.csv.
 %
 % CITATION KEYS: none new beyond Sections 1-6.
 % ===========================================================================
@@ -52,7 +51,7 @@ adding the two binary margins alone in column~(3) leaves it at
 \mechBinCoef{} (\mechBinSE{}); and including all four $Z_i$ jointly
 in column~(4) lowers it to \mechAllZCoef{} (\mechAllZSE{}). The
 first-stage $F$ is higher in every augmented column (up to
-\mechAllZF{}) than at baseline (\cfFullFIVPop{}), so the attenuation
+\mechAllZF{}) than at baseline (\mechBaselineF{}), so the attenuation
 is not a weak-instrument artifact. Columns~(2)--(4) lose three
 districts with missing kilometer measures (306 versus 309
 observations); re-estimated on the common 306-district sample, the
@@ -113,7 +112,7 @@ program and are reported in its output files; a tabulated version is
 deferred until the section structure is final.}
 
 The OLS interaction coefficients carry the predicted sign in all
-three cases: \heteroPopIntOLS{} (\heteroPopIntSEOLS{}) for initial
+three cases: $\heteroPopIntOLS{}$ (\heteroPopIntSEOLS{}) for initial
 population, \heteroRurIntOLS{} (\heteroRurIntSEOLS{}) for the rural
 share, and an imprecise \heteroDistIntOLS{} (\heteroDistIntSEOLS{})
 for distance to Buenos Aires. Under instrumental variables the signs are

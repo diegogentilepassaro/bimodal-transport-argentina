@@ -22,7 +22,8 @@
 # those are already code-generated.
 #
 # READS:
-#   results/tables/table_{6,7,8,9,10,11,12}_*.csv
+#   results/tables/table_{6,7,8,9,10,11,12,13,14}_*.csv
+#   results/tables/diagnostic_heterogeneity.csv
 #
 # PRODUCES:
 #   results/scalars.tex
@@ -212,6 +213,13 @@ main <- function() {
         if (nrow(r) == 1L) {
             macros[["mechBaselineCommonCoef"]] <- sprintf("%.3f", r$ma_est)
             macros[["mechBaselineCommonSE"]]   <- sprintf("%.3f", r$ma_se)
+        }
+        # Baseline F from Table 14's own spec (1), so Section 7's prose
+        # traces to the table it describes (not Table 13's identical
+        # regression, which could silently diverge).
+        r <- subset(t14, spec_id == "(1)")
+        if (nrow(r) == 1L) {
+            macros[["mechBaselineF"]] <- sprintf("%.1f", r$ma_F)
         }
     }
 
