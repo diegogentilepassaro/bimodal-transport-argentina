@@ -137,7 +137,7 @@ the analysis to avoid type-coercion bugs on leading zeros.
 
 \paragraph{Population.}
 Population in 1960 comes from the digitised \emph{Censo Nacional de
-Población 1960} tables \citep{indec1960censo}, reconciled to the IPUMS district geography
+Población 1960} tables \citep{censo1960pop}, reconciled to the IPUMS district geography
 through a crosswalk that handles pre-1960 splits and name changes. The
 mean 1960 district population is 43{,}856 with a national total of
 13.6~million. Population in 1991 comes from the IPUMS microdata
@@ -156,7 +156,7 @@ us the post-reform window with consistent urban/rural classification.
 
 \paragraph{Pre-reform placebo.}
 We supplement the baseline with the 1947 national census
-\citep{indec1947censo}, which covers
+\citep{censo1947}, which covers
 240 of the 312 districts. A log population change
 $\Delta\log(\mathrm{pop}_{60/47})$ for this subsample serves as a placebo
 outcome: it measures population growth before any of the 1960--1986
@@ -166,14 +166,14 @@ instruments isolate post-1960 network-induced variation.
 \paragraph{Industrial and agricultural outcomes.}
 Four additional data components carry sectoral outcomes. The 1954 and
 1985 industrial censuses (\emph{Censo Industrial} and \emph{Censo
-Económico}; \citealt{indec1954industrial, indec1985economico}) provide
+Económico}; \citealt{censo1954industrial, indec1985economico}) provide
 district-level establishment counts, salaries, and
 production values. Only \texttt{nestab} (establishments), \texttt{massal}
 (wages), and \texttt{valprod} (production value) are present in both
 census years; \texttt{nemp} (workers, 1954) and \texttt{npers} (persons,
 1985) are defined differently and are not directly comparable. The 1960
 and 1988 agricultural censuses
-\citep{indec1960agro, indec1988agro} provide \texttt{nexp} (farm operations)
+\citep{censo1960agro, indec1988agro} provide \texttt{nexp} (farm operations)
 and \texttt{areatot\_ha} (total agricultural area). All monetary
 variables are nominal pesos of their census year; real comparisons
 across years require a deflator that we defer to robustness.

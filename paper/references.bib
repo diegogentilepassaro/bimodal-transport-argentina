@@ -5,10 +5,10 @@
 % section_*.tex file (or paper.tex); grep for the key before removing.
 %
 % All entries verified against publisher/library records (Crossref, JSTOR,
-% DataCite, OpenLibrary, publisher pages) in July 2026. Citation keys are
-% kept stable even where the verified year differs from the key (e.g.
-% fajgelbaumredding2018 published 2022; whitaker2013 published 1954), so
-% that in-text \citep / \citet calls never break.
+% DataCite, OpenLibrary, publisher pages) in July 2026. Citation keys
+% match the verified publication years (renamed in the PR #89 follow-up:
+% fajgelbaumredding2018 -> 2022, whitaker2013 -> 1954, rock1985 -> 1987;
+% indec* census keys -> censo* since pre-1968 censuses predate INDEC).
 %
 % AEA replication-package note: entries flagged with a "% DATA CITATION"
 % comment are the formal citations for external data sources (IPUMS, INDEC
@@ -97,8 +97,10 @@
 }
 
 % DATA CITATION: 1947 population census, digitised by the authors.
-@misc{indec1947censo,
-  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+% Issuing agency verified via Princeton University Library catalog
+% (SCSB-6745784); INDEC did not exist until 1968.
+@misc{censo1947,
+  author       = {{Direcci\'on Nacional del Servicio Estad\'istico}},
   title        = {Cuarto Censo General de la Naci\'on 1947 [dataset]},
   year         = {1947},
   howpublished = {Buenos Aires},
@@ -108,8 +110,11 @@
 }
 
 % DATA CITATION: 1954 industrial census, digitised by the authors.
-@misc{indec1954industrial,
-  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+% TODO (coauthor): issuing agency not verifiable online; INDEC did not
+% exist until 1968. Confirm the agency from the title page of the scanned
+% volumes and replace {Rep\'ublica Argentina} with it.
+@misc{censo1954industrial,
+  author       = {{Rep\'ublica Argentina}},
   title        = {Censo Nacional Econ\'omico 1954: Industria [dataset]},
   year         = {1954},
   howpublished = {Buenos Aires},
@@ -117,8 +122,10 @@
 }
 
 % DATA CITATION: 1960 agricultural census, digitised by the authors.
-@misc{indec1960agro,
-  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+% Issuing agency verified via University of Minnesota Digital Conservancy
+% records for the Censo Nacional de 1960.
+@misc{censo1960agro,
+  author       = {{Direcci\'on Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Agropecuario 1960 [dataset]},
   year         = {1960},
   howpublished = {Buenos Aires},
@@ -126,8 +133,10 @@
 }
 
 % DATA CITATION: 1960 population census, digitised by the authors.
-@misc{indec1960censo,
-  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+% Issuing agency verified via University of Minnesota Digital Conservancy
+% records for the Censo Nacional de 1960.
+@misc{censo1960pop,
+  author       = {{Direcci\'on Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional de Poblaci\'on 1960 [dataset]},
   year         = {1960},
   howpublished = {Buenos Aires},
@@ -162,7 +171,8 @@
                   Version 7.3 [dataset]},
   year         = {2020},
   howpublished = {IPUMS, Minneapolis, MN},
-  note         = {DOI: 10.18128/D020.V7.3. Argentina census microdata
+  doi         = {10.18128/D020.V7.3},
+  note         = {Argentina census microdata
                   1970--2010 and time-invariant district boundaries
                   (geolev2).}
 }
@@ -189,7 +199,8 @@
   title        = {Global 30 Arc-Second Elevation ({GTOPO30}) [dataset]},
   year         = {1996},
   howpublished = {USGS EROS Data Center, Sioux Falls, SD},
-  note         = {DOI: 10.5066/F7DF6PQS. Elevation raster; also underlies
+  doi         = {10.5066/F7DF6PQS},
+  note         = {Elevation raster; also underlies
                   the Nunn--Puga terrain-ruggedness raster.}
 }
 
@@ -213,7 +224,7 @@
   number  = {2},
   pages   = {799--858},
   year    = {2016},
-  note    = {DOI: 10.1093/qje/qjw002}
+  doi    = {10.1093/qje/qjw002}
 }
 
 @article{eatonkortum2002,
@@ -224,7 +235,7 @@
   number  = {5},
   pages   = {1741--1779},
   year    = {2002},
-  note    = {DOI: 10.1111/1468-0262.00352}
+  doi    = {10.1111/1468-0262.00352}
 }
 
 @article{faber2014,
@@ -236,10 +247,10 @@
   number  = {3},
   pages   = {1046--1070},
   year    = {2014},
-  note    = {DOI: 10.1093/restud/rdu010}
+  doi    = {10.1093/restud/rdu010}
 }
 
-@article{fajgelbaumredding2018,
+@article{fajgelbaumredding2022,
   author  = {Fajgelbaum, Pablo D. and Redding, Stephen J.},
   title   = {Trade, structural transformation, and development:
              Evidence from {A}rgentina 1869--1914},
@@ -248,7 +259,7 @@
   number  = {5},
   pages   = {1249--1318},
   year    = {2022},
-  note    = {DOI: 10.1086/718915}
+  doi    = {10.1086/718915}
 }
 
 @article{galorozak2016,
@@ -259,7 +270,7 @@
   number  = {10},
   pages   = {3064--3103},
   year    = {2016},
-  note    = {DOI: 10.1257/aer.20150020}
+  doi    = {10.1257/aer.20150020}
 }
 
 @article{gibbons2024,
@@ -267,7 +278,9 @@
   title   = {The spatial impacts of a massive rail disinvestment program: The {B}eeching {A}xe},
   journal = {Journal of Urban Economics},
   volume  = {143},
-  year    = {2024}
+  pages   = {103691},
+  year    = {2024},
+  doi     = {10.1016/j.jue.2024.103691}
 }
 
 @article{keeling1993,
@@ -297,7 +310,7 @@
   number  = {1},
   pages   = {20--36},
   year    = {2012},
-  note    = {DOI: 10.1162/REST\_a\_00161}
+  doi    = {10.1162/REST_a_00161}
 }
 
 @article{ozak2018,
@@ -309,7 +322,7 @@
   number  = {2},
   pages   = {175--221},
   year    = {2018},
-  note    = {DOI: 10.1007/s10887-018-9154-6}
+  doi    = {10.1007/s10887-018-9154-6}
 }
 
 @article{pahowka2005,
@@ -332,7 +345,7 @@
   year      = {1969}
 }
 
-@book{rock1985,
+@book{rock1987,
   author    = {Rock, David},
   title     = {Argentina, 1516--1987: From {S}panish Colonization to {A}lfons\'in},
   publisher = {University of California Press},
@@ -340,7 +353,7 @@
   year      = {1987}
 }
 
-@book{whitaker2013,
+@book{whitaker1954,
   author    = {Whitaker, Arthur P.},
   title     = {The United States and Argentina},
   publisher = {Harvard University Press},
