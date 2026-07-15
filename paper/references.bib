@@ -1,169 +1,170 @@
 % ===========================================================================
 % references.bib
 %
-% Bibliography for paper.tex. Entries are currently stubs (minimum valid
-% BibTeX fields) sufficient for the paper to compile with \citep / \citet
-% resolving. Replace each entry with a full citation as sections are
-% finalized. Every entry here is referenced in at least one section_*.tex
-% file; grep for the key before removing.
+% Bibliography for paper.tex. Every entry is referenced in at least one
+% section_*.tex file (or paper.tex); grep for the key before removing.
 %
-% AEA replication-package note: the final paper must include a full data
-% citation for every external data source (IPUMS, INDEC, Larkin, Baumgartner
-% & Palazzo, ACA, IGN, FAO-GAEZ, USGS GTOPO30). Those entries are marked
-% "DATA CITATION" below.
+% All entries verified against publisher/library records (Crossref, JSTOR,
+% DataCite, OpenLibrary, publisher pages) in July 2026. Citation keys are
+% kept stable even where the verified year differs from the key (e.g.
+% fajgelbaumredding2018 published 2022; whitaker2013 published 1954), so
+% that in-text \citep / \citet calls never break.
+%
+% AEA replication-package note: entries marked "DATA CITATION" are the
+% formal citations for external data sources (IPUMS, INDEC censuses,
+% Larkin Plan, Baumgartner & Palazzo, ACA maps, IGN, FAO-GAEZ, USGS
+% GTOPO30) and must also appear in the replication README's data
+% availability statement.
 % ===========================================================================
 
-@book{argentina1981politica,
-  author    = {{Fraternidad, La}},
-  title     = {150 a\~nos de pol\'itica ferroviaria en Argentina},
-  publisher = {Lumiere},
-  address   = {Buenos Aires},
-  year      = {1981},
-  note      = {Stub entry; fill details.}
+% ---- Data citations -------------------------------------------------------
+
+@misc{acamaps,
+  author       = {{Autom\'ovil Club Argentino}},
+  title        = {Road maps of {A}rgentina, 1954, 1970, and 1986 [maps]},
+  howpublished = {Autom\'ovil Club Argentino, Buenos Aires},
+  year         = {1954--1986},
+  note         = {DATA CITATION: three road-network cross sections
+                  digitised by the authors.}
+}
+
+@techreport{argentina1981politica,
+  author      = {{Secretar\'ia de Estado de Transporte y Obras P\'ublicas}},
+  title       = {Pol\'itica Ferroviaria 1979--1981},
+  institution = {Ministerio de Econom\'ia, Rep\'ublica Argentina},
+  address     = {Buenos Aires},
+  year        = {1981},
+  note        = {DATA CITATION: 1979 rail-network map (Figure~V--5)
+                  digitised by the authors.}
 }
 
 @article{baumgartnerpalazzo1969,
-  author  = {Baumgartner, J. P. and Palazzo, G.},
-  title   = {Transportation costs in {Argentina}},
-  journal = {Unpublished technical report},
+  author  = {Baumgartner, Jean-Pierre and Palazzo, Pascual Santiago},
+  title   = {Estructura econ\'omica del transporte de carga automotor y
+             ferroviario en la {A}rgentina},
+  journal = {El Trimestre Econ\'omico},
+  volume  = {36},
+  number  = {143},
+  pages   = {381--394},
   year    = {1969},
-  note    = {Stub entry; obtained via original QGIS pipeline.
-             DATA CITATION: cost parameters used for transport-cost raster.}
-}
-
-@article{donaldsonhornbeck2016,
-  author  = {Donaldson, Dave and Hornbeck, Richard},
-  title   = {Railroads and {A}merican economic growth: A ``market access'' approach},
-  journal = {Quarterly Journal of Economics},
-  volume  = {131},
-  number  = {2},
-  pages   = {799--858},
-  year    = {2016}
-}
-
-@article{eatonkortum2002,
-  author  = {Eaton, Jonathan and Kortum, Samuel},
-  title   = {Technology, geography, and trade},
-  journal = {Econometrica},
-  volume  = {70},
-  number  = {5},
-  pages   = {1741--1779},
-  year    = {2002}
-}
-
-@article{fajgelbaumredding2018,
-  author  = {Fajgelbaum, Pablo D. and Redding, Stephen J.},
-  title   = {Trade, structural transformation, and development:
-             Evidence from {A}rgentina 1869--1914},
-  journal = {National Bureau of Economic Research Working Paper},
-  year    = {2018},
-  note    = {Stub entry; check publication status.}
+  url     = {https://www.jstor.org/stable/20856082},
+  note    = {DATA CITATION: ground-transport cost parameters (Table~II)
+             used for the transport-cost rasters.}
 }
 
 @misc{faoiiasa2012gaez,
   author       = {{FAO and IIASA}},
-  title        = {Global Agro-Ecological Zones (GAEZ v3.0)},
+  title        = {Global Agro-Ecological Zones ({GAEZ} v3.0) [dataset]},
   year         = {2012},
-  howpublished = {Food and Agriculture Organization and International
-                  Institute for Applied Systems Analysis},
-  note         = {DATA CITATION.}
+  howpublished = {Food and Agriculture Organization of the United Nations,
+                  Rome, and International Institute for Applied Systems
+                  Analysis, Laxenburg},
+  url          = {https://gaez.fao.org/},
+  note         = {DATA CITATION: wheat potential-yield raster.}
 }
 
-@article{galorozak2016,
-  author  = {Galor, Oded and \"Ozak, \"Omer},
-  title   = {The agricultural origins of time preference},
-  journal = {American Economic Review},
-  volume  = {106},
-  number  = {10},
-  pages   = {3064--3103},
-  year    = {2016}
+@misc{ignsettlements,
+  author       = {{Instituto Geogr\'afico Nacional}},
+  title        = {\'Areas de asentamientos y edificios [dataset]},
+  howpublished = {Instituto Geogr\'afico Nacional, Rep\'ublica Argentina,
+                  Buenos Aires},
+  year         = {n.d.},
+  url          = {https://www.ign.gob.ar/},
+  note         = {DATA CITATION: SIG settlements layer used for the Gran
+                  Buenos Aires centroid and as georeferencing reference for
+                  network digitisation.}
 }
 
-@article{keeling1993,
-  author  = {Keeling, David J.},
-  title   = {Transport and the world city paradigm},
-  journal = {World Cities in a World-System},
-  year    = {1993},
-  note    = {Stub entry; confirm citation.}
+@misc{indec1947censo,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Cuarto Censo General de la Naci\'on 1947 [dataset]},
+  year         = {1947},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes held at the Biblioteca del Congreso de la
+                  Naci\'on and the INDEC library.}
 }
 
-@book{larkin1962,
-  author    = {Larkin, Thomas B.},
-  title     = {Transportes Argentinos: Plan de Largo Alcance},
-  publisher = {Public Works Ministry},
-  address   = {Buenos Aires},
-  year      = {1962},
-  note      = {DATA CITATION: Larkin Plan segments (diagnosis and
-               recommendations) digitized from scanned volumes.}
+@misc{indec1954industrial,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Censo Nacional Econ\'omico 1954: Industria [dataset]},
+  year         = {1954},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes.}
 }
 
-@article{lopez_waddell2007,
-  author  = {L\'opez, Mario Justo and Waddell, Jorge Eduardo},
-  title   = {Nueva historia del ferrocarril en la {A}rgentina},
-  journal = {Lumiere},
-  year    = {2007},
-  note    = {Stub entry; confirm.}
+@misc{indec1960agro,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Censo Nacional Agropecuario 1960 [dataset]},
+  year         = {1960},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes.}
 }
 
-@article{nunn2012ruggedness,
-  author  = {Nunn, Nathan and Puga, Diego},
-  title   = {Ruggedness: The blessing of bad geography in {A}frica},
-  journal = {Review of Economics and Statistics},
-  volume  = {94},
-  number  = {1},
-  pages   = {20--36},
-  year    = {2012}
+@misc{indec1960censo,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Censo Nacional de Poblaci\'on 1960 [dataset]},
+  year         = {1960},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes held at the Biblioteca del Congreso de la
+                  Naci\'on and the INDEC library.}
 }
 
-@article{ozak2018,
-  author  = {\"Ozak, \"Omer},
-  title   = {Distance to the pre-industrial technological frontier
-             and economic development},
-  journal = {Journal of Economic Growth},
-  volume  = {23},
-  number  = {2},
-  pages   = {175--221},
-  year    = {2018}
+@misc{indec1985economico,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Censo Nacional Econ\'omico 1985: Industria [dataset]},
+  year         = {1985},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes.}
 }
 
-@book{pahowka2005,
-  author    = {Pahowka, Eduardo},
-  title     = {Argentine economic history, 1880--2000},
-  publisher = {Ediciones Macchi},
-  year      = {2005},
-  note      = {Stub entry; confirm details.}
+@misc{indec1988agro,
+  author       = {{Instituto Nacional de Estad\'istica y Censos}},
+  title        = {Censo Nacional Agropecuario 1988 [dataset]},
+  year         = {1988},
+  howpublished = {Buenos Aires},
+  note         = {DATA CITATION: digitised by the authors from published
+                  volumes.}
 }
 
-@book{potash1969,
-  author    = {Potash, Robert A.},
-  title     = {The Army and Politics in Argentina, 1928--1945:
-               Yrigoyen to Per\'on},
-  publisher = {Stanford University Press},
-  year      = {1969}
+@misc{ipums2020,
+  author       = {{Minnesota Population Center}},
+  title        = {Integrated Public Use Microdata Series, International:
+                  Version 7.3 [dataset]},
+  year         = {2020},
+  howpublished = {IPUMS, Minneapolis, MN},
+  note         = {DOI: 10.18128/D020.V7.3. DATA CITATION: Argentina census
+                  microdata 1970--2010 and time-invariant district
+                  boundaries (geolev2).}
 }
 
-@book{rock1985,
-  author    = {Rock, David},
-  title     = {Argentina, 1516--1987: From {S}panish Colonization to {A}lfons\'in},
-  publisher = {University of California Press},
-  year      = {1985}
+@techreport{larkin1962,
+  author      = {Larkin, Thomas B.},
+  title       = {Transportes Argentinos: Plan de Largo Alcance},
+  institution = {Grupo de Planeamiento de los Transportes, Ministerio de
+                 Obras y Servicios P\'ublicos, Rep\'ublica Argentina},
+  address     = {Buenos Aires},
+  year        = {1962},
+  note        = {Known as the Larkin Plan, after the head of the planning
+                 group. DATA CITATION: studied/non-studied rail segments and
+                 operating recommendations digitised from scanned volumes;
+                 navigation cost parameters.}
 }
 
 @misc{usgs1996gtopo30,
   author       = {{U.S. Geological Survey}},
-  title        = {GTOPO30 Global Digital Elevation Model},
+  title        = {Global 30 Arc-Second Elevation ({GTOPO30}) [dataset]},
   year         = {1996},
-  howpublished = {USGS EROS Data Center},
-  note         = {DATA CITATION.}
+  howpublished = {USGS EROS Data Center, Sioux Falls, SD},
+  note         = {DOI: 10.5066/F7DF6PQS. DATA CITATION: elevation raster;
+                  also underlies the Nunn--Puga terrain-ruggedness raster.}
 }
 
-@book{whitaker2013,
-  author    = {Whitaker, Arthur P.},
-  title     = {Argentina},
-  publisher = {Prentice-Hall},
-  year      = {2013},
-  note      = {Stub entry; confirm edition.}
-}
+% ---- Literature -----------------------------------------------------------
 
 @article{ahlfeldtfeddersen2018,
   author  = {Ahlfeldt, Gabriel M. and Feddersen, Arne},
@@ -175,10 +176,133 @@
   year    = {2018}
 }
 
+@article{donaldsonhornbeck2016,
+  author  = {Donaldson, Dave and Hornbeck, Richard},
+  title   = {Railroads and {A}merican economic growth: A ``market access'' approach},
+  journal = {Quarterly Journal of Economics},
+  volume  = {131},
+  number  = {2},
+  pages   = {799--858},
+  year    = {2016},
+  note    = {DOI: 10.1093/qje/qjw002}
+}
+
+@article{eatonkortum2002,
+  author  = {Eaton, Jonathan and Kortum, Samuel},
+  title   = {Technology, geography, and trade},
+  journal = {Econometrica},
+  volume  = {70},
+  number  = {5},
+  pages   = {1741--1779},
+  year    = {2002},
+  note    = {DOI: 10.1111/1468-0262.00352}
+}
+
+@article{fajgelbaumredding2018,
+  author  = {Fajgelbaum, Pablo D. and Redding, Stephen J.},
+  title   = {Trade, structural transformation, and development:
+             Evidence from {A}rgentina 1869--1914},
+  journal = {Journal of Political Economy},
+  volume  = {130},
+  number  = {5},
+  pages   = {1249--1318},
+  year    = {2022},
+  note    = {DOI: 10.1086/718915}
+}
+
+@article{galorozak2016,
+  author  = {Galor, Oded and \"Ozak, \"Omer},
+  title   = {The agricultural origins of time preference},
+  journal = {American Economic Review},
+  volume  = {106},
+  number  = {10},
+  pages   = {3064--3103},
+  year    = {2016},
+  note    = {DOI: 10.1257/aer.20150020}
+}
+
 @article{gibbons2024,
   author  = {Gibbons, Stephen and Heblich, Stephan and Pinchbeck, Edward W.},
   title   = {The spatial impacts of a massive rail disinvestment program: The {B}eeching {A}xe},
   journal = {Journal of Urban Economics},
   volume  = {143},
   year    = {2024}
+}
+
+@article{keeling1993,
+  author  = {Keeling, David J.},
+  title   = {Transport and regional development in {A}rgentina: Structural
+             deficiencies and patterns of network evolution},
+  journal = {Yearbook (Conference of Latin Americanist Geographers)},
+  volume  = {19},
+  pages   = {25--34},
+  year    = {1993}
+}
+
+@book{lopez_waddell2007,
+  editor    = {L\'opez, Mario Justo and Waddell, Jorge Eduardo},
+  title     = {Nueva historia del ferrocarril en la {A}rgentina:
+               150 a\~nos de pol\'itica ferroviaria},
+  publisher = {Lumiere},
+  address   = {Buenos Aires},
+  year      = {2007}
+}
+
+@article{nunn2012ruggedness,
+  author  = {Nunn, Nathan and Puga, Diego},
+  title   = {Ruggedness: The blessing of bad geography in {A}frica},
+  journal = {Review of Economics and Statistics},
+  volume  = {94},
+  number  = {1},
+  pages   = {20--36},
+  year    = {2012},
+  note    = {DOI: 10.1162/REST\_a\_00161}
+}
+
+@article{ozak2018,
+  author  = {\"Ozak, \"Omer},
+  title   = {Distance to the pre-industrial technological frontier
+             and economic development},
+  journal = {Journal of Economic Growth},
+  volume  = {23},
+  number  = {2},
+  pages   = {175--221},
+  year    = {2018},
+  note    = {DOI: 10.1007/s10887-018-9154-6}
+}
+
+@article{pahowka2005,
+  author  = {Pahowka, Gareth},
+  title   = {A railroad debacle and failed economic policies:
+             {P}eron's {A}rgentina},
+  journal = {The Gettysburg Historical Journal},
+  volume  = {4},
+  year    = {2005},
+  url     = {https://cupola.gettysburg.edu/ghj/vol4/iss1/6},
+  note    = {Article 6}
+}
+
+@book{potash1969,
+  author    = {Potash, Robert A.},
+  title     = {The Army and Politics in Argentina, 1928--1945:
+               Yrigoyen to Per\'on},
+  publisher = {Stanford University Press},
+  address   = {Stanford, CA},
+  year      = {1969}
+}
+
+@book{rock1985,
+  author    = {Rock, David},
+  title     = {Argentina, 1516--1987: From {S}panish Colonization to {A}lfons\'in},
+  publisher = {University of California Press},
+  address   = {Berkeley, CA},
+  year      = {1987}
+}
+
+@book{whitaker2013,
+  author    = {Whitaker, Arthur P.},
+  title     = {The United States and Argentina},
+  publisher = {Harvard University Press},
+  address   = {Cambridge, MA},
+  year      = {1954}
 }

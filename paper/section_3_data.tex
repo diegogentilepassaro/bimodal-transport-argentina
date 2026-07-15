@@ -76,7 +76,8 @@ these are concentrated in Patagonia and Tierra del Fuego.
 
 \paragraph{Roads.}
 The road network comes from a digitised cross-panel of
-Automóvil~Club~Argentino maps for 1954, 1970, and 1986. The resulting
+Automóvil~Club~Argentino maps for 1954, 1970, and 1986
+\citep{acamaps}. The resulting
 shapefile (\texttt{comparacion\_54\_70\_86.shp}) contains 1{,}741
 MULTILINESTRING segments classified into seven \texttt{type2}
 categories by their period-specific presence:
@@ -124,7 +125,8 @@ Section~\ref{sec:identification}.
 
 \paragraph{Geographic unit.}
 We work at the district level using IPUMS International's
-time-invariant \texttt{geolev2} geography for Argentina, covering 312
+time-invariant \texttt{geolev2} geography for Argentina
+\citep{ipums2020}, covering 312
 mainland districts including Capital Federal and the two Tierra~del~Fuego
 jurisdictions. The same polygons are used across the five IPUMS sample
 years (1970, 1980, 1991, 2001, 2010), the 1960 and 1947 census
@@ -133,8 +135,8 @@ publications, and the agricultural and industrial censuses. The
 the analysis to avoid type-coercion bugs on leading zeros.
 
 \paragraph{Population.}
-Population in 1960 comes from the digitised \emph{IV Censo Nacional de
-Población 1960} tables, reconciled to the IPUMS district geography
+Population in 1960 comes from the digitised \emph{Censo Nacional de
+Población 1960} tables \citep{indec1960censo}, reconciled to the IPUMS district geography
 through a crosswalk that handles pre-1960 splits and name changes. The
 mean 1960 district population is 43{,}856 with a national total of
 13.6~million. Population in 1991 comes from the IPUMS microdata
@@ -152,7 +154,8 @@ panel and are not used for urban-outcome regressions. 1960 and 1991 give
 us the post-reform window with consistent urban/rural classification.
 
 \paragraph{Pre-reform placebo.}
-We supplement the baseline with the 1947 national census, which covers
+We supplement the baseline with the 1947 national census
+\citep{indec1947censo}, which covers
 240 of the 312 districts. A log population change
 $\Delta\log(\mathrm{pop}_{60/47})$ for this subsample serves as a placebo
 outcome: it measures population growth before any of the 1960--1986
@@ -162,12 +165,14 @@ instruments isolate post-1960 network-induced variation.
 \paragraph{Industrial and agricultural outcomes.}
 Four additional data components carry sectoral outcomes. The 1954 and
 1985 industrial censuses (\emph{Censo Industrial} and \emph{Censo
-Económico}) provide district-level establishment counts, salaries, and
+Económico}; \citealt{indec1954industrial, indec1985economico}) provide
+district-level establishment counts, salaries, and
 production values. Only \texttt{nestab} (establishments), \texttt{massal}
 (wages), and \texttt{valprod} (production value) are present in both
 census years; \texttt{nemp} (workers, 1954) and \texttt{npers} (persons,
 1985) are defined differently and are not directly comparable. The 1960
-and 1988 agricultural censuses provide \texttt{nexp} (farm operations)
+and 1988 agricultural censuses
+\citep{indec1960agro, indec1988agro} provide \texttt{nexp} (farm operations)
 and \texttt{areatot\_ha} (total agricultural area). All monetary
 variables are nominal pesos of their census year; real comparisons
 across years require a deflator that we defer to robustness.
@@ -180,7 +185,8 @@ raster \citep{nunn2012ruggedness} derived from GTOPO30. Wheat potential
 yield comes from FAO--GAEZ~3.0 \citep{faoiiasa2012gaez}. Caloric
 potential (pre-~and post-1500) comes from \citet{galorozak2016}.
 Distance to Buenos Aires is the great-circle distance from the centroid
-of the Gran~Buenos~Aires polygon in the IGN settlements shapefile.
+of the Gran~Buenos~Aires polygon in the IGN settlements shapefile
+\citep{ignsettlements}.
 All continuous controls are standardised (zero mean, unit variance) for
 use in the regressions.
 
