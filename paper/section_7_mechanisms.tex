@@ -1,0 +1,115 @@
+% ===========================================================================
+% Section 7: Mechanisms and Heterogeneity
+%
+% Robot-mode (Shapiro Step 3): state facts, do not argue.
+%
+% Anchors: Table 14 (tab:mechanisms); heterogeneity results from
+% code/analysis/diagnostic_heterogeneity.R (diagnostic, not a numbered
+% table -- see comment before 7.2).
+%
+% PROVISIONAL FRAMING (decisions log F2): mechanism-first. Lead with the
+% decomposition (half the MA effect runs through local infrastructure),
+% give the robustness reading as the complementary interpretation in the
+% following paragraph. Reversal = reorder two paragraphs.
+%
+% Numbers inline, verified against results/tables/table_14_mechanisms.csv
+% and results/tables/diagnostic_heterogeneity.csv; AutoFill macros in the
+% paper-wide substitution pass.
+%
+% CITATION KEYS: none new beyond Sections 1-6.
+% ===========================================================================
+
+\section{Mechanisms and Heterogeneity}
+\label{sec:mechanisms}
+
+Market access summarizes a district's transport position relative to
+every other district. A change in a district's market access can
+therefore reflect infrastructure built or removed within the district
+itself, or changes elsewhere in the network that alter the district's
+effective distance to population. This section separates the two,
+and then asks whether the population response varies with baseline
+district characteristics.
+
+\subsection{Local Infrastructure}
+\label{sec:local_infra}
+
+We measure within-district infrastructure change with four variables,
+denoted $Z_i$: the change in rail kilometers between 1960 and 1986;
+the change in paved and gravel road kilometers between 1954 and 1986;
+an indicator for districts that lost their entire rail network by
+1986 (14 districts); and an indicator for districts that gained their
+first paved road (82 districts). The kilometer measures are computed
+from the same georeferenced networks as the market access measures.
+
+Table~\ref{tab:mechanisms} adds the $Z_i$ progressively to the
+headline specification of Table~\ref{tab:population_iv}, column~(4).
+The market-access regressor remains instrumented by both instruments;
+the $Z_i$ enter as controls and are not instrumented. Column~(1)
+reproduces the baseline estimate of 0.046 (0.033). Adding the two
+kilometer measures in column~(2) lowers the market-access coefficient
+to 0.028 (0.031); adding the two binary margins alone in column~(3)
+leaves it at 0.052 (0.032); and including all four $Z_i$ jointly in
+column~(4) lowers it to 0.021 (0.031). The first-stage $F$ rises
+mildly across columns, from 13.6 to 17.5, so the attenuation is not a
+weak-instrument artifact.
+
+Read as a decomposition, column~(4) indicates that roughly half of
+the headline market-access coefficient operates through
+infrastructure located in the district itself: conditioning on own
+rail and road change and the two binary margins removes about half of
+the point estimate. The change in own rail kilometers enters
+positively and precisely (0.0015, standard error 0.0004, in
+column~(4)): districts that lost more rail kilometers grew more
+slowly, conditional on market access. The change in own road
+kilometers enters with a coefficient indistinguishable from zero.
+
+The same numbers support a complementary reading. Even conditional on
+every measured form of own-district infrastructure change, half the
+market-access coefficient remains. Market access is therefore not
+merely a repackaging of local infrastructure counts; it carries
+information about regional connectivity beyond the district's own
+kilometers. The two readings are not competing hypotheses; they are
+the same estimate described from its two ends, and the data do not
+distinguish a preferred one.
+
+Two caveats apply. First, because the $Z_i$ are not instrumented,
+column~(4) is a descriptive decomposition, not a causal mediation
+analysis: own-infrastructure change is itself an outcome of the same
+reform. Second, the indicator for losing the entire rail network
+enters positively (0.209, standard error 0.113) in column~(4). With
+only 14 districts in that group, we do not interpret this
+coefficient beyond noting it as a candidate for future work with
+richer within-district data.
+
+\subsection{Heterogeneity}
+\label{sec:heterogeneity}
+
+% NOTE: results below come from code/analysis/diagnostic_heterogeneity.R
+% (results/tables/diagnostic_heterogeneity.{txt,csv}), run as a
+% diagnostic rather than a numbered table while Block 2 framing is
+% provisional. Lift into a numbered table if the coauthor meeting
+% confirms the section structure.
+
+If market access matters more where initial conditions leave more
+room for reallocation, its coefficient should vary with baseline
+characteristics. We examine three, one at a time, each standardized
+within the estimation sample: initial log population in 1960, the
+rural population share in 1960, and distance to Buenos Aires. Each
+specification adds the interaction of the characteristic with
+$\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ to the main equation,
+instrumenting the interaction with the interactions of both
+instruments with the characteristic.
+
+The ordinary-least-squares interaction coefficients align with this
+expectation in all three cases: negative for initial population
+($-0.022$, $p = 0.09$), positive for the rural share ($0.028$,
+$p = 0.02$), and positive but imprecise for distance to Buenos Aires
+($0.013$, $p = 0.37$). Under instrumental variables the signs are
+unchanged but the estimates attenuate, and the first stage for the
+market-access level weakens to an $F$ near 7 once the interaction
+enters, because the instrument set must now separate two endogenous
+regressors. We therefore read these results as sign patterns
+consistent with the market-access channel mattering most in
+agricultural, less urbanized, and remote districts, and not as
+magnitudes. A design with stronger identification of the interactions
+is left for future work.
