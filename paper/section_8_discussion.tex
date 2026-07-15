@@ -25,14 +25,16 @@
 \subsection{Fiscal Consolidation as Regional Policy}
 \label{sec:fiscal_policy}
 
-The reform studied here was not designed as regional policy. Section~2
+The reform studied here was not designed as regional policy.
+Section~\ref{sec:history}
 documents that the closures followed fiscal criteria---operating
 deficits and traffic density---while the road program followed its own
 engineering logic. Yet the combined shock reallocated market access on
 a national scale: 91~percent of districts gained market access between
 1960 and 1986, because the road expansion's gains outweighed the rail
 contraction's losses nearly everywhere
-(Figure~\ref{fig:ma_choropleth}). A policy debate framed as ``closing
+(Figures~\ref{fig:ma_choropleth} and~\ref{fig:ma_counterfactual}). A
+policy debate framed as ``closing
 unprofitable lines'' was, in its spatial incidence, a large
 redistribution of access to markets, with winners and losers that the
 fiscal criteria never examined. This is the sense in which fiscal
@@ -44,21 +46,35 @@ expansion.
 \subsection{Market-Access Elasticities in Comparative Perspective}
 \label{sec:comparative}
 
-Our full-sample population elasticity of 0.046 (0.033) is an order of
-magnitude below the benchmarks in the literature:
-\citet{donaldsonhornbeck2016} report agricultural land-value
-elasticities consistent with population responses near 0.25 in
-nineteenth-century America, \citet{ahlfeldtfeddersen2018} find
-approximately 0.35 for German high-speed rail, and \citet{gibbons2024}
-approximately 0.3. Three measurement explanations for the gap were
-examined and ruled out in the replication archive.\footnote{The
+The closest like-for-like benchmark for our population estimate is
+\citet{gibbons2024}, who study the British rail disinvestment of the
+same era and estimate a population elasticity of approximately 0.3.
+Our full-sample point estimate of 0.046 (0.033) is below that
+benchmark and not statistically distinguishable from zero. The
+market-access approach itself originates with
+\citet{donaldsonhornbeck2016}, whose headline object---agricultural
+land values---capitalizes access rather than measuring a population
+response, so their estimates inform our method rather than our
+magnitudes; output-side responses to access, as in
+\citet{ahlfeldtfeddersen2018} for German high-speed rail, are closer
+in kind to our sectoral estimates than to the population response.
+
+Three measurement explanations for the low population estimate were
+examined and set aside in the replication archive.\footnote{The
 diagnostics are reproduced by the archive's reference-point,
-spatial-standard-error, and elasticity-sweep programs; output files
-accompany the package.} Re-anchoring market access at interior points
-or at each district's largest settlement does not raise the estimate;
-spatial standard errors leave the headline inference unchanged; and a
-transshipment-cost bracket reshapes the market-access distribution
-without changing the elasticity's order of magnitude.
+urban-anchor, spatial-standard-error, and transshipment-bound
+programs; output files accompany the package. The transshipment
+bracket is an ordinary-least-squares screen; the instrumental-variable
+specification was not re-estimated under it.} Re-anchoring market
+access at interior points or at each district's largest settlement
+does not raise the estimate; spatial standard errors leave the
+headline inference unchanged; and a transshipment-cost bracket
+reshapes the market-access distribution without changing the
+population coefficient's order of magnitude in the screening
+regressions. A candidate substantive explanation, which the research
+design cannot test directly, is the bimodal margin itself: the
+simultaneous road expansion may have cushioned the population
+response to rail-driven access losses. We state it as a hypothesis.
 
 What does move the level is the trade elasticity $\theta$: the
 population coefficient ranges from roughly 0.37 at $\theta = 1$ to
@@ -74,7 +90,7 @@ or growing economies, while we measure a reallocation within an
 already-settled population, where mobility costs and accumulated
 local capital plausibly damp population responses.
 
-\subsection{Sector--Mode Specialization}
+\subsection{Sector-Mode Specialization}
 \label{sec:sector_mode}
 
 The clearest elasticities in this paper are sectoral, not aggregate:
@@ -82,13 +98,15 @@ manufacturing production value responds at 0.259 (0.119) and
 manufacturing wage mass at 0.330 (0.126), while agricultural outcomes
 show no detectable response (Table~\ref{tab:sectoral_iv}). The cost
 schedule of \citet{baumgartnerpalazzo1969} offers a candidate
-explanation, stated in Section~2.4 as a hypothesis: rail is the
+explanation, stated in Section~\ref{ssec:scale_economies} as a
+hypothesis: rail is the
 cheaper mode above roughly 500 to 1{,}000 tons per day of cargo
 density and road below it (Figure~\ref{fig:cost_schedule}). A
 modal shift from rail to road therefore lowered transport costs for
 the low-density, higher-value shipments characteristic of
 manufacturing, while raising them for the bulk flows characteristic
-of agriculture. The counterfactual decomposition in Section~6 is
+of agriculture. The counterfactual decomposition in
+Section~\ref{sec:counterfactuals} is
 consistent with this reading but cannot sharpen it, because the
 sectoral outcomes are not available at the frequency needed to
 separate modal channels. Sector-specific market access measures,
@@ -108,8 +126,7 @@ be separated with available data; readers should treat the aggregate
 population estimates with corresponding caution. Second, the recent
 in-migration coefficient in Table~\ref{tab:other_outcomes_iv} is
 negative; both a displacement reading and a measurement reading are
-consistent with it, and we do not adjudicate.
- Third, the
+consistent with it, and we do not adjudicate. Third, the
 hypothetical-road instrument is weak for total market access once
 road connectors are re-costed, so identification of the road
 component leans on functional form more than we would like; the rail
@@ -122,15 +139,15 @@ counterfactuals.
 \section{Conclusion}
 \label{sec:conclusion}
 
-Between 1960 and 1991 Argentina closed roughly ten thousand
-kilometers of railway and paved roughly eighteen thousand kilometers
-of road, a rare episode in which a country simultaneously contracted
-one national transport network and expanded another. We measure the
-resulting change in every district's access to markets with a single
-multimodal index, instrument it with the Larkin Plan's technical
-study designations and with hypothetical road networks, and estimate
-the response of population and economic activity across 312
-districts.
+Between the mid-1950s and the early 1990s Argentina closed roughly
+ten thousand kilometers of railway while paving roughly eighteen
+thousand kilometers of road, a rare episode in which a country
+simultaneously contracted one national transport network and expanded
+another. We measure the resulting change in access to markets for all
+312 districts with a single multimodal index, instrument it with the
+Larkin Plan's technical study designations and with hypothetical road
+networks, and estimate the response of population and economic
+activity on the districts with census coverage.
 
 Three findings summarize the evidence. Aggregate population
 reallocation was modest: the full-sample elasticity is small,
@@ -157,7 +174,7 @@ reallocates it within settled ones.
 Three extensions follow directly. A population-weighted urban anchor
 built from geocoded census records would settle the reference-point
 question definitively. Sector-specific market access, calibrated to
-mode-specific costs, would turn the sector--mode hypothesis into a
+mode-specific costs, would turn the sector-mode hypothesis into a
 testable specification. And richer within-district data---stations
 and depots rather than kilometers---would sharpen the local
-decomposition that Section~7 begins.
+decomposition that Section~\ref{sec:mechanisms} begins.
