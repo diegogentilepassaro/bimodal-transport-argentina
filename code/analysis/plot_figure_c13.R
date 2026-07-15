@@ -20,8 +20,9 @@
 # DESIGN:
 #   - All three panels share the same colour scale so magnitudes are
 #     visually comparable across shocks.
-#   - Break points cover the pooled range (min across the 3 columns,
-#     max across the 3 columns).
+#   - Break points are hand-chosen with fine cuts near zero (-0.5,
+#     -0.1, -0.05) because the rail-only shock is small and uniformly
+#     negative; coarse bins would render panel (b) monochrome.
 #   - Diverging palette centered at 0 (blue = MA fell, red = MA rose).
 #   - Sector 0, θ_low for the main spec; other specs trivially
 #     reproducible by editing the column names.
@@ -142,9 +143,11 @@ draw_panel <- function(d, col, title, breaks, labels, palette) {
          lwd = 0.3,
          main = title)
 
+    # Median/IQR, not mean/SD: the rail-only panel has a -11.35 outlier
+    # that makes the mean unrepresentative of the distribution's center.
+    qs <- stats::quantile(x, c(0.25, 0.5, 0.75), na.rm = TRUE)
     subtitle <- sprintf(
-        "Mean %+.2f, SD %.2f",
-        mean(x, na.rm = TRUE), sd(x, na.rm = TRUE)
+        "Median %+.2f, IQR [%+.2f, %+.2f]", qs[2], qs[1], qs[3]
     )
     graphics::mtext(subtitle, side = 1, line = -1, cex = 0.75)
 }
