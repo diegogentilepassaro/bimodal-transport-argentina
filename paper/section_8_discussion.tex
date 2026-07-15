@@ -1,0 +1,163 @@
+% ===========================================================================
+% Section 8: Discussion  +  Section 9: Conclusion  (W15 + W16)
+%
+% Discussion is the designated interpretation section: Robot-mode facts
+% live in Sections 5-7; here interpretation is allowed but every claim
+% must trace to a table, figure, or the replication archive (footnoted).
+%
+% Four subsections per tasks.md W15:
+%   8.1 Fiscal consolidation as regional policy
+%   8.2 MA elasticities in comparative perspective (the Gibbons gap,
+%       sharpened by the diagnostics: anchor variants, spatial SEs,
+%       theta sensitivity)
+%   8.3 Sector-mode specialization (B&P scale economies)
+%   8.4 Limitations
+%
+% Numbers verified against: table CSVs (9, 10, 13, 14), Plan memo /
+% diagnostics outputs (theta sweep, refpoint variants, Conley).
+%
+% CITATION KEYS added this PR: gibbons2024 (STUB), ahlfeldtfeddersen2018.
+% ===========================================================================
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Fiscal Consolidation as Regional Policy}
+\label{sec:fiscal_policy}
+
+The reform studied here was not designed as regional policy. Section~2
+documents that the closures followed fiscal criteria---operating
+deficits and traffic density---while the road program followed its own
+engineering logic. Yet the combined shock reallocated market access on
+a national scale: 91~percent of districts gained market access between
+1960 and 1986, because the road expansion's gains outweighed the rail
+contraction's losses nearly everywhere
+(Figure~\ref{fig:ma_choropleth}). A policy debate framed as ``closing
+unprofitable lines'' was, in its spatial incidence, a large
+redistribution of access to markets, with winners and losers that the
+fiscal criteria never examined. This is the sense in which fiscal
+consolidation acted as regional policy without being one, and it
+suggests that the spatial incidence of infrastructure retrenchment
+deserves the same scrutiny routinely applied to infrastructure
+expansion.
+
+\subsection{Market-Access Elasticities in Comparative Perspective}
+\label{sec:comparative}
+
+Our full-sample population elasticity of 0.046 (0.033) is an order of
+magnitude below the benchmarks in the literature:
+\citet{donaldsonhornbeck2016} report agricultural land-value
+elasticities consistent with population responses near 0.25 in
+nineteenth-century America, \citet{ahlfeldtfeddersen2018} find
+approximately 0.35 for German high-speed rail, and \citet{gibbons2024}
+approximately 0.3. Three measurement explanations for the gap were
+examined and ruled out in the replication archive.\footnote{The
+diagnostics are reproduced by the archive's reference-point,
+spatial-standard-error, and elasticity-sweep programs; output files
+accompany the package.} Re-anchoring market access at interior points
+or at each district's largest settlement does not raise the estimate;
+spatial standard errors leave the headline inference unchanged; and a
+transshipment-cost bracket reshapes the market-access distribution
+without changing the elasticity's order of magnitude.
+
+What does move the level is the trade elasticity $\theta$: the
+population coefficient ranges from roughly 0.37 at $\theta = 1$ to
+0.01 at $\theta = 12$, and our main value $\theta = 4.55$ sits in
+the interior of that range. The comparison with the literature is
+therefore partly a comparison of calibrations, and we treat the
+level of the population elasticity as provisional on that choice.
+Two findings are robust to it. First, the sectoral contrast
+documented below holds at every value of $\theta$ we examined.
+Second, the context differs from the benchmarks in a substantive
+way: the benchmark studies measure access expansions into settling
+or growing economies, while we measure a reallocation within an
+already-settled population, where mobility costs and accumulated
+local capital plausibly damp population responses.
+
+\subsection{Sector--Mode Specialization}
+\label{sec:sector_mode}
+
+The clearest elasticities in this paper are sectoral, not aggregate:
+manufacturing production value responds at 0.259 (0.119) and
+manufacturing wage mass at 0.330 (0.126), while agricultural outcomes
+show no detectable response (Table~\ref{tab:sectoral_iv}). The cost
+schedule of \citet{baumgartnerpalazzo1969} offers a candidate
+explanation, stated in Section~2.4 as a hypothesis: rail is the
+cheaper mode above roughly 500 to 1{,}000 tons per day of cargo
+density and road below it (Figure~\ref{fig:cost_schedule}). A
+modal shift from rail to road therefore lowered transport costs for
+the low-density, higher-value shipments characteristic of
+manufacturing, while raising them for the bulk flows characteristic
+of agriculture. The counterfactual decomposition in Section~6 is
+consistent with this reading but cannot sharpen it, because the
+sectoral outcomes are not available at the frequency needed to
+separate modal channels. Sector-specific market access measures,
+with mode-specific cost calibrations, are the natural next step and
+are left for future work.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+Four limitations qualify the results. First, the pre-trends placebo
+is not a clean null: post-reform market-access changes predict
+1947--1960 population growth on the 235-district placebo subsample
+(Table~\ref{tab:pre_trends}), and spatial standard errors sharpen
+rather than soften that rejection. The placebo subsample differs
+from the full sample, so selection and pre-trend explanations cannot
+be separated with available data; readers should treat the aggregate
+population estimates with corresponding caution. Second, the recent
+in-migration coefficient in Table~\ref{tab:other_outcomes_iv} is
+negative; both a displacement reading and a measurement reading are
+consistent with it, and we do not adjudicate.
+ Third, the
+hypothetical-road instrument is weak for total market access once
+road connectors are re-costed, so identification of the road
+component leans on functional form more than we would like; the rail
+component, by contrast, is strongly identified throughout. Fourth,
+market access is a partial-equilibrium object: it holds destination
+populations fixed and abstracts from price responses, so the
+estimates are reduced-form gradients, not general-equilibrium
+counterfactuals.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Between 1960 and 1991 Argentina closed roughly ten thousand
+kilometers of railway and paved roughly eighteen thousand kilometers
+of road, a rare episode in which a country simultaneously contracted
+one national transport network and expanded another. We measure the
+resulting change in every district's access to markets with a single
+multimodal index, instrument it with the Larkin Plan's technical
+study designations and with hypothetical road networks, and estimate
+the response of population and economic activity across 312
+districts.
+
+Three findings summarize the evidence. Aggregate population
+reallocation was modest: the full-sample elasticity is small,
+sensitive to the trade-elasticity calibration, and not statistically
+distinguishable from zero. Economic specialization was not:
+manufacturing production and wages responded strongly where market
+access rose, while agriculture did not respond, a contrast robust to
+every calibration we examined and consistent with the modal cost
+structure that made roads cheap for low-density cargo. And the
+channel decompositions attribute the population response in
+similar parts to rail and road shocks---with the rail component far
+better identified---and roughly half of it to infrastructure located
+in the district itself.
+
+For policy, the episode illustrates that decisions taken on fiscal
+grounds can carry first-order spatial consequences: the geography of
+market access was redrawn without any actor being charged with
+evaluating that redistribution. For research, the results caution
+against transferring market-access elasticities across contexts
+without attention to the trade-elasticity calibration and to whether
+the underlying shock expands access into growing economies or
+reallocates it within settled ones.
+
+Three extensions follow directly. A population-weighted urban anchor
+built from geocoded census records would settle the reference-point
+question definitively. Sector-specific market access, calibrated to
+mode-specific costs, would turn the sector--mode hypothesis into a
+testable specification. And richer within-district data---stations
+and depots rather than kilometers---would sharpen the local
+decomposition that Section~7 begins.
