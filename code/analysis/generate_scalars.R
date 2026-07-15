@@ -221,6 +221,13 @@ main <- function() {
         if (nrow(r) == 1L) {
             macros[["mechBaselineF"]] <- sprintf("%.1f", r$ma_F)
         }
+        # Max first-stage F across the augmented specs (2)-(4), for the
+        # "up to" sentence in Section 7 — stays correct even if the max
+        # moves to a different column after a data change.
+        r <- subset(t14, spec_id %in% c("(2)", "(3)", "(4)"))
+        if (nrow(r) == 3L) {
+            macros[["mechMaxAugF"]] <- sprintf("%.1f", max(r$ma_F))
+        }
     }
 
     # Heterogeneity diagnostic (Section 7.2): OLS interaction terms.
