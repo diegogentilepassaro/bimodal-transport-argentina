@@ -4,7 +4,7 @@ Derived from paper.tex skeleton. Color key in paper.tex: RED = placeholder numbe
 
 ---
 
-## CURRENT STATUS (updated after PR #73)
+## CURRENT STATUS (updated after PR #80)
 
 Block 1 is drafted and results are in. Block 2 has its first two substantive
 results (Tables 13 and 14). Cote's review of Block 1 surfaced a deeper
@@ -39,6 +39,26 @@ committed results unless noted):
   Decision A below.
 - §4.2/4.3 instrument-construction prose drafted (PR #73), including the
   open placeholder for the studied-share discrepancy (issue #68).
+- Urban-center reference-point diagnostic (PR #75, memo Decision D): re-
+  anchoring MA at each district's largest settlement (by area, IGN polygons;
+  276/312 anchored) gives β = +0.005 (F = 11.0) vs +0.046 baseline; Larkin
+  does NOT revive on total MA (IV-LP F = 5.2). Third reference-point variant,
+  same conclusion: the anchor is not the lever that closes the Gibbons gap.
+- Conley spatial-SE sensitivity (PR #76, C37 / memo Decision E): pre-trends
+  placebo p-value *sharpens* under Conley (0.061 HC1 → 0.001 at 100 km, no
+  cutoff softens it); headline unchanged (0.168 → 0.182). "Spatially
+  correlated noise" is dead as an escape for the pre-trend — what remains for
+  the meeting is how to own the limitation in the text.
+- Decision A scoping note for the normalized-iceberg τ option (PR #77) and
+  tau unit audit with exact conversion + corridor checks (PR #79, Decision
+  A 1a groundwork).
+- Copy-pasted diagnostic helpers consolidated into
+  `code/analysis/_diagnostic_helpers.R` (PR #78); appendix figure scripts
+  also source it.
+- Meeting-prep email sent to Cote (2026-07-14,
+  `Plan/email_cote_meeting_prep.md`): summarizes Decisions A-E status
+  including the urban-anchor and Conley results. Does NOT cover Block 2
+  Tables 13-14 — separate follow-up email pending (see below).
 
 New raw data landed 2026-06-04 (untracked until this PR): the city/locality
 universe at `data/raw/networks_hypo/city_universe/` (517-point IGN
@@ -63,6 +83,9 @@ The analysis side of Block 2 is otherwise underway (see below).
 - [x] Figure 2 (ΔlogMA choropleth) — `code/analysis/plot_figure_2.R` — C11 done
 - [x] Figure 3 (rail vs road scatter) — `code/base/networks/plot_figure_3.R` — C12 done
 - [x] Figure 4 (infra vs MA scatter) — `code/analysis/plot_figure_4.R` — C12b done
+- [x] Figure A1 (B&P cost schedule) — `code/analysis/plot_figure_a1_cost_schedule.R` — C15 done (PR #80)
+- [x] Figure A2 (hypothetical networks) — `code/analysis/plot_figure_a2_hypothetical_networks.R` — C16 done (PR #80)
+- [x] Figure A3 (Larkin studied segments) — `code/base/networks/plot_figure_a3_larkin_studied.R` — C17 done (PR #80)
 
 **Tables (all in `code/analysis/`):**
 - [x] Table 1 (network changes) — C18 partial (Table 1 done)
@@ -108,8 +131,8 @@ were already wired into the existing pipeline (Phase 2c of
 ### Pending (order: blocked first, then easiest-value)
 
 **Block 1 loose ends:**
-- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). This is now the blocking item for Block 1 — everything else in this section is downstream of it.
-- [ ] **Urban-center reference point diagnostic (Decision D)** — `code/analysis/diagnostic_ma_urbancenter.R`, using the largest-settlement-by-area proxy from `data/raw/networks_hypo/city_universe/` while Cote's geocoded-census task is pending. Mirrors the `diagnostic_ma_refpoint.R` pattern (PR #66).
+- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). This is now the blocking item for Block 1 — everything else in this section is downstream of it. Meeting-prep email sent 2026-07-14; waiting on Cote to schedule.
+- [x] ~~Urban-center reference point diagnostic (Decision D)~~ — done in PR #75 (`diagnostic_ma_urbancenter.R`). Anchor is not the lever; θ still dominates. Cote's geocoded-census version remains the referee-proof answer but the expectation is now confirmation, not rescue.
 - [ ] Sector-specific indgen shares (Table 10 rebuild) — deferred, see Pending Decision 9.
 - [ ] Paper-wide scalar AutoFill substitution (replace remaining inline numbers in §§4.5, 5.1-5.5 with macros from `scalars.tex`). Deliberately deferred until after Cote locks framing.
 - [ ] A1 (OLS vs IV bias direction) — 1-2 paragraph in §5.2. Deferred until §5.5 robustness is fully decided.
@@ -129,10 +152,10 @@ were already wired into the existing pipeline (Phase 2c of
 **Polish / final (order after Block 2):**
 - [ ] W13-16 §6.3 caveats, §7 interpretation, §8 Discussion, Conclusion.
 - [ ] W17 Abstract (writes last).
-- [ ] Appendix figures A1 (cost schedule), A2 (hypothetical networks), A3 (Larkin studied segments).
+- [x] ~~Appendix figures A1-A3~~ — done in PR #80 (see Figures above).
 - [ ] C34 θ=8.11 appendix table (currently exists as Panel A of Table 12; may lift into its own table).
 - [ ] C35 C36 Industrial + agricultural census appendix tables (currently folded into Table 10; may lift into appendices).
-- [ ] C37 Spatial autocorrelation / Conley SE robustness — one of the email's "additional sensitivity" options for the not-clean-null pre-trends.
+- [x] ~~C37 Spatial autocorrelation / Conley SE robustness~~ — done in PR #76 (`diagnostic_pretrends_conley.R`). Sensitivity does not soften the pre-trend; it sharpens it. Remaining question (how to own the limitation in prose) folded into memo Decision E for the coauthor meeting.
 
 ---
 
@@ -271,13 +294,13 @@ Three choropleth maps: ΔMA^full, ΔMA^only_rail, ΔMA^only_road. Depends on C1.
 Δln(pop) vs ΔlnMA, colored by station loss. Depends on C4.
 
 #### C15. Transport cost schedule (Figure A1)
-Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover point.
+Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover interval (500-1,000 t/day; the three tabulated points do not identify a crossover point). **Done: `code/analysis/plot_figure_a1_cost_schedule.R` (PR #80). Densities read from `cost_density` in config.R.**
 
 #### C16. Hypothetical network maps (Figure A2)
-Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. Build in R via `sf` + `ggplot2` (pattern: `plot_figure_1.R`).
+Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. **Done: `code/analysis/plot_figure_a2_hypothetical_networks.R` (PR #80). 1986 selector read from `roads_type2_1986` in config.R; CRS asserted per layer.**
 
 #### C17. Larkin Plan studied segments map (Figure A3)
-Studied vs non-studied rail segments. Build in R via `sf` + `ggplot2`.
+Studied vs non-studied rail segments. **Done: `code/base/networks/plot_figure_a3_larkin_studied.R` (PR #80). Legend reports km, not share, pending issue #68.**
 
 ---
 
