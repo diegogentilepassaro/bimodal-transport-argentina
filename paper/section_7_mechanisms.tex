@@ -12,9 +12,8 @@
 % give the robustness reading as the complementary interpretation in the
 % following paragraph. Reversal = reorder two paragraphs.
 %
-% Numbers inline, verified against results/tables/table_14_mechanisms.csv
-% and results/tables/diagnostic_heterogeneity.csv; AutoFill macros in the
-% paper-wide substitution pass.
+% Numbers use scalars.tex macros (AutoFill pass), sourced from
+% results/tables/table_14_mechanisms.csv and diagnostic_heterogeneity.csv.
 %
 % CITATION KEYS: none new beyond Sections 1-6.
 % ===========================================================================
@@ -45,25 +44,28 @@ Table~\ref{tab:mechanisms} adds the $Z_i$ progressively to the
 headline specification of Table~\ref{tab:population_iv}, column~(4).
 The market-access regressor remains instrumented by both instruments;
 the $Z_i$ enter as controls and are not instrumented. Column~(1)
-reproduces the baseline estimate of 0.046 (0.033). Adding the two
-kilometer measures in column~(2) lowers the market-access coefficient
-to 0.028 (0.031); adding the two binary margins alone in column~(3)
-leaves it at 0.052 (0.032); and including all four $Z_i$ jointly in
-column~(4) lowers it to 0.021 (0.031). The first-stage $F$ is higher
-in every augmented column (15.3 to 17.5) than at baseline (13.6), so
-the attenuation is not a weak-instrument artifact. Columns~(2)--(4)
-lose three districts with missing kilometer measures (306 versus 309
+reproduces the baseline estimate of \mainPopCoefIVBoth{}
+(\mainPopSEIVBoth{}). Adding the two kilometer measures in column~(2)
+lowers the market-access coefficient to \mechKmCoef{} (\mechKmSE{});
+adding the two binary margins alone in column~(3) leaves it at
+\mechBinCoef{} (\mechBinSE{}); and including all four $Z_i$ jointly
+in column~(4) lowers it to \mechAllZCoef{} (\mechAllZSE{}). The
+first-stage $F$ is higher in every augmented column (up to
+\mechMaxAugF{}) than at baseline (\mechBaselineF{}), so the attenuation
+is not a weak-instrument artifact. Columns~(2)--(4) lose three
+districts with missing kilometer measures (306 versus 309
 observations); re-estimated on the common 306-district sample, the
-baseline coefficient is 0.057 (0.033), so the sample change does not
-generate the attenuation and, if anything, works against it.
+baseline coefficient is \mechBaselineCommonCoef{}
+(\mechBaselineCommonSE{}), so the sample change does not generate the
+attenuation and, if anything, works against it.
 
 Read as a decomposition, column~(4) indicates that roughly half of
 the headline market-access coefficient operates through
 infrastructure located in the district itself: conditioning on own
 rail and road change and the two binary margins removes about half of
 the point estimate. The change in own rail kilometers enters
-positively and precisely, at 0.0015 (0.0004) in column~(4):
-districts that lost more rail kilometers grew more
+positively and precisely, at \mechRailKmCoef{} (\mechRailKmSE{}) in
+column~(4): districts that lost more rail kilometers grew more
 slowly, conditional on market access. The change in own road
 kilometers enters with a coefficient indistinguishable from zero.
 
@@ -79,7 +81,8 @@ Two caveats apply. First, because the $Z_i$ are not instrumented,
 column~(4) is a descriptive decomposition, not a causal mediation
 analysis: own-infrastructure change is itself an outcome of the same
 reform. Second, the indicator for losing the entire rail network
-enters positively, at 0.209 (0.113), in column~(4). With
+enters positively, at \mechLostRailCoef{} (\mechLostRailSE{}), in
+column~(4). With
 only 14 districts in that group, we do not interpret this
 coefficient beyond noting it as a candidate for future work with
 richer within-district data.
@@ -109,9 +112,10 @@ program and are reported in its output files; a tabulated version is
 deferred until the section structure is final.}
 
 The OLS interaction coefficients carry the predicted sign in all
-three cases: $-0.022$ (0.013) for initial population, 0.028 (0.012)
-for the rural share, and an imprecise 0.013 (0.014) for distance to
-Buenos Aires. Under instrumental variables the signs are
+three cases: $\heteroPopIntOLS{}$ (\heteroPopIntSEOLS{}) for initial
+population, \heteroRurIntOLS{} (\heteroRurIntSEOLS{}) for the rural
+share, and an imprecise \heteroDistIntOLS{} (\heteroDistIntSEOLS{})
+for distance to Buenos Aires. Under instrumental variables the signs are
 unchanged but the estimates attenuate, and the first stage for the
 market-access level weakens to an $F$ near 7 once the interaction
 enters, because the instrument set must now separate two endogenous
