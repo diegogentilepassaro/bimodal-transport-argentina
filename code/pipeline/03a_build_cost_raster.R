@@ -98,7 +98,7 @@ case_registry <- function() {
         ),
         actual_1986 = list(
             rail_sel = function(r) r$status1979 == 1,
-            road_sel = function(r) r$type2      %in% c(1, 2, 3, 5),
+            road_sel = function(r) r$type2      %in% roads_type2_1986,
             use_hypo = FALSE,
             hypo_file = NULL
         ),
@@ -146,7 +146,7 @@ case_registry <- function() {
         # so Δlog MA vs actual_1960 isolates the road shock.
         cf_only_road = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
-            road_sel = function(r) r$type2      %in% c(1, 2, 3, 5),
+            road_sel = function(r) r$type2      %in% roads_type2_1986,
             use_hypo = FALSE,
             hypo_file = NULL
         )

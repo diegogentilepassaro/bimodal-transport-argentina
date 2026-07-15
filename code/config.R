@@ -177,6 +177,16 @@ stopifnot(nav_magellan_buffer_m >= 2 * 1200L)  # ≥ 2 cells per shore
 #
 # Named vectors allow unambiguous access: cost_road[["manufacturing"]]
 
+# Cargo density (tons/day) of each tabulated B&P scenario. These are source
+# parameters from Baumgartner & Palazzo Table II, not plot cosmetics: the
+# sector -> density mapping documented above lives here so consumers
+# (e.g. Figure A1) cannot drift from it.
+cost_density <- c(
+    overall       = 500,
+    agricultural  = 1000,
+    manufacturing = 100
+)
+
 # Road cost per ton-km by sector
 cost_road <- c(
     overall       = 1.777,
@@ -322,6 +332,12 @@ network_periods_instru <- c(
 )
 # Sector codes: 0 = overall, 1 = agricultural, 2 = manufacturing
 network_sectors <- 0:2
+
+# Road-comparison layer (comparacion_54_70_86.shp) type2 codes present in
+# 1986: kept {1, 5} + added {2, 3}. Single source of truth for what
+# "1986 road network" means — used by the cost-raster builder (03a) and by
+# Figure A2. Taxonomy documented in plot_figure_1.R.
+roads_type2_1986 <- c(1L, 2L, 3L, 5L)
 
 # ---- 9b. Main-spec analysis constants -------------------------------------
 #
