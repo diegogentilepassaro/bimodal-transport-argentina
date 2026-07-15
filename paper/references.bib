@@ -10,34 +10,38 @@
 % fajgelbaumredding2018 published 2022; whitaker2013 published 1954), so
 % that in-text \citep / \citet calls never break.
 %
-% AEA replication-package note: entries marked "DATA CITATION" are the
-% formal citations for external data sources (IPUMS, INDEC censuses,
-% Larkin Plan, Baumgartner & Palazzo, ACA maps, IGN, FAO-GAEZ, USGS
-% GTOPO30) and must also appear in the replication README's data
-% availability statement.
+% AEA replication-package note: entries flagged with a "% DATA CITATION"
+% comment are the formal citations for external data sources (IPUMS, INDEC
+% censuses, Larkin Plan, Baumgartner & Palazzo, ACA maps, IGN, FAO-GAEZ,
+% USGS GTOPO30) and must also appear in the replication README's data
+% availability statement. The flag lives in comments (not note fields) so
+% it does not render in the compiled References.
 % ===========================================================================
 
 % ---- Data citations -------------------------------------------------------
 
+% DATA CITATION: three road-network cross sections digitised by the authors.
 @misc{acamaps,
   author       = {{Autom\'ovil Club Argentino}},
   title        = {Road maps of {A}rgentina, 1954, 1970, and 1986 [maps]},
   howpublished = {Autom\'ovil Club Argentino, Buenos Aires},
   year         = {1954--1986},
-  note         = {DATA CITATION: three road-network cross sections
-                  digitised by the authors.}
+  note         = {Three road-network cross sections digitised by the
+                  authors.}
 }
 
+% DATA CITATION: 1979 rail-network map (Figure V-5) digitised by the authors.
 @techreport{argentina1981politica,
   author      = {{Secretar\'ia de Estado de Transporte y Obras P\'ublicas}},
   title       = {Pol\'itica Ferroviaria 1979--1981},
   institution = {Ministerio de Econom\'ia, Rep\'ublica Argentina},
   address     = {Buenos Aires},
   year        = {1981},
-  note        = {DATA CITATION: 1979 rail-network map (Figure~V--5)
-                  digitised by the authors.}
+  note        = {1979 rail-network map (Figure~V--5) digitised by the
+                  authors.}
 }
 
+% DATA CITATION: ground-transport cost parameters (Table II).
 @article{baumgartnerpalazzo1969,
   author  = {Baumgartner, Jean-Pierre and Palazzo, Pascual Santiago},
   title   = {Estructura econ\'omica del transporte de carga automotor y
@@ -48,10 +52,11 @@
   pages   = {381--394},
   year    = {1969},
   url     = {https://www.jstor.org/stable/20856082},
-  note    = {DATA CITATION: ground-transport cost parameters (Table~II)
-             used for the transport-cost rasters.}
+  note    = {Ground-transport cost parameters (Table~II) used for the
+             transport-cost rasters.}
 }
 
+% DATA CITATION: wheat potential-yield raster.
 @misc{faoiiasa2012gaez,
   author       = {{FAO and IIASA}},
   title        = {Global Agro-Ecological Zones ({GAEZ} v3.0) [dataset]},
@@ -60,88 +65,110 @@
                   Rome, and International Institute for Applied Systems
                   Analysis, Laxenburg},
   url          = {https://gaez.fao.org/},
-  note         = {DATA CITATION: wheat potential-yield raster.}
+  note         = {Wheat potential-yield raster (accessed April 2026).}
 }
 
-@misc{ignsettlements,
+% DATA CITATION: hydrography layer; navigable segments define the
+% navigation layer of the transport-cost rasters.
+@misc{ignhydro,
   author       = {{Instituto Geogr\'afico Nacional}},
-  title        = {\'Areas de asentamientos y edificios [dataset]},
+  title        = {Cursos de agua [dataset]},
   howpublished = {Instituto Geogr\'afico Nacional, Rep\'ublica Argentina,
                   Buenos Aires},
   year         = {n.d.},
   url          = {https://www.ign.gob.ar/},
-  note         = {DATA CITATION: SIG settlements layer used for the Gran
-                  Buenos Aires centroid and as georeferencing reference for
-                  network digitisation.}
+  note         = {SIG hydrography layer; watercourse segments flagged
+                  navigable define the navigation layer of the
+                  transport-cost rasters (accessed May 2026).}
 }
 
+% DATA CITATION: settlements layer (Gran Buenos Aires centroid,
+% georeferencing reference for network digitisation).
+@misc{ignsettlements,
+  author       = {{Instituto Geogr\'afico Nacional}},
+  title        = {{\'A}reas de asentamientos y edificios [dataset]},
+  howpublished = {Instituto Geogr\'afico Nacional, Rep\'ublica Argentina,
+                  Buenos Aires},
+  year         = {n.d.},
+  url          = {https://www.ign.gob.ar/},
+  note         = {SIG settlements layer used for the Gran Buenos Aires
+                  centroid and as georeferencing reference for network
+                  digitisation (accessed April 2026).}
+}
+
+% DATA CITATION: 1947 population census, digitised by the authors.
 @misc{indec1947censo,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Cuarto Censo General de la Naci\'on 1947 [dataset]},
   year         = {1947},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes held at the Biblioteca del Congreso de la
-                  Naci\'on and the INDEC library.}
+  note         = {Digitised by the authors from published volumes held at
+                  the Biblioteca del Congreso de la Naci\'on and the INDEC
+                  library.}
 }
 
+% DATA CITATION: 1954 industrial census, digitised by the authors.
 @misc{indec1954industrial,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Econ\'omico 1954: Industria [dataset]},
   year         = {1954},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes.}
+  note         = {Digitised by the authors from published volumes.}
 }
 
+% DATA CITATION: 1960 agricultural census, digitised by the authors.
 @misc{indec1960agro,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Agropecuario 1960 [dataset]},
   year         = {1960},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes.}
+  note         = {Digitised by the authors from published volumes.}
 }
 
+% DATA CITATION: 1960 population census, digitised by the authors.
 @misc{indec1960censo,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional de Poblaci\'on 1960 [dataset]},
   year         = {1960},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes held at the Biblioteca del Congreso de la
-                  Naci\'on and the INDEC library.}
+  note         = {Digitised by the authors from published volumes held at
+                  the Biblioteca del Congreso de la Naci\'on and the INDEC
+                  library.}
 }
 
+% DATA CITATION: 1985 economic census (industrial sector), digitised by
+% the authors.
 @misc{indec1985economico,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Econ\'omico 1985: Industria [dataset]},
   year         = {1985},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes.}
+  note         = {Digitised by the authors from published volumes.}
 }
 
+% DATA CITATION: 1988 agricultural census, digitised by the authors.
 @misc{indec1988agro,
   author       = {{Instituto Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Agropecuario 1988 [dataset]},
   year         = {1988},
   howpublished = {Buenos Aires},
-  note         = {DATA CITATION: digitised by the authors from published
-                  volumes.}
+  note         = {Digitised by the authors from published volumes.}
 }
 
+% DATA CITATION: census microdata 1970-2010 and district boundaries.
 @misc{ipums2020,
   author       = {{Minnesota Population Center}},
   title        = {Integrated Public Use Microdata Series, International:
                   Version 7.3 [dataset]},
   year         = {2020},
   howpublished = {IPUMS, Minneapolis, MN},
-  note         = {DOI: 10.18128/D020.V7.3. DATA CITATION: Argentina census
-                  microdata 1970--2010 and time-invariant district
-                  boundaries (geolev2).}
+  note         = {DOI: 10.18128/D020.V7.3. Argentina census microdata
+                  1970--2010 and time-invariant district boundaries
+                  (geolev2).}
 }
 
+% DATA CITATION: studied/non-studied rail segments, operating
+% recommendations, navigation cost parameters.
 @techreport{larkin1962,
   author      = {Larkin, Thomas B.},
   title       = {Transportes Argentinos: Plan de Largo Alcance},
@@ -150,18 +177,20 @@
   address     = {Buenos Aires},
   year        = {1962},
   note        = {Known as the Larkin Plan, after the head of the planning
-                 group. DATA CITATION: studied/non-studied rail segments and
-                 operating recommendations digitised from scanned volumes;
-                 navigation cost parameters.}
+                 group. Studied/non-studied rail segments and operating
+                 recommendations digitised from scanned volumes; navigation
+                 cost parameters.}
 }
 
+% DATA CITATION: elevation raster; also underlies the Nunn-Puga
+% terrain-ruggedness raster.
 @misc{usgs1996gtopo30,
   author       = {{U.S. Geological Survey}},
   title        = {Global 30 Arc-Second Elevation ({GTOPO30}) [dataset]},
   year         = {1996},
   howpublished = {USGS EROS Data Center, Sioux Falls, SD},
-  note         = {DOI: 10.5066/F7DF6PQS. DATA CITATION: elevation raster;
-                  also underlies the Nunn--Puga terrain-ruggedness raster.}
+  note         = {DOI: 10.5066/F7DF6PQS. Elevation raster; also underlies
+                  the Nunn--Puga terrain-ruggedness raster.}
 }
 
 % ---- Literature -----------------------------------------------------------
@@ -196,6 +225,18 @@
   pages   = {1741--1779},
   year    = {2002},
   note    = {DOI: 10.1111/1468-0262.00352}
+}
+
+@article{faber2014,
+  author  = {Faber, Benjamin},
+  title   = {Trade integration, market size, and industrialization:
+             Evidence from {C}hina's {N}ational {T}runk {H}ighway {S}ystem},
+  journal = {Review of Economic Studies},
+  volume  = {81},
+  number  = {3},
+  pages   = {1046--1070},
+  year    = {2014},
+  note    = {DOI: 10.1093/restud/rdu010}
 }
 
 @article{fajgelbaumredding2018,

@@ -112,7 +112,8 @@ $\geq 15{,}000$ in 1960), we compute:
   \item \texttt{euc\_mst}: the Euclidean minimum spanning tree
     (53 edges).
   \item \texttt{lcp}: all bilateral least-cost paths between city
-    pairs, routed on a Faber-2014 construction-cost raster that
+    pairs, routed on a construction-cost raster following
+    \citet{faber2014} that
     penalises slope, wetland, urban areas, and water crossings.
   \item \texttt{lcp\_mst}: the minimum spanning tree of the LCP
     weights.
@@ -227,7 +228,9 @@ c_i(t, s) =
 \end{equation*}
 Network layers (rail, road, and navigation) are rasterised from the
 respective shapefiles after a 1~km buffer to guarantee at least one
-full raster cell per linear segment. The Strait of Magellan is buffered
+full raster cell per linear segment; the navigation layer comprises
+the watercourse segments flagged navigable in the IGN hydrography
+shapefile \citep{ignhydro}. The Strait of Magellan is buffered
 by 5~km so that at least one raster cell per shore becomes navigable,
 which lets Dijkstra cross the strait and keeps Tierra~del~Fuego
 connected to the mainland. Off-network pixels outside Argentina are
