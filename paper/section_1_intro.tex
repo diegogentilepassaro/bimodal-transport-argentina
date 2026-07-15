@@ -31,8 +31,7 @@ and 1991 provides a unique window into this question. Facing severe
 fiscal pressure, the government implemented a massive transport
 restructuring: roughly 10{,}000 kilometers of railway lines were
 closed, while the paved road network expanded from roughly 10{,}000
-to 28{,}000 kilometers between the mid-1950s and the late 1980s. This
-episode offers
+to 28{,}000 kilometers between 1954 and 1986. This episode offers
 rare evidence on how fiscal consolidation-driven infrastructure
 changes—rather than development-oriented investments—affect regional
 market access and economic outcomes.
@@ -75,8 +74,9 @@ transport restructuring through the lens of market access. We
 construct a unified market access index that integrates both rail and
 road networks using a standard spatial economics framework, computing
 generalized transport costs and shortest-path routes on the historical
-networks. Our main analysis estimates how regional outcomes—population and
-sectoral economic activity—respond to changes in
+networks. Our main analysis estimates how regional outcomes—population,
+sectoral economic activity, and additional outcomes including
+education and migration—respond to changes in
 total market access induced by the observed infrastructure plan. We
 then use counterfactual market access measures to explore the relative
 roles of rail closures versus road expansion, constructing separate
@@ -99,8 +99,9 @@ expansion but are orthogonal to local economic shocks.
 We construct a novel dataset combining historical transport networks
 with census data at the district level, covering \nDistricts{}
 districts across Argentina. We validate our identification strategy
-with pre-period balance checks, a pre-trends placebo, and spatial
-standard-error sensitivity, and we report where the validation
+with pre-period balance checks and a pre-trends placebo, examine
+sensitivity to spatially correlated standard errors in
+Section~\ref{sec:discussion}, and report where the validation
 package falls short: the pre-trends placebo is not a clean null, and
 we state that limitation rather than obscure it.
 
@@ -118,14 +119,15 @@ only-road changes contribute similar point estimates to the population
 response (0.032 and 0.039, against 0.046 for the full change), while
 differing sharply in identification: the rail component, instrumented
 by the Larkin Plan alone, is the best-identified object in the paper,
-with first-stage $F$ statistics near or above 100. We find no support
+with a first-stage $F$ above 100 for total population. We find no
+support
 for the view that one mode's market-access channel dominates the
 other; the evidence is instead consistent with population responding
 to market access itself, whichever mode produces it.
 
 The mechanism decomposition shows where that response lives. Adding
-own-district infrastructure changes---rail and road kilometers and
-two binary margins---to the main specification removes roughly half
+own-district infrastructure changes—rail and road kilometers and
+two binary margins—to the main specification removes roughly half
 of the market-access coefficient (0.046 to 0.021), so about half of
 the estimated response operates through infrastructure located in the
 district itself and the remainder through regional connectivity
@@ -153,7 +155,10 @@ the transport restructuring shifted the cost structure faced by
 different sectors differently, with manufacturing benefiting more
 than agriculture. Robustness to alternative trade elasticities,
 alternative hypothetical-road instruments, and subsample choice is
-reported in Section~\ref{sec:results_robustness}.
+reported in Section~\ref{sec:results_robustness}; the level of the
+population elasticity, though not the sectoral contrast, depends on
+the trade-elasticity calibration, a dependence
+Section~\ref{sec:discussion} quantifies.
 
 This paper contributes to several literatures. First, we provide
 causal evidence on the regional effects of infrastructure
