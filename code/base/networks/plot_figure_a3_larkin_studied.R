@@ -56,11 +56,13 @@ main <- function() {
              col = "grey95", border = "grey80", lwd = 0.25,
              main = "Larkin Plan (1962): studied vs non-studied rail segments")
 
-        # Non-studied beneath, studied on top (the treatment of interest).
+        # Non-studied beneath (dashed), studied on top (solid). The lty
+        # split keeps the two groups distinguishable in B&W print, where
+        # the red/blue pair has near-identical luminance.
         plot(sf::st_geometry(rails[rails$studied_co == 0, ]),
-             col = "#1f4e79", lwd = 1.0, add = TRUE)
+             col = "#1f4e79", lwd = 1.0, lty = 2, add = TRUE)
         plot(sf::st_geometry(rails[rails$studied_co == 1, ]),
-             col = "#c00000", lwd = 1.3, add = TRUE)
+             col = "#c00000", lwd = 1.3, lty = 1, add = TRUE)
 
         legend("bottomright",
                legend = c(
@@ -71,7 +73,10 @@ main <- function() {
                ),
                col = c("#c00000", "#1f4e79"),
                lwd = c(1.3, 1.0),
+               lty = c(1, 2),
                bty = "n", cex = 0.9, y.intersp = 1.2)
+
+        add_map_furniture()
 
         dev.off()
         message("Saved: ", out)

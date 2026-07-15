@@ -39,17 +39,25 @@ main <- function() {
     districts <- load_district_shapes()
 
     # Actual 1986 roads: present-in-1986 categories of the comparison layer
-    # (type2 in {1, 2, 3, 5}; taxonomy documented in plot_figure_1.R).
+    # (roads_type2_1986 in config.R; taxonomy documented in plot_figure_1.R).
     roads <- sf::st_read(file.path(dir_raw_networks,
                                    "comparacion_54_70_86.shp"), quiet = TRUE)
     roads <- sf::st_make_valid(roads)
-    roads86 <- roads[roads$type2 %in% c(1, 2, 3, 5), ]
+    roads86 <- roads[roads$type2 %in% roads_type2_1986, ]
 
     hypo_dir <- file.path(dir_derived, "02_hypothetical_networks")
     hypo <- lapply(PANELS$file, function(f) {
         g <- sf::st_read(file.path(hypo_dir, f), quiet = TRUE)
         sf::st_make_valid(g)
     })
+
+    # plot(..., add = TRUE) does not reproject: every layer must share the
+    # districts' CRS, or a panel silently draws empty. Fail loudly instead
+    # (the hypothetical gpkg files are pipeline outputs and could plausibly
+    # be regenerated in the raster CRS).
+    for (layer in c(list(roads86), hypo)) {
+        stopifnot(sf::st_crs(layer) == sf::st_crs(districts))
+    }
 
     for (fmt in c("pdf", "png")) {
         out <- file.path(dir_figures,
@@ -71,6 +79,9 @@ main <- function() {
                  col = "grey55", lwd = 0.5, add = TRUE)
             plot(sf::st_geometry(hypo[[k]]),
                  col = "#c00000", lwd = 1.3, add = TRUE)
+            # Furniture once per figure, on the last panel (all panels
+            # share extent and CRS).
+            if (k == nrow(PANELS)) add_map_furniture()
         }
 
         par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0),

@@ -345,7 +345,7 @@ stage_d_analysis <- function(makelog) {
         makelog)
 
     run_step("D.16 figure_a2_hypothetical_networks",
-             bn("plot_figure_a2_hypothetical_networks.R"),
+             a("plot_figure_a2_hypothetical_networks.R"),
              "Figure A2: hypothetical road networks vs actual 1986 roads",
              makelog)
     verify_outputs("D.16",

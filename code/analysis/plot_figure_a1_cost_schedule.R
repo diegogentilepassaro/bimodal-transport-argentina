@@ -9,9 +9,9 @@
 #          density (small-batch manufactures) road is cheaper.
 #
 # READS:   nothing — the B&P parameters live in config.R section 7
-#          (cost_road, cost_rail, cost_nav by sector, with the density
-#          mapping documented there: manufacturing = 100 t/day,
-#          overall = 500, agricultural = 1,000).
+#          (cost_road, cost_rail, cost_nav and the sector -> cargo-density
+#          mapping cost_density: manufacturing = 100 t/day, overall = 500,
+#          agricultural = 1,000).
 #
 # PRODUCES:
 #   results/figures/figure_a1_cost_schedule.pdf   (paper version)
@@ -23,10 +23,10 @@ main <- function() {
 
     if (!dir.exists(dir_figures)) dir.create(dir_figures, recursive = TRUE)
 
-    # Density scenarios (t/day) in increasing order, with the sector each
-    # tabulated column represents (config.R section 7).
-    density <- c(100, 500, 1000)
-    sector  <- c("manufacturing", "overall", "agricultural")
+    # Density scenarios (t/day) from config.R section 7, in increasing
+    # order, with the sector each tabulated column represents.
+    sector  <- names(sort(cost_density))
+    density <- as.numeric(cost_density[sector])
     road <- cost_road[sector]
     rail <- cost_rail[sector]
     nav  <- cost_nav[sector]
@@ -53,14 +53,23 @@ main <- function() {
         lines(density, nav,  type = "b", pch = 15, lwd = 1.4, col = "grey45",
               lty = 2)
 
-        # Annotate the crossover region: road cheaper at 100 and (just) at
-        # 500; rail cheaper at 1,000.
-        abline(v = 700, col = "grey80", lty = 3)
-        text(700, 12, "rail overtakes road\nat high density",
-             cex = 0.8, col = "grey30", pos = 4)
+        # Shade the interval that brackets the road/rail crossover: road is
+        # cheaper up to `lo`, rail from `hi` on. The three tabulated points
+        # do not identify where in between the curves cross, so shade the
+        # bracketing interval rather than mark a (spurious) point.
+        lo <- max(density[road < rail])
+        hi <- min(density[rail < road])
+        rect(lo, 10^par("usr")[3], hi, 10^par("usr")[4],
+             col = grDevices::adjustcolor("grey80", alpha.f = 0.35),
+             border = NA)
+        text(sqrt(lo * hi), 12,
+             sprintf("rail overtakes road\nbetween %s and %s t/day",
+                     format(lo, big.mark = ","),
+                     format(hi, big.mark = ",")),
+             cex = 0.8, col = "grey30")
 
         # Sector labels under the density points
-        mtext(c("(manufacturing)", "(overall)", "(agricultural)"),
+        mtext(sprintf("(%s)", sector),
               side = 1, line = 2.2, at = density, cex = 0.7, col = "grey40")
 
         legend("topright",

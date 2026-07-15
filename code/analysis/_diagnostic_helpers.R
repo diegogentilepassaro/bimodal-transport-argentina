@@ -14,9 +14,11 @@
 #   source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
 #          echo = FALSE)
 #
-# SCOPE: analysis-side diagnostics only. The pipeline keeps its own
-# load_centroids() in 03c_compute_taus{,_parallel}.R deliberately — the
-# pipeline is frozen-verified and is not re-run when diagnostics change.
+# SCOPE: analysis-side diagnostics and figure scripts (including the
+# appendix map figures A2/A3, which reuse load_district_shapes() and
+# add_map_furniture()). The pipeline keeps its own load_centroids() in
+# 03c_compute_taus{,_parallel}.R deliberately — the pipeline is
+# frozen-verified and is not re-run when diagnostics change.
 # ===========================================================================
 
 # Load-order guard: fail immediately with a named error if config.R /
@@ -135,4 +137,38 @@ compute_ma <- function(tau_df, pop_df, theta_val) {
     names(ma_df) <- c("geolev2", "MA")
     ma_df$logMA <- log(ma_df$MA)
     ma_df
+}
+
+# ---------------------------------------------------------------------------
+# Map furniture for base-graphics maps in geographic (lon/lat) coordinates:
+# scale bar, north arrow, and CRS note, drawn in the lower-left corner.
+# The km -> degrees conversion uses the spherical approximation at the
+# bar's own latitude (error < 0.5%, immaterial at scale-bar precision).
+# Call after all map layers; for multi-panel figures call it once, on a
+# single representative panel.
+# ---------------------------------------------------------------------------
+add_map_furniture <- function(km = 500, crs_label = "WGS84 (EPSG:4326)") {
+    usr <- graphics::par("usr")
+    dx  <- usr[2] - usr[1]
+    dy  <- usr[4] - usr[3]
+
+    # Scale bar with end ticks
+    x0  <- usr[1] + 0.08 * dx
+    y0  <- usr[3] + 0.07 * dy
+    deg <- km / (111.320 * cos(y0 * pi / 180))
+    graphics::segments(x0, y0, x0 + deg, y0, lwd = 2, col = "grey20")
+    graphics::segments(c(x0, x0 + deg), y0 - 0.006 * dy,
+                       c(x0, x0 + deg), y0 + 0.006 * dy,
+                       lwd = 2, col = "grey20")
+    graphics::text(x0 + deg / 2, y0 + 0.020 * dy,
+                   sprintf("%d km", km), cex = 0.7, col = "grey20")
+    graphics::text(x0 + deg / 2, y0 - 0.025 * dy, crs_label,
+                   cex = 0.55, col = "grey40")
+
+    # North arrow above the bar
+    xa <- x0 + deg / 2
+    graphics::arrows(xa, y0 + 0.055 * dy, xa, y0 + 0.105 * dy,
+                     length = 0.08, lwd = 2, col = "grey20")
+    graphics::text(xa, y0 + 0.130 * dy, "N", cex = 0.8, font = 2,
+                   col = "grey20")
 }
