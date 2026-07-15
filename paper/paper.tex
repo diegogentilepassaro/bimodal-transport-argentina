@@ -42,6 +42,10 @@
 % ---- Hyperlinks (load last) -----------------------------------------------
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue,
             urlcolor=blue]{hyperref}
+% Clickable DOIs. plainnat emits \doi{...} in the .bbl via \providecommand,
+% so this definition takes precedence (doi.sty is not in this TeX Live).
+% \nolinkurl handles special characters (e.g. underscores) in DOI strings.
+\newcommand{\doi}[1]{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}}
 
 % ---- Paths ----------------------------------------------------------------
 \graphicspath{{../results/figures/}{figures/}}

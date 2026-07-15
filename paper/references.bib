@@ -70,12 +70,13 @@
 
 % DATA CITATION: hydrography layer; navigable segments define the
 % navigation layer of the transport-cost rasters.
+% Undated source: year field carries the access year (AEA template).
 @misc{ignhydro,
   author       = {{Instituto Geogr\'afico Nacional}},
   title        = {Cursos de agua [dataset]},
   howpublished = {Instituto Geogr\'afico Nacional, Rep\'ublica Argentina,
                   Buenos Aires},
-  year         = {n.d.},
+  year         = {2026},
   url          = {https://www.ign.gob.ar/},
   note         = {SIG hydrography layer; watercourse segments flagged
                   navigable define the navigation layer of the
@@ -84,12 +85,13 @@
 
 % DATA CITATION: settlements layer (Gran Buenos Aires centroid,
 % georeferencing reference for network digitisation).
+% Undated source: year field carries the access year (AEA template).
 @misc{ignsettlements,
   author       = {{Instituto Geogr\'afico Nacional}},
   title        = {{\'A}reas de asentamientos y edificios [dataset]},
   howpublished = {Instituto Geogr\'afico Nacional, Rep\'ublica Argentina,
                   Buenos Aires},
-  year         = {n.d.},
+  year         = {2026},
   url          = {https://www.ign.gob.ar/},
   note         = {SIG settlements layer used for the Gran Buenos Aires
                   centroid and as georeferencing reference for network
@@ -165,14 +167,15 @@
 }
 
 % DATA CITATION: census microdata 1970-2010 and district boundaries.
+% DOI lives in the note via \doi{} because plainnat drops doi fields on
+% misc-type entries (article entries keep the doi field proper).
 @misc{ipums2020,
   author       = {{Minnesota Population Center}},
   title        = {Integrated Public Use Microdata Series, International:
                   Version 7.3 [dataset]},
   year         = {2020},
   howpublished = {IPUMS, Minneapolis, MN},
-  doi         = {10.18128/D020.V7.3},
-  note         = {Argentina census microdata
+  note         = {\doi{10.18128/D020.V7.3}. Argentina census microdata
                   1970--2010 and time-invariant district boundaries
                   (geolev2).}
 }
@@ -194,13 +197,14 @@
 
 % DATA CITATION: elevation raster; also underlies the Nunn-Puga
 % terrain-ruggedness raster.
+% DOI lives in the note via \doi{} because plainnat drops doi fields on
+% misc-type entries (article entries keep the doi field proper).
 @misc{usgs1996gtopo30,
   author       = {{U.S. Geological Survey}},
   title        = {Global 30 Arc-Second Elevation ({GTOPO30}) [dataset]},
   year         = {1996},
   howpublished = {USGS EROS Data Center, Sioux Falls, SD},
-  doi         = {10.5066/F7DF6PQS},
-  note         = {Elevation raster; also underlies
+  note         = {\doi{10.5066/F7DF6PQS}. Elevation raster; also underlies
                   the Nunn--Puga terrain-ruggedness raster.}
 }
 
