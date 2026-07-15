@@ -361,6 +361,16 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_figures,
                   paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
         makelog)
+
+    run_step("D.18 figure_c13_ma_counterfactual_trio",
+             a("plot_figure_c13.R"),
+             "Figure C13: dlogMA total vs rail-only vs road-only choropleths",
+             makelog)
+    verify_outputs("D.18",
+        file.path(dir_figures,
+                  paste0("figure_c13_ma_counterfactual_trio.",
+                         c("pdf", "png"))),
+        makelog)
 }
 
 # ==============================================================================
