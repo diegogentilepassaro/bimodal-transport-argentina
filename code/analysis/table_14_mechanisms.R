@@ -126,6 +126,29 @@ main <- function() {
             stringsAsFactors = FALSE
         )
     }
+    # Common-sample baseline: spec (1) re-estimated on the 306 districts
+    # with non-missing kilometer measures, so the (1)-vs-(4) comparison
+    # can be separated from the 3-district sample change. CSV-only row
+    # (the tex table keeps its four columns); cited in Section 7.1.
+    d_cs <- d[!is.na(d$chg_tot_rails_86_60) &
+              !is.na(d$chg_pav_and_grav_86_54), ]
+    f_cs <- as.formula(sprintf("%s ~ %s | %s ~ %s + %s",
+                               y, ctrls, endog, lp, hypo))
+    m_cs <- feols(f_cs, data = d_cs, vcov = "hetero")
+    co_cs <- safe_coef(m_cs, paste0("fit_", endog))
+    rows[[length(rows) + 1L]] <- data.frame(
+        spec_id    = "(1cs)",
+        spec_label = "Baseline, common 306-district sample (CSV only)",
+        ma_est     = co_cs$est, ma_se = co_cs$se, ma_p = co_cs$p,
+        ma_F       = fitstat_F(m_cs),
+        chg_rail_est  = NA_real_, chg_rail_se  = NA_real_,
+        chg_road_est  = NA_real_, chg_road_se  = NA_real_,
+        lost_rail_est = NA_real_, lost_rail_se = NA_real_,
+        gain_road_est = NA_real_, gain_road_se = NA_real_,
+        n_obs      = nobs(m_cs),
+        stringsAsFactors = FALSE
+    )
+
     df <- do.call(rbind, rows)
 
     # ----- Console summary -----
@@ -183,7 +206,7 @@ main <- function() {
                 tex_cell_or_blank(df$lost_rail_est[2], df$lost_rail_se[2]),
                 tex_cell_or_blank(df$lost_rail_est[3], df$lost_rail_se[3]),
                 tex_cell_or_blank(df$lost_rail_est[4], df$lost_rail_se[4])),
-        sprintf("Gained first paved road & %s & %s & %s & %s \\\\",
+        sprintf("Gained first paved or gravel road & %s & %s & %s & %s \\\\",
                 tex_cell_or_blank(df$gain_road_est[1], df$gain_road_se[1]),
                 tex_cell_or_blank(df$gain_road_est[2], df$gain_road_se[2]),
                 tex_cell_or_blank(df$gain_road_est[3], df$gain_road_se[3]),

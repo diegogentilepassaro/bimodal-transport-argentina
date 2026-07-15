@@ -79,9 +79,11 @@ reproduces the full-measure estimates. Panels~B and~C report the
 only-rail and only-road estimates.
 
 For total population, the IV estimate on the only-rail measure is
-0.032 (0.034) with a first-stage $F$ of 105.0. The IV estimate on the
-only-road measure is 0.039 (0.051) with a first-stage $F$ of 13.2.
-The full-measure estimate is 0.046 (0.033) with an $F$ of 13.6. The
+\cfRailCoefIVPop{} (\cfRailSEIVPop{}) with a first-stage $F$ of
+\cfRailFIVPop{}. The IV estimate on the only-road measure is
+\cfRoadCoefIVPop{} (\cfRoadSEIVPop{}) with a first-stage $F$ of
+\cfRoadFIVPop{}. The full-measure estimate is \mainPopCoefIVBoth{}
+(\mainPopSEIVBoth{}) with an $F$ of \cfFullFIVPop{}. The
 three point estimates are of similar magnitude; none is statistically
 distinguishable from zero at conventional levels, and none is
 distinguishable from the others. What differs sharply across panels is
@@ -123,7 +125,7 @@ only-road panel is less precisely identified throughout.
 
 Third, differences in precision across panels reflect the instruments,
 not the economics. The only-rail panel is the best-identified object
-in this paper ($F = 105.0$); this makes its estimate the most
+in this paper ($F = \cfRailFIVPop{}$); this makes its estimate the most
 credible, not the largest or the most important.
 
 With these limits stated, the decomposition supports one suggestive

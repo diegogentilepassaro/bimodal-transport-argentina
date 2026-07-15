@@ -116,7 +116,8 @@ The counterfactual decomposition qualifies the modal question that
 motivates the paper. Recomputing market access with one network frozen
 at its pre-reform configuration, we find that the only-rail and
 only-road changes contribute similar point estimates to the population
-response (0.032 and 0.039, against 0.046 for the full change), while
+response (\cfRailCoefIVPop{} and \cfRoadCoefIVPop{}, against
+\mainPopCoefIVBoth{} for the full change), while
 differing sharply in identification: the rail component, instrumented
 by the Larkin Plan alone, is the best-identified object in the paper,
 with a first-stage $F$ above 100 for total population. We find no
@@ -128,7 +129,8 @@ to market access itself, whichever mode produces it.
 The mechanism decomposition shows where that response lives. Adding
 own-district infrastructure changes—rail and road kilometers and
 two binary margins—to the main specification removes roughly half
-of the market-access coefficient (0.046 to 0.021), so about half of
+of the market-access coefficient (\mainPopCoefIVBoth{} to
+\mechAllZCoef{}), so about half of
 the estimated response operates through infrastructure located in the
 district itself and the remainder through regional connectivity
 beyond it. Suggestive heterogeneity patterns point in the same

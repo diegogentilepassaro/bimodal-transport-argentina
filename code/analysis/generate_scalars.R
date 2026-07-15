@@ -52,7 +52,10 @@ main <- function() {
                    "table_9_population_iv",
                    "table_10_sectoral_iv",
                    "table_11_other_outcomes_iv",
-                   "table_12_robustness")) {
+                   "table_12_robustness",
+                   "table_13_counterfactual",
+                   "table_14_mechanisms",
+                   "diagnostic_heterogeneity")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
             warning(sprintf("Missing: %s — scalars depending on this will be NA",
@@ -156,6 +159,76 @@ main <- function() {
             macros[["placeboCoefIVBoth"]]     <- sprintf("%.3f", r$estimate)
             macros[["placeboSEIVBoth"]]       <- sprintf("%.3f", r$std_err)
             macros[["placeboNIVBoth"]]        <- as.character(r$n_obs)
+        }
+    }
+
+    # Table 13: counterfactual decomposition (Section 6 / intro findings).
+    # Total-population row per panel; Fs at 1 decimal to match prose.
+    t13 <- tab[["table_13_counterfactual"]]
+    if (!is.null(t13)) {
+        for (pn in list(list(id = "B", stem = "cfRail"),
+                        list(id = "C", stem = "cfRoad"))) {
+            r <- t13[t13$panel == pn$id &
+                     t13$outcome == "chg_log_pop_91_60", ]
+            if (nrow(r) == 1L) {
+                macros[[paste0(pn$stem, "CoefIVPop")]] <-
+                    sprintf("%.3f", r$iv_est)
+                macros[[paste0(pn$stem, "SEIVPop")]] <-
+                    sprintf("%.3f", r$iv_se)
+                macros[[paste0(pn$stem, "FIVPop")]] <-
+                    sprintf("%.1f", r$iv_F)
+            }
+        }
+        r <- subset(t13, panel == "A" & outcome == "chg_log_pop_91_60")
+        if (nrow(r) == 1L) {
+            macros[["cfFullFIVPop"]] <- sprintf("%.1f", r$iv_F)
+        }
+    }
+
+    # Table 14: mechanisms progressive-add (Section 7 / intro findings).
+    t14 <- tab[["table_14_mechanisms"]]
+    if (!is.null(t14)) {
+        r <- subset(t14, spec_id == "(4)")
+        if (nrow(r) == 1L) {
+            macros[["mechAllZCoef"]]      <- sprintf("%.3f", r$ma_est)
+            macros[["mechAllZSE"]]        <- sprintf("%.3f", r$ma_se)
+            macros[["mechAllZF"]]         <- sprintf("%.1f", r$ma_F)
+            macros[["mechRailKmCoef"]]    <- sprintf("%.4f", r$chg_rail_est)
+            macros[["mechRailKmSE"]]      <- sprintf("%.4f", r$chg_rail_se)
+            macros[["mechLostRailCoef"]]  <- sprintf("%.3f", r$lost_rail_est)
+            macros[["mechLostRailSE"]]    <- sprintf("%.3f", r$lost_rail_se)
+        }
+        r <- subset(t14, spec_id == "(2)")
+        if (nrow(r) == 1L) {
+            macros[["mechKmCoef"]] <- sprintf("%.3f", r$ma_est)
+            macros[["mechKmSE"]]   <- sprintf("%.3f", r$ma_se)
+        }
+        r <- subset(t14, spec_id == "(3)")
+        if (nrow(r) == 1L) {
+            macros[["mechBinCoef"]] <- sprintf("%.3f", r$ma_est)
+            macros[["mechBinSE"]]   <- sprintf("%.3f", r$ma_se)
+        }
+        r <- subset(t14, spec_id == "(1cs)")
+        if (nrow(r) == 1L) {
+            macros[["mechBaselineCommonCoef"]] <- sprintf("%.3f", r$ma_est)
+            macros[["mechBaselineCommonSE"]]   <- sprintf("%.3f", r$ma_se)
+        }
+    }
+
+    # Heterogeneity diagnostic (Section 7.2): OLS interaction terms.
+    het <- tab[["diagnostic_heterogeneity"]]
+    if (!is.null(het)) {
+        for (ch in list(
+                list(var = "log_pop_1960", stem = "heteroPop"),
+                list(var = "rurshr_1960",  stem = "heteroRur"),
+                list(var = "dist_to_BA",   stem = "heteroDist"))) {
+            r <- het[het$characteristic == ch$var & het$spec == "OLS", ]
+            if (nrow(r) == 1L) {
+                macros[[paste0(ch$stem, "IntOLS")]] <-
+                    sprintf("%.3f", r$beta_int)
+                macros[[paste0(ch$stem, "IntSEOLS")]] <-
+                    sprintf("%.3f", r$se_int)
+            }
         }
     }
 

@@ -199,12 +199,19 @@ main <- function() {
         # Use the first F (population total) as a single representative,
         # since outcomes share the same instrument and similar samples.
         # Show all four if you want; here we list them inline.
+        # Observations differ by outcome (309 pop / 284 urban / 272 rural /
+        # 309 urban share); list them like the F row rather than repeating
+        # the population N, which misstated the urban and rural samples.
+        n_strs <- vapply(outcomes, function(out) {
+            r <- df[df$panel == p$id & df$outcome == out$var, ]
+            if (nrow(r) != 1L) return("---")
+            as.character(r$n_obs)
+        }, character(1L))
         tex_lines <- c(tex_lines,
             sprintf("\\quad First-stage $F$ (by outcome) & --- & %s \\\\",
                     paste(f_strs, collapse = " / ")),
-            sprintf("\\quad Observations & %d & %d \\\\",
-                    df$n_obs[df$panel == p$id & df$outcome == "chg_log_pop_91_60"],
-                    df$n_obs[df$panel == p$id & df$outcome == "chg_log_pop_91_60"]),
+            sprintf("\\quad Observations (by outcome) & --- & %s \\\\",
+                    paste(n_strs, collapse = " / ")),
             "\\midrule"
         )
     }

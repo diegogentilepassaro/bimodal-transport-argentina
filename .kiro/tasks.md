@@ -357,7 +357,7 @@ How much does β drop when adding Z_i? What do θ coefficients on Z_i tell us? W
 Connect to theory: MA matters more in agricultural, less-developed, port-distant districts. Write 1–2 paragraphs in Section 7.2.
 
 #### A6. Literature comparison
-Compare our elasticities to Gibbons et al. (2024) ≈ 0.3, Donaldson & Hornbeck (2016) ≈ 0.25, Ahlfeldt & Feddersen (2017) ≈ 0.35. Write 1–2 paragraphs in Section 8.2.
+Benchmark per the verified memo `Plan/2026-05-31_bimodal-transport-market-access.md` (NOT the older seeds that used to live here — they caused a drafting error caught in PR #86): Gibbons, Heblich & Pinchbeck (2024, JUE 143, Beeching Axe) ≈ 0.3 is the ONLY like-for-like population benchmark; Donaldson & Hornbeck (2016) is method provenance only (land values ≈ 1.1, no population elasticity); Ahlfeldt & Feddersen (2018) headline is county GDP (output-side — benchmark the manufacturing numbers there, never the population one). Drafted in §8.2 (PR #86).
 
 #### A7. Spatial placebo tests
 Pre-period placebo (1947–1960 population change as outcome, instruments should not predict). Permutation test as additional robustness.
