@@ -20,10 +20,14 @@
 #   - Population anchor: 1960 IPUMS-constructed population. Used for ALL
 #     cases so that variation in MA comes from variation in transport
 #     costs (tau), not population. Matches Donaldson & Hornbeck (2016).
-#   - Districts not in the 1960 census file (e.g. CF, TdF) use pop = 0
-#     in the summation. They still appear as rows in the output but their
-#     contribution to other districts' MA is zero, and their own MA is
-#     computed from the 310 districts that do have population.
+#   - Since issue #22 the 1960 census file covers all 312 districts,
+#     including Capital Federal (~2.97M) and Tierra del Fuego, so every
+#     district contributes to the MA weights. CABA is a destination j
+#     in every district's MA sum but is excluded from the estimation
+#     sample as an observation i (see build_estimation_sample.R).
+#     Districts missing from the census file (none currently) would
+#     enter with pop = 0; the defensive NA -> 0 below keeps that
+#     behavior explicit.
 #   - theta: both θ_low = 4.55 and θ_high = 8.11 are computed in one pass,
 #     yielding two output files per case.
 #   - Inf tau (disconnected pair) contributes exactly 0 to the sum since

@@ -15,7 +15,7 @@
 #            instrument paired with the alternative hypo.
 #
 #   Panel C: Sample robustness. Refit the main Table 9 specification on
-#            the 235-district subsample where the 1947 placebo outcome
+#            the placebo subsample where the 1947 placebo outcome
 #            is defined (see Section 4.5). Tests whether the OLS-IV gap
 #            or the coefficient level changes on that subsample.
 #
@@ -97,11 +97,12 @@ main <- function() {
     }
 
     # ----------------------------------------------------------------------
-    # Panel C: subsample stability. Refit the main spec on the 235-
-    # district subset where chg_log_placebo_pop_60_47 is defined (Table 7
-    # sample).
+    # Panel C: subsample stability. Refit the main spec on the subset
+    # where chg_log_placebo_pop_60_47 is defined (Table 7 sample; the
+    # count is computed, not hardcoded — 237 since issue #22).
     # ----------------------------------------------------------------------
     d_sub <- d[!is.na(d$chg_log_placebo_pop_60_47), ]
+    n_sub <- nrow(d_sub)
     fits_C <- fit_iv_quad(
         y = "chg_log_pop_91_60", data = d_sub,
         endog = "chg_logMA_86_60_s0_elow",
@@ -156,7 +157,7 @@ main <- function() {
         "%",
         "% Panel A: alternative trade elasticity theta = 8.11 (main = 4.55).",
         "% Panel B: alternative hypothetical-road instruments.",
-        "% Panel C: subsample stability (235-district placebo subset).",
+        "% Panel C: subsample stability (placebo subset; N computed).",
         "%",
         "% Columns (1)-(4) are OLS / IV-LP / IV-Hypo / IV-Both. All specs",
         "% include baseline log MA, baseline log pop, and the six",
@@ -213,7 +214,8 @@ main <- function() {
                "\\texttt{\\_ehigh} variants). Panel~B holds $\\theta$ at ",
                "4.55 and replaces the LCP-MST hypothetical-road ",
                "instrument with one of three alternatives. Panel~C ",
-               "refits the main specification on the 235-district ",
+               sprintf("refits the main specification on the %d-district ",
+                       n_sub),
                "subset for which the 1947 placebo outcome is defined. ",
                "Robust (HC1) SE. Significance: ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),

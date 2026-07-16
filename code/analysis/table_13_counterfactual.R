@@ -199,7 +199,7 @@ main <- function() {
         # Use the first F (population total) as a single representative,
         # since outcomes share the same instrument and similar samples.
         # Show all four if you want; here we list them inline.
-        # Observations differ by outcome (309 pop / 284 urban / 272 rural /
+        # Observations differ by outcome (311 pop / 286 urban / 272 rural /
         # 309 urban share); list them like the F row rather than repeating
         # the population N, which misstated the urban and rural samples.
         n_strs <- vapply(outcomes, function(out) {

@@ -36,7 +36,7 @@
 #   Instruments (IV-Both): dlnMA_LP, dlnMA_hypo, and their X_z
 #   interactions (4 instruments, 2 endogenous regressors).
 #   Characteristics are NOT interacted jointly: 4+ endogenous regressors
-#   on N=309 would be hopelessly weak; one-at-a-time is the honest cut.
+#   on N=311 would be hopelessly weak; one-at-a-time is the honest cut.
 #
 # READING: b2 > 0 means MA matters more in districts with higher X.
 #          Theory prior (tasks.md A5): MA should matter more in

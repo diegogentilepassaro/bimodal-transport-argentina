@@ -2,58 +2,58 @@
 CONLEY SPATIAL-SE DIAGNOSTIC (task C37 / memo Decision E, pre-trends) 
 Same point estimates as Tables 7 and 9; SEs recomputed with 
 fixest::conley() at cutoffs 100 / 250 / 500 / 1000 km 
-Generated: 2026-07-14 14:04:58 
+Generated: 2026-07-16 12:55:31 
 ========================================================================== 
 
-Sample: 312 districts with coordinates 
+Sample: 311 districts with coordinates 
 
 -------------------------------------------------------------------------- 
 [Pre-trends placebo (Table 7): d log pop 1947-1960] 
 -------------------------------------------------------------------------- 
-  OLS       beta = +0.035   HC1: SE 0.017 p 0.041   N=235 
-                         Conley  100 km: SE 0.016 p 0.027 
-                         Conley  250 km: SE 0.012 p 0.004 
-                         Conley  500 km: SE 0.018 p 0.057  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.014 p 0.012  [vcov PSD-fixed] 
-  IV-LP     beta = +0.070   HC1: SE 0.050 p 0.166   N=235 
-                         Conley  100 km: SE 0.032 p 0.032 
-                         Conley  250 km: SE 0.020 p 0.001  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.029 p 0.018  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.026 p 0.008  [vcov PSD-fixed] 
-  IV-H      beta = +0.173   HC1: SE 0.319 p 0.588   N=235 
-                         Conley  100 km: SE 0.261 p 0.508 
-                         Conley  250 km: SE 0.197 p 0.380  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.135 p 0.201  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.095 p 0.069  [vcov PSD-fixed] 
-  IV-B      beta = +0.078   HC1: SE 0.041 p 0.061   N=235 
-                         Conley  100 km: SE 0.023 p 0.001 
-                         Conley  250 km: SE 0.022 p 0.001  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.032 p 0.014  [vcov PSD-fixed] 
+  OLS       beta = +0.039   HC1: SE 0.017 p 0.024   N=237 
+                         Conley  100 km: SE 0.016 p 0.017 
+                         Conley  250 km: SE 0.012 p 0.002 
+                         Conley  500 km: SE 0.017 p 0.027  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.015 p 0.008  [vcov PSD-fixed] 
+  IV-LP     beta = +0.074   HC1: SE 0.050 p 0.141   N=237 
+                         Conley  100 km: SE 0.030 p 0.015 
+                         Conley  250 km: SE 0.018 p 0.000  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.027 p 0.007  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.026 p 0.005  [vcov PSD-fixed] 
+  IV-H      beta = +0.192   HC1: SE 0.241 p 0.426   N=237 
+                         Conley  100 km: SE 0.207 p 0.354 
+                         Conley  250 km: SE 0.148 p 0.195  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.113 p 0.089  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.107 p 0.075  [vcov PSD-fixed] 
+  IV-B      beta = +0.087   HC1: SE 0.041 p 0.034   N=237 
+                         Conley  100 km: SE 0.019 p 0.000 
+                         Conley  250 km: SE 0.020 p 0.000  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.029 p 0.003  [vcov PSD-fixed] 
                          Conley 1000 km: SE 0.019 p 0.000  [vcov PSD-fixed] 
 
 -------------------------------------------------------------------------- 
 [Headline population (Table 9): d log pop 1960-1991] 
 -------------------------------------------------------------------------- 
-  OLS       beta = +0.022   HC1: SE 0.012 p 0.077   N=309 
-                         Conley  100 km: SE 0.012 p 0.074 
-                         Conley  250 km: SE 0.011 p 0.051 
-                         Conley  500 km: SE 0.009 p 0.013  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.013 p 0.101  [vcov PSD-fixed] 
-  IV-LP     beta = +0.042   HC1: SE 0.042 p 0.319   N=309 
-                         Conley  100 km: SE 0.041 p 0.306 
-                         Conley  250 km: SE 0.041 p 0.311  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.034 p 0.221  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.036 p 0.243  [vcov PSD-fixed] 
-  IV-H      beta = +0.059   HC1: SE 0.082 p 0.467   N=309 
-                         Conley  100 km: SE 0.071 p 0.406 
-                         Conley  250 km: SE 0.082 p 0.471  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.070 p 0.400  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.059 p 0.313  [vcov PSD-fixed] 
-  IV-B      beta = +0.046   HC1: SE 0.033 p 0.168   N=309 
-                         Conley  100 km: SE 0.034 p 0.182 
-                         Conley  250 km: SE 0.033 p 0.164  [vcov PSD-fixed] 
-                         Conley  500 km: SE 0.029 p 0.113  [vcov PSD-fixed] 
-                         Conley 1000 km: SE 0.035 p 0.189  [vcov PSD-fixed] 
+  OLS       beta = +0.025   HC1: SE 0.012 p 0.046   N=311 
+                         Conley  100 km: SE 0.012 p 0.043 
+                         Conley  250 km: SE 0.011 p 0.028 
+                         Conley  500 km: SE 0.008 p 0.004  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.013 p 0.052  [vcov PSD-fixed] 
+  IV-LP     beta = +0.046   HC1: SE 0.040 p 0.254   N=311 
+                         Conley  100 km: SE 0.037 p 0.223 
+                         Conley  250 km: SE 0.038 p 0.236  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.033 p 0.164  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.034 p 0.182  [vcov PSD-fixed] 
+  IV-H      beta = +0.069   HC1: SE 0.068 p 0.311   N=311 
+                         Conley  100 km: SE 0.064 p 0.280 
+                         Conley  250 km: SE 0.071 p 0.328  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.062 p 0.263  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.052 p 0.182  [vcov PSD-fixed] 
+  IV-B      beta = +0.052   HC1: SE 0.031 p 0.096   N=311 
+                         Conley  100 km: SE 0.031 p 0.095 
+                         Conley  250 km: SE 0.029 p 0.077  [vcov PSD-fixed] 
+                         Conley  500 km: SE 0.027 p 0.058  [vcov PSD-fixed] 
+                         Conley 1000 km: SE 0.033 p 0.114  [vcov PSD-fixed] 
 
 Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_pretrends_conley.csv 
 

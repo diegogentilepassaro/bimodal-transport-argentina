@@ -35,6 +35,16 @@
 #     impossible to create a 1947→1960 district correspondence for these
 #     two provinces. Their values are set to NA (with imputed versions
 #     kept separately).
+#   - Capital Federal and Tierra del Fuego (issue #22): read from their
+#     Cuadro 1 files, pop only. CF has no usable Cuadro 14 (its single
+#     row, 1,575,814, is inconsistent with the published CABA total of
+#     2,981,043); since CF is entirely urban, urbpop = pop. The Isla
+#     Martín García row (1,537) is dropped: the island is Buenos Aires
+#     PROVINCE territory enumerated with CF in 1947; after dropping it
+#     the CF sum equals the published total exactly (asserted). TdF has
+#     no Cuadro 14 at all; its urbpop is NA (pop is kept — note stays 0
+#     because note = 1 would blank pop too). CF's exclusion from the
+#     estimation sample happens in build_estimation_sample.R.
 # ===========================================================================
 
 main <- function() {
@@ -138,13 +148,63 @@ read_raw_1947 <- function() {
         all_rows[[length(all_rows) + 1]] <- merged
     }
 
+    # -- Capital Federal and Tierra del Fuego: Cuadro 1 only (issue #22).
+    # No usable Cuadro 14 for either (see header NOTES). Column layout
+    # must match the merged standard-province frames exactly.
+    for (prov in c("CapitalFederal", "TierraDelFuego")) {
+        pop_file <- file.path(
+            raw_dir, sprintf("1947_Cuadro1_%s.xlsx", prov)
+        )
+        stopifnot(file.exists(pop_file))
+        pop_df <- readxl::read_excel(pop_file)
+        pop_df <- as.data.frame(pop_df)
+        names(pop_df) <- tolower(names(pop_df))
+        pop_df$provincia <- clean_name(pop_df$provincia)
+        pop_df$partido   <- clean_name(pop_df$partido)
+        pop_df$pop <- suppressWarnings(as.numeric(pop_df$n1947))
+
+        if (prov == "CapitalFederal") {
+            # Drop Isla Martín García: Buenos Aires PROVINCE territory
+            # enumerated with CF in 1947. After dropping, the CF sum
+            # must equal the published CABA total (2,981,043).
+            mg <- grepl("MARTINGARCIA", pop_df$partido)
+            stopifnot(sum(mg) == 1L, pop_df$pop[mg] == 1537)
+            pop_df <- pop_df[!mg, ]
+            stopifnot(sum(pop_df$pop) == 2981043)
+            # CF is entirely urban: urbpop = pop.
+            pop_df$urb <- pop_df$pop
+            message(sprintf(
+                "[c1947]   CapitalFederal: %d rows, pop %s (Martín García dropped)",
+                nrow(pop_df), format(sum(pop_df$pop), big.mark = ",")
+            ))
+        } else {
+            # TdF: pin the published 1947 territory total (4 rows,
+            # 5,045) so raw-file drift fails loudly, matching the CF
+            # and 1960 CABA assertions.
+            stopifnot(nrow(pop_df) == 4L, sum(pop_df$pop) == 5045)
+            # urbpop unknown (no Cuadro 14). Use a numeric 0
+            # placeholder so the formula-based aggregate in
+            # collapse_to_geolev2() does not silently drop the rows;
+            # converted to NA there after aggregation.
+            pop_df$urb <- 0
+            message(sprintf(
+                "[c1947]   TierraDelFuego: %d rows, pop %s (urbpop NA)",
+                nrow(pop_df), format(sum(pop_df$pop), big.mark = ",")
+            ))
+        }
+
+        pop_df$curbano <- NA_character_
+        all_rows[[length(all_rows) + 1]] <-
+            pop_df[, c("provincia", "partido", "curbano", "urb", "pop")]
+    }
+
     raw <- do.call(rbind, all_rows)
     # suppressWarnings: NAs from non-numeric entries (totals, headers) expected
     raw$urb <- suppressWarnings(as.numeric(raw$urb))
     raw$pop <- suppressWarnings(as.numeric(raw$pop))
 
     message(sprintf(
-        "[c1947]   Read %d rows from %d provinces",
+        "[c1947]   Read %d rows from %d provinces (+ CF and TdF)",
         nrow(raw), length(provinces)
     ))
     raw
@@ -415,9 +475,22 @@ apply_name_changes <- function(df) {
     ch("GENERALTABOADA", "GENERALATABOADA", pr)
     ch("GENERALTABOADA", "GENERALANTONIOTABOADA", pr)
 
+    # -- CAPITAL FEDERAL --
+    # All circunscripciones (plus Zona Portuaria) collapse to the single
+    # IPUMS district. Their original distrito values stay distinct, so
+    # the allocation step counts each row as 1:1 and the geolev2
+    # aggregate sums them into 32002001.
+    df$distmerge[df$provmerge == "CAPITALFEDERAL"] <- "CITYOFBUENOSAIRES"
+
     # -- TIERRA DEL FUEGO --
     # Río Grande was called San Sebastián
     ch("RIOGRANDE", "SANSEBASTIAN", "TIERRADELFUEGO")
+    # Sector Antártico folds into the IPUMS Río Grande + Antártida unit
+    # (crosswalk key ANTARCTICARGENTINA -> geolev2 32094001).
+    ch("ANTARCTICARGENTINA", "SECTORANTARTICO", "TIERRADELFUEGO")
+    # Bahía Thetis lies on Península Mitre, part of the Ushuaia
+    # department in the IPUMS boundaries (Tolhuin dates from 2017).
+    ch("USHUAIA", "BAHIATETHYS", "TIERRADELFUEGO")
 
     # -- TUCUMAN --
     pr <- "TUCUMAN"
@@ -698,16 +771,23 @@ collapse_to_geolev2 <- function(df) {
     final$urbpop[final$note == 1] <- NA
     final$pop[final$note == 1]    <- NA
 
-    # Exclude Tierra del Fuego, Capital Federal, and non-mainland
-    # territories (not in the estimation sample).
-    # Tierra del Fuego and Capital Federal are excluded because the old
-    # code drops them explicitly; they are not part of the 312-district
-    # estimation sample.
-    geo_cf <- "32002001"
-    geo_tdf <- c("32094001", "32094002")  # Ushuaia + Antártida, Río Grande
-    excl <- final$geolev2 %in% geolev2_exclude |
-        final$geolev2 %in% c(geo_cf, geo_tdf)
+    # Exclude non-mainland territories only (config: geolev2_exclude).
+    # Capital Federal (32002001) and Tierra del Fuego (32094001 = Río
+    # Grande + Antártida, 32094002 = Ushuaia) are KEPT since issue #22.
+    # CF's exclusion from the estimation sample happens explicitly in
+    # build_estimation_sample.R.
+    excl <- final$geolev2 %in% geolev2_exclude
     final <- final[!excl, ]
+
+    # TdF has no Cuadro 14: the 0 entered at the read step was a
+    # placeholder to survive the formula aggregate. Urban population is
+    # unknown, not zero.
+    geo_tdf <- c("32094001", "32094002")
+    tdf_idx <- final$geolev2 %in% geo_tdf
+    stopifnot(sum(tdf_idx) == 2L)
+    final$urbpop[tdf_idx]         <- NA_real_
+    final$urbpop_imputed[tdf_idx] <- NA_real_
+    stopifnot("32002001" %in% final$geolev2)
 
     message(sprintf(
         "[c1947]   Final: %d districts (%d flagged as imputed)",

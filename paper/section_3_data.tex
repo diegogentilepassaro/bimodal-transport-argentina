@@ -139,12 +139,16 @@ the analysis to avoid type-coercion bugs on leading zeros.
 Population in 1960 comes from the digitised \emph{Censo Nacional de
 Población 1960} tables \citep{censo1960pop}, reconciled to the IPUMS district geography
 through a crosswalk that handles pre-1960 splits and name changes. The
-mean 1960 district population is 43{,}856 with a national total of
-13.6~million. Population in 1991 comes from the IPUMS microdata
+mean 1960 district population is 52{,}965 with a national total of
+16.5~million. Population in 1991 comes from the IPUMS microdata
 aggregated to \texttt{geolev2}; the mean 1991 district population is
 114{,}723 with a national total of 35.8~million. Log population change
 $\Delta\log(\mathrm{pop}_{91/60})$ has mean $+1.02$ and standard deviation
-$0.53$.
+$0.54$. Capital Federal and the two Tierra~del~Fuego districts are
+covered by both census years; Capital Federal contributes to the
+market-access population weights defined in Section~\ref{ssec:ma} but
+is excluded from the estimation sample as an observation
+(Section~\ref{sec:results}).
 
 \paragraph{Urban population.}
 Urban population shares at the district level come from the 1960
@@ -157,7 +161,7 @@ us the post-reform window with consistent urban/rural classification.
 \paragraph{Pre-reform placebo.}
 We supplement the baseline with the 1947 national census
 \citep{censo1947}, which covers
-240 of the 312 districts. A log population change
+243 of the 312 districts. A log population change
 $\Delta\log(\mathrm{pop}_{60/47})$ for this subsample serves as a placebo
 outcome: it measures population growth before any of the 1960--1986
 network changes, and should be uncorrelated with the instruments if the
@@ -208,7 +212,11 @@ the centroids of districts~$i$ and~$j$ under network configuration~$t$
 and sector~$s$. Population weights are held fixed at their 1960 values
 across all $t$ so that variation in~$\mathrm{MA}_{i,t,s,\theta}$ comes
 entirely from variation in transport costs rather than from endogenous
-population responses to the network changes.
+population responses to the network changes. All 312 districts
+contribute to the weights, including Capital Federal
+(2.97~million people in 1960): access to Buenos~Aires enters every
+district's market access even though Capital Federal itself is not an
+observation in the estimation sample (Section~\ref{sec:results}).
 
 \paragraph{Cost surface.}
 Transport costs $\tau_{ij,t,s}$ are the least-cost-path distances on
@@ -318,8 +326,8 @@ The main treatment variable is
 $\Delta\log\mathrm{MA}_i \equiv \log\mathrm{MA}_{i,1986,s=0,\theta_{\mathrm{low}}}
   - \log\mathrm{MA}_{i,1960,s=0,\theta_{\mathrm{low}}}$.
 Across the 312~districts,
-$\Delta\log\mathrm{MA}_i$ has mean $+1.56$, standard deviation $2.48$,
-minimum $-7.18$ and maximum $+9.58$; 91\% of districts see a positive
+$\Delta\log\mathrm{MA}_i$ has mean $+1.51$, standard deviation $2.45$,
+minimum $-7.59$ and maximum $+9.53$; 91\% of districts see a positive
 change. Figure~\ref{fig:ma_choropleth} maps $\Delta\log\mathrm{MA}_i$
 across districts.
 
@@ -334,11 +342,11 @@ one network mode at its baseline while letting the other change:
   $\Delta\log\mathrm{MA}^{\text{only-road}}_i$ defined analogously.
 \end{itemize}
 At sector~0 and $\theta_{\mathrm{low}}$, $\Delta\log\mathrm{MA}^{\text{only-rail}}$
-has mean $-0.40$ (rail contraction is a small market-access loss) and
-$\Delta\log\mathrm{MA}^{\text{only-road}}$ has mean $+1.75$ (road
+has mean $-0.39$ (rail contraction is a small market-access loss) and
+$\Delta\log\mathrm{MA}^{\text{only-road}}$ has mean $+1.69$ (road
 expansion is a large gain). The sum of the two isolated components
-($+1.35$) is slightly below the total
-$\Delta\log\mathrm{MA} = +1.56$, reflecting a positive complementarity
+($+1.30$) is slightly below the total
+$\Delta\log\mathrm{MA} = +1.51$, reflecting a positive complementarity
 between the two network shocks. Figure~\ref{fig:ma_counterfactual}
 compares the three maps side by side.
 

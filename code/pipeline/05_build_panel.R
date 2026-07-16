@@ -8,8 +8,8 @@
 # READS:
 #   data/derived/base/geo/geo_controls.parquet                (312)
 #   data/derived/base/ipums/ipums_panel.parquet               (312 × 5 years)
-#   data/derived/base/census_1947/census_1947_ipums.parquet   (240)
-#   data/derived/base/census_1960/census_1960_ipums.parquet   (309)
+#   data/derived/base/census_1947/census_1947_ipums.parquet   (243)
+#   data/derived/base/census_1960/census_1960_ipums.parquet   (312)
 #   data/derived/base/agricultural/agr_census.parquet         (306 + 300)
 #   data/derived/base/industrial/ind_census.parquet           (310 + 311)
 #   data/derived/base/networks/roads_by_district.parquet      (309)
@@ -172,7 +172,7 @@ load_ipums_wide <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Load: 1947 census (240 districts, 1947 only)
+# Load: 1947 census (243 districts, 1947 only)
 # ---------------------------------------------------------------------------
 load_census1947 <- function() {
     d <- arrow::read_parquet(
@@ -190,7 +190,7 @@ load_census1947 <- function() {
 }
 
 # ---------------------------------------------------------------------------
-# Load: 1960 census (309 districts, 1960 only)
+# Load: 1960 census (312 districts, 1960 only)
 # ---------------------------------------------------------------------------
 load_census1960 <- function() {
     d <- arrow::read_parquet(

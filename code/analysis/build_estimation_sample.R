@@ -27,12 +27,20 @@
 #   data/derived/06_analysis/data_file_manifest.log
 #
 # DESIGN:
-#   - Sample: keep all 312 districts. NA is auto-dropped by fixest in
-#     each regression. This means:
-#       - Total-pop regressions have N=309 (pop_1960 is NA for CF and
-#         the two TdF districts in the 1960 census).
-#       - Urban-pop regressions have N<312 because urbpop_1960 is only
-#         defined where pop_1960 is.
+#   - Sample (issue #22): 311 districts. Capital Federal (32002001) is
+#     excluded EXPLICITLY as an observation: a city-state of ~3M with no
+#     agriculture, extreme density, and severe boundary/commuting issues
+#     would be a high-leverage observation. This follows the old draft
+#     (N = 311; table notes "excluding Buenos Aires city"). CABA still
+#     enters every district's market access as a destination via the
+#     1960 population weights (see 04_market_access.R). Before issue #22
+#     the exclusion was implicit (CABA's census values were NA); now
+#     that the census covers CABA, the exclusion must be explicit or
+#     CABA would silently enter every regression.
+#   - Tierra del Fuego (32094001, 32094002) is IN the sample.
+#   - NA is auto-dropped by fixest in each regression. This means:
+#       - Total-pop regressions have N=311.
+#       - Urban-pop regressions have N<311 where urbpop is undefined.
 #       - Urban-share regressions have the same N as urban-pop.
 #   - Rural pop regressions use `log(rur)` where rur > 0. 37 districts
 #     have rur_1960 = 0 (fully-urban in 1960) and are auto-dropped.
@@ -64,6 +72,22 @@ main <- function() {
     d <- ensure_geolev2_char(d)
     message(sprintf("[est] Loaded panel: %d rows, %d cols",
                     nrow(d), ncol(d)))
+
+    # ---- 0. Explicit sample restriction (issue #22) -------------------------
+    # Drop Capital Federal as an observation. CABA stays in the MA
+    # population weights (04_market_access.R) but is not part of the
+    # estimation sample: city-state, no agriculture, extreme density,
+    # boundary/commuting issues; precedent in the old draft (N = 311,
+    # "excluding Buenos Aires city"). Figures read the wide panel, which
+    # keeps all 312 districts, so maps are unaffected.
+    geo_caba <- "32002001"
+    stopifnot(geo_caba %in% d$geolev2)
+    d <- d[d$geolev2 != geo_caba, ]
+    message(sprintf(
+        "[est] Dropped Capital Federal (%s): estimation sample = %d districts",
+        geo_caba, nrow(d)
+    ))
+    stopifnot(nrow(d) == 311L)
 
     # ---- 1. Derive rural pop 1991 and log-change ----------------------------
     d$rur_1991 <- d$pop_1991 - d$urbpop_1991

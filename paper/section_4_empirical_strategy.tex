@@ -203,41 +203,41 @@ orthogonal to pre-period district-level dynamics, the coefficient on
 post-reform $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ in this
 placebo regression should be near zero.
 
-The sample is 235 districts --- the subset for which the 1947 census
+The sample is 237 districts --- the subset for which the 1947 census
 provides comparable population counts under IPUMS geolev2
 boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
 match the structure of Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
 
-The OLS coefficient is 0.035 (0.017), significant at the five-percent
-level. The IV-LP estimate is 0.070 (0.050), the IV-Hypo estimate is
-0.173 (0.319), and the combined IV estimate is 0.078 (0.041),
-significant at the ten-percent level. The first-stage $F$ for the
-IV-Hypo column on this sample of 235 districts is 0.91, below
+The OLS coefficient is 0.039 (0.017), significant at the five-percent
+level. The IV-LP estimate is 0.074 (0.050), the IV-Hypo estimate is
+0.192 (0.241), and the combined IV estimate is 0.087 (0.041),
+significant at the five-percent level. The first-stage $F$ for the
+IV-Hypo column on this sample of 237 districts is 1.72, below
 conventional weak-instrument thresholds; the IV-Hypo column is
 therefore not interpretable in this specification. The first-stage
-$F$ for IV-LP is 17.84 and for IV-Both is 10.21.
+$F$ for IV-LP is 19.83 and for IV-Both is 11.84.
 
 The OLS and IV-Both point estimates for the placebo outcome are
-non-zero and marginally statistically significant. Two readings are
+non-zero and statistically significant at the five-percent level. Two readings are
 consistent with the evidence. First, there may be a genuine
 pre-existing trend correlated with the eventual infrastructure
 changes of 1960--1986: districts that were growing fastest in
 1947--1960 may have been more likely to gain (or lose) market access
 in the later period. Second, the placebo outcome is defined on a
-subsample ($N=235$) that is non-random with respect to the full
-estimation sample ($N=309$), and the correlations documented in
+subsample ($N=237$) that is non-random with respect to the full
+estimation sample ($N=311$), and the correlations documented in
 Section~\ref{sec:pre_balance} for the Larkin Plan instrument may
 interact with that subsample selection.
 
 Section~\ref{sec:results_robustness} reports the main-spec population
-regression refit on the same 235-district subsample. On that
+regression refit on the same 237-district subsample. On that
 subsample, the IV-Both coefficient on $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ is 0.067 (0.036), with $p=0.062$. This
+\mathrm{MA}^{\mathrm{full}}_i$ is 0.077 (0.036), with $p=0.032$. This
 coefficient is similar in magnitude to the placebo coefficient of
-0.078 reported above. The two readings offered in the preceding
+\placeboCoefIVBoth{} reported above. The two readings offered in the preceding
 paragraph are therefore not distinguishable by this test: the pre-
-reform pattern on the 235 subset is of the same order as the
+reform pattern on the 237 subset is of the same order as the
 post-reform main-spec coefficient on the same subset. We retain the
 main specification on the full sample as the headline estimate and
 report the placebo-subsample result in the robustness panel.
