@@ -122,10 +122,13 @@ geographic rasters.
   `run_step()` (START/END logging) with `verify_outputs()` assertions:
   - **Stage A** Bootstrap (config + setup).
   - **Stage B** Base cleaning, one script per raw source:
-    `code/base/*/clean_*.R` (geo controls, census 1947, census 1960, IPUMS,
-    industrial, agricultural, railroads, roads, hypothetical networks).
+    `code/base/*/clean_*.R` (geo controls, then IPUMS — which produces the
+    district crosswalk the other census scripts merge against — then census
+    1947, census 1960, industrial, agricultural, railroads, roads).
   - **Stage C** Pipeline: `code/pipeline/01_cost_raster.R` →
-    `02_hypothetical_networks.R` → `03a_build_cost_raster.R` →
+    `02_hypothetical_networks.R` → `clean_hypo_networks.R` (district
+    intersection of the hypothetical networks; depends on the previous
+    step's geometries) → `03a_build_cost_raster.R` →
     `03b_transition_grids.R` → `03c_compute_taus(_parallel).R` →
     `04_market_access.R` → `05_build_panel.R` → `06_merge_ma_into_panel.R`.
   - **Stage D** Analysis: `code/analysis/build_estimation_sample.R`, the
