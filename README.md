@@ -19,8 +19,14 @@ using two instruments (Larkin Plan closure rules and hypothetical road
 networks). One master script, `code/main.R`, runs everything: raw data in,
 every table, figure, and in-text number out.
 
-Approximate total runtime: 4 hours on the reference machine (see Computational
+Approximate total runtime: 2 hours on the reference machine (see Computational
 Requirements). The dominant step is the least-cost-path (tau) computation.
+
+Note on repository vs. deposit: the git repository contains **code only**
+(all raw-data formats are gitignored). The data deposit archive contains
+`data/raw/` in full, except the IPUMS microdata (see Data Availability).
+Code license: MIT (see `LICENSE`); data are subject to the per-source
+licenses listed below.
 
 ## Data Availability and Provenance Statements
 
@@ -57,7 +63,7 @@ provenance. Summary:
 | Road networks 1954/1970/1986 (`comparacion_54_70_86.shp`) | `data/raw/networks/` | Yes | Digitized by the project team from Automóvil Club Argentino road maps. `[AUTHORS: confirm redistribution rights for the digitized geometry before deposit]` |
 | Transport cost parameters (Baumgartner and Palazzo 1969, Table II) | `code/config.R` | Yes | Parameter values transcribed from the published article (El Trimestre Económico 36(143)); no raw file needed. |
 | GTOPO30 elevation | `data/raw/geo/` | Yes | Public domain, USGS. DOI: 10.5066/F7DF6PQS |
-| Terrain Ruggedness Index (Nunn–Puga) | `data/raw/geo/tri.tif` | Yes (large) | Free download from [diegopuga.org/data/rugged](https://diegopuga.org/data/rugged/); ~1.5 GB. |
+| Terrain Ruggedness Index (Nunn–Puga) | `data/raw/geo/tri.tif` | Yes (large, 7.5 GB) | Included in the data deposit. Source data are freely available from [diegopuga.org/data/rugged](https://diegopuga.org/data/rugged/) as text, converted to GeoTIFF by the authors outside this pipeline (no conversion script ships; see pre-deposit checklist). If absent, `clean_geo_controls.R` sets ruggedness to NA. |
 | Human Mobility Index (Özak) | `data/raw/geo/HMI.tif` | Yes (large) | Free download from [Zenodo record 14285746](https://zenodo.org/records/14285746); ~2.2 GB. |
 | FAO-GAEZ v3.0 wheat suitability | `data/raw/geo/wheatlo.tif` | Yes | Free download from [gaez.fao.org](https://gaez.fao.org/). |
 | Galor–Özak caloric suitability rasters | `data/raw/geo/` | Yes | Distributed by the authors of Galor and Özak (2016). |
@@ -69,8 +75,10 @@ All data citations appear in the paper's References section
 ## Dataset List
 
 See the table above; per-file inventories (file names, formats, key variables)
-live in the `readme.md` of each `data/raw/` subdirectory. Raw data total
-approximately 11 GB, dominated by the geographic rasters.
+live in the `readme.md` of each `data/raw/` subdirectory (exceptions: the
+`larkin/` and `costs/` readmes are stubs pending completion — see the
+pre-deposit checklist). Raw data total approximately 11 GB, dominated by the
+geographic rasters.
 
 ## Computational Requirements
 
@@ -88,16 +96,22 @@ approximately 11 GB, dominated by the geographic rasters.
 ### Memory, Runtime, Storage
 
 - Last run on: Apple M3 Pro (12 cores), 36 GB RAM, macOS.
-- Runtime: the tau step (`C.3c compute_taus`) is the bottleneck: 52 least-cost
-  path runs totalling 11,611 s (≈3.2 h) serial on the reference machine (per
-  `logs/03c_compute_taus.log`); a parallel variant
-  (`03c_compute_taus_parallel.R`) reduces this with 4 workers. All other
-  steps run in seconds to minutes; end-to-end estimate ≈4 h (estimate, not a
+- Runtime: the tau step (`C.3c`) is the bottleneck. `main.R` runs the
+  parallel implementation (`03c_compute_taus_parallel.R`, 3–4 workers) by
+  default: 27 least-cost-path runs (9 network cases × 3 sectors) took
+  ≈61 minutes wall time in five batches on the reference machine
+  (11,611 s summed across runs; per `logs/03c_compute_taus.log`). A serial
+  backup (`03c_compute_taus.R`) exists and takes ≈3.2 h. All other steps
+  run in seconds to minutes; end-to-end estimate ≈2 h (estimate, not a
   measured single run).
+- The pipeline is deterministic: no random number generation is used
+  (no seeds required).
 - Memory: raster stages (C.3a–C.3c) are the peak; 16 GB RAM recommended
   (estimate; not formally profiled).
-- Storage: ~11 GB raw data + ~3 GB derived (`02_transition_grids` alone is
-  2.4 GB) + <100 MB results.
+- Storage: ~11 GB raw data (of which `tri.tif` is 7.5 GB) + ~3 GB derived
+  (`02_transition_grids` alone is 2.4 GB) + <100 MB results.
+- `renv.lock` pins the 16 directly-used packages; transitive dependencies
+  are resolved by `renv::restore()` at install time.
 
 ## Description of Programs
 
@@ -114,22 +128,28 @@ approximately 11 GB, dominated by the geographic rasters.
     `02_hypothetical_networks.R` → `03a_build_cost_raster.R` →
     `03b_transition_grids.R` → `03c_compute_taus(_parallel).R` →
     `04_market_access.R` → `05_build_panel.R` → `06_merge_ma_into_panel.R`.
-  - **Stage D** Analysis: `code/analysis/build_estimation_sample.R`, then the
-    figure and table scripts listed below, ending with `generate_scalars.R`
-    (writes `results/scalars.tex`, the AutoFill macros for every in-text
-    number).
+  - **Stage D** Analysis: `code/analysis/build_estimation_sample.R`, the
+    figure and table scripts listed below, a heterogeneity diagnostic
+    (`diagnostic_heterogeneity.R`), `generate_scalars.R` (writes
+    `results/scalars.tex`, the AutoFill macros for in-text numbers), and
+    the appendix figure scripts (A1–A3, counterfactual trio) as the final
+    steps.
 - `code/analysis/_iv_helpers.R` — shared IV estimation template
   (OLS / IV-LP / IV-Hypo / IV-Both grid, HC1 SEs).
-- `code/save_data.R` — mandatory save wrapper (key checks + manifest logs).
+- Data saves are validated in each script (key uniqueness checks and
+  summary statistics appended to `data_file_manifest.log`).
 
 ## Instructions to Replicators
 
 1. Install R 4.5.1.
-2. Download/clone the package, preserving the directory structure. Paths are
-   resolved by `here::here()`; no path editing is required.
+2. Download the data deposit archive (the git repository alone contains no
+   raw data), preserving the directory structure. Paths are resolved by
+   `here::here()`; no path editing is required.
 3. Obtain the IPUMS extract (see Data Availability) and place it at
-   `data/raw/census/ipumsi_00007.dta`. Download the two large rasters
-   (`tri.tif`, `HMI.tif`) into `data/raw/geo/` if not included in your copy.
+   `data/raw/census/ipumsi_00007.dta`. If your copy lacks `HMI.tif`,
+   download it from the Zenodo record above into `data/raw/geo/`
+   (`tri.tif` has no direct download in raster form; see its row in the
+   data source table).
 4. Run everything:
    ```bash
    R CMD BATCH --no-save --no-restore code/main.R logs/main.Rout
@@ -202,6 +222,10 @@ GAEZ v3.0; Nunn and Puga (2012); Galor and Özak (2016); Özak (2018).
 - [ ] If deposit slips past 2026: update the IGN access-year fields in
       `references.bib` (currently `year = {2026}`), the accessed dates in
       their notes, and this README together.
+- [ ] Complete the `data/raw/larkin/` and `data/raw/costs/` readmes (file
+      inventories; the costs readme cites a retired Python script).
+- [ ] Ship or document the TRI text-to-GeoTIFF conversion (currently done
+      outside the pipeline), or include `tri.tif` in the deposit as-is.
 - [ ] Delete `results/` and `data/derived/`, rerun `R CMD BATCH code/main.R`,
       and verify all exhibits regenerate and match the manuscript.
 - [ ] Lock final exhibit numbering and update the mapping table above.
