@@ -223,7 +223,29 @@ Pre-deposit (see README's author checklist):
 - [ ] Rights certifications + ACA digitized-geometry redistribution rights.
 - [ ] If deposit slips past 2026: move IGN access-year fields + README dates together.
 - [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat documented in paper.tex preamble).
-- [ ] Clean-machine rerun: delete results/ + data/derived/, R CMD BATCH code/main.R, verify exhibits match manuscript.
+- [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR pending): deleted
+      results/ + data/derived/, ran `R CMD BATCH code/main.R` end to
+      end (~68 min after fixes; the first two attempts crashed the
+      machine / hard-stopped — see below). All 11 regenerated table
+      CSVs byte-identical to main; recompiled PDF's pdftotext output
+      is a zero-line diff against main's committed PDF; zero undefined
+      refs, zero bibtex warnings. Four bugs found and fixed, none
+      reproducible from an incremental (non-empty data/derived/) state:
+      (1) Stage B ran the digitized-census cleaners before ipums,
+      which produces the crosswalk they merge against; (2) seven
+      Stage B verify_outputs named files no cleaner writes (stale
+      files on disk had silently satisfied them); (3)
+      clean_hypo_networks.R was in Stage B but depends on Stage C's
+      hypothetical-network geometries, moved to C.2b; (4) MEMORY:
+      02_hypothetical_networks.R forked 8 gdistance workers for LCP
+      extraction, each holding a multi-GB graph — crashed the 36 GB
+      reference machine; capped at n_cores_heavy=4 (config.R), same
+      cap applied to 03c's parallel tau step. Also found and fixed
+      independently: 03c_compute_taus_parallel.R hard-stopped without
+      CLI args, so main.R could never pass it — now defaults to
+      n_cores_heavy + all missing cases; diagnostic_theta_sweep.R
+      (feeds Section 8.2's sweepBetaThetaOne/Twelve macros) was never
+      wired into main.R at all — added as D.13e.
 - [ ] Lock final exhibit numbering; update README mapping table.
 
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).
