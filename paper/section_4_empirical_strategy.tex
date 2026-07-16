@@ -197,27 +197,6 @@ district area is not. The joint
 specification in
 column~3 yields similar results to the single-instrument columns.
 
-Because both instruments correlate with log district area and it is
-not among the controls, we refit the headline specifications with
-$\log(\text{area})$ added to the control set (the replication
-archive's area-control diagnostic). The estimates move materially:
-the combined-IV population coefficient changes from
-\mainPopCoefIVBoth{} (\mainPopSEIVBoth{}) to $\areaCtlPopCoef{}$
-(\areaCtlPopSE{}), the manufacturing production-value coefficient
-from \mfgValprodCoefIVBoth{} to \areaCtlValprodCoef{}
-(\areaCtlValprodSE{}), and the wage-mass coefficient from
-\mfgWageMassCoefIVBoth{} to \areaCtlMassalCoef{} (\areaCtlMassalSE{},
-$p=\areaCtlMassalP{}$), while the placebo point estimate is
-essentially unchanged at \areaCtlPlaceboCoef{} (\areaCtlPlaceboSE{})
-with a wider standard error. First-stage strength also falls
-(combined-IV $F$ from \firstStageFBoth{} to \areaCtlPopF{} on the
-population specification).
-\placeholder{Whether $\log(\text{area})$ belongs in the main control
-set is a pending coauthor decision (specification change; see
-\texttt{diagnostic\_area\_control} and the deferred ledger). The
-paragraph above reports the sensitivity factually until that decision
-is made.}
-
 \subsubsection{Pre-Trends}
 \label{sec:pre_trends}
 

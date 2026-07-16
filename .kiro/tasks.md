@@ -163,20 +163,29 @@ were already wired into the existing pipeline (Phase 2c of
 ## DEFERRED LEDGER (as of 2026-07-15, post PR #90)
 
 Blocked on Diego (decisions):
-- [ ] LOG-AREA CONTROL (surfaced by PR #95's balance follow-up,
-      2026-07-16): both instruments correlate with log district area
-      (LP p<.001, Hypo p=.008), which is NOT in geo_controls_main.
-      diagnostic_area_control.R (main.R step D.13e) shows adding it is
-      MATERIAL: pop IV-B +0.052 -> -0.013 (p=.73); mfg valprod 0.317 ->
-      0.203 (p=.13); wage mass 0.378 -> 0.264 (p=.05); placebo point
-      estimate unchanged (0.090) with wider SE; F 16.2 -> 12.3.
-      Decision: promote log(area) into geo_controls_main (a #93-style
-      full renumber) or keep as reported sensitivity. Section 4.5
-      reports the sensitivity factually with a red flag meanwhile.
-      Joint with Cote — touches the identification narrative.
+- [x] ~~LOG-AREA CONTROL~~ — DECIDED (Diego, 2026-07-16): log(area) is
+      NOT a control, NOT reported as sensitivity, and NOT discussed in
+      the paper. Rationale: not a good control — conditional on
+      baseline log population (already a control), adding log area is
+      algebraically equivalent to controlling baseline population
+      density (over-control of the initial condition the instruments
+      exploit), and area is mechanically entangled with the MA
+      construction (centroid-to-centroid tau; first-stage F drops
+      16.2 -> 12.3 when added). The diagnostic script, main.R step
+      D.13e, areaCtl macros, and results files were removed. Table 6
+      keeps the log-area balance row and §4.5 keeps the factual
+      statement that it is not among the controls — the paper reports
+      the balance fact and does not chase it. For the record, the
+      removed diagnostic showed: pop IV-B +0.052 -> -0.013 (p=.73,
+      CI contains baseline); mfg valprod 0.317 -> 0.203 (p=.13); wage
+      mass 0.378 -> 0.264 (p=.05); placebo point unchanged.
 - [x] ~~Issue #22 (CF + TdF)~~ — done in PR #93 (option (a), merged).
 
 Blocked on Cote:
+- [ ] Log-area awareness (decision made: excluded entirely, see above):
+      Cote should know the balance-table correlation exists and that a
+      referee may ask; the agreed answer is the density/over-control +
+      mechanical-entanglement rationale, not a sensitivity table.
 - [ ] Abstract wording sign-off (red flag in PDF). Post-#93 framing pass
       (PR pending) recharacterizes population as "small, marginally
       significant" — needs explicit sign-off alongside the abstract.
