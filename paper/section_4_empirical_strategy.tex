@@ -171,23 +171,30 @@ alone (column~2), and both instruments jointly (column~3). Standard
 errors are heteroskedasticity-robust.
 
 The Larkin Plan instrument is uncorrelated with baseline log
-population (column~1 coefficient $-0.006$, $p=0.78$) and baseline
-urban share ($0.012$, $p=0.02$, marginal). It shows residual
-correlations with the six standardized geographic controls: wheat
-suitability ($-0.047$, $p<0.001$), pre-1500 caloric potential
-($-0.008$, $p=0.004$), post-1500 caloric potential ($0.007$,
-$p=0.003$), distance to Buenos Aires ($-0.042$, $p<0.001$), and log
-district area ($-0.144$, $p<0.001$). These correlations are small in
-magnitude but statistically detectable. Because these same
-characteristics are controls in the main specification, the residual
+population (column~1 coefficient $\balLPPopCoef{}$, $p\balLPPopP{}$).
+It shows residual
+correlations with baseline urban share ($\balLPUrbshrCoef{}$,
+$p\balLPUrbshrP{}$), wheat
+suitability ($\balLPWheatCoef{}$, $p\balLPWheatP{}$), pre-1500 caloric potential
+($\balLPPreCalCoef{}$, $p\balLPPreCalP{}$), post-1500 caloric potential ($\balLPPostCalCoef{}$,
+$p\balLPPostCalP{}$), distance to Buenos Aires ($\balLPDistBACoef{}$, $p\balLPDistBAP{}$), and log
+district area ($\balLPAreaCoef{}$, $p\balLPAreaP{}$). These correlations are small in
+magnitude but statistically detectable. Wheat suitability, the two
+caloric potentials, and distance to Buenos Aires are controls in the
+main specification, so their residual
 correlations shift from exclusion-restriction threats to a
 conditional-independence requirement: the Larkin Plan instrument must
 be uncorrelated with the outcome \emph{conditional on} these
-geographic controls.
+geographic controls. Baseline urban share and log district area are
+not among the controls.
 
-The hypothetical-road instrument is uncorrelated with all nine
-baseline characteristics at conventional significance levels: none of
-the column~2 coefficients has $p<0.05$. The joint specification in
+The hypothetical-road instrument shows imbalance at the five-percent
+level for \balHypoNImbalanced{} of the nine baseline characteristics
+(baseline log population and log district area); the remaining
+column~2 coefficients show no correlation at conventional levels.
+Baseline log population is a control in the main specification; log
+district area is not. The joint
+specification in
 column~3 yields similar results to the single-instrument columns.
 
 \subsubsection{Pre-Trends}
@@ -203,20 +210,20 @@ orthogonal to pre-period district-level dynamics, the coefficient on
 post-reform $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ in this
 placebo regression should be near zero.
 
-The sample is 237 districts --- the subset for which the 1947 census
+The sample is \placeboNIVBoth{} districts --- the subset for which the 1947 census
 provides comparable population counts under IPUMS geolev2
 boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
 match the structure of Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
 
-The OLS coefficient is 0.039 (0.017), significant at the five-percent
-level. The IV-LP estimate is 0.074 (0.050), the IV-Hypo estimate is
-0.192 (0.241), and the combined IV estimate is 0.087 (0.041),
+The OLS coefficient is \placeboOLSCoef{} (\placeboOLSSE{}), significant at the five-percent
+level. The IV-LP estimate is \placeboIVLPCoef{} (\placeboIVLPSE{}), the IV-Hypo estimate is
+\placeboIVHCoef{} (\placeboIVHSE{}), and the combined IV estimate is \placeboCoefIVBoth{} (\placeboSEIVBoth{}),
 significant at the five-percent level. The first-stage $F$ for the
-IV-Hypo column on this sample of 237 districts is 1.72, below
+IV-Hypo column on this sample of \placeboNIVBoth{} districts is \placeboFHypo{}, below
 conventional weak-instrument thresholds; the IV-Hypo column is
 therefore not interpretable in this specification. The first-stage
-$F$ for IV-LP is 19.83 and for IV-Both is 11.84.
+$F$ for IV-LP is \placeboFLP{} and for IV-Both is \placeboFBoth{}.
 
 The OLS and IV-Both point estimates for the placebo outcome are
 non-zero and statistically significant at the five-percent level. Two readings are
@@ -225,19 +232,19 @@ pre-existing trend correlated with the eventual infrastructure
 changes of 1960--1986: districts that were growing fastest in
 1947--1960 may have been more likely to gain (or lose) market access
 in the later period. Second, the placebo outcome is defined on a
-subsample ($N=237$) that is non-random with respect to the full
-estimation sample ($N=311$), and the correlations documented in
+subsample ($N=\placeboNIVBoth{}$) that is non-random with respect to the full
+estimation sample ($N=\mainPopNIVBoth{}$), and the correlations documented in
 Section~\ref{sec:pre_balance} for the Larkin Plan instrument may
 interact with that subsample selection.
 
 Section~\ref{sec:results_robustness} reports the main-spec population
-regression refit on the same 237-district subsample. On that
+regression refit on the same \placeboNIVBoth{}-district subsample. On that
 subsample, the IV-Both coefficient on $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ is 0.077 (0.036), with $p=0.032$. This
+\mathrm{MA}^{\mathrm{full}}_i$ is \subIVBCoef{} (\subIVBSE{}), with $p=\subIVBP{}$. This
 coefficient is similar in magnitude to the placebo coefficient of
 \placeboCoefIVBoth{} reported above. The two readings offered in the preceding
 paragraph are therefore not distinguishable by this test: the pre-
-reform pattern on the 237 subset is of the same order as the
+reform pattern on the \placeboNIVBoth{} subset is of the same order as the
 post-reform main-spec coefficient on the same subset. We retain the
 main specification on the full sample as the headline estimate and
 report the placebo-subsample result in the robustness panel.

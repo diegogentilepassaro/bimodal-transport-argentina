@@ -79,8 +79,8 @@ simultaneous road expansion may have cushioned the population
 response to rail-driven access losses. We state it as a hypothesis.
 
 What does move the level is the trade elasticity $\theta$: the
-population coefficient ranges from roughly 0.37 at $\theta = 1$ to
-0.01 at $\theta = 12$, and our main value $\theta = 4.55$ sits in
+population coefficient ranges from roughly \sweepBetaThetaOne{} at $\theta = 1$ to
+\sweepBetaThetaTwelve{} at $\theta = 12$, and our main value $\theta = \thetaLow{}$ sits in
 the interior of that range. The comparison with the literature is
 therefore partly a comparison of calibrations, and we treat the
 level of the population elasticity as provisional on that choice.
@@ -124,7 +124,7 @@ Four limitations qualify the results. First, the pre-trends placebo
 is not a clean null: post-reform market-access changes predict
 1947--1960 population growth at the five-percent level in the OLS
 and combined-IV specifications on the
-237-district placebo subsample
+\placeboNIVBoth{}-district placebo subsample
 (Table~\ref{tab:pre_trends}), and spatial standard errors do not
 soften that rejection. The placebo subsample differs
 from the full sample, so selection and pre-trend explanations cannot

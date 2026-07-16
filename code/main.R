@@ -352,7 +352,6 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
         makelog)
-
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),

@@ -19,8 +19,10 @@
 %   5.5 Robustness       (pending Table 12: alternative theta, alternative
 %                        hypo instruments, subsample stability)
 %
-% Numbers inline for now; moved to scalars.tex AutoFill macros once the
-% analysis pipeline stabilizes.
+% All regression numbers in this section are AutoFill macros from
+% results/scalars.tex (paper-wide pass after issue #22). Significance
+% WORDS ("five-percent level") remain prose and need a manual check
+% when numbers move.
 %
 % CITATION KEYS: none new beyond Sections 1-4.
 % ===========================================================================
@@ -40,13 +42,13 @@ jointly. All columns include baseline log market access, baseline log
 population, and the six standardized geographic controls. Standard
 errors are heteroskedasticity-robust.
 
-The Larkin Plan instrument has a coefficient of 0.253 with a robust
-standard error of 0.053 in column~(1). The corresponding first-stage
+The Larkin Plan instrument has a coefficient of \fsLPCoef{} with a robust
+standard error of \fsLPSE{} in column~(1). The corresponding first-stage
 $F$ statistic is \firstStageFLP{}. The hypothetical-road instrument has a
-coefficient of 0.144 (0.070) in column~(2), with a first-stage $F$ of
+coefficient of \fsHypoCoef{} (\fsHypoSE{}) in column~(2), with a first-stage $F$ of
 \firstStageFHypo{}. In the joint specification in column~(3), both instruments
-retain predictive power: the Larkin Plan coefficient is 0.266 (0.054)
-and the hypothetical-road coefficient is 0.164 (0.063); the joint $F$
+retain predictive power: the Larkin Plan coefficient is \fsJointLPCoef{} (\fsJointLPSE{})
+and the hypothetical-road coefficient is \fsJointHypoCoef{} (\fsJointHypoSE{}); the joint $F$
 is \firstStageFBoth{}.
 
 The Larkin Plan instrument alone exceeds the Stock--Yogo rule-of-thumb
@@ -69,28 +71,28 @@ hypothetical-road instrument in column~(3), and both instruments in
 column~(4).
 
 For total population (Panel~A), the OLS coefficient on $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ is 0.025 (0.012), significant at the
-five-percent level. The IV-LP estimate is 0.046 (0.040), the IV-Hypo
-estimate is 0.069 (0.068), and the combined IV estimate is
+\mathrm{MA}^{\mathrm{full}}_i$ is \popOLSCoef{} (\popOLSSE{}), significant at the
+five-percent level. The IV-LP estimate is \popIVLPCoef{} (\popIVLPSE{}), the IV-Hypo
+estimate is \popIVHCoef{} (\popIVHSE{}), and the combined IV estimate is
 \mainPopCoefIVBoth{} (\mainPopSEIVBoth{}). The sample is
-\mainPopNIVBoth{} districts: the 312 mainland districts less Capital
+\mainPopNIVBoth{} districts: the \nDistricts{} mainland districts less Capital
 Federal, which is excluded as an observation
 (Section~\ref{sec:data}).
 
-For urban population (Panel~B), the OLS coefficient is 0.031 (0.013),
-significant at the five-percent level. The IV-LP estimate is 0.064
-(0.045), the IV-Hypo estimate is 0.056 (0.100), and the combined IV
-estimate is 0.063 (0.038). The sample is 286 districts, reflecting
+For urban population (Panel~B), the OLS coefficient is \urbOLSCoef{} (\urbOLSSE{}),
+significant at the five-percent level. The IV-LP estimate is \urbIVLPCoef{}
+(\urbIVLPSE{}), the IV-Hypo estimate is \urbIVHCoef{} (\urbIVHSE{}), and the combined IV
+estimate is \urbIVBCoef{} (\urbIVBSE{}). The sample is \urbN{} districts, reflecting
 districts with positive urban population in both census years.
 
-For rural population (Panel~C), the OLS coefficient is 0.033 (0.025).
-The IV-LP estimate is 0.110 (0.106), the IV-Hypo estimate is 0.127
-(0.170), and the combined IV estimate is 0.116 (0.087). The sample is
-272 districts.
+For rural population (Panel~C), the OLS coefficient is \rurOLSCoef{} (\rurOLSSE{}).
+The IV-LP estimate is \rurIVLPCoef{} (\rurIVLPSE{}), the IV-Hypo estimate is \rurIVHCoef{}
+(\rurIVHSE{}), and the combined IV estimate is \rurIVBCoef{} (\rurIVBSE{}). The sample is
+\rurN{} districts.
 
 For the urban share (Panel~D), all four estimates are close to zero
-and statistically indistinguishable from zero (OLS: 0.001 (0.005);
-IV-Both: $-0.005$ (0.016)). A one-unit increase in $\Delta \ln
+and statistically indistinguishable from zero (OLS: \urbshrOLSCoef{} (\urbshrOLSSE{});
+IV-Both: $\urbshrIVBCoef{}$ (\urbshrIVBSE{})). A one-unit increase in $\Delta \ln
 \mathrm{MA}^{\mathrm{full}}_i$ corresponds to a change in the urban
 share of less than one percentage point.
 
@@ -124,30 +126,30 @@ agricultural outcomes from the 1960 and 1988 agricultural censuses:
 the log change in the number of farms and in the total farmed area.
 Column structure matches Table~\ref{tab:population_iv}.
 
-For manufacturing establishments, the OLS estimate is 0.029 (0.018)
-and the combined IV estimate is 0.067 (0.060). Neither is
+For manufacturing establishments, the OLS estimate is \estabOLSCoef{} (\estabOLSSE{})
+and the combined IV estimate is \estabIVBCoef{} (\estabIVBSE{}). Neither is
 statistically distinguishable from zero.
 
-For manufacturing production value, the OLS estimate is 0.086
-(0.040), significant at the five-percent level. The IV-LP estimate is
-0.269 (0.136), significant at the
+For manufacturing production value, the OLS estimate is \valprodOLSCoef{}
+(\valprodOLSSE{}), significant at the five-percent level. The IV-LP estimate is
+\valprodIVLPCoef{} (\valprodIVLPSE{}), significant at the
 five-percent level. The combined IV estimate is \mfgValprodCoefIVBoth{}
 (\mfgValprodSEIVBoth{}),
-significant at the one-percent level. The sample is 310 districts.
+significant at the one-percent level. The sample is \valprodN{} districts.
 
-For manufacturing wage mass, the OLS estimate is 0.116 (0.038),
-significant at the one-percent level. The IV-LP estimate is 0.283
-(0.141), significant at the five-percent level. The combined IV
+For manufacturing wage mass, the OLS estimate is \massalOLSCoef{} (\massalOLSSE{}),
+significant at the one-percent level. The IV-LP estimate is \massalIVLPCoef{}
+(\massalIVLPSE{}), significant at the five-percent level. The combined IV
 estimate is \mfgWageMassCoefIVBoth{} (\mfgWageMassSEIVBoth{}),
 significant at the one-percent level.
-The sample is 309 districts.
+The sample is \massalN{} districts.
 
 For the number of agricultural farms (Panel~B), the OLS estimate is
-$-0.010$ (0.012). The combined IV estimate is 0.096 (0.078).
+$\farmsOLSCoef{}$ (\farmsOLSSE{}). The combined IV estimate is \farmsIVBCoef{} (\farmsIVBSE{}).
 Neither is statistically distinguishable from zero.
 
-For total agricultural farmed area, the OLS estimate is $-0.001$
-(0.018). The combined IV estimate is 0.102 (0.077). Neither is
+For total agricultural farmed area, the OLS estimate is $\areaOLSCoef{}$
+(\areaOLSSE{}). The combined IV estimate is \areaIVBCoef{} (\areaIVBSE{}). Neither is
 statistically distinguishable from zero.
 
 The estimates differ substantially across the two panels. The
@@ -191,21 +193,21 @@ computed over 1960--1986; infrastructure restructuring predates the
 Table~\ref{tab:population_iv}.
 
 For the college share, all four estimates are statistically
-indistinguishable from zero, with point estimates between $-0.002$
-and $0.001$. For the secondary share, the OLS and combined-IV
-point estimates are 0.000 and 0.002; the IV-LP estimate alone is 0.006
-($p=0.007$).
+indistinguishable from zero, with point estimates between $\collegeMin{}$
+and $\collegeMax{}$. For the secondary share, the OLS and combined-IV
+point estimates are \secondaryOLSCoef{} and \secondaryIVBCoef{}; the IV-LP estimate alone is \secondaryIVLPCoef{}
+($p=\secondaryIVLPP{}$).
 
-For the recent-migration share, the OLS estimate is $-0.008$ (0.002),
+For the recent-migration share, the OLS estimate is $\migrationOLSCoef{}$ (\migrationOLSSE{}),
 significant at the one-percent level. The combined IV estimate is
 \migrationCoefIVBoth{} (\migrationSEIVBoth{}), significant at the
 one-percent level. The sample
-is 311 districts. A one-unit increase in $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a 0.022 decrease in the
+is \mainPopNIVBoth{} districts. A one-unit increase in $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a \migrationCoefAbs{} decrease in the
 share of residents reporting recent migration.
 
-For the employment rate, the OLS estimate is $-0.001$ (0.002) and the
-combined IV estimate is $-0.011$ (0.005), significant at
+For the employment rate, the OLS estimate is $\employmentOLSCoef{}$ (\employmentOLSSE{}) and the
+combined IV estimate is $\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at
 the five-percent level.
 
 The direction of the recent-migration coefficient runs opposite to a
@@ -238,13 +240,13 @@ Table~\ref{tab:population_iv}): the coefficient on $\Delta \ln
 IV specification on the full 311-district sample.
 
 \paragraph{Panel A --- alternative trade elasticity.}
-The main specification sets the trade elasticity $\theta = 4.55$.
-Panel~A reports the same four specifications with $\theta = 8.11$,
+The main specification sets the trade elasticity $\theta = \thetaLow{}$.
+Panel~A reports the same four specifications with $\theta = \thetaHigh{}$,
 which corresponds to a higher-elasticity calibration in the
 market-access literature. All MA variables, including the
 treatment, the two instruments, and the baseline log-MA control,
-switch to the $\theta = 8.11$ variant. The combined IV coefficient
-is 0.024 (0.016). The coefficient is approximately half the
+switch to the $\theta = \thetaHigh{}$ variant. The combined IV coefficient
+is \thetaHighIVBCoef{} (\thetaHighIVBSE{}). The coefficient is approximately half the
 main-specification value. The direction of the effect is unchanged,
 and no coefficient flips sign.
 
@@ -253,29 +255,29 @@ The main specification uses the least-cost-path minimum spanning
 tree as the hypothetical-road instrument. Panel~B reports results
 using three alternative hypothetical networks: the Euclidean
 minimum spanning tree, the full bilateral least-cost path network,
-and the full bilateral Euclidean network. Holding $\theta$ at 4.55,
+and the full bilateral Euclidean network. Holding $\theta$ at \thetaLow{},
 the combined-IV coefficient on $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$
-ranges from 0.027 to 0.070 across the four choices. Individual
+ranges from \hypoAltIVBMin{} to \hypoAltIVBMax{} across the four choices. Individual
 IV-Hypo columns show wide variation; the large point estimates and
 standard errors in that column reflect weak-instrument noise in
 some of the alternative networks and are not interpretable in
 isolation. The combined-IV column is more stable.
 
 \paragraph{Panel C --- sample robustness.}
-Panel~C refits the main specification on the 237-district subsample
+Panel~C refits the main specification on the \placeboNIVBoth{}-district subsample
 for which the 1947 placebo outcome is defined, as reported in
 Section~\ref{sec:pre_trends}. On this subsample, the OLS coefficient
-is 0.032 (0.013), significant at the five-percent level, and the
-combined IV coefficient is 0.077 (0.036), significant at the
+is \subOLSCoef{} (\subOLSSE{}), significant at the five-percent level, and the
+combined IV coefficient is \subIVBCoef{} (\subIVBSE{}), significant at the
 five-percent level. Both estimates are larger than their
 full-sample counterparts.
 
 The Panel~C estimate bears on the interpretation of
 Section~\ref{sec:pre_trends}. The placebo coefficient on the
 1947--1960 population change was \placeboCoefIVBoth{} on the same
-237-district
+\placeboNIVBoth{}-district
 subsample. The main-specification coefficient on the 1960--1991
-population change on the same subsample is 0.077. The pre-reform
+population change on the same subsample is \subIVBCoef{}. The pre-reform
 coefficient and the post-reform coefficient are of the same order
 of magnitude on the common sample. This co-movement is consistent
 with both candidate readings offered in Section~\ref{sec:pre_trends}

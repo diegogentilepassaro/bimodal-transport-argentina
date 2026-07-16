@@ -45,7 +45,7 @@ $\Delta \ln \mathrm{MA}^{\text{only-road}}_i$,
 combines the road network of 1986 with the rail network frozen at its
 1960 configuration; it isolates the consequences of the road
 expansion. Both measures use the same trade elasticity
-($\theta = 4.55$), the same destination populations, and the same
+($\theta = \thetaLow{}$), the same destination populations, and the same
 navigation layer as the full measure, so differences across the three
 measures reflect only the network configuration.
 
@@ -89,17 +89,17 @@ three point estimates are of similar magnitude; none is statistically
 distinguishable from zero at conventional levels, and none is
 distinguishable from the others. What differs sharply across panels is
 identification strength: the Larkin Plan instrument predicts
-rail-driven market access far more strongly ($F$ between 70.6 and
-122.3 across outcomes) than either instrument predicts its respective
+rail-driven market access far more strongly ($F$ between \cfRailFMin{} and
+\cfRailFMax{} across outcomes) than either instrument predicts its respective
 measure in the other panels.
 
 The urban and rural decomposition shows the same pattern. Rail-only
-estimates are 0.048 (0.035) for urban and 0.080 (0.083) for rural
-population; only-road estimates are 0.035 (0.060) and 0.104 (0.136).
+estimates are \cfRailUrbCoef{} (\cfRailUrbSE{}) for urban and \cfRailRurCoef{} (\cfRailRurSE{}) for rural
+population; only-road estimates are \cfRoadUrbCoef{} (\cfRoadUrbSE{}) and \cfRoadRurCoef{} (\cfRoadRurSE{}).
 The urban-share estimates are near zero in all three panels, as in
 Table~\ref{tab:population_iv}. OLS estimates differ across panels: the
-only-rail OLS coefficient is $-0.003$ (0.019), while IV moves it to
-0.036, a pattern consistent with rail lines having been closed in
+only-rail OLS coefficient is $\cfRailOLSPopCoef{}$ (\cfRailOLSPopSE{}), while IV moves it to
+\cfRailCoefIVPop{}, a pattern consistent with rail lines having been closed in
 districts that were already declining.
 
 \subsection{Interpretation and Caveats}
@@ -120,8 +120,8 @@ Second, the exclusion restrictions are inherited from
 Section~\ref{sec:identification} and are not separately testable here. The
 Larkin Plan instrument is excludable for the only-rail measure under
 the same conditions as for the full measure. For the only-road
-measure, the hypothetical-network instrument's first-stage $F$ of 13.2
-for total population falls to 9.1 for urban population, so the
+measure, the hypothetical-network instrument's first-stage $F$ of \cfRoadFIVPop{}
+for total population falls to \cfRoadFUrb{} for urban population, so the
 only-road panel is less precisely identified throughout.
 
 Third, differences in precision across panels reflect the instruments,

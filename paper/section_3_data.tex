@@ -17,9 +17,11 @@
 % panel's manifest; those marked "FROM NETWORK" come from
 % rails_by_district.parquet or roads_by_district.parquet.
 %
-% Eventually these should be replaced with \input{results/scalars.tex}
-% AutoFill macros. For now they are inline for readability in the first
-% draft.
+% Panel-derived statistics (population means/totals, MA distribution,
+% counterfactual component means, 1947 coverage) are AutoFill macros
+% from results/scalars.tex. Network-geometry numbers (km totals, segment
+% counts) remain inline: they derive from stable raw shapefiles, not
+% from the estimation pipeline.
 % ===========================================================================
 
 \section{Data}
@@ -139,12 +141,12 @@ the analysis to avoid type-coercion bugs on leading zeros.
 Population in 1960 comes from the digitised \emph{Censo Nacional de
 Población 1960} tables \citep{censo1960pop}, reconciled to the IPUMS district geography
 through a crosswalk that handles pre-1960 splits and name changes. The
-mean 1960 district population is 52{,}965 with a national total of
-16.5~million. Population in 1991 comes from the IPUMS microdata
+mean 1960 district population is \popMeanBase{} with a national total of
+\popTotalBase{}~million. Population in 1991 comes from the IPUMS microdata
 aggregated to \texttt{geolev2}; the mean 1991 district population is
-114{,}723 with a national total of 35.8~million. Log population change
-$\Delta\log(\mathrm{pop}_{91/60})$ has mean $+1.02$ and standard deviation
-$0.54$. Capital Federal and the two Tierra~del~Fuego districts are
+\popMeanEnd{} with a national total of \popTotalEnd{}~million. Log population change
+$\Delta\log(\mathrm{pop}_{91/60})$ has mean $\chgLogPopMean{}$ and standard deviation
+$\chgLogPopSD{}$. Capital Federal and the two Tierra~del~Fuego districts are
 covered by both census years; Capital Federal contributes to the
 market-access population weights defined in Section~\ref{ssec:ma} but
 is excluded from the estimation sample as an observation
@@ -161,7 +163,7 @@ us the post-reform window with consistent urban/rural classification.
 \paragraph{Pre-reform placebo.}
 We supplement the baseline with the 1947 national census
 \citep{censo1947}, which covers
-243 of the 312 districts. A log population change
+\placeboCoverage{} of the \nDistricts{} districts. A log population change
 $\Delta\log(\mathrm{pop}_{60/47})$ for this subsample serves as a placebo
 outcome: it measures population growth before any of the 1960--1986
 network changes, and should be uncorrelated with the instruments if the
@@ -315,8 +317,8 @@ main networks (actual~1960, actual~1986, \texttt{stu} instrument,
 The elasticity $\theta$ controls how sharply distant destinations are
 discounted in the MA sum. We follow the applied-trade literature
 (\citealt{donaldsonhornbeck2016}; \citealt{eatonkortum2002}) and report
-two values, $\theta_{\mathrm{low}} = 4.55$ and $\theta_{\mathrm{high}} =
-8.11$. Main results use $\theta_{\mathrm{low}}$; $\theta_{\mathrm{high}}$
+two values, $\theta_{\mathrm{low}} = \thetaLow{}$ and $\theta_{\mathrm{high}} =
+\thetaHigh{}$. Main results use $\theta_{\mathrm{low}}$; $\theta_{\mathrm{high}}$
 appears in the sensitivity tables. [PLACEHOLDER: confirm citations and
 whether to add a literature-review paragraph here per the
 \texttt{.kiro/tasks.md} pending-decision item.]
@@ -326,8 +328,8 @@ The main treatment variable is
 $\Delta\log\mathrm{MA}_i \equiv \log\mathrm{MA}_{i,1986,s=0,\theta_{\mathrm{low}}}
   - \log\mathrm{MA}_{i,1960,s=0,\theta_{\mathrm{low}}}$.
 Across the 312~districts,
-$\Delta\log\mathrm{MA}_i$ has mean $+1.51$, standard deviation $2.45$,
-minimum $-7.59$ and maximum $+9.53$; 91\% of districts see a positive
+$\Delta\log\mathrm{MA}_i$ has mean $\maMean{}$, standard deviation $\maSD{}$,
+minimum $-\maMin{}$ and maximum $\maMax{}$; \maSharePos{}\% of districts see a positive
 change. Figure~\ref{fig:ma_choropleth} maps $\Delta\log\mathrm{MA}_i$
 across districts.
 
@@ -342,11 +344,11 @@ one network mode at its baseline while letting the other change:
   $\Delta\log\mathrm{MA}^{\text{only-road}}_i$ defined analogously.
 \end{itemize}
 At sector~0 and $\theta_{\mathrm{low}}$, $\Delta\log\mathrm{MA}^{\text{only-rail}}$
-has mean $-0.39$ (rail contraction is a small market-access loss) and
-$\Delta\log\mathrm{MA}^{\text{only-road}}$ has mean $+1.69$ (road
+has mean $-\cfRailMean{}$ (rail contraction is a small market-access loss) and
+$\Delta\log\mathrm{MA}^{\text{only-road}}$ has mean $\cfRoadMean{}$ (road
 expansion is a large gain). The sum of the two isolated components
-($+1.30$) is slightly below the total
-$\Delta\log\mathrm{MA} = +1.51$, reflecting a positive complementarity
+($\cfSumComponents{}$) is slightly below the total
+$\Delta\log\mathrm{MA} = \maMean{}$, reflecting a positive complementarity
 between the two network shocks. Figure~\ref{fig:ma_counterfactual}
 compares the three maps side by side.
 

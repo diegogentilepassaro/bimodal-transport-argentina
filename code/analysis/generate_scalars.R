@@ -24,6 +24,8 @@
 # READS:
 #   results/tables/table_{6,7,8,9,10,11,12,13,14}_*.csv
 #   results/tables/diagnostic_heterogeneity.csv
+#   data/derived/05_panel/departments_wide_panel.parquet   (Section 3 stats)
+#   data/derived/base/census_1947/census_1947_ipums.parquet (coverage count)
 #
 # PRODUCES:
 #   results/scalars.tex
@@ -56,7 +58,8 @@ main <- function() {
                    "table_12_robustness",
                    "table_13_counterfactual",
                    "table_14_mechanisms",
-                   "diagnostic_heterogeneity")) {
+                   "diagnostic_heterogeneity",
+                   "diagnostic_theta_sweep")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
             warning(sprintf("Missing: %s — scalars depending on this will be NA",
@@ -115,16 +118,9 @@ main <- function() {
             macros[["mainPopCoefIVBothP"]]    <- sprintf("%.3f", r$p_value)
             macros[["mainPopNIVBoth"]]        <- as.character(r$n_obs)
         }
-        r <- subset(t9, outcome == "chg_log_urbpop_91_60" & spec == "IV-B")
-        if (nrow(r) == 1L) {
-            macros[["mainUrbPopCoefIVBoth"]]  <- sprintf("%.3f", r$estimate)
-            macros[["mainUrbPopSEIVBoth"]]    <- sprintf("%.3f", r$std_err)
-        }
-        r <- subset(t9, outcome == "chg_log_rur_91_60" & spec == "IV-B")
-        if (nrow(r) == 1L) {
-            macros[["mainRurPopCoefIVBoth"]]  <- sprintf("%.3f", r$estimate)
-            macros[["mainRurPopSEIVBoth"]]    <- sprintf("%.3f", r$std_err)
-        }
+        # (urban/rural IV-B macros live in add_prose_table_macros as
+        # urbIVB*/rurIVB*; the old mainUrbPop*/mainRurPop* names were
+        # orphaned by the PR #94 framing pass and are removed.)
     }
 
     # Table 10: manufacturing wage mass and production value
@@ -193,7 +189,6 @@ main <- function() {
         if (nrow(r) == 1L) {
             macros[["mechAllZCoef"]]      <- sprintf("%.3f", r$ma_est)
             macros[["mechAllZSE"]]        <- sprintf("%.3f", r$ma_se)
-            macros[["mechAllZF"]]         <- sprintf("%.1f", r$ma_F)
             macros[["mechRailKmCoef"]]    <- sprintf("%.4f", r$chg_rail_est)
             macros[["mechRailKmSE"]]      <- sprintf("%.4f", r$chg_rail_se)
             macros[["mechLostRailCoef"]]  <- sprintf("%.3f", r$lost_rail_est)
@@ -252,6 +247,11 @@ main <- function() {
     macros[["thetaLow"]]   <- "4.55"
     macros[["thetaHigh"]]  <- "8.11"
 
+    # AutoFill pass (post issue #22): every remaining prose-quoted
+    # regression number and panel statistic.
+    macros <- add_prose_table_macros(macros, tab)
+    macros <- add_panel_macros(macros)
+
     # ---- Write scalars.tex ----------------------------------------------
     out_path <- file.path(dir_results, "scalars.tex")
 
@@ -287,6 +287,301 @@ main <- function() {
     for (nm in sort(names(macros))) {
         message(sprintf("  \\%-30s = %s", nm, macros[[nm]]))
     }
+}
+
+# ---------------------------------------------------------------------------
+# AutoFill pass: every remaining regression number quoted in Sections 4-8
+# prose. Grouped by source table. Naming: camelCase, letters only.
+# ---------------------------------------------------------------------------
+add_prose_table_macros <- function(macros, tab) {
+
+    f3 <- function(x) sprintf("%.3f", x)
+    f2 <- function(x) sprintf("%.2f", x)
+    f1 <- function(x) sprintf("%.1f", x)
+
+    # Pull exactly one row from a long-format table CSV. NA-safe:
+    # an NA in a filter column never matches.
+    row1 <- function(df, ...) {
+        conds <- list(...)
+        keep <- rep(TRUE, nrow(df))
+        for (col in names(conds)) {
+            keep <- keep & !is.na(df[[col]]) & df[[col]] == conds[[col]]
+        }
+        r <- df[keep, ]
+        stopifnot(nrow(r) == 1L)
+        r
+    }
+
+    # -- Table 8 (Section 5.1): first-stage coefficients ---------------------
+    t8 <- tab[["table_8_first_stage"]]
+    if (!is.null(t8)) {
+        r <- row1(t8, spec = "LP only", variable = "chg_logMA_stu_s0_elow")
+        macros[["fsLPCoef"]] <- f3(r$estimate)
+        macros[["fsLPSE"]]   <- f3(r$std_err)
+        r <- row1(t8, spec = "Hypo only", variable = "chg_logMA_lcp_mst_s0_elow")
+        macros[["fsHypoCoef"]] <- f3(r$estimate)
+        macros[["fsHypoSE"]]   <- f3(r$std_err)
+        r <- row1(t8, spec = "Both", variable = "chg_logMA_stu_s0_elow")
+        macros[["fsJointLPCoef"]] <- f3(r$estimate)
+        macros[["fsJointLPSE"]]   <- f3(r$std_err)
+        r <- row1(t8, spec = "Both", variable = "chg_logMA_lcp_mst_s0_elow")
+        macros[["fsJointHypoCoef"]] <- f3(r$estimate)
+        macros[["fsJointHypoSE"]]   <- f3(r$std_err)
+    }
+
+    # -- Table 9 (Section 5.2): population panels ----------------------------
+    t9 <- tab[["table_9_population_iv"]]
+    if (!is.null(t9)) {
+        for (g in list(
+                c("chg_log_pop_91_60", "OLS",   "popOLS"),
+                c("chg_log_pop_91_60", "IV-LP", "popIVLP"),
+                c("chg_log_pop_91_60", "IV-H",  "popIVH"),
+                c("chg_log_urbpop_91_60", "OLS",   "urbOLS"),
+                c("chg_log_urbpop_91_60", "IV-LP", "urbIVLP"),
+                c("chg_log_urbpop_91_60", "IV-H",  "urbIVH"),
+                c("chg_log_urbpop_91_60", "IV-B",  "urbIVB"),
+                c("chg_log_rur_91_60", "OLS",   "rurOLS"),
+                c("chg_log_rur_91_60", "IV-LP", "rurIVLP"),
+                c("chg_log_rur_91_60", "IV-H",  "rurIVH"),
+                c("chg_log_rur_91_60", "IV-B",  "rurIVB"),
+                c("chg_urbshr_91_60", "OLS",  "urbshrOLS"),
+                c("chg_urbshr_91_60", "IV-B", "urbshrIVB"))) {
+            r <- row1(t9, outcome = g[1], spec = g[2])
+            macros[[paste0(g[3], "Coef")]] <- f3(r$estimate)
+            macros[[paste0(g[3], "SE")]]   <- f3(r$std_err)
+        }
+        macros[["urbN"]] <- as.character(
+            row1(t9, outcome = "chg_log_urbpop_91_60", spec = "IV-B")$n_obs)
+        macros[["rurN"]] <- as.character(
+            row1(t9, outcome = "chg_log_rur_91_60", spec = "IV-B")$n_obs)
+    }
+
+    # -- Table 10 (Section 5.3): sectoral ------------------------------------
+    t10 <- tab[["table_10_sectoral_iv"]]
+    if (!is.null(t10)) {
+        for (g in list(
+                c("chg_log_nestab_85_54", "OLS",  "estabOLS"),
+                c("chg_log_nestab_85_54", "IV-B", "estabIVB"),
+                c("chg_log_valprod_85_54", "OLS",   "valprodOLS"),
+                c("chg_log_valprod_85_54", "IV-LP", "valprodIVLP"),
+                c("chg_log_massal_85_54", "OLS",   "massalOLS"),
+                c("chg_log_massal_85_54", "IV-LP", "massalIVLP"),
+                c("chg_log_nexp_88_60", "OLS",  "farmsOLS"),
+                c("chg_log_nexp_88_60", "IV-B", "farmsIVB"),
+                c("chg_log_areatot_ha_88_60", "OLS",  "areaOLS"),
+                c("chg_log_areatot_ha_88_60", "IV-B", "areaIVB"))) {
+            r <- row1(t10, outcome = g[1], spec = g[2])
+            macros[[paste0(g[3], "Coef")]] <- f3(r$estimate)
+            macros[[paste0(g[3], "SE")]]   <- f3(r$std_err)
+        }
+        macros[["valprodN"]] <- as.character(
+            row1(t10, outcome = "chg_log_valprod_85_54", spec = "IV-B")$n_obs)
+        macros[["massalN"]] <- as.character(
+            row1(t10, outcome = "chg_log_massal_85_54", spec = "IV-B")$n_obs)
+    }
+
+    # -- Table 11 (Section 5.4): other outcomes ------------------------------
+    t11 <- tab[["table_11_other_outcomes_iv"]]
+    if (!is.null(t11)) {
+        cll <- t11[t11$outcome == "chg_college_91_70", ]
+        macros[["collegeMin"]] <- f3(min(cll$estimate))
+        macros[["collegeMax"]] <- f3(max(cll$estimate))
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "OLS")
+        macros[["secondaryOLSCoef"]] <- f3(r$estimate)
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-B")
+        macros[["secondaryIVBCoef"]] <- f3(r$estimate)
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-LP")
+        macros[["secondaryIVLPCoef"]] <- f3(r$estimate)
+        macros[["secondaryIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "OLS")
+        macros[["migrationOLSCoef"]] <- f3(r$estimate)
+        macros[["migrationOLSSE"]]   <- f3(r$std_err)
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-B")
+        # Prose says "a X decrease": fail loudly if the sign ever flips.
+        stopifnot(r$estimate < 0)
+        macros[["migrationCoefAbs"]] <- f3(abs(r$estimate))
+        r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "OLS")
+        macros[["employmentOLSCoef"]] <- f3(r$estimate)
+        macros[["employmentOLSSE"]]   <- f3(r$std_err)
+        r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-B")
+        macros[["employmentIVBCoef"]] <- f3(r$estimate)
+        macros[["employmentIVBSE"]]   <- f3(r$std_err)
+    }
+
+    # -- Table 7 (Section 4.6): placebo columns ------------------------------
+    t7 <- tab[["table_7_pre_trends"]]
+    if (!is.null(t7)) {
+        for (m in list(c("OLS", "placeboOLS"),
+                       c("IV-LP", "placeboIVLP"),
+                       c("IV-Hypo", "placeboIVH"))) {
+            r <- row1(t7, spec = m[1])
+            macros[[paste0(m[2], "Coef")]] <- f3(r$estimate)
+            macros[[paste0(m[2], "SE")]]   <- f3(r$std_err)
+        }
+        macros[["placeboFLP"]]   <- f2(row1(t7, spec = "IV-LP")$first_stage_F)
+        macros[["placeboFHypo"]] <- f2(row1(t7, spec = "IV-Hypo")$first_stage_F)
+        macros[["placeboFBoth"]] <- f2(row1(t7, spec = "IV-Both")$first_stage_F)
+    }
+
+    # -- Table 12 (Section 5.5): robustness ----------------------------------
+    t12 <- tab[["table_12_robustness"]]
+    if (!is.null(t12)) {
+        r <- t12[t12$panel == "A", ]
+        stopifnot(nrow(r) == 1L)
+        macros[["thetaHighIVBCoef"]] <- f3(r$iv_b_est)
+        macros[["thetaHighIVBSE"]]   <- f3(r$iv_b_se)
+        b <- t12[t12$panel == "B", ]
+        macros[["hypoAltIVBMin"]] <- f3(min(b$iv_b_est))
+        macros[["hypoAltIVBMax"]] <- f3(max(b$iv_b_est))
+        r <- t12[t12$panel == "C" & grepl("Placebo", t12$label), ]
+        stopifnot(nrow(r) == 1L)
+        macros[["subOLSCoef"]] <- f3(r$ols_est)
+        macros[["subOLSSE"]]   <- f3(r$ols_se)
+        macros[["subIVBCoef"]] <- f3(r$iv_b_est)
+        macros[["subIVBSE"]]   <- f3(r$iv_b_se)
+        macros[["subIVBP"]]    <- f3(r$iv_b_p)
+    }
+
+    # -- Table 13 (Section 6.2): counterfactual urban/rural ------------------
+    t13 <- tab[["table_13_counterfactual"]]
+    if (!is.null(t13)) {
+        for (g in list(
+                c("B", "chg_log_urbpop_91_60", "cfRailUrb"),
+                c("B", "chg_log_rur_91_60",    "cfRailRur"),
+                c("C", "chg_log_urbpop_91_60", "cfRoadUrb"),
+                c("C", "chg_log_rur_91_60",    "cfRoadRur"))) {
+            r <- t13[t13$panel == g[1] & t13$outcome == g[2], ]
+            stopifnot(nrow(r) == 1L)
+            macros[[paste0(g[3], "Coef")]] <- f3(r$iv_est)
+            macros[[paste0(g[3], "SE")]]   <- f3(r$iv_se)
+        }
+        r <- row1(t13, panel = "B", outcome = "chg_log_pop_91_60")
+        macros[["cfRailOLSPopCoef"]] <- f3(r$ols_est)
+        macros[["cfRailOLSPopSE"]]   <- f3(r$ols_se)
+        b <- t13[t13$panel == "B", ]
+        macros[["cfRailFMin"]] <- f1(min(b$iv_F))
+        macros[["cfRailFMax"]] <- f1(max(b$iv_F))
+        # Section 6.3: only-road identification weakens from total to
+        # urban population. (Total-pop F is the existing \cfRoadFIVPop.)
+        r <- row1(t13, panel = "C", outcome = "chg_log_urbpop_91_60")
+        macros[["cfRoadFUrb"]] <- f1(r$iv_F)
+    }
+
+    # -- Table 14 (Section 7): sample counts ---------------------------------
+    t14 <- tab[["table_14_mechanisms"]]
+    if (!is.null(t14)) {
+        macros[["mechNBase"]] <- as.character(
+            row1(t14, spec_id = "(1)")$n_obs)
+        macros[["mechNAug"]] <- as.character(
+            row1(t14, spec_id = "(2)")$n_obs)
+    }
+
+    # -- Table 6 (Section 4.5): pre-period balance ----------------------------
+    # Prose quotes coefficients and p-values for the two instruments'
+    # balance regressions, plus a computed count of hypo-instrument
+    # imbalances (the "uncorrelated with all nine" sentence).
+    t6 <- tab[["table_6_pre_balance"]]
+    if (!is.null(t6)) {
+        # p-value with its comparison operator, so prose writes "$p\X{}$"
+        # uniformly: "<0.001", "=0.003", "=0.74".
+        fp <- function(x) {
+            if (x < 0.001) {
+                "<0.001"
+            } else if (x < 0.01) {
+                sprintf("=%.3f", x)
+            } else {
+                sprintf("=%.2f", x)
+            }
+        }
+        bal <- function(outc, stem) {
+            r <- row1(t6, outcome = outc)
+            macros[[paste0("balLP", stem, "Coef")]] <<- f3(r$lp_only_coef)
+            macros[[paste0("balLP", stem, "P")]]    <<- fp(r$lp_only_p)
+        }
+        bal("log_pop_1960",   "Pop")
+        bal("urbshr_1960",    "Urbshr")
+        bal("wheat_std",      "Wheat")
+        bal("preCal_std",     "PreCal")
+        bal("postCal_std",    "PostCal")
+        bal("dist_to_BA_std", "DistBA")
+        bal("log_area_km2",   "Area")
+        # Hypo instrument: count of characteristics imbalanced at 5%.
+        macros[["balHypoNImbalanced"]] <-
+            as.character(sum(t6$hypo_only_p < 0.05))
+    }
+
+    # -- Theta sweep diagnostic (Section 8.2) ---------------------------------
+    sw <- tab[["diagnostic_theta_sweep"]]
+    if (!is.null(sw)) {
+        r <- row1(sw, theta = 1)
+        macros[["sweepBetaThetaOne"]] <- sprintf("%.2f", r$iv_beta)
+        r <- row1(sw, theta = 12)
+        macros[["sweepBetaThetaTwelve"]] <- sprintf("%.2f", r$iv_beta)
+    }
+
+    macros
+}
+
+# ---------------------------------------------------------------------------
+# Panel-derived statistics quoted in Section 3 (the numbers that moved in
+# issue #22). Read from the wide panel and the 1947 census output so the
+# prose can never drift from the pipeline again.
+#
+# Sign convention: minima and the only-rail mean are emitted as ABSOLUTE
+# values because the prose carries the minus sign explicitly (e.g.
+# "mean $-\cfRailMean{}$"); this keeps LaTeX math-mode signs clean.
+# ---------------------------------------------------------------------------
+add_panel_macros <- function(macros) {
+
+    panel_path <- file.path(dir_derived_panel,
+                            "departments_wide_panel.parquet")
+    if (!file.exists(panel_path)) {
+        warning("Panel parquet missing — Section 3 macros skipped")
+        return(macros)
+    }
+    p <- as.data.frame(arrow::read_parquet(panel_path))
+
+    big <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
+
+    # Population (all 312 districts; Section 3 reports full-geography stats)
+    macros[["popMeanBase"]]  <- big(mean(p$pop_1960, na.rm = TRUE))
+    macros[["popTotalBase"]] <- sprintf("%.1f",
+        sum(p$pop_1960, na.rm = TRUE) / 1e6)
+    macros[["popMeanEnd"]]   <- big(mean(p$pop_1991, na.rm = TRUE))
+    macros[["popTotalEnd"]]  <- sprintf("%.1f",
+        sum(p$pop_1991, na.rm = TRUE) / 1e6)
+    v <- p$chg_log_pop_91_60
+    macros[["chgLogPopMean"]] <- sprintf("%+.2f", mean(v, na.rm = TRUE))
+    macros[["chgLogPopSD"]]   <- sprintf("%.2f", sd(v, na.rm = TRUE))
+
+    # Treatment variable distribution
+    m <- p$chg_logMA_86_60_s0_elow
+    macros[["maMean"]]     <- sprintf("%+.2f", mean(m, na.rm = TRUE))
+    macros[["maSD"]]       <- sprintf("%.2f", sd(m, na.rm = TRUE))
+    # Prose writes the minus sign explicitly: fail loudly on sign flip.
+    stopifnot(min(m, na.rm = TRUE) < 0)
+    macros[["maMin"]]      <- sprintf("%.2f", abs(min(m, na.rm = TRUE)))
+    macros[["maMax"]]      <- sprintf("%+.2f", max(m, na.rm = TRUE))
+    macros[["maSharePos"]] <- sprintf("%.0f", 100 * mean(m > 0, na.rm = TRUE))
+
+    # Counterfactual component means
+    r <- mean(p$chg_logMA_only_rail_s0_elow, na.rm = TRUE)
+    d <- mean(p$chg_logMA_only_road_s0_elow, na.rm = TRUE)
+    # Prose writes the minus sign explicitly: fail loudly on sign flip.
+    stopifnot(r < 0)
+    macros[["cfRailMean"]]      <- sprintf("%.2f", abs(r))
+    macros[["cfRoadMean"]]      <- sprintf("%+.2f", d)
+    macros[["cfSumComponents"]] <- sprintf("%+.2f", r + d)
+
+    # 1947 census coverage (file rows)
+    c47_path <- file.path(dir_derived_census1947,
+                          "census_1947_ipums.parquet")
+    if (file.exists(c47_path)) {
+        c47 <- arrow::read_parquet(c47_path)
+        macros[["placeboCoverage"]] <- as.character(nrow(c47))
+    }
+
+    macros
 }
 
 main()
