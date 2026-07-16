@@ -58,7 +58,8 @@ main <- function() {
                    "table_12_robustness",
                    "table_13_counterfactual",
                    "table_14_mechanisms",
-                   "diagnostic_heterogeneity")) {
+                   "diagnostic_heterogeneity",
+                   "diagnostic_theta_sweep")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
             warning(sprintf("Missing: %s — scalars depending on this will be NA",
@@ -117,16 +118,9 @@ main <- function() {
             macros[["mainPopCoefIVBothP"]]    <- sprintf("%.3f", r$p_value)
             macros[["mainPopNIVBoth"]]        <- as.character(r$n_obs)
         }
-        r <- subset(t9, outcome == "chg_log_urbpop_91_60" & spec == "IV-B")
-        if (nrow(r) == 1L) {
-            macros[["mainUrbPopCoefIVBoth"]]  <- sprintf("%.3f", r$estimate)
-            macros[["mainUrbPopSEIVBoth"]]    <- sprintf("%.3f", r$std_err)
-        }
-        r <- subset(t9, outcome == "chg_log_rur_91_60" & spec == "IV-B")
-        if (nrow(r) == 1L) {
-            macros[["mainRurPopCoefIVBoth"]]  <- sprintf("%.3f", r$estimate)
-            macros[["mainRurPopSEIVBoth"]]    <- sprintf("%.3f", r$std_err)
-        }
+        # (urban/rural IV-B macros live in add_prose_table_macros as
+        # urbIVB*/rurIVB*; the old mainUrbPop*/mainRurPop* names were
+        # orphaned by the PR #94 framing pass and are removed.)
     }
 
     # Table 10: manufacturing wage mass and production value
@@ -195,7 +189,6 @@ main <- function() {
         if (nrow(r) == 1L) {
             macros[["mechAllZCoef"]]      <- sprintf("%.3f", r$ma_est)
             macros[["mechAllZSE"]]        <- sprintf("%.3f", r$ma_se)
-            macros[["mechAllZF"]]         <- sprintf("%.1f", r$ma_F)
             macros[["mechRailKmCoef"]]    <- sprintf("%.4f", r$chg_rail_est)
             macros[["mechRailKmSE"]]      <- sprintf("%.4f", r$chg_rail_se)
             macros[["mechLostRailCoef"]]  <- sprintf("%.3f", r$lost_rail_est)
@@ -306,11 +299,14 @@ add_prose_table_macros <- function(macros, tab) {
     f2 <- function(x) sprintf("%.2f", x)
     f1 <- function(x) sprintf("%.1f", x)
 
-    # Pull exactly one row from a long-format table CSV.
+    # Pull exactly one row from a long-format table CSV. NA-safe:
+    # an NA in a filter column never matches.
     row1 <- function(df, ...) {
         conds <- list(...)
         keep <- rep(TRUE, nrow(df))
-        for (col in names(conds)) keep <- keep & df[[col]] == conds[[col]]
+        for (col in names(conds)) {
+            keep <- keep & !is.na(df[[col]]) & df[[col]] == conds[[col]]
+        }
         r <- df[keep, ]
         stopifnot(nrow(r) == 1L)
         r
@@ -401,6 +397,8 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["migrationOLSCoef"]] <- f3(r$estimate)
         macros[["migrationOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-B")
+        # Prose says "a X decrease": fail loudly if the sign ever flips.
+        stopifnot(r$estimate < 0)
         macros[["migrationCoefAbs"]] <- f3(abs(r$estimate))
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "OLS")
         macros[["employmentOLSCoef"]] <- f3(r$estimate)
@@ -457,21 +455,68 @@ add_prose_table_macros <- function(macros, tab) {
             macros[[paste0(g[3], "Coef")]] <- f3(r$iv_est)
             macros[[paste0(g[3], "SE")]]   <- f3(r$iv_se)
         }
-        r <- t13[t13$panel == "B" & t13$outcome == "chg_log_pop_91_60", ]
+        r <- row1(t13, panel = "B", outcome = "chg_log_pop_91_60")
         macros[["cfRailOLSPopCoef"]] <- f3(r$ols_est)
         macros[["cfRailOLSPopSE"]]   <- f3(r$ols_se)
         b <- t13[t13$panel == "B", ]
         macros[["cfRailFMin"]] <- f1(min(b$iv_F))
         macros[["cfRailFMax"]] <- f1(max(b$iv_F))
+        # Section 6.3: only-road identification weakens from total to
+        # urban population. (Total-pop F is the existing \cfRoadFIVPop.)
+        r <- row1(t13, panel = "C", outcome = "chg_log_urbpop_91_60")
+        macros[["cfRoadFUrb"]] <- f1(r$iv_F)
     }
 
     # -- Table 14 (Section 7): sample counts ---------------------------------
     t14 <- tab[["table_14_mechanisms"]]
     if (!is.null(t14)) {
         macros[["mechNBase"]] <- as.character(
-            t14$n_obs[t14$spec_id == "(1)"])
+            row1(t14, spec_id = "(1)")$n_obs)
         macros[["mechNAug"]] <- as.character(
-            t14$n_obs[t14$spec_id == "(2)"])
+            row1(t14, spec_id = "(2)")$n_obs)
+    }
+
+    # -- Table 6 (Section 4.5): pre-period balance ----------------------------
+    # Prose quotes coefficients and p-values for the two instruments'
+    # balance regressions, plus a computed count of hypo-instrument
+    # imbalances (the "uncorrelated with all nine" sentence).
+    t6 <- tab[["table_6_pre_balance"]]
+    if (!is.null(t6)) {
+        # p-value with its comparison operator, so prose writes "$p\X{}$"
+        # uniformly: "<0.001", "=0.003", "=0.74".
+        fp <- function(x) {
+            if (x < 0.001) {
+                "<0.001"
+            } else if (x < 0.01) {
+                sprintf("=%.3f", x)
+            } else {
+                sprintf("=%.2f", x)
+            }
+        }
+        bal <- function(outc, stem) {
+            r <- row1(t6, outcome = outc)
+            macros[[paste0("balLP", stem, "Coef")]] <<- f3(r$lp_only_coef)
+            macros[[paste0("balLP", stem, "P")]]    <<- fp(r$lp_only_p)
+        }
+        bal("log_pop_1960",   "Pop")
+        bal("urbshr_1960",    "Urbshr")
+        bal("wheat_std",      "Wheat")
+        bal("preCal_std",     "PreCal")
+        bal("postCal_std",    "PostCal")
+        bal("dist_to_BA_std", "DistBA")
+        bal("log_area_km2",   "Area")
+        # Hypo instrument: count of characteristics imbalanced at 5%.
+        macros[["balHypoNImbalanced"]] <-
+            as.character(sum(t6$hypo_only_p < 0.05))
+    }
+
+    # -- Theta sweep diagnostic (Section 8.2) ---------------------------------
+    sw <- tab[["diagnostic_theta_sweep"]]
+    if (!is.null(sw)) {
+        r <- row1(sw, theta = 1)
+        macros[["sweepBetaThetaOne"]] <- sprintf("%.2f", r$iv_beta)
+        r <- row1(sw, theta = 12)
+        macros[["sweepBetaThetaTwelve"]] <- sprintf("%.2f", r$iv_beta)
     }
 
     macros
@@ -513,6 +558,8 @@ add_panel_macros <- function(macros) {
     m <- p$chg_logMA_86_60_s0_elow
     macros[["maMean"]]     <- sprintf("%+.2f", mean(m, na.rm = TRUE))
     macros[["maSD"]]       <- sprintf("%.2f", sd(m, na.rm = TRUE))
+    # Prose writes the minus sign explicitly: fail loudly on sign flip.
+    stopifnot(min(m, na.rm = TRUE) < 0)
     macros[["maMin"]]      <- sprintf("%.2f", abs(min(m, na.rm = TRUE)))
     macros[["maMax"]]      <- sprintf("%+.2f", max(m, na.rm = TRUE))
     macros[["maSharePos"]] <- sprintf("%.0f", 100 * mean(m > 0, na.rm = TRUE))
@@ -520,6 +567,8 @@ add_panel_macros <- function(macros) {
     # Counterfactual component means
     r <- mean(p$chg_logMA_only_rail_s0_elow, na.rm = TRUE)
     d <- mean(p$chg_logMA_only_road_s0_elow, na.rm = TRUE)
+    # Prose writes the minus sign explicitly: fail loudly on sign flip.
+    stopifnot(r < 0)
     macros[["cfRailMean"]]      <- sprintf("%.2f", abs(r))
     macros[["cfRoadMean"]]      <- sprintf("%+.2f", d)
     macros[["cfSumComponents"]] <- sprintf("%+.2f", r + d)

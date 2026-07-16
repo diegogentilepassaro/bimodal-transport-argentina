@@ -171,13 +171,14 @@ alone (column~2), and both instruments jointly (column~3). Standard
 errors are heteroskedasticity-robust.
 
 The Larkin Plan instrument is uncorrelated with baseline log
-population (column~1 coefficient $-0.006$, $p=0.78$) and baseline
-urban share ($0.012$, $p=0.02$, marginal). It shows residual
-correlations with the six standardized geographic controls: wheat
-suitability ($-0.047$, $p<0.001$), pre-1500 caloric potential
-($-0.008$, $p=0.004$), post-1500 caloric potential ($0.007$,
-$p=0.003$), distance to Buenos Aires ($-0.042$, $p<0.001$), and log
-district area ($-0.144$, $p<0.001$). These correlations are small in
+population (column~1 coefficient $\balLPPopCoef{}$, $p\balLPPopP{}$).
+It shows residual
+correlations with baseline urban share ($\balLPUrbshrCoef{}$,
+$p\balLPUrbshrP{}$), wheat
+suitability ($\balLPWheatCoef{}$, $p\balLPWheatP{}$), pre-1500 caloric potential
+($\balLPPreCalCoef{}$, $p\balLPPreCalP{}$), post-1500 caloric potential ($\balLPPostCalCoef{}$,
+$p\balLPPostCalP{}$), distance to Buenos Aires ($\balLPDistBACoef{}$, $p\balLPDistBAP{}$), and log
+district area ($\balLPAreaCoef{}$, $p\balLPAreaP{}$). These correlations are small in
 magnitude but statistically detectable. Because these same
 characteristics are controls in the main specification, the residual
 correlations shift from exclusion-restriction threats to a
@@ -185,9 +186,13 @@ conditional-independence requirement: the Larkin Plan instrument must
 be uncorrelated with the outcome \emph{conditional on} these
 geographic controls.
 
-The hypothetical-road instrument is uncorrelated with all nine
-baseline characteristics at conventional significance levels: none of
-the column~2 coefficients has $p<0.05$. The joint specification in
+The hypothetical-road instrument shows imbalance at the five-percent
+level for \balHypoNImbalanced{} of the nine baseline characteristics
+(baseline log population and log district area); the remaining
+column~2 coefficients show no correlation at conventional levels.
+Both characteristics are controls in the main specification, so the
+same conditional-independence reading applies. The joint
+specification in
 column~3 yields similar results to the single-instrument columns.
 
 \subsubsection{Pre-Trends}
