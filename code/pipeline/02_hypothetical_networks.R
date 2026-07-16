@@ -149,8 +149,10 @@ build_lcp_network <- function(tr, coords, cost_mat, cities) {
     n <- nrow(coords)
     pairs <- utils::combn(n, 2)
     n_pairs <- ncol(pairs)
-    # Cap at 8 cores to leave headroom for interactive work
-    n_cores <- min(8L, n_cores_default)
+    # Memory-heavy fork: each worker rebuilds the graph from the
+    # transition matrix per shortestPath call. Capped by n_cores_heavy
+    # (config.R) after 8 workers crashed a 36 GB machine (2026-07-16).
+    n_cores <- n_cores_heavy
 
     message(sprintf("[net]     using %d cores for %d LCPs",
                     n_cores, n_pairs))

@@ -394,6 +394,14 @@ geolev2_exclude <- c(
 # ---- 12. Parallel computation parameters ----------------------------------
 n_cores_default <- max(1L, min(20L, parallel::detectCores() - 2L))
 
+# Cap for MEMORY-HEAVY forked sections (gdistance shortestPath /
+# costDistance workers: each fork rebuilds the graph from the transition
+# matrix, several GB per worker at peak). 8 workers exhausted a 36 GB
+# machine in the 2026-07-16 clean rerun (hard crash); 4 keeps peak well
+# under half of that. Used by 02_hypothetical_networks.R and
+# 03c_compute_taus_parallel.R.
+n_cores_heavy <- max(1L, min(4L, n_cores_default))
+
 # ---- 13. Regression specification parameters ------------------------------
 
 geo_controls <- c(

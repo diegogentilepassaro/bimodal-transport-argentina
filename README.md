@@ -106,8 +106,12 @@ geographic rasters.
   measured single run).
 - The pipeline is deterministic: no random number generation is used
   (no seeds required).
-- Memory: raster stages (C.3a–C.3c) are the peak; 16 GB RAM recommended
-  (estimate; not formally profiled).
+- Memory: the fork-parallel least-cost-path steps (C.2 LCP geometry
+  extraction and C.3c tau computation) are the peak — each worker holds
+  a multi-GB graph during `gdistance` calls. Both are capped at
+  `n_cores_heavy = 4` workers (`code/config.R`); 8 workers exhausted
+  the 36 GB reference machine. 16 GB RAM recommended with the default
+  cap; reduce `n_cores_heavy` on smaller machines.
 - Storage: ~11 GB raw data (of which `tri.tif` is 7.5 GB) + ~3 GB derived
   (`02_transition_grids` alone is 2.4 GB) + <100 MB results.
 - `renv.lock` pins the 16 directly-used packages; transitive dependencies

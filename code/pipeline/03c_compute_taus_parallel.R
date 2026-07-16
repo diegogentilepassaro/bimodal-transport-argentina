@@ -35,11 +35,17 @@ main <- function() {
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
 
     args <- commandArgs(trailingOnly = TRUE)
+    # Hands-off default (no CLI args, e.g. sourced from main.R): use the
+    # memory-safe core cap from config.R and process every missing case.
+    # Cold-start bug found in the 2026-07-16 clean rerun: this script was
+    # the only pipeline step that hard-stopped without CLI args, so the
+    # batch main.R run could never get past C.3c.
     if (length(args) < 1) {
-        stop("Usage: Rscript 03c_compute_taus_parallel.R <ncores> [<case> ...]")
+        ncores <- n_cores_heavy
+    } else {
+        ncores <- as.integer(args[1])
+        stopifnot(!is.na(ncores), ncores >= 1L)
     }
-    ncores <- as.integer(args[1])
-    stopifnot(!is.na(ncores), ncores >= 1L)
 
     if (length(args) > 1) {
         cases <- args[-1]
