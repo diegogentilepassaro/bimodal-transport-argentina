@@ -162,10 +162,30 @@ were already wired into the existing pipeline (Phase 2c of
 
 ## DEFERRED LEDGER (as of 2026-07-15, post PR #90)
 
-Blocked on Diego (one decision):
-- [ ] Issue #22 (CF + TdF in 1947/1960 censuses): implementation plan ready but timing undecided — (a) now (CF's ~3M people enter the MA weights, every number in the draft changes) vs (b) after Cote's Block 1 review. Plan details in the issue/chat.
+Blocked on Diego (decisions):
+- [x] ~~LOG-AREA CONTROL~~ — DECIDED (Diego, 2026-07-16): log(area) is
+      NOT a control, NOT reported as sensitivity, and NOT discussed in
+      the paper. Rationale: not a good control — conditional on
+      baseline log population (already a control), adding log area is
+      algebraically equivalent to controlling baseline population
+      density (over-control of the initial condition the instruments
+      exploit), and area is mechanically entangled with the MA
+      construction (centroid-to-centroid tau; first-stage F drops
+      16.2 -> 12.3 when added). The diagnostic script, main.R step
+      D.13e, areaCtl macros, and results files were removed. Table 6
+      keeps the log-area balance row and §4.5 keeps the factual
+      statement that it is not among the controls — the paper reports
+      the balance fact and does not chase it. For the record, the
+      removed diagnostic showed: pop IV-B +0.052 -> -0.013 (p=.73,
+      CI contains baseline); mfg valprod 0.317 -> 0.203 (p=.13); wage
+      mass 0.378 -> 0.264 (p=.05); placebo point unchanged.
+- [x] ~~Issue #22 (CF + TdF)~~ — done in PR #93 (option (a), merged).
 
 Blocked on Cote:
+- [ ] Log-area awareness (decision made: excluded entirely, see above):
+      Cote should know the balance-table correlation exists and that a
+      referee may ask; the agreed answer is the density/over-control +
+      mechanical-entanglement rationale, not a sensitivity table.
 - [ ] Abstract wording sign-off (red flag in PDF). Post-#93 framing pass
       (PR pending) recharacterizes population as "small, marginally
       significant" — needs explicit sign-off alongside the abstract.
