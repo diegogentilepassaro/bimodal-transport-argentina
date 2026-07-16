@@ -178,7 +178,11 @@ read_raw_1947 <- function() {
                 nrow(pop_df), format(sum(pop_df$pop), big.mark = ",")
             ))
         } else {
-            # TdF: urbpop unknown (no Cuadro 14). Use a numeric 0
+            # TdF: pin the published 1947 territory total (4 rows,
+            # 5,045) so raw-file drift fails loudly, matching the CF
+            # and 1960 CABA assertions.
+            stopifnot(nrow(pop_df) == 4L, sum(pop_df$pop) == 5045)
+            # urbpop unknown (no Cuadro 14). Use a numeric 0
             # placeholder so the formula-based aggregate in
             # collapse_to_geolev2() does not silently drop the rows;
             # converted to NA there after aggregation.

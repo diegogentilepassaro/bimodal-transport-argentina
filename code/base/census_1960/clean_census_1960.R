@@ -197,6 +197,11 @@ read_raw_1960 <- function() {
 # further drift in either file still fails loudly.
 # ---------------------------------------------------------------------------
 check_gba_duplicates <- function(raw, p2_gba) {
+    # p2_gba arrives as a data.frame attribute on `raw`; attributes are
+    # silently dropped by row subsetting, so fail loudly if the handoff
+    # ever breaks.
+    stopifnot(is.data.frame(p2_gba), nrow(p2_gba) == 18L)
+
     known_discrepancy <- list(
         VICENTELOPEZ = c(part2 = 241656, part3 = 247656)
     )

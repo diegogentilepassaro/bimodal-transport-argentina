@@ -3,7 +3,8 @@
 #
 # PURPOSE: Task C37 / memo Decision E (pre-trends). The pre-trends placebo
 #          (Table 7) is not a clean null: IV-Both beta = 0.078, p = 0.06
-#          on the 235-district placebo subset, HC1 SE. Because districts
+#          on the placebo subset (237 districts since issue #22), HC1 SE.
+#          Because districts
 #          are spatially arranged and MA is constructed from a shared
 #          network, residuals are plausibly spatially correlated, and HC1
 #          may overstate precision. This diagnostic re-computes the
