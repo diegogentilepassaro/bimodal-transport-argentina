@@ -44,7 +44,10 @@
             urlcolor=blue]{hyperref}
 % Clickable DOIs. plainnat emits \doi{...} in the .bbl via \providecommand,
 % so this definition takes precedence (doi.sty is not in this TeX Live).
-% \nolinkurl handles special characters (e.g. underscores) in DOI strings.
+% \nolinkurl handles underscores and most special characters in DOI strings.
+% CAVEAT: not verbatim-safe for DOIs containing % or # (none of the current
+% DOIs do). If such a DOI is ever added, escape it in the bib entry (\%, \#)
+% or install doi.sty and replace this definition with \usepackage{doi}.
 \newcommand{\doi}[1]{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}}
 
 % ---- Paths ----------------------------------------------------------------
