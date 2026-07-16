@@ -2,7 +2,7 @@
 HETEROGENEITY DIAGNOSTIC (task C7) 
 d ln(MA) interacted with baseline characteristics, one at a time. 
 Interactions instrumented by instrument x characteristic. 
-Generated: 2026-07-15 12:43:19 
+Generated: 2026-07-16 11:10:18 
 ========================================================================== 
 
 Spec: outcome chg_log_pop_91_60; endog chg_logMA_86_60_s0_elow; 
@@ -13,26 +13,26 @@ NOT run: distance to port (no such variable in the sample).
 -------------------------------------------------------------------------- 
 [X = Initial log population (1960)] 
 -------------------------------------------------------------------------- 
-  OLS      beta_MA   = +0.0216 (SE 0.0122, p 0.077) 
-           beta_MAxX = -0.0221 (SE 0.0129, p 0.089)   N=309 
-  IV-Both  beta_MA   = +0.0428 (SE 0.0324, p 0.187)   F = 6.9 
-           beta_MAxX = -0.0184 (SE 0.0282, p 0.515)   F = 11.3   N=309 
+  OLS      beta_MA   = +0.0231 (SE 0.0121, p 0.058) 
+           beta_MAxX = -0.0254 (SE 0.0123, p 0.039)   N=311 
+  IV-Both  beta_MA   = +0.0457 (SE 0.0306, p 0.136)   F = 8.3 
+           beta_MAxX = -0.0196 (SE 0.0237, p 0.411)   F = 16.1   N=311 
 
 -------------------------------------------------------------------------- 
 [X = Rural share (1960, = 1 - urban)] 
 -------------------------------------------------------------------------- 
-  OLS      beta_MA   = +0.0192 (SE 0.0122, p 0.115) 
-           beta_MAxX = +0.0282 (SE 0.0119, p 0.018)   N=309 
-  IV-Both  beta_MA   = +0.0313 (SE 0.0332, p 0.348)   F = 7.6 
-           beta_MAxX = +0.0139 (SE 0.0222, p 0.532)   F = 14.8   N=309 
+  OLS      beta_MA   = +0.0213 (SE 0.0121, p 0.079) 
+           beta_MAxX = +0.0284 (SE 0.0119, p 0.017)   N=311 
+  IV-Both  beta_MA   = +0.0350 (SE 0.0324, p 0.281)   F = 8.7 
+           beta_MAxX = +0.0120 (SE 0.0216, p 0.578)   F = 16.5   N=311 
 
 -------------------------------------------------------------------------- 
 [X = Distance to Buenos Aires] 
 -------------------------------------------------------------------------- 
-  OLS      beta_MA   = +0.0215 (SE 0.0122, p 0.079) 
-           beta_MAxX = +0.0126 (SE 0.0140, p 0.368)   N=309 
-  IV-Both  beta_MA   = +0.0562 (SE 0.0350, p 0.109)   F = 7.3 
-           beta_MAxX = +0.0084 (SE 0.0292, p 0.773)   F = 14.6   N=309 
+  OLS      beta_MA   = +0.0226 (SE 0.0124, p 0.069) 
+           beta_MAxX = +0.0154 (SE 0.0097, p 0.114)   N=311 
+  IV-Both  beta_MA   = +0.0580 (SE 0.0345, p 0.094)   F = 9.5 
+           beta_MAxX = +0.0150 (SE 0.0148, p 0.310)   F = 42.6   N=311 
 
 Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_heterogeneity.csv 
 

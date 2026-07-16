@@ -1,11 +1,11 @@
 Data file manifest — build_estimation_sample.R
-Generated: 2026-05-14 21:46:46.415018
+Generated: 2026-07-16 11:09:45.383783
 rootdir:   /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: estimation_sample.parquet
 ============================================================ 
-Rows: 312
+Rows: 311
 Columns: 228
 Key: geolev2
 
@@ -20,23 +20,23 @@ New outcome / control / Z_i columns added by this script:
   gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)
 
 Non-NA counts (regression sample sizes):
-  chg_log_pop_91_60                    N=309
-  chg_log_urbpop_91_60                 N=284
+  chg_log_pop_91_60                    N=311
+  chg_log_urbpop_91_60                 N=286
   chg_log_rur_91_60                    N=272
-  chg_urbshr_91_60                     N=309
-  chg_logMA_86_60_s0_elow              N=312
-  chg_logMA_stu_s0_elow                N=312
-  chg_logMA_lcp_mst_s0_elow            N=312
-  log_pop_1960                         N=309
-  logMA_actual_1960_s0_elow            N=312
-  elev_mean_std                        N=312
-  rugged_mea_std                       N=312
-  wheat_std                            N=312
-  preCal_std                           N=312
-  postCal_std                          N=312
-  dist_to_BA_std                       N=312
-  lost_all_rails_86                    N=312
-  gained_first_road_86                 N=309
-  chg_tot_rails_86_60                  N=312
-  chg_pav_and_grav_86_54               N=309
-  share_studied_larkin                 N=282
+  chg_urbshr_91_60                     N=311
+  chg_logMA_86_60_s0_elow              N=311
+  chg_logMA_stu_s0_elow                N=311
+  chg_logMA_lcp_mst_s0_elow            N=311
+  log_pop_1960                         N=311
+  logMA_actual_1960_s0_elow            N=311
+  elev_mean_std                        N=311
+  rugged_mea_std                       N=311
+  wheat_std                            N=311
+  preCal_std                           N=311
+  postCal_std                          N=311
+  dist_to_BA_std                       N=311
+  lost_all_rails_86                    N=311
+  gained_first_road_86                 N=308
+  chg_tot_rails_86_60                  N=311
+  chg_pav_and_grav_86_54               N=308
+  share_studied_larkin                 N=281

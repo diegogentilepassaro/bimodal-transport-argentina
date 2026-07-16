@@ -21,10 +21,20 @@
 #   - The 1960 census is organized by geographic region, each with
 #     multiple Excel pages (one per sub-region or province within the
 #     region). Part 2 = Capital Federal, Parts 3-9 = rest of country.
+#   - Part 2 mixes two kinds of rows: the 20 Capital Federal
+#     circunscripciones (sum = 2,966,634, the published CABA total) and
+#     18 Gran Buenos Aires partidos that belong to Buenos Aires PROVINCE
+#     and duplicate rows already read from Part 3 (identical partido
+#     totals). The GBA rows are dropped from Part 2 with assertions;
+#     keeping them would double-count ~3.77M people inside the CABA
+#     aggregate.
 #   - Urban is defined as localities with population > 2000 (standard
 #     Argentine census definition).
-#   - Capital Federal localities are collapsed into a single district
-#     "CITYOFBUENOSAIRES" (excluded from estimation sample).
+#   - Capital Federal circunscripciones are collapsed into a single
+#     district "CITYOFBUENOSAIRES" (geolev2 32002001). Since issue #22,
+#     CABA and Tierra del Fuego are KEPT in this output: CABA feeds the
+#     MA population weights; its exclusion from the estimation sample
+#     happens explicitly in build_estimation_sample.R.
 #   - Berazategui was segregated from Quilmes in 1960. Population is
 #     split 2/3 Quilmes (32006076) and 1/3 Berazategui (32006087).
 #   - The raw Excel files contain many OCR/transcription errors in
@@ -45,6 +55,9 @@ main <- function() {
 
     # --- 2. Fix OCR typos in district names -------------------------------
     raw <- fix_district_typos(raw)
+
+    # --- 2b. Assert Part-2 GBA rows duplicate Part 3 ------------------------
+    check_gba_duplicates(raw, attr(raw, "p2_gba"))
 
     # --- 3. Classify urban/rural and collapse to district level -----------
     districts <- collapse_to_districts(raw)
@@ -83,6 +96,21 @@ read_raw_1960 <- function() {
     all_rows <- list()
 
     # -- Part 2: Capital Federal (single file)
+    #
+    # The file mixes 20 CABA circunscripciones with 18 Gran Buenos Aires
+    # partidos (Buenos Aires PROVINCE) whose totals duplicate the Part 3
+    # locality data. Keep only the CABA rows; assert the kept sum equals
+    # the published CABA 1960 total (2,966,634) so any drift in the raw
+    # file is caught loudly. The GBA duplicates are re-asserted against
+    # Part 3 after all parts are read (see end of this function).
+    gba_in_part2 <- c(
+        "ALMIRANTEBROWN", "AVELLANEDA", "ESTEBANECHEVERRIA",
+        "FLORENCIOVARELA", "GENERALSANMARTIN", "GENERALSARMIENTO",
+        "LAMATANZA", "LANUS", "LOMASDEZAMORA", "MERLO", "MORENO",
+        "MORON", "QUILMES", "SANFERNANDO", "SANISIDRO", "TIGRE",
+        "3DEFEBRERO", "VICENTELOPEZ"
+    )
+
     p2_file <- file.path(raw_dir, "1c1960_2.xlsx")
     stopifnot(file.exists(p2_file))
     p2 <- readxl::read_excel(p2_file)
@@ -92,6 +120,17 @@ read_raw_1960 <- function() {
     p2$distrito <- clean_name(p2$partido)
     p2$pop <- as.numeric(p2$pop)
     p2 <- p2[, c("provincia", "distrito", "pop")]
+
+    is_gba <- p2$distrito %in% gba_in_part2
+    stopifnot(sum(is_gba) == 18L)
+    p2_gba <- p2[is_gba, ]           # kept aside for the Part 3 check
+    p2 <- p2[!is_gba, ]
+    stopifnot(nrow(p2) == 20L)
+    stopifnot(sum(p2$pop) == 2966634)  # published CABA 1960 population
+    message(sprintf(
+        "[c1960]   Part 2: kept %d CABA rows (pop %s); dropped %d GBA duplicates",
+        nrow(p2), format(sum(p2$pop), big.mark = ","), nrow(p2_gba)
+    ))
     all_rows[[1]] <- p2
 
     # -- Parts 3-9: multiple pages each
@@ -134,10 +173,68 @@ read_raw_1960 <- function() {
     raw <- do.call(rbind, all_rows)
     raw$pop <- as.numeric(raw$pop)
 
+    # Stash the dropped GBA rows for the duplicate check, which runs
+    # AFTER the typo fixes (Part 3 spells e.g. AVALLANEDA in the raw).
+    attr(raw, "p2_gba") <- p2_gba
+
     message(sprintf(
         "[c1960]   Read %d locality rows", nrow(raw)
     ))
     raw
+}
+
+# ---------------------------------------------------------------------------
+# Check that every GBA partido dropped from Part 2 is present in the
+# Buenos Aires province data (Part 3) with the same partido total.
+# Part 3 carries the same partido totals, so the sums match exactly if
+# the two digitizations agree. Runs after typo fixes so raw spelling
+# variants (e.g. AVALLANEDA) have been normalized.
+#
+# KNOWN DISCREPANCY (flagged in issue #22, needs the physical volume):
+# VICENTELOPEZ differs by one digit between the two digitizations
+# (Part 2 = 241,656; Part 3 = 247,656). The pipeline uses the Part 3
+# value, as it always has; the exception below pins BOTH numbers so any
+# further drift in either file still fails loudly.
+# ---------------------------------------------------------------------------
+check_gba_duplicates <- function(raw, p2_gba) {
+    known_discrepancy <- list(
+        VICENTELOPEZ = c(part2 = 241656, part3 = 247656)
+    )
+
+    ba <- raw[raw$provincia == "BUENOSAIRES", ]
+    n_exact <- 0L
+    for (i in seq_len(nrow(p2_gba))) {
+        nm <- p2_gba$distrito[i]
+        part3_pop <- sum(ba$pop[ba$distrito == nm], na.rm = TRUE)
+
+        if (nm %in% names(known_discrepancy)) {
+            exp <- known_discrepancy[[nm]]
+            stopifnot(p2_gba$pop[i] == exp["part2"],
+                      part3_pop == exp["part3"])
+            message(sprintf(
+                "[c1960]   %s: known Part2/Part3 discrepancy (%s vs %s); Part 3 used",
+                nm,
+                format(exp[["part2"]], big.mark = ","),
+                format(exp[["part3"]], big.mark = ",")
+            ))
+            next
+        }
+
+        if (abs(part3_pop - p2_gba$pop[i]) > 0.5) {
+            stop(sprintf(
+                "GBA duplicate check failed for %s: Part 2 = %s, Part 3 = %s",
+                nm,
+                format(p2_gba$pop[i], big.mark = ","),
+                format(part3_pop, big.mark = ",")
+            ))
+        }
+        n_exact <- n_exact + 1L
+    }
+    message(sprintf(
+        "[c1960]   GBA duplicate check: %d partidos match Part 3 exactly",
+        n_exact
+    ))
+    invisible(TRUE)
 }
 
 # ---------------------------------------------------------------------------
@@ -579,12 +676,17 @@ collapse_to_geolev2 <- function(df) {
     )
     final$year <- 1960L
 
-    # Exclude non-mainland territories, Capital Federal, Tierra del Fuego
-    geo_cf <- "32002001"
-    geo_tdf <- c("32094001", "32094002")  # Ushuaia + Antártida, Río Grande
-    excl <- final$geolev2 %in% geolev2_exclude |
-        final$geolev2 %in% c(geo_cf, geo_tdf)
+    # Exclude non-mainland territories only (config: geolev2_exclude).
+    # Capital Federal (32002001) and Tierra del Fuego (32094001 = Río
+    # Grande + Antártida, 32094002 = Ushuaia) are KEPT since issue #22:
+    # CABA feeds the MA population weights; TdF joins the estimation
+    # sample. CABA's exclusion from the estimation sample happens
+    # explicitly in build_estimation_sample.R.
+    excl <- final$geolev2 %in% geolev2_exclude
     final <- final[!excl, ]
+
+    # All three previously-excluded districts must now be present.
+    stopifnot(c("32002001", "32094001", "32094002") %in% final$geolev2)
 
     message(sprintf("[c1960]   Final: %d districts", nrow(final)))
     final
