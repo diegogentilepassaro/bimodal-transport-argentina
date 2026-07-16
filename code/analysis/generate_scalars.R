@@ -59,7 +59,8 @@ main <- function() {
                    "table_13_counterfactual",
                    "table_14_mechanisms",
                    "diagnostic_heterogeneity",
-                   "diagnostic_theta_sweep")) {
+                   "diagnostic_theta_sweep",
+                   "diagnostic_area_control")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
             warning(sprintf("Missing: %s — scalars depending on this will be NA",
@@ -517,6 +518,25 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["sweepBetaThetaOne"]] <- sprintf("%.2f", r$iv_beta)
         r <- row1(sw, theta = 12)
         macros[["sweepBetaThetaTwelve"]] <- sprintf("%.2f", r$iv_beta)
+    }
+
+    # -- Area-control diagnostic (Section 4.5 balance follow-up) --------------
+    ac <- tab[["diagnostic_area_control"]]
+    if (!is.null(ac)) {
+        for (g in list(
+                c("population",   "IV-B", "areaCtlPop"),
+                c("placebo",      "IV-B", "areaCtlPlacebo"),
+                c("mfg_valprod",  "IV-B", "areaCtlValprod"),
+                c("mfg_wagemass", "IV-B", "areaCtlMassal"))) {
+            r <- row1(ac, outcome = g[1], controls = "with_area",
+                      spec = g[2])
+            macros[[paste0(g[3], "Coef")]] <- f3(r$estimate)
+            macros[[paste0(g[3], "SE")]]   <- f3(r$std_err)
+            macros[[paste0(g[3], "P")]]    <- f3(r$p_value)
+        }
+        r <- row1(ac, outcome = "population", controls = "with_area",
+                  spec = "IV-B")
+        macros[["areaCtlPopF"]] <- f1(r$first_stage_F)
     }
 
     macros

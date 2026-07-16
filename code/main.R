@@ -352,6 +352,14 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
         makelog)
+    run_step("D.13e diagnostic_area_control",
+             a("diagnostic_area_control.R"),
+             "Balance follow-up: log(area) added to controls (Section 4.5)",
+             makelog)
+    verify_outputs("D.13e",
+        file.path(dir_tables,
+                  paste0("diagnostic_area_control.", c("txt", "csv"))),
+        makelog)
 
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",

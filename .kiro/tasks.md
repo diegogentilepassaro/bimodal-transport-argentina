@@ -162,8 +162,19 @@ were already wired into the existing pipeline (Phase 2c of
 
 ## DEFERRED LEDGER (as of 2026-07-15, post PR #90)
 
-Blocked on Diego (one decision):
-- [ ] Issue #22 (CF + TdF in 1947/1960 censuses): implementation plan ready but timing undecided — (a) now (CF's ~3M people enter the MA weights, every number in the draft changes) vs (b) after Cote's Block 1 review. Plan details in the issue/chat.
+Blocked on Diego (decisions):
+- [ ] LOG-AREA CONTROL (surfaced by PR #95's balance follow-up,
+      2026-07-16): both instruments correlate with log district area
+      (LP p<.001, Hypo p=.008), which is NOT in geo_controls_main.
+      diagnostic_area_control.R (main.R step D.13e) shows adding it is
+      MATERIAL: pop IV-B +0.052 -> -0.013 (p=.73); mfg valprod 0.317 ->
+      0.203 (p=.13); wage mass 0.378 -> 0.264 (p=.05); placebo point
+      estimate unchanged (0.090) with wider SE; F 16.2 -> 12.3.
+      Decision: promote log(area) into geo_controls_main (a #93-style
+      full renumber) or keep as reported sensitivity. Section 4.5
+      reports the sensitivity factually with a red flag meanwhile.
+      Joint with Cote — touches the identification narrative.
+- [x] ~~Issue #22 (CF + TdF)~~ — done in PR #93 (option (a), merged).
 
 Blocked on Cote:
 - [ ] Abstract wording sign-off (red flag in PDF). Post-#93 framing pass
