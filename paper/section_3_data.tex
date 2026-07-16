@@ -315,33 +315,38 @@ main networks (actual~1960, actual~1986, \texttt{stu} instrument,
 45~minutes on a laptop with four cores.
 
 The elasticity $\theta$ controls how sharply distant destinations are
-discounted in the MA sum. It is a structural input from the trade
-literature, not a parameter estimated in this paper. Structural
+discounted in the MA sum. It is taken from the trade literature, not
+estimated in this paper. Structural
 estimates span a wide range: \citet{eatonkortum2002} report a
 preferred value of 8.28; \citet{simonovskawaugh2014} revise the
 Eaton--Kortum approach with simulated-moments estimation and obtain
-values near 4, with a credible range of roughly 4 to 8; and
-\citet{donaldson2018} estimates 3.8 from railroad-borne trade in
-colonial India, the closest setting to ours in kind. We report
-two values spanning this range, $\theta_{\mathrm{low}} = \thetaLow{}$
+values near 4, with a credible range of roughly 4 to 8;
+\citet{caliendoparro2015} estimate 8.11 for agriculture; and
+\citet{donaldson2018} estimates 3.8, the only estimate from
+railroad-borne trade (colonial India). We report
+two values within this range: $\theta_{\mathrm{low}} = \thetaLow{}$
 --- inside the modern range of \citet{simonovskawaugh2014} and
 close to the \citet{donaldson2018} estimate --- and
-$\theta_{\mathrm{high}} = \thetaHigh{}$, close to the
-\citet{eatonkortum2002} preferred value. Main results use
+$\theta_{\mathrm{high}} = \thetaHigh{}$, the \citet{caliendoparro2015}
+agricultural trade elasticity. Main results use
 $\theta_{\mathrm{low}}$; $\theta_{\mathrm{high}}$
 appears in the sensitivity tables, and
-Section~\ref{sec:discussion} reports how the population elasticity
-varies over the full sweep $\theta \in [1, 12]$.
+Section~\ref{sec:discussion} reports how the estimated effects
+vary over the full sweep $\theta \in [1, 12]$.
 \placeholder{$\theta$ paragraph above is proposed text pending
-coauthor sign-off; exact 4.55/8.11 provenance unconfirmed}
-% PROPOSED TEXT (theta justification) — needs Cote's sign-off. Two open
-% points flagged in the PR: (1) the exact decimals 4.55/8.11 have no
-% pinned source in the project record (the planned draft even had their
-% roles swapped: 8.11 main, 4.55 robustness); if they trace to a
-% specific paper or an old calibration, cite it, otherwise consider
-% rounding to literature-anchored values (e.g. 4 and 8.28). (2) The
-% deeper theta-tau compatibility question (memo Decision A: D-H-sized
-% exponent on raw generalized costs) is NOT resolved by this paragraph.
+coauthor sign-off; 4.55's exact provenance unconfirmed, and whether a
+trade-elasticity exponent is the right object for our raw generalized
+cost $\tau$ is memo Decision~A, unresolved}
+% PROPOSED TEXT (theta justification) — needs Cote's sign-off. Open
+% points flagged in the PR: (1) 8.11 traces to Caliendo-Parro's
+% agricultural trade elasticity (per .kiro/theta_benchmark_note.md via
+% D&H 2016 fn. 55) and is now cited as such; 4.55 still has no pinned
+% source (near Simonovska-Waugh 4.10 / D&H-Raj 3.8 territory, exact
+% decimal unexplained; the planned draft also had the roles swapped:
+% 8.11 main, 4.55 robustness). (2) The deeper theta-tau compatibility
+% question (memo Decision A: a D&H-sized exponent is calibrated for a
+% NORMALIZED iceberg tau near 1, ours is a raw accumulated cost) is NOT
+% resolved by this paragraph — see .kiro/theta_benchmark_note.md.
 
 \paragraph{Change in log MA.}
 The main treatment variable is
