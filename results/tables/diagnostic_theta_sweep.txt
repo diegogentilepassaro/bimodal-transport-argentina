@@ -1,7 +1,7 @@
 ====================================================================== 
 THETA SWEEP (Bloque 1 cheap lever) 
 Main population elasticity vs theta; benchmark Gibbons 2024 ~0.3 
-Generated: 2026-07-16 15:03:54 
+Generated: 2026-07-16 20:07:36 
 ====================================================================== 
 
 theta    OLS beta (SE)       IV-Both beta (SE)   first-stage F 

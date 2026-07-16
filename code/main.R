@@ -373,6 +373,20 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
         makelog)
+
+    # Theta sweep: not previously wired into main.R, but generate_scalars.R
+    # has always read its CSV (sweepBetaThetaOne/Twelve, cited in Section
+    # 8.2 prose). On a from-scratch run those macros were silently never
+    # defined -> undefined LaTeX references. Found in the 2026-07-16
+    # clean-machine rerun.
+    run_step("D.13e diagnostic_theta_sweep",
+             a("diagnostic_theta_sweep.R"),
+             "Theta sweep (Section 8.2: population beta vs theta grid)",
+             makelog)
+    verify_outputs("D.13e",
+        file.path(dir_tables,
+                  paste0("diagnostic_theta_sweep.", c("txt", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
