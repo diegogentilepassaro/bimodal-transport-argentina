@@ -138,8 +138,9 @@ were already wired into the existing pipeline (Phase 2c of
 - [ ] A1 (OLS vs IV bias direction) — 1-2 paragraph in §5.2. Deferred until §5.5 robustness is fully decided.
 - [ ] A2 (sectoral patterns + scale economies) — 2 paragraphs. Deferred so the argument lives in one place, after §7 mechanisms is drafted.
 
-**AEA housekeeping 3/4 (paused until Cote review):**
-- [ ] W18 References bibliography + full AEA README (dataset list, instructions to replicators, table-by-program mapping, data rights certification). Paused because README depends on final §6-8 scope.
+**AEA housekeeping 3/4:**
+- [x] ~~W18 References bibliography~~ — done in PR #89 (all entries verified; data citations added and cited in §3).
+- [x] ~~W18 full AEA README~~ — drafted in PR (docs/aea-readme): dataset list, replicator instructions, table-program mapping, runtimes from logs. Rights certifications and ACA redistribution rights left as `[AUTHORS: confirm]` checkboxes; revisit mapping table when final exhibit numbering locks.
 
 **Block 2 next steps:**
 - [ ] Block 2 follow-up email summarizing Tables 13 and 14 to Cote (the original Block-1-complete email predates these results).
@@ -151,11 +152,34 @@ were already wired into the existing pipeline (Phase 2c of
 
 **Polish / final (order after Block 2):**
 - [ ] W13-16 §6.3 caveats, §7 interpretation, §8 Discussion, Conclusion.
-- [ ] W17 Abstract (writes last).
+- [x] ~~W17 Abstract~~ — drafted in PR #89 (148 words, scalars macros, theta hedge); flagged in red for Cote's sign-off.
 - [x] ~~Appendix figures A1-A3~~ — done in PR #80 (see Figures above).
 - [ ] C34 θ=8.11 appendix table (currently exists as Panel A of Table 12; may lift into its own table).
 - [ ] C35 C36 Industrial + agricultural census appendix tables (currently folded into Table 10; may lift into appendices).
 - [x] ~~C37 Spatial autocorrelation / Conley SE robustness~~ — done in PR #76 (`diagnostic_pretrends_conley.R`). Sensitivity does not soften the pre-trend; it sharpens it. Remaining question (how to own the limitation in prose) folded into memo Decision E for the coauthor meeting.
+
+---
+
+## DEFERRED LEDGER (as of 2026-07-15, post PR #90)
+
+Blocked on Diego (one decision):
+- [ ] Issue #22 (CF + TdF in 1947/1960 censuses): implementation plan ready but timing undecided — (a) now (CF's ~3M people enter the MA weights, every number in the draft changes) vs (b) after Cote's Block 1 review. Plan details in the issue/chat.
+
+Blocked on Cote:
+- [ ] Abstract wording sign-off (red flag in PDF).
+- [ ] Issue #68 studied-share basis: two testable reconciliation hypotheses posted on the issue (exact-match 39.60% arithmetic; ~43,856 km denominator); needs the physical Larkin volumes. Then align §2/§4 + document in clean_railroads.R.
+- [ ] Issue #91: 1954 industrial census issuing agency (title page of scanned volumes) → one-line references.bib fix.
+- [ ] Baumgartner & Palazzo author initials (JSTOR: Jean-Pierre / Pascual Santiago) vs repo docs.
+- [ ] Migration sign interpretation, theta justification, title (long-standing flags).
+
+Pre-deposit (see README's author checklist):
+- [ ] Rights certifications + ACA digitized-geometry redistribution rights.
+- [ ] If deposit slips past 2026: move IGN access-year fields + README dates together.
+- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat documented in paper.tex preamble).
+- [ ] Clean-machine rerun: delete results/ + data/derived/, R CMD BATCH code/main.R, verify exhibits match manuscript.
+- [ ] Lock final exhibit numbering; update README mapping table.
+
+Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).
 
 ---
 
