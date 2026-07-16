@@ -102,8 +102,10 @@ districts across Argentina. We validate our identification strategy
 with pre-period balance checks and a pre-trends placebo, examine
 sensitivity to spatially correlated standard errors in
 Section~\ref{sec:discussion}, and report where the validation
-package falls short: the pre-trends placebo is not a clean null, and
-we state that limitation rather than obscure it.
+package falls short: the pre-trends placebo rejects a clean null at
+the five-percent level, a rejection that spatially robust standard
+errors sharpen rather than soften, and we state that limitation
+rather than obscure it.
 
 % Findings paragraphs (counterfactuals, mechanisms) filled from the
 % drafted Sections 6-7; framing per Plan/provisional_decisions_log.md
@@ -142,9 +144,12 @@ magnitude claims.
 Our main results document a contrast between population and sectoral
 activity. The elasticity of total population with respect to
 $\Delta \ln \mathrm{MA}^{\mathrm{full}}$ is \mainPopCoefIVBoth{}
-(\mainPopSEIVBoth{}) in the combined-IV specification; individually,
-the urban, rural, and total-population coefficients are not
-statistically distinguishable from zero at the five-percent level. In
+(\mainPopSEIVBoth{}) in the combined-IV specification, significant at
+the ten-percent but not the five-percent level; the corresponding OLS
+estimate is significant at the five-percent level, and the urban and
+rural coefficients are similar in magnitude but less precise. The
+evidence for an aggregate population response is suggestive rather
+than conclusive. In
 contrast, the elasticity of manufacturing activity is sizable and
 significant: the log change in the value of manufacturing production
 has an elasticity of \mfgValprodCoefIVBoth{} (\mfgValprodSEIVBoth{})

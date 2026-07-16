@@ -166,7 +166,14 @@ Blocked on Diego (one decision):
 - [ ] Issue #22 (CF + TdF in 1947/1960 censuses): implementation plan ready but timing undecided — (a) now (CF's ~3M people enter the MA weights, every number in the draft changes) vs (b) after Cote's Block 1 review. Plan details in the issue/chat.
 
 Blocked on Cote:
-- [ ] Abstract wording sign-off (red flag in PDF).
+- [ ] Abstract wording sign-off (red flag in PDF). Post-#93 framing pass
+      (PR pending) recharacterizes population as "small, marginally
+      significant" — needs explicit sign-off alongside the abstract.
+- [ ] Vicente López 1960 digitization discrepancy (Part 2: 241,656 vs
+      Part 3: 247,656; one digit). Decision (Diego, 2026-07-16):
+      document and leave as is — pipeline uses Part 3, both values
+      pinned in clean_census_1960.R. Check the published volume only
+      if convenient.
 - [ ] Issue #68 studied-share basis: two testable reconciliation hypotheses posted on the issue (exact-match 39.60% arithmetic; ~43,856 km denominator); needs the physical Larkin volumes. Then align §2/§4 + document in clean_railroads.R.
 - [ ] Issue #91: 1954 industrial census issuing agency (title page of scanned volumes) → one-line references.bib fix.
 - [ ] Baumgartner & Palazzo author initials (JSTOR: Jean-Pierre / Pascual Santiago) vs repo docs.
