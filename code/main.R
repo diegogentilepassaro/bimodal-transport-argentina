@@ -383,6 +383,29 @@ stage_d_analysis <- function(makelog) {
                   paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
         makelog)
 
+    # Transshipment bound (Section 5.5): six single-mode taus, then the
+    # unimodal (infinite-transshipment) diagnostic whose numbers the paper
+    # quotes. The driver is idempotent (skips existing taus) but adds
+    # ~15-25 minutes to a cold run.
+    run_step("D.13f unimodal_taus",
+             file.path(dir_code, "pipeline", "07_unimodal_taus.R"),
+             "Single-mode taus for the transshipment bound", makelog)
+    verify_outputs("D.13f",
+        file.path(dir_derived_taus,
+                  c(t(outer(c("tau_actual_1960_s0", "tau_actual_1986_s0"),
+                            c("roadonly", "railonly", "wateronly"),
+                            function(b, v) sprintf("%s_%s.parquet", b, v))))),
+        makelog)
+
+    run_step("D.13g diagnostic_ma_unimodal",
+             a("diagnostic_ma_unimodal.R"),
+             "Transshipment bound: unimodal MA vs baseline (Section 5.5)",
+             makelog)
+    verify_outputs("D.13g",
+        file.path(dir_tables,
+                  paste0("diagnostic_ma_unimodal.", c("txt", "csv"))),
+        makelog)
+
     # Theta sweep: not previously wired into main.R, but generate_scalars.R
     # has always read its CSV (sweepBetaThetaOne/Twelve, cited in Section
     # 8.2 prose). On a from-scratch run those macros were silently never

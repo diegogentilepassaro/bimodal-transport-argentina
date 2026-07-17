@@ -1,11 +1,13 @@
 # ===========================================================================
 # diagnostic_ma_unimodal.R
 #
-# PURPOSE: Bloque-1 test (c) SCREEN report. After run_unimodal_variant.sh
-#          has produced the six single-mode taus (road/rail/water ×
+# PURPOSE: Transshipment bound (paper Section 5.5). After
+#          code/pipeline/07_unimodal_taus.R (main.R step D.13f) has
+#          produced the six single-mode taus (road/rail/water ×
 #          1960/1986), this builds the INFINITE-TRANSSHIPMENT (unimodal)
 #          tau as the element-wise min across modes, recomputes MA, and
-#          compares the gain share and OLS elasticity to baseline.
+#          compares the gain share and OLS elasticity to baseline on a
+#          common sample. Originally the Bloque-1 test (c) screen.
 #
 #   Baseline = zero transshipment (free mode-switching). Unimodal =
 #   infinite transshipment (one mode per trip). The truth is between.
@@ -21,6 +23,7 @@
 # PRODUCES:
 #   data/derived/06_analysis/unimodal_variant/tau_unimodal_{1960,1986}.parquet
 #   results/tables/diagnostic_ma_unimodal.txt
+#   results/tables/diagnostic_ma_unimodal.csv   (AutoFill source, Section 5.5)
 #
 # NOTE: This is a SCREEN. It reports the gain share (decisive, cheap) and
 #   the OLS elasticity. A full IV elasticity would also need unimodal
@@ -61,7 +64,8 @@ main <- function() {
                 sprintf("tau_actual_%d_s0_%sonly.parquet", year, md))
             if (!file.exists(p)) {
                 stop("Missing single-mode tau: ", p,
-                     "\nRun code/analysis/run_unimodal_variant.sh first.")
+                     "\nRun code/pipeline/07_unimodal_taus.R ",
+                     "(main.R step D.13f) first.")
             }
             d <- arrow::read_parquet(p)
             d$key <- paste(d$origin_geolev2, d$destination_geolev2, sep = "_")
@@ -108,46 +112,101 @@ main <- function() {
     rep("\n%s", strrep("-", 70))
     rep("[A] MA GAIN: baseline (zero transshipment) vs unimodal (infinite)")
     rep("%s", strrep("-", 70))
-    cb <- base$chg_logMA_86_60_s0_elow
-    cu <- ma$chg_uni[is.finite(ma$chg_uni)]
-    rep("  baseline:  share gain %.1f%%  mean %.3f  median %.3f  (N=%d)",
-        100*mean(cb > 0, na.rm=TRUE), mean(cb, na.rm=TRUE),
-        median(cb, na.rm=TRUE), sum(!is.na(cb)))
-    rep("  unimodal:  share gain %.1f%%  mean %.3f  median %.3f  (N=%d)",
-        100*mean(cu > 0), mean(cu), median(cu), length(cu))
+    # Common district set for both shares (cr-review PR #100): previously
+    # baseline used the estimation sample and unimodal used every district
+    # with finite unimodal MA (311 vs 312).
+    ab <- merge(base[, c("geolev2", "chg_logMA_86_60_s0_elow")],
+                ma[, c("geolev2", "chg_uni")], by = "geolev2")
+    ab <- ab[!is.na(ab$chg_logMA_86_60_s0_elow) & is.finite(ab$chg_uni), ]
+    cb <- ab$chg_logMA_86_60_s0_elow
+    cu <- ab$chg_uni
+    rep("  common district set: N=%d", nrow(ab))
+    rep("  baseline:  share gain %.1f%%  mean %.3f  median %.3f",
+        100*mean(cb > 0), mean(cb), median(cb))
+    rep("  unimodal:  share gain %.1f%%  mean %.3f  median %.3f",
+        100*mean(cu > 0), mean(cu), median(cu))
 
     # ---- [B] pairwise tau-change comparison -------------------------------
     rep("\n%s", strrep("-", 70))
     rep("[B] PAIRWISE tau CHANGE 1960->1986: how much do pairs get cheaper?")
     rep("%s", strrep("-", 70))
-    k60 <- paste(tau60$origin_geolev2, tau60$destination_geolev2, sep="_")
-    k86 <- paste(tau86$origin_geolev2, tau86$destination_geolev2, sep="_")
-    mm <- match(k60, k86)
-    r <- tau86$tau[mm] / tau60$tau
-    r <- r[is.finite(r) & r > 0]
+    pair_ratio <- function(t60, t86) {
+        k60 <- paste(t60$origin_geolev2, t60$destination_geolev2, sep="_")
+        k86 <- paste(t86$origin_geolev2, t86$destination_geolev2, sep="_")
+        r <- t86$tau[match(k60, k86)] / t60$tau
+        r[is.finite(r) & r > 0]
+    }
+    r_uni <- pair_ratio(tau60, tau86)
+    # Baseline computed live from the committed multimodal taus (the old
+    # report quoted stale pre-issue-#22 constants here).
+    tau60_base <- arrow::read_parquet(
+        file.path(dir_derived_taus, "tau_actual_1960_s0.parquet"))
+    tau86_base <- arrow::read_parquet(
+        file.path(dir_derived_taus, "tau_actual_1986_s0.parquet"))
+    r_base <- pair_ratio(tau60_base, tau86_base)
     rep("  unimodal: %.1f%% of pairs cheaper; median tau ratio %.3f",
-        100*mean(r < 1), median(r))
-    rep("  (baseline was 91.6%% cheaper, median ratio 0.795 — see diagnostic 1)")
+        100*mean(r_uni < 1), median(r_uni))
+    rep("  baseline: %.1f%% of pairs cheaper; median tau ratio %.3f",
+        100*mean(r_base < 1), median(r_base))
 
     # ---- [C] OLS elasticity under unimodal MA -----------------------------
     rep("\n%s", strrep("-", 70))
     rep("[C] POPULATION OLS elasticity under unimodal MA (sector 0)")
     rep("%s", strrep("-", 70))
+    # COMMON SAMPLE for both regressions (cr-review PR #100): the earlier
+    # version filtered the two regressions differently and their equal N
+    # was an unasserted coincidence. Both now run on districts where the
+    # outcome and BOTH MA measures are defined, and equality is asserted.
     m <- merge(
         base[, c("geolev2", "chg_log_pop_91_60", "log_pop_1960",
+                 "chg_logMA_86_60_s0_elow",
                  "elev_mean_std", "rugged_mea_std", "wheat_std",
                  "preCal_std", "postCal_std", "dist_to_BA_std")],
         ma[, c("geolev2", "chg_uni")], by = "geolev2")
-    m <- m[is.finite(m$chg_uni), ]
+    stopifnot(nrow(m) == nrow(base))  # post-merge check: ma covers base
+    m <- m[is.finite(m$chg_uni) &
+           !is.na(m$chg_logMA_86_60_s0_elow) &
+           !is.na(m$chg_log_pop_91_60), ]
     ctrls <- "elev_mean_std + rugged_mea_std + wheat_std + preCal_std + postCal_std + dist_to_BA_std + log_pop_1960"
     m_ols <- suppressMessages(fixest::feols(
         as.formula(sprintf("chg_log_pop_91_60 ~ chg_uni + %s", ctrls)),
         data = m, vcov = "hetero"))
     rep("  OLS  beta = %+.3f (%.3f)  N=%d",
         coef(m_ols)["chg_uni"], m_ols$se["chg_uni"], m_ols$nobs)
-    rep("  (baseline OLS was +0.022; baseline IV-Both +0.046; Gibbons 2024 ~0.3)")
+    # Baseline OLS on the SAME rows and controls. This simple spec omits
+    # the baseline log-MA control by design (there is no unimodal
+    # analogue), so it differs from Table 9 column (1); the two rows here
+    # are compared like-for-like.
+    m_ols_base <- suppressMessages(fixest::feols(
+        as.formula(sprintf("chg_log_pop_91_60 ~ chg_logMA_86_60_s0_elow + %s",
+                           ctrls)),
+        data = m, vcov = "hetero"))
+    stopifnot(m_ols$nobs == m_ols_base$nobs)
+    rep("  baseline OLS (same spec + sample, multimodal MA) = %+.3f (%.3f)  N=%d",
+        coef(m_ols_base)["chg_logMA_86_60_s0_elow"],
+        m_ols_base$se["chg_logMA_86_60_s0_elow"], m_ols_base$nobs)
     rep("  NOTE: full IV needs unimodal instruments too — built only if")
     rep("  this screen implicates transshipment.")
+
+    # ---- CSV for AutoFill (paper Section 5.5 transshipment paragraph) -----
+    csv_df <- data.frame(
+        stat = c("gain_share_baseline", "gain_share_unimodal",
+                 "pair_cheaper_baseline", "pair_cheaper_unimodal",
+                 "median_ratio_baseline", "median_ratio_unimodal",
+                 "ols_beta_baseline", "ols_beta_unimodal",
+                 "ols_se_baseline", "ols_se_unimodal",
+                 "n_unimodal"),
+        value = c(100*mean(cb > 0), 100*mean(cu > 0),
+                  100*mean(r_base < 1), 100*mean(r_uni < 1),
+                  median(r_base), median(r_uni),
+                  unname(coef(m_ols_base)["chg_logMA_86_60_s0_elow"]),
+                  unname(coef(m_ols)["chg_uni"]),
+                  unname(m_ols_base$se["chg_logMA_86_60_s0_elow"]),
+                  unname(m_ols$se["chg_uni"]),
+                  m_ols$nobs))
+    out_csv <- file.path(dir_tables, "diagnostic_ma_unimodal.csv")
+    write.csv(csv_df, out_csv, row.names = FALSE)
+    message("Saved: ", out_csv)
 
     rep("\n%s", strrep("=", 70))
     rep("READING: if unimodal gain share stays ~91%% and median tau ratio")

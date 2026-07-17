@@ -1,0 +1,12 @@
+"stat","value"
+"gain_share_baseline",90.6752411575563
+"gain_share_unimodal",77.1704180064309
+"pair_cheaper_baseline",91.5904031659659
+"pair_cheaper_unimodal",79.0089867260285
+"median_ratio_baseline",0.795348353015467
+"median_ratio_unimodal",0.605770035846788
+"ols_beta_baseline",0.0156836220289757
+"ols_beta_unimodal",0.0178736935542043
+"ols_se_baseline",0.010873009705403
+"ols_se_unimodal",0.0102301889719473
+"n_unimodal",311

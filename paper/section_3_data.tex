@@ -413,7 +413,10 @@ The cost-surface construction imposes three modelling choices that the
 Section~\ref{sec:identification} discussion of identification returns to.
 First, mode switches are free: Dijkstra can step from a rail pixel to a
 road pixel at any grid boundary, whereas in reality such switches
-occur at stations or terminals and incur transshipment costs. Second,
+occur at stations or terminals and incur transshipment costs.
+Section~\ref{sec:results_robustness} bounds this assumption from the
+opposite extreme (one mode per trip, i.e.\ infinite transshipment
+cost). Second,
 the algorithm selects a single cheapest path, not a probability
 distribution over routes; in equilibrium firms use multiple parallel
 routes. Third, cost parameters are constant across space and time; we

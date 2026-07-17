@@ -60,7 +60,8 @@ main <- function() {
                    "table_14_mechanisms",
                    "table_15_density_schedules",
                    "diagnostic_heterogeneity",
-                   "diagnostic_theta_sweep")) {
+                   "diagnostic_theta_sweep",
+                   "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
             warning(sprintf("Missing: %s — scalars depending on this will be NA",
@@ -525,6 +526,21 @@ add_prose_table_macros <- function(macros, tab) {
             macros[[paste0(g[2], "CorrBase")]] <- sprintf("%.2f",
                                                           r$corr_treat_s0)
         }
+    }
+
+    # -- Transshipment bound (Section 5.5 paragraph) ---------------------------
+    un <- tab[["diagnostic_ma_unimodal"]]
+    if (!is.null(un)) {
+        g <- function(stat) row1(un, stat = stat)$value
+        macros[["uniGainShareBase"]]  <- f1(g("gain_share_baseline"))
+        macros[["uniGainShareUni"]]   <- f1(g("gain_share_unimodal"))
+        macros[["uniMedRatioBase"]]   <- f2(g("median_ratio_baseline"))
+        macros[["uniMedRatioUni"]]    <- f2(g("median_ratio_unimodal"))
+        macros[["uniOLSBase"]]        <- f3(g("ols_beta_baseline"))
+        macros[["uniOLSBaseSE"]]      <- f3(g("ols_se_baseline"))
+        macros[["uniOLSUni"]]         <- f3(g("ols_beta_unimodal"))
+        macros[["uniOLSUniSE"]]       <- f3(g("ols_se_unimodal"))
+        macros[["uniN"]]              <- as.character(g("n_unimodal"))
     }
 
     # -- Theta sweep (Section 5.5 table; Section 8.2 interpretation) ----------
