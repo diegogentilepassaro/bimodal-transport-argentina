@@ -38,6 +38,14 @@ main <- function() {
     message("clean_industrial.R  |  Industrial census → geolev2 panel")
     message(strrep("=", 72))
 
+    # Fail fast on the ordering dependency (this cleaner must run after
+    # clean_ipums.R). Found in the 2026-07-16 clean rerun.
+    stopifnot(
+        "IPUMS crosswalk missing -- run clean_ipums.R (Stage B.2) first" =
+            file.exists(file.path(dir_derived_ipums,
+                                   "ipums_districts_for_merge.parquet"))
+    )
+
     ind54 <- read_and_clean_1954()
     ind85 <- read_and_clean_1985()
     xwalk <- load_crosswalk()

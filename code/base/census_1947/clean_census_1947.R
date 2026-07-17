@@ -56,6 +56,16 @@ main <- function() {
     message("clean_census_1947.R  |  1947 census -> geolev2 panel")
     message(strrep("=", 72))
 
+    # Fail fast on the ordering dependency (this cleaner must run after
+    # clean_ipums.R): a from-scratch main.R run that regresses on Stage B
+    # order would otherwise burn through steps 1-3 before dying inside
+    # merge_to_ipums() in step 4. Found in the 2026-07-16 clean rerun.
+    stopifnot(
+        "IPUMS crosswalk missing -- run clean_ipums.R (Stage B.2) first" =
+            file.exists(file.path(dir_derived, "base", "ipums",
+                                   "ipums_districts_for_merge.parquet"))
+    )
+
     # --- 1. Read and append all province Excel files -----------------------
     raw <- read_raw_1947()
 

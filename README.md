@@ -106,8 +106,12 @@ geographic rasters.
   measured single run).
 - The pipeline is deterministic: no random number generation is used
   (no seeds required).
-- Memory: raster stages (C.3a–C.3c) are the peak; 16 GB RAM recommended
-  (estimate; not formally profiled).
+- Memory: the fork-parallel least-cost-path steps (C.2 LCP geometry
+  extraction and C.3c tau computation) are the peak — each worker holds
+  a multi-GB graph during `gdistance` calls. Both are capped at
+  `n_cores_heavy = 4` workers (`code/config.R`); 8 workers exhausted
+  the 36 GB reference machine. 16 GB RAM recommended with the default
+  cap; reduce `n_cores_heavy` on smaller machines.
 - Storage: ~11 GB raw data (of which `tri.tif` is 7.5 GB) + ~3 GB derived
   (`02_transition_grids` alone is 2.4 GB) + <100 MB results.
 - `renv.lock` pins the 16 directly-used packages; transitive dependencies
@@ -122,10 +126,13 @@ geographic rasters.
   `run_step()` (START/END logging) with `verify_outputs()` assertions:
   - **Stage A** Bootstrap (config + setup).
   - **Stage B** Base cleaning, one script per raw source:
-    `code/base/*/clean_*.R` (geo controls, census 1947, census 1960, IPUMS,
-    industrial, agricultural, railroads, roads, hypothetical networks).
+    `code/base/*/clean_*.R` (geo controls, then IPUMS — which produces the
+    district crosswalk the other census scripts merge against — then census
+    1947, census 1960, industrial, agricultural, railroads, roads).
   - **Stage C** Pipeline: `code/pipeline/01_cost_raster.R` →
-    `02_hypothetical_networks.R` → `03a_build_cost_raster.R` →
+    `02_hypothetical_networks.R` → `clean_hypo_networks.R` (district
+    intersection of the hypothetical networks; depends on the previous
+    step's geometries) → `03a_build_cost_raster.R` →
     `03b_transition_grids.R` → `03c_compute_taus(_parallel).R` →
     `04_market_access.R` → `05_build_panel.R` → `06_merge_ma_into_panel.R`.
   - **Stage D** Analysis: `code/analysis/build_estimation_sample.R`, the

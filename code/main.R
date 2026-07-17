@@ -113,57 +113,67 @@ stage_b_base <- function(makelog) {
     verify_outputs("B.1",
         file.path(dir_derived_geo, "geo_controls.parquet"), makelog)
 
-    run_step("B.2  census_1947",
+    # IPUMS must run before the digitized-census scripts: it produces the
+    # district crosswalk (ipums_districts_for_merge.parquet) that B.3-B.6
+    # merge against. Cold-start bug found in the 2026-07-16 clean-machine
+    # rerun: the previous order (census scripts first) only worked when the
+    # crosswalk already existed from an earlier incremental run. The same
+    # rerun exposed seven B-stage verify_outputs entries naming files no
+    # cleaner produces (stale legacy names satisfied by leftover files);
+    # they now match the cleaners' actual outputs.
+    run_step("B.2  ipums",
+             b("ipums", "clean_ipums.R"),
+             "IPUMS 1970-2010 microdata aggregated to district-year", makelog)
+    verify_outputs("B.2",
+        file.path(dir_derived_ipums,
+                  c("ipums_panel.parquet",
+                    "ipums_districts_for_merge.parquet")), makelog)
+
+    run_step("B.3  census_1947",
              b("census_1947", "clean_census_1947.R"),
              "Digitized 1947 census (placebo population)", makelog)
-    verify_outputs("B.2",
-        file.path(dir_derived_census1947, "census_1947.parquet"), makelog)
+    verify_outputs("B.3",
+        file.path(dir_derived_census1947, "census_1947_ipums.parquet"),
+        makelog)
 
-    run_step("B.3  census_1960",
+    run_step("B.4  census_1960",
              b("census_1960", "clean_census_1960.R"),
              "Digitized 1960 census (baseline population, urban share)",
              makelog)
-    verify_outputs("B.3",
-        file.path(dir_derived_census1960, "census_1960.parquet"), makelog)
-
-    run_step("B.4  ipums",
-             b("ipums", "clean_ipums.R"),
-             "IPUMS 1970-2010 microdata aggregated to district-year", makelog)
     verify_outputs("B.4",
-        file.path(dir_derived_ipums, "ipums_panel.parquet"), makelog)
+        file.path(dir_derived_census1960, "census_1960_ipums.parquet"),
+        makelog)
 
     run_step("B.5  industrial",
              b("industrial", "clean_industrial.R"),
              "Industrial census 1954 and 1985", makelog)
     verify_outputs("B.5",
-        file.path(dir_derived_ind, "industrial_panel.parquet"), makelog)
+        file.path(dir_derived_ind, "ind_census.parquet"), makelog)
 
     run_step("B.6  agricultural",
              b("agricultural", "clean_agricultural.R"),
              "Agricultural census 1960 and 1988", makelog)
     verify_outputs("B.6",
-        file.path(dir_derived_agr, "agricultural_panel.parquet"), makelog)
+        file.path(dir_derived_agr, "agr_census.parquet"), makelog)
 
     run_step("B.7  railroads",
              b("networks", "clean_railroads.R"),
              "Railroad network: Larkin Plan, 1979 status, studied flags",
              makelog)
     verify_outputs("B.7",
-        file.path(dir_derived_networks, "rails_district_panel.parquet"),
+        file.path(dir_derived_networks, "rails_by_district.parquet"),
         makelog)
 
     run_step("B.8  roads",
              b("networks", "clean_roads.R"),
              "Road network: paved and gravel, 1954/1970/1986", makelog)
     verify_outputs("B.8",
-        file.path(dir_derived_networks, "roads_district_panel.parquet"),
+        file.path(dir_derived_networks, "roads_by_district.parquet"),
         makelog)
 
-    run_step("B.9  hypo_networks",
-             b("networks", "clean_hypo_networks.R"),
-             "Hypothetical networks (LCP-MST, Euc-MST, LCP, Euc)", makelog)
-    verify_outputs("B.9",
-        file.path(dir_derived_networks, "hypo_networks.parquet"), makelog)
+    # NOTE: clean_hypo_networks.R (formerly B.9) now runs in Stage C as
+    # C.2b -- see the comment there for why. (README.md has the full
+    # pipeline-order narrative.)
 }
 
 # ==============================================================================
@@ -185,6 +195,17 @@ stage_c_pipeline <- function(makelog) {
              p("02_hypothetical_networks.R"),
              "Build cost rasters for hypothetical-road instruments",
              makelog)
+
+    # District-level intersection of the hypothetical networks. Lives in
+    # code/base/networks/ but depends on C.2's geometries, so it runs here,
+    # not in Stage B (moved 2026-07-16; see README.md for the full story).
+    run_step("C.2b clean_hypo_networks",
+             file.path(dir_code, "base", "networks", "clean_hypo_networks.R"),
+             "Hypothetical networks by district (LCP-MST, Euc-MST, LCP, Euc)",
+             makelog)
+    verify_outputs("C.2b",
+        file.path(dir_derived_networks, "hypo_networks_by_district.parquet"),
+        makelog)
 
     # Combined cost raster builder (full grid expansion)
     run_step("C.3a build_cost_raster",
@@ -351,6 +372,20 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.13d",
         file.path(dir_tables,
                   paste0("diagnostic_heterogeneity.", c("txt", "csv"))),
+        makelog)
+
+    # Theta sweep: not previously wired into main.R, but generate_scalars.R
+    # has always read its CSV (sweepBetaThetaOne/Twelve, cited in Section
+    # 8.2 prose). On a from-scratch run those macros were silently never
+    # defined -> undefined LaTeX references. Found in the 2026-07-16
+    # clean-machine rerun.
+    run_step("D.13e diagnostic_theta_sweep",
+             a("diagnostic_theta_sweep.R"),
+             "Theta sweep (Section 8.2: population beta vs theta grid)",
+             makelog)
+    verify_outputs("D.13e",
+        file.path(dir_tables,
+                  paste0("diagnostic_theta_sweep.", c("txt", "csv"))),
         makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",

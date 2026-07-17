@@ -196,15 +196,51 @@ Blocked on Cote:
       clean_census_1960.R. Check the published volume only if
       convenient.
 - [ ] Issue #68 studied-share basis: two testable reconciliation hypotheses posted on the issue (exact-match 39.60% arithmetic; ~43,856 km denominator); needs the physical Larkin volumes. Then align §2/§4 + document in clean_railroads.R.
-- [ ] Issue #91: 1954 industrial census issuing agency (title page of scanned volumes) → one-line references.bib fix.
-- [ ] Baumgartner & Palazzo author initials (JSTOR: Jean-Pierre / Pascual Santiago) vs repo docs.
-- [ ] Migration sign interpretation, theta justification, title (long-standing flags).
+- [ ] Issue #91: 1954 industrial census issuing agency — web pass done
+      (2026-07-16, findings posted on the issue): INDEC history confirms
+      the 1954 CNE was provincially decentralized; national office at
+      census date was Dirección Nacional del Servicio Estadístico; the
+      1950 industrial census volumes were published by Secretaría de
+      Asuntos Técnicos (1957). Three candidate imprints; República
+      Argentina stays until Cote checks the physical title page.
+- [x] ~~Baumgartner & Palazzo author initials~~ — VERIFIED 2026-07-16
+      against the publisher's archive (eltrimestreeconomico.com.mx):
+      Jean-Pierre Baumgartner, Pascual Santiago Palazzo. bib was already
+      correct; data/raw/costs/readme.md citation completed. NEW sub-item
+      for Cote: planning doc cites "Baumgartner, T. and Palazzo, J. A.,
+      CONADE" — confirm whether Table II was digitised from the journal
+      article or a separate CONADE report.
+- [ ] Theta 4.55 provenance — SEARCH EXHAUSTED (2026-07-16, dead end
+      documented in section_3_data.tex comment): 4.55 not found in
+      Simonovska-Waugh 2014 (full text, benchmark ~4.1), Caliendo-Parro
+      2015 (8.64 avg / 8.11 agri), D&H 2016 fn. 55 list, Fajgelbaum-
+      Redding 2022, or the old draft (no MA-theta framework). Unless
+      Cote recalls the source, options: adopt a cited value (SW 4.1) or
+      state 4.55 as a midpoint choice. Memo Decision A still separate.
+- [ ] Migration sign interpretation, title (long-standing flags).
 
 Pre-deposit (see README's author checklist):
 - [ ] Rights certifications + ACA digitized-geometry redistribution rights.
 - [ ] If deposit slips past 2026: move IGN access-year fields + README dates together.
 - [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat documented in paper.tex preamble).
-- [ ] Clean-machine rerun: delete results/ + data/derived/, R CMD BATCH code/main.R, verify exhibits match manuscript.
+- [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR pending): deleted
+      results/ + data/derived/, ran `R CMD BATCH code/main.R` end to
+      end (~68 min after fixes; the first two attempts crashed the
+      machine / hard-stopped — see below). All 11 regenerated table
+      CSVs byte-identical to main; recompiled PDF's pdftotext output
+      is a zero-line diff against main's committed PDF; zero undefined
+      refs, zero bibtex warnings. Six bugs found and fixed, none
+      reproducible from an incremental (non-empty data/derived/) state:
+      Stage B/C ordering, stale verify_outputs names, a memory crash
+      capped via n_cores_heavy, a CLI-args hard-stop, and an unwired
+      diagnostic script — full narrative + rationale for each lives in
+      the code comments (code/main.R, code/config.R,
+      code/pipeline/03c_compute_taus_parallel.R) and README.md's
+      pipeline-order and memory sections; not restated here to avoid a
+      third copy going stale. Added fail-fast crosswalk-existence
+      guards to the four Stage B cleaners that depend on ipums's
+      output, so a future ordering regression dies immediately instead
+      of after wasted work.
 - [ ] Lock final exhibit numbering; update README mapping table.
 
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).

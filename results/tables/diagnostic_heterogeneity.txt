@@ -2,7 +2,7 @@
 HETEROGENEITY DIAGNOSTIC (task C7) 
 d ln(MA) interacted with baseline characteristics, one at a time. 
 Interactions instrumented by instrument x characteristic. 
-Generated: 2026-07-16 11:10:18 
+Generated: 2026-07-16 23:25:15 
 ========================================================================== 
 
 Spec: outcome chg_log_pop_91_60; endog chg_logMA_86_60_s0_elow; 

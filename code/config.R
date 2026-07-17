@@ -394,6 +394,23 @@ geolev2_exclude <- c(
 # ---- 12. Parallel computation parameters ----------------------------------
 n_cores_default <- max(1L, min(20L, parallel::detectCores() - 2L))
 
+# Cap for MEMORY-HEAVY forked sections (gdistance shortestPath /
+# costDistance workers). 8 workers exhausted a 36 GB machine in the
+# 2026-07-16 clean rerun (hard crash). Measured directly afterward
+# (/tmp/measure_worker_rss.R, one shortestPath call per fork on the
+# actual 977x618 construction_costs.tif transition object): each worker
+# peaks at ~1.1 GB RSS, well above the 60 MB size of the transition
+# object itself (gdistance/raster materialize extra structures per
+# call). 8 workers x 1.1 GB = ~8.8 GB just for this step, on top of the
+# ~4 GB the parent process already holds after loading the raster and
+# building the transition matrix -- on machines with less headroom than
+# the 36 GB reference machine (or with other processes competing for
+# RAM) this alone can exhaust available memory. Capping at 4 keeps this
+# step's peak to <= 4.4 GB of worker RSS, leaving headroom for the
+# parent and other processes. Used by 02_hypothetical_networks.R and
+# 03c_compute_taus_parallel.R.
+n_cores_heavy <- max(1L, min(4L, n_cores_default))
+
 # ---- 13. Regression specification parameters ------------------------------
 
 geo_controls <- c(
