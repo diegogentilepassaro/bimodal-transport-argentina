@@ -215,6 +215,26 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       whether to rebuild tau with explicit finite transshipment costs
       at stations/ports (mode-expanded graph) — the bound suggests it
       is not load-bearing, which de-prioritises that rebuild.
+- [x] BLOCK 2 PROSE COMPLETED (2026-07-17, decide-and-document, PR
+      pending): A1 (OLS-vs-IV gap, Section 5.2) drafted stating both
+      mechanisms (closure selection into declining districts;
+      measurement error in the constructed regressor) WITHOUT
+      apportioning, and noting the placebo's positive correlation
+      weighs against selection carrying the whole gap. A2 drafted as
+      facts-in-5.3 + interpretation-in-8.3 (written once): the three
+      aligned exhibits (Table 10 contrast, Table 16 matched-schedule
+      strengthening, Table 15 density gradient) stated in 5.3;
+      8.3 rewritten to replace the now-false "sector-specific MA
+      left for future work" claim and to state the identification
+      caveat (matched schedules strengthen first stages too, so part
+      of the sharpening may be measurement). Conclusion extensions
+      updated to demand-side weights + freight flows. Section 1
+      contract extended with one matched-schedule sentence. Stale
+      hardcoded 91% in 8.1 -> \maSharePos macro. The wage-mass
+      composition story was NOT drafted (old placeholder said discuss
+      with Cote first) — left as a tex comment flag in 5.3. Section
+      8.2's every-theta sectoral claim now carries an archive
+      footnote (the paper's sweep exhibit is population-only).
 - [x] SECTOR-MATCHED MA (C3) BUILT (2026-07-17, decide-and-document):
       Table 10's five sectoral outcomes re-estimated under the
       cargo-matched schedules per config.R's B&P mapping —

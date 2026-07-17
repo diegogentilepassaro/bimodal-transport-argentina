@@ -30,7 +30,7 @@ Section~\ref{sec:history}
 documents that the closures followed fiscal criteria---operating
 deficits and traffic density---while the road program followed its own
 engineering logic. Yet the combined shock reallocated market access on
-a national scale: 91~percent of districts gained market access between
+a national scale: \maSharePos{}~percent of districts gained market access between
 1960 and 1986, because the road expansion's gains outweighed the rail
 contraction's losses nearly everywhere
 (Figures~\ref{fig:ma_choropleth} and~\ref{fig:ma_counterfactual}). A
@@ -84,7 +84,11 @@ the interior of that range. The comparison with the literature is
 therefore partly a comparison of calibrations, and we treat the
 level of the population elasticity as provisional on that choice.
 Two findings are robust to it. First, the sectoral contrast
-documented below holds at every value of $\theta$ we examined.
+documented below holds at every value of $\theta$ we
+examined.\footnote{The sectoral theta sweep is produced by the
+replication archive's sectoral-sweep program; its output files
+accompany the package. The paper's exhibits report the sweep for the
+population outcome only (Table~\ref{tab:theta_sweep}).}
 Second, the context differs from the benchmarks in a substantive
 way: the benchmark studies measure access expansions into settling
 or growing economies, while we measure a reallocation within an
@@ -108,13 +112,23 @@ density and road below it (Figure~\ref{fig:cost_schedule}). A
 modal shift from rail to road therefore lowered transport costs for
 the low-density, higher-value shipments characteristic of
 manufacturing, while raising them for the bulk flows characteristic
-of agriculture. The counterfactual decomposition in
-Section~\ref{sec:counterfactuals} is
-consistent with this reading but cannot sharpen it, because the
-sectoral outcomes are not available at the frequency needed to
-separate modal channels. Sector-specific market access measures,
-with mode-specific cost calibrations, are the natural next step and
-are left for future work.
+of agriculture. Three exhibits line up behind this reading without
+any one of them proving it. The sectoral contrast survives measuring
+each sector's market access under its own cost schedule and
+strengthens for manufacturing (Table~\ref{tab:sector_matched}); the
+aggregate population elasticity rises monotonically as the cost
+schedule shifts from rail-favouring to road-favouring
+(Table~\ref{tab:density_schedules}); and the counterfactual
+decomposition of Section~\ref{sec:counterfactuals} is consistent with
+the reading but cannot sharpen it, because the sectoral outcomes are
+not observed at the frequency needed to separate modal channels
+within a sector. What the alignment does not establish is the
+mechanism's exclusivity: the matched-schedule measures strengthen
+identification as well as fit (their first stages are stronger), so
+part of the sharpening may reflect measurement rather than
+economics. Distinguishing the two would require freight flows by
+sector and mode, which do not exist at the district level for this
+period.
 
 \subsection{Limitations}
 \label{sec:limitations}
@@ -144,9 +158,10 @@ counterfactuals.
 \section{Conclusion}
 \label{sec:conclusion}
 
-Between 1954 and 1986 Argentina closed roughly ten thousand
-kilometers of railway while paving roughly eighteen thousand
-kilometers of road, a rare episode in which a country
+Argentina closed roughly ten thousand
+kilometers of railway between 1960 and 1986 while its paved road
+network nearly tripled between 1954 and 1986, a rare episode in which
+a country
 simultaneously contracted one national transport network and expanded
 another. We measure the resulting change in access to markets for all
 312 districts with a single multimodal index, instrument it with the
@@ -179,8 +194,11 @@ reallocates it within settled ones.
 
 Three extensions follow directly. A population-weighted urban anchor
 built from geocoded census records would settle the reference-point
-question definitively. Sector-specific market access, calibrated to
-mode-specific costs, would turn the sector-mode hypothesis into a
-testable specification. And richer within-district data---stations
+question definitively. On the sector-mode question, the cost side is
+now measured --- each sector's market access under its own cost
+schedule (Table~\ref{tab:sector_matched}) --- and the remaining steps
+are the demand side, weighting destinations by sectoral economic
+mass rather than population, and ultimately freight flows by sector
+and mode. And richer within-district data---stations
 and depots rather than kilometers---would sharpen the local
 decomposition that Section~\ref{sec:mechanisms} begins.
