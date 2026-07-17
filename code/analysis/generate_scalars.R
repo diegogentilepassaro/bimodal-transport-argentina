@@ -534,8 +534,8 @@ add_prose_table_macros <- function(macros, tab) {
         g <- function(stat) row1(un, stat = stat)$value
         macros[["uniGainShareBase"]]  <- f1(g("gain_share_baseline"))
         macros[["uniGainShareUni"]]   <- f1(g("gain_share_unimodal"))
-        macros[["uniMedRatioBase"]]   <- sprintf("%.2f", g("median_ratio_baseline"))
-        macros[["uniMedRatioUni"]]    <- sprintf("%.2f", g("median_ratio_unimodal"))
+        macros[["uniMedRatioBase"]]   <- f2(g("median_ratio_baseline"))
+        macros[["uniMedRatioUni"]]    <- f2(g("median_ratio_unimodal"))
         macros[["uniOLSBase"]]        <- f3(g("ols_beta_baseline"))
         macros[["uniOLSBaseSE"]]      <- f3(g("ols_se_baseline"))
         macros[["uniOLSUni"]]         <- f3(g("ols_beta_unimodal"))

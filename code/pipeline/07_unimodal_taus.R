@@ -41,13 +41,21 @@ main <- function() {
     rscript <- file.path(R.home("bin"), "Rscript")
     p <- function(fname) file.path(dir_code, "pipeline", fname)
 
-    run_child <- function(script, args, env = character()) {
+    # Child env vars are set via Sys.setenv in the parent (inherited by
+    # the child) rather than system2's env= argument, which is not
+    # portable to Windows (cr-review PR #100).
+    run_child <- function(script, args, mode_variant = NULL) {
+        if (!is.null(mode_variant)) {
+            Sys.setenv(MODE_VARIANT = mode_variant)
+            on.exit(Sys.unsetenv("MODE_VARIANT"), add = TRUE)
+        }
         status <- system2(rscript, c(shQuote(script), shQuote(args)),
-                          env = env, stdout = "", stderr = "")
+                          stdout = "", stderr = "")
         if (!identical(status, 0L)) {
-            stop(sprintf("[07] child failed (%d): %s %s [%s]",
-                         status, basename(script), args,
-                         paste(env, collapse = " ")))
+            stop(sprintf("[07] child failed (%d): %s %s [MODE_VARIANT=%s]",
+                         status, basename(script),
+                         paste(args, collapse = " "),
+                         if (is.null(mode_variant)) "" else mode_variant))
         }
     }
 
@@ -65,8 +73,7 @@ main <- function() {
                 next
             }
             message(sprintf("[07] %s: raster", case_v))
-            run_child(p("03a_build_cost_raster.R"), base,
-                      env = sprintf("MODE_VARIANT=%s", v))
+            run_child(p("03a_build_cost_raster.R"), base, mode_variant = v)
             message(sprintf("[07] %s: transition", case_v))
             run_child(p("03b_transition_grids.R"), case_v)
             todo_taus <- c(todo_taus, case_v)

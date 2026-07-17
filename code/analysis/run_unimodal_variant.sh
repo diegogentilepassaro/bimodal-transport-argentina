@@ -24,6 +24,11 @@
 # Runtime: 6 rasters + 6 transitions + 6 taus (~5 min each) ~= 45-55 min.
 #
 # Run from repo root:  bash code/analysis/run_unimodal_variant.sh
+#
+# DEPRECATED (2026-07-17): superseded by code/pipeline/07_unimodal_taus.R
+# (main.R step D.13f), which is the canonical, hands-off path and
+# parallelises the tau step (~15 min vs the ~45-55 min serial estimate
+# above). Kept for reference only.
 # ===========================================================================
 set -euo pipefail
 

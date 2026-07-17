@@ -301,21 +301,24 @@ mode plus off-network land, with the trip cost taken as the minimum
 across the three single-mode cost matrices. Under this bound, the
 share of districts gaining market access between 1960 and 1986 falls
 from \uniGainShareBase\% to \uniGainShareUni\%, and the median
-origin--destination cost ratio (1986 relative to 1960) is
-\uniMedRatioUni{} against \uniMedRatioBase{} at baseline: the broad
-cost decline persists when no trip may switch modes. The population
+origin--destination cost ratio (1986 relative to 1960) moves from
+\uniMedRatioBase{} to \uniMedRatioUni{}: the bound reshapes the
+market-access distribution, but the broad
+cost decline persists when no trip may switch modes, and the median
+pair still becomes substantially cheaper. The population
 elasticity is essentially unchanged at the bound: an OLS regression
 of the population change on the unimodal market-access change yields
 \uniOLSUni{} (\uniOLSUniSE{}), against \uniOLSBase{} (\uniOLSBaseSE{})
-for the baseline measure on the same specification
-($N = \uniN{}$).\footnote{The bound is evaluated by OLS only:
+for the baseline measure on the same specification and
+sample ($N = \uniN{}$).\footnote{The bound is evaluated by OLS only:
 instrumenting would require unimodal versions of both instruments,
 and the comparison specification omits the baseline log-MA control on
 both sides (no unimodal analogue exists), so the baseline OLS
 coefficient here differs from Table~\ref{tab:population_iv}
-column~(1).} Since the truth --- finite transshipment costs at
-stations and ports --- lies between two bounds that agree, the
-free-switching assumption is not load-bearing for these results.
+column~(1).} The truth --- finite transshipment costs at
+stations and ports --- lies between the two extremes, which agree on
+the population elasticity; on this evidence the free-switching
+assumption is not driving that estimate.
 
 \paragraph{Panel B --- alternative hypothetical-road instruments.}
 The main specification uses the least-cost-path minimum spanning
