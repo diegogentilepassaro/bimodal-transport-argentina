@@ -215,6 +215,22 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       whether to rebuild tau with explicit finite transshipment costs
       at stations/ports (mode-expanded graph) — the bound suggests it
       is not load-bearing, which de-prioritises that rebuild.
+- [x] SECTOR-MATCHED MA (C3) BUILT (2026-07-17, decide-and-document):
+      Table 10's five sectoral outcomes re-estimated under the
+      cargo-matched schedules per config.R's B&P mapping —
+      manufacturing <- s2 (low density, road-favouring), agriculture
+      <- s1 (high density, rail-favouring); all MA objects switch
+      together (table_16_sector_matched.R, main.R D.11b, Section 5.3
+      paragraph). DESIGN DECISION: Table 10 (s0) stays the headline —
+      one common treatment keeps magnitudes comparable across sectors;
+      the matched table answers the scale-economies question. RESULT
+      STRENGTHENS THE STORY: mfg valprod 0.317 -> 0.367 (p=.020), wage
+      mass 0.378 -> 0.444 (p=.016), F ~ 26 (vs 16.5 at s0); agriculture
+      stays null under its matched rail-favouring measure (F = 18.6).
+      The sectoral contrast is not an artifact of the common schedule.
+      For Cote: consistent with the low-density instrument-reversal
+      flag above — the road-favouring measure is simply better
+      identified.
 - [x] THETA SWEEP PLACEMENT (Diego, 2026-07-17): the full sweep is now
       presented as a table in Section 5.5 (robustness, next to the
       baseline results) rather than only quoted in the Discussion;

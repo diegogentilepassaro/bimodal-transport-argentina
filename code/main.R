@@ -343,6 +343,15 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.11",
         file.path(dir_tables, "table_10_sectoral_iv.tex"), makelog)
 
+    run_step("D.11b table_16_sector_matched",
+             a("table_16_sector_matched.R"),
+             "Sector-matched MA: Table 10 outcomes under matched schedules",
+             makelog)
+    verify_outputs("D.11b",
+        file.path(dir_tables,
+                  paste0("table_16_sector_matched.", c("tex", "csv"))),
+        makelog)
+
     run_step("D.12 table_11_other_outcomes",
              a("table_11_other_outcomes.R"),
              "Table 11: education, migration, employment rate", makelog)
