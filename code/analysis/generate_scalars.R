@@ -59,6 +59,7 @@ main <- function() {
                    "table_13_counterfactual",
                    "table_14_mechanisms",
                    "table_15_density_schedules",
+                   "table_16_sector_matched",
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
                    "diagnostic_ma_unimodal")) {
@@ -526,6 +527,27 @@ add_prose_table_macros <- function(macros, tab) {
             macros[[paste0(g[2], "CorrBase")]] <- sprintf("%.2f",
                                                           r$corr_treat_s0)
         }
+    }
+
+    # -- Sector-matched MA table (Section 5.3) ---------------------------------
+    sm <- tab[["table_16_sector_matched"]]
+    if (!is.null(sm)) {
+        for (g in list(
+                c("chg_log_valprod_85_54",    "smValprod"),
+                c("chg_log_massal_85_54",     "smMassal"),
+                c("chg_log_nexp_88_60",       "smNexp"),
+                c("chg_log_areatot_ha_88_60", "smArea"))) {
+            r <- row1(sm, outcome = g[1])
+            macros[[paste0(g[2], "IVBCoef")]] <- f3(r$iv_b_est)
+            macros[[paste0(g[2], "IVBSE")]]   <- f3(r$iv_b_se)
+            macros[[paste0(g[2], "IVBP")]]    <- f3(r$iv_b_p)
+        }
+        r <- row1(sm, outcome = "chg_log_valprod_85_54")
+        macros[["smMfgF"]] <- f1(r$iv_b_F)
+        r <- row1(sm, outcome = "chg_log_massal_85_54")
+        macros[["smMassalF"]] <- f1(r$iv_b_F)
+        r <- row1(sm, outcome = "chg_log_nexp_88_60")
+        macros[["smAgrF"]] <- f1(r$iv_b_F)
     }
 
     # -- Transshipment bound (Section 5.5 paragraph) ---------------------------
