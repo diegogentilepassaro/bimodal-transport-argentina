@@ -99,8 +99,8 @@ share of less than one percentage point.
 Across the three log-change outcomes, the IV point estimates exceed
 the OLS estimates by a factor of approximately two to four. This
 pattern is consistent with a downward bias in OLS that would arise if
-infrastructure changes were concentrated in districts with declining
-pre-period trends; the direction of bias was a possibility raised in
+road-driven market-access gains were directed to districts with
+declining pre-period trends --- the compensatory allocation logic of
 Section~\ref{sec:identification}. The IV point estimates are not
 statistically distinguishable from zero at the five-percent level,
 though the total-population combined-IV estimate is significant at
@@ -109,9 +109,29 @@ total-population OLS estimate at the five-percent level. The
 IV-Both column reports the narrowest confidence intervals among the
 three IV columns.
 
-% [PLACEHOLDER: A1 (OLS vs IV bias direction) — 1-2 paragraphs on the
-%  direction and interpretation of the OLS-IV gap. Deferred until the
-%  robustness in Section 5.5 is run.]
+Two mechanisms can produce an IV--OLS gap of this direction, and the
+evidence does not separate them. The first is compensatory selection
+(Section~\ref{sec:identification}): if road-driven market-access
+gains were directed to districts whose populations would have grown
+slowly anyway, gains align with negative outcome shocks and OLS
+understates the causal response. The opposing efficiency logic ---
+closures concentrated where outcomes were already falling --- biases
+OLS upward and so cannot explain a gap of this direction. The placebo
+evidence bears on which logic dominated: on the subsample where
+pre-period growth is observed, post-reform market-access changes
+correlate \emph{positively} with 1947--1960 growth
+(Section~\ref{sec:pre_trends}), the efficiency-selection pattern,
+which taken alone points to upward, not downward, OLS bias and so
+weighs against selection of either sign explaining the observed gap.
+The second mechanism is attenuation: market
+access is a constructed regressor built from digitised networks and
+calibrated cost parameters, and classical measurement error in it
+biases OLS toward zero. Instrumenting removes the attenuation only to
+the extent that the instruments do not share the construction error
+--- a condition that is not innocuous here, since both instruments
+are themselves market-access measures built from the same digitised
+baseline network and the same cost parameters. With the available
+data we do not apportion the gap between the two mechanisms.
 
 \input{../results/tables/table_9_population_iv.tex}
 
@@ -215,18 +235,37 @@ schedule.
 
 \input{../results/tables/table_16_sector_matched.tex}
 
-% [PLACEHOLDER: A2 (sectoral patterns and scale economies) — 2 paragraphs
-%  connecting these empirical patterns to the Baumgartner-Palazzo cost
-%  differences. Deferred until Section 7 interpretation is drafted,
-%  because the scale-economies argument has to be articulated once,
-%  consistently, across Sections 5, 6, and 7.]
+Three facts connect this sectoral pattern to the cost structure
+described in Section~\ref{ssec:scale_economies}. First, the
+\citet{baumgartnerpalazzo1969} schedule makes the modal shift
+asymmetric across sectors by construction: moving freight from rail
+to road lowers unit costs at low cargo density (8.266 versus 13.490
+1960~pesos per ton-km) and raises them at high density (1.000 versus
+0.465), so a restructuring that replaced rail with road capacity
+changed manufacturing's transport costs in the opposite direction
+from agriculture's. Second, the outcomes align with that asymmetry:
+the sector whose characteristic shipments became cheaper to move
+responds strongly (Table~\ref{tab:sectoral_iv}), and the response
+strengthens when its market access is measured under its own cost
+schedule (Table~\ref{tab:sector_matched}), while the sector whose
+shipments became more expensive shows no response under either
+measurement. Third, the same gradient appears for the aggregate
+outcome: the population elasticity rises monotonically as the cost
+schedule shifts from rail-favouring to road-favouring
+(Table~\ref{tab:density_schedules}). The interpretive weighing of
+these facts --- what they imply about scale economies and the modal
+shift as industrial policy --- is deferred to
+Section~\ref{sec:sector_mode}.
 
-% [PLACEHOLDER: Note on the OLS--IV gap for manufacturing wage mass.
-%  The gap is large (0.092 OLS vs 0.330 IV-Both, a factor of 3.6).
-%  One sentence on why: consistent with the downward-OLS-bias argument
-%  from Section 5.2; specific to wage mass, possibly because wage
-%  levels were rising in declining districts as worker composition
-%  changed. Discuss with Cote before drafting.]
+The manufacturing IV--OLS gaps run in the same direction as the
+population gap of Section~\ref{sec:population} and are larger in
+proportion; the two mechanisms discussed there --- selection of
+closures into declining districts and measurement error in the
+constructed regressor --- apply to the sectoral outcomes as well,
+and we do not apportion between them here either.
+% NOTE for Cote: a wage-mass-specific composition story (wage levels
+% rising in declining districts as worker composition changed) was
+% floated at drafting; not included pending discussion.
 
 \input{../results/tables/table_10_sectoral_iv.tex}
 
