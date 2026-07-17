@@ -229,23 +229,18 @@ Pre-deposit (see README's author checklist):
       machine / hard-stopped — see below). All 11 regenerated table
       CSVs byte-identical to main; recompiled PDF's pdftotext output
       is a zero-line diff against main's committed PDF; zero undefined
-      refs, zero bibtex warnings. Four bugs found and fixed, none
+      refs, zero bibtex warnings. Six bugs found and fixed, none
       reproducible from an incremental (non-empty data/derived/) state:
-      (1) Stage B ran the digitized-census cleaners before ipums,
-      which produces the crosswalk they merge against; (2) seven
-      Stage B verify_outputs named files no cleaner writes (stale
-      files on disk had silently satisfied them); (3)
-      clean_hypo_networks.R was in Stage B but depends on Stage C's
-      hypothetical-network geometries, moved to C.2b; (4) MEMORY:
-      02_hypothetical_networks.R forked 8 gdistance workers for LCP
-      extraction, each holding a multi-GB graph — crashed the 36 GB
-      reference machine; capped at n_cores_heavy=4 (config.R), same
-      cap applied to 03c's parallel tau step. Also found and fixed
-      independently: 03c_compute_taus_parallel.R hard-stopped without
-      CLI args, so main.R could never pass it — now defaults to
-      n_cores_heavy + all missing cases; diagnostic_theta_sweep.R
-      (feeds Section 8.2's sweepBetaThetaOne/Twelve macros) was never
-      wired into main.R at all — added as D.13e.
+      Stage B/C ordering, stale verify_outputs names, a memory crash
+      capped via n_cores_heavy, a CLI-args hard-stop, and an unwired
+      diagnostic script — full narrative + rationale for each lives in
+      the code comments (code/main.R, code/config.R,
+      code/pipeline/03c_compute_taus_parallel.R) and README.md's
+      pipeline-order and memory sections; not restated here to avoid a
+      third copy going stale. Added fail-fast crosswalk-existence
+      guards to the four Stage B cleaners that depend on ipums's
+      output, so a future ordering regression dies immediately instead
+      of after wasted work.
 - [ ] Lock final exhibit numbering; update README mapping table.
 
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).

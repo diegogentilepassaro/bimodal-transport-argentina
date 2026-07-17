@@ -35,6 +35,14 @@ main <- function() {
     message("clean_agricultural.R  |  Agricultural census → geolev2 panel")
     message(strrep("=", 72))
 
+    # Fail fast on the ordering dependency (this cleaner must run after
+    # clean_ipums.R). Found in the 2026-07-16 clean rerun.
+    stopifnot(
+        "IPUMS crosswalk missing -- run clean_ipums.R (Stage B.2) first" =
+            file.exists(file.path(dir_derived_ipums,
+                                   "ipums_districts_for_merge.parquet"))
+    )
+
     # --- 1. Read and clean 1960 ---------------------------------------------
     ag60 <- read_and_clean_1960()
 

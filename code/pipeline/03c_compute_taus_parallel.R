@@ -42,6 +42,9 @@ main <- function() {
     # batch main.R run could never get past C.3c.
     if (length(args) < 1) {
         ncores <- n_cores_heavy
+        message(sprintf(
+            "[03c] No CLI args -- using hands-off default: ncores = %d (n_cores_heavy)",
+            ncores))
     } else {
         ncores <- as.integer(args[1])
         stopifnot(!is.na(ncores), ncores >= 1L)

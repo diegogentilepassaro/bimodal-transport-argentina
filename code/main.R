@@ -171,9 +171,9 @@ stage_b_base <- function(makelog) {
         file.path(dir_derived_networks, "roads_by_district.parquet"),
         makelog)
 
-    # NOTE: clean_hypo_networks.R (formerly B.9) runs in Stage C as C.2b:
-    # it consumes the hypothetical-network geometries that C.2 produces.
-    # Moved in the 2026-07-16 clean-machine rerun (cold-start ordering bug).
+    # NOTE: clean_hypo_networks.R (formerly B.9) now runs in Stage C as
+    # C.2b -- see the comment there for why. (README.md has the full
+    # pipeline-order narrative.)
 }
 
 # ==============================================================================
@@ -197,8 +197,8 @@ stage_c_pipeline <- function(makelog) {
              makelog)
 
     # District-level intersection of the hypothetical networks. Lives in
-    # code/base/networks/ but depends on C.2's geometries, so it runs here
-    # (moved from Stage B in the 2026-07-16 clean-machine rerun).
+    # code/base/networks/ but depends on C.2's geometries, so it runs here,
+    # not in Stage B (moved 2026-07-16; see README.md for the full story).
     run_step("C.2b clean_hypo_networks",
              file.path(dir_code, "base", "networks", "clean_hypo_networks.R"),
              "Hypothetical networks by district (LCP-MST, Euc-MST, LCP, Euc)",
