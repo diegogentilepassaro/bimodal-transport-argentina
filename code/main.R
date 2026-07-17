@@ -327,6 +327,15 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.10",
         file.path(dir_tables, "table_9_population_iv.tex"), makelog)
 
+    run_step("D.10b table_15_density_schedules",
+             a("table_15_density_schedules.R"),
+             "Density-schedule table: population spec under s0/s1/s2 costs",
+             makelog)
+    verify_outputs("D.10b",
+        file.path(dir_tables,
+                  paste0("table_15_density_schedules.", c("tex", "csv"))),
+        makelog)
+
     run_step("D.11 table_10_sectoral",
              a("table_10_sectoral.R"),
              "Table 10: sectoral activity (manufacturing + agriculture)",
@@ -385,7 +394,7 @@ stage_d_analysis <- function(makelog) {
              makelog)
     verify_outputs("D.13e",
         file.path(dir_tables,
-                  paste0("diagnostic_theta_sweep.", c("txt", "csv"))),
+                  paste0("diagnostic_theta_sweep.", c("txt", "csv", "tex"))),
         makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",

@@ -1,7 +1,7 @@
 ====================================================================== 
 THETA SWEEP (Bloque 1 cheap lever) 
 Main population elasticity vs theta; benchmark Gibbons 2024 ~0.3 
-Generated: 2026-07-16 23:25:15 
+Generated: 2026-07-17 09:38:26 
 ====================================================================== 
 
 theta    OLS beta (SE)       IV-Both beta (SE)   first-stage F 
@@ -14,6 +14,7 @@ theta    OLS beta (SE)       IV-Both beta (SE)   first-stage F
 8.11     +0.010 (0.006)     +0.024 (0.016)       13.4 <- alt 
 10.00    +0.007 (0.005)     +0.019 (0.013)       12.8 
 12.00    +0.006 (0.004)     +0.015 (0.011)       12.5 
+Saved: /Users/diegogp/Desktop/Diego/Trains/new_repo/results/tables/diagnostic_theta_sweep.tex 
 
 ====================================================================== 
 READING: if the IV beta stays ~0.02-0.06 across the whole theta 

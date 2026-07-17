@@ -181,6 +181,26 @@ Blocked on Diego (decisions):
       mass 0.378 -> 0.264 (p=.05); placebo point unchanged.
 - [x] ~~Issue #22 (CF + TdF)~~ — done in PR #93 (option (a), merged).
 
+Decisions made by us, documented for Cote's inspection (may be revised):
+- [x] DENSITY SCHEDULES (Diego, 2026-07-17): all three B&P cargo-density
+      schedules are now reported prominently — new main-text table
+      (table_15_density_schedules, Section 5.2) re-estimates the
+      population spec under s1 (high, rail-favouring) and s2 (low,
+      road-favouring) with every MA object switched per row. Medium
+      stays the baseline: general-purpose schedule, mode-neutral costs
+      (rail 1.874 vs road 1.777 pesos/ton-km), does not pre-judge the
+      mode question that Block 2 answers. RESULT IS A FINDING: IV-B
+      rises monotonically from 0.026 (high) through 0.052 (baseline)
+      to 0.087 (low, p=.051); F strongest at low density (26.0). The
+      deeper sector-MATCHED design (agricultural outcomes with
+      high-density MA etc.) remains a separate open question below.
+- [x] THETA SWEEP PLACEMENT (Diego, 2026-07-17): the full sweep is now
+      presented as a table in Section 5.5 (robustness, next to the
+      baseline results) rather than only quoted in the Discussion;
+      Section 3 introduces theta with an immediate pointer to it
+      (D&H presentation pattern). Section 8.2 keeps the calibration
+      interpretation and references the table.
+
 Blocked on Cote:
 - [ ] Log-area awareness (decision made: excluded entirely, see above):
       Cote should know the balance-table correlation exists and that a

@@ -115,6 +115,31 @@ three IV columns.
 
 \input{../results/tables/table_9_population_iv.tex}
 
+\paragraph{Cargo-density cost schedules.}
+The estimates above use the medium-density (500~t/day) cost schedule,
+under which rail and road costs per ton-km are nearly identical
+(Table~\ref{tab:cost_params}), so the market-access index does not
+build in a preference for either mode.
+Table~\ref{tab:density_schedules} re-estimates the total-population
+specifications under the other two \citet{baumgartnerpalazzo1969}
+schedules, switching every market-access object --- treatment, both
+instruments, and the baseline log-MA control --- to the row's
+schedule. The treatment correlates \densHighCorrBase{} (high density)
+and \densLowCorrBase{} (low density) with its baseline version, so the
+three rows are related but not interchangeable measures. The
+combined-IV estimate rises monotonically as the cost schedule shifts
+from rail-favouring to road-favouring: \densHighIVBCoef{}
+(\densHighIVBSE{}) at high density, \mainPopCoefIVBoth{}
+(\mainPopSEIVBoth{}) at the baseline, and \densLowIVBCoef{}
+(\densLowIVBSE{}, $p = \densLowIVBP{}$) at low density. The
+combined-IV first-stage $F$ is \densHighF{}, \firstStageFBoth{}, and
+\densLowF{} respectively; identification is strongest under the
+low-density schedule.
+Section~\ref{sec:discussion} returns to the reading of this
+gradient.
+
+\input{../results/tables/table_15_density_schedules.tex}
+
 \subsection{Sectoral Activity}
 \label{sec:sectoral}
 
@@ -255,6 +280,20 @@ switch to the $\theta = \thetaHigh{}$ variant. The combined IV coefficient
 is \thetaHighIVBCoef{} (\thetaHighIVBSE{}). The coefficient is approximately half the
 main-specification value. The direction of the effect is unchanged,
 and no coefficient flips sign.
+
+Table~\ref{tab:theta_sweep} extends the two-value comparison to the
+full sweep $\theta \in [1, 12]$, recomputing market access, both
+instruments, and the baseline control at each value. The combined-IV
+coefficient declines monotonically in $\theta$, from
+\sweepBetaThetaOne{} at $\theta = 1$ to \sweepBetaThetaTwelve{} at
+$\theta = 12$, while the first-stage $F$ stays between
+\sweepFMin{} and \sweepFMax{} across the grid. The level of the population elasticity is
+therefore calibration-dependent; its sign and the sectoral contrast
+of Section~\ref{sec:sectoral} are not.
+Section~\ref{sec:discussion} discusses the implications for
+comparisons with estimates in the literature.
+
+\input{../results/tables/diagnostic_theta_sweep.tex}
 
 \paragraph{Panel B --- alternative hypothetical-road instruments.}
 The main specification uses the least-cost-path minimum spanning
