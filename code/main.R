@@ -473,6 +473,15 @@ stage_d_analysis <- function(makelog) {
                   paste0("figure_c13_ma_counterfactual_trio.",
                          c("pdf", "png"))),
         makelog)
+
+    run_step("D.19 table_a1_descriptives",
+             a("table_a1_descriptives.R"),
+             "Appendix Table A1: descriptive statistics, estimation sample",
+             makelog)
+    verify_outputs("D.19",
+        file.path(dir_tables,
+                  paste0("table_a1_descriptives.", c("tex", "csv"))),
+        makelog)
 }
 
 # ==============================================================================

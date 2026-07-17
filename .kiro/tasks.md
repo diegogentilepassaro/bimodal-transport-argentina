@@ -215,6 +215,18 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       whether to rebuild tau with explicit finite transshipment costs
       at stations/ports (mode-expanded graph) — the bound suggests it
       is not load-bearing, which de-prioritises that rebuild.
+- [x] APPENDIX DECISIONS C34-C36 (2026-07-18, decide-and-document):
+      C34 (dedicated theta=8.11 appendix table) MOOTED — Table 12
+      Panel A has the full estimator grid at 8.11 and the sweep table
+      has the whole theta grid; a third exhibit would duplicate both.
+      C35/C36 served by ONE appendix descriptives table
+      (table_a1_descriptives.R, main.R D.19, tab:descriptives): the
+      paper had NO summary-statistics exhibit at all (a submission
+      gap; Gibbons et al.'s Appendix Table A1 is the model). Covers
+      all outcomes incl. the sectoral censuses, treatment,
+      instruments, controls; N column makes the coverage differences
+      (sectoral censuses, 1947 placebo subsample) visible. Appendix
+      now has a Tables part (A-numbered) before the Figures part.
 - [x] BLOCK 2 PROSE COMPLETED (2026-07-17, decide-and-document, PR
       pending): A1 (OLS-vs-IV gap, Section 5.2) drafted stating both
       mechanisms (closure selection into declining districts;
