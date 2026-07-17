@@ -4,7 +4,7 @@ Derived from paper.tex skeleton. Color key in paper.tex: RED = placeholder numbe
 
 ---
 
-## CURRENT STATUS (updated after PR #104, 2026-07-18)
+## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
 The paper is drafted END TO END: Blocks 1 and 2, 44 pages, zero
 placeholders outside the intentional coauthor flags (abstract sign-off,
@@ -12,8 +12,10 @@ theta provenance, studied-share). Working mode since 2026-07-17 is
 DECIDE-AND-DOCUMENT: we make the calls, record them in the DEFERRED
 LEDGER below, and Cote inspects/reverses. Highlights of PRs #93–#104:
 - Sample: CF+TdF resolution (#93, N=311); framing pass (#94).
-- Infrastructure: paper-wide AutoFill (#95, 218+ macros); references
-  verified + abstract (#89/#96); clean-machine rerun found and fixed
+- Infrastructure: paper-wide AutoFill (#95, 169 macros then; 218 now
+  after #99–#104); theta-justification paragraph (#96; references +
+  abstract were #89, just before this run); clean-machine rerun found
+  and fixed
   six cold-start bugs incl. a memory crash (#97); exhibits embedded
   in-text, plain-English data section (#98).
 - New results with prominence: density-schedule table — IV-B rises
@@ -38,7 +40,9 @@ question than the original framing decisions below: the headline population
 elasticity (β=0.046, pre-#22) is an order of magnitude below the closest benchmark
 (Gibbons et al. 2024, ≈0.3), and a round of diagnostics (PRs #65–71) traced
 this to four entangled measurement/identification decisions — consolidated in
-**`Plan/memo_identification_measurement_decisions.md`** (2026-06-11).
+**`Plan/memo_identification_measurement_decisions.md`** (2026-06-11), which is
+the authoritative source for those open decisions. Read that memo's
+Section 6 before touching any Pending Decision below that it supersedes.
 
 Diagnostics since PR #62 (descriptive/exploratory, no pipeline re-run of the
 committed results unless noted):
@@ -161,7 +165,7 @@ were already wired into the existing pipeline (Phase 2c of
 ### Pending (order: blocked first, then easiest-value)
 
 **Block 1 loose ends:**
-- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). This is now the blocking item for Block 1 — everything else in this section is downstream of it. Meeting-prep email sent 2026-07-14; waiting on Cote to schedule.
+- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). No longer blocking day-to-day work (decide-and-document mode since 2026-07-17), but still the deepest open questions and the ones only the coauthors can settle. Meeting-prep email sent 2026-07-14; waiting on Cote to schedule.
 - [x] ~~Urban-center reference point diagnostic (Decision D)~~ — done in PR #75 (`diagnostic_ma_urbancenter.R`). Anchor is not the lever; θ still dominates. Cote's geocoded-census version remains the referee-proof answer but the expectation is now confirmation, not rescue.
 - [ ] Sector-specific indgen shares (Table 10 rebuild) — deferred, see Pending Decision 9.
 - [x] ~~Paper-wide scalar AutoFill substitution~~ — done in PR #95 (218+ macros; render-identical first pass verified by pdftotext diff).
@@ -170,18 +174,18 @@ were already wired into the existing pipeline (Phase 2c of
 
 **AEA housekeeping 3/4:**
 - [x] ~~W18 References bibliography~~ — done in PR #89 (all entries verified; data citations added and cited in §3).
-- [x] ~~W18 full AEA README~~ — drafted in PR (docs/aea-readme): dataset list, replicator instructions, table-program mapping, runtimes from logs. Rights certifications and ACA redistribution rights left as `[AUTHORS: confirm]` checkboxes; revisit mapping table when final exhibit numbering locks.
+- [x] ~~W18 full AEA README~~ — done in PR #92: dataset list, replicator instructions, table-program mapping, runtimes from logs. Rights certifications and ACA redistribution rights left as `[AUTHORS: confirm]` checkboxes; revisit mapping table when final exhibit numbering locks.
 
 **Block 2 next steps:**
 - [ ] Consolidated Cote email (supersedes the planned Tables-13/14
       follow-up): all accumulated flags and decide-and-document
       decisions since the meeting-prep email. In progress 2026-07-18.
-- [x] ~~§6 counterfactuals writeup~~ — drafted under provisional framing
-      F1; completed/verified in PR #102.
-- [x] ~~§7 mechanisms writeup~~ — drafted under provisional framing F2;
-      completed/verified in PR #102.
-- [x] ~~Two remaining findings paragraphs in §1~~ — in place (contract
-      updated through PR #102).
+- [x] ~~§6 counterfactuals writeup~~ — drafted in PR #84 under
+      provisional framing F1; verified/gap-filled in PR #102.
+- [x] ~~§7 mechanisms writeup~~ — drafted in PR #85 under provisional
+      framing F2; verified/gap-filled in PR #102.
+- [x] ~~Two remaining findings paragraphs in §1~~ — filled in PR #87
+      (contractual pass); contract updated through PR #102.
 - [x] ~~C3 Sector-specific MA regressions~~ — done in PR #101
       (sector-matched schedules; Table 16). The demand-side variant
       (sectoral destination weights) remains genuinely future work,
@@ -192,11 +196,12 @@ were already wired into the existing pipeline (Phase 2c of
 
 **Polish / final (order after Block 2):**
 - [x] ~~W13-16 §6.3 caveats, §7 interpretation, §8 Discussion,
-      Conclusion~~ — substantially pre-existing; gaps closed in
-      PR #102.
-- [x] ~~W17 Abstract~~ — drafted in PR #89 (149 words after PR #98's
-      Larkin clause; scalars macros, theta hedge); flagged in red for
-      Cote's sign-off.
+      Conclusion~~ — drafted in PRs #84–#86; gaps and stale claims
+      closed in PR #102.
+- [x] ~~W17 Abstract~~ — drafted in PR #89 (148 words; 149 after the
+      #94 framing pass; Larkin clause added within budget in #98;
+      scalars macros, theta hedge); flagged in red for Cote's
+      sign-off.
 - [x] ~~Appendix figures A1-A3~~ — done in PR #80 (see Figures above).
 - [x] ~~C34 θ=8.11 appendix table~~ — MOOTED in PR #104 (Table 12
       Panel A + the §5.5 sweep table cover it; documented decision).
@@ -206,7 +211,7 @@ were already wired into the existing pipeline (Phase 2c of
 
 ---
 
-## DEFERRED LEDGER (as of 2026-07-18, post PR #104)
+## DEFERRED LEDGER (as of 2026-07-17, post PR #104)
 
 Blocked on Diego (decisions):
 - [x] ~~LOG-AREA CONTROL~~ — DECIDED (Diego, 2026-07-16): log(area) is
@@ -280,8 +285,8 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       instruments, controls; N column makes the coverage differences
       (sectoral censuses, 1947 placebo subsample) visible. Appendix
       now has a Tables part (A-numbered) before the Figures part.
-- [x] BLOCK 2 PROSE COMPLETED (2026-07-17, decide-and-document, PR
-      pending): A1 (OLS-vs-IV gap, Section 5.2) drafted stating both
+- [x] BLOCK 2 PROSE COMPLETED (2026-07-17, decide-and-document,
+      PR #102 merged): A1 (OLS-vs-IV gap, Section 5.2) drafted stating both
       mechanisms (closure selection into declining districts;
       measurement error in the constructed regressor) WITHOUT
       apportioning, and noting the placebo's positive correlation
@@ -328,9 +333,11 @@ Blocked on Cote:
       Cote should know the balance-table correlation exists and that a
       referee may ask; the agreed answer is the density/over-control +
       mechanical-entanglement rationale, not a sensitivity table.
-- [ ] Abstract wording sign-off (red flag in PDF). Post-#93 framing pass
-      (PR pending) recharacterizes population as "small, marginally
-      significant" — needs explicit sign-off alongside the abstract.
+- [ ] Abstract wording sign-off (red flag in PDF; 149 words — count
+      moved 148 to 149 in #94's framing pass, Larkin clause added in
+      #98). The post-#93 framing pass (PR #94, merged) recharacterizes
+      population as "small, marginally significant" — needs explicit
+      sign-off alongside the abstract.
 - [ ] [optional, decided — no action required] Vicente López 1960
       digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
       one digit). Decision (Diego, 2026-07-16): document and leave as
@@ -370,7 +377,7 @@ Pre-deposit (see README's author checklist):
 - [ ] Rights certifications + ACA digitized-geometry redistribution rights.
 - [ ] If deposit slips past 2026: move IGN access-year fields + README dates together.
 - [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat documented in paper.tex preamble).
-- [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR pending): deleted
+- [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR #97 merged): deleted
       results/ + data/derived/, ran `R CMD BATCH code/main.R` end to
       end (~68 min after fixes; the first two attempts crashed the
       machine / hard-stopped — see below). All 11 regenerated table
@@ -420,7 +427,11 @@ Remaining items not covered by the memo (most flagged in
 `Plan/email_cote_block1_complete.md`; items 10-11 are new from Block 2):
 
 1. **Title**: Working title is "Transport Restructuring and Regional Development." Alternatives: "From Rail to Road," "Reshaping the Economic Map." Decide later.
-2. **Sector-specific MA**: We want to do something sector-specific but need to agree on what exactly and how it connects with the paper. The counterfactual exercise (freeze one mode) and sector-specific MA (different cost calibrations) are conceptually distinct — their interaction is unresolved. Defer until Block 1 framing is locked.
+2. **Sector-specific MA**: PARTIALLY RESOLVED by PR #101 (cost-side
+   sector-matched MA, Table 16; decide-and-document — see ledger). The
+   demand-side variant (sectoral destination weights) and its
+   interaction with the counterfactual exercise remain open for the
+   coauthors; the Conclusion states the remaining steps.
 3. ~~**Elasticity justification**~~ — superseded by memo Decision A (θ / τ object).
 4. ~~**Tau calculation**~~ — superseded by memo Decision B/A (connector re-cost, transshipment already screened in PR #66).
 5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.55) throughout.
@@ -428,8 +439,16 @@ Remaining items not covered by the memo (most flagged in
 7. ~~**Migration sign wrong-way**~~ — superseded by memo Decision E (carried unchanged; no new evidence).
 8. ~~**Hypo instrument is weak**~~ — superseded by memo Decision C (estimand) — the rail-vs-total-MA question replaces the two-instrument-vs-LP-only framing.
 9. **Tabla 10 sectoral outcomes**: currently uses industrial + agricultural census activity outcomes (not IPUMS employment). Option to rebuild IPUMS `indgen` shares if coauthor prefers the original framing.
-10. **Counterfactual framing (Table 13)**: rail-only point estimate (+0.032, F=105) is similar magnitude to full-MA headline (+0.046). Decide §6 framing: "rail dominates" vs. "rail and road both contribute, with rail more precisely identified." Currently neither is in prose.
-11. **Mechanism framing (Table 14)**: headline elasticity drops ~50% when Δrail-km + Δroad-km are added as controls. Decide §7 framing: "half the effect is local infrastructure" vs. "MA captures regional connectivity beyond local km." Currently neither is in prose.
+10. ~~**Counterfactual framing (Table 13)**~~ — DRAFTED (PR #84, F1
+    provisional): §6 states "both contribute, similar point estimates,
+    rail far better identified." Reversal to "rail dominates" is a
+    one-subsection rewrite if the coauthors prefer it. (The +0.032 /
+    F=105 numbers quoted here were pre-#22.)
+11. ~~**Mechanism framing (Table 14)**~~ — DRAFTED (PR #85, F2
+    provisional): §7 leads with the decomposition (half through local
+    infrastructure) and gives the complementary regional-connectivity
+    reading in the following paragraph. Reversal = reorder two
+    paragraphs.
 12. **Z_i completeness**: stations and depots Z_i variables not built (lp_1979.shp is lines-only; would need additional raw data, possibly from the Damus source flagged in tasks.md Q1). Decide whether to source the additional data or live with the partial Z_i set.
 13. **Studied-share discrepancy (39.6% vs 48.8%)**: tracked as GitHub issue #68 — do not fix until Larkin's own denominator is confirmed (requires archive access) and a reporting basis is chosen. The §4 placeholder explicitly says not to touch it until then.
 
