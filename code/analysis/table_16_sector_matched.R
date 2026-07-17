@@ -107,6 +107,15 @@ main <- function() {
     }
     df <- do.call(rbind, rows)
 
+    # Enforce (not just claim) that sample sizes match Table 10
+    # row-for-row (cr-review PR #101).
+    t10_csv <- file.path(dir_tables, "table_10_sectoral_iv.csv")
+    stopifnot(file.exists(t10_csv))
+    t10 <- read.csv(t10_csv, stringsAsFactors = FALSE)
+    t10_n <- t10$n_obs[t10$spec == "OLS"][
+        match(df$outcome, t10$outcome[t10$spec == "OLS"])]
+    stopifnot(identical(as.integer(df$n_obs), as.integer(t10_n)))
+
     message("\n[t16] Sector-matched MA: coefficient on matched dlogMA")
     for (i in seq_len(nrow(df))) {
         r <- df[i, ]
@@ -141,27 +150,30 @@ main <- function() {
         "\\caption{Sectoral Outcomes Under Sector-Matched Cost Schedules}",
         "\\label{tab:sector_matched}",
         "\\small",
-        "\\begin{tabular}{lcccc}",
+        "\\begin{tabular}{lcccccc}",
         "\\toprule",
-        "Outcome & (1) OLS & (2) IV-LP & (3) IV-Hypo & (4) IV-Both \\\\",
+        paste0("Outcome & (1) OLS & (2) IV-LP & (3) IV-Hypo & ",
+               "(4) IV-Both & $F$ (IV-B) & $N$ \\\\"),
         "\\midrule",
-        paste0("\\multicolumn{5}{l}{\\textit{Panel A: manufacturing ",
+        paste0("\\multicolumn{7}{l}{\\textit{Panel A: manufacturing ",
                "outcomes, low-density (100 t/day) MA}} \\\\"))
+    stopifnot(df$panel[1] == "A")  # header logic assumes A rows first
     for (i in seq_len(nrow(df))) {
         r <- df[i, ]
         if (r$panel == "B" && df$panel[max(i - 1, 1)] == "A") {
             tex_lines <- c(tex_lines,
                 "\\midrule",
-                paste0("\\multicolumn{5}{l}{\\textit{Panel B: agricultural ",
+                paste0("\\multicolumn{7}{l}{\\textit{Panel B: agricultural ",
                        "outcomes, high-density (1{,}000 t/day) MA}} \\\\"))
         }
         tex_lines <- c(tex_lines,
-            sprintf("%s & %s & %s & %s & %s \\\\",
+            sprintf("%s & %s & %s & %s & %s & %.1f & %d \\\\",
                     r$label,
                     tex_cell(r$ols_est,   r$ols_se,   r$ols_p),
                     tex_cell(r$iv_lp_est, r$iv_lp_se, r$iv_lp_p),
                     tex_cell(r$iv_h_est,  r$iv_h_se,  r$iv_h_p),
-                    tex_cell(r$iv_b_est,  r$iv_b_se,  r$iv_b_p)))
+                    tex_cell(r$iv_b_est,  r$iv_b_se,  r$iv_b_p),
+                    r$iv_b_F, r$n_obs))
     }
     tex_lines <- c(tex_lines,
         "\\bottomrule",
@@ -177,8 +189,9 @@ main <- function() {
                "manufacturing (small-batch goods), high density for ",
                "agriculture (bulk grain). Geographic controls, baseline ",
                "log population, and $\\theta = \\thetaLow{}$ are identical ",
-               "to Table~\\ref{tab:sectoral_iv}. Sample sizes match ",
-               "Table~\\ref{tab:sectoral_iv} row-for-row. Robust (HC1) SE. ",
+               "to Table~\\ref{tab:sectoral_iv}, and sample sizes match it ",
+               "row-for-row (asserted in the generating script). $F$ is ",
+               "the combined-IV first-stage Wald $F$. Robust (HC1) SE. ",
                "Significance: ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),
         "\\end{table}"

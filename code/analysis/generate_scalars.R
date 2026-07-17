@@ -544,6 +544,8 @@ add_prose_table_macros <- function(macros, tab) {
         }
         r <- row1(sm, outcome = "chg_log_valprod_85_54")
         macros[["smMfgF"]] <- f1(r$iv_b_F)
+        r <- row1(sm, outcome = "chg_log_massal_85_54")
+        macros[["smMassalF"]] <- f1(r$iv_b_F)
         r <- row1(sm, outcome = "chg_log_nexp_88_60")
         macros[["smAgrF"]] <- f1(r$iv_b_F)
     }
