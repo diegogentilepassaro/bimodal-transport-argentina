@@ -42,60 +42,63 @@ the paved-and-gravel road network at three cross sections (1954, 1970,
 1986).
 
 \paragraph{Railways.}
-The rail network comes from Argentina's 1979 \emph{Política Ferroviaria}
-report \citep{argentina1981politica}, Figure~V--5, scanned and
-digitised in QGIS using IGN shapefiles as geographic references. The
-resulting shapefile contains 565 MULTILINESTRING segments
-in WGS~84, each carrying three attributes that identify its operating
-status:
-\begin{itemize}
-  \item \texttt{status1979} with three values. Value 1 indicates the
-  segment was active in both 1979 and 1986 and is therefore counted
-  in both the 1960 and 1986 rail stocks. Value 2 indicates the segment
-  was closed during the military dictatorship (1976--1983). Value 3
-  indicates closure between 1960 and 1966; we count these segments in
-  the 1960 stock but not the 1986 stock.
-  \item \texttt{studied\_co} with two values. Value 1 indicates the
-  segment was one of the 237 rail segments studied in the 1962 Larkin
-  Plan, which recommended closures on the basis of freight-density and
-  operating-cost criteria. Value 0 indicates the remaining 328 segments
-  that the Larkin Plan did not evaluate.
-  \item \texttt{recom\_code} with three values (1, 2, 3) encoding the
-  Larkin Plan's three operating recommendations for the studied
-  segments.
-\end{itemize}
-We intersect the rail segments with the 312 district polygons from the
-IPUMS time-invariant geography (described in Section~\ref{ssec:census}),
-compute per-district length in kilometres in EPSG:4326 using
-\texttt{sf::st\_length} with s2 geometry, and obtain \texttt{tot\_rails\_1960} and
-\texttt{tot\_rails\_1986} for each district. Total rail km falls from 42{,}780
+The rail network comes from the network map in Argentina's 1979
+\emph{Política Ferroviaria} report \citep{argentina1981politica},
+which we digitised against official IGN geographic
+references.\footnote{The report's Figure~V--5 was scanned,
+georeferenced, and hand-traced in GIS; the resulting file contains
+565 line segments. District-level rail kilometres are computed by
+intersecting the segments with the district polygons.} Each digitised
+segment carries two pieces of information. The first is its operating
+history: whether the segment remained active through 1986, was closed
+between 1960 and 1966, or was closed during the military dictatorship
+(1976--1983). We use these closure dates to reconstruct the network as
+it stood in 1960 and as it stood in 1986. The second is its Larkin
+Plan status: whether the segment was among the 237 segments that the
+1962 Larkin Plan evaluated --- and recommended for closure or
+downgrade on the basis of freight-density and operating-cost
+criteria --- or among the 328 segments the Plan did not evaluate.
+This distinction is the basis of the first instrument
+(Section~\ref{sec:identification}).
+
+Total rail kilometres fall from 42{,}780
 in 1960 to 33{,}303 in 1986, a 22\% reduction. Of the 9{,}477~km lost,
 5{,}563~km (59\%) were closed during the dictatorship and 3{,}914~km (41\%)
 were closed between 1960 and 1966. Figure~\ref{fig:networks}a shows the
 geography of the rail network and highlights the dictatorship closures
-in red. 30 of the 312 districts have zero rail km in all periods;
+in red. 30 of the 312 districts have no rail in any period;
 these are concentrated in Patagonia and Tierra del Fuego.
 
 \paragraph{Roads.}
-The road network comes from a digitised cross-panel of
-Automóvil~Club~Argentino maps for 1954, 1970, and 1986
-\citep{acamaps}. The resulting
-shapefile (\texttt{comparacion\_54\_70\_86.shp}) contains 1{,}741
-MULTILINESTRING segments classified into seven \texttt{type2}
-categories by their period-specific presence:
-\begin{itemize}\setlength\itemsep{0pt}
-  \item \texttt{type2}~$\in\{1,5\}$: present in 1954 and 1986 (type 5 is
-    absent from the 1970 map and treated as a cartographic error).
-  \item \texttt{type2}~$\in\{2,3\}$: added between 1954 and 1986
-    (type 2 appears in 1970, type 3 appears in 1986).
-  \item \texttt{type2}~$\in\{4,6,7\}$: present only in a subset of
-    periods and absent in 1986; these segments are excluded from
-    period-total road km.
-\end{itemize}
-The paved-and-gravel road network (the union of types 1, 2, 3, and 5)
-grows from 27{,}513~km in 1954 to 79{,}820~km in 1986, a 190\% increase.
+The road network comes from a digitised comparison of
+Automóvil~Club~Argentino road maps for 1954, 1970, and 1986
+\citep{acamaps}. Each of the 1{,}741 digitised segments is classified
+by the set of map years in which it appears, which lets us
+reconstruct the paved-and-gravel network at each of the three cross
+sections.\footnote{Segments that appear on the 1954 and 1986 maps but
+not on the 1970 map are treated as continuously present (a
+cartographic omission on the middle map). Segments absent from the
+1986 map are excluded from the period totals.}
+The network grows from 27{,}513~km in 1954 to 79{,}820~km in 1986, a
+190\% increase.
 Figure~\ref{fig:networks}b shows the road network and highlights the
 segments added between 1954 and 1986 in red.
+Table~\ref{tab:network_changes} summarises the network totals by
+period.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure_1_network_changes.pdf}
+\caption{Transport network changes, 1960--1986.}
+\label{fig:networks}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Transport Network Changes, 1960--1986}
+\label{tab:network_changes}
+\input{../results/tables/table_1_network_changes.tex}
+\end{table}
 
 Three districts, all in Patagonia, lack any segment in the road
 shapefile and contribute missing values in the district-level road
@@ -104,38 +107,33 @@ both lost rail and gained roads. The cross-district correlation between
 $\Delta$(rail km) and $\Delta$(road km) is $-0.25$.
 
 \paragraph{Hypothetical road networks.}
-We also construct four hypothetical road networks that connect Argentina's
-largest cities under stylised routing rules. Starting from a node set of
-54~cities (all provincial capitals plus all cities with population
-$\geq 15{,}000$ in 1960), we compute:
-\begin{itemize}\setlength\itemsep{0pt}
-  \item \texttt{euc}: all $\binom{54}{2}=1{,}431$ straight-line
-    (Euclidean) segments between city pairs.
-  \item \texttt{euc\_mst}: the Euclidean minimum spanning tree
-    (53 edges).
-  \item \texttt{lcp}: all bilateral least-cost paths between city
-    pairs, routed on a construction-cost raster following
-    \citet{faber2014} that
-    penalises slope, wetland, urban areas, and water crossings.
-  \item \texttt{lcp\_mst}: the minimum spanning tree of the LCP
-    weights.
-\end{itemize}
+We also construct four hypothetical road networks that connect
+Argentina's largest cities under stylised routing rules. The node set
+is the 54~cities that were provincial capitals or had population of
+at least 15{,}000 in 1960. The first network links every pair of
+cities with a straight line (1{,}431 segments); the second is the
+minimum spanning tree of those straight-line distances (53 edges).
+The third replaces straight lines with least-cost paths routed over a
+construction-cost surface that, following \citet{faber2014},
+penalises slope, wetlands, urban land, and water crossings; the
+fourth is the minimum spanning tree of those least-cost-path weights.
 These networks serve as instruments for the actual road network in
-Section~\ref{sec:identification}.
+Section~\ref{sec:identification}; the least-cost-path spanning tree
+is the main choice, and the other three appear as robustness
+alternatives.
 
 \subsection{Census data and outcomes}
 \label{ssec:census}
 
 \paragraph{Geographic unit.}
-We work at the district level using IPUMS International's
-time-invariant \texttt{geolev2} geography for Argentina
-\citep{ipums2020}, covering 312
-mainland districts including Capital Federal and the two Tierra~del~Fuego
-jurisdictions. The same polygons are used across the five IPUMS sample
-years (1970, 1980, 1991, 2001, 2010), the 1960 and 1947 census
-publications, and the agricultural and industrial censuses. The
-\texttt{geolev2} identifier is stored as a character string throughout
-the analysis to avoid type-coercion bugs on leading zeros.
+We work at the district (\emph{departamento}) level using IPUMS
+International's time-invariant district geography for Argentina
+\citep{ipums2020}, which partitions the mainland into 312
+districts, including Capital Federal and the two Tierra~del~Fuego
+jurisdictions. The same polygons apply across the five IPUMS sample
+years (1970, 1980, 1991, 2001, 2010), the 1947 and 1960 census
+publications, and the agricultural and industrial censuses, so every
+outcome is measured on identical boundaries throughout.
 
 \paragraph{Population.}
 Population in 1960 comes from the digitised \emph{Censo Nacional de
@@ -143,7 +141,7 @@ Población 1960} tables \citep{censo1960pop}, reconciled to the IPUMS district g
 through a crosswalk that handles pre-1960 splits and name changes. The
 mean 1960 district population is \popMeanBase{} with a national total of
 \popTotalBase{}~million. Population in 1991 comes from the IPUMS microdata
-aggregated to \texttt{geolev2}; the mean 1991 district population is
+aggregated to the same district geography; the mean 1991 district population is
 \popMeanEnd{} with a national total of \popTotalEnd{}~million. Log population change
 $\Delta\log(\mathrm{pop}_{91/60})$ has mean $\chgLogPopMean{}$ and standard deviation
 $\chgLogPopSD{}$. Capital Federal and the two Tierra~del~Fuego districts are
@@ -170,17 +168,17 @@ network changes, and should be uncorrelated with the instruments if the
 instruments isolate post-1960 network-induced variation.
 
 \paragraph{Industrial and agricultural outcomes.}
-Four additional data components carry sectoral outcomes. The 1954 and
+Sectoral outcomes come from four additional censuses. The 1954 and
 1985 industrial censuses (\emph{Censo Industrial} and \emph{Censo
 Económico}; \citealt{censo1954industrial, indec1985economico}) provide
-district-level establishment counts, salaries, and
-production values. Only \texttt{nestab} (establishments), \texttt{massal}
-(wages), and \texttt{valprod} (production value) are present in both
-census years; \texttt{nemp} (workers, 1954) and \texttt{npers} (persons,
-1985) are defined differently and are not directly comparable. The 1960
+district-level establishment counts, total wages paid (the wage
+mass), and production values, each measured on definitions comparable
+across the two census years. Employment is recorded on incompatible
+definitions in the two years (workers in 1954, total persons engaged
+in 1985) and is not used. The 1960
 and 1988 agricultural censuses
-\citep{censo1960agro, indec1988agro} provide \texttt{nexp} (farm operations)
-and \texttt{areatot\_ha} (total agricultural area). All monetary
+\citep{censo1960agro, indec1988agro} provide the number of farm
+operations and total agricultural area. All monetary
 variables are nominal pesos of their census year; real comparisons
 across years require a deflator that we defer to robustness.
 
@@ -305,14 +303,12 @@ cost scales with the local HMI value and is one to two orders of
 magnitude above on-network cost.
 
 \paragraph{Least-cost path and elasticity.}
-We compute $\tau_{ij,t,s}$ by running Dijkstra's algorithm on an
-eight-connected grid transition object (\texttt{gdistance::costDistance})
-between the 312 IPUMS centroid points. $\tau_{ii,t,s}=0$ by construction
-and $\tau$ is symmetric. Dijkstra is run independently for each
-(period, sector) combination; a single end-to-end run of the four
-main networks (actual~1960, actual~1986, \texttt{stu} instrument,
-\texttt{lcp\_mst} instrument) at three sectors takes approximately
-45~minutes on a laptop with four cores.
+We compute $\tau_{ij,t,s}$ by running Dijkstra's algorithm over the
+cost surface between the 312 district centroids, separately for each
+network configuration and sector.\footnote{Paths move across an
+eight-connected grid; the computation uses the \texttt{gdistance}
+R~package. The replication package documents runtimes.}
+$\tau_{ii,t,s}=0$ by construction and $\tau$ is symmetric.
 
 The elasticity $\theta$ controls how sharply distant destinations are
 discounted in the MA sum. It is taken from the trade literature, not
@@ -369,6 +365,13 @@ minimum $-\maMin{}$ and maximum $\maMax{}$; \maSharePos{}\% of districts see a p
 change. Figure~\ref{fig:ma_choropleth} maps $\Delta\log\mathrm{MA}_i$
 across districts.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_2_ma_change_choropleth.pdf}
+\caption{Change in log market access, 1960--1986.}
+\label{fig:ma_choropleth}
+\end{figure}
+
 \paragraph{Counterfactual decomposition.}
 We additionally construct two counterfactual cost surfaces that freeze
 one network mode at its baseline while letting the other change:
@@ -387,6 +390,14 @@ expansion is a large gain). The sum of the two isolated components
 $\Delta\log\mathrm{MA} = \maMean{}$, reflecting a positive complementarity
 between the two network shocks. Figure~\ref{fig:ma_counterfactual}
 compares the three maps side by side.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figure_c13_ma_counterfactual_trio.pdf}
+\caption{Market access changes under three scenarios: full, only-rail
+counterfactual, only-road counterfactual.}
+\label{fig:ma_counterfactual}
+\end{figure}
 
 \paragraph{Limitations.}
 The cost-surface construction imposes three modelling choices that the
