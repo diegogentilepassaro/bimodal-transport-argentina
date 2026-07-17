@@ -217,6 +217,11 @@ Blocked on Cote:
       Redding 2022, or the old draft (no MA-theta framework). Unless
       Cote recalls the source, options: adopt a cited value (SW 4.1) or
       state 4.55 as a midpoint choice. Memo Decision A still separate.
+- [ ] Larkin Plan canonical year: Section 2 says the study was
+      published and announced in 1961; the abstract, Section 3, and
+      the bib entry (larkin1962) say 1962. Surfaced by PR #98's
+      review (the abstract now names the year prominently). Decide
+      the canonical year and align all mentions + the bib entry.
 - [ ] Migration sign interpretation, title (long-standing flags).
 
 Pre-deposit (see README's author checklist):

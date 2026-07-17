@@ -185,17 +185,17 @@ main specification, so their residual
 correlations shift from exclusion-restriction threats to a
 conditional-independence requirement: the Larkin Plan instrument must
 be uncorrelated with the outcome \emph{conditional on} these
-geographic controls. Baseline urban share and log district area are
-not among the controls.
+geographic controls.
 
 The hypothetical-road instrument shows imbalance at the five-percent
 level for \balHypoNImbalanced{} of the nine baseline characteristics
 (baseline log population and log district area); the remaining
 column~2 coefficients show no correlation at conventional levels.
-Baseline log population is a control in the main specification; log
-district area is not. The joint
-specification in
+Baseline log population is a control in the main specification. The
+joint specification in
 column~3 yields similar results to the single-instrument columns.
+
+\input{../results/tables/table_6_pre_balance.tex}
 
 \subsubsection{Pre-Trends}
 \label{sec:pre_trends}
@@ -211,8 +211,8 @@ post-reform $\Delta \ln \mathrm{MA}^{\mathrm{full}}_i$ in this
 placebo regression should be near zero.
 
 The sample is \placeboNIVBoth{} districts --- the subset for which the 1947 census
-provides comparable population counts under IPUMS geolev2
-boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
+provides comparable population counts under the time-invariant
+district boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
 match the structure of Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
 
@@ -249,11 +249,15 @@ post-reform main-spec coefficient on the same subset. We retain the
 main specification on the full sample as the headline estimate and
 report the placebo-subsample result in the robustness panel.
 
+\input{../results/tables/table_7_pre_trends.tex}
+
 \subsubsection{First-Stage Results}
 \label{sec:first_stage_tab}
 
 Table~\ref{tab:first_stage} reports the first-stage regressions.
 Results are described in Section~\ref{sec:first_stage}.
+
+\input{../results/tables/table_8_first_stage.tex}
 
 \subsection{Additional Robustness Approaches}
 
