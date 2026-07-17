@@ -99,8 +99,8 @@ share of less than one percentage point.
 Across the three log-change outcomes, the IV point estimates exceed
 the OLS estimates by a factor of approximately two to four. This
 pattern is consistent with a downward bias in OLS that would arise if
-infrastructure changes were concentrated in districts with declining
-pre-period trends; the direction of bias was a possibility raised in
+road-driven market-access gains were directed to districts with
+declining pre-period trends --- the compensatory allocation logic of
 Section~\ref{sec:identification}. The IV point estimates are not
 statistically distinguishable from zero at the five-percent level,
 though the total-population combined-IV estimate is significant at
@@ -110,23 +110,28 @@ IV-Both column reports the narrowest confidence intervals among the
 three IV columns.
 
 Two mechanisms can produce an IV--OLS gap of this direction, and the
-evidence does not separate them. The first is selection: if the
-network changes disproportionately reduced market access in districts
-whose populations would have grown slowly anyway --- the reading
-suggested by the closure criteria of Section~\ref{sec:history} ---
-OLS understates the causal response. The placebo evidence complicates
-this reading rather than supporting it: on the subsample where
+evidence does not separate them. The first is compensatory selection
+(Section~\ref{sec:identification}): if road-driven market-access
+gains were directed to districts whose populations would have grown
+slowly anyway, gains align with negative outcome shocks and OLS
+understates the causal response. The opposing efficiency logic ---
+closures concentrated where outcomes were already falling --- biases
+OLS upward and so cannot explain a gap of this direction. The placebo
+evidence bears on which logic dominated: on the subsample where
 pre-period growth is observed, post-reform market-access changes
 correlate \emph{positively} with 1947--1960 growth
-(Section~\ref{sec:pre_trends}), which taken alone points to upward,
-not downward, OLS bias. The second mechanism is attenuation: market
+(Section~\ref{sec:pre_trends}), the efficiency-selection pattern,
+which taken alone points to upward, not downward, OLS bias and so
+weighs against selection of either sign explaining the observed gap.
+The second mechanism is attenuation: market
 access is a constructed regressor built from digitised networks and
 calibrated cost parameters, and classical measurement error in it
-biases OLS toward zero while leaving IV consistent, provided the
-instruments are uncorrelated with the construction error. Both
-mechanisms push OLS below IV; the placebo pattern weighs against
-selection carrying the whole gap, but with the available data we do
-not apportion the gap between them.
+biases OLS toward zero. Instrumenting removes the attenuation only to
+the extent that the instruments do not share the construction error
+--- a condition that is not innocuous here, since both instruments
+are themselves market-access measures built from the same digitised
+baseline network and the same cost parameters. With the available
+data we do not apportion the gap between the two mechanisms.
 
 \input{../results/tables/table_9_population_iv.tex}
 
@@ -234,9 +239,9 @@ Three facts connect this sectoral pattern to the cost structure
 described in Section~\ref{ssec:scale_economies}. First, the
 \citet{baumgartnerpalazzo1969} schedule makes the modal shift
 asymmetric across sectors by construction: moving freight from rail
-to road lowers unit costs at low cargo density (8.27 versus 13.49
-pesos per ton-km) and raises them at high density (1.00 versus
-0.47), so a restructuring that replaced rail with road capacity
+to road lowers unit costs at low cargo density (8.266 versus 13.490
+1960~pesos per ton-km) and raises them at high density (1.000 versus
+0.465), so a restructuring that replaced rail with road capacity
 changed manufacturing's transport costs in the opposite direction
 from agriculture's. Second, the outcomes align with that asymmetry:
 the sector whose characteristic shipments became cheaper to move
