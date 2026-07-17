@@ -58,6 +58,7 @@ main <- function() {
                    "table_12_robustness",
                    "table_13_counterfactual",
                    "table_14_mechanisms",
+                   "table_15_density_schedules",
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
@@ -510,13 +511,31 @@ add_prose_table_macros <- function(macros, tab) {
             as.character(sum(t6$hypo_only_p < 0.05))
     }
 
-    # -- Theta sweep diagnostic (Section 8.2) ---------------------------------
+    # -- Density-schedule table (Section 5.2) ---------------------------------
+    ds <- tab[["table_15_density_schedules"]]
+    if (!is.null(ds)) {
+        for (g in list(c("s1", "densHigh"), c("s2", "densLow"))) {
+            r <- row1(ds, schedule = g[1])
+            macros[[paste0(g[2], "IVBCoef")]] <- f3(r$iv_b_est)
+            macros[[paste0(g[2], "IVBSE")]]   <- f3(r$iv_b_se)
+            macros[[paste0(g[2], "IVBP")]]    <- f3(r$iv_b_p)
+            # f2, not f1: this F is quoted in one sentence alongside
+            # \firstStageFBoth (2 dp), so precisions must match.
+            macros[[paste0(g[2], "F")]]       <- sprintf("%.2f", r$iv_b_F)
+            macros[[paste0(g[2], "CorrBase")]] <- sprintf("%.2f",
+                                                          r$corr_treat_s0)
+        }
+    }
+
+    # -- Theta sweep (Section 5.5 table; Section 8.2 interpretation) ----------
     sw <- tab[["diagnostic_theta_sweep"]]
     if (!is.null(sw)) {
         r <- row1(sw, theta = 1)
         macros[["sweepBetaThetaOne"]] <- sprintf("%.2f", r$iv_beta)
         r <- row1(sw, theta = 12)
         macros[["sweepBetaThetaTwelve"]] <- sprintf("%.2f", r$iv_beta)
+        macros[["sweepFMin"]] <- f1(min(sw$first_stage_F, na.rm = TRUE))
+        macros[["sweepFMax"]] <- f1(max(sw$first_stage_F, na.rm = TRUE))
     }
 
     macros
