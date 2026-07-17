@@ -1,7 +1,7 @@
 ====================================================================== 
 MA UNIMODAL / TRANSSHIPMENT-BOUND DIAGNOSTIC (Bloque 1 test c) 
 Infinite transshipment (one mode per trip) vs baseline (free switch) 
-Generated: 2026-05-31 12:28:12 
+Generated: 2026-07-17 10:40:27 
 ====================================================================== 
 
 Building unimodal tau (element-wise min across road/rail/water)... 
@@ -9,20 +9,20 @@ Building unimodal tau (element-wise min across road/rail/water)...
 ---------------------------------------------------------------------- 
 [A] MA GAIN: baseline (zero transshipment) vs unimodal (infinite) 
 ---------------------------------------------------------------------- 
-  baseline:  share gain 91.0%  mean 1.559  median 0.639  (N=312) 
-  unimodal:  share gain 78.2%  mean 2.005  median 1.115  (N=312) 
+  baseline:  share gain 90.7%  mean 1.512  median 0.592  (N=311) 
+  unimodal:  share gain 76.9%  mean 1.942  median 1.013  (N=312) 
 
 ---------------------------------------------------------------------- 
 [B] PAIRWISE tau CHANGE 1960->1986: how much do pairs get cheaper? 
 ---------------------------------------------------------------------- 
   unimodal: 79.0% of pairs cheaper; median tau ratio 0.606 
-  (baseline was 91.6% cheaper, median ratio 0.795 — see diagnostic 1) 
+  baseline: 91.6% of pairs cheaper; median tau ratio 0.795 
 
 ---------------------------------------------------------------------- 
 [C] POPULATION OLS elasticity under unimodal MA (sector 0) 
 ---------------------------------------------------------------------- 
-  OLS  beta = +0.018 (0.010)  N=309 
-  (baseline OLS was +0.022; baseline IV-Both +0.046; Gibbons 2024 ~0.3) 
+  OLS  beta = +0.018 (0.010)  N=311 
+  baseline OLS (same spec, multimodal MA) = +0.016 (0.011)  N=311 
   NOTE: full IV needs unimodal instruments too — built only if 
   this screen implicates transshipment. 
 

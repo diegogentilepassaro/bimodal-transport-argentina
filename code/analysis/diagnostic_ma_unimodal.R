@@ -61,7 +61,8 @@ main <- function() {
                 sprintf("tau_actual_%d_s0_%sonly.parquet", year, md))
             if (!file.exists(p)) {
                 stop("Missing single-mode tau: ", p,
-                     "\nRun code/analysis/run_unimodal_variant.sh first.")
+                     "\nRun code/pipeline/07_unimodal_taus.R ",
+                     "(main.R step D.13f) first.")
             }
             d <- arrow::read_parquet(p)
             d$key <- paste(d$origin_geolev2, d$destination_geolev2, sep = "_")
@@ -120,14 +121,24 @@ main <- function() {
     rep("\n%s", strrep("-", 70))
     rep("[B] PAIRWISE tau CHANGE 1960->1986: how much do pairs get cheaper?")
     rep("%s", strrep("-", 70))
-    k60 <- paste(tau60$origin_geolev2, tau60$destination_geolev2, sep="_")
-    k86 <- paste(tau86$origin_geolev2, tau86$destination_geolev2, sep="_")
-    mm <- match(k60, k86)
-    r <- tau86$tau[mm] / tau60$tau
-    r <- r[is.finite(r) & r > 0]
+    pair_ratio <- function(t60, t86) {
+        k60 <- paste(t60$origin_geolev2, t60$destination_geolev2, sep="_")
+        k86 <- paste(t86$origin_geolev2, t86$destination_geolev2, sep="_")
+        r <- t86$tau[match(k60, k86)] / t60$tau
+        r[is.finite(r) & r > 0]
+    }
+    r_uni <- pair_ratio(tau60, tau86)
+    # Baseline computed live from the committed multimodal taus (the old
+    # report quoted stale pre-issue-#22 constants here).
+    tau60_base <- arrow::read_parquet(
+        file.path(dir_derived_taus, "tau_actual_1960_s0.parquet"))
+    tau86_base <- arrow::read_parquet(
+        file.path(dir_derived_taus, "tau_actual_1986_s0.parquet"))
+    r_base <- pair_ratio(tau60_base, tau86_base)
     rep("  unimodal: %.1f%% of pairs cheaper; median tau ratio %.3f",
-        100*mean(r < 1), median(r))
-    rep("  (baseline was 91.6%% cheaper, median ratio 0.795 — see diagnostic 1)")
+        100*mean(r_uni < 1), median(r_uni))
+    rep("  baseline: %.1f%% of pairs cheaper; median tau ratio %.3f",
+        100*mean(r_base < 1), median(r_base))
 
     # ---- [C] OLS elasticity under unimodal MA -----------------------------
     rep("\n%s", strrep("-", 70))
@@ -145,9 +156,41 @@ main <- function() {
         data = m, vcov = "hetero"))
     rep("  OLS  beta = %+.3f (%.3f)  N=%d",
         coef(m_ols)["chg_uni"], m_ols$se["chg_uni"], m_ols$nobs)
-    rep("  (baseline OLS was +0.022; baseline IV-Both +0.046; Gibbons 2024 ~0.3)")
+    # Baseline OLS computed live on the same specification (the old report
+    # quoted stale pre-issue-#22 constants here). NOTE: this simple spec
+    # omits the baseline log-MA control by design (there is no unimodal
+    # baseline-MA control), so the baseline row here differs from Table 9
+    # column (1); the two are compared like-for-like.
+    b <- base[!is.na(base$chg_logMA_86_60_s0_elow), ]
+    m_ols_base <- suppressMessages(fixest::feols(
+        as.formula(sprintf("chg_log_pop_91_60 ~ chg_logMA_86_60_s0_elow + %s",
+                           ctrls)),
+        data = b, vcov = "hetero"))
+    rep("  baseline OLS (same spec, multimodal MA) = %+.3f (%.3f)  N=%d",
+        coef(m_ols_base)["chg_logMA_86_60_s0_elow"],
+        m_ols_base$se["chg_logMA_86_60_s0_elow"], m_ols_base$nobs)
     rep("  NOTE: full IV needs unimodal instruments too — built only if")
     rep("  this screen implicates transshipment.")
+
+    # ---- CSV for AutoFill (paper Section 5.5 transshipment paragraph) -----
+    csv_df <- data.frame(
+        stat = c("gain_share_baseline", "gain_share_unimodal",
+                 "pair_cheaper_baseline", "pair_cheaper_unimodal",
+                 "median_ratio_baseline", "median_ratio_unimodal",
+                 "ols_beta_baseline", "ols_beta_unimodal",
+                 "ols_se_baseline", "ols_se_unimodal",
+                 "n_unimodal"),
+        value = c(100*mean(cb > 0, na.rm = TRUE), 100*mean(cu > 0),
+                  100*mean(r_base < 1), 100*mean(r_uni < 1),
+                  median(r_base), median(r_uni),
+                  unname(coef(m_ols_base)["chg_logMA_86_60_s0_elow"]),
+                  unname(coef(m_ols)["chg_uni"]),
+                  unname(m_ols_base$se["chg_logMA_86_60_s0_elow"]),
+                  unname(m_ols$se["chg_uni"]),
+                  m_ols$nobs))
+    out_csv <- file.path(dir_tables, "diagnostic_ma_unimodal.csv")
+    write.csv(csv_df, out_csv, row.names = FALSE)
+    message("Saved: ", out_csv)
 
     rep("\n%s", strrep("=", 70))
     rep("READING: if unimodal gain share stays ~91%% and median tau ratio")

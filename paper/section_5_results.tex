@@ -292,6 +292,31 @@ comparisons with estimates in the literature.
 
 \input{../results/tables/diagnostic_theta_sweep.tex}
 
+\paragraph{Transshipment bound.}
+The cost surface underlying all estimates allows free mode switching:
+a least-cost path can move between rail, road, and navigation at any
+grid cell at no cost (Section~\ref{ssec:ma}). The opposite extreme is
+infinite transshipment: each origin--destination trip uses a single
+mode plus off-network land, with the trip cost taken as the minimum
+across the three single-mode cost matrices. Under this bound, the
+share of districts gaining market access between 1960 and 1986 falls
+from \uniGainShareBase\% to \uniGainShareUni\%, and the median
+origin--destination cost ratio (1986 relative to 1960) is
+\uniMedRatioUni{} against \uniMedRatioBase{} at baseline: the broad
+cost decline persists when no trip may switch modes. The population
+elasticity is essentially unchanged at the bound: an OLS regression
+of the population change on the unimodal market-access change yields
+\uniOLSUni{} (\uniOLSUniSE{}), against \uniOLSBase{} (\uniOLSBaseSE{})
+for the baseline measure on the same specification
+($N = \uniN{}$).\footnote{The bound is evaluated by OLS only:
+instrumenting would require unimodal versions of both instruments,
+and the comparison specification omits the baseline log-MA control on
+both sides (no unimodal analogue exists), so the baseline OLS
+coefficient here differs from Table~\ref{tab:population_iv}
+column~(1).} Since the truth --- finite transshipment costs at
+stations and ports --- lies between two bounds that agree, the
+free-switching assumption is not load-bearing for these results.
+
 \paragraph{Panel B --- alternative hypothetical-road instruments.}
 The main specification uses the least-cost-path minimum spanning
 tree as the hypothetical-road instrument. Panel~B reports results

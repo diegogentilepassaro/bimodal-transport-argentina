@@ -200,6 +200,21 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       (LP F = 6.2), the mirror image of the baseline (LP 22.1 /
       hypo 6.9). Bears directly on the standing "should main spec be
       IV-LP-only?" question.
+- [x] TRANSSHIPMENT BOUND IN-PAPER (Diego, 2026-07-17): the unimodal
+      (infinite-transshipment) bound is now presented in Section 5.5
+      and regenerated hands-off (new pipeline driver
+      07_unimodal_taus.R = main.R D.13f builds the six single-mode
+      taus, ~15 min cold; diagnostic_ma_unimodal.R = D.13g emits the
+      CSV the macros read; run_unimodal_variant.sh kept for
+      reference). Post-#22 numbers: gain share 90.7% -> 76.9%; median
+      pair ratio 0.80 -> 0.61; OLS elasticity 0.016 -> 0.018 (same
+      spec both sides, no baseline-MA control, N=311). The bound is
+      OLS-only (no unimodal instruments), stated in a footnote.
+      Old stale pre-#22 constants in the diagnostic report were
+      replaced with live-computed baselines. STILL OPEN for Cote:
+      whether to rebuild tau with explicit finite transshipment costs
+      at stations/ports (mode-expanded graph) — the bound suggests it
+      is not load-bearing, which de-prioritises that rebuild.
 - [x] THETA SWEEP PLACEMENT (Diego, 2026-07-17): the full sweep is now
       presented as a table in Section 5.5 (robustness, next to the
       baseline results) rather than only quoted in the Discussion;
