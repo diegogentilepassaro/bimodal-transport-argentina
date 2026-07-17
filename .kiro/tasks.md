@@ -215,6 +215,13 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       whether to rebuild tau with explicit finite transshipment costs
       at stations/ports (mode-expanded graph) — the bound suggests it
       is not load-bearing, which de-prioritises that rebuild.
+- [ ] FOLLOW-UP (cr-review PR #104): the four IPUMS outcome changes
+      (college/secondary/mig5/empstat, 1991-1970) are constructed
+      identically in two scripts (table_11_other_outcomes.R,
+      table_a1_descriptives.R). Move the construction into
+      build_estimation_sample.R so both consume stored columns;
+      requires a D.1 rerun and manifest update. Low risk, not done
+      inside PR #104 to keep it exhibit-only.
 - [x] APPENDIX DECISIONS C34-C36 (2026-07-18, decide-and-document):
       C34 (dedicated theta=8.11 appendix table) MOOTED — Table 12
       Panel A has the full estimator grid at 8.11 and the sweep table

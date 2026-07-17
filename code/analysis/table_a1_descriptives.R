@@ -93,6 +93,14 @@ main <- function() {
              paste(missing_vars, collapse = ", "))
     }
 
+    # Guard against drift from the main specification (cr-review PR #104):
+    # the instrument row must be the spec's hypothetical-road instrument,
+    # and the Controls block must list exactly geo_controls_main.
+    stopifnot("chg_logMA_lcp_mst_s0_elow" == main_hypo_instrument)
+    listed_controls <- vapply(vars, function(v) v[2], "")[
+        cumsum(vapply(vars, function(v) v[1], "") == "Controls") > 0]
+    stopifnot(setequal(listed_controls, geo_controls_main))
+
     rows <- lapply(vars, function(v) {
         x <- d[[v[2]]]
         data.frame(group = v[1], variable = v[2], label = v[3],
@@ -145,8 +153,13 @@ main <- function() {
                " districts; Capital Federal excluded as an observation, ",
                "Section~\\ref{sec:data}). $N$ counts non-missing ",
                "observations per variable; coverage differences reflect ",
-               "the sectoral censuses and the 1947 placebo subsample ",
-               "described in Section~\\ref{sec:data}. Standardised ",
+               "the sectoral censuses, the 1947 placebo subsample ",
+               "described in Section~\\ref{sec:data}, and log changes in ",
+               "urban and rural population being undefined for districts ",
+               "with zero urban or rural population in either census ",
+               "year. The Larkin-instrument change is nonpositive by ",
+               "construction (removing studied rail segments cannot ",
+               "raise market access). Standardised ",
                "controls have mean zero and unit variance by ",
                "construction over the 312 mainland districts."),
         "\\end{table}"
