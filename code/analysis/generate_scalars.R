@@ -619,7 +619,11 @@ add_panel_macros <- function(macros) {
     stopifnot(min(m, na.rm = TRUE) < 0)
     macros[["maMin"]]      <- sprintf("%.2f", abs(min(m, na.rm = TRUE)))
     macros[["maMax"]]      <- sprintf("%+.2f", max(m, na.rm = TRUE))
-    macros[["maSharePos"]] <- sprintf("%.0f", 100 * mean(m > 0, na.rm = TRUE))
+    # 1 dp, matching \uniGainShareBase's precision for the same underlying
+    # share (cr-review PR #102 Consider): the panel share (312 districts,
+    # 90.705) and the transshipment-bound baseline share (311-district
+    # common set, 90.675) both render 90.7, so the paper shows one number.
+    macros[["maSharePos"]] <- sprintf("%.1f", 100 * mean(m > 0, na.rm = TRUE))
 
     # Counterfactual component means
     r <- mean(p$chg_logMA_only_rail_s0_elow, na.rm = TRUE)
