@@ -519,7 +519,9 @@ add_prose_table_macros <- function(macros, tab) {
             macros[[paste0(g[2], "IVBCoef")]] <- f3(r$iv_b_est)
             macros[[paste0(g[2], "IVBSE")]]   <- f3(r$iv_b_se)
             macros[[paste0(g[2], "IVBP")]]    <- f3(r$iv_b_p)
-            macros[[paste0(g[2], "F")]]       <- f1(r$iv_b_F)
+            # f2, not f1: this F is quoted in one sentence alongside
+            # \firstStageFBoth (2 dp), so precisions must match.
+            macros[[paste0(g[2], "F")]]       <- sprintf("%.2f", r$iv_b_F)
             macros[[paste0(g[2], "CorrBase")]] <- sprintf("%.2f",
                                                           r$corr_treat_s0)
         }

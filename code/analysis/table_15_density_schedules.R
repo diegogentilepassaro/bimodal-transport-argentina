@@ -67,6 +67,11 @@ main <- function() {
         lp     <- sprintf("chg_logMA_stu_%s_elow", s)
         hypo   <- sprintf("chg_logMA_lcp_mst_%s_elow", s)
         ma_ctl <- sprintf("logMA_actual_1960_%s_elow", s)
+        # Guard against silent divergence from the main spec (cr-review
+        # PR #99): the s0 row must use exactly the Table 9 objects, and
+        # the control we swap out must actually be in the control set.
+        stopifnot("logMA_actual_1960_s0_elow" %in% geo_controls_main)
+        if (s == "s0") stopifnot(hypo == main_hypo_instrument)
         ctrls  <- c(setdiff(geo_controls_main, "logMA_actual_1960_s0_elow"),
                     ma_ctl)
         stopifnot(all(c(endog, lp, hypo, ma_ctl) %in% names(d)))
@@ -169,6 +174,7 @@ main <- function() {
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),
         "\\end{table}"
     )
+    stopifnot(length(unique(df$n_obs)) == 1L)
 
     out_tex <- file.path(dir_tables, "table_15_density_schedules.tex")
     writeLines(tex_lines, out_tex)

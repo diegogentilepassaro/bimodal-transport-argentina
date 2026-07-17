@@ -194,6 +194,12 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       to 0.087 (low, p=.051); F strongest at low density (26.0). The
       deeper sector-MATCHED design (agricultural outcomes with
       high-density MA etc.) remains a separate open question below.
+      SUB-FLAG for Cote (cr-review PR #99): under the low-density
+      schedule the instrument roles REVERSE — the hypo instrument
+      carries identification (IV-H F = 42.6) while Larkin weakens
+      (LP F = 6.2), the mirror image of the baseline (LP 22.1 /
+      hypo 6.9). Bears directly on the standing "should main spec be
+      IV-LP-only?" question.
 - [x] THETA SWEEP PLACEMENT (Diego, 2026-07-17): the full sweep is now
       presented as a table in Section 5.5 (robustness, next to the
       baseline results) rather than only quoted in the Discussion;
@@ -266,7 +272,11 @@ Pre-deposit (see README's author checklist):
       guards to the four Stage B cleaners that depend on ipums's
       output, so a future ordering regression dies immediately instead
       of after wasted work.
-- [ ] Lock final exhibit numbering; update README mapping table.
+- [ ] Lock final exhibit numbering; update README mapping table. NOTE
+      (PR #99): compiled numbers already diverge from filenames
+      (in-text placement + multi-panel tables), and one paper exhibit
+      now has a diagnostic filename (diagnostic_theta_sweep.tex). Key
+      the README mapping on labels/captions, not filename numbers.
 
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).
 

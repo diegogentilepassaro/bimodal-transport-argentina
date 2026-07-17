@@ -180,8 +180,11 @@ main <- function() {
                sprintf("$N = %d$. ", df$n_obs[1]),
                "Robust (HC1) SE in parentheses."),
         "\\end{table}")
+    # message(), not rep(): rep() writes into the committed report file,
+    # and a machine-specific absolute path must not land in an artifact.
+    stopifnot(length(unique(df$n_obs)) == 1L)
     writeLines(tex, file.path(dir_tables, "diagnostic_theta_sweep.tex"))
-    rep("Saved: %s", file.path(dir_tables, "diagnostic_theta_sweep.tex"))
+    message("Saved: ", file.path(dir_tables, "diagnostic_theta_sweep.tex"))
 
     rep("\n%s", strrep("=", 70))
     rep("READING: if the IV beta stays ~0.02-0.06 across the whole theta")
