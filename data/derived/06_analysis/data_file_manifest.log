@@ -1,12 +1,12 @@
 Data file manifest — build_estimation_sample.R
-Generated: 2026-07-16 23:24:58.514544
+Generated: 2026-07-20 09:03:37.108386
 rootdir:   /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: estimation_sample.parquet
 ============================================================ 
 Rows: 311
-Columns: 228
+Columns: 232
 Key: geolev2
 
 New outcome / control / Z_i columns added by this script:
@@ -18,6 +18,10 @@ New outcome / control / Z_i columns added by this script:
   log_pop_1960          = log(pop_1960)
   lost_all_rails_86     = (tot_rails_1960 > 0 & tot_rails_1986 == 0)
   gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)
+  chg_college_91_70     = college_1991 - college_1970
+  chg_secondary_91_70   = secondary_1991 - secondary_1970
+  chg_mig5_91_70        = mig5_1991 - mig5_1970
+  chg_empstat_emp_91_70 = empstat_1_1991 - empstat_1_1970
 
 Non-NA counts (regression sample sizes):
   chg_log_pop_91_60                    N=311
@@ -40,3 +44,7 @@ Non-NA counts (regression sample sizes):
   chg_tot_rails_86_60                  N=311
   chg_pav_and_grav_86_54               N=308
   share_studied_larkin                 N=281
+  chg_college_91_70                    N=311
+  chg_secondary_91_70                  N=311
+  chg_mig5_91_70                       N=311
+  chg_empstat_emp_91_70                N=311
