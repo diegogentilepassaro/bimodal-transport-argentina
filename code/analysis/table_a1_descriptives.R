@@ -42,12 +42,11 @@ main <- function() {
         file.path(dir_derived_analysis, "estimation_sample.parquet")
     ))
 
-    # IPUMS changes are constructed at estimation time (identically to
-    # table_11_other_outcomes.R), not stored in the sample.
-    d$chg_college_91_70     <- d$college_1991   - d$college_1970
-    d$chg_secondary_91_70   <- d$secondary_1991 - d$secondary_1970
-    d$chg_mig5_91_70        <- d$mig5_1991      - d$mig5_1970
-    d$chg_empstat_emp_91_70 <- d$empstat_1_1991 - d$empstat_1_1970
+    # IPUMS changes (1970 -> 1991) are stored columns, built in
+    # build_estimation_sample.R. Guard against a stale D.1 output.
+    stopifnot(all(c("chg_college_91_70", "chg_secondary_91_70",
+                    "chg_mig5_91_70", "chg_empstat_emp_91_70")
+                  %in% names(d)))
 
     vars <- list(
         # group header, variable, label

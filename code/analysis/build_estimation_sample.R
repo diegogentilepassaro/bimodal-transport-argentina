@@ -22,6 +22,10 @@
 #         log_pop_1960          = log(pop_1960)   (baseline control)
 #         lost_all_rails_86     = 1 if rails 1960 > 0 & rails 1986 == 0
 #         gained_first_road_86  = 1 if pav_and_grav 1954 == 0 & 1986 > 0
+#         chg_college_91_70     = college_1991 - college_1970
+#         chg_secondary_91_70   = secondary_1991 - secondary_1970
+#         chg_mig5_91_70        = mig5_1991 - mig5_1970
+#         chg_empstat_emp_91_70 = empstat_1_1991 - empstat_1_1970
 #       Existing infrastructure-change columns used as Z_i (mechanism):
 #         chg_tot_rails_86_60, chg_pav_and_grav_86_54, share_studied_larkin
 #   data/derived/06_analysis/data_file_manifest.log
@@ -149,6 +153,20 @@ main <- function() {
         d$pav_and_grav_1986[valid_roads] > 0
     )
 
+    # ---- 4b. IPUMS outcome changes (1970 -> 1991) ---------------------------
+    # Level changes in population shares for Table 11 and the appendix
+    # descriptives (Table A1). Built here once so both table scripts
+    # consume stored columns (cr-review PR #104 follow-up: previously
+    # constructed identically in table_11_other_outcomes.R and
+    # table_a1_descriptives.R). IPUMS has no pre-1970 Argentina
+    # microdata, so the window is 1970-1991, not 1960-1991 (the window
+    # caveat is documented in table_11_other_outcomes.R and Section 5.4).
+    # Plain subtraction: NA in either year propagates to the change.
+    d$chg_college_91_70     <- d$college_1991   - d$college_1970
+    d$chg_secondary_91_70   <- d$secondary_1991 - d$secondary_1970
+    d$chg_mig5_91_70        <- d$mig5_1991      - d$mig5_1970
+    d$chg_empstat_emp_91_70 <- d$empstat_1_1991 - d$empstat_1_1970
+
     # ---- 5. Validation / logging ------------------------------------------
     for (v in c("chg_log_pop_91_60",
                 "chg_log_urbpop_91_60",
@@ -163,7 +181,11 @@ main <- function() {
                 "gained_first_road_86",
                 "chg_tot_rails_86_60",
                 "chg_pav_and_grav_86_54",
-                "share_studied_larkin")) {
+                "share_studied_larkin",
+                "chg_college_91_70",
+                "chg_secondary_91_70",
+                "chg_mig5_91_70",
+                "chg_empstat_emp_91_70")) {
         if (!(v %in% names(d))) next
         n <- sum(!is.na(d[[v]]))
         mn <- mean(d[[v]], na.rm = TRUE)
@@ -198,7 +220,11 @@ main <- function() {
     cat("  chg_urbshr_91_60      = urbshr_1991 - urbshr_1960 (level, not log)\n")
     cat("  log_pop_1960          = log(pop_1960)\n")
     cat("  lost_all_rails_86     = (tot_rails_1960 > 0 & tot_rails_1986 == 0)\n")
-    cat("  gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)\n\n")
+    cat("  gained_first_road_86  = (pav_and_grav_1954 == 0 & pav_and_grav_1986 > 0)\n")
+    cat("  chg_college_91_70     = college_1991 - college_1970\n")
+    cat("  chg_secondary_91_70   = secondary_1991 - secondary_1970\n")
+    cat("  chg_mig5_91_70        = mig5_1991 - mig5_1970\n")
+    cat("  chg_empstat_emp_91_70 = empstat_1_1991 - empstat_1_1970\n\n")
     cat("Non-NA counts (regression sample sizes):\n")
     for (v in c("chg_log_pop_91_60",
                 "chg_log_urbpop_91_60",
@@ -213,7 +239,9 @@ main <- function() {
                 "preCal_std", "postCal_std", "dist_to_BA_std",
                 "lost_all_rails_86", "gained_first_road_86",
                 "chg_tot_rails_86_60", "chg_pav_and_grav_86_54",
-                "share_studied_larkin")) {
+                "share_studied_larkin",
+                "chg_college_91_70", "chg_secondary_91_70",
+                "chg_mig5_91_70", "chg_empstat_emp_91_70")) {
         if (!(v %in% names(d))) next
         cat(sprintf("  %-35s  N=%d\n", v, sum(!is.na(d[[v]]))))
     }

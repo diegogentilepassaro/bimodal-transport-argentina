@@ -4,7 +4,8 @@
 # PURPOSE: Paper Table 11 — IV regressions of education, migration, and
 #          employment-status outcomes on the change in log market access.
 #
-# DEP VARS (four outcomes, all level changes in population shares):
+# DEP VARS (four outcomes, all level changes in population shares,
+# stored in the estimation sample by build_estimation_sample.R):
 #   chg_college_91_70    College share in 1991 minus in 1970.
 #   chg_secondary_91_70  Secondary-education share in 1991 minus in 1970.
 #   chg_mig5_91_70       Share of residents who migrated in last 5 years,
@@ -53,11 +54,11 @@ main <- function() {
         file.path(dir_derived_analysis, "estimation_sample.parquet")
     )
 
-    # Derive level-change outcomes (1970 -> 1991)
-    d$chg_college_91_70      <- d$college_1991   - d$college_1970
-    d$chg_secondary_91_70    <- d$secondary_1991 - d$secondary_1970
-    d$chg_mig5_91_70         <- d$mig5_1991      - d$mig5_1970
-    d$chg_empstat_emp_91_70  <- d$empstat_1_1991 - d$empstat_1_1970
+    # Level-change outcomes (1970 -> 1991) are stored columns, built in
+    # build_estimation_sample.R. Guard against a stale D.1 output.
+    stopifnot(all(c("chg_college_91_70", "chg_secondary_91_70",
+                    "chg_mig5_91_70", "chg_empstat_emp_91_70")
+                  %in% names(d)))
 
     outcomes <- list(
         list(var = "chg_college_91_70",
