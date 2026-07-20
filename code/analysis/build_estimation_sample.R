@@ -12,7 +12,7 @@
 #
 # PRODUCES:
 #   data/derived/06_analysis/estimation_sample.parquet
-#       312 rows × (one row per geolev2).
+#       311 rows (one row per geolev2; Capital Federal excluded).
 #       New columns beyond the panel:
 #         rur_1991              = pop_1991 - urbpop_1991
 #         chg_log_rur_91_60     = log(rur_1991) - log(rur_1960)

@@ -55,10 +55,15 @@ main <- function() {
     )
 
     # Level-change outcomes (1970 -> 1991) are stored columns, built in
-    # build_estimation_sample.R. Guard against a stale D.1 output.
-    stopifnot(all(c("chg_college_91_70", "chg_secondary_91_70",
-                    "chg_mig5_91_70", "chg_empstat_emp_91_70")
-                  %in% names(d)))
+    # build_estimation_sample.R (D.1). Fail loudly on a stale D.1
+    # output, naming the missing columns.
+    ipums_chg <- c("chg_college_91_70", "chg_secondary_91_70",
+                   "chg_mig5_91_70", "chg_empstat_emp_91_70")
+    missing_chg <- ipums_chg[!ipums_chg %in% names(d)]
+    if (length(missing_chg) > 0L) {
+        stop("Columns missing from estimation sample (rerun D.1): ",
+             paste(missing_chg, collapse = ", "))
+    }
 
     outcomes <- list(
         list(var = "chg_college_91_70",

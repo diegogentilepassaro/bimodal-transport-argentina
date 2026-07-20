@@ -43,10 +43,9 @@ main <- function() {
     ))
 
     # IPUMS changes (1970 -> 1991) are stored columns, built in
-    # build_estimation_sample.R. Guard against a stale D.1 output.
-    stopifnot(all(c("chg_college_91_70", "chg_secondary_91_70",
-                    "chg_mig5_91_70", "chg_empstat_emp_91_70")
-                  %in% names(d)))
+    # build_estimation_sample.R (D.1). A stale D.1 output is caught by
+    # the fail-loud missing-variable check below, which names the
+    # missing columns.
 
     vars <- list(
         # group header, variable, label
