@@ -425,6 +425,23 @@ baseline_outcome <- "log_urbpop_1960"
 
 star_thresholds <- c("*" = 0.10, "**" = 0.05, "***" = 0.01)
 
+# ---- 15. Recentering diagnostic (Stage 1, papers-toolkit plan) ------------
+# Parameters for the Borusyak-Hull recentering diagnostic
+# (code/analysis/diagnostic_recentering_*.R). Diagnostic-only: nothing in
+# the paper reads these outputs until Stage 2 is approved.
+dir_derived_recentering <- file.path(dir_derived, "07_recentering")
+# Endpoint snap tolerance for grouping rail segments into line units and
+# for the free-end (branch) definition. 500 m: half the 1 km rasterization
+# buffer, comfortably above digitization slack, below inter-line spacing.
+recentering_snap_tol_m <- 500
+# Deterministic base seed; draw s uses recentering_seed + s.
+recentering_seed <- 20260720L
+# Number of permutation draws for the diagnostic run.
+recentering_S <- 100L
+# Minimum studied and non-studied line units per stratum cell; thinner
+# cells are merged (region cell first, then pooled) and documented.
+recentering_min_cell <- 4L
+
 # ---- 14. Sentinel / flag --------------------------------------------------
 config_loaded <- TRUE
 message("[config.R] Configuration loaded successfully.")
