@@ -127,14 +127,20 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Demand-side sectoral MA (sectoral destination weights) — stated
       as future work in the Conclusion (PRs #101, #102); revisit only
       if the coauthors want it in this paper.
-- [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias
-      additions — staged plan prepared 2026-07-20 in
-      `Plan/borusyak_hull_recentering_plan.md` (workspace root,
-      untracked), after reading the three papers Diego added to
-      Related Papers/. Nice-to-have, not blocking; execute in whole or
-      part on Diego's call. Stage 0 floor = prose/citations only
-      (BH 2023 formula-instrument caveat in §4, GPHK caveat in §7,
-      separate-regressions justification in §6, two bib entries).
+- [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias +
+      Fuchs-Wong positioning additions — staged plan prepared
+      2026-07-20 in `Plan/borusyak_hull_recentering_plan.md`
+      (workspace root, untracked), after reading the four papers Diego
+      added to Related Papers/. Nice-to-have, not blocking; execute in
+      whole or part on Diego's call. Stage 0 floor = prose/citations
+      only (BH 2023 formula-instrument caveat in §4, GPHK caveat in §7,
+      separate-regressions justification in §6, Fuchs-Wong NBER 35065
+      multimodal-frontier positioning in §1/§8.2 + §6 vocabulary +
+      §5.5 bracket sentence + §3 eta footnote, three bib entries).
+      Fuchs-Wong is MINIMAL-ONLY by decision 2026-07-20: no middle
+      option (their designs need traffic data that does not exist for
+      1960s Argentina), and the ideal is a structural companion paper
+      (future work), not an addition.
       Optional stages: S=100 recentering diagnostic for the Larkin
       instrument (line-level permutation within region×branch strata;
       includes the pre-trends-cleaning check), promotion to recentered
