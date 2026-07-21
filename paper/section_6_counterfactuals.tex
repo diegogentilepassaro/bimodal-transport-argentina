@@ -56,9 +56,14 @@ shift rail-driven market access and have no mechanical connection to
 the frozen road layer. The only-road measure is instrumented with the
 hypothetical-road instrument alone. The full measure, reproduced from
 Table~\ref{tab:population_iv} for comparison, uses both instruments.
-The three regressors are never entered jointly in one regression: the
-full change is by construction close to the sum of its two components,
-so the three measures are nearly collinear.
+The three regressors are never entered jointly in one regression, for
+two reasons. The full change is by construction close to the sum of
+its two components, so the three measures are nearly collinear. And
+regressions with multiple treatments generally fail to recover convex
+averages of heterogeneous effects: each coefficient is contaminated
+by a non-convex average of the other treatments' effects
+\citep{goldsmithpinkhamhullkolesar2024}. Estimating each measure in a
+separate regression avoids both problems.
 
 Figure~\ref{fig:ma_counterfactual} maps the three measures on a common
 scale. The only-rail change is negative in every district: the median
@@ -137,6 +142,16 @@ with similar point estimates, and the rail component is identified
 with far greater precision. The point estimates give no support to the
 view that one mode's market-access channel dominates the other; the
 data are instead consistent with population responding to market
-access itself, whichever mode produces it. Section~\ref{sec:mechanisms}
+access itself, whichever mode produces it. In the vocabulary of
+\citet{fuchswong2026}, the episode combines modal substitution ---
+traffic shifting from rail to road where both served the same
+connections --- with modal complementarity, as the cheaper road mode
+lowered composite transport costs and raised market access broadly;
+our decomposition measures the combined market-access consequence of
+each modal shock rather than separating the two margins. Their
+structural counterfactual of removing the contemporary United States
+rail network is the closest modern analogue to the contraction
+Argentina actually carried out.
+Section~\ref{sec:mechanisms}
 examines how much of this response operates through infrastructure
 located in the district itself.
