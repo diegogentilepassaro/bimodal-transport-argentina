@@ -4,6 +4,131 @@ Derived from paper.tex skeleton. Color key in paper.tex: RED = placeholder numbe
 
 ---
 
+## OPEN ITEMS (single source of truth, grouped by state)
+
+Every open task or flag lives here, exactly once. The sections below
+this one (CURRENT STATUS, Done, DEFERRED LEDGER, PENDING DECISIONS,
+and the original C/A/W task specs) are historical record: completed
+items, dated decisions, and superseded plans. When an item here
+closes, mark it [x] with the PR/date; if it records a decision, add
+the record to the DEFERRED LEDGER.
+
+### 1. Blocked on Cote
+
+- [ ] **Coauthor meeting on the identification memo** — resolve the
+      decisions in `Plan/memo_identification_measurement_decisions.md`
+      §6 (θ/τ object, estimand, connector re-cost, reference point),
+      Decision A first. Not blocking day-to-day work
+      (decide-and-document mode since 2026-07-17), but the deepest
+      open questions and the ones only the coauthors can settle.
+      Meeting-prep email sent 2026-07-14; full-draft email sent
+      2026-07-20. NEW input for the meeting: the density-schedule
+      gradient (PR #99) means the θ/τ question now interacts with the
+      cost-schedule choice.
+- [ ] Theta 4.55 provenance — SEARCH EXHAUSTED (2026-07-16, dead end
+      documented in section_3_data.tex comment): 4.55 not found in
+      Simonovska-Waugh 2014 (full text, benchmark ~4.1), Caliendo-Parro
+      2015 (8.64 avg / 8.11 agri), D&H 2016 fn. 55 list, Fajgelbaum-
+      Redding 2022, or the old draft (no MA-theta framework). Unless
+      Cote recalls the source, options: adopt a cited value (SW 4.1) or
+      state 4.55 as a midpoint choice. Memo Decision A still separate.
+- [ ] Abstract wording sign-off (red flag in PDF; 149 words — count
+      moved 148 to 149 in #94's framing pass, Larkin clause added in
+      #98). The post-#93 framing pass (PR #94, merged) recharacterizes
+      population as "small, marginally significant" — needs explicit
+      sign-off alongside the abstract.
+- [ ] Log-area awareness (decision made: excluded entirely, see
+      DEFERRED LEDGER): Cote should know the balance-table correlation
+      exists and that a referee may ask; the agreed answer is the
+      density/over-control + mechanical-entanglement rationale, not a
+      sensitivity table.
+- [ ] Larkin Plan canonical year: Section 2 says the study was
+      published and announced in 1961; the abstract, Section 3, and
+      the bib entry (larkin1962) say 1962. Surfaced by PR #98's
+      review (the abstract now names the year prominently). Decide
+      the canonical year and align all mentions + the bib entry.
+- [ ] Issue #91: 1954 industrial census issuing agency — web pass done
+      (2026-07-16, findings posted on the issue): INDEC history confirms
+      the 1954 CNE was provincially decentralized; national office at
+      census date was Dirección Nacional del Servicio Estadístico; the
+      1950 industrial census volumes were published by Secretaría de
+      Asuntos Técnicos (1957). Three candidate imprints; República
+      Argentina stays until Cote checks the physical title page.
+- [ ] Issue #68 studied-share basis: two testable reconciliation
+      hypotheses posted on the issue (exact-match 39.60% arithmetic;
+      ~43,856 km denominator); needs the physical Larkin volumes. Then
+      align §2/§4 + document in clean_railroads.R.
+- [ ] Issue #103 (filed by PR #102's review): Section 2 says ~35,000
+      km of road network in 1986; Section 3's digitized ACA series
+      gives 79,820 km. Almost certainly paved-only vs paved+gravel.
+      Needs Cote's source for the 35,000 figure, then align the two
+      sections.
+- [ ] B&P source volume: was Table II digitized from the El Trimestre
+      Económico article or from a separate CONADE report? The planning
+      doc cites "Baumgartner, T. and Palazzo, J. A., CONADE". (Author
+      names themselves are settled — verified 2026-07-16 against the
+      publisher's archive: Jean-Pierre Baumgartner, Pascual Santiago
+      Palazzo; see the [x] entry in the DEFERRED LEDGER.)
+- [ ] Migration sign interpretation, title (long-standing flags; the
+      two migration readings remain tied; title alternatives in
+      PENDING DECISIONS item 1).
+- [ ] [optional, decided — no action required] Vicente López 1960
+      digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
+      one digit). Decision (Diego, 2026-07-16): document and leave as
+      is — pipeline uses Part 3, both values pinned in
+      clean_census_1960.R. Check the published volume only if
+      convenient.
+
+### 2. Held until Cote's decisions (unblocked, deliberately parked)
+
+Parked because memo Decision A (θ/τ) could reshuffle exhibits and
+force a rerun anyway (Diego, 2026-07-20).
+
+- [ ] Rights certifications + ACA digitized-geometry redistribution
+      rights (README `[AUTHORS: confirm]` checkboxes from PR #92).
+- [ ] Lock final exhibit numbering; update README mapping table. NOTE
+      (PR #99): compiled numbers already diverge from filenames
+      (in-text placement + multi-panel tables), and one paper exhibit
+      now has a diagnostic filename (diagnostic_theta_sweep.tex). Key
+      the README mapping on labels/captions, not filename numbers.
+- [ ] Final pre-deposit clean-machine rerun: delete results/ +
+      data/derived/, run `R CMD BATCH code/main.R`, verify
+      byte-identical CSVs and a zero-diff pdftotext against the
+      committed PDF. Now includes the unimodal step (D.13f, ~15 min
+      extra vs the PR #97 run). Run after the draft stabilizes
+      post-Cote.
+
+### 3. Data-limited (need new raw sources; flagged to Cote)
+
+- [ ] gained/lost national highway (needs raw road-class data)
+- [ ] gained/lost railway station (needs additional raw data;
+      lp_1979.shp is lines-only)
+- [ ] lost railway depot (needs Damus or similar source)
+
+### 4. Bookkeeping (small, no urgency)
+
+- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat
+      documented in paper.tex preamble; matters only if such a DOI
+      enters the bib).
+- [ ] If deposit slips past 2026: move IGN access-year fields + README
+      dates together.
+- [ ] Decide gitignore treatment of logs/makelog.log and
+      logs/session_info.txt (untracked and unignored since the PR #97
+      rerun; flagged by PR #106's review).
+
+### 5. Deferred by explicit decision
+
+- [ ] C7 Heterogeneity regressions — diagnostic + §7.2 prose exist
+      (sign patterns only; weak interaction first stages). Remaining:
+      optional lift into a numbered table once structure is final.
+- [ ] Sector-specific indgen shares (Table 10 rebuild) — deferred, see
+      PENDING DECISIONS item 9.
+- [ ] Demand-side sectoral MA (sectoral destination weights) — stated
+      as future work in the Conclusion (PRs #101, #102); revisit only
+      if the coauthors want it in this paper.
+
+---
+
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
 The paper is drafted END TO END: Blocks 1 and 2, 44 pages, zero
@@ -154,9 +279,8 @@ were already wired into the existing pipeline (Phase 2c of
 - [x] `lost_all_rails_86` (binary; 14 districts) — built in `build_estimation_sample.R`
 - [x] `gained_first_road_86` (binary; 82 districts) — built in `build_estimation_sample.R`
 - [x] `chg_tot_rails_86_60`, `chg_pav_and_grav_86_54`, `share_studied_larkin` — already in panel
-- [ ] gained/lost national highway (needs raw road-class data)
-- [ ] gained/lost railway station (needs additional raw data; lp_1979.shp is lines-only)
-- [ ] lost railway depot (needs Damus or similar source)
+- Unbuilt Z_i variables (national highway, station, depot) are
+  data-limited — tracked in OPEN ITEMS §3.
 
 **Tables (Block 2):**
 - [x] Table 13 (counterfactual decomposition) — PR #61, C5 done. (Numbers quoted at merge time are pre-#22 and the "runs primarily through rail" framing was later revised to "similar point estimates, rail better identified" — current values live in the table CSV and §6.)
@@ -165,9 +289,9 @@ were already wired into the existing pipeline (Phase 2c of
 ### Pending (order: blocked first, then easiest-value)
 
 **Block 1 loose ends:**
-- [ ] **Coauthor meeting on the identification memo** — resolve the four decisions in `Plan/memo_identification_measurement_decisions.md` §6 (θ/τ object, estimand, connector re-cost, reference point). No longer blocking day-to-day work (decide-and-document mode since 2026-07-17), but still the deepest open questions and the ones only the coauthors can settle. Meeting-prep email sent 2026-07-14; waiting on Cote to schedule.
+- Coauthor meeting on the identification memo — tracked in OPEN ITEMS §1.
 - [x] ~~Urban-center reference point diagnostic (Decision D)~~ — done in PR #75 (`diagnostic_ma_urbancenter.R`). Anchor is not the lever; θ still dominates. Cote's geocoded-census version remains the referee-proof answer but the expectation is now confirmation, not rescue.
-- [ ] Sector-specific indgen shares (Table 10 rebuild) — deferred, see Pending Decision 9.
+- Sector-specific indgen shares — deferred, tracked in OPEN ITEMS §5.
 - [x] ~~Paper-wide scalar AutoFill substitution~~ — done in PR #95 (218+ macros; render-identical first pass verified by pdftotext diff).
 - [x] ~~A1 (OLS vs IV bias direction)~~ — done in PR #102 (5.2 paragraph; the review caught a sign error in the selection mechanism, fixed against §4.2's taxonomy).
 - [x] ~~A2 (sectoral patterns + scale economies)~~ — done in PR #102 (facts in §5.3, weighing in §8.3, written once).
@@ -177,9 +301,12 @@ were already wired into the existing pipeline (Phase 2c of
 - [x] ~~W18 full AEA README~~ — done in PR #92: dataset list, replicator instructions, table-program mapping, runtimes from logs. Rights certifications and ACA redistribution rights left as `[AUTHORS: confirm]` checkboxes; revisit mapping table when final exhibit numbering locks.
 
 **Block 2 next steps:**
-- [ ] Consolidated Cote email (supersedes the planned Tables-13/14
-      follow-up): all accumulated flags and decide-and-document
-      decisions since the meeting-prep email. In progress 2026-07-18.
+- [x] ~~Consolidated Cote email~~ — SENT 2026-07-20
+      (`Plan/email_cote_borrador_completo.md`, Spanish): sample change
+      + moved numbers, density gradient + instrument reversal,
+      sector-matched MA, transshipment bound, decide-and-document
+      decisions, and the full blocked-on-Cote list. Supersedes the
+      planned Tables-13/14 follow-up.
 - [x] ~~§6 counterfactuals writeup~~ — drafted in PR #84 under
       provisional framing F1; verified/gap-filled in PR #102.
 - [x] ~~§7 mechanisms writeup~~ — drafted in PR #85 under provisional
@@ -190,9 +317,7 @@ were already wired into the existing pipeline (Phase 2c of
       (sector-matched schedules; Table 16). The demand-side variant
       (sectoral destination weights) remains genuinely future work,
       stated in the Conclusion.
-- [ ] C7 Heterogeneity regressions — diagnostic + §7.2 prose exist
-      (sign patterns only; weak interaction first stages). Remaining:
-      optional lift into a numbered table once structure is final.
+- C7 heterogeneity table lift — optional, tracked in OPEN ITEMS §5.
 
 **Polish / final (order after Block 2):**
 - [x] ~~W13-16 §6.3 caveats, §7 interpretation, §8 Discussion,
@@ -330,55 +455,20 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       (D&H presentation pattern). Section 8.2 keeps the calibration
       interpretation and references the table.
 
-Blocked on Cote:
-- [ ] Log-area awareness (decision made: excluded entirely, see above):
-      Cote should know the balance-table correlation exists and that a
-      referee may ask; the agreed answer is the density/over-control +
-      mechanical-entanglement rationale, not a sensitivity table.
-- [ ] Abstract wording sign-off (red flag in PDF; 149 words — count
-      moved 148 to 149 in #94's framing pass, Larkin clause added in
-      #98). The post-#93 framing pass (PR #94, merged) recharacterizes
-      population as "small, marginally significant" — needs explicit
-      sign-off alongside the abstract.
-- [ ] [optional, decided — no action required] Vicente López 1960
-      digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
-      one digit). Decision (Diego, 2026-07-16): document and leave as
-      is — pipeline uses Part 3, both values pinned in
-      clean_census_1960.R. Check the published volume only if
-      convenient.
-- [ ] Issue #68 studied-share basis: two testable reconciliation hypotheses posted on the issue (exact-match 39.60% arithmetic; ~43,856 km denominator); needs the physical Larkin volumes. Then align §2/§4 + document in clean_railroads.R.
-- [ ] Issue #91: 1954 industrial census issuing agency — web pass done
-      (2026-07-16, findings posted on the issue): INDEC history confirms
-      the 1954 CNE was provincially decentralized; national office at
-      census date was Dirección Nacional del Servicio Estadístico; the
-      1950 industrial census volumes were published by Secretaría de
-      Asuntos Técnicos (1957). Three candidate imprints; República
-      Argentina stays until Cote checks the physical title page.
+Blocked on Cote — open items moved to OPEN ITEMS §1 at the top of this
+file (log-area awareness, abstract sign-off, Vicente López note, issues
+#68/#91/#103, theta provenance, Larkin year, B&P source volume,
+migration sign, title). Completed record kept here:
 - [x] ~~Baumgartner & Palazzo author initials~~ — VERIFIED 2026-07-16
       against the publisher's archive (eltrimestreeconomico.com.mx):
       Jean-Pierre Baumgartner, Pascual Santiago Palazzo. bib was already
-      correct; data/raw/costs/readme.md citation completed. NEW sub-item
-      for Cote: planning doc cites "Baumgartner, T. and Palazzo, J. A.,
-      CONADE" — confirm whether Table II was digitised from the journal
-      article or a separate CONADE report.
-- [ ] Theta 4.55 provenance — SEARCH EXHAUSTED (2026-07-16, dead end
-      documented in section_3_data.tex comment): 4.55 not found in
-      Simonovska-Waugh 2014 (full text, benchmark ~4.1), Caliendo-Parro
-      2015 (8.64 avg / 8.11 agri), D&H 2016 fn. 55 list, Fajgelbaum-
-      Redding 2022, or the old draft (no MA-theta framework). Unless
-      Cote recalls the source, options: adopt a cited value (SW 4.1) or
-      state 4.55 as a midpoint choice. Memo Decision A still separate.
-- [ ] Larkin Plan canonical year: Section 2 says the study was
-      published and announced in 1961; the abstract, Section 3, and
-      the bib entry (larkin1962) say 1962. Surfaced by PR #98's
-      review (the abstract now names the year prominently). Decide
-      the canonical year and align all mentions + the bib entry.
-- [ ] Migration sign interpretation, title (long-standing flags).
+      correct; data/raw/costs/readme.md citation completed. Sub-item
+      (journal article vs CONADE report as the digitization source) is
+      open and tracked in OPEN ITEMS §1.
 
-Pre-deposit (see README's author checklist):
-- [ ] Rights certifications + ACA digitized-geometry redistribution rights.
-- [ ] If deposit slips past 2026: move IGN access-year fields + README dates together.
-- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat documented in paper.tex preamble).
+Pre-deposit (see README's author checklist) — open items moved to
+OPEN ITEMS §2 (rights certifications, exhibit-numbering lock, final
+clean rerun) and §4 (\doi caveat, IGN dates). Completed record:
 - [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR #97 merged): deleted
       results/ + data/derived/, ran `R CMD BATCH code/main.R` end to
       end (~68 min after fixes; the first two attempts crashed the
@@ -397,17 +487,15 @@ Pre-deposit (see README's author checklist):
       guards to the four Stage B cleaners that depend on ipums's
       output, so a future ordering regression dies immediately instead
       of after wasted work.
-- [ ] Lock final exhibit numbering; update README mapping table. NOTE
-      (PR #99): compiled numbers already diverge from filenames
-      (in-text placement + multi-panel tables), and one paper exhibit
-      now has a diagnostic filename (diagnostic_theta_sweep.tex). Key
-      the README mapping on labels/captions, not filename numbers.
-
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).
 
 ---
 
 ## PENDING DECISIONS
+
+**Live items are tracked in OPEN ITEMS at the top of this file.** This
+section is kept as a historical/traceability record of the original
+decision list and its supersessions.
 
 **Superseded for Block 1 framing:** items 3, 4, 6, 7, 8 below (θ justification,
 tau/transshipment, pre-trends, migration sign, hypo-instrument weakness) are
