@@ -127,6 +127,24 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Demand-side sectoral MA (sectoral destination weights) — stated
       as future work in the Conclusion (PRs #101, #102); revisit only
       if the coauthors want it in this paper.
+- [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias
+      additions — staged plan prepared 2026-07-20 in
+      `Plan/borusyak_hull_recentering_plan.md` (workspace root,
+      untracked), after reading the three papers Diego added to
+      Related Papers/. Nice-to-have, not blocking; execute in whole or
+      part on Diego's call. Stage 0 floor = prose/citations only
+      (BH 2023 formula-instrument caveat in §4, GPHK caveat in §7,
+      separate-regressions justification in §6, two bib entries).
+      Optional stages: S=100 recentering diagnostic for the Larkin
+      instrument (line-level permutation within region×branch strata;
+      includes the pre-trends-cleaning check), promotion to recentered
+      spec + randomization inference (gated on diagnostic + Cote), and
+      the BH-2026 optimal-IV fusion instrument (Cote required). The
+      stratification choice is flagged for Cote (interacts with
+      Decision A and issue #68); known implementation facts verified:
+      lp_1979 id_main is segment-level (line grouping must be built),
+      recom_code populated for non-studied segments (meaning unclear —
+      clarify before stratifying on it).
 
 ---
 
