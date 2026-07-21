@@ -5,7 +5,7 @@
 "a_variance","z_rec","sd","sd_zrec",1.74270513465008,100
 "b_span","mu","on_controls","r2",0.166358383412021,100
 "c_spec_test","z_rec","joint","T_obs",85.6217020381351,100
-"c_spec_test","z_rec","joint","ri_p",0.24,100
+"c_spec_test","z_rec","joint","ri_p",0.247524752475248,100
 "c_spec_test","z_rec","on_controls","r2",0.0739624333242769,100
 "c_spec_test","z_obs","on_controls","r2",0.100084819565541,100
 "d_estimates","population","unadjusted","coef",0.0455977482707399,100
@@ -23,7 +23,7 @@
 "d_estimates","population","mu_control","p",0.756414614258601,100
 "d_estimates","population","mu_control","F",10.8176934735557,100
 "d_estimates","population","mu_control","N",311,100
-"d_estimates","population","reduced_form","ri_p",0.71,100
+"d_estimates","population","reduced_form","ri_p",0.712871287128713,100
 "d_estimates","mfg_valprod","unadjusted","coef",0.26899801272748,100
 "d_estimates","mfg_valprod","unadjusted","se",0.136339121045918,100
 "d_estimates","mfg_valprod","unadjusted","p",0.0494125471185348,100
@@ -39,7 +39,7 @@
 "d_estimates","mfg_valprod","mu_control","p",0.850033739937051,100
 "d_estimates","mfg_valprod","mu_control","F",10.8262659597998,100
 "d_estimates","mfg_valprod","mu_control","N",310,100
-"d_estimates","mfg_valprod","reduced_form","ri_p",0.78,100
+"d_estimates","mfg_valprod","reduced_form","ri_p",0.782178217821782,100
 "d_estimates","mfg_wagemass","unadjusted","coef",0.282874845843923,100
 "d_estimates","mfg_wagemass","unadjusted","se",0.141261359452912,100
 "d_estimates","mfg_wagemass","unadjusted","p",0.0461344769865603,100
@@ -55,7 +55,7 @@
 "d_estimates","mfg_wagemass","mu_control","p",0.885543063292163,100
 "d_estimates","mfg_wagemass","mu_control","F",11.7266447163577,100
 "d_estimates","mfg_wagemass","mu_control","N",309,100
-"d_estimates","mfg_wagemass","reduced_form","ri_p",0.9,100
+"d_estimates","mfg_wagemass","reduced_form","ri_p",0.900990099009901,100
 "d_estimates","placebo_pretrend","unadjusted","coef",0.0739392238896783,100
 "d_estimates","placebo_pretrend","unadjusted","se",0.0500021624835927,100
 "d_estimates","placebo_pretrend","unadjusted","p",0.14060130117188,100
@@ -71,4 +71,4 @@
 "d_estimates","placebo_pretrend","mu_control","p",0.229718583179711,100
 "d_estimates","placebo_pretrend","mu_control","F",10.0259454852493,100
 "d_estimates","placebo_pretrend","mu_control","N",237,100
-"d_estimates","placebo_pretrend","reduced_form","ri_p",0.33,100
+"d_estimates","placebo_pretrend","reduced_form","ri_p",0.336633663366337,100

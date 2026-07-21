@@ -160,9 +160,10 @@ main <- function() {
                         draw       = s,
                         studied_km = studied_km)
         z <- z[order(z$geolev2), ]
-        arrow::write_parquet(z, out)
 
-        # Identity check: draw 0 must reproduce the baseline instrument MA.
+        # Identity check BEFORE the checkpoint write: a failed gate must
+        # not leave a z_rc000.parquet behind, or a re-invocation would
+        # skip draw 0 and never re-run the gate (cr-review PR #111).
         if (s == 0L) {
             base_path <- file.path(dir_derived_ma,
                                    "ma_instrument_stu_s0_elow.parquet")
@@ -181,6 +182,7 @@ main <- function() {
                      sprintf("%.2e", max_dev), "). Do not run draws.")
             }
         }
+        arrow::write_parquet(z, out)
 
         # Disk hygiene: remove this draw's intermediates.
         unlink(c(

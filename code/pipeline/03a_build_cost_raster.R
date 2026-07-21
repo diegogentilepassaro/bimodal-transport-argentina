@@ -628,6 +628,12 @@ save_cost_raster <- function(cost, case) {
     # never clobber the baseline ones. Suffix reflects the active toggle.
     mode_variant <- Sys.getenv("MODE_VARIANT")
     recenter_tag <- Sys.getenv("RECENTER_TAG")
+    # The two variant mechanisms are mutually exclusive: with both set,
+    # the mode-variant suffix would win and a permuted raster could
+    # silently clobber a mode-variant raster (cr-review PR #111).
+    if (nzchar(mode_variant) && nzchar(recenter_tag)) {
+        stop("MODE_VARIANT and RECENTER_TAG are mutually exclusive")
+    }
     suffix <- if (nzchar(mode_variant)) {
         paste0("_", mode_variant)
     } else if (identical(Sys.getenv("DISABLE_NAVIGATION"), "1")) {

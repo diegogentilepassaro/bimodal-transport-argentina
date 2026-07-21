@@ -150,7 +150,10 @@ main <- function() {
     t_null <- vapply(seq_len(ncol(zmat)), function(s) {
         ssf(zmat[, s] - d2$mu)
     }, numeric(1))
-    p_ri <- mean(t_null >= t_obs)
+    # Finite-sample RI p: (1 + #{null >= obs}) / (S + 1). Never zero;
+    # the observed assignment counts as one member of the reference set
+    # (cr-review PR #111).
+    p_ri <- (1 + sum(t_null >= t_obs)) / (length(t_null) + 1)
     message(sprintf(
         "[res] (c) spec test: T_obs = %.3f, RI p = %.3f (S = %d)",
         t_obs, p_ri, length(t_null)))
@@ -223,7 +226,8 @@ main <- function() {
         b_null <- vapply(seq_len(ncol(zmat)), function(s) {
             rf_coef(zmat[, s] - d2$mu)
         }, numeric(1))
-        p_rf <- mean(abs(b_null) >= abs(b_obs))
+        p_rf <- (1 + sum(abs(b_null) >= abs(b_obs))) /
+            (length(b_null) + 1)
         add_row(block = "d_estimates", outcome = lbl, spec = "reduced_form",
                 stat = "ri_p", value = p_rf)
         message(sprintf("[res] (d) %-16s reduced-form RI p = %.3f",

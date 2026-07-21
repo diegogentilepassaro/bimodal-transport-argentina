@@ -51,7 +51,7 @@ suppressPackageStartupMessages({
 })
 
 # INDEC five-region grouping by province code (PARENT field of the
-# district shapefile; INDEC/ISO 3166-2:AR numeric codes).
+# district shapefile; INDEC numeric province codes).
 region_of_province <- c(
     "002" = "Pampeana",  # CABA
     "006" = "Pampeana",  # Buenos Aires
