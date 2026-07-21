@@ -139,7 +139,9 @@ force a rerun anyway (Diego, 2026-07-20).
       instrument (line-level permutation within region×branch strata;
       includes the pre-trends-cleaning check), promotion to recentered
       spec + randomization inference (gated on diagnostic + Cote), and
-      the BH-2026 optimal-IV fusion instrument (Cote required). The
+      the BH-2026 optimal-IV fusion instrument (Cote required), plus a
+      referee-contingent Table 14 interacted-controls robustness
+      variant (GPHK ideal). The
       stratification choice is flagged for Cote (interacts with
       Decision A and issue #68); known implementation facts verified:
       lp_1979 id_main is segment-level (line grouping must be built),
