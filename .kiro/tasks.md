@@ -8,10 +8,11 @@ Derived from paper.tex skeleton. Color key in paper.tex: RED = placeholder numbe
 
 Every open task or flag lives here, exactly once. The sections below
 this one (CURRENT STATUS, Done, DEFERRED LEDGER, PENDING DECISIONS,
-and the original C/A/W task specs) are historical record: completed
-items, dated decisions, and superseded plans. When an item here
-closes, mark it [x] with the PR/date; if it records a decision, add
-the record to the DEFERRED LEDGER.
+the original C/A/W task specs, QUESTIONS TO RESOLVE, and PRIORITY
+ORDER) are historical record: completed items, dated decisions, and
+superseded plans. When an item here closes, mark it [x] with the
+PR/date; if it records a decision, add the record to the DEFERRED
+LEDGER.
 
 ### 1. Blocked on Cote
 
@@ -60,9 +61,9 @@ the record to the DEFERRED LEDGER.
       align §2/§4 + document in clean_railroads.R.
 - [ ] Issue #103 (filed by PR #102's review): Section 2 says ~35,000
       km of road network in 1986; Section 3's digitized ACA series
-      gives 79,820 km. Almost certainly paved-only vs paved+gravel.
-      Needs Cote's source for the 35,000 figure, then align the two
-      sections.
+      gives 79,820 km. Plausibly paved-only vs paved+gravel
+      (reconciliation paths posted on the issue). Needs Cote's source
+      for the 35,000 figure, then align the two sections.
 - [ ] B&P source volume: was Table II digitized from the El Trimestre
       Económico article or from a separate CONADE report? The planning
       doc cites "Baumgartner, T. and Palazzo, J. A., CONADE". (Author
@@ -382,7 +383,7 @@ Decisions made by us, documented for Cote's inspection (may be revised):
       07_unimodal_taus.R = main.R D.13f builds the six single-mode
       taus, ~15 min cold; diagnostic_ma_unimodal.R = D.13g emits the
       CSV the macros read; run_unimodal_variant.sh kept for
-      reference). Post-#22 numbers: gain share 90.7% -> 76.9%; median
+      reference). Post-#22 numbers: gain share 90.7% -> 77.2%; median
       pair ratio 0.80 -> 0.61; OLS elasticity 0.016 -> 0.018 (same
       spec both sides, no baseline-MA control, N=311). The bound is
       OLS-only (no unimodal instruments), stated in a footnote.
@@ -457,8 +458,9 @@ Decisions made by us, documented for Cote's inspection (may be revised):
 
 Blocked on Cote — open items moved to OPEN ITEMS §1 at the top of this
 file (log-area awareness, abstract sign-off, Vicente López note, issues
-#68/#91/#103, theta provenance, Larkin year, B&P source volume,
-migration sign, title). Completed record kept here:
+#68/#91, theta provenance, Larkin year, B&P source volume, migration
+sign, title; issue #103 is newly tracked there, previously GitHub-only).
+Completed record kept here:
 - [x] ~~Baumgartner & Palazzo author initials~~ — VERIFIED 2026-07-16
       against the publisher's archive (eltrimestreeconomico.com.mx):
       Jean-Pierre Baumgartner, Pascual Santiago Palazzo. bib was already
@@ -467,8 +469,9 @@ migration sign, title). Completed record kept here:
       open and tracked in OPEN ITEMS §1.
 
 Pre-deposit (see README's author checklist) — open items moved to
-OPEN ITEMS §2 (rights certifications, exhibit-numbering lock, final
-clean rerun) and §4 (\doi caveat, IGN dates). Completed record:
+OPEN ITEMS §2 (rights certifications, exhibit-numbering lock) and §4
+(\doi caveat, IGN dates); the final clean rerun is newly tracked in
+§2. Completed record:
 - [x] ~~Clean-machine rerun~~ — DONE (2026-07-16, PR #97 merged): deleted
       results/ + data/derived/, ran `R CMD BATCH code/main.R` end to
       end (~68 min after fixes; the first two attempts crashed the
@@ -487,6 +490,7 @@ clean rerun) and §4 (\doi caveat, IGN dates). Completed record:
       guards to the four Stage B cleaners that depend on ipums's
       output, so a future ordering regression dies immediately instead
       of after wasted work.
+
 Block 2 (gated on Cote's framing decisions — see Block 2 next steps above).
 
 ---
