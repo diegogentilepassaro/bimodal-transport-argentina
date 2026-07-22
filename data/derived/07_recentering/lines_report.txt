@@ -1,0 +1,19 @@
+diagnostic_recentering_lines.R report
+Generated: 2026-07-21 15:11:18.258244
+
+Segments: 565  |  line units: 430  |  snap tol: 500 m
+Studied units: 192 (21885 km)  |  non-studied: 238 (22758 km)
+
+Cells (stratum: studied / non-studied units, studied km share):
+  Cuyo:all                 10 /  19   km share studied = 0.474
+  NEA:all                  11 /  11   km share studied = 0.421
+  NOA:branch               20 /  15   km share studied = 0.537
+  NOA:trunk                14 /  18   km share studied = 0.435
+  Pampeana:branch          74 /  56   km share studied = 0.642
+  Pampeana:trunk           58 / 115   km share studied = 0.382
+  Patagonia:all             5 /   4   km share studied = 0.617
+
+Merges applied:
+  - region Patagonia: branch split dropped (thin cell Patagonia:branch) 
+  - region Cuyo: branch split dropped (thin cell Cuyo:trunk) 
+  - region NEA: branch split dropped (thin cell NEA:trunk) 

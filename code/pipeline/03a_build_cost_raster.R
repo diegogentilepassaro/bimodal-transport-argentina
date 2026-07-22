@@ -103,8 +103,29 @@ case_registry <- function() {
             hypo_file = NULL
         ),
         instrument_stu = list(
-            rail_sel = function(r) r$status1979 %in% c(1, 2, 3) &
-                                    r$studied_co == 0,
+            # Recentering diagnostic hook (Stage 1, papers-toolkit plan):
+            # if RECENTER_ASSIGN_FILE is set, the studied assignment is
+            # read from that CSV (a within-strata permutation of line-unit
+            # statuses) instead of the shapefile column. The file carries
+            # the original studied_co for a fail-loud identity check, so a
+            # stale or misordered file cannot silently produce a wrong
+            # raster. Default (env unset) is byte-identical to before.
+            rail_sel = function(r) {
+                studied <- r$studied_co
+                af <- Sys.getenv("RECENTER_ASSIGN_FILE")
+                if (nzchar(af)) {
+                    a <- utils::read.csv(af)
+                    stopifnot(nrow(a) == nrow(r),
+                              all(a$seg_row == seq_len(nrow(r))),
+                              all(a$studied_co == r$studied_co),
+                              all(a$studied_perm %in% c(0L, 1L)))
+                    studied <- a$studied_perm
+                    message(sprintf(
+                        "[cost]     RECENTER: permuted assignment from %s (%d studied)",
+                        basename(af), sum(studied == 1L)))
+                }
+                r$status1979 %in% c(1, 2, 3) & studied == 0
+            },
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
             use_hypo = FALSE,
             hypo_file = NULL
@@ -606,10 +627,21 @@ save_cost_raster <- function(cost, case) {
     # Bloque-1 variants: write to a distinct filename so variant rasters
     # never clobber the baseline ones. Suffix reflects the active toggle.
     mode_variant <- Sys.getenv("MODE_VARIANT")
+    recenter_tag <- Sys.getenv("RECENTER_TAG")
+    # The two variant mechanisms are mutually exclusive: with both set,
+    # the mode-variant suffix would win and a permuted raster could
+    # silently clobber a mode-variant raster (cr-review PR #111).
+    if (nzchar(mode_variant) && nzchar(recenter_tag)) {
+        stop("MODE_VARIANT and RECENTER_TAG are mutually exclusive")
+    }
     suffix <- if (nzchar(mode_variant)) {
         paste0("_", mode_variant)
     } else if (identical(Sys.getenv("DISABLE_NAVIGATION"), "1")) {
         "_nofluvial"
+    } else if (nzchar(recenter_tag)) {
+        # Recentering diagnostic: per-draw rasters carry the draw tag so
+        # they never clobber the baseline instrument_stu raster.
+        paste0("_", recenter_tag)
     } else {
         ""
     }
