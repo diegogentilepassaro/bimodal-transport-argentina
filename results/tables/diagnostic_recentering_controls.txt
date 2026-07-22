@@ -1,0 +1,17 @@
+Recentered-instrument control exploration (outcome-blind)
+Generated: 2026-07-22 10:25:50.786163  |  draws: 100  |  selected set: C1
+
+Protocol: sets fixed ex ante; ranked by recentered first-stage
+F only; outcomes estimated for every set afterwards; RI under
+the selected set uses leave-one-out mu.
+
+Stage A (F, recentered first stage):
+  C0   F =   9.59
+  C1   F =  10.82   <- selected
+  C2   F =  10.29
+  C3   F =   6.31
+  C4   F =   8.12
+  C5   F =  10.32
+  C6   F =   7.85
+
+Stage B/C: see CSV for all cells.
