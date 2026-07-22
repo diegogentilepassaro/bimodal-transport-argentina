@@ -59,16 +59,32 @@ main <- function() {
     S <- if (length(args) >= 1) as.integer(args[1]) else recentering_S
     n_workers <- if (length(args) >= 2) as.integer(args[2]) else
         recentering_n_workers
-    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L)
+    # Design families (widths approved by Diego 2026-07-22/23; the
+    # backbone share is family-relative, so the three designs trace a
+    # curve rather than a single number):
+    #   band       marginal-band permutation (original Option 2):
+    #              anchors fixed, 10-25k band cities permuted within
+    #              regions, counts preserved.
+    #   threshold  researcher-threshold randomization (Option 1, wide):
+    #              T ~ Uniform[10k, 50k] per draw; nodes = capitals +
+    #              cities >= T. Counts vary endogenously with T.
+    #   capsub     capital-subsampling probe (mechanical bound): band
+    #              cities at observed membership; each provincial
+    #              capital in w.p. 0.8; Buenos Aires always in.
+    design <- if (length(args) >= 3) args[3] else "band"
+    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
+              design %in% c("band", "threshold", "capsub"))
 
     message("\n", strrep("=", 72))
     message(sprintf(
-        "diagnostic_recentering_hypo_draws.R  |  S = %d + identity, %d workers",
-        S, n_workers))
+        "diagnostic_recentering_hypo_draws.R  |  S = %d + identity, %d workers, %s",
+        S, n_workers, design))
     message(strrep("=", 72))
 
     dir_hypo  <- file.path(dir_derived_recentering, "hypo")
-    dir_draws <- file.path(dir_derived_recentering, "draws_hypo")
+    dir_draws <- file.path(dir_derived_recentering,
+        if (design == "band") "draws_hypo"
+        else sprintf("draws_hypo_%s", design))
     if (!dir.exists(dir_draws)) dir.create(dir_draws, recursive = TRUE)
 
     pool  <- as.data.frame(arrow::read_parquet(
@@ -130,6 +146,11 @@ main <- function() {
 
     run_draw <- function(s) {
         tag <- sprintf("rc%03d", s)
+        # Intermediates carry a design-specific tag so two design runs
+        # can never collide on pipeline filenames; the draw files keep
+        # the z_rc### convention (directories distinguish designs).
+        ctag <- if (design == "band") tag else
+            sprintf("%s%03d", substr(design, 1, 3), s)
         out <- file.path(dir_draws, sprintf("z_%s.parquet", tag))
         if (file.exists(out)) {
             message(sprintf("[hypo] %s: exists, skipping", tag))
@@ -137,28 +158,47 @@ main <- function() {
         }
         t0 <- Sys.time()
 
-        # Node draw: identity for s = 0, region-stratified
-        # count-preserving membership permutation otherwise.
+        # Node draw per design; identity (s = 0) is the observed set
+        # (capitals + pop1960 >= 15,000) in every family.
         if (s == 0L) {
-            in_band <- band$city_id[band$observed_in]
+            nodes <- sort(pool$city_id[pool$observed_in])
         } else {
             set.seed(recentering_seed + s)
-            in_band <- unlist(lapply(names(band_by_region), function(r) {
-                b <- band_by_region[[r]]
-                sample(b$city_id, n_in_by_region[[r]])
-            }))
+            if (design == "band") {
+                in_band <- unlist(lapply(names(band_by_region),
+                                         function(r) {
+                    b <- band_by_region[[r]]
+                    sample(b$city_id, n_in_by_region[[r]])
+                }))
+                nodes <- sort(c(anchors, in_band))
+            } else if (design == "threshold") {
+                Tcut <- runif(1, 10000, 50000)
+                nodes <- sort(pool$city_id[pool$capital == 1L |
+                                            pool$pop1960 >= Tcut])
+            } else {  # capsub
+                # Each provincial capital in w.p. 0.8. All non-capital
+                # observed-in cities stay fixed -- note the pool has no
+                # CABA node (Buenos Aires enters via its non-capital
+                # suburban localities, which are held fixed here), so
+                # the metropolis is always connected by construction.
+                caps <- pool$city_id[pool$capital == 1L]
+                keep_cap <- caps[runif(length(caps)) < 0.8]
+                noncap_in <- pool$city_id[pool$capital == 0L &
+                                           pool$observed_in]
+                nodes <- sort(unique(c(keep_cap, noncap_in)))
+            }
         }
-        nodes <- sort(c(anchors, in_band))
+        stopifnot(length(nodes) >= 10L)
 
         net <- mst_geom(nodes)
         net_file <- file.path(tempdir(),
-                              sprintf("recenter_hypo_%s.gpkg", tag))
+                              sprintf("recenter_hypo_%s.gpkg", ctag))
         sf::st_write(net, net_file, delete_dsn = TRUE, quiet = TRUE)
 
         case   <- "instrument_lcp_mst_s0"
-        case_t <- sprintf("%s_%s", case, tag)
+        case_t <- sprintf("%s_%s", case, ctag)
 
-        Sys.setenv(RECENTER_HYPO_FILE = net_file, RECENTER_TAG = tag)
+        Sys.setenv(RECENTER_HYPO_FILE = net_file, RECENTER_TAG = ctag)
         on.exit(Sys.unsetenv(c("RECENTER_HYPO_FILE", "RECENTER_TAG")),
                 add = TRUE)
         run_child(p("03a_build_cost_raster.R"), case)
@@ -219,9 +259,11 @@ main <- function() {
     }
 
     done <- list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$")
-    sink(file.path(dir_derived_recentering, "draws_hypo_manifest.log"))
+    sink(file.path(dir_derived_recentering,
+        if (design == "band") "draws_hypo_manifest.log"
+        else sprintf("draws_hypo_%s_manifest.log", design)))
     cat("Data file manifest -- diagnostic_recentering_hypo_draws.R\n")
-    cat(sprintf("Generated: %s\n", Sys.time()))
+    cat(sprintf("Generated: %s  |  design: %s\n", Sys.time(), design))
     cat(sprintf("Draw files: %d (incl. identity)  |  seed base: %d\n",
                 length(done), recentering_seed))
     sink()
