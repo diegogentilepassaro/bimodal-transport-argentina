@@ -127,6 +127,16 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Demand-side sectoral MA (sectoral destination weights) — stated
       as future work in the Conclusion (PRs #101, #102); revisit only
       if the coauthors want it in this paper.
+- [ ] BACK-POCKET (Diego, 2026-07-23): DH-style own-district MA
+      robustness. Baseline MA excludes j = i (eq:ma; matches
+      Donaldson-Hornbeck's baseline; avoids the reflection problem and
+      the undefined tau_ii). The standard referee answer if asked is
+      the DH robustness variant: include own-district access with an
+      internal trade cost built from district area (the
+      (2/3)-radius-type convention on area_km2). Cheap: touches only
+      the MA step (04), no new Dijkstra. Not needed unless asked;
+      Table 14's Z_i decomposition already speaks to the own-district
+      margin more informatively.
 - [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias +
       Fuchs-Wong positioning additions — staged plan prepared
       2026-07-20 in `Plan/borusyak_hull_recentering_plan.md`
