@@ -50,8 +50,9 @@ main <- function() {
     ctrls_expr <- paste(ctrls, collapse = " + ")
 
     out_rows <- list()
-    add_row <- function(...) out_rows[[length(out_rows) + 1L]] <<-
-        data.frame(..., stringsAsFactors = FALSE)
+    add_row <- function(..., treatment = "") out_rows[[
+        length(out_rows) + 1L]] <<-
+        data.frame(treatment = treatment, ..., stringsAsFactors = FALSE)
 
     # (a) variance decomposition
     m_a <- feols(z_obs ~ mu, data = d2, vcov = "hetero")

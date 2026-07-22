@@ -1,0 +1,11 @@
+Hypo-instrument node-permutation characterization (Part C)
+Generated: 2026-07-22 20:48:35.142129  |  draws: 100
+
+EPISTEMIC NOTE: researcher randomization -- characterization,
+not design-based validity.
+
+(a) R2(z_hypo on mu_hypo) = 0.972
+(b) R2(mu_hypo on controls) = 0.242
+(c) spec-test RI p = 0.644
+
+(d) see CSV for all cells.
