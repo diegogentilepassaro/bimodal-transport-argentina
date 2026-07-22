@@ -85,6 +85,8 @@ main <- function() {
     cm <- matrix(NA_real_, 68, 68)
     cm[cbind(costs$i, costs$j)] <- costs$cost
     cm[cbind(costs$j, costs$i)] <- costs$cost
+    diag(cm) <- 0  # igraph rejects NA; 0 self-cost = no self-edge
+    stopifnot(!anyNA(cm))
     # Pair geometry index: key "i_j" with i < j.
     gkey <- sprintf("%d_%d", geoms$i, geoms$j)
 
