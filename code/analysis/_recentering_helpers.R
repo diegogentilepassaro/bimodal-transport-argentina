@@ -24,14 +24,18 @@
 #       observed instrument column and excluded from mu.
 # ===========================================================================
 
-load_recentering_data <- function(sector = "s0", instrument = "stu") {
+load_recentering_data <- function(sector = "s0", instrument = "stu",
+                                  hypo_design = "band") {
     stopifnot(sector %in% c("s0", "s1", "s2"),
               instrument %in% c("stu", "lcp_mst"))
     # Larkin draws live in draws/ (s0) or draws_s1/draws_s2; the hypo
     # node-permutation draws (Part C, s0 only) live in draws_hypo/.
     dir_draws <- if (instrument == "lcp_mst") {
-        stopifnot(sector == "s0")
-        file.path(dir_derived_recentering, "draws_hypo")
+        stopifnot(sector == "s0",
+                  hypo_design %in% c("band", "threshold", "capsub"))
+        file.path(dir_derived_recentering,
+                  if (hypo_design == "band") "draws_hypo"
+                  else sprintf("draws_hypo_%s", hypo_design))
     } else {
         suffix <- if (sector == "s0") "" else paste0("_", sector)
         file.path(dir_derived_recentering, paste0("draws", suffix))
