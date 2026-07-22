@@ -23,11 +23,18 @@
 #       for s0 (the original Stage 1 layout) and "_s1"/"_s2" otherwise.
 # ===========================================================================
 
-load_recentering_data <- function(sector = "s0") {
-    stopifnot(sector %in% c("s0", "s1", "s2"))
-    suffix <- if (sector == "s0") "" else paste0("_", sector)
-    dir_draws <- file.path(dir_derived_recentering,
-                           paste0("draws", suffix))
+load_recentering_data <- function(sector = "s0", instrument = "stu") {
+    stopifnot(sector %in% c("s0", "s1", "s2"),
+              instrument %in% c("stu", "lcp_mst"))
+    # Larkin draws live in draws/ (s0) or draws_s1/draws_s2; the hypo
+    # node-permutation draws (Part C, s0 only) live in draws_hypo/.
+    dir_draws <- if (instrument == "lcp_mst") {
+        stopifnot(sector == "s0")
+        file.path(dir_derived_recentering, "draws_hypo")
+    } else {
+        suffix <- if (sector == "s0") "" else paste0("_", sector)
+        file.path(dir_derived_recentering, paste0("draws", suffix))
+    }
     files <- sort(list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$",
                              full.names = TRUE))
     stopifnot(length(files) >= 11L)
@@ -51,12 +58,12 @@ load_recentering_data <- function(sector = "s0") {
     zmat <- as.matrix(d2[, perm_cols]) - d2[[base_col]]
     stopifnot(!anyNA(zmat))  # guard against a partial draw set
 
-    obs_col <- sprintf("chg_logMA_stu_%s_elow", sector)
+    obs_col <- sprintf("chg_logMA_%s_%s_elow", instrument, sector)
     z_id <- d2$logMA.0 - d2[[base_col]]
     max_dev <- max(abs(z_id - d2[[obs_col]]), na.rm = TRUE)
     message(sprintf(
-        "[rc-helpers] sector %s: %d draws; identity vs panel dev = %.2e",
-        sector, S_perm, max_dev))
+        "[rc-helpers] %s/%s: %d draws; identity vs panel dev = %.2e",
+        instrument, sector, S_perm, max_dev))
     stopifnot(max_dev < 1e-6)
 
     d2$mu    <- rowMeans(zmat)

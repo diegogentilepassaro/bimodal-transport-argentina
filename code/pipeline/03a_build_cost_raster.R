@@ -353,6 +353,21 @@ rasterize_hypo <- function(base, hypo_file) {
     hypo_path <- file.path(
         dir_derived, "02_hypothetical_networks", hypo_file
     )
+    # Recentering diagnostic hook (Part C): if RECENTER_HYPO_FILE is
+    # set, the hypothetical network is read from that path instead (a
+    # node-permuted MST built by diagnostic_recentering_hypo_draws.R).
+    # Default (env unset) is byte-identical to before. Guarded to the
+    # same mutual exclusion as the other variant mechanisms.
+    hf <- Sys.getenv("RECENTER_HYPO_FILE")
+    if (nzchar(hf)) {
+        if (nzchar(Sys.getenv("RECENTER_ASSIGN_FILE"))) {
+            stop("RECENTER_HYPO_FILE and RECENTER_ASSIGN_FILE are ",
+                 "mutually exclusive")
+        }
+        message(sprintf("[cost]     RECENTER: hypo network from %s",
+                        basename(hf)))
+        hypo_path <- hf
+    }
     if (!file.exists(hypo_path)) {
         stop("Hypo network not found at: ", hypo_path)
     }
