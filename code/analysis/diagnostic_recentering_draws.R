@@ -69,7 +69,7 @@ main <- function() {
     args <- commandArgs(trailingOnly = TRUE)
     S <- if (length(args) >= 1) as.integer(args[1]) else recentering_S
     n_workers <- if (length(args) >= 2) as.integer(args[2]) else
-        n_cores_heavy
+        recentering_n_workers
     # Sector argument (B2, deep-dive batch 2026-07-22): the SAME
     # permutations pushed through the sector-s cost schedule, enabling
     # recentered versions of the matched-schedule instruments.

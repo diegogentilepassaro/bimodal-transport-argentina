@@ -58,7 +58,7 @@ main <- function() {
     args <- commandArgs(trailingOnly = TRUE)
     S <- if (length(args) >= 1) as.integer(args[1]) else recentering_S
     n_workers <- if (length(args) >= 2) as.integer(args[2]) else
-        n_cores_heavy
+        recentering_n_workers
     stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L)
 
     message("\n", strrep("=", 72))
