@@ -80,6 +80,7 @@ main <- function() {
     perm_cols <- sprintf("logMA.%d",
                          sort(unique(draws$draw[draws$draw > 0L])))
     zmat <- as.matrix(d2[, perm_cols]) - d2$logMA_actual_1960_s0_elow
+    stopifnot(!anyNA(zmat))  # guard against a partial draw set
 
     d2$mu    <- rowMeans(zmat)
     d2$z_obs <- d2$chg_logMA_stu_s0_elow
@@ -141,12 +142,27 @@ main <- function() {
     fs_F <- setNames(numeric(length(sets)), names(sets))
     for (nm in names(sets)) {
         s <- sets[[nm]]
-        # First-stage F from the population-outcome IV object (the F is
-        # outcome-invariant; any outcome gives the same first stage, we
-        # use pop only to instantiate the model).
-        m <- feols(iv_fml("chg_log_pop_91_60", "z_rec", s$ctrl, s$fe),
-                   data = d2, vcov = "hetero")
-        fs_F[nm] <- fitstat_F(m)
+        # First stage estimated DIRECTLY (treatment on instrument +
+        # controls): no outcome object exists at selection time, so
+        # outcome-blindness is structural, not incidental (cr-review
+        # PR #112: an IV-object F varies with outcome missingness via
+        # NA row-dropping, and was full-sample here only because the
+        # population outcome happens to have zero NAs). With a single
+        # instrument the robust Wald F is the squared t on z_rec, which
+        # equals fitstat's ivf on the full sample.
+        f1 <- as.formula(sprintf("%s ~ z_rec + %s%s", endog,
+            paste(setdiff(s$ctrl, "z_rec"), collapse = " + "),
+            if (is.null(s$fe)) "" else sprintf(" | %s", s$fe)))
+        m1 <- feols(f1, data = d2, vcov = "hetero")
+        tz <- safe_coef(m1, "z_rec")
+        # NOTE: this is the HETEROSKEDASTICITY-ROBUST Wald F (squared
+        # robust t on the single instrument), the metric matching the
+        # HC1 inference used throughout. It is systematically larger
+        # here than the classical ivf that fitstat_F reports (and that
+        # PR #111's CSV shows: e.g. C1 10.8 classical vs 13.3 robust).
+        # Stage B reports the classical ivf per fitstat_F for
+        # comparability with the paper's tables; both are labelled.
+        fs_F[nm] <- (tz$est / tz$se)^2
         m_mu <- feols(as.formula(paste(
             "mu ~", paste(setdiff(s$ctrl, "mu"), collapse = " + "),
             if (!is.null(s$fe)) sprintf("| %s", s$fe) else "")),
@@ -155,7 +171,8 @@ main <- function() {
         message(sprintf("[ctl]   %-3s  F(recentered) = %6.2f   R2(mu|set) = %.3f",
                         nm, fs_F[nm], r2_mu))
         add_row(block = "A_first_stage", set = nm, outcome = "",
-                spec = "recentered", stat = "F", value = fs_F[nm])
+                spec = "recentered", stat = "F_robust_wald",
+                value = fs_F[nm])
         add_row(block = "A_first_stage", set = nm, outcome = "",
                 spec = "recentered", stat = "r2_mu", value = r2_mu)
     }
@@ -187,6 +204,12 @@ main <- function() {
                     spec = "recentered", stat = "p", value = cc$p)
             add_row(block = "B_outcomes", set = nm, outcome = oc[2],
                     spec = "recentered", stat = "N", value = nobs(m))
+            # Per-outcome-sample first-stage F (differs from Stage A's
+            # full-sample F where the outcome has missing rows, e.g.
+            # the 237-district placebo subsample).
+            add_row(block = "B_outcomes", set = nm, outcome = oc[2],
+                    spec = "recentered", stat = "F_ivf",
+                    value = fitstat_F(m))
             message(sprintf(
                 "[ctl]   %-3s %-16s  b=%+.4f  se=%.4f  p=%.3f%s",
                 nm, oc[2], cc$est, cc$se, cc$p,

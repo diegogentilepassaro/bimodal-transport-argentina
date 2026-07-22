@@ -141,6 +141,17 @@ force a rerun anyway (Diego, 2026-07-20).
       option (their designs need traffic data that does not exist for
       1960s Argentina), and the ideal is a structural companion paper
       (future work), not an addition.
+      STAGE 1 EXECUTED (PRs #111, #112; 2026-07-21/22) with the STOP
+      outcome: 39% of the Larkin instrument is expected given
+      geography; controls span 17% of mu; estimates collapse under
+      recentering (imprecisely, recentered F ~ 10); placebo does NOT
+      clean. Outcome-blind control exploration (protocol: seven
+      predetermined sets fixed ex ante, ranked by recentered
+      first-stage F only, all outcome cells reported, LOO-mu RI)
+      returned a clean negative: best set is the existing
+      geo_controls_main + mu. Stage 2 NOT recommended without the
+      Cote conversation (Decision A + issue #68 strata; BH-2026
+      efficient instrument is the remaining principled power lever).
       Optional stages: S=100 recentering diagnostic for the Larkin
       instrument (line-level permutation within region×branch strata;
       includes the pre-trends-cleaning check), promotion to recentered
