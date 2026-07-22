@@ -3,7 +3,10 @@
 #
 # PURPOSE: One-time preparation for Part C of the recentering deep dive
 #          (hypo-instrument node randomization; design approved by Diego
-#          2026-07-22): compute pairwise LCP costs AND geometries for
+#          2026-07-22). EPISTEMIC STATUS: the randomization these
+#          artifacts enable is the researcher's, not the world's --
+#          Part C characterizes the instrument, it does not certify
+#          design-based validity. Compute pairwise LCP costs AND geometries for
 #          the FULL 68-city candidate pool of ciudades_seleccion2, so
 #          that each permutation draw can rebuild an LCP-MST instantly
 #          from the precomputed matrix and union of pair geometries.
@@ -130,6 +133,11 @@ main <- function() {
     message("[prep] pairwise cost matrix (68 x 68)")
     cost_mat <- as.matrix(gdistance::costDistance(tr, coords, coords))
     stopifnot(nrow(cost_mat) == n, !any(is.nan(cost_mat)))
+    # Off-diagonal must be finite and strictly positive: Inf (an
+    # unreachable pair) or exact 0 (two cities snapped to one cell)
+    # would silently corrupt the MST rebuild (igraph drops 0-edges).
+    od <- cost_mat[row(cost_mat) != col(cost_mat)]
+    stopifnot(all(is.finite(od)), all(od > 0))
 
     # ---- 3. Verification: observed-subset MST cost vs committed lcp_mst -----
     obs_idx <- which(cities$observed_in)

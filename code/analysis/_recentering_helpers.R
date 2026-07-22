@@ -8,19 +8,20 @@
 #          predetermined covariates used by the control explorations.
 #
 # Exports:
-#   load_recentering_data(sector = "s0")
+#   load_recentering_data(sector = "s0", instrument = "stu")
 #       Returns a list(d2, zmat, S_perm):
 #         d2     estimation sample (311 rows) + mu, z_obs, z_rec,
 #                region, province, rail_km_1960, rail_dens_1960,
-#                lat/lon quadratic terms.
+#                lat/lon quadratic terms. z_obs is the observed
+#                instrument chg_logMA_<instrument>_<sector>_elow;
+#                mu and z_rec are relative to that instrument's draws.
 #         zmat   311 x S matrix of permuted-draw instruments
 #                z^(s) = logMA^(s) - logMA_actual_1960 (same sector).
-#         S_perm number of permuted draws.
+#         S_perm number of permuted draws (asserted >= 100).
+#       instrument = "stu" (Larkin; draws/ or draws_s1/draws_s2) or
+#       "lcp_mst" (hypo node permutation, Part C; draws_hypo/, s0 only).
 #       The identity draw (rc000) is cross-checked against the panel's
 #       observed instrument column and excluded from mu.
-#       Draws for sector s are read from
-#       data/derived/07_recentering/draws<suffix>/ where suffix is ""
-#       for s0 (the original Stage 1 layout) and "_s1"/"_s2" otherwise.
 # ===========================================================================
 
 load_recentering_data <- function(sector = "s0", instrument = "stu") {
@@ -42,6 +43,9 @@ load_recentering_data <- function(sector = "s0", instrument = "stu") {
         as.data.frame(arrow::read_parquet(f))))
     draws <- ensure_geolev2_char(draws)
     S_perm <- length(unique(draws$draw[draws$draw > 0L]))
+    # A partial draw set (e.g. an interrupted run) must fail loudly, not
+    # silently yield a noisier mu (cr-review PR #112 cycle 2).
+    stopifnot(S_perm >= 100L)
 
     d <- as.data.frame(arrow::read_parquet(
         file.path(dir_derived_analysis, "estimation_sample.parquet")))

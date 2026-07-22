@@ -147,6 +147,13 @@ main <- function() {
 
     res <- do.call(rbind, out_rows)
     res$S_perm <- S_perm
+    # In-file flag so CSV readers see the warning without the txt:
+    # recentered/mu-control cells are weak-instrument artifacts
+    # (first-stage F ~ 0.4-1.1 on a ~3% residual instrument).
+    res$interpret <- ifelse(
+        res$block == "d_estimates" & res$spec %in%
+            c("recentered", "mu_control"),
+        "no_weak_iv_artifact", "yes")
     csv_path <- file.path(dir_tables, "diagnostic_recentering_hypo.csv")
     write.csv(res, csv_path, row.names = FALSE)
     txt_path <- file.path(dir_tables, "diagnostic_recentering_hypo.txt")
@@ -159,6 +166,12 @@ main <- function() {
     cat(sprintf("(b) R2(mu_hypo on controls) = %.3f\n", r2_b))
     cat(sprintf("(c) spec-test RI p = %.3f\n\n", p_ri))
     cat("(d) see CSV for all cells.\n")
+    cat("WARNING -- do not interpret the recentered and mu_control\n")
+    cat("columns: the recentered instrument is the ~3% of the hypo\n")
+    cat("instrument not explained by the backbone, with first-stage\n")
+    cat("F ~ 0.4-1.1. Their cells (e.g. placebo mu_control b = 171.7,\n")
+    cat("se = 176,414) are mechanical weak-instrument artifacts. The\n")
+    cat("informative numbers are (a)-(c) and the unadjusted column.\n")
     sink()
     message(sprintf("[hyr] Saved: %s and .txt", csv_path))
 }
