@@ -57,59 +57,12 @@ main <- function() {
     message("diagnostic_recentering_controls.R  |  outcome-blind exploration")
     message(strrep("=", 72))
 
-    # ---- 1. Load draws + sample (mirrors diagnostic_recentering_results.R) --
-    dir_draws <- file.path(dir_derived_recentering, "draws")
-    files <- sort(list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$",
-                             full.names = TRUE))
-    draws <- do.call(rbind, lapply(files, function(f)
-        as.data.frame(arrow::read_parquet(f))))
-    draws <- ensure_geolev2_char(draws)
-    S_perm <- length(unique(draws$draw[draws$draw > 0L]))
+    # ---- 1-2. Load draws, sample, covariates (shared helper) ----------------
+    source(file.path(dir_code, "analysis", "_recentering_helpers.R"),
+           echo = FALSE)
+    rc <- load_recentering_data(sector = "s0")
+    d2 <- rc$d2; zmat <- rc$zmat; S_perm <- rc$S_perm
     stopifnot(S_perm >= 100L)
-    message(sprintf("[ctl] %d permuted draws", S_perm))
-
-    d <- as.data.frame(arrow::read_parquet(
-        file.path(dir_derived_analysis, "estimation_sample.parquet")))
-    d <- ensure_geolev2_char(d)
-    stopifnot(nrow(d) == 311L)
-
-    zw <- reshape(draws[, c("geolev2", "draw", "logMA")],
-                  idvar = "geolev2", timevar = "draw", direction = "wide")
-    d2 <- merge(d, zw, by = "geolev2", all.x = TRUE)
-    stopifnot(nrow(d2) == 311L)
-    perm_cols <- sprintf("logMA.%d",
-                         sort(unique(draws$draw[draws$draw > 0L])))
-    zmat <- as.matrix(d2[, perm_cols]) - d2$logMA_actual_1960_s0_elow
-    stopifnot(!anyNA(zmat))  # guard against a partial draw set
-
-    d2$mu    <- rowMeans(zmat)
-    d2$z_obs <- d2$chg_logMA_stu_s0_elow
-    d2$z_rec <- d2$z_obs - d2$mu
-
-    # ---- 2. Additional predetermined covariates ------------------------------
-    # Region / province from geolev2 (INDEC codes; chars 3-5 after the
-    # leading-zero strip).
-    d2$province <- substr(d2$geolev2, 3, 5)
-    stopifnot(all(d2$province %in% names(region_of_province)))
-    d2$region <- region_of_province[d2$province]
-
-    # Baseline rail intensity (predetermined exposure proxies).
-    d2$rail_km_1960   <- d2$tot_rails_1960
-    d2$rail_dens_1960 <- d2$tot_rails_1960 / d2$area_km2
-
-    # Centroid latitude/longitude (WGS84), quadratic.
-    shp <- sf::st_read(file.path(dir_raw_geo, "geo2_ar1970_2010.shp"),
-                       quiet = TRUE)
-    shp <- sf::st_make_valid(shp)
-    names(shp)[names(shp) == "GEOLEVEL2"] <- "geolev2"
-    shp$geolev2 <- sub("^0+", "", as.character(shp$geolev2))
-    cents <- suppressWarnings(
-        sf::st_coordinates(sf::st_centroid(sf::st_transform(shp, 4326))))
-    geo_ll <- data.frame(geolev2 = shp$geolev2,
-                         lon = cents[, "X"], lat = cents[, "Y"])
-    d2 <- merge(d2, geo_ll, by = "geolev2", all.x = TRUE)
-    stopifnot(nrow(d2) == 311L, !any(is.na(d2$lat)))
-    d2$lat2 <- d2$lat^2; d2$lon2 <- d2$lon^2; d2$latlon <- d2$lat * d2$lon
 
     # ---- 3. Candidate sets (fixed ex ante) -----------------------------------
     base <- geo_controls_main
