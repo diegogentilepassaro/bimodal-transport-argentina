@@ -74,19 +74,29 @@ main <- function() {
     # permutations pushed through the sector-s cost schedule, enabling
     # recentered versions of the matched-schedule instruments.
     sector <- if (length(args) >= 3) args[3] else "s0"
+    # Variant (Stage 3, authorized 2026-07-23): "stu" = the plain Larkin
+    # instrument network (non-studied rails + 1954 roads); "fused" = the
+    # BH-2026 treatment prediction (non-studied rails + LCP-MST hypo
+    # roads). Same permutations either way; only the case differs.
+    variant <- if (length(args) >= 4) args[4] else "stu"
     stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
-              sector %in% c("s0", "s1", "s2"))
+              sector %in% c("s0", "s1", "s2"),
+              variant %in% c("stu", "fused"),
+              variant == "stu" || sector == "s0")
 
     message("\n", strrep("=", 72))
     message(sprintf(
-        "diagnostic_recentering_draws.R  |  S = %d + identity, %d workers, %s",
-        S, n_workers, sector))
+        "diagnostic_recentering_draws.R  |  S = %d + identity, %d workers, %s/%s",
+        S, n_workers, sector, variant))
     message(strrep("=", 72))
 
-    # s0 keeps the original Stage 1 layout ("draws"); other sectors get
-    # suffixed directories (matches _recentering_helpers.R).
+    # s0/stu keeps the original Stage 1 layout ("draws"); other sectors
+    # get suffixed directories (matches _recentering_helpers.R); the
+    # fused variant gets its own.
     dir_draws <- file.path(dir_derived_recentering,
-        if (sector == "s0") "draws" else paste0("draws_", sector))
+        if (variant == "fused") "draws_fused"
+        else if (sector == "s0") "draws"
+        else paste0("draws_", sector))
     if (!dir.exists(dir_draws)) dir.create(dir_draws, recursive = TRUE)
 
     seg <- arrow::read_parquet(
@@ -144,10 +154,16 @@ main <- function() {
         afile <- file.path(tempdir(), sprintf("recenter_assign_%s.csv", tag))
         utils::write.csv(assign_df, afile, row.names = FALSE)
 
-        case   <- sprintf("instrument_stu_%s", sector)
-        case_t <- sprintf("%s_%s", case, tag)
+        case   <- sprintf("instrument_%s_%s",
+                          if (variant == "fused") "fused" else "stu",
+                          sector)
+        # The intermediate tag must match RECENTER_TAG (it becomes the
+        # raster filename suffix in 03a). Distinct across variants;
+        # the case name already prevents cross-case collisions.
+        itag   <- if (variant == "fused") sprintf("fu%03d", s) else tag
+        case_t <- sprintf("%s_%s", case, itag)
 
-        Sys.setenv(RECENTER_ASSIGN_FILE = afile, RECENTER_TAG = tag)
+        Sys.setenv(RECENTER_ASSIGN_FILE = afile, RECENTER_TAG = itag)
         on.exit(Sys.unsetenv(c("RECENTER_ASSIGN_FILE", "RECENTER_TAG")),
                 add = TRUE)
 
@@ -174,7 +190,8 @@ main <- function() {
         # skip draw 0 and never re-run the gate (cr-review PR #111).
         if (s == 0L) {
             base_path <- file.path(dir_derived_ma, sprintf(
-                "ma_instrument_stu_%s_elow.parquet", sector))
+                "ma_instrument_%s_%s_elow.parquet",
+                if (variant == "fused") "fused" else "stu", sector))
             stopifnot(file.exists(base_path))
             base <- ensure_geolev2_char(arrow::read_parquet(base_path))
             m <- merge(z, base[, c("geolev2", "logMA")],
@@ -234,7 +251,8 @@ main <- function() {
     done <- list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$")
     sink(file.path(dir_derived_recentering,
         sprintf("draws_manifest%s.log",
-                if (sector == "s0") "" else paste0("_", sector))))
+                if (variant == "fused") "_fused"
+                else if (sector == "s0") "" else paste0("_", sector))))
     cat("Data file manifest -- diagnostic_recentering_draws.R\n")
     cat(sprintf("Generated: %s  |  sector: %s\n", Sys.time(), sector))
     cat(sprintf("Draw files present: %d (incl. identity rc000)\n",
