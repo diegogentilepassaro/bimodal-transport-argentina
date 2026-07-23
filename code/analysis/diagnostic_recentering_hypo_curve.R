@@ -4,10 +4,14 @@
 # PURPOSE: The backbone-share CURVE for the hypothetical-road
 #          instrument (approved by Diego 2026-07-23). The backbone
 #          share -- R^2 of the observed instrument on its expected
-#          value over node permutations -- is mechanically decreasing
-#          in the width of the counterfactual family, so no single
-#          number is meaningful alone. This script reports the share
-#          across the three families of increasing width:
+#          value over node permutations -- is family-relative: it is
+#          decreasing in the NETWORK VARIATION the family induces
+#          (sd of the recentered instrument), not in nominal design
+#          aggressiveness (capsub, the most aggressive-sounding probe,
+#          induces the LEAST network variation because the MST simply
+#          reroutes around a missing capital, and so has the highest
+#          share). No single number is meaningful alone. This script
+#          reports the share across three families:
 #
 #            band       marginal-band permutation (narrow: which
 #                       10-25k towns are connected)
@@ -90,8 +94,10 @@ main <- function() {
     sink(txt_path)
     cat("Backbone-share curve for the hypothetical-road instrument\n")
     cat(sprintf("Generated: %s\n\n", Sys.time()))
-    cat("The share is FAMILY-RELATIVE (mechanically decreasing in\n")
-    cat("randomization width); read the curve, not any single point.\n")
+    cat("The share is FAMILY-RELATIVE: decreasing in the network\n")
+    cat("variation the family induces (sd(zrec)), NOT in nominal\n")
+    cat("design aggressiveness (capsub induces the least variation\n")
+    cat("and has the highest share). Read the curve, not one point.\n")
     cat("capsub counterfactuals leave the family of plausible\n")
     cat("construction rules: mechanical bound only. Researcher\n")
     cat("randomization throughout -- characterization, not validity.\n\n")

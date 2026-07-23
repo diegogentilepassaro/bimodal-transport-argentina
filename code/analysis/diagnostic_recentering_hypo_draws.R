@@ -68,9 +68,11 @@ main <- function() {
     #   threshold  researcher-threshold randomization (Option 1, wide):
     #              T ~ Uniform[10k, 50k] per draw; nodes = capitals +
     #              cities >= T. Counts vary endogenously with T.
-    #   capsub     capital-subsampling probe (mechanical bound): band
-    #              cities at observed membership; each provincial
-    #              capital in w.p. 0.8; Buenos Aires always in.
+    #   capsub     capital-subsampling probe (mechanical bound):
+    #              non-capital observed nodes fixed; each provincial
+    #              capital in w.p. 0.8. The pool has no CABA node --
+    #              the metropolis is connected via its (fixed,
+    #              non-capital) conurbano localities by construction.
     design <- if (length(args) >= 3) args[3] else "band"
     stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
               design %in% c("band", "threshold", "capsub"))
