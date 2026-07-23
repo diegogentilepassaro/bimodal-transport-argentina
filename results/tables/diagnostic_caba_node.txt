@@ -1,0 +1,8 @@
+CABA node materiality test (issue #113)
+Generated: 2026-07-23 02:04:56.47362
+
+MST: 53 -> 54 edges (added 1, dropped 0)
+Instrument corr old/new: 1.000000
+max |dev|: 0.0000 (all), 0.0000 (BA province)
+
+Estimates: see CSV (IV-H / IV-B, old vs new instrument).
