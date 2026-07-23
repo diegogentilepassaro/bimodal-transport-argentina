@@ -50,38 +50,13 @@ suppressPackageStartupMessages({
     library(igraph)
 })
 
-# INDEC five-region grouping by province code (PARENT field of the
-# district shapefile; INDEC numeric province codes).
-region_of_province <- c(
-    "002" = "Pampeana",  # CABA
-    "006" = "Pampeana",  # Buenos Aires
-    "014" = "Pampeana",  # Cordoba
-    "030" = "Pampeana",  # Entre Rios
-    "042" = "Pampeana",  # La Pampa
-    "082" = "Pampeana",  # Santa Fe
-    "010" = "NOA",       # Catamarca
-    "038" = "NOA",       # Jujuy
-    "046" = "NOA",       # La Rioja
-    "066" = "NOA",       # Salta
-    "086" = "NOA",       # Santiago del Estero
-    "090" = "NOA",       # Tucuman
-    "018" = "NEA",       # Corrientes
-    "022" = "NEA",       # Chaco
-    "034" = "NEA",       # Formosa
-    "054" = "NEA",       # Misiones
-    "050" = "Cuyo",      # Mendoza
-    "070" = "Cuyo",      # San Juan
-    "074" = "Cuyo",      # San Luis
-    "026" = "Patagonia", # Chubut
-    "058" = "Patagonia", # Neuquen
-    "062" = "Patagonia", # Rio Negro
-    "078" = "Patagonia", # Santa Cruz
-    "094" = "Patagonia"  # Tierra del Fuego
-)
+# The INDEC region-of-province mapping lives in code/base/utils.R
+# (region_of_province), shared with the controls exploration.
 
 main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
+    source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
 
     message("\n", strrep("=", 72))
     message("diagnostic_recentering_lines.R  |  line units + strata")

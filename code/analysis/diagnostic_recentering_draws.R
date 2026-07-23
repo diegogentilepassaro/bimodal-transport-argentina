@@ -69,16 +69,24 @@ main <- function() {
     args <- commandArgs(trailingOnly = TRUE)
     S <- if (length(args) >= 1) as.integer(args[1]) else recentering_S
     n_workers <- if (length(args) >= 2) as.integer(args[2]) else
-        n_cores_heavy
-    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L)
+        recentering_n_workers
+    # Sector argument (B2, deep-dive batch 2026-07-22): the SAME
+    # permutations pushed through the sector-s cost schedule, enabling
+    # recentered versions of the matched-schedule instruments.
+    sector <- if (length(args) >= 3) args[3] else "s0"
+    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
+              sector %in% c("s0", "s1", "s2"))
 
     message("\n", strrep("=", 72))
     message(sprintf(
-        "diagnostic_recentering_draws.R  |  S = %d draws + identity, %d workers",
-        S, n_workers))
+        "diagnostic_recentering_draws.R  |  S = %d + identity, %d workers, %s",
+        S, n_workers, sector))
     message(strrep("=", 72))
 
-    dir_draws <- file.path(dir_derived_recentering, "draws")
+    # s0 keeps the original Stage 1 layout ("draws"); other sectors get
+    # suffixed directories (matches _recentering_helpers.R).
+    dir_draws <- file.path(dir_derived_recentering,
+        if (sector == "s0") "draws" else paste0("draws_", sector))
     if (!dir.exists(dir_draws)) dir.create(dir_draws, recursive = TRUE)
 
     seg <- arrow::read_parquet(
@@ -136,7 +144,7 @@ main <- function() {
         afile <- file.path(tempdir(), sprintf("recenter_assign_%s.csv", tag))
         utils::write.csv(assign_df, afile, row.names = FALSE)
 
-        case   <- "instrument_stu_s0"
+        case   <- sprintf("instrument_stu_%s", sector)
         case_t <- sprintf("%s_%s", case, tag)
 
         Sys.setenv(RECENTER_ASSIGN_FILE = afile, RECENTER_TAG = tag)
@@ -165,8 +173,8 @@ main <- function() {
         # not leave a z_rc000.parquet behind, or a re-invocation would
         # skip draw 0 and never re-run the gate (cr-review PR #111).
         if (s == 0L) {
-            base_path <- file.path(dir_derived_ma,
-                                   "ma_instrument_stu_s0_elow.parquet")
+            base_path <- file.path(dir_derived_ma, sprintf(
+                "ma_instrument_stu_%s_elow.parquet", sector))
             stopifnot(file.exists(base_path))
             base <- ensure_geolev2_char(arrow::read_parquet(base_path))
             m <- merge(z, base[, c("geolev2", "logMA")],
@@ -223,11 +231,12 @@ main <- function() {
         stop(sprintf("[draws] %d of %d draws failed", length(fails), S))
     }
 
-    done <- list.files(file.path(dir_derived_recentering, "draws"),
-                       pattern = "^z_rc\\d+\\.parquet$")
-    sink(file.path(dir_derived_recentering, "draws_manifest.log"))
+    done <- list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$")
+    sink(file.path(dir_derived_recentering,
+        sprintf("draws_manifest%s.log",
+                if (sector == "s0") "" else paste0("_", sector))))
     cat("Data file manifest -- diagnostic_recentering_draws.R\n")
-    cat(sprintf("Generated: %s\n", Sys.time()))
+    cat(sprintf("Generated: %s  |  sector: %s\n", Sys.time(), sector))
     cat(sprintf("Draw files present: %d (incl. identity rc000)\n",
                 length(done)))
     cat(sprintf("Seed base: %d  |  snap tol: %d m\n",

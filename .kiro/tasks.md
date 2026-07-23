@@ -127,6 +127,16 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Demand-side sectoral MA (sectoral destination weights) — stated
       as future work in the Conclusion (PRs #101, #102); revisit only
       if the coauthors want it in this paper.
+- [ ] BACK-POCKET (Diego, 2026-07-23): DH-style own-district MA
+      robustness. Baseline MA excludes j = i (eq:ma; matches
+      Donaldson-Hornbeck's baseline; avoids the reflection problem and
+      the undefined tau_ii). The standard referee answer if asked is
+      the DH robustness variant: include own-district access with an
+      internal trade cost built from district area (the
+      (2/3)-radius-type convention on area_km2). Cheap: touches only
+      the MA step (04), no new Dijkstra. Not needed unless asked;
+      Table 14's Z_i decomposition already speaks to the own-district
+      margin more informatively.
 - [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias +
       Fuchs-Wong positioning additions — staged plan prepared
       2026-07-20 in `Plan/borusyak_hull_recentering_plan.md`
@@ -141,6 +151,17 @@ force a rerun anyway (Diego, 2026-07-20).
       option (their designs need traffic data that does not exist for
       1960s Argentina), and the ideal is a structural companion paper
       (future work), not an addition.
+      STAGE 1 EXECUTED (PRs #111, #112; 2026-07-21/22) with the STOP
+      outcome: 39% of the Larkin instrument is expected given
+      geography; controls span 17% of mu; estimates collapse under
+      recentering (imprecisely, recentered F ~ 10); placebo does NOT
+      clean. Outcome-blind control exploration (protocol: seven
+      predetermined sets fixed ex ante, ranked by recentered
+      first-stage F only, all outcome cells reported, LOO-mu RI)
+      returned a clean negative: best set is the existing
+      geo_controls_main + mu. Stage 2 NOT recommended without the
+      Cote conversation (Decision A + issue #68 strata; BH-2026
+      efficient instrument is the remaining principled power lever).
       Optional stages: S=100 recentering diagnostic for the Larkin
       instrument (line-level permutation within region×branch strata;
       includes the pre-trends-cleaning check), promotion to recentered

@@ -1,0 +1,15 @@
+Backbone-share curve for the hypothetical-road instrument
+Generated: 2026-07-23 07:58:02.023784
+
+The share is FAMILY-RELATIVE: decreasing in the network
+variation the family induces (sd(zrec)), NOT in nominal
+design aggressiveness (capsub induces the least variation
+and has the highest share). Read the curve, not one point.
+capsub counterfactuals leave the family of plausible
+construction rules: mechanical bound only. Researcher
+randomization throughout -- characterization, not validity.
+
+design     backboneR2    sd(z) sd(zrec)    F_rec     R2mu
+band            0.972     2.44     0.41     0.51    0.242
+threshold       0.932     2.44     0.64     0.22    0.249
+capsub          0.991     2.44     0.23     2.82    0.261

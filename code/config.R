@@ -441,6 +441,14 @@ recentering_S <- 100L
 # Minimum studied and non-studied line units per stratum cell; thinner
 # cells are merged (region cell first, then pooled) and documented.
 recentering_min_cell <- 4L
+# Default worker count for the recentering draw engines (Diego,
+# 2026-07-22). Each draw chain peaks at ~1-2 GB; 5 chains fit the 36 GB
+# machine with headroom while leaving cores for interactive use. This
+# does NOT change n_cores_heavy (= 4), which caps the heavier
+# gdistance-LCP worker class (02, 03c, hypo prep) whose 8-worker
+# configuration is a documented crash. Runs are launched only on
+# explicit authorization.
+recentering_n_workers <- 5L
 
 # ---- 14. Sentinel / flag --------------------------------------------------
 config_loaded <- TRUE
