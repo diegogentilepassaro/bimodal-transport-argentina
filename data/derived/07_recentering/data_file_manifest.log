@@ -1,0 +1,5 @@
+Data file manifest -- diagnostic_recentering_lines.R
+Generated: 2026-07-21 15:11:18.26261
+
+rail_segments_strata.parquet: 565 rows, key seg_row
+rail_lines_strata.parquet:    430 rows, key line_id
