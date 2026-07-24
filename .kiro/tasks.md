@@ -173,8 +173,17 @@ LEDGER.
       legitimate for the main 1960-91 regressions. Wednesday decision:
       adopt as the paper's Table 7 spec + rewrite the intro's
       validation paragraph. Revisit after each MA-definition change.
-- [ ] Gibbons-style decay ~0.5 on the existing sweep machinery (his
-      1.5 / memo point i).
+- [x] Gibbons-style decay — DONE 2026-07-24 (variant "gibbons" on the
+      sectoral sweep script; theta in {0.25, 0.5, 0.75}; diagnostic
+      only, paper exhibits untouched). HEADLINE: population turns
+      marginally significant at low decay (+0.49* at 0.75 rising to
+      +1.50* at 0.25 — through and past the Gibbons ~0.3 benchmark)
+      and the sectoral pattern SURVIVES (mfg value/wage ***, ag and
+      establishments null), F 10-15. Input for the theta/tau
+      conversation (Decision A), Wednesday. Also recorded here: the
+      recentering brief was converted to a sendable email
+      (Plan/email_cote_recentering_estado.md, second email of the day
+      after the geocoding instructions).
 - [ ] τ normalization experiment (his 1.5 / memo point ii; connects
       to the τ crude-vs-iceberg PLACEHOLDER in §3.3, note #21).
 - [ ] Controls rationalization — CO-OWNED: Cote took it as homework

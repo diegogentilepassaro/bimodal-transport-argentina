@@ -37,6 +37,17 @@
 #
 # PRODUCES:
 #   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv,tex}
+#   (variant "gibbons": diagnostic_theta_gibbons.{txt,csv} only —
+#   no paper exhibit; see USAGE)
+#
+# USAGE:
+#   Rscript code/analysis/diagnostic_theta_sweep_sectoral.R [variant]
+#   variant = "main" (default: THETA_GRID 1..12, writes the paper
+#   exhibit) or "gibbons" (Cote email 2026-07-24, experiment (i):
+#   decay at Gibbons-like low values, THETA_GRID_GIBBONS =
+#   {0.25, 0.5, 0.75}; DIAGNOSTIC ONLY — writes its own csv/txt and
+#   deliberately does NOT touch the paper exhibit, whose grid stays
+#   [1, 12] until the theta/tau interpretation is settled).
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -45,6 +56,7 @@ suppressPackageStartupMessages({
 })
 
 THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
+THETA_GRID_GIBBONS <- c(0.25, 0.5, 0.75)
 
 OUTCOMES <- list(
     list(var = "chg_log_pop_91_60",        lab = "population"),
@@ -64,15 +76,32 @@ main <- function() {
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
 
-    report_path <- file.path(dir_tables,
-                             "diagnostic_theta_sweep_sectoral.txt")
+    # Honor the variant arg only when this file is the Rscript target:
+    # a sourced run (main.R passes its own args through commandArgs)
+    # must always get the default (cr-review PR #127 consider 3).
+    is_target <- any(grepl("diagnostic_theta_sweep_sectoral",
+                           commandArgs(trailingOnly = FALSE)))
+    args <- if (is_target) commandArgs(trailingOnly = TRUE) else
+        character(0)
+    variant <- if (length(args) >= 1) args[1] else "main"
+    stopifnot(variant %in% c("main", "gibbons"))
+    grid <- if (variant == "gibbons") THETA_GRID_GIBBONS else THETA_GRID
+    stem <- if (variant == "gibbons") "diagnostic_theta_gibbons"
+            else "diagnostic_theta_sweep_sectoral"
+
+    report_path <- file.path(dir_tables, paste0(stem, ".txt"))
     con <- file(report_path, open = "wt")
     rep <- function(...) { line <- sprintf(...); cat(line, "\n")
                            cat(line, "\n", file = con) }
 
     rep("%s", strrep("=", 70))
-    rep("THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta)")
-    rep("Is 'manufacturing responds, agriculture does not' robust to theta?")
+    if (variant == "gibbons") {
+        rep("THETA AT GIBBONS-LIKE DECAY (IV-Both beta by outcome x theta)")
+        rep("Cote experiment (i): what does the low-decay regime look like?")
+    } else {
+        rep("THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta)")
+        rep("Is 'manufacturing responds, agriculture does not' robust to theta?")
+    }
     rep("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
     rep("Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE")
     rep("%s", strrep("=", 70))
@@ -91,7 +120,7 @@ main <- function() {
     base <- base[, keep]
 
     rows <- list()
-    for (th in THETA_GRID) {
+    for (th in grid) {
         ma <- build_ma_changes(tau, pop, th)  # geolev2, chg, chgstu, chglcp, l60
         d0 <- merge(base, ma, by = "geolev2")
         for (o in OUTCOMES) {
@@ -103,17 +132,30 @@ main <- function() {
     df <- do.call(rbind, rows)
 
     print_matrix(df, rep)
-    write_paper_tex(df)
+    if (variant == "main") write_paper_tex(df)
     write.csv(df[, c("outcome", "theta", "beta", "se", "p", "stars",
                      "F_ivf", "F_robust", "n_obs")],
-              file.path(dir_tables, "diagnostic_theta_sweep_sectoral.csv"),
+              file.path(dir_tables, paste0(stem, ".csv")),
               row.names = FALSE)
 
     rep("\n%s", strrep("=", 70))
-    rep("READING: scan each row across theta. If the mfg rows stay")
-    rep("positive+significant and the ag rows stay ~0/ns across the grid,")
-    rep("the sectoral pattern is robust to theta even though the population")
-    rep("LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1).")
+    if (variant == "gibbons") {
+        rep("READING (cr-review PR #127): beta LEVELS are NOT comparable")
+        rep("across theta -- sd(chg logMA) scales with theta, so beta")
+        rep("grows ~1/theta mechanically (theta x beta is ~0.37 across")
+        rep("this grid and the main sweep's theta = 1 column alike).")
+        rep("The scale-invariant facts are: t and F are stable down to")
+        rep("theta = 0.25 (the instrument does not degrade in the")
+        rep("centrality-like regime), and at the externally motivated")
+        rep("theta = 0.5 the population level is +0.75 (SE 0.42), a CI")
+        rep("covering Gibbons' ~0.3. Input for the theta/tau")
+        rep("conversation (Decision A), not a paper exhibit.")
+    } else {
+        rep("READING: scan each row across theta. If the mfg rows stay")
+        rep("positive+significant and the ag rows stay ~0/ns across the grid,")
+        rep("the sectoral pattern is robust to theta even though the population")
+        rep("LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1).")
+    }
     rep("%s", strrep("=", 70))
     close(con)
     message("\nSaved: ", report_path)
