@@ -477,6 +477,17 @@ stage_d_analysis <- function(makelog) {
                   paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
         makelog)
 
+    # Wired with the figure itself (cr-review PR #121 precedent: any
+    # fragment/figure the paper includes must be a pipeline output).
+    run_step("D.17b figure_a4_navigation",
+             bn("plot_figure_a4_navigation.R"),
+             "Appendix Figure A4: navigation layer of the cost surface",
+             makelog)
+    verify_outputs("D.17b",
+        file.path(dir_figures,
+                  paste0("figure_a4_navigation.", c("pdf", "png"))),
+        makelog)
+
     run_step("D.18 figure_c13_ma_counterfactual_trio",
              a("plot_figure_c13.R"),
              "Figure C13: dlogMA total vs rail-only vs road-only choropleths",
