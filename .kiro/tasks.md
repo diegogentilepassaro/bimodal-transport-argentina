@@ -33,9 +33,23 @@ LEDGER.
 - [x] Branch-sync step — done 2026-07-24 (clean merge, no conflicts)
       before PR #117; branch deleted after squash-merge, local main
       synced to 1e66852.
-- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — machinery built
-      on `analysis/fused-instrument` (745b1e3, pushed, no PR);
-      queued behind the corridor run, needs Diego's launch word.
+- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — LAUNCHED
+      2026-07-24 ~14:18 (6 workers, log /tmp/fused_full.log, ETA
+      ~16:30-17:00); branch `analysis/fused-instrument` synced with
+      main (03a default-exclusion conflict resolved as union).
+      Comparison script diagnostic_fused_results.R written + committed
+      (paired fused-vs-stu: backbone, recentered F, estimates, RI p).
+      On completion: results -> commit -> PR -> review -> handoff.
+- [ ] Growth-stratified corridor repair (approved + queued
+      2026-07-24): machinery on `analysis/roadseg-growth` (pushed;
+      variant arg on the three roadseg scripts, rg### tags, seed
+      offset +300000). Density gate PASSED: 23 cells all >= 4/4,
+      zero growth-level mixing. Prep outputs staged in
+      roadseg_growth/. QUEUED: smoke S=1 then full S=100 after the
+      fused run frees the machine (both runs pre-authorized). Reading:
+      recentered F holds => first balanced AND dosed design-based
+      road instrument; F collapses => timing was demand, door closed
+      with a number.
 - [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
       `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
       branch `data/geocoding-1960` (data to
