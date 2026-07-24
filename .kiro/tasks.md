@@ -16,26 +16,23 @@ LEDGER.
 
 ### 0. In flight right now (2026-07-24)
 
-- [ ] Corridor-timing design instrument S=100 run (branch
-      `analysis/roadseg-timing`, log /tmp/rs_full.log; ~50/100 done
-      12:15, zero failures, ETA ~13:45). Then: results script on
-      full draws, commit outputs, PR with published review, handoff.
-      Machinery committed (85a95ed); smoke passed; cor(z_obs,
-      road-only MA) = 0.53 vs 0.31 for the settlement design. NOTE:
-      branch is stacked on analysis/roadtiming-instrument (needs the
-      03a use_extra hook); after PR #116's squash-merge, main has
-      moved — expect a trivial rebase or merge-base note at PR time
-      (tasks.md itself may conflict; this copy is canonical).
+- [x] Corridor-timing design instrument — DONE, PR #117 squash-merged
+      2026-07-24 (1e66852) with published review + fix pass. Verdict:
+      real dose (recentered F 3-4.5, order of magnitude over the
+      settlement design) but loaded dice (early corridors traverse
+      districts with faster 1947-60 placebo growth, b=+0.074 p=0.039;
+      unadjusted placebo IV p=0.025). Four-design map complete and
+      posted on issue #114 (left open for the Cote meeting): Larkin
+      collapses / hypo backbone / settlement clean-but-small /
+      corridor dosed-but-loaded. Known limitation recorded: snap-
+      tolerance sensitivity unexplored (needs recompute).
 - [x] PR #115 (settlement road-timing design, balanced but weak dose:
       recentered F ~ 1) — squash-merged 2026-07-24 (eede3e7) after
       published review + fixes. Issue #114 stays open for the
       corridor verdict.
-- [ ] After the corridor run completes: merge origin/main into
-      analysis/roadseg-timing (picks up the #115 squash + #116 paper
-      fixes; content-identical for the roadtiming files, so no
-      conflicts expected) BEFORE opening the corridor PR, so its diff
-      is clean. Deliberately deferred until the run exits — no git
-      operations on the live tree.
+- [x] Branch-sync step — done 2026-07-24 (clean merge, no conflicts)
+      before PR #117; branch deleted after squash-merge, local main
+      synced to 1e66852.
 - [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — machinery built
       on `analysis/fused-instrument` (745b1e3, pushed, no PR);
       queued behind the corridor run, needs Diego's launch word.
