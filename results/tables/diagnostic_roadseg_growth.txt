@@ -1,0 +1,88 @@
+Corridor-timing design instrument diagnostic (growth)
+Generated: 2026-07-24 22:29:39.135506  |  permuted draws: 100
+
+GROWTH-STRATIFIED REPAIR of the base design's failed
+balance margin: early status permuted within region x
+length x 1947-60 growth-TERCILE strata. Note the balance
+row below tests the CONTINUOUS km-weighted growth, so
+within-tercile sorting can and does remain; only the
+tercile label itself is balanced by construction.
+VERDICT: timing entropy does NOT survive -- recentered F
+0.5-1.4 here vs 3-4.5 in the base design. The collapse
+is not mechanical entropy destruction: sd(z_rec) = 0.964
+(base 0.956) and backbone R2 = 0.378 (base 0.402) are
+unchanged -- recentered VARIATION survives; its
+correlation with the endogenous change does not. The
+timing entropy that carried the base instrument was the
+demand-driven component (corroborated by the residual
+continuous imbalance below). Caveat: growth-aligned
+recentering and timing-was-demand are observationally
+equivalent in the F alone; the residual imbalance rows
+break the tie.
+Accepted cost: observed early km 10718 sits 2.8 sd below
+the permutation mean 12406 (sd 597) -- the merge hierarchy
+sacrificed length splits to preserve growth cells.
+
+(bal) Balance, early vs late chains within strata (SEs clustered by modal district):
+    log_pop_1947                 b=-0.0005  se=0.0609  p=0.993  N=733
+    log_pop_1960                 b=+0.0729  se=0.0567  p=0.200  N=893
+    chg_log_placebo_pop_60_47    b=+0.0418  se=0.0208  p=0.045  N=733
+    rail_dens_1960               b=+0.0043  se=0.0023  p=0.066  N=893
+    elev_mean_std                b=+0.1445  se=0.0908  p=0.113  N=893
+    rugged_mea_std               b=+0.1557  se=0.0767  p=0.043  N=893
+    wheat_std                    b=+0.0100  se=0.0520  p=0.847  N=893
+    dist_to_BA_std               b=-0.0516  se=0.0379  p=0.175  N=893
+    logMA_actual_1960_s0_elow    b=+0.3062  se=0.3194  p=0.339  N=893
+    log_length_km                b=-0.1304  se=0.0645  p=0.044  N=893
+
+(a) z_obs on mu: R2 = 0.378
+    sd(z) = 1.215 -> sd(z - mu) = 0.964
+(b) mu on geo_controls_main: R2 = 0.232
+(c) Spec test (recentered z on controls): RI p = 0.703
+
+(d) IV estimates (coef / se / p / first-stage F):
+    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = 1.17 and R2 = 0.38,
+    controlling for mu soaks up the instrument (F = 0.0-1.2);
+    the mu_control rows are uninformative noise here and are
+    NOT a recentering equivalent (unlike the settlement
+    design). Read the recentered rows.
+  total.population
+    unadjusted   b=+0.0246  se=0.0277  p=0.375  F=72.5  N=311
+    recentered   b=-0.0472  se=0.2022  p=0.816  F=1.4  N=311
+    mu_control   b=+0.3074  se=0.7680  p=0.689  F=0.3  N=311
+    reduced-form RI p = 0.782
+  total.mfg_valprod
+    unadjusted   b=+0.2277  se=0.1072  p=0.035  F=71.7  N=310
+    recentered   b=+0.9274  se=1.3849  p=0.504  F=1.3  N=310
+    mu_control   b=-2.4358  se=5.1568  p=0.637  F=0.3  N=310
+    reduced-form RI p = 0.149
+  total.mfg_wagemass
+    unadjusted   b=+0.1762  se=0.0989  p=0.076  F=71.5  N=309
+    recentered   b=+0.3769  se=0.7424  p=0.612  F=1.3  N=309
+    mu_control   b=-0.5833  se=2.4393  p=0.811  F=0.4  N=309
+    reduced-form RI p = 0.584
+  total.placebo_pretrend
+    unadjusted   b=+0.0797  se=0.0353  p=0.025  F=52.2  N=237
+    recentered   b=+0.3610  se=0.6768  p=0.594  F=0.7  N=237
+    mu_control   b=+3.4716  se=28.6878  p=0.904  F=0.0  N=237
+    reduced-form RI p = 0.287
+  road_only.population
+    unadjusted   b=+0.0241  se=0.0269  p=0.373  F=88.8  N=311
+    recentered   b=-0.0510  se=0.2228  p=0.819  F=1.3  N=311
+    mu_control   b=+0.2189  se=0.4694  p=0.641  F=1.2  N=311
+    reduced-form RI p = 0.782
+  road_only.mfg_valprod
+    unadjusted   b=+0.2229  se=0.1050  p=0.035  F=87.9  N=310
+    recentered   b=+1.0048  se=1.6273  p=0.537  F=1.3  N=310
+    mu_control   b=-1.7452  se=2.8200  p=0.536  F=1.2  N=310
+    reduced-form RI p = 0.149
+  road_only.mfg_wagemass
+    unadjusted   b=+0.1725  se=0.0971  p=0.077  F=87.6  N=309
+    recentered   b=+0.4088  se=0.8394  p=0.627  F=1.2  N=309
+    mu_control   b=-0.4174  se=1.6208  p=0.797  F=1.2  N=309
+    reduced-form RI p = 0.584
+  road_only.placebo_pretrend
+    unadjusted   b=+0.0783  se=0.0342  p=0.023  F=66.8  N=237
+    recentered   b=+0.4625  se=1.1140  p=0.678  F=0.5  N=237
+    mu_control   b=-1.8821  se=8.2093  p=0.819  F=0.1  N=237
+    reduced-form RI p = 0.287

@@ -45,7 +45,17 @@
 #   chain_districts.parquet   (chain_id x geolev2, km_in_district)
 #   prep_report.txt, prep_manifest.log
 #
-# USAGE:  Rscript code/analysis/diagnostic_roadseg_prep.R
+# USAGE:  Rscript code/analysis/diagnostic_roadseg_prep.R [variant]
+#         variant = "base" (default; region x length terciles, the PR
+#         #117 design) or "growth" (region x length x 1947-60 placebo-
+#         growth terciles; the repair of PR #117's failed balance
+#         margin, approved by Diego 2026-07-24). The growth variant
+#         writes to roadseg_growth/ and never touches base outputs.
+#         Growth = km-weighted chg_log_placebo_pop_60_47 of traversed
+#         districts; chains with no 1947 data form their own gNA
+#         stratum level. Merge hierarchy preserves growth margins:
+#         length collapses first, then region pools; growth levels mix
+#         only as a loudly-logged last resort.
 # RUNTIME: ~2-4 min (node graph + district intersection; no LCPs).
 # ===========================================================================
 
@@ -60,11 +70,19 @@ main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
 
+    args <- commandArgs(trailingOnly = TRUE)
+    variant <- if (length(args) >= 1) args[1] else "base"
+    stopifnot(variant %in% c("base", "growth"))
+
     message("\n", strrep("=", 72))
-    message("diagnostic_roadseg_prep.R  |  corridor chains + strata")
+    message(sprintf(
+        "diagnostic_roadseg_prep.R  |  corridor chains + strata (%s)",
+        variant))
     message(strrep("=", 72))
 
-    dir_rs <- file.path(dir_derived_recentering, "roadseg")
+    dir_rs <- file.path(dir_derived_recentering,
+                        if (variant == "growth") "roadseg_growth"
+                        else "roadseg")
     if (!dir.exists(dir_rs)) dir.create(dir_rs, recursive = TRUE)
 
     # ---- 1. Expansion segments ----------------------------------------------
@@ -155,69 +173,9 @@ main <- function() {
         stringsAsFactors = FALSE
     )
 
-    # ---- 4. Strata: region x length tercile, converging thin-cell merge -----
-    qs <- quantile(chains_df$length_km, probs = c(1, 2) / 3)
-    chains_df$len_ter <- cut(chains_df$length_km,
-                             breaks = c(-Inf, qs, Inf),
-                             labels = c("t1", "t2", "t3"))
-    chains_df$stratum <- paste(chains_df$region, chains_df$len_ter,
-                               sep = ":")
-
-    merges <- character(0)
-    cell_ok <- function(df, s) {
-        sel <- df$stratum == s
-        sum(df$early[sel]) >= recentering_min_cell &&
-        sum(!df$early[sel]) >= recentering_min_cell
-    }
-    # Pass 1: thin region:tercile cell -> drop the tercile split for
-    # that region. Pass 2: still-thin region -> POOLED:<tercile>.
-    # Pass 3 (converging, as in the settlement prep): a thin POOLED
-    # cell absorbs the smallest good cell until all cells pass; a
-    # single remaining cell is the fixed point.
-    for (r in unique(chains_df$region)) {
-        for (t in c("t1", "t2", "t3")) {
-            s <- paste(r, t, sep = ":")
-            if (s %in% chains_df$stratum && !cell_ok(chains_df, s)) {
-                sel <- chains_df$region == r
-                chains_df$stratum[sel] <- paste(r, "all", sep = ":")
-                merges <- c(merges, sprintf(
-                    "region %s: tercile split dropped (thin cell %s)",
-                    r, s))
-                break
-            }
-        }
-    }
-    for (s in unique(chains_df$stratum)) {
-        if (!cell_ok(chains_df, s)) {
-            sel <- chains_df$stratum == s
-            chains_df$stratum[sel] <- paste("POOLED",
-                                            chains_df$len_ter[sel],
-                                            sep = ":")
-            merges <- c(merges, sprintf(
-                "stratum %s: merged into POOLED (still thin)", s))
-        }
-    }
-    repeat {
-        bad <- Filter(function(s) !cell_ok(chains_df, s),
-                      unique(chains_df$stratum))
-        if (length(bad) == 0L) break
-        if (length(unique(chains_df$stratum)) == 1L) {
-            stop("[rs] single stratum still thin -- pool too small")
-        }
-        s <- bad[1]
-        good <- setdiff(unique(chains_df$stratum), bad)
-        tgt <- if (length(good) > 0L) {
-            good[which.min(vapply(good, function(g)
-                sum(chains_df$stratum == g), integer(1)))]
-        } else setdiff(unique(chains_df$stratum), s)[1]
-        chains_df$stratum[chains_df$stratum %in% c(s, tgt)] <-
-            paste("POOLED", "all", sep = ":")
-        merges <- c(merges, sprintf(
-            "stratum %s: absorbed with %s into POOLED:all", s, tgt))
-    }
-    for (s in unique(chains_df$stratum)) stopifnot(cell_ok(chains_df, s))
-
-    # ---- 5. Chain-district length weights (for the balance table) -----------
+    # ---- 3b. Chain-district length weights -----------------------------------
+    # Needed before strata in the growth variant (chain growth =
+    # km-weighted district growth); harmless reorder for base.
     inter <- suppressWarnings(sf::st_intersection(
         ex_p[, c("chain_id", "seg_row")], dist_p[, "geolev2"]))
     inter$km <- as.numeric(sf::st_length(inter)) / 1000
@@ -225,20 +183,183 @@ main <- function() {
                     data = sf::st_drop_geometry(inter), FUN = sum)
     names(cd)[names(cd) == "km"] <- "km_in_district"
     cd <- ensure_geolev2_char(cd)
-    # Coverage check: intersection must account for ~all chain length
-    # (boundary slivers tolerated).
     cover <- sum(cd$km_in_district) / sum(chains_df$length_km)
     message(sprintf("[rs] chain-district coverage: %.1f%% of chain km",
                     100 * cover))
     stopifnot(cover > 0.98, cover < 1.02)
 
+    # ---- 4. Strata ------------------------------------------------------------
+    qs <- quantile(chains_df$length_km, probs = c(1, 2) / 3)
+    chains_df$len_ter <- cut(chains_df$length_km,
+                             breaks = c(-Inf, qs, Inf),
+                             labels = c("t1", "t2", "t3"))
+
+    if (variant == "growth") {
+        # Chain growth: km-weighted 1947-60 placebo growth of traversed
+        # districts (the margin that failed balance in PR #117).
+        # Chains with no matched 1947 data form their own gNA level and
+        # permute among themselves.
+        d_es <- ensure_geolev2_char(as.data.frame(arrow::read_parquet(
+            file.path(dir_derived_analysis, "estimation_sample.parquet"))))
+        gcol <- "chg_log_placebo_pop_60_47"
+        cdg <- merge(cd, d_es[, c("geolev2", gcol)], by = "geolev2",
+                     all.x = TRUE)
+        gr <- vapply(split(cdg, cdg$chain_id), function(g) {
+            ok <- !is.na(g[[gcol]])
+            if (!any(ok)) return(NA_real_)
+            sum(g[[gcol]][ok] * g$km_in_district[ok]) /
+                sum(g$km_in_district[ok])
+        }, numeric(1))
+        chains_df$growth <- gr[as.character(chains_df$chain_id)]
+        gq <- quantile(chains_df$growth, probs = c(1, 2) / 3,
+                       na.rm = TRUE)
+        chains_df$growth_ter <- ifelse(
+            is.na(chains_df$growth), "gNA",
+            as.character(cut(chains_df$growth,
+                             breaks = c(-Inf, gq, Inf),
+                             labels = c("g1", "g2", "g3"))))
+        message(sprintf(
+            "[rs] growth levels: %s",
+            paste(sprintf("%s=%d", names(table(chains_df$growth_ter)),
+                          table(chains_df$growth_ter)), collapse = " ")))
+        chains_df$stratum <- paste(chains_df$region, chains_df$len_ter,
+                                   chains_df$growth_ter, sep = ":")
+    } else {
+        chains_df$stratum <- paste(chains_df$region, chains_df$len_ter,
+                                   sep = ":")
+    }
+
+    merges <- character(0)
+    cell_ok <- function(df, s) {
+        sel <- df$stratum == s
+        sum(df$early[sel]) >= recentering_min_cell &&
+        sum(!df$early[sel]) >= recentering_min_cell
+    }
+    if (variant == "base") {
+        # Pass 1: thin region:tercile cell -> drop the tercile split for
+        # that region. Pass 2: still-thin region -> POOLED:<tercile>.
+        # Pass 3 (converging, as in the settlement prep): a thin POOLED
+        # cell absorbs the smallest good cell until all cells pass; a
+        # single remaining cell is the fixed point.
+        for (r in unique(chains_df$region)) {
+            for (t in c("t1", "t2", "t3")) {
+                s <- paste(r, t, sep = ":")
+                if (s %in% chains_df$stratum && !cell_ok(chains_df, s)) {
+                    sel <- chains_df$region == r
+                    chains_df$stratum[sel] <- paste(r, "all", sep = ":")
+                    merges <- c(merges, sprintf(
+                        "region %s: tercile split dropped (thin cell %s)",
+                        r, s))
+                    break
+                }
+            }
+        }
+        for (s in unique(chains_df$stratum)) {
+            if (!cell_ok(chains_df, s)) {
+                sel <- chains_df$stratum == s
+                chains_df$stratum[sel] <- paste("POOLED",
+                                                chains_df$len_ter[sel],
+                                                sep = ":")
+                merges <- c(merges, sprintf(
+                    "stratum %s: merged into POOLED (still thin)", s))
+            }
+        }
+        repeat {
+            bad <- Filter(function(s) !cell_ok(chains_df, s),
+                          unique(chains_df$stratum))
+            if (length(bad) == 0L) break
+            if (length(unique(chains_df$stratum)) == 1L) {
+                stop("[rs] single stratum still thin -- pool too small")
+            }
+            s <- bad[1]
+            good <- setdiff(unique(chains_df$stratum), bad)
+            tgt <- if (length(good) > 0L) {
+                good[which.min(vapply(good, function(g)
+                    sum(chains_df$stratum == g), integer(1)))]
+            } else setdiff(unique(chains_df$stratum), s)[1]
+            chains_df$stratum[chains_df$stratum %in% c(s, tgt)] <-
+                paste("POOLED", "all", sep = ":")
+            merges <- c(merges, sprintf(
+                "stratum %s: absorbed with %s into POOLED:all", s, tgt))
+        }
+    } else {
+        # GROWTH-VARIANT HIERARCHY: growth levels are the point of the
+        # redesign, so they collapse LAST.
+        # Pass G1: thin region:len:g -> drop the length split for that
+        #          (region, growth) pair.
+        stratum_g <- function(s) sub("^.*:", "", s)
+        for (r in unique(chains_df$region)) {
+            for (g in unique(chains_df$growth_ter)) {
+                cells <- unique(chains_df$stratum[
+                    chains_df$region == r & chains_df$growth_ter == g])
+                if (any(!vapply(cells, function(s)
+                        cell_ok(chains_df, s), logical(1)))) {
+                    sel <- chains_df$region == r &
+                        chains_df$growth_ter == g
+                    chains_df$stratum[sel] <- paste(r, "all", g,
+                                                    sep = ":")
+                    merges <- c(merges, sprintf(
+                        "region %s growth %s: length split dropped",
+                        r, g))
+                }
+            }
+        }
+        # Pass G2: still-thin region:all:g -> pool that cell into the
+        #          national cell of the SAME growth level.
+        for (s in unique(chains_df$stratum)) {
+            if (!cell_ok(chains_df, s)) {
+                sel <- chains_df$stratum == s
+                chains_df$stratum[sel] <- paste("POOLED", "all",
+                                                stratum_g(s), sep = ":")
+                merges <- c(merges, sprintf(
+                    "stratum %s: pooled nationally within growth level",
+                    s))
+            }
+        }
+        # Pass G3 (converging last resort): a still-thin cell absorbs
+        # the smallest other cell of the SAME growth level; only if
+        # its growth level has no other cell does it mix growth
+        # levels, logged LOUDLY.
+        repeat {
+            bad <- Filter(function(s) !cell_ok(chains_df, s),
+                          unique(chains_df$stratum))
+            if (length(bad) == 0L) break
+            if (length(unique(chains_df$stratum)) == 1L) {
+                stop("[rs] single stratum still thin -- pool too small")
+            }
+            s <- bad[1]
+            # Growth level from the cell's chains (modal), robust to
+            # merged "M:" labels where the suffix parser fails.
+            gt <- table(chains_df$growth_ter[chains_df$stratum == s])
+            g_of_s <- names(gt)[which.max(gt)]
+            same_g <- setdiff(unique(chains_df$stratum[
+                chains_df$growth_ter == g_of_s]), s)
+            pool <- if (length(same_g) > 0L) same_g else
+                setdiff(unique(chains_df$stratum), s)
+            if (length(same_g) == 0L) {
+                merges <- c(merges, sprintf(
+                    "WARNING stratum %s: GROWTH LEVELS MIXED (last resort)",
+                    s))
+            }
+            tgt <- pool[which.min(vapply(pool, function(g)
+                sum(chains_df$stratum == g), integer(1)))]
+            new_lbl <- sprintf("M:%s+%s", s, tgt)
+            chains_df$stratum[chains_df$stratum %in% c(s, tgt)] <- new_lbl
+            merges <- c(merges, sprintf(
+                "stratum %s: absorbed with %s", s, tgt))
+        }
+    }
+    for (s in unique(chains_df$stratum)) stopifnot(cell_ok(chains_df, s))
+
     # ---- 6. Save + report ----------------------------------------------------
+    keep_cols <- c("chain_id", "early", "n_segments", "region",
+                   "len_ter", "stratum",
+                   if (variant == "growth") c("growth", "growth_ter"))
     chains_geom <- aggregate(ex_p[, "length_km"],
                              by = list(chain_id = ex_p$chain_id),
                              FUN = sum)
-    chains_out <- merge(chains_geom, chains_df[, c(
-        "chain_id", "early", "n_segments", "region", "len_ter",
-        "stratum")], by = "chain_id")
+    chains_out <- merge(chains_geom, chains_df[, keep_cols],
+                        by = "chain_id")
     stopifnot(nrow(chains_out) == n_chains,
               !any(duplicated(chains_out$chain_id)),
               abs(sum(chains_out$length_km) -
@@ -253,7 +374,8 @@ main <- function() {
 
     rpt <- file.path(dir_rs, "prep_report.txt")
     sink(rpt)
-    cat("diagnostic_roadseg_prep.R report\n")
+    cat(sprintf("diagnostic_roadseg_prep.R report (variant: %s)\n",
+                variant))
     cat(sprintf("Generated: %s\n\n", Sys.time()))
     cat(sprintf("Segments: %d  |  chains: %d  |  snap tol: %d m\n",
                 n_seg, n_chains, recentering_snap_tol_m))

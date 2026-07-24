@@ -44,7 +44,11 @@
 #   results/tables/diagnostic_roadseg.txt   (human-readable report)
 #
 # USAGE:
-#   Rscript code/analysis/diagnostic_roadseg_results.R
+#   Rscript code/analysis/diagnostic_roadseg_results.R [variant]
+#   variant = "base" (default) or "growth" (growth-stratified repair;
+#   reads roadseg_growth/ + draws_roadseg_growth/, writes
+#   diagnostic_roadseg_growth.{csv,txt}; growth balance is then a
+#   by-construction mechanical check, flagged in the report).
 #   Runs on however many draws are present (>= 10 enforced; the full
 #   diagnostic uses S = 100 -- the report stamps S_perm everywhere).
 # ===========================================================================
@@ -60,12 +64,20 @@ main <- function() {
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
+    args <- commandArgs(trailingOnly = TRUE)
+    variant <- if (length(args) >= 1) args[1] else "base"
+    stopifnot(variant %in% c("base", "growth"))
+    vsuf <- if (variant == "growth") "_growth" else ""
+
     message("\n", strrep("=", 72))
-    message("diagnostic_roadseg_results.R  |  corridor-timing diagnostics")
+    message(sprintf(
+        "diagnostic_roadseg_results.R  |  corridor-timing diagnostics (%s)",
+        variant))
     message(strrep("=", 72))
 
     # ---- 1. Load draws, chains, estimation sample ---------------------------
-    dir_draws <- file.path(dir_derived_recentering, "draws_roadseg")
+    dir_draws <- file.path(dir_derived_recentering,
+                           paste0("draws_roadseg", vsuf))
     files <- sort(list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$",
                              full.names = TRUE))
     stopifnot(length(files) >= 1L)
@@ -85,7 +97,8 @@ main <- function() {
             S_perm), "mu is noisy -- do not over-read recentered columns")
     }
 
-    dir_rs <- file.path(dir_derived_recentering, "roadseg")
+    dir_rs <- file.path(dir_derived_recentering,
+                        paste0("roadseg", vsuf))
     ch <- as.data.frame(arrow::read_parquet(
         file.path(dir_rs, "chains.parquet")))
     cd <- ensure_geolev2_char(as.data.frame(arrow::read_parquet(
@@ -340,21 +353,67 @@ main <- function() {
     res <- do.call(rbind, out_rows)
     res$S_perm <- S_perm
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
-    csv_path <- file.path(dir_tables, "diagnostic_roadseg.csv")
+    csv_path <- file.path(dir_tables,
+        sprintf("diagnostic_roadseg%s.csv", vsuf))
     write.csv(res, csv_path, row.names = FALSE)
 
-    txt_path <- file.path(dir_tables, "diagnostic_roadseg.txt")
+    txt_path <- file.path(dir_tables,
+        sprintf("diagnostic_roadseg%s.txt", vsuf))
     sink(txt_path)
-    cat("Corridor-timing design instrument diagnostic\n")
+    cat(sprintf("Corridor-timing design instrument diagnostic (%s)\n",
+                variant))
     cat(sprintf("Generated: %s  |  permuted draws: %d%s\n\n",
                 Sys.time(), S_perm,
                 if (S_perm < 100L) "  [PROVISIONAL]" else ""))
-    cat("VERDICT: real dose, loaded dice. Recentered relevance rises an\n")
-    cat("order of magnitude over the settlement design (F 3-4.5 vs ~1)\n")
-    cat("but early-paved corridors traverse districts with faster\n")
-    cat("1947-60 placebo growth (balance failure below): the paving\n")
-    cat("sequence tracked demand, so timing is not usable as-good-as-\n")
-    cat("random conditional on these strata.\n\n")
+    if (variant == "base") {
+        cat("VERDICT: real dose, loaded dice. Recentered relevance rises",
+            "an\norder of magnitude over the settlement design (F 3-4.5",
+            "vs ~1)\nbut early-paved corridors traverse districts with",
+            "faster\n1947-60 placebo growth (balance failure below): the",
+            "paving\nsequence tracked demand, so timing is not usable",
+            "as-good-as-\nrandom conditional on these strata.\n\n")
+    } else {
+        # Post-run verdict (cr-review PR #124 should-fix 1: the
+        # pre-registered neutral framing misdescribed the artifact once
+        # the numbers existed). Growth-F range computed dynamically;
+        # the base-design comparators (F 3-4.5, sd 0.956, R2 0.402) are
+        # historical references to the committed base run (PR #117).
+        f_rec <- res$value[res$block == "d_estimates" &
+                           res$spec == "recentered" & res$stat == "F"]
+        cat("GROWTH-STRATIFIED REPAIR of the base design's failed\n")
+        cat("balance margin: early status permuted within region x\n")
+        cat("length x 1947-60 growth-TERCILE strata. Note the balance\n")
+        cat("row below tests the CONTINUOUS km-weighted growth, so\n")
+        cat("within-tercile sorting can and does remain; only the\n")
+        cat("tercile label itself is balanced by construction.\n")
+        cat(sprintf(
+            "VERDICT: timing entropy does NOT survive -- recentered F\n"))
+        cat(sprintf(
+            "%.1f-%.1f here vs 3-4.5 in the base design. The collapse\n",
+            min(f_rec), max(f_rec)))
+        cat("is not mechanical entropy destruction: sd(z_rec) = ")
+        cat(sprintf("%.3f\n", sd(d2$z_rec, na.rm = TRUE)))
+        cat("(base 0.956) and backbone R2 = ")
+        cat(sprintf("%.3f (base 0.402) are\n", r2_a))
+        cat("unchanged -- recentered VARIATION survives; its\n")
+        cat("correlation with the endogenous change does not. The\n")
+        cat("timing entropy that carried the base instrument was the\n")
+        cat("demand-driven component (corroborated by the residual\n")
+        cat("continuous imbalance below). Caveat: growth-aligned\n")
+        cat("recentering and timing-was-demand are observationally\n")
+        cat("equivalent in the F alone; the residual imbalance rows\n")
+        cat("break the tie.\n")
+        ek_obs <- draws$early_km[draws$draw == 0L][1]
+        ek_perm <- draws$early_km[draws$draw > 0L &
+            draws$geolev2 == draws$geolev2[1]]
+        cat(sprintf(
+            "Accepted cost: observed early km %.0f sits %.1f sd below\n",
+            ek_obs, (mean(ek_perm) - ek_obs) / sd(ek_perm)))
+        cat(sprintf(
+            "the permutation mean %.0f (sd %.0f) -- the merge hierarchy\n",
+            mean(ek_perm), sd(ek_perm)))
+        cat("sacrificed length splits to preserve growth cells.\n\n")
+    }
     cat("(bal) Balance, early vs late chains within strata",
         "(SEs clustered by modal district):\n")
     for (cv in c(bal_covs, "log_length_km")) {
@@ -370,10 +429,14 @@ main <- function() {
     cat(sprintf("(c) Spec test (recentered z on controls): RI p = %.3f\n\n",
                 p_ri))
     cat("(d) IV estimates (coef / se / p / first-stage F):\n")
+    f_mu <- res$value[res$block == "d_estimates" &
+                      res$spec == "mu_control" & res$stat == "F"]
     cat("    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = ",
         sprintf("%.2f", coef(m_a)[["mu"]]),
         " and R2 = ", sprintf("%.2f", r2_a), ",\n", sep = "")
-    cat("    controlling for mu soaks up the instrument (F = 0.2-0.4);\n")
+    cat(sprintf(
+        "    controlling for mu soaks up the instrument (F = %.1f-%.1f);\n",
+        min(f_mu), max(f_mu)))
     cat("    the mu_control rows are uninformative noise here and are\n")
     cat("    NOT a recentering equivalent (unlike the settlement\n")
     cat("    design). Read the recentered rows.\n")

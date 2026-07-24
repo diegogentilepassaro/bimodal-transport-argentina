@@ -21,14 +21,15 @@
 # settlement design -- the identity raster must be cellwise <= the
 # actual_1960 raster and strictly cheaper on a positive number of cells.
 #
-# SEED STREAM (cr-review PR #117 should-fix 2): draw s uses
-# set.seed(recentering_seed + s), the SAME stream as the settlement
-# engine (diagnostic_roadtiming_draws.R). Within-design randomization
-# inference is unaffected, and the designs' permutation universes
-# differ (893 chains vs 216 settlements), but any draw-by-draw
-# CROSS-design statistic would inherit correlated Monte Carlo error.
-# If either draw set is ever regenerated, add a per-design offset
-# (e.g. recentering_seed + 200000 + s here).
+# SEED STREAMS (cr-review PR #117 should-fix 2; PR #124 should-fix 3):
+# variant "base" uses set.seed(recentering_seed + s) -- the SAME
+# stream as the settlement engine (diagnostic_roadtiming_draws.R);
+# within-design RI is unaffected, but draw-by-draw CROSS-design
+# statistics against the settlement draws would inherit correlated
+# Monte Carlo error (documented, accepted; regenerating would need an
+# offset). Variant "growth" already uses its own stream,
+# set.seed(recentering_seed + 300000 + s), so growth-vs-base
+# comparisons carry independent Monte Carlo error by construction.
 #
 # READS:   data/derived/07_recentering/roadseg/{chains.parquet,
 #          chains.gpkg}; ucost_actual_1960_s0.tif (gate)
@@ -39,6 +40,12 @@
 #
 # USAGE:
 #   Rscript code/analysis/diagnostic_roadseg_draws.R [S] [n_workers]
+#       [variant]
+#   variant = "base" (default; PR #117 strata, rs### tags, seed
+#   recentering_seed + s) or "growth" (growth-stratified repair,
+#   approved 2026-07-24: roadseg_growth/ chains, draws_roadseg_growth/
+#   outputs, rg### tags, and a PER-DESIGN SEED OFFSET
+#   recentering_seed + 300000 + s per cr-review PR #117 should-fix 2).
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -57,16 +64,25 @@ main <- function() {
     S <- if (length(args) >= 1) as.integer(args[1]) else recentering_S
     n_workers <- if (length(args) >= 2) as.integer(args[2]) else
         recentering_n_workers
-    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L)
+    variant <- if (length(args) >= 3) args[3] else "base"
+    stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
+              variant %in% c("base", "growth"))
+    tag_pre  <- if (variant == "growth") "rg" else "rs"
+    seed_off <- if (variant == "growth") 300000L else 0L
 
     message("\n", strrep("=", 72))
     message(sprintf(
-        "diagnostic_roadseg_draws.R  |  S = %d + identity, %d workers",
-        S, n_workers))
+        "diagnostic_roadseg_draws.R  |  S = %d + identity, %d workers, %s",
+        S, n_workers, variant))
     message(strrep("=", 72))
 
-    dir_rs    <- file.path(dir_derived_recentering, "roadseg")
-    dir_draws <- file.path(dir_derived_recentering, "draws_roadseg")
+    dir_rs    <- file.path(dir_derived_recentering,
+                           if (variant == "growth") "roadseg_growth"
+                           else "roadseg")
+    dir_draws <- file.path(dir_derived_recentering,
+                           if (variant == "growth")
+                               "draws_roadseg_growth"
+                           else "draws_roadseg")
     if (!dir.exists(dir_draws)) dir.create(dir_draws, recursive = TRUE)
 
     ch <- as.data.frame(arrow::read_parquet(
@@ -86,7 +102,7 @@ main <- function() {
     }
 
     run_draw <- function(s) {
-        tag <- sprintf("rs%03d", s)
+        tag <- sprintf("%s%03d", tag_pre, s)
         out <- file.path(dir_draws, sprintf("z_rc%03d.parquet", s))
         if (file.exists(out)) {
             message(sprintf("[rs] %s: exists, skipping", tag))
@@ -96,7 +112,7 @@ main <- function() {
 
         early <- ch$early
         if (s > 0L) {
-            set.seed(recentering_seed + s)
+            set.seed(recentering_seed + seed_off + s)
             for (str_cell in unique(ch$stratum)) {
                 sel <- which(ch$stratum == str_cell)
                 early[sel] <- sample(ch$early[sel])
@@ -108,7 +124,7 @@ main <- function() {
         e_ids <- ch$chain_id[early]
         net <- geoms[geoms$chain_id %in% e_ids, ]
         net_file <- file.path(tempdir(),
-                              sprintf("rs_chains_%s.gpkg", tag))
+                              sprintf("%s_chains_%s.gpkg", tag_pre, tag))
         sf::st_write(net, net_file, delete_dsn = TRUE, quiet = TRUE)
 
         case   <- "instrument_roadtiming_s0"
@@ -181,11 +197,12 @@ main <- function() {
 
     done <- list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$")
     sink(file.path(dir_derived_recentering,
-                   "draws_roadseg_manifest.log"))
+                   sprintf("draws_roadseg%s_manifest.log",
+                           if (variant == "growth") "_growth" else "")))
     cat("Data file manifest -- diagnostic_roadseg_draws.R\n")
     cat(sprintf("Generated: %s\n", Sys.time()))
     cat(sprintf("Draw files: %d (incl. identity)  |  seed base: %d\n",
-                length(done), recentering_seed))
+                length(done), recentering_seed + seed_off))
     sink()
     message(sprintf("[rs] Complete: %d draw files.", length(done)))
 }
