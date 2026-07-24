@@ -38,7 +38,9 @@
 #       else (outside Argentina): NA (hard barrier for Dijkstra)
 #
 # CASES (Phase 1 + 2a + 2b + 2c + 3):
-#   Nine network specs × three sectors = twenty-seven cases.
+#   Eleven network specs × three sectors (case label
+#   `<network>_<sector>`, e.g. `cf_only_rail_s1`). The last two are
+#   DIAGNOSTIC-ONLY and excluded from the no-args default build.
 #
 #   Network specs:
 #     actual_1960         — 1960 rails + 1954 roads + HMI + nav
@@ -50,9 +52,10 @@
 #     instrument_euc      — 1960 rails + bilateral-Euclidean hypothetical roads
 #     cf_only_rail        — 1986 rails + 1954 roads  (isolates rail shock)
 #     cf_only_road        — 1960 rails + 1986 roads  (isolates road shock)
-#
-#   Each of the above is generated at sector s0, s1, s2 (case label
-#   `<network>_<sector>`, e.g. `cf_only_rail_s1`).
+#     instrument_fused    — non-studied rails + LCP-MST hypothetical
+#                           roads (BH-2026 fused instrument; diagnostic)
+#     instrument_roadtiming — 1960 rails + 1954 roads + RECENTER_EXTRA_FILE
+#                           links layer (timing designs; diagnostic)
 #
 # HYPOTHETICAL-NETWORK CAVEAT:
 #   The LCP-MST hypothetical road network was routed on a Faber (2014)
@@ -94,6 +97,13 @@ suppressPackageStartupMessages({
 studied_from_env <- function(r) {
     studied <- r$studied_co
     af <- Sys.getenv("RECENTER_ASSIGN_FILE")
+    if (nzchar(af) && !nzchar(Sys.getenv("RECENTER_TAG"))) {
+        # Without a tag the output raster keeps the BASELINE filename,
+        # so a permuted assignment would silently overwrite the
+        # committed-baseline raster (cr-review PR #123 consider 5).
+        stop("RECENTER_ASSIGN_FILE is set but RECENTER_TAG is empty; ",
+             "refusing to overwrite baseline rasters")
+    }
     if (nzchar(af)) {
         a <- utils::read.csv(af)
         stopifnot(nrow(a) == nrow(r),

@@ -55,7 +55,7 @@ main <- function() {
         files <- sort(list.files(
             file.path(dir_derived_recentering, dirname),
             pattern = "^z_rc\\d+\\.parquet$", full.names = TRUE))
-        stopifnot(length(files) >= 11L)
+        stopifnot(length(files) >= 2L)  # identity + >= 1; real gate below
         dr <- ensure_geolev2_char(do.call(rbind, lapply(files, function(f)
             as.data.frame(arrow::read_parquet(f)))))
         zw <- reshape(dr[, c("geolev2", "draw", "logMA")],
@@ -65,17 +65,31 @@ main <- function() {
                    all.x = TRUE)
         m <- m[match(d$geolev2, m$geolev2), ]
         ids <- sort(unique(dr$draw[dr$draw > 0L]))
+        # One studied_km per draw (constant within a draw file): the
+        # fingerprint of the permuted assignment, used below to ASSERT
+        # the paired-permutation premise (cr-review PR #123).
+        km <- vapply(ids, function(s)
+            unique(dr$studied_km[dr$draw == s]), numeric(1))
         list(zmat = as.matrix(m[, sprintf("logMA.%d", ids)]) -
                  d[[base_col]],
              z_id = m$logMA.0 - d[[base_col]],
-             S = length(ids))
+             S = length(ids), ids = ids, km = km)
     }
     stu   <- load_design("draws")
     fused <- load_design("draws_fused")
-    stopifnot(stu$S >= 100L, fused$S >= 100L,
+    stopifnot(stu$S >= recentering_S, fused$S >= recentering_S,
               !anyNA(stu$zmat), !anyNA(fused$zmat),
               !anyNA(stu$z_id), !anyNA(fused$z_id))
-    message(sprintf("[fres] draws: stu S=%d, fused S=%d", stu$S, fused$S))
+    # The comparison is PAIRED: draw s must share its studied_perm
+    # across designs (same seed stream + strata). Assert it via the
+    # per-draw studied-km fingerprint instead of trusting construction
+    # (cr-review PR #123 should-fix 1): catches a silently regenerated
+    # strata file or RNG drift between the two engine runs.
+    stopifnot(identical(stu$ids, fused$ids),
+              max(abs(stu$km - fused$km)) < 1e-6)
+    message(sprintf(
+        "[fres] draws: stu S=%d, fused S=%d; pairing asserted (max km dev %.1e)",
+        stu$S, fused$S, max(abs(stu$km - fused$km))))
 
     # Identity cross-checks: stu against the panel column; fused's
     # engine-level check ran against the committed baseline, assert
@@ -120,6 +134,9 @@ main <- function() {
                         nm, r2(m_a, "r2"), coef(m_a)[["mu"]]))
 
         for (en in names(endogs)) {
+            # LHS is irrelevant for the first-stage F; population fixes
+            # the estimation sample (311 complete cases) so the paired
+            # F comparison is apples-to-apples (cr-review PR #123).
             f <- as.formula(sprintf(
                 "%s ~ %s | %s ~ z_rec",
                 outcomes[[1]][1], ctrls_expr, endogs[[en]]))

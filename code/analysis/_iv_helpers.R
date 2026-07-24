@@ -25,7 +25,11 @@
 #       "fit_" by fixest.
 #
 #   fitstat_F(iv_model)
-#       Returns the first-stage Wald F for the excluded instrument(s).
+#       Returns the first-stage F for the excluded instrument(s),
+#       fixest type = "ivf": the IID F, NOT the robust Wald
+#       ("ivwald") — the distinction matters when quoting against
+#       weak-IV thresholds (cr-review PR #123; see also the open
+#       modern-IV ledger item, Cote note #35).
 #       Defensive across fixest versions (handles both the list-of-
 #       stats and the simplified return shapes).
 #

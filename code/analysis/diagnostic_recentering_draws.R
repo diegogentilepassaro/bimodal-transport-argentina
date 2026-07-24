@@ -5,10 +5,17 @@
 #          the permutation engine. For each draw s = 1..S, reassign the
 #          Larkin study designations across line units WITHIN strata
 #          (region x branch; see diagnostic_recentering_lines.R), rebuild
-#          the instrument_stu cost raster with the permuted assignment,
+#          the variant's cost raster with the permuted assignment
+#          (variant "stu": instrument_stu, non-studied rails + 1954
+#          roads; variant "fused": instrument_fused, non-studied rails
+#          + the LCP-MST hypothetical road network, BH-2026 Stage 3),
 #          and push it through the existing, tested pipeline chain
 #          (03a raster -> 03b transition -> 03c tau -> 04 MA) as child
 #          processes. Store each draw's district-level logMA vector.
+#          The permutation block is variant-INDEPENDENT (same seed
+#          stream, same strata), so draw s is paired across variants;
+#          diagnostic_fused_results.R asserts this via the studied_km
+#          fingerprint.
 #
 #          Draw 0 is the IDENTITY draw: studied_perm = studied_co. Its
 #          logMA must match the baseline ma_instrument_stu_s0_elow
@@ -42,18 +49,22 @@
 #   data/derived/07_recentering/rail_segments_strata.parquet
 #   data/derived/07_recentering/rail_lines_strata.parquet
 #   data/derived/04_market_access/ma_instrument_stu_s0_elow.parquet
-#     (baseline, for the identity check)
+#     (variant "stu" baseline, for the identity check)
+#   data/derived/04_market_access/ma_instrument_fused_s0_elow.parquet
+#     (variant "fused" baseline, for the identity check)
 #
-# PRODUCES:
-#   data/derived/07_recentering/draws/z_rc<s>.parquet  (s = 0..S)
-#       Columns: geolev2 (chr, key), logMA (num), draw (int),
-#                studied_km (num, total under the draw's assignment).
-#   data/derived/07_recentering/draws_manifest.log
+# PRODUCES (per variant/sector):
+#   data/derived/07_recentering/draws{,_s1,_s2,_fused}/z_rc<s>.parquet
+#       (s = 0..S) Columns: geolev2 (chr, key), logMA (num), draw
+#       (int), studied_km (num, total under the draw's assignment).
+#   data/derived/07_recentering/draws_manifest{,_s1,_s2,_fused}.log
 #
 # USAGE:
 #   Rscript code/analysis/diagnostic_recentering_draws.R [S] [n_workers]
+#       [sector] [variant]
 #   S defaults to recentering_S (config.R); n_workers defaults to
-#   n_cores_heavy. Smoke test: S = 3.
+#   n_cores_heavy; sector in {s0, s1, s2} (default s0); variant in
+#   {stu, fused} (default stu; fused requires s0). Smoke test: S = 3.
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -254,7 +265,8 @@ main <- function() {
                 if (variant == "fused") "_fused"
                 else if (sector == "s0") "" else paste0("_", sector))))
     cat("Data file manifest -- diagnostic_recentering_draws.R\n")
-    cat(sprintf("Generated: %s  |  sector: %s\n", Sys.time(), sector))
+    cat(sprintf("Generated: %s  |  sector: %s  |  variant: %s\n",
+                Sys.time(), sector, variant))
     cat(sprintf("Draw files present: %d (incl. identity rc000)\n",
                 length(done)))
     cat(sprintf("Seed base: %d  |  snap tol: %d m\n",
