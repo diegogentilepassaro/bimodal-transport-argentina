@@ -373,13 +373,46 @@ main <- function() {
             "paving\nsequence tracked demand, so timing is not usable",
             "as-good-as-\nrandom conditional on these strata.\n\n")
     } else {
+        # Post-run verdict (cr-review PR #124 should-fix 1: the
+        # pre-registered neutral framing misdescribed the artifact once
+        # the numbers existed). Growth-F range computed dynamically;
+        # the base-design comparators (F 3-4.5, sd 0.956, R2 0.402) are
+        # historical references to the committed base run (PR #117).
+        f_rec <- res$value[res$block == "d_estimates" &
+                           res$spec == "recentered" & res$stat == "F"]
         cat("GROWTH-STRATIFIED REPAIR of the base design's failed\n")
         cat("balance margin: early status permuted within region x\n")
-        cat("length x 1947-60 growth strata, so the placebo-growth\n")
-        cat("balance row below is a BY-CONSTRUCTION mechanical check,\n")
-        cat("not a test. The informative numbers: recentered F (does\n")
-        cat("timing entropy survive growth stratification?) and the\n")
-        cat("placebo reduced-form RI p.\n\n")
+        cat("length x 1947-60 growth-TERCILE strata. Note the balance\n")
+        cat("row below tests the CONTINUOUS km-weighted growth, so\n")
+        cat("within-tercile sorting can and does remain; only the\n")
+        cat("tercile label itself is balanced by construction.\n")
+        cat(sprintf(
+            "VERDICT: timing entropy does NOT survive -- recentered F\n"))
+        cat(sprintf(
+            "%.1f-%.1f here vs 3-4.5 in the base design. The collapse\n",
+            min(f_rec), max(f_rec)))
+        cat("is not mechanical entropy destruction: sd(z_rec) = ")
+        cat(sprintf("%.3f\n", sd(d2$z_rec, na.rm = TRUE)))
+        cat("(base 0.956) and backbone R2 = ")
+        cat(sprintf("%.3f (base 0.402) are\n", r2_a))
+        cat("unchanged -- recentered VARIATION survives; its\n")
+        cat("correlation with the endogenous change does not. The\n")
+        cat("timing entropy that carried the base instrument was the\n")
+        cat("demand-driven component (corroborated by the residual\n")
+        cat("continuous imbalance below). Caveat: growth-aligned\n")
+        cat("recentering and timing-was-demand are observationally\n")
+        cat("equivalent in the F alone; the residual imbalance rows\n")
+        cat("break the tie.\n")
+        ek_obs <- draws$early_km[draws$draw == 0L][1]
+        ek_perm <- draws$early_km[draws$draw > 0L &
+            draws$geolev2 == draws$geolev2[1]]
+        cat(sprintf(
+            "Accepted cost: observed early km %.0f sits %.1f sd below\n",
+            ek_obs, (mean(ek_perm) - ek_obs) / sd(ek_perm)))
+        cat(sprintf(
+            "the permutation mean %.0f (sd %.0f) -- the merge hierarchy\n",
+            mean(ek_perm), sd(ek_perm)))
+        cat("sacrificed length splits to preserve growth cells.\n\n")
     }
     cat("(bal) Balance, early vs late chains within strata",
         "(SEs clustered by modal district):\n")
@@ -396,10 +429,14 @@ main <- function() {
     cat(sprintf("(c) Spec test (recentered z on controls): RI p = %.3f\n\n",
                 p_ri))
     cat("(d) IV estimates (coef / se / p / first-stage F):\n")
+    f_mu <- res$value[res$block == "d_estimates" &
+                      res$spec == "mu_control" & res$stat == "F"]
     cat("    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = ",
         sprintf("%.2f", coef(m_a)[["mu"]]),
         " and R2 = ", sprintf("%.2f", r2_a), ",\n", sep = "")
-    cat("    controlling for mu soaks up the instrument (F = 0.2-0.4);\n")
+    cat(sprintf(
+        "    controlling for mu soaks up the instrument (F = %.1f-%.1f);\n",
+        min(f_mu), max(f_mu)))
     cat("    the mu_control rows are uninformative noise here and are\n")
     cat("    NOT a recentering equivalent (unlike the settlement\n")
     cat("    design). Read the recentered rows.\n")

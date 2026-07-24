@@ -21,14 +21,15 @@
 # settlement design -- the identity raster must be cellwise <= the
 # actual_1960 raster and strictly cheaper on a positive number of cells.
 #
-# SEED STREAM (cr-review PR #117 should-fix 2): draw s uses
-# set.seed(recentering_seed + s), the SAME stream as the settlement
-# engine (diagnostic_roadtiming_draws.R). Within-design randomization
-# inference is unaffected, and the designs' permutation universes
-# differ (893 chains vs 216 settlements), but any draw-by-draw
-# CROSS-design statistic would inherit correlated Monte Carlo error.
-# If either draw set is ever regenerated, add a per-design offset
-# (e.g. recentering_seed + 200000 + s here).
+# SEED STREAMS (cr-review PR #117 should-fix 2; PR #124 should-fix 3):
+# variant "base" uses set.seed(recentering_seed + s) -- the SAME
+# stream as the settlement engine (diagnostic_roadtiming_draws.R);
+# within-design RI is unaffected, but draw-by-draw CROSS-design
+# statistics against the settlement draws would inherit correlated
+# Monte Carlo error (documented, accepted; regenerating would need an
+# offset). Variant "growth" already uses its own stream,
+# set.seed(recentering_seed + 300000 + s), so growth-vs-base
+# comparisons carry independent Monte Carlo error by construction.
 #
 # READS:   data/derived/07_recentering/roadseg/{chains.parquet,
 #          chains.gpkg}; ucost_actual_1960_s0.tif (gate)
