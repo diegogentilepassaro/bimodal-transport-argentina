@@ -33,9 +33,23 @@ LEDGER.
 - [x] Branch-sync step — done 2026-07-24 (clean merge, no conflicts)
       before PR #117; branch deleted after squash-merge, local main
       synced to 1e66852.
-- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — machinery built
-      on `analysis/fused-instrument` (745b1e3, pushed, no PR);
-      queued behind the corridor run, needs Diego's launch word.
+- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — LAUNCHED
+      2026-07-24 ~14:18 (6 workers, log /tmp/fused_full.log, ETA
+      ~16:30-17:00); branch `analysis/fused-instrument` synced with
+      main (03a default-exclusion conflict resolved as union).
+      Comparison script diagnostic_fused_results.R written + committed
+      (paired fused-vs-stu: backbone, recentered F, estimates, RI p).
+      On completion: results -> commit -> PR -> review -> handoff.
+- [ ] Growth-stratified corridor repair (approved + queued
+      2026-07-24): machinery on `analysis/roadseg-growth` (pushed;
+      variant arg on the three roadseg scripts, rg### tags, seed
+      offset +300000). Density gate PASSED: 23 cells all >= 4/4,
+      zero growth-level mixing. Prep outputs staged in
+      roadseg_growth/. QUEUED: smoke S=1 then full S=100 after the
+      fused run frees the machine (both runs pre-authorized). Reading:
+      recentered F holds => first balanced AND dosed design-based
+      road instrument; F collapses => timing was demand, door closed
+      with a number.
 - [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
       `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
       branch `data/geocoding-1960` (data to
@@ -45,13 +59,14 @@ LEDGER.
       review, merge. Downstream (bigger, separate): integration into
       MA (load_centroids replacement or multi-point), gated on the
       θ/τ conversation.
-- [ ] Recentering brief for the Wednesday 2026-07-29 meeting — Cote
-      explicitly asked for status (his note #23-24: thought it
-      needed the running variable). Must cover: Stage 0-1 findings
-      (PRs #110-#112), settlement + corridor timing designs
-      (PR #115 + in flight), fused queued, and the key negative:
-      recentering does NOT clean the placebo (pre-trend is not
-      exposure-geometry).
+- [ ] Recentering brief for the Wednesday 2026-07-29 meeting —
+      DRAFTED 2026-07-24 (`Plan/brief_cote_recentering_2026-07-29.md`,
+      Spanish, 8 sections incl. the six-design map, the
+      placebo-does-not-clean finding, five recommendations, five
+      decision items). TWO [PENDIENTE] slots remain: fused results
+      (run in flight) and growth-repair results (queued). Fill when
+      the runs land, then prose pass (streamline + humanizer) before
+      sending.
 
 ### 1. Blocked on Cote
 
@@ -89,13 +104,21 @@ LEDGER.
       anachronistic (INDEC created 1968). Source:
       bibliotecadigital.estadistica.ec.gba.gov.ar cn1958i post.
       Implementation in "Paper fixes" below (item b).
-- [ ] Issue #68 studied-share basis — NEW INPUT from Cote 2026-07-24:
-      his hypothesis is undigitized CABA rail (high-density, likely
-      non-studied) deflating the denominator, plus georeferencing
-      imprecision; contrast 39.6% against the Larkin volumes in the
-      old repo `Train/Docs/`. Testable on lp_1979.shp (CABA-area
-      coverage check); connects to issue #113 (CABA node convention).
-      Still needs the physical volumes for final reconciliation.
+- [ ] Issue #68 studied-share basis — SUBSTANTIALLY RESOLVED
+      2026-07-24, awaiting Cote's 10-minute confirmation. Audit
+      findings (posted on the issue): CABA hypothesis tested — metro
+      rail IS digitized (99 km CABA / 685 km belt) and mostly
+      non-studied as he guessed, but magnitude cannot carry the gap
+      (would need ~10,600 missing km). Real basis = numerator:
+      recom_code semantics decoded (1 maintain 2,310 km / 2 close
+      14,377 km / 3 new-study 5,197 km); excluding new-study gives
+      38.4% on §2's 43,500 km. Reconciliation footnote IN THE PAPER
+      (PR #119, squash-merged 2026-07-24, with review + fix pass;
+      also renamed the missed 'Discontinuity' heading). Cote lookup =
+      two numbers in Train/Docs: the report's studied definition
+      (excludes new-study?) and its network denominator (§2's 15,000
+      km ~ 32% implies ~46,900, which would shift the arithmetic to
+      35.6%). generate_scalars wiring deferred until confirmed.
 - [x] Issue #103 (35,000 vs 79,820 km) — CLOSED by Cote 2026-07-24:
       source difference. §2's ~35,000 = DNV national-network series
       (`Train/raw_data/kms_road_arg/kmVia_DNV`: 27,276 paved + 7,153
@@ -143,8 +166,16 @@ LEDGER.
 
 ### 1c. New experiments from Cote's email (each needs a plan gate)
 
-- [ ] Placebo spec with 1947 baselines on the RHS (his 1.1) — cheap,
-      concrete; revisit placebo after each MA-definition change.
+- [x] Placebo spec with 1947 baselines (his 1.1) — DONE, PR #120
+      merged 2026-07-24. HEADLINE: the placebo failure is a
+      post-outcome-conditioning artifact (1960 baselines postdate the
+      1947-60 window; log pop 1960 is a DV component). With the
+      1947-consistent set the placebo is a clean null in all four
+      estimators (IV-B -0.004, p=0.89) and first stages STRENGTHEN
+      (F 16-24). Scope: placebo-specific; 1960 baselines stay
+      legitimate for the main 1960-91 regressions. Wednesday decision:
+      adopt as the paper's Table 7 spec + rewrite the intro's
+      validation paragraph. Revisit after each MA-definition change.
 - [ ] Gibbons-style decay ~0.5 on the existing sweep machinery (his
       1.5 / memo point i).
 - [ ] τ normalization experiment (his 1.5 / memo point ii; connects
@@ -153,12 +184,24 @@ LEDGER.
       (collinearity, region FE from census regions, threats-based
       selection, what the literature uses; notes #26-#31). Our side
       already has the outcome-blind grid (PR #112) to feed in.
-- [ ] Manufacturing robustness exhibits in the paper (note #44:
-      sweep exists, not shown) and sectoral counterfactual (notes
-      #40/#45: §6 decomposition is population-only) — the second is
-      real compute (only-rail/only-road for sectoral outcomes).
-- [ ] Navigation/ports map (note #19, Cote: "necesario, no diferir"):
-      figure showing the navigation layer + which ports connect.
+- [x] Manufacturing robustness exhibit (note #44) — DONE, PR #121
+      merged 2026-07-24: sectoral theta-sweep is now a paper exhibit
+      (tab:theta_sweep_sectoral; mfg value/wage significant at every
+      theta, max p = \sweepSectoralMaxP = 0.014; establishments + ag
+      null throughout). BONUS: the archive CSV was stale (PR #71
+      vintage); refreshed to current pipeline, matches Table 10 to
+      float precision. Sweep wired into main.R as D.13h.
+- [ ] Sectoral counterfactual (notes #40/#45: §6 decomposition is
+      population-only) — real compute (only-rail/only-road for
+      sectoral outcomes); still pending.
+- [x] Navigation/ports map (note #19) — DONE, PR #122 merged
+      2026-07-24: Appendix Figure A4 + §3.3 prose. Answer: inland
+      Parana-Plata system (8,062 km geodesic) + a few Patagonian
+      rivers + Magellan crossing; NO open-ocean coastal shipping;
+      Atlantic ports connect by land/river legs only. Also wired the
+      never-included A2/A3 into the appendix (paper 47 -> 51 pp).
+      Ledger note: embedded vector-map PDFs make paper.pdf heavy
+      (+8.8 MB per recompile); flattening = open infra question.
 - [ ] §2.4 conceptual paragraph: build-vs-close + radial-vs-capillary
       channels (notes #5/#15); defer empirics.
 - [ ] Modern IV inference check (note #35): Montiel Olea-Pflueger

@@ -5,10 +5,17 @@
 #          the permutation engine. For each draw s = 1..S, reassign the
 #          Larkin study designations across line units WITHIN strata
 #          (region x branch; see diagnostic_recentering_lines.R), rebuild
-#          the instrument_stu cost raster with the permuted assignment,
+#          the variant's cost raster with the permuted assignment
+#          (variant "stu": instrument_stu, non-studied rails + 1954
+#          roads; variant "fused": instrument_fused, non-studied rails
+#          + the LCP-MST hypothetical road network, BH-2026 Stage 3),
 #          and push it through the existing, tested pipeline chain
 #          (03a raster -> 03b transition -> 03c tau -> 04 MA) as child
 #          processes. Store each draw's district-level logMA vector.
+#          The permutation block is variant-INDEPENDENT (same seed
+#          stream, same strata), so draw s is paired across variants;
+#          diagnostic_fused_results.R asserts this via the studied_km
+#          fingerprint.
 #
 #          Draw 0 is the IDENTITY draw: studied_perm = studied_co. Its
 #          logMA must match the baseline ma_instrument_stu_s0_elow
@@ -42,18 +49,22 @@
 #   data/derived/07_recentering/rail_segments_strata.parquet
 #   data/derived/07_recentering/rail_lines_strata.parquet
 #   data/derived/04_market_access/ma_instrument_stu_s0_elow.parquet
-#     (baseline, for the identity check)
+#     (variant "stu" baseline, for the identity check)
+#   data/derived/04_market_access/ma_instrument_fused_s0_elow.parquet
+#     (variant "fused" baseline, for the identity check)
 #
-# PRODUCES:
-#   data/derived/07_recentering/draws/z_rc<s>.parquet  (s = 0..S)
-#       Columns: geolev2 (chr, key), logMA (num), draw (int),
-#                studied_km (num, total under the draw's assignment).
-#   data/derived/07_recentering/draws_manifest.log
+# PRODUCES (per variant/sector):
+#   data/derived/07_recentering/draws{,_s1,_s2,_fused}/z_rc<s>.parquet
+#       (s = 0..S) Columns: geolev2 (chr, key), logMA (num), draw
+#       (int), studied_km (num, total under the draw's assignment).
+#   data/derived/07_recentering/draws_manifest{,_s1,_s2,_fused}.log
 #
 # USAGE:
 #   Rscript code/analysis/diagnostic_recentering_draws.R [S] [n_workers]
+#       [sector] [variant]
 #   S defaults to recentering_S (config.R); n_workers defaults to
-#   n_cores_heavy. Smoke test: S = 3.
+#   n_cores_heavy; sector in {s0, s1, s2} (default s0); variant in
+#   {stu, fused} (default stu; fused requires s0). Smoke test: S = 3.
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -74,19 +85,29 @@ main <- function() {
     # permutations pushed through the sector-s cost schedule, enabling
     # recentered versions of the matched-schedule instruments.
     sector <- if (length(args) >= 3) args[3] else "s0"
+    # Variant (Stage 3, authorized 2026-07-23): "stu" = the plain Larkin
+    # instrument network (non-studied rails + 1954 roads); "fused" = the
+    # BH-2026 treatment prediction (non-studied rails + LCP-MST hypo
+    # roads). Same permutations either way; only the case differs.
+    variant <- if (length(args) >= 4) args[4] else "stu"
     stopifnot(!is.na(S), S >= 1L, !is.na(n_workers), n_workers >= 1L,
-              sector %in% c("s0", "s1", "s2"))
+              sector %in% c("s0", "s1", "s2"),
+              variant %in% c("stu", "fused"),
+              variant == "stu" || sector == "s0")
 
     message("\n", strrep("=", 72))
     message(sprintf(
-        "diagnostic_recentering_draws.R  |  S = %d + identity, %d workers, %s",
-        S, n_workers, sector))
+        "diagnostic_recentering_draws.R  |  S = %d + identity, %d workers, %s/%s",
+        S, n_workers, sector, variant))
     message(strrep("=", 72))
 
-    # s0 keeps the original Stage 1 layout ("draws"); other sectors get
-    # suffixed directories (matches _recentering_helpers.R).
+    # s0/stu keeps the original Stage 1 layout ("draws"); other sectors
+    # get suffixed directories (matches _recentering_helpers.R); the
+    # fused variant gets its own.
     dir_draws <- file.path(dir_derived_recentering,
-        if (sector == "s0") "draws" else paste0("draws_", sector))
+        if (variant == "fused") "draws_fused"
+        else if (sector == "s0") "draws"
+        else paste0("draws_", sector))
     if (!dir.exists(dir_draws)) dir.create(dir_draws, recursive = TRUE)
 
     seg <- arrow::read_parquet(
@@ -144,10 +165,16 @@ main <- function() {
         afile <- file.path(tempdir(), sprintf("recenter_assign_%s.csv", tag))
         utils::write.csv(assign_df, afile, row.names = FALSE)
 
-        case   <- sprintf("instrument_stu_%s", sector)
-        case_t <- sprintf("%s_%s", case, tag)
+        case   <- sprintf("instrument_%s_%s",
+                          if (variant == "fused") "fused" else "stu",
+                          sector)
+        # The intermediate tag must match RECENTER_TAG (it becomes the
+        # raster filename suffix in 03a). Distinct across variants;
+        # the case name already prevents cross-case collisions.
+        itag   <- if (variant == "fused") sprintf("fu%03d", s) else tag
+        case_t <- sprintf("%s_%s", case, itag)
 
-        Sys.setenv(RECENTER_ASSIGN_FILE = afile, RECENTER_TAG = tag)
+        Sys.setenv(RECENTER_ASSIGN_FILE = afile, RECENTER_TAG = itag)
         on.exit(Sys.unsetenv(c("RECENTER_ASSIGN_FILE", "RECENTER_TAG")),
                 add = TRUE)
 
@@ -174,7 +201,8 @@ main <- function() {
         # skip draw 0 and never re-run the gate (cr-review PR #111).
         if (s == 0L) {
             base_path <- file.path(dir_derived_ma, sprintf(
-                "ma_instrument_stu_%s_elow.parquet", sector))
+                "ma_instrument_%s_%s_elow.parquet",
+                if (variant == "fused") "fused" else "stu", sector))
             stopifnot(file.exists(base_path))
             base <- ensure_geolev2_char(arrow::read_parquet(base_path))
             m <- merge(z, base[, c("geolev2", "logMA")],
@@ -234,9 +262,11 @@ main <- function() {
     done <- list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$")
     sink(file.path(dir_derived_recentering,
         sprintf("draws_manifest%s.log",
-                if (sector == "s0") "" else paste0("_", sector))))
+                if (variant == "fused") "_fused"
+                else if (sector == "s0") "" else paste0("_", sector))))
     cat("Data file manifest -- diagnostic_recentering_draws.R\n")
-    cat(sprintf("Generated: %s  |  sector: %s\n", Sys.time(), sector))
+    cat(sprintf("Generated: %s  |  sector: %s  |  variant: %s\n",
+                Sys.time(), sector, variant))
     cat(sprintf("Draw files present: %d (incl. identity rc000)\n",
                 length(done)))
     cat(sprintf("Seed base: %d  |  snap tol: %d m\n",
