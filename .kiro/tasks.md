@@ -59,13 +59,14 @@ LEDGER.
       review, merge. Downstream (bigger, separate): integration into
       MA (load_centroids replacement or multi-point), gated on the
       θ/τ conversation.
-- [ ] Recentering brief for the Wednesday 2026-07-29 meeting — Cote
-      explicitly asked for status (his note #23-24: thought it
-      needed the running variable). Must cover: Stage 0-1 findings
-      (PRs #110-#112), settlement + corridor timing designs
-      (PR #115 + in flight), fused queued, and the key negative:
-      recentering does NOT clean the placebo (pre-trend is not
-      exposure-geometry).
+- [ ] Recentering brief for the Wednesday 2026-07-29 meeting —
+      DRAFTED 2026-07-24 (`Plan/brief_cote_recentering_2026-07-29.md`,
+      Spanish, 8 sections incl. the six-design map, the
+      placebo-does-not-clean finding, five recommendations, five
+      decision items). TWO [PENDIENTE] slots remain: fused results
+      (run in flight) and growth-repair results (queued). Fill when
+      the runs land, then prose pass (streamline + humanizer) before
+      sending.
 
 ### 1. Blocked on Cote
 
@@ -103,13 +104,21 @@ LEDGER.
       anachronistic (INDEC created 1968). Source:
       bibliotecadigital.estadistica.ec.gba.gov.ar cn1958i post.
       Implementation in "Paper fixes" below (item b).
-- [ ] Issue #68 studied-share basis — NEW INPUT from Cote 2026-07-24:
-      his hypothesis is undigitized CABA rail (high-density, likely
-      non-studied) deflating the denominator, plus georeferencing
-      imprecision; contrast 39.6% against the Larkin volumes in the
-      old repo `Train/Docs/`. Testable on lp_1979.shp (CABA-area
-      coverage check); connects to issue #113 (CABA node convention).
-      Still needs the physical volumes for final reconciliation.
+- [ ] Issue #68 studied-share basis — SUBSTANTIALLY RESOLVED
+      2026-07-24, awaiting Cote's 10-minute confirmation. Audit
+      findings (posted on the issue): CABA hypothesis tested — metro
+      rail IS digitized (99 km CABA / 685 km belt) and mostly
+      non-studied as he guessed, but magnitude cannot carry the gap
+      (would need ~10,600 missing km). Real basis = numerator:
+      recom_code semantics decoded (1 maintain 2,310 km / 2 close
+      14,377 km / 3 new-study 5,197 km); excluding new-study gives
+      38.4% on §2's 43,500 km. Reconciliation footnote IN THE PAPER
+      (PR #119, squash-merged 2026-07-24, with review + fix pass;
+      also renamed the missed 'Discontinuity' heading). Cote lookup =
+      two numbers in Train/Docs: the report's studied definition
+      (excludes new-study?) and its network denominator (§2's 15,000
+      km ~ 32% implies ~46,900, which would shift the arithmetic to
+      35.6%). generate_scalars wiring deferred until confirmed.
 - [x] Issue #103 (35,000 vs 79,820 km) — CLOSED by Cote 2026-07-24:
       source difference. §2's ~35,000 = DNV national-network series
       (`Train/raw_data/kms_road_arg/kmVia_DNV`: 27,276 paved + 7,153
