@@ -146,14 +146,14 @@ schedules, switching every market-access object --- treatment, both
 instruments, and the baseline log-MA control --- to the row's
 schedule. The treatment correlates \densHighCorrBase{} (high density)
 and \densLowCorrBase{} (low density) with its baseline version, so the
-three rows are related but not interchangeable measures. The
-combined-IV estimate rises monotonically as the cost schedule shifts
-from rail-favouring to road-favouring: \densHighIVBCoef{}
-(\densHighIVBSE{}) at high density, \mainPopCoefIVBoth{}
-(\mainPopSEIVBoth{}) at the baseline, and \densLowIVBCoef{}
-(\densLowIVBSE{}, $p = \densLowIVBP{}$) at low density. The
-combined-IV first-stage $F$ is \densHighF{}, \firstStageFBoth{}, and
-\densLowF{} respectively; identification is strongest under the
+three rows are related but not interchangeable measures. Reading
+down the table, the combined-IV estimate falls monotonically as the
+cost schedule shifts from road-favouring to rail-favouring:
+\densLowIVBCoef{} (\densLowIVBSE{}, $p = \densLowIVBP{}$) at low
+density, \mainPopCoefIVBoth{} (\mainPopSEIVBoth{}) at the baseline,
+and \densHighIVBCoef{} (\densHighIVBSE{}) at high density. The
+combined-IV first-stage $F$ is \densLowF{}, \firstStageFBoth{}, and
+\densHighF{} respectively; identification is strongest under the
 low-density schedule.
 
 \input{../results/tables/table_15_density_schedules.tex}
@@ -352,7 +352,12 @@ coefficient declines monotonically in $\theta$, from
 \sweepBetaThetaOne{} at $\theta = 1$ to \sweepBetaThetaTwelve{} at
 $\theta = 12$, while the first-stage $F$ stays between
 \sweepFMin{} and \sweepFMax{} across the grid. The level of the population elasticity is
-therefore calibration-dependent; its sign is not.
+therefore calibration-dependent; its sign is not. The sectoral
+contrast of Section~\ref{sec:sectoral} is not calibration-dependent:
+a parallel sweep for the sectoral outcomes (produced by the
+replication archive's sectoral-sweep program) preserves the pattern
+--- manufacturing responds, agriculture does not --- at every value
+of $\theta$ we examined.
 Section~\ref{sec:discussion} discusses the implications for
 comparisons with estimates in the literature.
 

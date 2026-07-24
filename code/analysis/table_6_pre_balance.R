@@ -233,7 +233,10 @@ main <- function() {
                "variable is the row label; the regressors are the ",
                "instrument(s) listed in the column headers plus baseline ",
                "log MA (1960) and baseline log pop (1960) as partialled-out ",
-               "controls. Robust (HC1) SE in parentheses. ",
+               "controls. When the row's characteristic is itself one of ",
+               "these controls, it is excluded from the control set rather ",
+               "than partialled out against itself. ",
+               "Robust (HC1) SE in parentheses. ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),
         "\\end{table}"
     )
