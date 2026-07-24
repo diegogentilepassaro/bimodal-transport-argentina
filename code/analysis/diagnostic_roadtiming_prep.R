@@ -11,6 +11,12 @@
 #   1. Classify the 517-settlement universe by connectivity (within
 #      roadtiming_conn_tol_m of a vintage road): connected54 (out of
 #      scope), early, late, never.
+#      NOTE (cr-review PR #115): classification uses the FULL 1954
+#      network incl. type2 = 4 (present 1954+1970, gone by 1986; 6% of
+#      1954 km) -- the right notion of real-world 1954 connectivity.
+#      The 03a instrument_roadtiming case rasterizes only c(1, 5, 7),
+#      matching the actual_1960 convention that the z differencing
+#      requires. The asymmetry is deliberate.
 #   2. Strata for the unconnected set: region x distance-to-1954-
 #      network tercile, thin cells merged deterministically
 #      (>= recentering_min_cell early AND non-early per cell).

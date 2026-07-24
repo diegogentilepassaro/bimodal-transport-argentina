@@ -13,7 +13,8 @@
 #          nothing in the paper reads these outputs.
 #
 #   (bal) Balance: settlement-level early vs not-early within strata
-#         (stratum FE, HC1) on predetermined district covariates of the
+#         (stratum FE, SEs clustered by containing district) on
+#         predetermined district covariates of the
 #         containing district, incl. the 1947-60 placebo growth -- the
 #         headline credibility test for treating timing as good as
 #         random within strata.
@@ -135,9 +136,11 @@ main <- function() {
 
     # ---- 3. (bal) Balance: early vs not-early within strata ------------------
     # Settlement-level (n = 216): covariates of the containing district
-    # + settlement distance to the 1954 network. Analytic HC1 with
-    # stratum FE; the strata are the randomization cells, so this is
-    # the design-based balance table.
+    # + settlement distance to the 1954 network. Stratum FE; SEs
+    # clustered by containing district (cr-review PR #115: district
+    # covariates are constant within the 128 districts, so HC1 at the
+    # settlement level would understate them). The strata are the
+    # randomization cells, so this is the design-based balance table.
     d$log_pop_1947 <- ifelse(d$pop_1947 > 0, log(d$pop_1947), NA)
     d$rail_dens_1960 <- d$tot_rails_1960 / d$area_km2
     bal_covs <- c("dist54_km", "log_pop_1947", "log_pop_1960",
@@ -155,7 +158,7 @@ main <- function() {
     for (cv in bal_covs) {
         ok <- !is.na(sb[[cv]])
         m <- feols(as.formula(paste(cv, "~ early | stratum")),
-                   data = sb[ok, ], vcov = "hetero")
+                   data = sb[ok, ], cluster = ~geolev2)
         cc <- safe_coef(m, "earlyTRUE")
         add_row(block = "bal", outcome = cv, spec = "early_vs_rest",
                 stat = "coef", value = cc$est)
@@ -320,7 +323,8 @@ main <- function() {
     cat(sprintf("Generated: %s  |  permuted draws: %d%s\n\n",
                 Sys.time(), S_perm,
                 if (S_perm < 100L) "  [PROVISIONAL]" else ""))
-    cat("(bal) Balance, early vs not-early within strata (HC1):\n")
+    cat("(bal) Balance, early vs not-early within strata",
+        "(SEs clustered by district):\n")
     for (cv in bal_covs) {
         sel <- res$block == "bal" & res$outcome == cv
         g <- function(st_) res$value[sel & res$stat == st_]

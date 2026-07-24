@@ -169,6 +169,11 @@ case_registry <- function() {
         # from RECENTER_EXTRA_FILE (required when use_extra) and is
         # OR-ed into the road raster. Diagnostic-only: excluded from
         # the no-args default, never read by a paper exhibit.
+        # NOTE (cr-review PR #115): road_sel = c(1, 5, 7) matches the
+        # actual_1960 raster convention (required for the z
+        # differencing); the prep's connectivity CLASSIFICATION also
+        # counts type2 = 4 (real 1954 roads gone by 1986). Deliberate
+        # asymmetry, documented in diagnostic_roadtiming_prep.R.
         instrument_roadtiming = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
