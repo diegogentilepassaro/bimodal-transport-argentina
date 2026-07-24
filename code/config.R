@@ -449,6 +449,10 @@ recentering_min_cell <- 4L
 # configuration is a documented crash. Runs are launched only on
 # explicit authorization.
 recentering_n_workers <- 5L
+# Road-timing design (issue #114): a settlement counts as connected to
+# a road vintage if within this distance of it. 5 km chosen at scoping
+# (results stable across 2/5/10 km).
+roadtiming_conn_tol_m <- 5000
 
 # ---- 14. Sentinel / flag --------------------------------------------------
 config_loaded <- TRUE

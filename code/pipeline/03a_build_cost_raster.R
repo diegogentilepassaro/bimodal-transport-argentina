@@ -184,6 +184,24 @@ case_registry <- function() {
             use_hypo = FALSE,
             hypo_file = NULL
         ),
+        # Road-timing design instrument (issue #114, approved by Diego
+        # 2026-07-23): the 1954 world plus predicted LCP links for a
+        # draw's "early-connected" settlements. The links layer comes
+        # from RECENTER_EXTRA_FILE (required when use_extra) and is
+        # OR-ed into the road raster. Diagnostic-only: excluded from
+        # the no-args default, never read by a paper exhibit.
+        # NOTE (cr-review PR #115): road_sel = c(1, 5, 7) matches the
+        # actual_1960 raster convention (required for the z
+        # differencing); the prep's connectivity CLASSIFICATION also
+        # counts type2 = 4 (real 1954 roads gone by 1986). Deliberate
+        # asymmetry, documented in diagnostic_roadtiming_prep.R.
+        instrument_roadtiming = list(
+            rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
+            road_sel = function(r) r$type2      %in% c(1, 5, 7),
+            use_hypo = FALSE,
+            hypo_file = NULL,
+            use_extra = TRUE
+        ),
         # cf_only_road: rails_1960 + roads_1986. Freezes rails at baseline
         # so Δlog MA vs actual_1960 isolates the road shock.
         cf_only_road = list(
@@ -215,10 +233,11 @@ main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
 
     args <- commandArgs(trailingOnly = TRUE)
-    # Diagnostic-only cases (instrument_fused_*) are excluded from the
-    # no-args default so the hands-off main.R pipeline is unchanged;
-    # they build only when named explicitly.
-    default_cases <- grep("^instrument_fused", names(case_registry()),
+    # Diagnostic-only cases (instrument_fused_*, instrument_roadtiming_*)
+    # are excluded from the no-args default so the hands-off main.R
+    # pipeline is unchanged; they build only when named explicitly.
+    default_cases <- grep("^instrument_(fused|roadtiming)",
+                          names(case_registry()),
                           value = TRUE, invert = TRUE)
     cases <- if (length(args) > 0) args else default_cases
 
@@ -259,6 +278,21 @@ build_one_case <- function(case, spec) {
     # --- 3. Rasterise rail and road ingredients ---
     rail_rast <- rasterize_rails(base, spec$rail_sel)
     road_rast <- rasterize_roads_or_hypo(base, spec)
+    if (isTRUE(spec$use_extra)) {
+        ef <- Sys.getenv("RECENTER_EXTRA_FILE")
+        if (!nzchar(ef)) stop("use_extra case requires RECENTER_EXTRA_FILE")
+        message(sprintf("[cost]   Adding extra links layer (%s)",
+                        basename(ef)))
+        extra <- sf::st_read(ef, quiet = TRUE)
+        extra_p <- sf::st_union(sf::st_buffer(
+            sf::st_transform(sf::st_make_valid(extra), crs = crs_raster),
+            dist = 1000))
+        er <- terra::rasterize(terra::vect(extra_p), base, field = 1L,
+                               background = 0L)
+        road_rast <- max(road_rast, er)
+        message(sprintf("[cost]     Road+extra pixels: %d",
+                        sum(terra::values(road_rast) == 1L, na.rm = TRUE)))
+    }
 
     # --- 4. Rasterise navigation layer (water = cheap) ---
     nav_rast <- rasterize_navigation(base)
