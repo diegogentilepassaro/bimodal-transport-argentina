@@ -166,8 +166,16 @@ LEDGER.
 
 ### 1c. New experiments from Cote's email (each needs a plan gate)
 
-- [ ] Placebo spec with 1947 baselines on the RHS (his 1.1) — cheap,
-      concrete; revisit placebo after each MA-definition change.
+- [x] Placebo spec with 1947 baselines (his 1.1) — DONE, PR #120
+      merged 2026-07-24. HEADLINE: the placebo failure is a
+      post-outcome-conditioning artifact (1960 baselines postdate the
+      1947-60 window; log pop 1960 is a DV component). With the
+      1947-consistent set the placebo is a clean null in all four
+      estimators (IV-B -0.004, p=0.89) and first stages STRENGTHEN
+      (F 16-24). Scope: placebo-specific; 1960 baselines stay
+      legitimate for the main 1960-91 regressions. Wednesday decision:
+      adopt as the paper's Table 7 spec + rewrite the intro's
+      validation paragraph. Revisit after each MA-definition change.
 - [ ] Gibbons-style decay ~0.5 on the existing sweep machinery (his
       1.5 / memo point i).
 - [ ] τ normalization experiment (his 1.5 / memo point ii; connects
@@ -176,12 +184,24 @@ LEDGER.
       (collinearity, region FE from census regions, threats-based
       selection, what the literature uses; notes #26-#31). Our side
       already has the outcome-blind grid (PR #112) to feed in.
-- [ ] Manufacturing robustness exhibits in the paper (note #44:
-      sweep exists, not shown) and sectoral counterfactual (notes
-      #40/#45: §6 decomposition is population-only) — the second is
-      real compute (only-rail/only-road for sectoral outcomes).
-- [ ] Navigation/ports map (note #19, Cote: "necesario, no diferir"):
-      figure showing the navigation layer + which ports connect.
+- [x] Manufacturing robustness exhibit (note #44) — DONE, PR #121
+      merged 2026-07-24: sectoral theta-sweep is now a paper exhibit
+      (tab:theta_sweep_sectoral; mfg value/wage significant at every
+      theta, max p = \sweepSectoralMaxP = 0.014; establishments + ag
+      null throughout). BONUS: the archive CSV was stale (PR #71
+      vintage); refreshed to current pipeline, matches Table 10 to
+      float precision. Sweep wired into main.R as D.13h.
+- [ ] Sectoral counterfactual (notes #40/#45: §6 decomposition is
+      population-only) — real compute (only-rail/only-road for
+      sectoral outcomes); still pending.
+- [x] Navigation/ports map (note #19) — DONE, PR #122 merged
+      2026-07-24: Appendix Figure A4 + §3.3 prose. Answer: inland
+      Parana-Plata system (8,062 km geodesic) + a few Patagonian
+      rivers + Magellan crossing; NO open-ocean coastal shipping;
+      Atlantic ports connect by land/river legs only. Also wired the
+      never-included A2/A3 into the appendix (paper 47 -> 51 pp).
+      Ledger note: embedded vector-map PDFs make paper.pdf heavy
+      (+8.8 MB per recompile); flattening = open infra question.
 - [ ] §2.4 conceptual paragraph: build-vs-close + radial-vs-capillary
       channels (notes #5/#15); defer empirics.
 - [ ] Modern IV inference check (note #35): Montiel Olea-Pflueger
