@@ -57,6 +57,7 @@ main <- function() {
                    "table_11_other_outcomes_iv",
                    "table_12_robustness",
                    "table_13_counterfactual",
+                   "table_17_counterfactual_sectoral",
                    "table_14_mechanisms",
                    "table_15_density_schedules",
                    "table_16_sector_matched",
@@ -576,6 +577,27 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["sweepFMin"]] <- f1(min(sw$first_stage_F, na.rm = TRUE))
         macros[["sweepFMax"]] <- f1(max(sw$first_stage_F, na.rm = TRUE))
     }
+    # Table 17: sectoral counterfactual decomposition (Section 6 prose;
+    # Cote notes #40/#45). Manufacturing rows per panel, IV column.
+    t17 <- tab[["table_17_counterfactual_sectoral"]]
+    if (!is.null(t17)) {
+        for (pn in list(list(id = "B", stem = "cfRailMfg"),
+                        list(id = "C", stem = "cfRoadMfg"))) {
+            for (oc in list(list(var = "chg_log_valprod_85_54",
+                                 suf = "Val"),
+                            list(var = "chg_log_massal_85_54",
+                                 suf = "Wage"))) {
+                r <- t17[t17$panel == pn$id & t17$outcome == oc$var, ]
+                if (nrow(r) == 1L) {
+                    macros[[paste0(pn$stem, oc$suf, "Coef")]] <-
+                        sprintf("%.3f", r$iv_est)
+                    macros[[paste0(pn$stem, oc$suf, "SE")]] <-
+                        sprintf("%.3f", r$iv_se)
+                }
+            }
+        }
+    }
+
     # -- Sectoral theta sweep (Section 5.5 prose; cr-review PR #121) ---------
     # Largest p across the two significant manufacturing outcomes over
     # the whole grid: the number the prose quotes as "largest p".
