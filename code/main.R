@@ -428,6 +428,19 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_theta_sweep.", c("txt", "csv", "tex"))),
         makelog)
+    # Sectoral sweep: same wiring necessity as D.13e — Section 5.5
+    # \inputs its .tex and generate_scalars reads its CSV
+    # (sweepSectoralMaxP), so a from-scratch run must produce both
+    # (cr-review PR #121 blocking finding).
+    run_step("D.13h diagnostic_theta_sweep_sectoral",
+             a("diagnostic_theta_sweep_sectoral.R"),
+             "Sectoral theta sweep (Section 5.5 exhibit + scalars input)",
+             makelog)
+    verify_outputs("D.13h",
+        file.path(dir_tables,
+                  paste0("diagnostic_theta_sweep_sectoral.",
+                         c("txt", "csv", "tex"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),

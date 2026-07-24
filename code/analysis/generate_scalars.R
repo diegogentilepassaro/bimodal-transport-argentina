@@ -62,6 +62,7 @@ main <- function() {
                    "table_16_sector_matched",
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
+                   "diagnostic_theta_sweep_sectoral",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -574,6 +575,14 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["sweepBetaThetaTwelve"]] <- sprintf("%.2f", r$iv_beta)
         macros[["sweepFMin"]] <- f1(min(sw$first_stage_F, na.rm = TRUE))
         macros[["sweepFMax"]] <- f1(max(sw$first_stage_F, na.rm = TRUE))
+    }
+    # -- Sectoral theta sweep (Section 5.5 prose; cr-review PR #121) ---------
+    # Largest p across the two significant manufacturing outcomes over
+    # the whole grid: the number the prose quotes as "largest p".
+    sws <- tab[["diagnostic_theta_sweep_sectoral"]]
+    if (!is.null(sws)) {
+        sel <- sws$outcome %in% c("mfg production value", "mfg wage mass")
+        macros[["sweepSectoralMaxP"]] <- sprintf("%.3f", max(sws$p[sel]))
     }
 
     macros

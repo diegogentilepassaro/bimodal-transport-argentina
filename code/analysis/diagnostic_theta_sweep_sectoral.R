@@ -36,7 +36,7 @@
 #   data/derived/06_analysis/estimation_sample.parquet
 #
 # PRODUCES:
-#   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv}
+#   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv,tex}
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -103,6 +103,7 @@ main <- function() {
     df <- do.call(rbind, rows)
 
     print_matrix(df, rep)
+    write_paper_tex(df)
     write.csv(df[, c("outcome", "theta", "beta", "se", "p", "stars",
                      "F_ivf", "F_robust", "n_obs")],
               file.path(dir_tables, "diagnostic_theta_sweep_sectoral.csv"),
@@ -218,17 +219,29 @@ print_matrix <- function(df, rep) {
         rep("%s", line)
     }
 
-    # ---- Paper exhibit (.tex), added per Cote reading note #44 -----------
-    # (2026-07-24): the sweep existed only in this archive CSV; the
-    # paper now shows the five sectoral outcomes (population's sweep
-    # is tab:theta_sweep). Rows = theta grid, columns = outcomes,
-    # cells = IV-Both coefficient with stars, HC1 SE beneath.
+}
+
+
+# ---------------------------------------------------------------------------
+# Paper exhibit (.tex), added per Cote reading note #44 (2026-07-24):
+# the sweep existed only in the archive CSV; the paper now shows the
+# five sectoral outcomes (population's sweep is tab:theta_sweep).
+# Rows = theta grid, columns = outcomes, cells = IV-Both coefficient
+# with stars, HC1 SE beneath. Extracted into its own function per
+# cr-review PR #121 should-fix 4.
+write_paper_tex <- function(df) {
+    outs <- unique(df$outcome)
+    thetas <- sort(unique(df$theta))
     sec_outs <- setdiff(outs, "population")
     col_lab <- c("mfg production value" = "Value of prod.",
                  "mfg wage mass"        = "Wage mass",
                  "mfg establishments"   = "Establishments",
                  "ag farms"             = "Farms",
                  "ag farmed area"       = "Farmed area")
+    # The 3-Mfg/2-Ag multicolumn header is positionally coupled to this
+    # order; fail loudly if the outcome set or order ever changes
+    # (cr-review PR #121 consider 5).
+    stopifnot(identical(sec_outs, names(col_lab)))
     tex_cell <- function(r) {
         sprintf("\\begin{tabular}{@{}c@{}} %.3f%s \\\\ (%.3f) \\end{tabular}",
                 r$beta, ifelse(nchar(r$stars) > 0,
