@@ -44,10 +44,10 @@
 % DATA CITATION: ground-transport cost parameters (Table II).
 % Author names verified 2026-07-16 against the publisher's archive
 % (eltrimestreeconomico.com.mx: "Jean-Pierre Baumgartner, Pascual
-% Santiago Palazzo") and the JSTOR record (36(143):381-394). The
-% planning doc's "Baumgartner, T. and Palazzo, J. A. / CONADE" does
-% not match the journal publication; flagged for Cote in case the
-% digitised table came from a separate CONADE report.
+% Santiago Palazzo") and the JSTOR record (36(143):381-394).
+% RESOLVED 2026-07-24 (Cote email): Table II was digitised from the
+% El Trimestre Economico article, NOT a separate CONADE report;
+% publisher URL added below.
 @article{baumgartnerpalazzo1969,
   author  = {Baumgartner, Jean-Pierre and Palazzo, Pascual Santiago},
   title   = {Estructura econ\'omica del transporte de carga automotor y
@@ -57,9 +57,9 @@
   number  = {143},
   pages   = {381--394},
   year    = {1969},
-  url     = {https://www.jstor.org/stable/20856082},
+  url     = {https://www.eltrimestreeconomico.com.mx/index.php/te/article/view/3317},
   note    = {Ground-transport cost parameters (Table~II) used for the
-             transport-cost rasters.}
+             transport-cost rasters. Also available as JSTOR 20856082.}
 }
 
 % DATA CITATION: wheat potential-yield raster.
@@ -107,6 +107,22 @@
 % DATA CITATION: 1947 population census, digitised by the authors.
 % Issuing agency verified via Princeton University Library catalog
 % (SCSB-6745784); INDEC did not exist until 1968.
+% DATA CITATION: national road network length series, used for the
+% Section 2.3 aggregate road-km figures (Cote email 2026-07-24: the
+% ~35,000 km figure is paved 27,276 + gravel 7,153 in 1986 from this
+% series, excluding dirt roads). Raw file kmVia_DNV under
+% kms_road_arg in the project archive. Exact DNV publication volume
+% to be confirmed with Cote before deposit.
+@misc{dnvseries,
+  author       = {{Direcci\'on Nacional de Vialidad}},
+  title        = {Longitud de la red vial nacional por tipo de calzada
+                  [dataset]},
+  year         = {n.d.},
+  howpublished = {Buenos Aires},
+  note         = {Series covering 1954--1986, compiled by the authors
+                  from Direcci\'on Nacional de Vialidad records.}
+}
+
 @misc{censo1947,
   author       = {{Direcci\'on Nacional del Servicio Estad\'istico}},
   title        = {Cuarto Censo General de la Naci\'on 1947 [dataset]},
@@ -121,12 +137,18 @@
 % TODO (coauthor): issuing agency not verifiable online; INDEC did not
 % exist until 1968. Confirm the agency from the title page of the scanned
 % volumes and replace {Rep\'ublica Argentina} with it.
+% Issuing agency confirmed by Cote (2026-07-24) against the physical
+% title page: Direccion Nacional de Estadistica y Censos (Secretaria
+% de Estado de Hacienda), Buenos Aires 1960. "INDEC" in library
+% catalogs is anachronistic (INDEC was created in 1968). See
+% https://bibliotecadigital.estadistica.ec.gba.gov.ar/index.php/2024/08/19/cn1958i/
 @misc{censo1954industrial,
-  author       = {{Rep\'ublica Argentina}},
+  author       = {{Direcci\'on Nacional de Estad\'istica y Censos}},
   title        = {Censo Nacional Econ\'omico 1954: Industria [dataset]},
   year         = {1954},
-  howpublished = {Buenos Aires},
-  note         = {Digitised by the authors from published volumes.}
+  howpublished = {Buenos Aires: Secretar\'ia de Estado de Hacienda},
+  note         = {Volumes published 1960. Digitised by the authors from
+                  published volumes.}
 }
 
 % DATA CITATION: 1960 agricultural census, digitised by the authors.
