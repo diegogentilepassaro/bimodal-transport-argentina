@@ -44,7 +44,11 @@
 #   results/tables/diagnostic_roadseg.txt   (human-readable report)
 #
 # USAGE:
-#   Rscript code/analysis/diagnostic_roadseg_results.R
+#   Rscript code/analysis/diagnostic_roadseg_results.R [variant]
+#   variant = "base" (default) or "growth" (growth-stratified repair;
+#   reads roadseg_growth/ + draws_roadseg_growth/, writes
+#   diagnostic_roadseg_growth.{csv,txt}; growth balance is then a
+#   by-construction mechanical check, flagged in the report).
 #   Runs on however many draws are present (>= 10 enforced; the full
 #   diagnostic uses S = 100 -- the report stamps S_perm everywhere).
 # ===========================================================================
@@ -60,12 +64,20 @@ main <- function() {
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
+    args <- commandArgs(trailingOnly = TRUE)
+    variant <- if (length(args) >= 1) args[1] else "base"
+    stopifnot(variant %in% c("base", "growth"))
+    vsuf <- if (variant == "growth") "_growth" else ""
+
     message("\n", strrep("=", 72))
-    message("diagnostic_roadseg_results.R  |  corridor-timing diagnostics")
+    message(sprintf(
+        "diagnostic_roadseg_results.R  |  corridor-timing diagnostics (%s)",
+        variant))
     message(strrep("=", 72))
 
     # ---- 1. Load draws, chains, estimation sample ---------------------------
-    dir_draws <- file.path(dir_derived_recentering, "draws_roadseg")
+    dir_draws <- file.path(dir_derived_recentering,
+                           paste0("draws_roadseg", vsuf))
     files <- sort(list.files(dir_draws, pattern = "^z_rc\\d+\\.parquet$",
                              full.names = TRUE))
     stopifnot(length(files) >= 1L)
@@ -85,7 +97,8 @@ main <- function() {
             S_perm), "mu is noisy -- do not over-read recentered columns")
     }
 
-    dir_rs <- file.path(dir_derived_recentering, "roadseg")
+    dir_rs <- file.path(dir_derived_recentering,
+                        paste0("roadseg", vsuf))
     ch <- as.data.frame(arrow::read_parquet(
         file.path(dir_rs, "chains.parquet")))
     cd <- ensure_geolev2_char(as.data.frame(arrow::read_parquet(
@@ -340,21 +353,34 @@ main <- function() {
     res <- do.call(rbind, out_rows)
     res$S_perm <- S_perm
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
-    csv_path <- file.path(dir_tables, "diagnostic_roadseg.csv")
+    csv_path <- file.path(dir_tables,
+        sprintf("diagnostic_roadseg%s.csv", vsuf))
     write.csv(res, csv_path, row.names = FALSE)
 
-    txt_path <- file.path(dir_tables, "diagnostic_roadseg.txt")
+    txt_path <- file.path(dir_tables,
+        sprintf("diagnostic_roadseg%s.txt", vsuf))
     sink(txt_path)
-    cat("Corridor-timing design instrument diagnostic\n")
+    cat(sprintf("Corridor-timing design instrument diagnostic (%s)\n",
+                variant))
     cat(sprintf("Generated: %s  |  permuted draws: %d%s\n\n",
                 Sys.time(), S_perm,
                 if (S_perm < 100L) "  [PROVISIONAL]" else ""))
-    cat("VERDICT: real dose, loaded dice. Recentered relevance rises an\n")
-    cat("order of magnitude over the settlement design (F 3-4.5 vs ~1)\n")
-    cat("but early-paved corridors traverse districts with faster\n")
-    cat("1947-60 placebo growth (balance failure below): the paving\n")
-    cat("sequence tracked demand, so timing is not usable as-good-as-\n")
-    cat("random conditional on these strata.\n\n")
+    if (variant == "base") {
+        cat("VERDICT: real dose, loaded dice. Recentered relevance rises",
+            "an\norder of magnitude over the settlement design (F 3-4.5",
+            "vs ~1)\nbut early-paved corridors traverse districts with",
+            "faster\n1947-60 placebo growth (balance failure below): the",
+            "paving\nsequence tracked demand, so timing is not usable",
+            "as-good-as-\nrandom conditional on these strata.\n\n")
+    } else {
+        cat("GROWTH-STRATIFIED REPAIR of the base design's failed\n")
+        cat("balance margin: early status permuted within region x\n")
+        cat("length x 1947-60 growth strata, so the placebo-growth\n")
+        cat("balance row below is a BY-CONSTRUCTION mechanical check,\n")
+        cat("not a test. The informative numbers: recentered F (does\n")
+        cat("timing entropy survive growth stratification?) and the\n")
+        cat("placebo reduced-form RI p.\n\n")
+    }
     cat("(bal) Balance, early vs late chains within strata",
         "(SEs clustered by modal district):\n")
     for (cv in c(bal_covs, "log_length_km")) {
