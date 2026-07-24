@@ -197,9 +197,16 @@ LEDGER.
       null throughout). BONUS: the archive CSV was stale (PR #71
       vintage); refreshed to current pipeline, matches Table 10 to
       float precision. Sweep wired into main.R as D.13h.
-- [ ] Sectoral counterfactual (notes #40/#45: §6 decomposition is
-      population-only) — real compute (only-rail/only-road for
-      sectoral outcomes); still pending.
+- [x] Sectoral counterfactual — DONE (Table 17,
+      tab:counterfactual_sectoral, mirrors Table 13's panels for the
+      five Table 10 outcomes; regression-only, MA columns existed).
+      FINDING (answers Cote note #40): manufacturing responds through
+      BOTH modal channels (only-rail +0.215*/+0.222* val/wage;
+      only-road +0.323*/+0.471**), neither dominates; establishments
+      and agriculture null in every panel. The rail-loss channel is
+      real (consistent with a de-industrialization component) but the
+      road channel is at least as large. Wired: §6 prose + 8 AutoFill
+      macros + main.R D.13i; §8.3's false frequency claim retired.
 - [x] Navigation/ports map (note #19) — DONE, PR #122 merged
       2026-07-24: Appendix Figure A4 + §3.3 prose. Answer: inland
       Parana-Plata system (8,062 km geodesic) + a few Patagonian

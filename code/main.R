@@ -441,6 +441,15 @@ stage_d_analysis <- function(makelog) {
                   paste0("diagnostic_theta_sweep_sectoral.",
                          c("txt", "csv", "tex"))),
         makelog)
+    run_step("D.13i table_17_counterfactual_sectoral",
+             a("table_17_counterfactual_sectoral.R"),
+             "Sectoral counterfactual decomposition (Section 6, Table 17)",
+             makelog)
+    verify_outputs("D.13i",
+        file.path(dir_tables,
+                  paste0("table_17_counterfactual_sectoral.",
+                         c("tex", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
