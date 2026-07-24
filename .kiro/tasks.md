@@ -26,10 +26,16 @@ LEDGER.
       03a use_extra hook); after PR #116's squash-merge, main has
       moved — expect a trivial rebase or merge-base note at PR time
       (tasks.md itself may conflict; this copy is canonical).
-- [ ] PR #115 (settlement road-timing design, balanced but weak dose:
-      recentered F ~ 1) — review published, review items 1-2 fixed
-      (5c4d04e); awaiting Diego's merge call. The corridor branch is
-      stacked on it.
+- [x] PR #115 (settlement road-timing design, balanced but weak dose:
+      recentered F ~ 1) — squash-merged 2026-07-24 (eede3e7) after
+      published review + fixes. Issue #114 stays open for the
+      corridor verdict.
+- [ ] After the corridor run completes: merge origin/main into
+      analysis/roadseg-timing (picks up the #115 squash + #116 paper
+      fixes; content-identical for the roadtiming files, so no
+      conflicts expected) BEFORE opening the corridor PR, so its diff
+      is clean. Deliberately deferred until the run exits — no git
+      operations on the live tree.
 - [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — machinery built
       on `analysis/fused-instrument` (745b1e3, pushed, no PR);
       queued behind the corridor run, needs Diego's launch word.
