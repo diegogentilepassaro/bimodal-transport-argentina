@@ -40,16 +40,16 @@ LEDGER.
       Comparison script diagnostic_fused_results.R written + committed
       (paired fused-vs-stu: backbone, recentered F, estimates, RI p).
       On completion: results -> commit -> PR -> review -> handoff.
-- [ ] Growth-stratified corridor repair (approved + queued
-      2026-07-24): machinery on `analysis/roadseg-growth` (pushed;
-      variant arg on the three roadseg scripts, rg### tags, seed
-      offset +300000). Density gate PASSED: 23 cells all >= 4/4,
-      zero growth-level mixing. Prep outputs staged in
-      roadseg_growth/. QUEUED: smoke S=1 then full S=100 after the
-      fused run frees the machine (both runs pre-authorized). Reading:
-      recentered F holds => first balanced AND dosed design-based
-      road instrument; F collapses => timing was demand, door closed
-      with a number.
+- [x] Growth-stratified corridor repair — DONE, PR #124
+      squash-merged 2026-07-24 (with review + fix pass). VERDICT:
+      door closed with a number. F recentrado 0.5-1.4 (base 3-4.5)
+      with recentered variance intact (sd 0.964 vs 0.956): the
+      timing entropy WAS demand, not mechanical over-stratification.
+      Residual continuous placebo imbalance within terciles (+0.042,
+      p=0.045) corroborates. Issue #114 can close after the Cote
+      conversation. RECENTERING PROGRAM COMPLETE: six designs, one
+      characterization (see Plan/brief_cote_recentering_2026-07-29.md,
+      final, prose-passed).
 - [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
       `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
       branch `data/geocoding-1960` (data to
@@ -59,14 +59,11 @@ LEDGER.
       review, merge. Downstream (bigger, separate): integration into
       MA (load_centroids replacement or multi-point), gated on the
       θ/τ conversation.
-- [ ] Recentering brief for the Wednesday 2026-07-29 meeting —
-      DRAFTED 2026-07-24 (`Plan/brief_cote_recentering_2026-07-29.md`,
-      Spanish, 8 sections incl. the six-design map, the
-      placebo-does-not-clean finding, five recommendations, five
-      decision items). TWO [PENDIENTE] slots remain: fused results
-      (run in flight) and growth-repair results (queued). Fill when
-      the runs land, then prose pass (streamline + humanizer) before
-      sending.
+- [x] Recentering brief — COMPLETE 2026-07-24
+      (`Plan/brief_cote_recentering_2026-07-29.md`): all six design
+      verdicts in, placebo-1.1 breakthrough integrated, prose pass
+      (streamline + humanizer) done. Ready for Diego's read and the
+      Wednesday meeting.
 
 ### 1. Blocked on Cote
 
@@ -202,8 +199,11 @@ LEDGER.
       never-included A2/A3 into the appendix (paper 47 -> 51 pp).
       Ledger note: embedded vector-map PDFs make paper.pdf heavy
       (+8.8 MB per recompile); flattening = open infra question.
-- [ ] §2.4 conceptual paragraph: build-vs-close + radial-vs-capillary
-      channels (notes #5/#15); defer empirics.
+- [x] §2.4 conceptual channels — DONE, PR #125 merged 2026-07-24
+      (margin-of-change + network geometry paragraphs, hypotheses
+      flagged, anchored to Figure 1; empirics deferred per Cote's own
+      note). Review considers left for Cote: §6.3/§8.3 loop-closing
+      sentence; durability premise used differently in §2.4 vs §8.2.
 - [ ] Modern IV inference check (note #35): Montiel Olea-Pflueger
       effective F / Anderson-Rubin CIs alongside current F stats.
 - [ ] Agri intensive-margin outcome + urbanization measurement
