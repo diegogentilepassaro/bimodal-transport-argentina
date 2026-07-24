@@ -17,11 +17,15 @@ LEDGER.
 ### 0. In flight right now (2026-07-24)
 
 - [ ] Corridor-timing design instrument S=100 run (branch
-      `analysis/roadseg-timing`, log /tmp/rs_full.log, ~13:30-14:00
-      ETA). Then: results script on full draws, commit outputs, PR
-      with published review, handoff. Machinery committed (85a95ed);
-      smoke passed; cor(z_obs, road-only MA) = 0.53 vs 0.31 for the
-      settlement design.
+      `analysis/roadseg-timing`, log /tmp/rs_full.log; ~50/100 done
+      12:15, zero failures, ETA ~13:45). Then: results script on
+      full draws, commit outputs, PR with published review, handoff.
+      Machinery committed (85a95ed); smoke passed; cor(z_obs,
+      road-only MA) = 0.53 vs 0.31 for the settlement design. NOTE:
+      branch is stacked on analysis/roadtiming-instrument (needs the
+      03a use_extra hook); after PR #116's squash-merge, main has
+      moved — expect a trivial rebase or merge-base note at PR time
+      (tasks.md itself may conflict; this copy is canonical).
 - [ ] PR #115 (settlement road-timing design, balanced but weak dose:
       recentered F ~ 1) — review published, review items 1-2 fixed
       (5c4d04e); awaiting Diego's merge call. The corridor branch is
@@ -113,43 +117,26 @@ LEDGER.
       clean_census_1960.R. Check the published volume only if
       convenient.
 
-### 1b. Paper fixes settled by Cote's email (2026-07-24) — NEXT UP
+### 1b. Paper fixes settled by Cote's email (2026-07-24)
 
-One PR, small diffs, each traceable to the email / Notas_lectura
-(`~/Downloads/Notas_lectura_paper_2026-07-22.md`; copy into Plan/
-before starting). Diego picked this group as the next task.
-
-- [ ] (a) Larkin year: canonical 1962 everywhere (abstract, §3, bib
-      larkin1962 already say it); §2 rewritten so 1961 = Frondizi
-      announcement, 1962 = report publication.
-- [ ] (b) 1954 industrial census agency: Dirección Nacional de
-      Estadística y Censos (Secretaría de Estado de Hacienda), BA
-      1960 — fix §3 text if named, bib entry, README data citation,
-      close issue #91.
-- [ ] (c) Road-km reconciliation footnote: §2 ~35,000 km = DNV
-      national series (paved 27,276 + gravel 7,153, excl. dirt);
-      §3.1 79,820 km = ACA digitized network. One footnote, close
-      issue #103.
-- [ ] (d) B&P bib entry: El Trimestre Económico article, add URL,
-      drop CONADE attribution everywhere (§3.3, README).
-- [ ] (e) Remove "discontinuity" language (§1 + §2.2, Cote notes
-      #9/#14): instrument is studied/non-studied classification, not
-      an RD. Also fix "the Argentine plan" referent in §1 ¶2
-      (note #9).
-- [ ] (f) θ = 4.55 justification: cite Simonovska-Waugh (~4.1) and
-      declare 4.55 a midpoint-of-range choice (Diego decided vs
-      recomputing at 4.1: no recompute). §3.3 + the theta footnote.
-- [ ] (g) Sectoral θ-robustness sentence in the paper (Cote: "estaría
-      bueno agregar, creo que no lo vi") — the sweep exists in the
-      replication archive; add the sentence + pointer in §5.5 (or
-      §5.3), no new computation.
-- [ ] (h) Table 10 rows ordered low→high density (note #37) — table
-      script tweak + rerun of that exhibit only.
-- [ ] (i) Balance-table footnote (note #25): row 1 (log pop 1960)
-      is not partialled against itself; say so in the table note.
-- [ ] (j) Gibbons comparison paragraph (§8.2, note #46): reframe the
-      gap as granularity (300 departamentos vs their fine units),
-      not path-dependency (they face that too).
+- [x] ALL TEN DONE — PR #116 squash-merged 2026-07-24 (closed issues
+      #91 and #103 automatically). Items: (a) Larkin year 1962 +
+      announcement footnote; (b) 1954 census agency (DNEC, Secretaría
+      de Estado de Hacienda) in bib; (c) DNV-vs-ACA road-km footnote
+      + new dnvseries data citation; (d) B&P El Trimestre URL, CONADE
+      resolved; (e) "discontinuity" removed §1/§2.2, "Argentine
+      restructuring" referent; (f) θ = 4.55 declared midpoint, SW 4.1
+      cited, provenance placeholder retired (Decision A flag kept);
+      (g) sectoral θ-robustness sentence in §5.5; (h) Table 15 rows
+      low→high (CSV order-only); (i) Table 6 self-partialling note +
+      explicit setdiff in code + §4.5.1 full control list; (j) §8.2
+      Gibbons gap = granularity (\meanDistrictArea macro added to
+      generate_scalars.R, censo1960pop cited). Review published on
+      the PR; blocking finding (Table 6 doc/spec mismatch) fixed in
+      the same PR; regenerated CSVs byte-identical.
+- [ ] Follow-up from the PR #116 review, small: confirm the exact
+      DNV publication volume with Cote before deposit (dnvseries bib
+      entry is year = n.d. until then).
 
 ### 1c. New experiments from Cote's email (each needs a plan gate)
 
