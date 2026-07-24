@@ -76,7 +76,13 @@ main <- function() {
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
 
-    args <- commandArgs(trailingOnly = TRUE)
+    # Honor the variant arg only when this file is the Rscript target:
+    # a sourced run (main.R passes its own args through commandArgs)
+    # must always get the default (cr-review PR #127 consider 3).
+    is_target <- any(grepl("diagnostic_theta_sweep_sectoral",
+                           commandArgs(trailingOnly = FALSE)))
+    args <- if (is_target) commandArgs(trailingOnly = TRUE) else
+        character(0)
     variant <- if (length(args) >= 1) args[1] else "main"
     stopifnot(variant %in% c("main", "gibbons"))
     grid <- if (variant == "gibbons") THETA_GRID_GIBBONS else THETA_GRID
@@ -134,11 +140,16 @@ main <- function() {
 
     rep("\n%s", strrep("=", 70))
     if (variant == "gibbons") {
-        rep("READING: at decay this low, MA approaches a size-weighted")
-        rep("centrality index (distance barely discounts). Compare beta")
-        rep("LEVELS and F against the theta = 1 column of the main sweep;")
-        rep("this is input for the theta/tau conversation (Decision A),")
-        rep("not a paper exhibit.")
+        rep("READING (cr-review PR #127): beta LEVELS are NOT comparable")
+        rep("across theta -- sd(chg logMA) scales with theta, so beta")
+        rep("grows ~1/theta mechanically (theta x beta is ~0.37 across")
+        rep("this grid and the main sweep's theta = 1 column alike).")
+        rep("The scale-invariant facts are: t and F are stable down to")
+        rep("theta = 0.25 (the instrument does not degrade in the")
+        rep("centrality-like regime), and at the externally motivated")
+        rep("theta = 0.5 the population level is +0.75 (SE 0.42), a CI")
+        rep("covering Gibbons' ~0.3. Input for the theta/tau")
+        rep("conversation (Decision A), not a paper exhibit.")
     } else {
         rep("READING: scan each row across theta. If the mfg rows stay")
         rep("positive+significant and the ag rows stay ~0/ns across the grid,")

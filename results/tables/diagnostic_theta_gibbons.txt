@@ -1,7 +1,7 @@
 ====================================================================== 
 THETA AT GIBBONS-LIKE DECAY (IV-Both beta by outcome x theta) 
 Cote experiment (i): what does the low-decay regime look like? 
-Generated: 2026-07-25 01:12:58 
+Generated: 2026-07-25 01:28:44 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
 ====================================================================== 
 
@@ -26,9 +26,14 @@ ag farms                     9.8      10.4      11.0
 ag farmed area               9.8      10.4      11.0 
 
 ====================================================================== 
-READING: at decay this low, MA approaches a size-weighted 
-centrality index (distance barely discounts). Compare beta 
-LEVELS and F against the theta = 1 column of the main sweep; 
-this is input for the theta/tau conversation (Decision A), 
-not a paper exhibit. 
+READING (cr-review PR #127): beta LEVELS are NOT comparable 
+across theta -- sd(chg logMA) scales with theta, so beta 
+grows ~1/theta mechanically (theta x beta is ~0.37 across 
+this grid and the main sweep's theta = 1 column alike). 
+The scale-invariant facts are: t and F are stable down to 
+theta = 0.25 (the instrument does not degrade in the 
+centrality-like regime), and at the externally motivated 
+theta = 0.5 the population level is +0.75 (SE 0.42), a CI 
+covering Gibbons' ~0.3. Input for the theta/tau 
+conversation (Decision A), not a paper exhibit. 
 ====================================================================== 
