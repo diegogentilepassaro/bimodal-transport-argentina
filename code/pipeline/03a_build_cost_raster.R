@@ -38,7 +38,9 @@
 #       else (outside Argentina): NA (hard barrier for Dijkstra)
 #
 # CASES (Phase 1 + 2a + 2b + 2c + 3):
-#   Nine network specs × three sectors = twenty-seven cases.
+#   Eleven network specs × three sectors (case label
+#   `<network>_<sector>`, e.g. `cf_only_rail_s1`). The last two are
+#   DIAGNOSTIC-ONLY and excluded from the no-args default build.
 #
 #   Network specs:
 #     actual_1960         — 1960 rails + 1954 roads + HMI + nav
@@ -50,9 +52,10 @@
 #     instrument_euc      — 1960 rails + bilateral-Euclidean hypothetical roads
 #     cf_only_rail        — 1986 rails + 1954 roads  (isolates rail shock)
 #     cf_only_road        — 1960 rails + 1986 roads  (isolates road shock)
-#
-#   Each of the above is generated at sector s0, s1, s2 (case label
-#   `<network>_<sector>`, e.g. `cf_only_rail_s1`).
+#     instrument_fused    — non-studied rails + LCP-MST hypothetical
+#                           roads (BH-2026 fused instrument; diagnostic)
+#     instrument_roadtiming — 1960 rails + 1954 roads + RECENTER_EXTRA_FILE
+#                           links layer (timing designs; diagnostic)
 #
 # HYPOTHETICAL-NETWORK CAVEAT:
 #   The LCP-MST hypothetical road network was routed on a Faber (2014)
@@ -88,6 +91,33 @@ suppressPackageStartupMessages({
 # sector. This means adding a new network case requires touching only
 # `base_specs` below; the sector fan-out is automatic.
 # ---------------------------------------------------------------------------
+# Shared by instrument_stu and instrument_fused: the studied vector,
+# overridable per draw via RECENTER_ASSIGN_FILE (fail-loud checksum
+# against the shapefile; see the instrument_stu registry comment).
+studied_from_env <- function(r) {
+    studied <- r$studied_co
+    af <- Sys.getenv("RECENTER_ASSIGN_FILE")
+    if (nzchar(af) && !nzchar(Sys.getenv("RECENTER_TAG"))) {
+        # Without a tag the output raster keeps the BASELINE filename,
+        # so a permuted assignment would silently overwrite the
+        # committed-baseline raster (cr-review PR #123 consider 5).
+        stop("RECENTER_ASSIGN_FILE is set but RECENTER_TAG is empty; ",
+             "refusing to overwrite baseline rasters")
+    }
+    if (nzchar(af)) {
+        a <- utils::read.csv(af)
+        stopifnot(nrow(a) == nrow(r),
+                  all(a$seg_row == seq_len(nrow(r))),
+                  all(a$studied_co == r$studied_co),
+                  all(a$studied_perm %in% c(0L, 1L)))
+        studied <- a$studied_perm
+        message(sprintf(
+            "[cost]     RECENTER: permuted assignment from %s (%d studied)",
+            basename(af), sum(studied == 1L)))
+    }
+    studied
+}
+
 case_registry <- function() {
     base_specs <- list(
         actual_1960 = list(
@@ -111,24 +141,25 @@ case_registry <- function() {
             # stale or misordered file cannot silently produce a wrong
             # raster. Default (env unset) is byte-identical to before.
             rail_sel = function(r) {
-                studied <- r$studied_co
-                af <- Sys.getenv("RECENTER_ASSIGN_FILE")
-                if (nzchar(af)) {
-                    a <- utils::read.csv(af)
-                    stopifnot(nrow(a) == nrow(r),
-                              all(a$seg_row == seq_len(nrow(r))),
-                              all(a$studied_co == r$studied_co),
-                              all(a$studied_perm %in% c(0L, 1L)))
-                    studied <- a$studied_perm
-                    message(sprintf(
-                        "[cost]     RECENTER: permuted assignment from %s (%d studied)",
-                        basename(af), sum(studied == 1L)))
-                }
-                r$status1979 %in% c(1, 2, 3) & studied == 0
+                r$status1979 %in% c(1, 2, 3) & studied_from_env(r) == 0
             },
             road_sel = function(r) r$type2      %in% c(1, 5, 7),
             use_hypo = FALSE,
             hypo_file = NULL
+        ),
+        # Fused treatment-prediction case (BH-2026 efficient instrument,
+        # Stage 3; authorized by Diego 2026-07-23): predicted network
+        # under "studied rails close AND the hypothetical LCP-MST roads
+        # are built". The road slot takes the hypo network; the rail
+        # selector shares the recentering hook. Diagnostic-only: no
+        # paper exhibit reads this case.
+        instrument_fused = list(
+            rail_sel = function(r) {
+                r$status1979 %in% c(1, 2, 3) & studied_from_env(r) == 0
+            },
+            road_sel = NULL,
+            use_hypo = TRUE,
+            hypo_file = "lcp_mst.gpkg"
         ),
         instrument_lcp_mst = list(
             rail_sel = function(r) r$status1979 %in% c(1, 2, 3),
@@ -212,10 +243,10 @@ main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
 
     args <- commandArgs(trailingOnly = TRUE)
-    # Diagnostic-only cases are excluded from the no-args default so
-    # the hands-off main.R pipeline is unchanged; they build only when
-    # named explicitly.
-    default_cases <- grep("^instrument_roadtiming",
+    # Diagnostic-only cases (instrument_fused_*, instrument_roadtiming_*)
+    # are excluded from the no-args default so the hands-off main.R
+    # pipeline is unchanged; they build only when named explicitly.
+    default_cases <- grep("^instrument_(fused|roadtiming)",
                           names(case_registry()),
                           value = TRUE, invert = TRUE)
     cases <- if (length(args) > 0) args else default_cases

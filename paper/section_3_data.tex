@@ -250,6 +250,11 @@ connected to the mainland. Off-network pixels outside Argentina are
 set to NA, which acts as a hard barrier for the least-cost path
 algorithm except where a navigable-water pixel overrides the country
 mask (e.g.\ the Paraná river border).
+Figure~\ref{fig:navigation} maps the navigation layer: the navigable
+set is the inland Paraná--Paraguay--Uruguay--Río de la Plata system
+plus a few Patagonian rivers, together with the Magellan crossing.
+The cost surface contains no open-ocean coastal shipping, so
+Atlantic ports enter the network through land or river legs only.
 
 \paragraph{Cost parameters.}
 Sector-specific cost parameters come from \citet{baumgartnerpalazzo1969}

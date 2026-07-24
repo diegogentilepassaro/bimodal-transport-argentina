@@ -2,7 +2,7 @@
 # table_6_pre_balance.R
 #
 # PURPOSE: Paper Table 6 — pre-period balance. Tests whether the
-#          instruments (LP discontinuity, LCP-MST hypothetical roads)
+#          instruments (LP classification, LCP-MST hypothetical roads)
 #          correlate with baseline district characteristics after
 #          partialling out baseline MA and pop. A significant
 #          coefficient would threaten the exclusion restriction.

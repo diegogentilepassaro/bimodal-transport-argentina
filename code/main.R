@@ -428,6 +428,19 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_theta_sweep.", c("txt", "csv", "tex"))),
         makelog)
+    # Sectoral sweep: same wiring necessity as D.13e — Section 5.5
+    # \inputs its .tex and generate_scalars reads its CSV
+    # (sweepSectoralMaxP), so a from-scratch run must produce both
+    # (cr-review PR #121 blocking finding).
+    run_step("D.13h diagnostic_theta_sweep_sectoral",
+             a("diagnostic_theta_sweep_sectoral.R"),
+             "Sectoral theta sweep (Section 5.5 exhibit + scalars input)",
+             makelog)
+    verify_outputs("D.13h",
+        file.path(dir_tables,
+                  paste0("diagnostic_theta_sweep_sectoral.",
+                         c("txt", "csv", "tex"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
@@ -462,6 +475,17 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.17",
         file.path(dir_figures,
                   paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
+        makelog)
+
+    # Wired with the figure itself (cr-review PR #121 precedent: any
+    # fragment/figure the paper includes must be a pipeline output).
+    run_step("D.17b figure_a4_navigation",
+             bn("plot_figure_a4_navigation.R"),
+             "Appendix Figure A4: navigation layer of the cost surface",
+             makelog)
+    verify_outputs("D.17b",
+        file.path(dir_figures,
+                  paste0("figure_a4_navigation.", c("pdf", "png"))),
         makelog)
 
     run_step("D.18 figure_c13_ma_counterfactual_trio",

@@ -1,17 +1,20 @@
 # ===========================================================================
 # plot_figure_a3_larkin_studied.R
 #
-# PURPOSE: Appendix Figure A3 (task C17) — the Larkin Plan discontinuity
-#          that instrument 1 exploits: rail segments the plan studied in
-#          detail (below its freight-density thresholds; candidates for
-#          closure) vs segments it did not study. Single-panel map with
-#          km totals in the legend.
+# PURPOSE: Appendix Figure A3 (task C17) — the Larkin Plan
+#          classification that instrument 1 exploits: rail segments the
+#          plan studied in detail (below its freight-density thresholds;
+#          candidates for closure) vs segments it did not study.
+#          Single-panel map with km totals in the legend.
 #
 # NOTE on the studied share: the legend reports km from the digitized
 #   lp_1979 geometry. The share implied here (~48.8%) differs from
-#   Larkin's own 39.6% figure cited in §2 — basis unresolved, tracked as
-#   issue #68. The figure deliberately reports km, not a share, so it
-#   stays agnostic until #68 is settled.
+#   Larkin's own 39.6% figure cited in §2; the reconciliation
+#   (recom_code semantics: the report appears not to count the
+#   "perform a new study" segments) is documented in the §4.3.1
+#   footnote and clean_railroads.R (issue #68; physical-volume
+#   confirmation pending). The figure deliberately reports km, not a
+#   share, so it stays agnostic either way.
 #
 # READS:
 #   data/raw/networks/lp_1979.shp        (studied_co in {0, 1})
