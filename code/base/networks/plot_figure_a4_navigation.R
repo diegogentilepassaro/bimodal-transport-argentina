@@ -43,8 +43,11 @@ main <- function() {
     nav <- rivers[!is.na(rivers$navegabili) &
                   rivers$navegabili == "SI", ]
     stopifnot(nrow(nav) > 0)
-    nav_km <- round(sum(as.numeric(
-        sf::st_length(sf::st_transform(nav, crs_raster)))) / 1000)
+    # Geodesic length in the native CRS (repo convention, matches the
+    # A3 script; cr-review PR #122: the equal-area transform inflated
+    # this to 8,123 and the old Gauss-Kruger audit gave 8,250 -- same
+    # selection, different projections).
+    nav_km <- round(sum(as.numeric(sf::st_length(nav))) / 1000)
 
     bodies <- sf::st_make_valid(sf::st_read(
         file.path(dir_raw, "networks_hypo", "cuerpos_de_agua.shp"),
@@ -86,11 +89,13 @@ main <- function() {
                    sprintf("Strait of Magellan crossing (%d km buffer)",
                            round(nav_magellan_buffer_m / 1000))
                ),
-               col = c("#08519c", "#3182bd"),
+               col = c("#08519c", "#9ecae1"),
                lwd = c(1.1, NA),
                pch = c(NA, 15),
                pt.cex = c(NA, 1.4),
                bty = "n", cex = 0.9, y.intersp = 1.2)
+
+        add_map_furniture()
 
         dev.off()
         message("Saved: ", out)
