@@ -54,10 +54,13 @@ main <- function() {
         file.path(dir_derived_analysis, "estimation_sample.parquet")
     )
 
+    # Rows ordered low -> high density so the monotonic gradient the
+    # text describes reads down the table (Cote reading note #37,
+    # 2026-07-24).
     schedules <- list(
+        list(s = "s2", label = "Low density (100 t/day)"),
         list(s = "s0", label = "Medium density (500 t/day, baseline)"),
-        list(s = "s1", label = "High density (1{,}000 t/day)"),
-        list(s = "s2", label = "Low density (100 t/day)")
+        list(s = "s1", label = "High density (1{,}000 t/day)")
     )
 
     rows <- list()

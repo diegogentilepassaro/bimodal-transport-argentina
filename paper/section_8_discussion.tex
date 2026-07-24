@@ -83,17 +83,30 @@ population coefficient ranges from roughly \sweepBetaThetaOne{} at $\theta = 1$ 
 the interior of that range. The comparison with the literature is
 therefore partly a comparison of calibrations, and we treat the
 level of the population elasticity as provisional on that choice.
-Two findings are robust to it. First, the sectoral contrast
+One finding is robust to it: the sectoral contrast
 documented below holds at every value of $\theta$ we
 examined.\footnote{The sectoral theta sweep is produced by the
 replication archive's sectoral-sweep program; its output files
 accompany the package. The paper's exhibits report the sweep for the
 population outcome only (Table~\ref{tab:theta_sweep}).}
-Second, the context differs from the benchmarks in a substantive
-way: the benchmark studies measure access expansions into settling
-or growing economies, while we measure a reallocation within an
-already-settled population, where mobility costs and accumulated
-local capital plausibly damp population responses.
+
+A second difference from the benchmarks is not about calibration:
+the spatial granularity of the outcome differs sharply. Our
+unit of observation is the district: \nDistricts{} units averaging
+\meanDistrictArea~km$^2$, each typically containing several separate
+localities --- the 1960 census records approximately 3{,}000
+localities nationwide \citep{censo1960pop}, many aligned along the
+rail network.
+Population reallocation between localities within a district,
+including the decline of small rail-side towns, nets out of a
+district-level outcome by construction. \citet{gibbons2024} estimate
+their elasticity on much finer spatial units, where such
+reallocation is part of the measured response. A settled-population
+argument --- mobility costs and accumulated local capital damp
+responses in mature economies --- applies to the British episode as
+much as to ours and therefore cannot explain the gap between the
+two estimates; the aggregation margin is consistent with it. Testing
+it requires sub-district data, which we leave to future work.
 
 The single-mode character of the benchmarks matters as well.
 \citet{gibbons2024} study rail alone; our treatment is the joint
@@ -205,7 +218,8 @@ grounds can carry first-order spatial consequences: the geography of
 market access was redrawn without any actor being charged with
 evaluating that redistribution. For research, the results caution
 against transferring market-access elasticities across contexts
-without attention to the trade-elasticity calibration and to whether
+without attention to the trade-elasticity calibration, to the
+spatial granularity at which outcomes are measured, and to whether
 the underlying shock expands access into growing economies or
 reallocates it within settled ones.
 
