@@ -1,0 +1,34 @@
+====================================================================== 
+THETA AT GIBBONS-LIKE DECAY (IV-Both beta by outcome x theta) 
+Cote experiment (i): what does the low-decay regime look like? 
+Generated: 2026-07-25 01:12:58 
+Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
+====================================================================== 
+
+IV-Both beta (stars: * .10  ** .05  *** .01): 
+outcome \ theta             0.25      0.50      0.75 
+---------------------------------------------------- 
+population               +1.500*   +0.745*   +0.487* 
+mfg production value   +12.194*** +5.637*** +3.501*** 
+mfg wage mass          +15.005*** +6.942*** +4.312*** 
+mfg establishments        +2.082    +1.060    +0.700 
+ag farms                  +3.584    +1.697    +1.076 
+ag farmed area            +3.441    +1.596    +1.001 
+
+First-stage F (ivf, IID — comparable to outcome Tables 9/10/11): 
+outcome \ theta             0.25      0.50      0.75 
+---------------------------------------------------- 
+population                  13.5      14.0      14.3 
+mfg production value        13.8      14.2      14.6 
+mfg wage mass               14.4      14.9      15.2 
+mfg establishments          13.8      14.2      14.6 
+ag farms                     9.8      10.4      11.0 
+ag farmed area               9.8      10.4      11.0 
+
+====================================================================== 
+READING: at decay this low, MA approaches a size-weighted 
+centrality index (distance barely discounts). Compare beta 
+LEVELS and F against the theta = 1 column of the main sweep; 
+this is input for the theta/tau conversation (Decision A), 
+not a paper exhibit. 
+====================================================================== 
