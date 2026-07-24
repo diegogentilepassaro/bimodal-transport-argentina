@@ -15,6 +15,19 @@
 #          1947 baselines" is therefore implementable only for
 #          population; the MA baseline can be kept (1960) or dropped.
 #
+#          SCOPE CAVEAT (cr-review PR #120): the post-outcome-
+#          conditioning critique is SPECIFIC TO THE PLACEBO, whose
+#          outcome window (1947-60) ends at the baseline date; for
+#          the main 1960-91 regressions the 1960 baselines are
+#          pre-outcome and remain legitimate. Do not read this
+#          diagnostic as indicting geo_controls_main in Tables 8-11.
+#          The F-strengthening when the MA baseline drops (11.8 ->
+#          23.2 here) is the same absorption mechanism documented for
+#          the main spec in .kiro/baseline_ma_control_note.md
+#          (13.6 -> 29.9); that note's recommendation to KEEP the
+#          baseline-MA control in the main spec coexists with this
+#          finding via the timing argument above.
+#
 # VARIANTS (all: DV = chg_log_placebo_pop_60_47, endog =
 #          chg_logMA_86_60_s0_elow, instruments as in Table 7,
 #          estimators OLS / IV-LP / IV-Hypo / IV-Both via
@@ -85,6 +98,22 @@ main <- function() {
     add_row <- function(...) out_rows[[length(out_rows) + 1L]] <<-
         data.frame(..., stringsAsFactors = FALSE)
 
+    # Self-enforcing anchor (cr-review PR #120): the t7 variant must
+    # reproduce the committed Table 7 numbers; fail loudly on drift.
+    t7_ref <- read.csv(file.path(dir_tables, "table_7_pre_trends.csv"),
+                       stringsAsFactors = FALSE)
+    spec_map <- c("OLS" = "OLS", "IV-LP" = "IV-LP",
+                  "IV-H" = "IV-Hypo", "IV-B" = "IV-Both")
+    check_anchor <- function(sp, cc, Fv, n) {
+        r <- t7_ref[t7_ref$spec == spec_map[[sp]], ]
+        stopifnot(nrow(r) == 1L,
+                  abs(cc$est - r$estimate) < 1e-8,
+                  abs(cc$se - r$std_err) < 1e-8,
+                  n == r$n_obs,
+                  is.na(r$first_stage_F) ||
+                      abs(Fv - r$first_stage_F) < 1e-6)
+    }
+
     for (vn in names(variants)) {
         fits <- fit_iv_quad(
             y = y, data = dd,
@@ -99,6 +128,7 @@ main <- function() {
                 "fit_chg_logMA_86_60_s0_elow"
             cc <- safe_coef(m, cn)
             Fv <- if (sp == "OLS") NA_real_ else fitstat_F(m)
+            if (vn == "t7") check_anchor(sp, cc, Fv, nobs(m))
             add_row(variant = vn, spec = sp, stat = "coef",
                     value = cc$est)
             add_row(variant = vn, spec = sp, stat = "se",
@@ -129,7 +159,16 @@ main <- function() {
                 Sys.time(), nrow(dd)))
     cat("DV = chg_log_placebo_pop_60_47; endog/instruments as Table 7.\n")
     cat("NOTE: no 1947 MA exists (no 1947 network); 'full47' is the\n")
-    cat("most 1947-consistent implementable set.\n\n")
+    cat("most 1947-consistent implementable set.\n")
+    cat("SCOPE: the post-outcome-conditioning critique is specific to\n")
+    cat("the placebo (outcome window 1947-60 ends at the baseline\n")
+    cat("date). For the main 1960-91 regressions the 1960 baselines\n")
+    cat("are pre-outcome and remain legitimate; see\n")
+    cat(".kiro/baseline_ma_control_note.md for the related absorption\n")
+    cat("mechanism in the main spec.\n")
+    cat("ATTRIBUTION: the 1960 MA baseline is the dominant driver --\n")
+    cat("swapping pop to 1947 alone only moves IV-B p from 0.034 to\n")
+    cat("0.085; dropping the MA baseline cleans the placebo fully.\n\n")
     for (vn in names(variants)) {
         cat(sprintf("%s  (controls: %s)\n", vn,
                     paste(variants[[vn]], collapse = ", ")))

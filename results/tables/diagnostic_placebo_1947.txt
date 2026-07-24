@@ -1,9 +1,18 @@
 Placebo baseline experiment (Cote 1.1, email 2026-07-24)
-Generated: 2026-07-24 15:30:12.370141  |  common N = 237
+Generated: 2026-07-24 15:44:31.554891  |  common N = 237
 
 DV = chg_log_placebo_pop_60_47; endog/instruments as Table 7.
 NOTE: no 1947 MA exists (no 1947 network); 'full47' is the
 most 1947-consistent implementable set.
+SCOPE: the post-outcome-conditioning critique is specific to
+the placebo (outcome window 1947-60 ends at the baseline
+date). For the main 1960-91 regressions the 1960 baselines
+are pre-outcome and remain legitimate; see
+.kiro/baseline_ma_control_note.md for the related absorption
+mechanism in the main spec.
+ATTRIBUTION: the 1960 MA baseline is the dominant driver --
+swapping pop to 1947 alone only moves IV-B p from 0.034 to
+0.085; dropping the MA baseline cleans the placebo fully.
 
 t7  (controls: elev_mean_std, rugged_mea_std, wheat_std, preCal_std, postCal_std, dist_to_BA_std, logMA_actual_1960_s0_elow, log_pop_1960)
   OLS    b=+0.0386  se=0.0170  p=0.024  F=--  N=237
