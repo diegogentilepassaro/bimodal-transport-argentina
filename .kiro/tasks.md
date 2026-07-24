@@ -14,71 +14,168 @@ superseded plans. When an item here closes, mark it [x] with the
 PR/date; if it records a decision, add the record to the DEFERRED
 LEDGER.
 
+### 0. In flight right now (2026-07-24)
+
+- [ ] Corridor-timing design instrument S=100 run (branch
+      `analysis/roadseg-timing`, log /tmp/rs_full.log, ~13:30-14:00
+      ETA). Then: results script on full draws, commit outputs, PR
+      with published review, handoff. Machinery committed (85a95ed);
+      smoke passed; cor(z_obs, road-only MA) = 0.53 vs 0.31 for the
+      settlement design.
+- [ ] PR #115 (settlement road-timing design, balanced but weak dose:
+      recentered F ~ 1) — review published, review items 1-2 fixed
+      (5c4d04e); awaiting Diego's merge call. The corridor branch is
+      stacked on it.
+- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — machinery built
+      on `analysis/fused-instrument` (745b1e3, pushed, no PR);
+      queued behind the corridor run, needs Diego's launch word.
+- [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
+      `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
+      branch `data/geocoding-1960` (data to
+      data/raw/census/geocoding_1960/, scripts to
+      code/base/census_1960/geocoding/, .gitignore exception, pages/
+      via Drive + sha256). When his branch lands: we open the PR,
+      review, merge. Downstream (bigger, separate): integration into
+      MA (load_centroids replacement or multi-point), gated on the
+      θ/τ conversation.
+- [ ] Recentering brief for the Wednesday 2026-07-29 meeting — Cote
+      explicitly asked for status (his note #23-24: thought it
+      needed the running variable). Must cover: Stage 0-1 findings
+      (PRs #110-#112), settlement + corridor timing designs
+      (PR #115 + in flight), fused queued, and the key negative:
+      recentering does NOT clean the placebo (pre-trend is not
+      exposure-geometry).
+
 ### 1. Blocked on Cote
 
-- [ ] **Coauthor meeting on the identification memo** — resolve the
-      decisions in `Plan/memo_identification_measurement_decisions.md`
-      §6 (θ/τ object, estimand, connector re-cost, reference point),
-      Decision A first. Not blocking day-to-day work
-      (decide-and-document mode since 2026-07-17), but the deepest
-      open questions and the ones only the coauthors can settle.
-      Meeting-prep email sent 2026-07-14; full-draft email sent
-      2026-07-20. NEW input for the meeting: the density-schedule
-      gradient (PR #99) means the θ/τ question now interacts with the
-      cost-schedule choice.
-- [ ] Theta 4.55 provenance — SEARCH EXHAUSTED (2026-07-16, dead end
-      documented in section_3_data.tex comment): 4.55 not found in
-      Simonovska-Waugh 2014 (full text, benchmark ~4.1), Caliendo-Parro
-      2015 (8.64 avg / 8.11 agri), D&H 2016 fn. 55 list, Fajgelbaum-
-      Redding 2022, or the old draft (no MA-theta framework). Unless
-      Cote recalls the source, options: adopt a cited value (SW 4.1) or
-      state 4.55 as a midpoint choice. Memo Decision A still separate.
-- [ ] Abstract wording sign-off (red flag in PDF; 149 words — count
-      moved 148 to 149 in #94's framing pass, Larkin clause added in
-      #98). The post-#93 framing pass (PR #94, merged) recharacterizes
-      population as "small, marginally significant" — needs explicit
-      sign-off alongside the abstract.
+- [ ] **Coauthor meeting Wednesday 2026-07-29** — agenda now set by
+      Cote's 2026-07-24 email: (a) recentering (he asked for our
+      status; brief in flight above); (b) θ/τ object — he agrees with
+      the memo framing, wants the two cheap experiments first
+      (Gibbons-style decay ~0.5, τ normalization) before closing
+      interpretation; (c) identification package below. Decision A
+      remains the deepest open question. Density-schedule gradient
+      (PR #99) still interacts with it.
+- [x] Theta 4.55 provenance — CLOSED by Cote's email 2026-07-24: he
+      does not recall the source. Adopt a cited value (Simonovska-
+      Waugh ~4.1) or declare midpoint, Diego's choice. NOTE: adopting
+      4.1 as the *computed* θ would force a full MA/tau recompute —
+      the cheap version is re-justifying 4.55 as a midpoint with SW
+      cited. Decision + implementation now in "Paper fixes" group
+      below (item f).
+- [x] Abstract wording sign-off — CLOSED for now (Cote 2026-07-24:
+      "me sirve como está por ahora"); he rewrites it himself at
+      publication time, together with title/narrative.
 - [ ] Log-area awareness (decision made: excluded entirely, see
       DEFERRED LEDGER): Cote should know the balance-table correlation
       exists and that a referee may ask; the agreed answer is the
       density/over-control + mechanical-entanglement rationale, not a
       sensitivity table.
-- [ ] Larkin Plan canonical year: Section 2 says the study was
-      published and announced in 1961; the abstract, Section 3, and
-      the bib entry (larkin1962) say 1962. Surfaced by PR #98's
-      review (the abstract now names the year prominently). Decide
-      the canonical year and align all mentions + the bib entry.
-- [ ] Issue #91: 1954 industrial census issuing agency — web pass done
-      (2026-07-16, findings posted on the issue): INDEC history confirms
-      the 1954 CNE was provincially decentralized; national office at
-      census date was Dirección Nacional del Servicio Estadístico; the
-      1950 industrial census volumes were published by Secretaría de
-      Asuntos Técnicos (1957). Three candidate imprints; República
-      Argentina stays until Cote checks the physical title page.
-- [ ] Issue #68 studied-share basis: two testable reconciliation
-      hypotheses posted on the issue (exact-match 39.60% arithmetic;
-      ~43,856 km denominator); needs the physical Larkin volumes. Then
-      align §2/§4 + document in clean_railroads.R.
-- [ ] Issue #103 (filed by PR #102's review): Section 2 says ~35,000
-      km of road network in 1986; Section 3's digitized ACA series
-      gives 79,820 km. Plausibly paved-only vs paved+gravel
-      (reconciliation paths posted on the issue). Needs Cote's source
-      for the 35,000 figure, then align the two sections.
-- [ ] B&P source volume: was Table II digitized from the El Trimestre
-      Económico article or from a separate CONADE report? The planning
-      doc cites "Baumgartner, T. and Palazzo, J. A., CONADE". (Author
-      names themselves are settled — verified 2026-07-16 against the
-      publisher's archive: Jean-Pierre Baumgartner, Pascual Santiago
-      Palazzo; see the [x] entry in the DEFERRED LEDGER.)
-- [ ] Migration sign interpretation, title (long-standing flags; the
-      two migration readings remain tied; title alternatives in
-      PENDING DECISIONS item 1).
+- [x] Larkin Plan canonical year — CLOSED by Cote 2026-07-24: report
+      cover + elevation letter dated 1962 (Ministerio de Obras y
+      Servicios Públicos); 1961 = Frondizi's *announcement*.
+      Implementation in "Paper fixes" below (item a).
+- [x] Issue #91: 1954 industrial census issuing agency — CLOSED by
+      Cote 2026-07-24 against the physical title page: Dirección
+      Nacional de Estadística y Censos (Secretaría de Estado de
+      Hacienda), Buenos Aires 1960; "INDEC" in catalogs is
+      anachronistic (INDEC created 1968). Source:
+      bibliotecadigital.estadistica.ec.gba.gov.ar cn1958i post.
+      Implementation in "Paper fixes" below (item b).
+- [ ] Issue #68 studied-share basis — NEW INPUT from Cote 2026-07-24:
+      his hypothesis is undigitized CABA rail (high-density, likely
+      non-studied) deflating the denominator, plus georeferencing
+      imprecision; contrast 39.6% against the Larkin volumes in the
+      old repo `Train/Docs/`. Testable on lp_1979.shp (CABA-area
+      coverage check); connects to issue #113 (CABA node convention).
+      Still needs the physical volumes for final reconciliation.
+- [x] Issue #103 (35,000 vs 79,820 km) — CLOSED by Cote 2026-07-24:
+      source difference. §2's ~35,000 = DNV national-network series
+      (`Train/raw_data/kms_road_arg/kmVia_DNV`: 27,276 paved + 7,153
+      gravel in 1986, excludes dirt); §3.1's 79,820 = digitized ACA
+      network (broader). Implementation in "Paper fixes" below
+      (item c).
+- [x] B&P source volume — CLOSED by Cote 2026-07-24: El Trimestre
+      Económico article ("Estructura económica del transporte de
+      carga automotor y ferroviario en la Argentina"), NOT a CONADE
+      report. URL provided (eltrimestreeconomico.com.mx article
+      3317). Implementation in "Paper fixes" below (item d).
+- [ ] Migration sign interpretation — Cote 2026-07-24 leans REMOVE
+      from the paper ("la sacaría si hace ruido, que creo que es el
+      caso"), at most a paragraph in Other Outcomes; also demote §5.4
+      Other Outcomes to an annex (his note #42). Needs Diego's
+      concurrence, then a writing task. Title: fine for now, closed
+      jointly with narrative at publication time.
 - [ ] [optional, decided — no action required] Vicente López 1960
       digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
       one digit). Decision (Diego, 2026-07-16): document and leave as
       is — pipeline uses Part 3, both values pinned in
       clean_census_1960.R. Check the published volume only if
       convenient.
+
+### 1b. Paper fixes settled by Cote's email (2026-07-24) — NEXT UP
+
+One PR, small diffs, each traceable to the email / Notas_lectura
+(`~/Downloads/Notas_lectura_paper_2026-07-22.md`; copy into Plan/
+before starting). Diego picked this group as the next task.
+
+- [ ] (a) Larkin year: canonical 1962 everywhere (abstract, §3, bib
+      larkin1962 already say it); §2 rewritten so 1961 = Frondizi
+      announcement, 1962 = report publication.
+- [ ] (b) 1954 industrial census agency: Dirección Nacional de
+      Estadística y Censos (Secretaría de Estado de Hacienda), BA
+      1960 — fix §3 text if named, bib entry, README data citation,
+      close issue #91.
+- [ ] (c) Road-km reconciliation footnote: §2 ~35,000 km = DNV
+      national series (paved 27,276 + gravel 7,153, excl. dirt);
+      §3.1 79,820 km = ACA digitized network. One footnote, close
+      issue #103.
+- [ ] (d) B&P bib entry: El Trimestre Económico article, add URL,
+      drop CONADE attribution everywhere (§3.3, README).
+- [ ] (e) Remove "discontinuity" language (§1 + §2.2, Cote notes
+      #9/#14): instrument is studied/non-studied classification, not
+      an RD. Also fix "the Argentine plan" referent in §1 ¶2
+      (note #9).
+- [ ] (f) θ = 4.55 justification: cite Simonovska-Waugh (~4.1) and
+      declare 4.55 a midpoint-of-range choice (Diego decided vs
+      recomputing at 4.1: no recompute). §3.3 + the theta footnote.
+- [ ] (g) Sectoral θ-robustness sentence in the paper (Cote: "estaría
+      bueno agregar, creo que no lo vi") — the sweep exists in the
+      replication archive; add the sentence + pointer in §5.5 (or
+      §5.3), no new computation.
+- [ ] (h) Table 10 rows ordered low→high density (note #37) — table
+      script tweak + rerun of that exhibit only.
+- [ ] (i) Balance-table footnote (note #25): row 1 (log pop 1960)
+      is not partialled against itself; say so in the table note.
+- [ ] (j) Gibbons comparison paragraph (§8.2, note #46): reframe the
+      gap as granularity (300 departamentos vs their fine units),
+      not path-dependency (they face that too).
+
+### 1c. New experiments from Cote's email (each needs a plan gate)
+
+- [ ] Placebo spec with 1947 baselines on the RHS (his 1.1) — cheap,
+      concrete; revisit placebo after each MA-definition change.
+- [ ] Gibbons-style decay ~0.5 on the existing sweep machinery (his
+      1.5 / memo point i).
+- [ ] τ normalization experiment (his 1.5 / memo point ii; connects
+      to the τ crude-vs-iceberg PLACEHOLDER in §3.3, note #21).
+- [ ] Controls rationalization — CO-OWNED: Cote took it as homework
+      (collinearity, region FE from census regions, threats-based
+      selection, what the literature uses; notes #26-#31). Our side
+      already has the outcome-blind grid (PR #112) to feed in.
+- [ ] Manufacturing robustness exhibits in the paper (note #44:
+      sweep exists, not shown) and sectoral counterfactual (notes
+      #40/#45: §6 decomposition is population-only) — the second is
+      real compute (only-rail/only-road for sectoral outcomes).
+- [ ] Navigation/ports map (note #19, Cote: "necesario, no diferir"):
+      figure showing the navigation layer + which ports connect.
+- [ ] §2.4 conceptual paragraph: build-vs-close + radial-vs-capillary
+      channels (notes #5/#15); defer empirics.
+- [ ] Modern IV inference check (note #35): Montiel Olea-Pflueger
+      effective F / Anderson-Rubin CIs alongside current F stats.
+- [ ] Agri intensive-margin outcome + urbanization measurement
+      doubts (notes #36/#39) — data-limited; Cote may fold into his
+      digitization track.
 
 ### 2. Held until Cote's decisions (unblocked, deliberately parked)
 
