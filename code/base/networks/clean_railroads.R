@@ -23,14 +23,16 @@
 #   recom_code ∈ {1, 2, 3} — Larkin-plan recommendation category.
 #       Semantics decoded from the data (issue #68, 2026-07-24):
 #       for studied segments 1 = maintain (2,310 km), 2 = close
-#       (14,377 km; matches the plan's ~15,000 km closure
-#       recommendation), 3 = perform a further study (5,197 km);
-#       non-studied segments are uniformly 1 (default). The plan's
-#       cited 39.6% studied share appears to count only categories
-#       1-2 (maintain+close = 16,687 km = 38.4% of the report's
-#       43,500 km network); our studied_co counts all three
-#       (48.8% post-cleaning). Both figures documented in the
-#       Section 4.3.1 footnote; physical-volume confirmation
+#       (14,377 km; consistent with the plan's ~15,000 km closure
+#       recommendation), 3 = perform a new study (5,197 km);
+#       non-studied segments are uniformly 1 (default). All km raw-
+#       shapefile based (raw studied share 49.0%; post-cleaning
+#       48.8%). The plan's cited 39.6% studied share appears to
+#       count only categories 1-2 (maintain+close = 16,687 km =
+#       38.4% of the ~43,500 km 1960 network figure of paper §2;
+#       the report's own denominator is unconfirmed — §2's "15,000
+#       km ≈ 32%" implies ~46,900 km). Both figures documented in
+#       the Section 4.3.1 footnote; physical-volume confirmation
 #       pending (Cote). The instrument uses all of studied_co.
 #
 # OUTPUT VARIABLES (per district):
