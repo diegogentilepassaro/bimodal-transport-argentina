@@ -15,6 +15,11 @@
 #      connected components of contiguous same-vintage segments,
 #      split at junctions (endpoint nodes of degree >= 3), mirroring
 #      diagnostic_recentering_lines.R for the Larkin rails.
+#      SCOPE (cr-review PR #117): junctions are detected among
+#      EXPANSION-segment endpoints only; crossings with the
+#      pre-existing 1954 network do not split chains. Deliberate --
+#      the permutation unit is the newly built corridor, and where it
+#      meets the old network is not a construction-sequencing joint.
 #   2. STRATA: region x chain-length tercile, thin cells (>=
 #      recentering_min_cell early AND late chains) merged by the same
 #      converging loop as the settlement design.
@@ -99,11 +104,13 @@ main <- function() {
     ge <- igraph::make_empty_graph(n = n_end, directed = FALSE)
     if (!is.null(pe)) ge <- igraph::add_edges(ge, t(pe))
     node_of_end <- igraph::components(ge)$membership
-    node_degree <- as.integer(table(node_of_end))
-    end_sf$node   <- node_of_end
-    end_sf$degree <- node_degree[node_of_end]
+    end_sf$node <- node_of_end
 
-    # Same-chain rule: shared node of degree exactly 2 AND same vintage.
+    # Same-chain rule: a node joins two segments iff EXACTLY TWO
+    # DISTINCT segments meet there AND they share a vintage. (Precise
+    # form of the "degree 2" rule, as in the Larkin lines script: a
+    # self-touching ring contributes one distinct segment and never
+    # joins; cr-review PR #117 consider 4.)
     node_segs <- split(end_sf$seg, end_sf$node)
     su <- do.call(rbind, lapply(node_segs, function(ss) {
         ss <- unique(ss)
@@ -211,7 +218,6 @@ main <- function() {
     for (s in unique(chains_df$stratum)) stopifnot(cell_ok(chains_df, s))
 
     # ---- 5. Chain-district length weights (for the balance table) -----------
-    ex_p$stratum <- chains_df$stratum[ex_p$chain_id]
     inter <- suppressWarnings(sf::st_intersection(
         ex_p[, c("chain_id", "seg_row")], dist_p[, "geolev2"]))
     inter$km <- as.numeric(sf::st_length(inter)) / 1000

@@ -110,10 +110,14 @@ main <- function() {
     zmat <- as.matrix(d2[, perm_cols]) - d2[[base_col]]
     stopifnot(!anyNA(zmat))
 
+    # Identity draw must merge completely before the sign check: with
+    # na.rm the min() would silently pass over an NA-producing merge
+    # (cr-review PR #117 should-fix 3).
+    stopifnot(!anyNA(d2$logMA.0))
     d2$z_obs <- d2$logMA.0 - d2[[base_col]]
     n_early_id <- unique(draws$n_early[draws$draw == 0L])
     stopifnot(identical(as.integer(n_early_id), sum(ch$early)))
-    stopifnot(min(d2$z_obs, na.rm = TRUE) > -1e-9)
+    stopifnot(min(d2$z_obs) > -1e-9)
 
     d2$mu    <- rowMeans(zmat)
     d2$z_rec <- d2$z_obs - d2$mu
@@ -294,6 +298,10 @@ main <- function() {
                     lbl, sp, cc$est, cc$se, cc$p, fitstat_F(m), nobs(m)))
             }
 
+            # NOTE: the reduced form does not involve the endogenous
+            # variable, so this RI p is identical across the two endog
+            # blocks; kept per-block for report symmetry (cr-review
+            # PR #117 consider 8).
             rf_coef <- function(zv) {
                 dd <- cbind(d2, zv = zv)
                 m <- feols(as.formula(paste(y, "~ zv +", ctrls_expr)),
@@ -341,6 +349,12 @@ main <- function() {
     cat(sprintf("Generated: %s  |  permuted draws: %d%s\n\n",
                 Sys.time(), S_perm,
                 if (S_perm < 100L) "  [PROVISIONAL]" else ""))
+    cat("VERDICT: real dose, loaded dice. Recentered relevance rises an\n")
+    cat("order of magnitude over the settlement design (F 3-4.5 vs ~1)\n")
+    cat("but early-paved corridors traverse districts with faster\n")
+    cat("1947-60 placebo growth (balance failure below): the paving\n")
+    cat("sequence tracked demand, so timing is not usable as-good-as-\n")
+    cat("random conditional on these strata.\n\n")
     cat("(bal) Balance, early vs late chains within strata",
         "(SEs clustered by modal district):\n")
     for (cv in c(bal_covs, "log_length_km")) {
@@ -356,6 +370,13 @@ main <- function() {
     cat(sprintf("(c) Spec test (recentered z on controls): RI p = %.3f\n\n",
                 p_ri))
     cat("(d) IV estimates (coef / se / p / first-stage F):\n")
+    cat("    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = ",
+        sprintf("%.2f", coef(m_a)[["mu"]]),
+        " and R2 = ", sprintf("%.2f", r2_a), ",\n", sep = "")
+    cat("    controlling for mu soaks up the instrument (F = 0.2-0.4);\n")
+    cat("    the mu_control rows are uninformative noise here and are\n")
+    cat("    NOT a recentering equivalent (unlike the settlement\n")
+    cat("    design). Read the recentered rows.\n")
     for (en in names(endogs)) {
         for (oc in outcomes) {
             lbl <- sprintf("%s.%s", en, oc[2])

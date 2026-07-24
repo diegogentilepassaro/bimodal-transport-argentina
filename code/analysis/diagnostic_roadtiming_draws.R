@@ -18,6 +18,13 @@
 # only cheapen cells) and strictly cheaper on a positive number of
 # cells (the predicted links exist off the 1954 network).
 #
+# SEED STREAM (cr-review PR #117 should-fix 2): draw s uses
+# set.seed(recentering_seed + s), the SAME stream as the corridor
+# engine (diagnostic_roadseg_draws.R). Within-design randomization
+# inference is unaffected, but any draw-by-draw CROSS-design statistic
+# would inherit correlated Monte Carlo error. If either draw set is
+# ever regenerated, add a per-design offset.
+#
 # READS:   data/derived/07_recentering/roadtiming/{settlements.parquet,
 #          links.gpkg}; ucost_actual_1960_s0.tif (gate)
 # PRODUCES:

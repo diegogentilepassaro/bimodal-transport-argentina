@@ -1,5 +1,12 @@
 Corridor-timing design instrument diagnostic
-Generated: 2026-07-24 13:29:36.597867  |  permuted draws: 100
+Generated: 2026-07-24 13:48:31.836325  |  permuted draws: 100
+
+VERDICT: real dose, loaded dice. Recentered relevance rises an
+order of magnitude over the settlement design (F 3-4.5 vs ~1)
+but early-paved corridors traverse districts with faster
+1947-60 placebo growth (balance failure below): the paving
+sequence tracked demand, so timing is not usable as-good-as-
+random conditional on these strata.
 
 (bal) Balance, early vs late chains within strata (SEs clustered by modal district):
     log_pop_1947                 b=-0.0393  se=0.0578  p=0.498  N=733
@@ -19,6 +26,11 @@ Generated: 2026-07-24 13:29:36.597867  |  permuted draws: 100
 (c) Spec test (recentered z on controls): RI p = 0.495
 
 (d) IV estimates (coef / se / p / first-stage F):
+    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = 1.30 and R2 = 0.40,
+    controlling for mu soaks up the instrument (F = 0.2-0.4);
+    the mu_control rows are uninformative noise here and are
+    NOT a recentering equivalent (unlike the settlement
+    design). Read the recentered rows.
   total.population
     unadjusted   b=+0.0246  se=0.0277  p=0.375  F=72.5  N=311
     recentered   b=+0.0125  se=0.1173  p=0.915  F=3.9  N=311

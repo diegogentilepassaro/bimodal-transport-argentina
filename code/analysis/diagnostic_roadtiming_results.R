@@ -119,10 +119,13 @@ main <- function() {
     # validated the raster; here assert the identity draw carries the
     # observed early count and induces a nonnegative MA gain (adding
     # links cannot reduce market access).
+    # Identity draw must merge completely before the sign check (same
+    # fix as the corridor script; cr-review PR #117 should-fix 3).
+    stopifnot(!anyNA(d2$logMA.0))
     d2$z_obs <- d2$logMA.0 - d2[[base_col]]
     n_early_id <- unique(draws$n_early[draws$draw == 0L])
     stopifnot(identical(as.integer(n_early_id), sum(st$early)))
-    stopifnot(min(d2$z_obs, na.rm = TRUE) > -1e-9)
+    stopifnot(min(d2$z_obs) > -1e-9)
 
     d2$mu    <- rowMeans(zmat)
     d2$z_rec <- d2$z_obs - d2$mu
