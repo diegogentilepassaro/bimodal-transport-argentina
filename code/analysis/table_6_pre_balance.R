@@ -94,7 +94,11 @@ main <- function() {
     # outcome = "elev_mean_std", the partialled-out controls are the
     # other five geo controls + baseline log MA + log pop; for outcome
     # = "log_pop_1960", the partialled-out controls are all six geo +
-    # baseline log MA.
+    # baseline log MA. The self-exclusion is explicit in the setdiff
+    # below over the FULL control set (cr-review PR #116 blocking item:
+    # previously log_pop_1960 stayed on the RHS for its own row and
+    # fixest silently dropped the duplicated response — numbers
+    # identical, but the specification should not rely on that).
     geo_all <- c("elev_mean_std", "rugged_mea_std", "wheat_std",
                  "preCal_std", "postCal_std", "dist_to_BA_std")
 
@@ -110,8 +114,8 @@ main <- function() {
 
         # Partialling set: baseline log MA + log pop + six geo controls,
         # minus any control that is itself the outcome.
-        partials <- c("logMA_actual_1960_s0_elow", "log_pop_1960",
-                      setdiff(geo_all, y))
+        partials <- setdiff(c("logMA_actual_1960_s0_elow", "log_pop_1960",
+                              geo_all), y)
         partials_expr <- paste(partials, collapse = " + ")
 
         # Column (1): just LP as regressor
@@ -232,10 +236,11 @@ main <- function() {
         paste0("\\emph{Notes}: Each row is one regression. The dependent ",
                "variable is the row label; the regressors are the ",
                "instrument(s) listed in the column headers plus baseline ",
-               "log MA (1960) and baseline log pop (1960) as partialled-out ",
-               "controls. When the row's characteristic is itself one of ",
-               "these controls, it is excluded from the control set rather ",
-               "than partialled out against itself. ",
+               "log MA (1960), baseline log pop (1960), and the six ",
+               "geographic controls of the main specification as ",
+               "partialled-out controls. When the row's characteristic is ",
+               "itself one of these controls, it is excluded from the ",
+               "control set rather than partialled out against itself. ",
                "Robust (HC1) SE in parentheses. ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),
         "\\end{table}"

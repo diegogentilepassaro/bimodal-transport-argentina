@@ -600,6 +600,10 @@ add_panel_macros <- function(macros) {
 
     big <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
 
+    # Mean district area (all 312 districts; Section 8.2 granularity
+    # comparison with Gibbons 2024; cr-review PR #116)
+    macros[["meanDistrictArea"]] <- big(mean(p$area_km2, na.rm = TRUE))
+
     # Population (all 312 districts; Section 3 reports full-geography stats)
     macros[["popMeanBase"]]  <- big(mean(p$pop_1960, na.rm = TRUE))
     macros[["popTotalBase"]] <- sprintf("%.1f",
