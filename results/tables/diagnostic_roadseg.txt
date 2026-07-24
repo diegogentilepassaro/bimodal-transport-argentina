@@ -1,0 +1,61 @@
+Corridor-timing design instrument diagnostic
+Generated: 2026-07-24 13:29:36.597867  |  permuted draws: 100
+
+(bal) Balance, early vs late chains within strata (SEs clustered by modal district):
+    log_pop_1947                 b=-0.0393  se=0.0578  p=0.498  N=733
+    log_pop_1960                 b=+0.0652  se=0.0590  p=0.270  N=893
+    chg_log_placebo_pop_60_47    b=+0.0741  se=0.0356  p=0.039  N=733
+    rail_dens_1960               b=+0.0040  se=0.0026  p=0.118  N=893
+    elev_mean_std                b=+0.1131  se=0.1036  p=0.276  N=893
+    rugged_mea_std               b=+0.1469  se=0.0817  p=0.073  N=893
+    wheat_std                    b=-0.0022  se=0.0572  p=0.970  N=893
+    dist_to_BA_std               b=-0.0546  se=0.0388  p=0.161  N=893
+    logMA_actual_1960_s0_elow    b=+0.2553  se=0.3028  p=0.400  N=893
+    log_length_km                b=-0.0309  se=0.0442  p=0.486  N=893
+
+(a) z_obs on mu: R2 = 0.402
+    sd(z) = 1.215 -> sd(z - mu) = 0.956
+(b) mu on geo_controls_main: R2 = 0.218
+(c) Spec test (recentered z on controls): RI p = 0.495
+
+(d) IV estimates (coef / se / p / first-stage F):
+  total.population
+    unadjusted   b=+0.0246  se=0.0277  p=0.375  F=72.5  N=311
+    recentered   b=+0.0125  se=0.1173  p=0.915  F=3.9  N=311
+    mu_control   b=+0.1343  se=0.7692  p=0.862  F=0.2  N=311
+    reduced-form RI p = 0.950
+  total.mfg_valprod
+    unadjusted   b=+0.2277  se=0.1072  p=0.035  F=71.7  N=310
+    recentered   b=+0.5241  se=0.5227  p=0.317  F=3.9  N=310
+    mu_control   b=-2.3925  se=7.1359  p=0.738  F=0.2  N=310
+    reduced-form RI p = 0.129
+  total.mfg_wagemass
+    unadjusted   b=+0.1762  se=0.0989  p=0.076  F=71.5  N=309
+    recentered   b=+0.2249  se=0.3752  p=0.549  F=3.8  N=309
+    mu_control   b=-0.2519  se=2.5094  p=0.920  F=0.2  N=309
+    reduced-form RI p = 0.545
+  total.placebo_pretrend
+    unadjusted   b=+0.0797  se=0.0353  p=0.025  F=52.2  N=237
+    recentered   b=+0.2267  se=0.2171  p=0.298  F=2.9  N=237
+    mu_control   b=-0.2431  se=0.2467  p=0.325  F=2.7  N=237
+    reduced-form RI p = 0.099
+  road_only.population
+    unadjusted   b=+0.0241  se=0.0269  p=0.373  F=88.8  N=311
+    recentered   b=+0.0124  se=0.1163  p=0.915  F=4.5  N=311
+    mu_control   b=+0.1165  se=0.6553  p=0.859  F=0.4  N=311
+    reduced-form RI p = 0.950
+  road_only.mfg_valprod
+    unadjusted   b=+0.2229  se=0.1050  p=0.035  F=87.9  N=310
+    recentered   b=+0.5205  se=0.5224  p=0.320  F=4.4  N=310
+    mu_control   b=-2.0825  se=5.5886  p=0.710  F=0.4  N=310
+    reduced-form RI p = 0.129
+  road_only.mfg_wagemass
+    unadjusted   b=+0.1725  se=0.0971  p=0.077  F=87.6  N=309
+    recentered   b=+0.2235  se=0.3750  p=0.552  F=4.4  N=309
+    mu_control   b=-0.2186  se=2.1462  p=0.919  F=0.4  N=309
+    reduced-form RI p = 0.545
+  road_only.placebo_pretrend
+    unadjusted   b=+0.0783  se=0.0342  p=0.023  F=66.8  N=237
+    recentered   b=+0.2394  se=0.2363  p=0.312  F=3.1  N=237
+    mu_control   b=-0.2071  se=0.1950  p=0.289  F=6.2  N=237
+    reduced-form RI p = 0.099
