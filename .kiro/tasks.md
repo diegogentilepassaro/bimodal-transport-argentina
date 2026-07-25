@@ -33,13 +33,13 @@ LEDGER.
 - [x] Branch-sync step — done 2026-07-24 (clean merge, no conflicts)
       before PR #117; branch deleted after squash-merge, local main
       synced to 1e66852.
-- [ ] Fused-instrument (BH-2026 Stage 3) S=100 run — LAUNCHED
-      2026-07-24 ~14:18 (6 workers, log /tmp/fused_full.log, ETA
-      ~16:30-17:00); branch `analysis/fused-instrument` synced with
-      main (03a default-exclusion conflict resolved as union).
-      Comparison script diagnostic_fused_results.R written + committed
-      (paired fused-vs-stu: backbone, recentered F, estimates, RI p).
-      On completion: results -> commit -> PR -> review -> handoff.
+- [x] Fused-instrument (BH-2026 Stage 3) S=100 run — DONE, PR #123
+      squash-merged 2026-07-24 (with published review + fix pass).
+      VERDICT: efficiency gain is real (recentered F 9.6 -> 15.9 vs
+      the studied-only backbone) but estimates are nulls everywhere;
+      pairing integrity asserted via the studied_km fingerprint
+      (deviation 0.0e+00). Feeds the recentering characterization
+      (six-design map, Plan/brief_cote_recentering_2026-07-29.md).
 - [x] Growth-stratified corridor repair — DONE, PR #124
       squash-merged 2026-07-24 (with review + fix pass). VERDICT:
       door closed with a number. F recentrado 0.5-1.4 (base 3-4.5)
@@ -184,8 +184,30 @@ LEDGER.
       recentering brief was converted to a sendable email
       (Plan/email_cote_recentering_estado.md, second email of the day
       after the geocoding instructions).
-- [ ] τ normalization experiment (his 1.5 / memo point ii; connects
-      to the τ crude-vs-iceberg PLACEHOLDER in §3.3, note #21).
+- [x] τ normalization experiment (his 1.5 / memo point ii; the
+      second cheap experiment for the θ/τ conversation, after the
+      Gibbons decay) — DONE 2026-07-25, diagnostic_ma_iceberg.R
+      (diagnostic only, paper untouched; §3.3 placeholder stays until
+      Decision A). Affine iceberg τ' = 1 + cost/V, V-sweep at θ=8.22
+      and 4.55. HEADLINE: β(V) rises monotonically as τ' compresses
+      toward the D&H band — IV-B at θ=8.22 goes 0.024 (raw) → 0.067
+      (V=4,400 p/t, τ' p10-p90 1.36-3.40) → 0.12-0.32 at high V —
+      but no point on either curve clears the 5% LEVEL, including
+      the raw anchor itself (p=0.096, the published main spec); the
+      t-stat peaks at V≈100-500 (p=0.055 at θ=4.55 V=100, no weaker
+      than the main spec) before precision decays. The combined-F
+      strengthening (13→37) is ENTIRELY the hypo instrument (IV-H F
+      7.9→65.5 at θ=8.22 while Larkin F falls 15.6→9.7): the
+      normalization REVERSES the instrument-strength ranking, which
+      feeds the IV-LP-only main-spec question. The Gibbons ≈0.3
+      crossing lives only in the degenerate tail (V=100k p/t ≈ 23×
+      the median raw cost). θ·β rescaling from the decay experiment
+      roughly holds (~20% loose at raw/low V, within ~3% by
+      V=4,400). V not sourced yet (rides the #68 archive visit);
+      honesty rule: V gets picked by the source, not by where β
+      lands. Raw anchor reproduces the pipeline with zero diff, now
+      asserted in code (scoping note's scratch table was a
+      pre-refresh τ vintage; 1960 bands reproduce exactly).
 - [ ] Controls rationalization — CO-OWNED: Cote took it as homework
       (collinearity, region FE from census regions, threats-based
       selection, what the literature uses; notes #26-#31). Our side
