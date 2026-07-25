@@ -596,6 +596,12 @@ add_prose_table_macros <- function(macros, tab) {
                 }
             }
         }
+        # Section 6.3 caveats: first-stage F ranges across the five
+        # sectoral outcomes, per counterfactual panel (cr-review PR #128).
+        macros[["cfRailFSectMin"]] <- f1(min(t17$iv_F[t17$panel == "B"]))
+        macros[["cfRailFSectMax"]] <- f1(max(t17$iv_F[t17$panel == "B"]))
+        macros[["cfRoadFSectMin"]] <- f1(min(t17$iv_F[t17$panel == "C"]))
+        macros[["cfRoadFSectMax"]] <- f1(max(t17$iv_F[t17$panel == "C"]))
     }
 
     # -- Sectoral theta sweep (Section 5.5 prose; cr-review PR #121) ---------
