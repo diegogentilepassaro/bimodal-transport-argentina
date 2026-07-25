@@ -142,19 +142,28 @@ run_one <- function(th, V_pesos, sym, est, ctrls, raw_anchor) {
             hypo_instr = "z_lcp",
             ctrls_vec  = ctrls
         )
-        co <- safe_coef(fits[["IV-B"]], "fit_chg_iceberg")
+        co  <- safe_coef(fits[["IV-B"]],  "fit_chg_iceberg")
+        # IV-LP too (cr-review PR #135 consider 1): the IV-LP-only
+        # main-spec question is on the meeting agenda, and PR #130
+        # showed normalization reverses the instrument ranking — the
+        # de-risking must cover the contrast under IV-LP as well.
+        clp <- safe_coef(fits[["IV-LP"]], "fit_chg_iceberg")
         out[[length(out) + 1L]] <- data.frame(
-            theta    = th,
-            V_pesos  = V_pesos,
-            V_raster = V_raster,
-            anchor   = ifelse(raw_anchor, "raw (V->0)", "affine"),
-            outcome  = o$var,
-            label    = o$lab,
-            ivb_beta = co$est,
-            ivb_se   = co$se,
-            ivb_p    = co$p,
-            ivb_F    = fitstat_F(fits[["IV-B"]]),
-            n_obs    = nobs(fits[["OLS"]]),
+            theta     = th,
+            V_pesos   = V_pesos,
+            V_raster  = V_raster,
+            anchor    = ifelse(raw_anchor, "raw (V->0)", "affine"),
+            outcome   = o$var,
+            label     = o$lab,
+            ivb_beta  = co$est,
+            ivb_se    = co$se,
+            ivb_p     = co$p,
+            ivb_F     = fitstat_F(fits[["IV-B"]]),
+            ivlp_beta = clp$est,
+            ivlp_se   = clp$se,
+            ivlp_p    = clp$p,
+            ivlp_F    = fitstat_F(fits[["IV-LP"]]),
+            n_obs     = nobs(fits[["OLS"]]),
             stringsAsFactors = FALSE
         )
     }
@@ -174,36 +183,51 @@ run_one <- function(th, V_pesos, sym, est, ctrls, raw_anchor) {
 verify <- function(df) {
     tol <- 1e-9
 
-    # (1) Raw theta-low anchor reproduces Table 10's IV-B exactly
+    is_raw_low <- df$anchor != "affine" & abs(df$theta - theta[["low"]]) < 1e-9
+
+    # (1) Raw theta-low anchor reproduces Table 10's IV-B and IV-LP exactly
     t10 <- read.csv(file.path(dir_tables, "table_10_sectoral_iv.csv"))
     for (o in OUTCOMES) {
         if (o$var == "chg_log_pop_91_60") next
-        ours <- df[df$anchor != "affine" & df$theta == theta[["low"]] &
-                   df$outcome == o$var, ]
-        ref <- t10[t10$outcome == o$var & t10$spec == "IV-B", ]
-        stopifnot(nrow(ours) == 1L, nrow(ref) == 1L)
-        stopifnot(abs(ours$ivb_beta - ref$estimate) < tol,
-                  abs(ours$ivb_se   - ref$std_err)  < tol)
+        ours <- df[is_raw_low & df$outcome == o$var, ]
+        ref_b  <- t10[t10$outcome == o$var & t10$spec == "IV-B", ]
+        ref_lp <- t10[t10$outcome == o$var & t10$spec == "IV-LP", ]
+        stopifnot(nrow(ours) == 1L, nrow(ref_b) == 1L, nrow(ref_lp) == 1L)
+        stopifnot(abs(ours$ivb_beta  - ref_b$estimate)  < tol,
+                  abs(ours$ivb_se    - ref_b$std_err)   < tol,
+                  abs(ours$ivlp_beta - ref_lp$estimate) < tol,
+                  abs(ours$ivlp_se   - ref_lp$std_err)  < tol)
     }
-    message("[verify] raw theta-low anchor == Table 10 IV-B (all 5 outcomes)")
+    message("[verify] raw theta-low anchor == Table 10 IV-B and IV-LP (all 5)")
 
-    # (2) ... and Table 9's IV-B for the population reference row
+    # (2) ... and Table 9's IV-B/IV-LP for the population reference row
     t9 <- read.csv(file.path(dir_tables, "table_9_population_iv.csv"))
-    ref9 <- t9[t9$outcome == "chg_log_pop_91_60" & t9$spec == "IV-B", ]
-    ours9 <- df[df$anchor != "affine" & df$theta == theta[["low"]] &
-                df$outcome == "chg_log_pop_91_60", ]
-    stopifnot(abs(ours9$ivb_beta - ref9$estimate) < tol,
-              abs(ours9$ivb_se   - ref9$std_err)  < tol)
-    message("[verify] raw theta-low anchor == Table 9 IV-B (population)")
+    ref9b  <- t9[t9$outcome == "chg_log_pop_91_60" & t9$spec == "IV-B", ]
+    ref9lp <- t9[t9$outcome == "chg_log_pop_91_60" & t9$spec == "IV-LP", ]
+    ours9 <- df[is_raw_low & df$outcome == "chg_log_pop_91_60", ]
+    # Row-count guards BEFORE the comparisons (cr-review PR #135 SF1: a
+    # zero-row filter would make the stopifnot pass vacuously).
+    stopifnot(nrow(ours9) == 1L, nrow(ref9b) == 1L, nrow(ref9lp) == 1L)
+    stopifnot(abs(ours9$ivb_beta  - ref9b$estimate)  < tol,
+              abs(ours9$ivb_se    - ref9b$std_err)   < tol,
+              abs(ours9$ivlp_beta - ref9lp$estimate) < tol,
+              abs(ours9$ivlp_se   - ref9lp$std_err)  < tol)
+    message("[verify] raw theta-low anchor == Table 9 IV-B and IV-LP (population)")
 
     # (3) Population rows match diagnostic_ma_iceberg.csv at every (theta, V)
     ib <- read.csv(file.path(dir_tables, "diagnostic_ma_iceberg.csv"))
     pop <- df[df$outcome == "chg_log_pop_91_60", ]
-    chk <- merge(pop, ib[, c("theta", "V_pesos", "ivb_beta", "ivb_se")],
+    n_cells <- length(THETAS) * (length(V_GRID_PESOS) + 1L)
+    stopifnot(nrow(pop) == n_cells)
+    chk <- merge(pop,
+                 ib[, c("theta", "V_pesos", "ivb_beta", "ivb_se",
+                        "ivlp_beta", "ivlp_se")],
                  by = c("theta", "V_pesos"), suffixes = c("", "_ref"))
-    stopifnot(nrow(chk) == nrow(pop),
-              max(abs(chk$ivb_beta - chk$ivb_beta_ref)) < tol,
-              max(abs(chk$ivb_se   - chk$ivb_se_ref))   < tol)
+    stopifnot(nrow(chk) == n_cells,
+              max(abs(chk$ivb_beta  - chk$ivb_beta_ref))  < tol,
+              max(abs(chk$ivb_se    - chk$ivb_se_ref))    < tol,
+              max(abs(chk$ivlp_beta - chk$ivlp_beta_ref)) < tol,
+              max(abs(chk$ivlp_se   - chk$ivlp_se_ref))   < tol)
     message("[verify] population rows == diagnostic_ma_iceberg.csv (all cells)")
 }
 
@@ -258,52 +282,70 @@ write_outputs <- function(df) {
     wline("%s", strrep("=", 90))
     wline("ICEBERG NORMALIZATION x SECTORAL OUTCOMES (Decision A de-risking)")
     wline("Does 'manufacturing responds, agriculture does not' survive")
-    wline("tau' = 1 + cost/V across the V grid? IV-Both, Table 10 spec,")
-    wline("V-specific iceberg baseline logMA control, HC1. Companion to")
+    wline("tau' = 1 + cost/V across the V grid? Table 10 spec, V-specific")
+    wline("iceberg baseline logMA control. IV-Both grid first (the")
+    wline("published spec), IV-LP grid second (the IV-LP-only main-spec")
+    wline("question is on the meeting agenda and normalization reverses")
+    wline("the instrument-strength ranking, PR #130). Companion to")
     wline("diagnostic_ma_iceberg.{txt,csv} (population curve, F columns).")
+    wline("Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE")
     wline("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
     wline("%s", strrep("=", 90))
-    for (th in unique(df$theta)) {
-        wline("")
-        wline("---- theta = %.2f", th)
-        wline("%-9s %-14s %-15s %-15s %-13s %-13s %-13s",
-              "V (p/t)", "population", "mfg value", "mfg wage",
-              "mfg estab.", "ag farms", "ag area")
-        sub <- df[df$theta == th, ]
-        for (v in unique(sub$V_pesos)) {
-            r <- sub[sub$V_pesos == v, ]
-            cell <- function(var) {
-                x <- r[r$outcome == var, ]
-                sprintf("%+.3f%s", x$ivb_beta, star(x$ivb_p))
-            }
+    grid_block <- function(spec_lab, bcol, pcol) {
+        for (th in unique(df$theta)) {
+            wline("")
+            wline("---- theta = %.2f (%s)", th, spec_lab)
             wline("%-9s %-14s %-15s %-15s %-13s %-13s %-13s",
-                  ifelse(r$anchor[1] != "affine", "raw",
-                         format(v, trim = TRUE, scientific = FALSE)),
-                  cell("chg_log_pop_91_60"),
-                  cell("chg_log_valprod_85_54"),
-                  cell("chg_log_massal_85_54"),
-                  cell("chg_log_nestab_85_54"),
-                  cell("chg_log_nexp_88_60"),
-                  cell("chg_log_areatot_ha_88_60"))
+                  "V (p/t)", "population", "mfg value", "mfg wage",
+                  "mfg estab.", "ag farms", "ag area")
+            sub <- df[df$theta == th, ]
+            for (v in unique(sub$V_pesos)) {
+                r <- sub[sub$V_pesos == v, ]
+                cell <- function(var) {
+                    x <- r[r$outcome == var, ]
+                    sprintf("%+.3f%s", x[[bcol]], star(x[[pcol]]))
+                }
+                wline("%-9s %-14s %-15s %-15s %-13s %-13s %-13s",
+                      ifelse(r$anchor[1] != "affine", "raw",
+                             format(v, trim = TRUE, scientific = FALSE)),
+                      cell("chg_log_pop_91_60"),
+                      cell("chg_log_valprod_85_54"),
+                      cell("chg_log_massal_85_54"),
+                      cell("chg_log_nestab_85_54"),
+                      cell("chg_log_nexp_88_60"),
+                      cell("chg_log_areatot_ha_88_60"))
+            }
         }
     }
+    grid_block("IV-Both", "ivb_beta",  "ivb_p")
+    grid_block("IV-LP",   "ivlp_beta", "ivlp_p")
     # Computed verdict block
     wline("")
-    wline("Verdict (computed from the grid above):")
-    for (th in unique(df$theta)) {
-        sub <- df[df$theta == th, ]
-        maxp_val  <- max(sub$ivb_p[sub$outcome == "chg_log_valprod_85_54"])
-        maxp_wage <- max(sub$ivb_p[sub$outcome == "chg_log_massal_85_54"])
-        minp_null <- min(sub$ivb_p[sub$outcome %in%
-            c("chg_log_nestab_85_54", "chg_log_nexp_88_60",
-              "chg_log_areatot_ha_88_60")])
-        wline("- theta %.2f: mfg value max p = %.3f, wage max p = %.3f",
-              th, maxp_val, maxp_wage)
-        wline("  across ALL %d grid points (incl. raw anchor);",
-              length(unique(sub$V_pesos)))
-        wline("  establishments + both ag outcomes: min p = %.3f.",
-              minp_null)
+    wline("Verdict (computed from the grids above):")
+    for (spec in list(list(lab = "IV-Both", p = "ivb_p"),
+                      list(lab = "IV-LP",   p = "ivlp_p"))) {
+        for (th in unique(df$theta)) {
+            sub <- df[df$theta == th, ]
+            p <- sub[[spec$p]]
+            maxp_val  <- max(p[sub$outcome == "chg_log_valprod_85_54"])
+            maxp_wage <- max(p[sub$outcome == "chg_log_massal_85_54"])
+            minp_null <- min(p[sub$outcome %in%
+                c("chg_log_nestab_85_54", "chg_log_nexp_88_60",
+                  "chg_log_areatot_ha_88_60")])
+            wline("- %s, theta %.2f: mfg value max p = %.3f, wage max p = %.3f",
+                  spec$lab, th, maxp_val, maxp_wage)
+            wline("  across ALL %d grid points (incl. raw anchor);",
+                  length(unique(sub$V_pesos)))
+            wline("  establishments + both ag outcomes: min p = %.3f.",
+                  minp_null)
+        }
     }
+    wline("")
+    wline("Note on levels: beta grows by an order of magnitude along the")
+    wline("grid as the transform compresses Delta log MA; the growth")
+    wline("factor is OUTCOME-DEPENDENT because the transform is nonlinear")
+    wline("(theta 8.22, raw -> V=100k: wage x41.7, population x13.1). The")
+    wline("levels are object-dependent; the CONTRAST is not.")
     wline("")
     wline("Full columns (SE, p, F, N): diagnostic_ma_iceberg_sectoral.csv")
     close(con)
