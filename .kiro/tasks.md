@@ -33,6 +33,13 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           13→37, but nothing clears 5% anywhere — including the
           published main spec itself (p=0.096). V unsourced (rides
           the #68 archive visit; honesty rule: source picks V).
+      (iii) Sectoral de-risking ON the iceberg object (2026-07-25,
+          diagnostic_ma_iceberg_sectoral): the headline contrast
+          SURVIVES at every V grid point and both θ — mfg value/wage
+          max p = 0.013/0.004, establishments + both ag outcomes
+          min p = 0.127. Same de-risking the θ-sweep gave the raw
+          object: the τ object can be chosen on measurement grounds
+          without fearing the sectoral finding flips.
       Options priced in .kiro/decision_a_option1_scoping.md (1a
       Fogel-scalar ~2-3 days once V sourced; 1b route-inefficiency
       ~1 day, no external data; option 2 Gibbons-centrality zero
@@ -432,6 +439,19 @@ the verification record.
       paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
+- [x] Sectoral outcomes on the iceberg V-sweep — DONE 2026-07-25,
+      diagnostic_ma_iceberg_sectoral.R (diagnostic only; companion
+      to PR #130, theta_sweep-pair precedent). VERDICT: the paper's
+      headline contrast survives the iceberg object at EVERY grid
+      point and both θ — mfg value max p = 0.013 (θ=8.22) / 0.009
+      (θ=4.55), wage max p = 0.004/0.002; establishments + both ag
+      outcomes never significant (min p = 0.127). β levels scale up
+      mechanically as Δlog MA compresses (e.g. wage +0.19 raw →
+      +7.8 at V=100k, θ=8.22) — levels are object-dependent, the
+      CONTRAST is not. Verified in code: raw θ-low anchor
+      reproduces Table 10 IV-B (all 5) and Table 9 IV-B
+      (population) exactly; population rows match
+      diagnostic_ma_iceberg.csv at every cell. → agenda item A(iii).
 - [x] Main-spec column names centralized — DONE 2026-07-25, PR #133
       squash-merged (PR #131 review consider C4): main_treatment +
       main_lp_instrument now live in config.R next to
