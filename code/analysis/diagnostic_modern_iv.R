@@ -14,12 +14,22 @@
 #           F_eff = pi' Q_zz pi / tr(Sigma Q_zz),
 #       with pi the first-stage instrument coefficients, Sigma their
 #       HC1 vcov block, Q_zz = Z~'Z~ on the residualized instruments.
-#       Formula cross-checked against the ivDiag reference
-#       implementation (Lal, Lockhart, Xu & Zu 2023, R/effF.R). For a
-#       SINGLE instrument F_eff = pi^2/Sigma = the robust first-stage
-#       t^2 (algebraic identity), so the single-instrument cells anchor
-#       the hand-rolled formula against fixest's independent ivwald
-#       (expected to agree up to degrees-of-freedom conventions).
+#       Cross-checked against the ivDiag reference implementation
+#       (Lal, Lockhart, Xu & Zu 2023, R/effF.R) with ONE DELIBERATE
+#       DIVERGENCE: ivDiag builds Q_zz from the instruments WITHOUT
+#       residualizing them on the included controls; we residualize,
+#       per the MOP definition and Stata's weakivtest convention.
+#       Verified consequence on the total-pop IV-B cell: residualized
+#       13.11 (ours) vs ivDiag-style 14.39 — so a future cross-check
+#       against ivDiag will differ BY DESIGN, not by bug (cr-review
+#       PR #131 SF2). For a SINGLE instrument F_eff = pi^2/Sigma = the
+#       robust first-stage t^2 (Q_zz cancels algebraically), so the
+#       K=1 cells anchor pi and Sigma against fixest's independent
+#       ivwald — but NOT the Q_zz residualization convention, which
+#       only matters at K=2. That convention was validated separately:
+#       the PR #131 review rebuilt the K=2 total-pop F_eff through an
+#       independent path (full-design lm + hand-built HC1 sandwich)
+#       and matched to all printed digits (13.1136367247).
 #   (4) Conventional 95% CI (2SLS point estimate +/- 1.96 HC1 SE).
 #   (5) Anderson-Rubin 95% confidence set by robust test inversion:
 #       for each beta0 on a grid, regress (Y~ - beta0 D~) on Z~ (all
@@ -27,8 +37,11 @@
 #       the instruments; the set collects beta0 with p >= 0.05.
 #       Set shapes handled as in ivDiag R/AR_test.R: bounded interval,
 #       half-lines, disjoint union (-inf,a] U [b,inf), whole line,
-#       empty. Grid: beta_hat +/- 3 SE in 0.02 SE steps, tails to
-#       +/- 25 SE; endpoint acceptance => unbounded classification.
+#       empty. (Like ivDiag, the shape logic assumes at most one
+#       accepted run, which is what AR acceptance regions — ratios of
+#       quadratics in beta0 — can produce.) Grid: beta_hat +/- 3 SE in
+#       0.02 SE steps, tails to +/- 25 SE at 0.05 SE spacing;
+#       endpoint acceptance => unbounded classification.
 #
 # CELLS (the paper's headline IV surface, 11 cells):
 #   Table 9  total population: IV-LP, IV-H, IV-B
@@ -201,9 +214,9 @@ ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
 
 ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
     grid <- sort(unique(c(
-        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat, length.out = 150),
+        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat, by = 0.05 * se_hat),
         seq(beta_hat - 3 * se_hat, beta_hat + 3 * se_hat, by = 0.02 * se_hat),
-        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat, length.out = 150)
+        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat, by = 0.05 * se_hat)
     )))
     acc <- vapply(grid, function(b) {
         ar_p(b, Yt, Dt, Zt, n_ctrl) >= AR_ALPHA

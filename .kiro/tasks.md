@@ -250,10 +250,12 @@ LEDGER.
       (a) the mfg results SURVIVE weak-IV robust inference — AR
       sets exclude zero (valprod [0.035, 0.678], wage [0.136,
       0.732]); (b) every AR set is bounded, population sets include
-      zero (consistent with published nulls); (c) F_eff runs 2-3
-      points below the classical F the paper quotes (IV-B 13.1 vs
-      16.2 for total pop) and the hypo instrument weakens further
-      under robust inference (IV-H F 6.9 classical → 4.3 robust);
+      zero (consistent with published nulls); (c) the IV-B (K=2)
+      effective Fs run 1.5-3.3 points below the classical Fs the
+      paper quotes (total pop 13.1 vs 16.2); the K=1 IV-LP cell is
+      essentially unchanged and slightly STRONGER under robust
+      inference (22.6 vs 22.1), while the hypo instrument weakens
+      (IV-H F 6.9 classical → 4.3 robust);
       (d) hand-rolled F_eff validated exactly against fixest ivwald
       on the K=1 cells and cross-checked against the ivDiag
       reference implementation. MOP K=2 critical values not

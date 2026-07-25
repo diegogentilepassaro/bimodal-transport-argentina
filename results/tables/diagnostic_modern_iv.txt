@@ -6,12 +6,12 @@ F_eff = Montiel Olea-Pflueger effective F (controls partialled
 out; = F_robust up to dof conventions when K = 1, distinct for 
 the 2-instrument IV-B cells). AR set = 95% Anderson-Rubin 
 confidence set by robust test inversion. Diagnostic only. 
-Generated: 2026-07-25 11:11:20 
+Generated: 2026-07-25 13:47:01 
 ==================================================================================== 
  
 Cell            Spec      N beta (SE)          F_cls   F_rob   F_eff  AR 95% set                 
 T9 total pop    IV-LP   311 +0.046 (0.040)      22.1    22.6    22.6  [-0.032, 0.140]            
-T9 total pop    IV-H    311 +0.069 (0.068)       6.9     4.3     4.3  [-0.213, 0.724]            
+T9 total pop    IV-H    311 +0.069 (0.068)       6.9     4.3     4.3  [-0.221, 0.729]            
 T9 total pop    IV-B    311 +0.052 (0.031)      16.2    15.2    13.1  [-0.033, 0.136]            
 T9 urban pop    IV-B    286 +0.063 (0.038)      14.7    14.0    12.6  [-0.036, 0.173]            
 T9 rural pop    IV-B    272 +0.116 (0.087)       9.9     9.9     8.4  [-0.141, 0.369]            
