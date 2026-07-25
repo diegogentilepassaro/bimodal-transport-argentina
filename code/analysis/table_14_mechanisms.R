@@ -77,8 +77,8 @@ main <- function() {
     )
 
     y      <- "chg_log_pop_91_60"
-    endog  <- "chg_logMA_86_60_s0_elow"
-    lp     <- "chg_logMA_stu_s0_elow"
+    endog  <- main_treatment
+    lp     <- main_lp_instrument
     hypo   <- main_hypo_instrument
     ctrls  <- paste(geo_controls_main, collapse = " + ")
 

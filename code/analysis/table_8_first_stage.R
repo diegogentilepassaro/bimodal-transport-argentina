@@ -54,16 +54,16 @@ main <- function() {
     # mirror the main-spec choice while signaling to the reader that the
     # variants lcp / euc_mst / euc would sit in the robustness table.
     f1 <- as.formula(sprintf(
-        "chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow + %s",
-        geo_controls_expr
+        "%s ~ %s + %s",
+        main_treatment, main_lp_instrument, geo_controls_expr
     ))
     f2 <- as.formula(sprintf(
-        "chg_logMA_86_60_s0_elow ~ chg_logMA_lcp_mst_s0_elow + %s",
-        geo_controls_expr
+        "%s ~ chg_logMA_lcp_mst_s0_elow + %s",
+        main_treatment, geo_controls_expr
     ))
     f3 <- as.formula(sprintf(
-        "chg_logMA_86_60_s0_elow ~ chg_logMA_stu_s0_elow + chg_logMA_lcp_mst_s0_elow + %s",
-        geo_controls_expr
+        "%s ~ %s + chg_logMA_lcp_mst_s0_elow + %s",
+        main_treatment, main_lp_instrument, geo_controls_expr
     ))
 
     m1 <- feols(f1, data = d, vcov = "hetero")
@@ -71,9 +71,9 @@ main <- function() {
     m3 <- feols(f3, data = d, vcov = "hetero")
 
     # --- Diagnostics for the footer of the table ---------------------------
-    F1 <- first_stage_F(m1, "chg_logMA_stu_s0_elow")
+    F1 <- first_stage_F(m1, main_lp_instrument)
     F2 <- first_stage_F(m2, "chg_logMA_lcp_mst_s0_elow")
-    F3 <- first_stage_F_joint(m3, c("chg_logMA_stu_s0_elow",
+    F3 <- first_stage_F_joint(m3, c(main_lp_instrument,
                                      "chg_logMA_lcp_mst_s0_elow"))
 
     message(sprintf("\n[t8] F-stats: LP=%.2f, Hypo=%.2f, Both=%.2f\n",
@@ -88,7 +88,8 @@ main <- function() {
 
     # Pretty variable names in the table
     coef_map <- c(
-        "chg_logMA_stu_s0_elow"      = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{LP}}$",
+        setNames("$\\Delta \\ln \\mathrm{MA}^{\\mathrm{LP}}$",
+                 main_lp_instrument),
         "chg_logMA_lcp_mst_s0_elow"  = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{hypo}}$",
         "logMA_actual_1960_s0_elow"  = "Log MA, 1960",
         "log_pop_1960"               = "Log population, 1960",

@@ -97,7 +97,7 @@ main <- function() {
     if (!is.null(t8)) {
         # The LP F-stat = (t-stat)^2 of chg_logMA_stu_s0_elow in LP-only row
         r_lp <- subset(t8, spec == "LP only" &
-                           variable == "chg_logMA_stu_s0_elow")
+                           variable == main_lp_instrument)
         r_h  <- subset(t8, spec == "Hypo only" &
                            variable == "chg_logMA_lcp_mst_s0_elow")
         if (nrow(r_lp) == 1L) {
@@ -320,13 +320,13 @@ add_prose_table_macros <- function(macros, tab) {
     # -- Table 8 (Section 5.1): first-stage coefficients ---------------------
     t8 <- tab[["table_8_first_stage"]]
     if (!is.null(t8)) {
-        r <- row1(t8, spec = "LP only", variable = "chg_logMA_stu_s0_elow")
+        r <- row1(t8, spec = "LP only", variable = main_lp_instrument)
         macros[["fsLPCoef"]] <- f3(r$estimate)
         macros[["fsLPSE"]]   <- f3(r$std_err)
         r <- row1(t8, spec = "Hypo only", variable = "chg_logMA_lcp_mst_s0_elow")
         macros[["fsHypoCoef"]] <- f3(r$estimate)
         macros[["fsHypoSE"]]   <- f3(r$std_err)
-        r <- row1(t8, spec = "Both", variable = "chg_logMA_stu_s0_elow")
+        r <- row1(t8, spec = "Both", variable = main_lp_instrument)
         macros[["fsJointLPCoef"]] <- f3(r$estimate)
         macros[["fsJointLPSE"]]   <- f3(r$std_err)
         r <- row1(t8, spec = "Both", variable = "chg_logMA_lcp_mst_s0_elow")
@@ -653,7 +653,7 @@ add_panel_macros <- function(macros) {
     macros[["chgLogPopSD"]]   <- sprintf("%.2f", sd(v, na.rm = TRUE))
 
     # Treatment variable distribution
-    m <- p$chg_logMA_86_60_s0_elow
+    m <- p[[main_treatment]]
     macros[["maMean"]]     <- sprintf("%+.2f", mean(m, na.rm = TRUE))
     macros[["maSD"]]       <- sprintf("%.2f", sd(m, na.rm = TRUE))
     # Prose writes the minus sign explicitly: fail loudly on sign flip.

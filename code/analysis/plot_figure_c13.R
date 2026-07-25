@@ -71,7 +71,7 @@ main <- function() {
                widths = c(1, 1, 1, 0.4))
         par(mar = c(0.5, 0.5, 3, 0.5), oma = c(0, 0, 0, 0))
 
-        draw_panel(d, "chg_logMA_86_60_s0_elow",
+        draw_panel(d, main_treatment,
                    "(a) Total 1960-1986",
                    breaks, labels, palette)
         draw_panel(d, "chg_logMA_only_rail_s0_elow",
@@ -125,7 +125,7 @@ load_panel_with_geometry <- function() {
     panel <- ensure_geolev2_char(panel)
 
     cols <- c("geolev2",
-              "chg_logMA_86_60_s0_elow",
+              main_treatment,
               "chg_logMA_only_rail_s0_elow",
               "chg_logMA_only_road_s0_elow")
     stopifnot(all(cols %in% names(panel)))
