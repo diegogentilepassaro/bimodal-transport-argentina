@@ -325,6 +325,17 @@ force a rerun anyway (Diego, 2026-07-20).
       DOIs render. Pre-deposit decision queued in section 2: flip
       the six raster includes back to vector for final submission
       (journal production usually wants vector).
+- [x] Main-spec column names centralized — DONE 2026-07-25
+      (refactor/config-treatment-names; PR #131 review consider C4):
+      main_treatment + main_lp_instrument now live in config.R next
+      to main_hypo_instrument; the 18 paper-surface scripts (tables
+      6-17 + a1, figures 2/4/c13, generate_scalars,
+      build_estimation_sample) use the constants. Changing the main
+      spec after Decision A is now a one-line config edit.
+      Diagnostics keep their own literals (archived experiments).
+      Verified: all 17 touched scripts rerun; 24 table files + 3
+      PNGs byte-identical, scalars identical net of timestamp,
+      estimation-sample parquet content-identical.
 - [x] Shared table formatters extracted to
       code/analysis/_table_helpers.R (fmt + tex_cell; tables 12-17) —
       cr-review PR #128 consider C1. Byte-identical outputs verified

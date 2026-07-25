@@ -83,8 +83,8 @@ main <- function() {
         y <- out$var
         fits <- fit_iv_quad(
             y = y, data = d,
-            endog = "chg_logMA_86_60_s0_elow",
-            lp_instr = "chg_logMA_stu_s0_elow",
+            endog = main_treatment,
+            lp_instr = main_lp_instrument,
             hypo_instr = main_hypo_instrument,
             ctrls_vec = geo_controls_main
         )
@@ -107,13 +107,13 @@ main <- function() {
     for (out in outcomes) {
         y <- out$var
         b_ols <- get_ma_coef(all_models[[paste(y, "OLS",   sep = "_")]],
-                             "chg_logMA_86_60_s0_elow")
+                             main_treatment)
         b_lp  <- get_ma_coef(all_models[[paste(y, "IV-LP", sep = "_")]],
-                             "fit_chg_logMA_86_60_s0_elow")
+                             paste0("fit_", main_treatment))
         b_h   <- get_ma_coef(all_models[[paste(y, "IV-H",  sep = "_")]],
-                             "fit_chg_logMA_86_60_s0_elow")
+                             paste0("fit_", main_treatment))
         b_b   <- get_ma_coef(all_models[[paste(y, "IV-B",  sep = "_")]],
-                             "fit_chg_logMA_86_60_s0_elow")
+                             paste0("fit_", main_treatment))
         message(sprintf("%-30s  %-9s %-9s %-9s %-9s",
                         y,
                         format_coef_se(b_ols), format_coef_se(b_lp),
@@ -125,9 +125,9 @@ main <- function() {
     # Coef map keeps only the main regressor; controls and constant
     # are omitted for space. A single row for the 1st-stage F is added.
 
-    coef_map <- c(
-        "chg_logMA_86_60_s0_elow"     = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
-        "fit_chg_logMA_86_60_s0_elow" = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$"
+    coef_map <- setNames(
+        rep("$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$", 2L),
+        c(main_treatment, paste0("fit_", main_treatment))
     )
 
     gof_custom <- list(
@@ -205,8 +205,8 @@ main <- function() {
         y <- out$var
         for (spec in c("OLS", "IV-LP", "IV-H", "IV-B")) {
             m <- all_models[[paste(y, spec, sep = "_")]]
-            coef_name <- if (spec == "OLS") "chg_logMA_86_60_s0_elow"
-                         else "fit_chg_logMA_86_60_s0_elow"
+            coef_name <- if (spec == "OLS") main_treatment
+                         else paste0("fit_", main_treatment)
             co <- summary(m)$coeftable
             if (!(coef_name %in% rownames(co))) next
             csv_rows[[length(csv_rows) + 1L]] <- data.frame(

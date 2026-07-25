@@ -103,7 +103,7 @@ main <- function() {
             iv_b_F    = fitstat_F(fits[["IV-B"]]),
             # Treatment correlation with the baseline schedule (quoted in
             # Section 5's prose as the reason the grid is informative).
-            corr_treat_s0 = cor(d[[endog]], d[["chg_logMA_86_60_s0_elow"]],
+            corr_treat_s0 = cor(d[[endog]], d[[main_treatment]],
                                 use = "complete.obs"),
             n_obs     = nobs(fits[["OLS"]]),
             stringsAsFactors = FALSE

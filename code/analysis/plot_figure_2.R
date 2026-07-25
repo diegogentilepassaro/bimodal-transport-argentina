@@ -74,7 +74,7 @@ load_panel_with_geometry <- function() {
     )
     panel <- ensure_geolev2_char(panel)
 
-    merge_cols <- c("geolev2", "chg_logMA_86_60_s0_elow")
+    merge_cols <- c("geolev2", main_treatment)
     stopifnot(all(merge_cols %in% names(panel)))
     merge(shp, panel[, merge_cols], by = "geolev2")
 }
@@ -83,7 +83,7 @@ load_panel_with_geometry <- function() {
 # Draw the choropleth
 # ---------------------------------------------------------------------------
 draw_choropleth <- function(d) {
-    x <- d$chg_logMA_86_60_s0_elow
+    x <- d[[main_treatment]]
 
     # Diverging binning. Centered at 0.
     breaks <- c(-Inf, -1, 0, 0.5, 1, 2, 4, Inf)

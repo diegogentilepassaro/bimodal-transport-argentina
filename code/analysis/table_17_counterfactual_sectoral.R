@@ -66,7 +66,7 @@ main <- function() {
         list(
             id        = "A",
             title     = "A. Full MA: $\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$ (both modes change)",
-            treatment = "chg_logMA_86_60_s0_elow",
+            treatment = main_treatment,
             iv_key    = "IV-B",
             iv_label  = "IV-Both (LP and Hypo)"
         ),
@@ -93,7 +93,7 @@ main <- function() {
                 y          = out$var,
                 data       = d,
                 endog      = p$treatment,
-                lp_instr   = "chg_logMA_stu_s0_elow",
+                lp_instr   = main_lp_instrument,
                 hypo_instr = main_hypo_instrument,
                 ctrls_vec  = geo_controls_main
             )

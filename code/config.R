@@ -347,6 +347,15 @@ roads_type2_1986 <- c(1L, 2L, 3L, 5L)
 # 6, 7, 9 (and any future tables using the hypo instrument) in sync.
 main_hypo_instrument <- "chg_logMA_lcp_mst_s0_elow"
 
+# Main-spec treatment and Larkin Plan (LP) instrument column names, used by
+# every paper-surface table/figure script (promoted from per-script literals
+# by PR #131's review, consider C4). Changing the main specification — e.g.
+# after memo Decision A settles the theta/tau object — is now a one-line
+# edit here instead of a sweep across ~18 scripts. Diagnostics keep their
+# own literals (archived one-shot experiments).
+main_treatment     <- "chg_logMA_86_60_s0_elow"
+main_lp_instrument <- "chg_logMA_stu_s0_elow"
+
 # Baseline MA and pop controls common to Tables 6, 7, 8, 9.
 # Standardized geographic controls + baseline log MA (1960) + log pop (1960).
 geo_controls_main <- c(

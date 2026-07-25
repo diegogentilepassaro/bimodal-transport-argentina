@@ -101,8 +101,8 @@ main <- function() {
         y <- out$var
         fits <- fit_iv_quad(
             y = y, data = d,
-            endog = "chg_logMA_86_60_s0_elow",
-            lp_instr = "chg_logMA_stu_s0_elow",
+            endog = main_treatment,
+            lp_instr = main_lp_instrument,
             hypo_instr = main_hypo_instrument,
             ctrls_vec = geo_controls_main
         )
@@ -124,13 +124,13 @@ main <- function() {
     for (out in outcomes) {
         y <- out$var
         b_ols <- safe_coef(all_models[[paste(y, "OLS",   sep = "_")]],
-                           "chg_logMA_86_60_s0_elow")
+                           main_treatment)
         b_lp  <- safe_coef(all_models[[paste(y, "IV-LP", sep = "_")]],
-                           "fit_chg_logMA_86_60_s0_elow")
+                           paste0("fit_", main_treatment))
         b_h   <- safe_coef(all_models[[paste(y, "IV-H",  sep = "_")]],
-                           "fit_chg_logMA_86_60_s0_elow")
+                           paste0("fit_", main_treatment))
         b_b   <- safe_coef(all_models[[paste(y, "IV-B",  sep = "_")]],
-                           "fit_chg_logMA_86_60_s0_elow")
+                           paste0("fit_", main_treatment))
         n_ols <- nobs(all_models[[paste(y, "OLS", sep = "_")]])
         message(sprintf("%-32s  %-13s %-13s %-13s %-13s  %-5d",
                         y,
@@ -140,9 +140,9 @@ main <- function() {
     }
 
     # --- Build LaTeX ------------------------------------------------------
-    coef_map <- c(
-        "chg_logMA_86_60_s0_elow"     = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
-        "fit_chg_logMA_86_60_s0_elow" = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$"
+    coef_map <- setNames(
+        rep("$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$", 2L),
+        c(main_treatment, paste0("fit_", main_treatment))
     )
     gof_custom <- list(
         list("raw" = "nobs", "clean" = "Observations", "fmt" = 0)
@@ -210,8 +210,8 @@ main <- function() {
         y <- out$var
         for (spec in c("OLS", "IV-LP", "IV-H", "IV-B")) {
             m <- all_models[[paste(y, spec, sep = "_")]]
-            coef_name <- if (spec == "OLS") "chg_logMA_86_60_s0_elow"
-                         else "fit_chg_logMA_86_60_s0_elow"
+            coef_name <- if (spec == "OLS") main_treatment
+                         else paste0("fit_", main_treatment)
             co <- safe_coef(m, coef_name)
             csv_rows[[length(csv_rows) + 1L]] <- data.frame(
                 panel    = out$panel,

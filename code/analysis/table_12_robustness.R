@@ -86,14 +86,14 @@ main <- function() {
     for (h in hypo_alts) {
         fits_B <- fit_iv_quad(
             y = "chg_log_pop_91_60", data = d,
-            endog = "chg_logMA_86_60_s0_elow",
-            lp_instr = "chg_logMA_stu_s0_elow",
+            endog = main_treatment,
+            lp_instr = main_lp_instrument,
             hypo_instr = h$name,
             ctrls_vec = ctrls_elow
         )
         rows[[length(rows) + 1L]] <- build_row(
             panel = "B", label = sprintf("Hypo = %s", h$label),
-            fits = fits_B, endog = "chg_logMA_86_60_s0_elow"
+            fits = fits_B, endog = main_treatment
         )
     }
 
@@ -106,27 +106,27 @@ main <- function() {
     n_sub <- nrow(d_sub)
     fits_C <- fit_iv_quad(
         y = "chg_log_pop_91_60", data = d_sub,
-        endog = "chg_logMA_86_60_s0_elow",
-        lp_instr = "chg_logMA_stu_s0_elow",
+        endog = main_treatment,
+        lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
         ctrls_vec = ctrls_elow
     )
     rows[[length(rows) + 1L]] <- build_row(
         panel = "C", label = sprintf("Placebo subsample (N=%d)", nrow(d_sub)),
-        fits = fits_C, endog = "chg_logMA_86_60_s0_elow"
+        fits = fits_C, endog = main_treatment
     )
 
     # For comparison, also report the main-spec IV-Both on the full sample
     fits_main <- fit_iv_quad(
         y = "chg_log_pop_91_60", data = d,
-        endog = "chg_logMA_86_60_s0_elow",
-        lp_instr = "chg_logMA_stu_s0_elow",
+        endog = main_treatment,
+        lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
         ctrls_vec = ctrls_elow
     )
     rows[[length(rows) + 1L]] <- build_row(
         panel = "C", label = "Full sample (for reference)",
-        fits = fits_main, endog = "chg_logMA_86_60_s0_elow"
+        fits = fits_main, endog = main_treatment
     )
 
     # ----------------------------------------------------------------------

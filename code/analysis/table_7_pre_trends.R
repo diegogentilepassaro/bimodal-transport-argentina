@@ -61,8 +61,8 @@ main <- function() {
     y <- "chg_log_placebo_pop_60_47"
     fits <- fit_iv_quad(
         y = y, data = d,
-        endog = "chg_logMA_86_60_s0_elow",
-        lp_instr = "chg_logMA_stu_s0_elow",
+        endog = main_treatment,
+        lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
         ctrls_vec = geo_controls_main
     )
@@ -78,19 +78,19 @@ main <- function() {
 
     message("\n[t7] Pre-trends placebo on Δlog(pop_60_47):")
     message(sprintf("%-12s  %-20s  N = %d", "OLS",
-                    format_co(safe_coef(m_ols, "chg_logMA_86_60_s0_elow")),
+                    format_co(safe_coef(m_ols, main_treatment)),
                     nobs(m_ols)))
     message(sprintf("%-12s  %-20s  F = %.1f", "IV-LP",
                     format_co(safe_coef(m_iv_lp,
-                        "fit_chg_logMA_86_60_s0_elow")),
+                        paste0("fit_", main_treatment))),
                     fs_lp))
     message(sprintf("%-12s  %-20s  F = %.1f", "IV-Hypo",
                     format_co(safe_coef(m_iv_h,
-                        "fit_chg_logMA_86_60_s0_elow")),
+                        paste0("fit_", main_treatment))),
                     fs_h))
     message(sprintf("%-12s  %-20s  F = %.1f", "IV-Both",
                     format_co(safe_coef(m_iv_b,
-                        "fit_chg_logMA_86_60_s0_elow")),
+                        paste0("fit_", main_treatment))),
                     fs_b))
 
     # --- Build LaTeX ------------------------------------------------------
@@ -101,9 +101,9 @@ main <- function() {
         "(4) IV-Both"  = m_iv_b
     )
 
-    coef_map <- c(
-        "chg_logMA_86_60_s0_elow"     = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
-        "fit_chg_logMA_86_60_s0_elow" = "$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$"
+    coef_map <- setNames(
+        rep("$\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$", 2L),
+        c(main_treatment, paste0("fit_", main_treatment))
     )
 
     gof_custom <- list(
@@ -171,8 +171,8 @@ main <- function() {
     for (nm in names(models)) {
         m <- models[[nm]]
         is_ols <- grepl("OLS", nm, fixed = TRUE)
-        coef_name <- if (is_ols) "chg_logMA_86_60_s0_elow"
-                     else "fit_chg_logMA_86_60_s0_elow"
+        coef_name <- if (is_ols) main_treatment
+                     else paste0("fit_", main_treatment)
         spec_label <- sub("^\\(\\d+\\)\\s*", "", nm)  # strip "(1) "
         co <- safe_coef(m, coef_name)
         csv_rows[[length(csv_rows) + 1L]] <- data.frame(

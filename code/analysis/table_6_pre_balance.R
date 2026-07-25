@@ -120,8 +120,8 @@ main <- function() {
 
         # Column (1): just LP as regressor
         f1 <- as.formula(sprintf(
-            "%s ~ chg_logMA_stu_s0_elow + %s",
-            y, partials_expr
+            "%s ~ %s + %s",
+            y, main_lp_instrument, partials_expr
         ))
         m1 <- feols(f1, data = d, vcov = "hetero")
 
@@ -134,15 +134,15 @@ main <- function() {
 
         # Column (3): Both
         f3 <- as.formula(sprintf(
-            "%s ~ chg_logMA_stu_s0_elow + %s + %s",
-            y, HYPO_INSTRUMENT, partials_expr
+            "%s ~ %s + %s + %s",
+            y, main_lp_instrument, HYPO_INSTRUMENT, partials_expr
         ))
         m3 <- feols(f3, data = d, vcov = "hetero")
 
         # Extract LP and Hypo coefficients per spec
-        b_lp_1  <- safe_coef(m1, "chg_logMA_stu_s0_elow")
+        b_lp_1  <- safe_coef(m1, main_lp_instrument)
         b_h_2   <- safe_coef(m2, HYPO_INSTRUMENT)
-        b_lp_3  <- safe_coef(m3, "chg_logMA_stu_s0_elow")
+        b_lp_3  <- safe_coef(m3, main_lp_instrument)
         b_h_3   <- safe_coef(m3, HYPO_INSTRUMENT)
 
         rows_out[[length(rows_out) + 1L]] <- data.frame(
