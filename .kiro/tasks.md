@@ -328,8 +328,9 @@ force a rerun anyway (Diego, 2026-07-20).
 - [x] Main-spec column names centralized — DONE 2026-07-25
       (refactor/config-treatment-names; PR #131 review consider C4):
       main_treatment + main_lp_instrument now live in config.R next
-      to main_hypo_instrument; the 18 paper-surface scripts (tables
-      6-17 + a1, figures 2/4/c13, generate_scalars,
+      to main_hypo_instrument; the 17 paper-surface scripts that
+      carried the literals (tables 6-15, 17, a1 — table_16 had
+      none — figures 2/4/c13, generate_scalars,
       build_estimation_sample) use the constants. Changing the main
       spec after Decision A is now a one-line config edit.
       Diagnostics keep their own literals (archived experiments).

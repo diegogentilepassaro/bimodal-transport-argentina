@@ -53,7 +53,7 @@ main <- function() {
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
 
-    HYPO_INSTRUMENT <- main_hypo_instrument
+
 
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
 
@@ -128,22 +128,22 @@ main <- function() {
         # Column (2): just Hypo
         f2 <- as.formula(sprintf(
             "%s ~ %s + %s",
-            y, HYPO_INSTRUMENT, partials_expr
+            y, main_hypo_instrument, partials_expr
         ))
         m2 <- feols(f2, data = d, vcov = "hetero")
 
         # Column (3): Both
         f3 <- as.formula(sprintf(
             "%s ~ %s + %s + %s",
-            y, main_lp_instrument, HYPO_INSTRUMENT, partials_expr
+            y, main_lp_instrument, main_hypo_instrument, partials_expr
         ))
         m3 <- feols(f3, data = d, vcov = "hetero")
 
         # Extract LP and Hypo coefficients per spec
         b_lp_1  <- safe_coef(m1, main_lp_instrument)
-        b_h_2   <- safe_coef(m2, HYPO_INSTRUMENT)
+        b_h_2   <- safe_coef(m2, main_hypo_instrument)
         b_lp_3  <- safe_coef(m3, main_lp_instrument)
-        b_h_3   <- safe_coef(m3, HYPO_INSTRUMENT)
+        b_h_3   <- safe_coef(m3, main_hypo_instrument)
 
         rows_out[[length(rows_out) + 1L]] <- data.frame(
             outcome = y,
