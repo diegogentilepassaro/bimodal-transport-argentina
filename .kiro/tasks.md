@@ -72,6 +72,16 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           exploitable quasi-random variation, and it collapses on
           total MA after correction as a composition effect, not
           invalidity (six-design map, issue #114 / brief).
+      (iv) MOP critical values (2026-07-25,
+          diagnostic_mop_critical): with the proper K=2 benchmark
+          (cv(10%) = 6.5-9.7, far below the K=1 folk 23.1), 8 of 9
+          IV-B cells PASS at 10% Nagar-bias tolerance (rural pop
+          fails at 10%, passes at 20%); IV-LP alone sits at the
+          boundary (F_eff 22.64 vs cv 23.11 — fails 10% by a hair,
+          passes 20%); IV-H fails at every tolerance. So the
+          combined spec is formally NOT weak, and dropping to
+          IV-LP-only would move the main spec from "passes" to
+          "borderline" by the MOP standard.
       Modern-IV wiring into the paper is a follow-up decision
       (section 2).
 - [ ] D. MIGRATION SIGN + §5.4 — Cote leans REMOVE ("la sacaría si
@@ -444,6 +454,20 @@ the verification record.
       paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
+- [x] MOP critical values for the effective F — DONE 2026-07-25,
+      diagnostic_mop_critical.R (diagnostic only; completes note
+      #35's remaining gap). Algorithm verified against Windmeijer
+      2023 (arXiv:2309.01637) Sec. 3 = Stata weakivtest: exact
+      Nagar-bias bound B(W) (eigenvalue-analytic inner sup + 1-D
+      numeric outer sup), Patnaik k_eff, noncentral-chi2 cv;
+      tau ∈ {5,10,20,30}%, alpha 5%. VERDICTS: 8/9 IV-B cells PASS
+      at tau=10% (cv 6.5-9.7 — the K=2 structure lowers the bar
+      far below the folk 23.1; rural pop fails 10%, passes 20%);
+      IV-LP alone borderline (22.64 vs 23.11); IV-H fails all.
+      Anchors asserted in code: F_eff == diagnostic_modern_iv.csv
+      digit-for-digit (11 cells); conservative K=1 cv(10%) == MOP's
+      published 23.1; B <= 1 everywhere; k_eff = 1 exactly at K=1;
+      exact cv <= conservative cv. → agenda item C(iv).
 - [x] Sectoral outcomes on the iceberg V-sweep — DONE 2026-07-25,
       PR #135, diagnostic_ma_iceberg_sectoral.R (diagnostic only;
       companion to PR #130, theta_sweep-pair precedent). VERDICT,

@@ -1,0 +1,37 @@
+============================================================================================ 
+MOP CRITICAL VALUES FOR THE EFFECTIVE F (completes note #35) 
+Montiel Olea-Pflueger (2013) weak-instrument test via the Patnaik 
+approximation (algorithm per Windmeijer 2023 Sec. 3 = Stata's 
+weakivtest). Reject 'weak' at bias tolerance tau, alpha = 5%, if 
+F_eff > cv(tau). cv computed with the exact bias bound B(W) (<= 1; 
+the conservative B = 1 variant is in the CSV). K=1 cells: k_eff = 1 
+and the conservative cv(10%) is MOP's published 23.1. 
+Generated: 2026-07-25 21:00:05 
+============================================================================================ 
+ 
+Cell            Spec    K  F_eff      B       cv at tau = 5/10/20/30%  verdict(10/20) 
+T9 total pop    IV-LP   1  22.64  1.000    37.42  23.11  15.06  12.05    fail/PASS   
+T9 total pop    IV-H    1   4.27  1.000    37.42  23.11  15.06  12.05    fail/fail   
+T9 total pop    IV-B    2  13.11  0.255    12.84   8.64   6.23   5.31    PASS/PASS   
+T9 urban pop    IV-B    2  12.60  0.148     9.20   6.53   4.98   4.39    PASS/PASS   
+T9 rural pop    IV-B    2   8.37  0.296    14.52   9.67   6.87   5.80    fail/PASS   
+T9 urban share  IV-B    2  13.11  0.179    10.41   7.25   5.41   4.71    PASS/PASS   
+T10 mfg value   IV-B    2  13.41  0.181    10.48   7.29   5.43   4.73    PASS/PASS   
+T10 wage mass   IV-B    2  13.76  0.168    10.00   7.01   5.27   4.60    PASS/PASS   
+T10 establish.  IV-B    2  13.41  0.168    10.04   7.04   5.28   4.62    PASS/PASS   
+T10 farms       IV-B    2  12.67  0.271    13.38   8.97   6.42   5.45    PASS/PASS   
+T10 farmed area IV-B    2  12.67  0.252    12.81   8.64   6.23   5.31    PASS/PASS   
+ 
+Reading notes: 
+- IV-B (K=2) cells: 8 of 9 pass at tau = 10%; 9 of 9 at 20%; 
+  9 of 9 at 30%. cv(10%) sits at 6.5-9.7 for these cells, 
+  well below the K=1 benchmark 23.1: the two-instrument W2 
+  structure lowers the bar relative to the single-instrument 
+  rule of thumb. 
+- Verdicts use the EXACT bias bound B(W); B here is 0.148-1.000, 
+  so exact cvs sit below the conservative B=1 variants (CSV). 
+- The 'pass' verdict means: reject the null that the Nagar bias 
+  of 2SLS exceeds tau of the worst-case benchmark, at the 5% 
+  significance level. 
+ 
+Full columns (k_eff, conservative cvs): diagnostic_mop_critical.csv 
