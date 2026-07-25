@@ -191,14 +191,22 @@ LEDGER.
       Decision A). Affine iceberg τ' = 1 + cost/V, V-sweep at θ=8.22
       and 4.55. HEADLINE: β(V) rises monotonically as τ' compresses
       toward the D&H band — IV-B at θ=8.22 goes 0.024 (raw) → 0.067
-      (V=4,400 p/t, τ' p10-p90 1.36-3.40) → 0.12-0.32 at high V,
-      crossing Gibbons ≈0.3, and first stages STRENGTHEN (F 13→37) —
-      but SEs grow faster, so no point on the curve is significant.
-      The θ·β ≈ const rescaling from the decay experiment holds here
-      too (4.55 vs 8.22 betas ratio ≈ θ ratio). V not sourced yet
-      (rides the #68 archive visit); honesty rule: V gets picked by
-      the source, not by where β lands. Raw anchor reproduces the
-      pipeline with zero diff (scoping note's scratch table was a
+      (V=4,400 p/t, τ' p10-p90 1.36-3.40) → 0.12-0.32 at high V —
+      but no point on either curve clears the 5% LEVEL, including
+      the raw anchor itself (p=0.096, the published main spec); the
+      t-stat peaks at V≈100-500 (p=0.055 at θ=4.55 V=100, no weaker
+      than the main spec) before precision decays. The combined-F
+      strengthening (13→37) is ENTIRELY the hypo instrument (IV-H F
+      7.9→65.5 at θ=8.22 while Larkin F falls 15.6→9.7): the
+      normalization REVERSES the instrument-strength ranking, which
+      feeds the IV-LP-only main-spec question. The Gibbons ≈0.3
+      crossing lives only in the degenerate tail (V=100k p/t ≈ 23×
+      the median raw cost). θ·β rescaling from the decay experiment
+      roughly holds (~20% loose at raw/low V, within ~3% by
+      V=4,400). V not sourced yet (rides the #68 archive visit);
+      honesty rule: V gets picked by the source, not by where β
+      lands. Raw anchor reproduces the pipeline with zero diff, now
+      asserted in code (scoping note's scratch table was a
       pre-refresh τ vintage; 1960 bands reproduce exactly).
 - [ ] Controls rationalization — CO-OWNED: Cote took it as homework
       (collinearity, region FE from census regions, threats-based

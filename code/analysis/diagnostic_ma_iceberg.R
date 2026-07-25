@@ -48,9 +48,12 @@
 #     the 1960-only tau' bands (e.g. p10-p90 1.36-3.40 at V_raster=4.4e6)
 #     but only approximately in the Delta log MA stats (e.g. gain 94.6%
 #     vs its 94.9% at 4.4e6): the scratch check predates a 1986-tau
-#     refresh. The pipeline zero-diff above is the binding standard.
-#   - V -> 0 at theta 8.22 gives IV-B beta = 0.024, consistent with the
-#     raw-tau sweep's 0.020 at theta 8.11.
+#     refresh. The pipeline zero-diff above is the binding standard and
+#     is now ASSERTED IN CODE at the raw theta-low anchor (see run_one),
+#     so the next tau refresh cannot silently invalidate this header.
+#   - V -> 0 at theta 8.22 gives IV-B beta = 0.0240, consistent with the
+#     committed raw-tau sweep's 0.0244 at theta 8.11
+#     (results/tables/diagnostic_theta_sweep.csv, post-refresh vintage).
 #
 # UNITS: V is reported in 1960 pesos/ton via tau_units_to_pesos = 1000
 #   (config.R section 7b; raster units = pesos/ton x 1000).
@@ -172,6 +175,17 @@ run_one <- function(th, V_pesos, sym, tau60_pairs, est, ctrls, raw_anchor) {
                d[, c("geolev2", "logMA_iceberg_1960",
                      "chg_iceberg", "z_stu", "z_lcp")],
                by = "geolev2", all.x = FALSE)
+    # Merge validation: the tau matrices cover all 312 districts, so the
+    # inner join must retain every estimation-sample row (311; CABA is a
+    # destination only).
+    stopifnot(nrow(m) == nrow(est))
+    # Pipeline-fidelity assertion (cr-review PR #130 SF3): at the raw
+    # theta-low anchor the recomputed delta must equal the pipeline's
+    # chg_logMA_86_60_s0_elow column exactly. Guards this script against
+    # a future tau refresh silently invalidating the header's claims.
+    if (raw_anchor && abs(th - theta[["low"]]) < 1e-9) {
+        stopifnot(max(abs(m$chg_iceberg - m$chg_logMA_86_60_s0_elow)) < 1e-9)
+    }
     fits <- fit_iv_quad(
         y          = "chg_log_pop_91_60",
         data       = m,
@@ -194,7 +208,8 @@ run_one <- function(th, V_pesos, sym, tau60_pairs, est, ctrls, raw_anchor) {
     out$n_obs <- nobs(fits[["OLS"]])
 
     message(sprintf(
-        "[iceberg] th=%.2f V=%6.0f p/t | tau' p10-p90 %8.3g-%8.3g | gain %.1f%% | IV-B %+7.3f (%.3f) F=%5.1f",
+        paste0("[iceberg] th=%.2f V=%6.0f p/t | tau' p10-p90 %8.3g-%8.3g",
+               " | gain %.1f%% | IV-B %+7.3f (%.3f) F=%5.1f"),
         th, V_pesos, out$tau_p10, out$tau_p90, 100 * out$dlm_gainshare,
         out$ivb_beta, out$ivb_se, out$ivb_F))
     out
@@ -246,39 +261,75 @@ write_outputs <- function(df) {
 
     txt_path <- file.path(dir_tables, "diagnostic_ma_iceberg.txt")
     con <- file(txt_path, open = "wt")
-    rep <- function(...) { line <- sprintf(...); cat(line, "\n")
-                           cat(line, "\n", file = con) }
-    rep("%s", strrep("=", 78))
-    rep("ICEBERG TAU NORMALIZATION SWEEP (Decision A option 1a; Cote 1.5)")
-    rep("tau' = 1 + cost/V ; MA = sum Pop_j / tau'^theta ; 1960 pop weights")
-    rep("Table 9 spec, total population, HC1; baseline logMA control is the")
-    rep("V-specific iceberg 1960 logMA. V in 1960 pesos/ton (raster/1000).")
-    rep("V is NOT sourced yet (archive lookup, issue #68 visit): read the")
-    rep("curve, do not pick a point. V->0 = raw tau (scale cancels);")
-    rep("V->Inf: tau'->1, Delta log MA -> 0 for every district (no")
-    rep("regression exists at that limit).")
-    rep("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
-    rep("%s", strrep("=", 78))
+    wline <- function(...) { line <- sprintf(...); cat(line, "\n")
+                             cat(line, "\n", file = con) }
+    wline("%s", strrep("=", 78))
+    wline("ICEBERG TAU NORMALIZATION SWEEP (Decision A option 1a; Cote 1.5)")
+    wline("tau' = 1 + cost/V ; MA = sum Pop_j / tau'^theta ; 1960 pop weights")
+    wline("Table 9 spec, total population, HC1; baseline logMA control is the")
+    wline("V-specific iceberg 1960 logMA. V in 1960 pesos/ton (raster/1000).")
+    wline("V is NOT sourced yet (archive lookup, issue #68 visit): read the")
+    wline("curve, do not pick a point. V->0 = raw tau (scale cancels);")
+    wline("V->Inf: tau'->1, Delta log MA -> 0 for every district (no")
+    wline("regression exists at that limit).")
+    wline("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
+    wline("%s", strrep("=", 78))
     for (th in unique(df$theta)) {
-        rep("")
-        rep("---- theta = %.2f %s", th,
-            ifelse(th > 8, "(D&H preferred; the exponent tau' ~ 1 is built for)",
-                   "(main-spec continuity)"))
-        rep("%-9s %-22s %-6s %-7s  %-18s %-18s %-6s",
-            "V (p/t)", "tau' p10/p50/p90", "gain%", "dlmMean",
-            "OLS b (SE)", "IV-B b (SE)", "F(IVB)")
+        wline("")
+        wline("---- theta = %.2f %s", th,
+              ifelse(th > 8,
+                     "(D&H preferred; the exponent tau' ~ 1 is built for)",
+                     "(main-spec continuity)"))
+        wline("%-9s %-22s %-6s %-7s  %-16s %-16s %6s %6s %6s",
+              "V (p/t)", "tau' p10/p50/p90", "gain%", "dlmMean",
+              "OLS b (SE)", "IV-B b (SE)", "F(LP)", "F(H)", "F(IVB)")
         sub <- df[df$theta == th, ]
         for (i in seq_len(nrow(sub))) {
             r <- sub[i, ]
-            rep("%-9s %-22s %5.1f%% %+7.3f  %+8.3f (%.3f)  %+8.3f (%.3f) %6.1f",
-                ifelse(r$anchor != "affine", "raw", format(r$V_pesos, trim = TRUE)),
-                sprintf("%.3g/%.3g/%.3g", r$tau_p10, r$tau_p50, r$tau_p90),
-                100 * r$dlm_gainshare, r$dlm_mean,
-                r$ols_beta, r$ols_se, r$ivb_beta, r$ivb_se, r$ivb_F)
+            wline(paste0("%-9s %-22s %5.1f%% %+7.3f  %+7.3f (%.3f)  ",
+                         "%+7.3f (%.3f) %6.1f %6.1f %6.1f"),
+                  ifelse(r$anchor != "affine", "raw",
+                         format(r$V_pesos, trim = TRUE)),
+                  sprintf("%.3g/%.3g/%.3g", r$tau_p10, r$tau_p50, r$tau_p90),
+                  100 * r$dlm_gainshare, r$dlm_mean,
+                  r$ols_beta, r$ols_se, r$ivb_beta, r$ivb_se,
+                  r$ivlp_F, r$ivh_F, r$ivb_F)
         }
     }
-    rep("")
-    rep("Full grid incl. IV-LP / IV-H columns: diagnostic_ma_iceberg.csv")
+    # ---- Computed reading notes (cr-review PR #130 SF2 / C1 / C2 / C4) ----
+    aff <- df[df$anchor == "affine", ]
+    tmax_i <- which.max(abs(aff$ivb_beta / aff$ivb_se))
+    p_min <- min(df$ivb_p)
+    p_anchor <- df$ivb_p[df$anchor != "affine" & df$theta == theta[["low"]]]
+    lo <- df[df$theta == max(df$theta), ]
+    wline("")
+    wline("Reading notes:")
+    wline("- Significance: NOTHING on either curve clears the 5%% level,")
+    wline("  including the raw anchor (its p = %.3f, the published main",
+          p_anchor)
+    wline("  spec). Smallest IV-B p on the grid = %.3f (theta %.2f,",
+          p_min, df$theta[which.min(df$ivb_p)])
+    wline("  V = %s p/t): low-V points are no WEAKER than the main spec.",
+          format(df$V_pesos[which.min(df$ivb_p)], trim = TRUE))
+    wline("- The IV-B t-stat PEAKS at V = %s p/t (t = %.2f) before precision",
+          format(aff$V_pesos[tmax_i], trim = TRUE),
+          abs(aff$ivb_beta / aff$ivb_se)[tmax_i])
+    wline("  decays; 'SEs grow faster than beta' holds beyond V ~ 500.")
+    wline("- The IV-B F strengthening is ENTIRELY the hypothetical")
+    wline("  instrument: at theta %.2f, F(IV-H) goes %.1f -> %.1f across the",
+          max(df$theta), lo$ivh_F[1], lo$ivh_F[nrow(lo)])
+    wline("  grid while F(IV-LP) goes %.1f -> %.1f. Normalization REVERSES",
+          lo$ivlp_F[1], lo$ivlp_F[nrow(lo)])
+    wline("  the instrument-strength ranking (relevant to the IV-LP-only")
+    wline("  main-spec question).")
+    wline("- The Gibbons ~0.3 crossing occurs only in the degenerate tail")
+    wline("  (V = %s p/t ~ %.0fx the median raw cost; Delta log MA mean",
+          format(max(df$V_pesos), trim = TRUE),
+          max(df$V_pesos) * tau_units_to_pesos / df$tau_p50[1])
+    wline("  %.3f there).", df$dlm_mean[df$V_pesos == max(df$V_pesos) &
+                                        df$theta == max(df$theta)])
+    wline("")
+    wline("Full grid incl. IV-LP / IV-H betas: diagnostic_ma_iceberg.csv")
     close(con)
     message("\nSaved: ", txt_path)
     message("Saved: ", csv_path)
