@@ -242,8 +242,25 @@ LEDGER.
       flagged, anchored to Figure 1; empirics deferred per Cote's own
       note). Review considers left for Cote: §6.3/§8.3 loop-closing
       sentence; durability premise used differently in §2.4 vs §8.2.
-- [ ] Modern IV inference check (note #35): Montiel Olea-Pflueger
-      effective F / Anderson-Rubin CIs alongside current F stats.
+- [x] Modern IV inference check (note #35) — DONE 2026-07-25,
+      diagnostic_modern_iv.R (diagnostic only, paper untouched).
+      11 headline IV cells (Table 9 pop × IV-LP/IV-H/IV-B, Table 10
+      sectoral × IV-B): classical F vs robust Wald F vs MOP
+      effective F + 95% AR sets by robust inversion. HEADLINES:
+      (a) the mfg results SURVIVE weak-IV robust inference — AR
+      sets exclude zero (valprod [0.035, 0.678], wage [0.136,
+      0.732]); (b) every AR set is bounded, population sets include
+      zero (consistent with published nulls); (c) the IV-B (K=2)
+      effective Fs run 1.5-3.3 points below the classical Fs the
+      paper quotes (total pop 13.1 vs 16.2); the K=1 IV-LP cell is
+      essentially unchanged and slightly STRONGER under robust
+      inference (22.6 vs 22.1), while the hypo instrument weakens
+      (IV-H F 6.9 classical → 4.3 robust);
+      (d) hand-rolled F_eff validated exactly against fixest ivwald
+      on the K=1 cells and cross-checked against the ivDiag
+      reference implementation. MOP K=2 critical values not
+      computed (needs Patnaik simulation; flag for the meeting if
+      wanted). Wiring into the paper = post-Wednesday decision.
 - [ ] Agri intensive-margin outcome + urbanization measurement
       doubts (notes #36/#39) — data-limited; Cote may fold into his
       digitization track.
