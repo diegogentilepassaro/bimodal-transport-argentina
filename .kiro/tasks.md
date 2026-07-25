@@ -33,6 +33,18 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           13→37, but nothing clears 5% anywhere — including the
           published main spec itself (p=0.096). V unsourced (rides
           the #68 archive visit; honesty rule: source picks V).
+      (iii) Sectoral de-risking ON the iceberg object (2026-07-25,
+          diagnostic_ma_iceberg_sectoral): under IV-BOTH (the
+          published spec) the headline contrast SURVIVES at every V
+          grid point and both θ — mfg value/wage max p =
+          0.013/0.004, establishments + both ag outcomes min p =
+          0.127. Under IV-LP the contrast holds only in the
+          low-to-mid V region (mfg ** at V=100-1000; already just *
+          at raw, per Table 10) and fades to null at high V (max p
+          0.18/0.33) as normalization weakens the Larkin instrument
+          — so Decision A and the instrument choice INTERACT:
+          IV-LP-only + deep normalization together would cost the
+          sectoral significance.
       Options priced in .kiro/decision_a_option1_scoping.md (1a
       Fogel-scalar ~2-3 days once V sourced; 1b route-inefficiency
       ~1 day, no external data; option 2 Gibbons-centrality zero
@@ -432,6 +444,29 @@ the verification record.
       paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
+- [x] Sectoral outcomes on the iceberg V-sweep — DONE 2026-07-25,
+      PR #135, diagnostic_ma_iceberg_sectoral.R (diagnostic only;
+      companion to PR #130, theta_sweep-pair precedent). VERDICT,
+      two parts: (a) under IV-BOTH the paper's headline contrast
+      survives the iceberg object at EVERY grid point and both θ —
+      mfg value max p = 0.013 (θ=8.22) / 0.009 (θ=4.55), wage max
+      p = 0.004/0.002; establishments + both ag outcomes never
+      significant (min p = 0.127); (b) under IV-LP (added per the
+      PR #135 review — the IV-LP-only question is on the agenda)
+      the contrast holds only at low-to-mid V (** at V=100-1000;
+      already just * at raw, per Table 10) and fades to null at
+      high V (max p 0.18/0.33), consistent with the Larkin F
+      falling with V (PR #130): Decision A and the instrument
+      choice interact. β levels grow by an order of magnitude
+      along the grid as Δlog MA compresses; the growth factor is
+      OUTCOME-DEPENDENT because the transform is nonlinear (θ=8.22
+      raw → V=100k: wage ×41.7, population ×13.1) — levels are
+      object-dependent, the contrast (under IV-Both) is not.
+      Verified in code with row-count-guarded assertions: raw θ-low
+      anchor reproduces Table 10 IV-B AND IV-LP (all 5) and Table 9
+      IV-B and IV-LP (population) exactly; population rows match
+      diagnostic_ma_iceberg.csv at every cell, both specs.
+      → agenda item A(iii), feeds C too.
 - [x] Main-spec column names centralized — DONE 2026-07-25, PR #133
       squash-merged (PR #131 review consider C4): main_treatment +
       main_lp_instrument now live in config.R next to
