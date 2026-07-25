@@ -283,6 +283,12 @@ force a rerun anyway (Diego, 2026-07-20).
       committed PDF. Now includes the unimodal step (D.13f, ~15 min
       extra vs the PR #97 run). Run after the draft stabilizes
       post-Cote.
+- [ ] Pre-submission figure format decision: the six heavy map
+      figures compile from PNG since PR #132 (repo-size fix);
+      journal production typically wants vector. Decide whether to
+      flip the includes back to .pdf for the final submission /
+      AEA deposit (vector PDFs are still produced by every plot
+      script, so the flip is six one-line edits + recompile).
 
 ### 3. Data-limited (need new raw sources; flagged to Cote)
 
@@ -293,14 +299,32 @@ force a rerun anyway (Diego, 2026-07-20).
 
 ### 4. Bookkeeping (small, no urgency)
 
-- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat
-      documented in paper.tex preamble; matters only if such a DOI
-      enters the bib).
+- [x] \doi macro verbatim-safety — FIXED 2026-07-25 (chore/repo-
+      hygiene): catcode-based doi.sty-pattern definition; hostile
+      DOIs (% and #) need no escaping. Verified via standalone test
+      compile against 10.1000/weird%20case#frag; all 15 in-paper
+      DOIs render (whitespace-insensitive match against the .bbl
+      call sites), including the two structurally unusual note-field
+      DOIs (IPUMS 10.18128/D020.V7.3, USGS 10.5066/F7DF6PQS).
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Decide gitignore treatment of logs/makelog.log and
-      logs/session_info.txt (untracked and unignored since the PR #97
-      rerun; flagged by PR #106's review).
+- [x] Gitignore treatment of logs/makelog.log and
+      logs/session_info.txt — DECIDED 2026-07-25 (Diego): ignore
+      both, consistent with main.Rout (per-run artifacts; the AEA
+      deposit produces them fresh at the final clean-machine run).
+      Two lines added to .gitignore (chore/repo-hygiene).
+- [x] paper.pdf bloat from embedded vector maps (ledger note from PR
+      #122: +8.8 MB per recompile) — FIXED 2026-07-25 (chore/repo-
+      hygiene): the six heavy map figures (1, 2, A2, A3, A4, C13)
+      compile from their existing PNGs (1400-3600 px; effective
+      ~253 dpi at the figure_2 minimum to ~554 at the c13 maximum,
+      given textwidth 6.5in / 0.85x = 5.525in); figure_a1 stays
+      vector (5 KB). Vector PDFs still produced to results/figures/
+      by every plot script (unchanged). Committed paper.pdf:
+      17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined, all 15
+      DOIs render. Pre-deposit decision queued in section 2: flip
+      the six raster includes back to vector for final submission
+      (journal production usually wants vector).
 - [x] Shared table formatters extracted to
       code/analysis/_table_helpers.R (fmt + tex_cell; tables 12-17) —
       cr-review PR #128 consider C1. Byte-identical outputs verified
