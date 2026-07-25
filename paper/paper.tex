@@ -49,7 +49,9 @@
 % Limitation shared with all verbatim-style macros: \doi cannot appear
 % inside another macro's argument — fine for .bbl entries, which call it
 % at top level. Verified against 10.1000/weird%20case#frag (PR chore/
-% repo-hygiene test compile).
+% repo-hygiene test compile). If doi.sty is ever installed and
+% \usepackage{doi} added, DELETE this whole block first (the
+% \newcommand will clash with the package's definition).
 \makeatletter
 \newcommand{\doi}{\begingroup \catcode`\%=12 \catcode`\#=12 \@doi}
 \def\@doi#1{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}\endgroup}
