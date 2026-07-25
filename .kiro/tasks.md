@@ -45,10 +45,24 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           — so Decision A and the instrument choice INTERACT:
           IV-LP-only + deep normalization together would cost the
           sectoral significance.
+      (v) Option 1b QUANTIFIED (2026-07-25,
+          diagnostic_tau_inefficiency): the route-inefficiency
+          object τ' = cost/(c_min × geodesic) — pair-varying, no
+          external data, τ' band 4.5-25.5, 0% below 1 — behaves
+          like the raw object: sectoral contrast HOLDS (mfg
+          value/wage p ≤ 0.004 at both θ under IV-Both;
+          establishments/ag/population null), F ≈ 11 (vs 13-16
+          raw), Δlog MA correlates 0.88 with the raw treatment.
+          Under IV-LP the mfg estimates hold only at the 5-10%
+          level (F 4-5), same A×C interaction as the iceberg. So
+          1b buys internal coherence (dimensionless multiplier,
+          referee-defensible object) at essentially no cost to the
+          headline, and needs no archive visit. All three τ-object
+          options now have quantitative evidence.
       Options priced in .kiro/decision_a_option1_scoping.md (1a
       Fogel-scalar ~2-3 days once V sourced; 1b route-inefficiency
-      ~1 day, no external data; option 2 Gibbons-centrality zero
-      work). Interacts with the density-schedule gradient (PR #99,
+      DONE above; option 2 Gibbons-centrality ≈ the decay
+      experiment). Interacts with the density-schedule gradient (PR #99,
       Table 15). Mechanics: the main-spec swap is now a config.R
       edit (PR #133) plus the label/binning sweep listed in
       config.R's comment.
@@ -459,6 +473,21 @@ the verification record.
       paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
+- [x] Route-inefficiency tau (Decision A option 1b) — DONE
+      2026-07-25, diagnostic_tau_inefficiency.R (diagnostic only;
+      completes the three-option evidence set for Decision A).
+      τ' = cost/(c_min × geodesic distance between the 03c
+      centroids), pair-varying, zero external data. FINDINGS: τ'
+      p10/p50/p90 = 4.5/9.4/25.5 with 0% of pairs below 1;
+      Δlog MA correlates 0.88 with the raw-object treatment;
+      IV-Both sectoral contrast HOLDS (mfg value p=0.003-0.004,
+      wage p=0.001, at both θ; establishments/ag min p=0.12;
+      population null p=0.15-0.17) with F ≈ 8-12; IV-LP holds mfg
+      only at 5-10% (F 4-6.5) — same A×C interaction as the
+      iceberg. Anchors asserted: BA-Rosario geodesic = 265.9 km
+      (scoping-note value); distance matrix symmetric/positive/
+      zero-diagonal; per-outcome Ns match Tables 9/10.
+      → agenda item A(v).
 - [x] MOP critical values for the effective F — DONE 2026-07-25,
       diagnostic_mop_critical.R (diagnostic only; completes note
       #35's remaining gap). Algorithm verified against Windmeijer
