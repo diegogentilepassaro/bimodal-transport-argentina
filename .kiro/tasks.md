@@ -293,14 +293,26 @@ force a rerun anyway (Diego, 2026-07-20).
 
 ### 4. Bookkeeping (small, no urgency)
 
-- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat
-      documented in paper.tex preamble; matters only if such a DOI
-      enters the bib).
+- [x] \doi macro verbatim-safety — FIXED 2026-07-25 (chore/repo-
+      hygiene): catcode-based doi.sty-pattern definition; hostile
+      DOIs (% and #) need no escaping. Verified via standalone test
+      compile against 10.1000/weird%20case#frag and all 12 in-paper
+      DOIs render unchanged.
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Decide gitignore treatment of logs/makelog.log and
-      logs/session_info.txt (untracked and unignored since the PR #97
-      rerun; flagged by PR #106's review).
+- [x] Gitignore treatment of logs/makelog.log and
+      logs/session_info.txt — DECIDED 2026-07-25 (Diego): ignore
+      both, consistent with main.Rout (per-run artifacts; the AEA
+      deposit produces them fresh at the final clean-machine run).
+      Two lines added to .gitignore (chore/repo-hygiene).
+- [x] paper.pdf bloat from embedded vector maps (ledger note from PR
+      #122: +8.8 MB per recompile) — FIXED 2026-07-25 (chore/repo-
+      hygiene): the six heavy map figures (1, 2, A2, A3, A4, C13)
+      compile from their existing PNGs (1400-3600 px, ~215-370
+      effective dpi at print width); figure_a1 stays vector (5 KB).
+      Vector PDFs still produced to results/figures/ by every plot
+      script (unchanged). Committed paper.pdf: 17.95 MB -> 3.18 MB
+      (-82%), 52 pp, zero undefined, all 12 DOIs render.
 - [x] Shared table formatters extracted to
       code/analysis/_table_helpers.R (fmt + tex_cell; tables 12-17) —
       cr-review PR #128 consider C1. Byte-identical outputs verified

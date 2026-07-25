@@ -44,11 +44,16 @@
             urlcolor=blue]{hyperref}
 % Clickable DOIs. plainnat emits \doi{...} in the .bbl via \providecommand,
 % so this definition takes precedence (doi.sty is not in this TeX Live).
-% \nolinkurl handles underscores and most special characters in DOI strings.
-% CAVEAT: not verbatim-safe for DOIs containing % or # (none of the current
-% DOIs do). If such a DOI is ever added, escape it in the bib entry (\%, \#)
-% or install doi.sty and replace this definition with \usepackage{doi}.
-\newcommand{\doi}[1]{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}}
+% Verbatim-safe: % and # are set to catcode 12 (other) BEFORE the argument
+% is tokenized (the doi.sty pattern), so hostile DOIs need no escaping.
+% Limitation shared with all verbatim-style macros: \doi cannot appear
+% inside another macro's argument — fine for .bbl entries, which call it
+% at top level. Verified against 10.1000/weird%20case#frag (PR chore/
+% repo-hygiene test compile).
+\makeatletter
+\newcommand{\doi}{\begingroup \catcode`\%=12 \catcode`\#=12 \@doi}
+\def\@doi#1{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}\endgroup}
+\makeatother
 
 % ---- Paths ----------------------------------------------------------------
 \graphicspath{{../results/figures/}{figures/}}
@@ -170,7 +175,7 @@ from \citet{baumgartnerpalazzo1969}.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a2_hypothetical_networks.pdf}
+\includegraphics[width=0.85\textwidth]{figure_a2_hypothetical_networks.png}
 \caption{Hypothetical road networks used by instrument 2:
 least-cost-path and Euclidean variants connecting the major cities.}
 \label{fig:hypo_networks}
@@ -178,7 +183,7 @@ least-cost-path and Euclidean variants connecting the major cities.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a3_larkin_studied.pdf}
+\includegraphics[width=0.85\textwidth]{figure_a3_larkin_studied.png}
 \caption{Rail segments studied versus not studied by the Larkin Plan,
 from the digitized plan tables.}
 \label{fig:larkin_studied}
@@ -186,7 +191,7 @@ from the digitized plan tables.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a4_navigation.pdf}
+\includegraphics[width=0.85\textwidth]{figure_a4_navigation.png}
 \caption{Navigation layer of the transport-cost surface: the
 navigable inland waterways flagged in the IGN hydrography
 \citep{ignhydro} --- the Paran\'a--Paraguay--Uruguay--R\'io de la
