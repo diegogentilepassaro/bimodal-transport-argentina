@@ -6,7 +6,7 @@ constants cancel in Delta log MA (the regression object is
 cost-per-geodesic-km); they only scale the reported tau' band. 
 Table 9/10 spec, 1b-object baseline logMA control, HC1. 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-07-25 22:33:28 
+Generated: 2026-07-25 23:38:57 
 ============================================================================================ 
  
 tau' (1960) p10/p50/p90 = 4.49 / 9.44 / 25.53 ; share < 1 = 0.00% 
@@ -52,5 +52,13 @@ ag farmed area       0.297       0.359      3.3
 Verdict (computed): 
 - theta 4.55 IV-Both: mfg value p = 0.004, wage p = 0.001; establishments/ag min p = 0.116; population p = 0.150, F = 10.7. 
 - theta 8.22 IV-Both: mfg value p = 0.003, wage p = 0.001; establishments/ag min p = 0.132; population p = 0.169, F = 11.0. 
+ 
+MOP weak-instrument test on the 1b first stages (effective F vs 
+Patnaik critical values, exact bias bound, alpha = 5%; machinery 
+from diagnostic_mop_critical.R): 
+- theta 4.55 IV-B: F_eff 7.0-8.7 vs cv(10%) 6.7-11.5 -> 4/6 outcomes pass at 10%, 4/6 at 20%. 
+- theta 4.55 IV-LP: F_eff 4.7-5.7 vs cv(10%) 23.1-23.1 -> 0/6 pass at 10%, 0/6 at 20%. 
+- theta 8.22 IV-B: F_eff 6.7-8.7 vs cv(10%) 6.5-11.4 -> 4/6 outcomes pass at 10%, 4/6 at 20%. 
+- theta 8.22 IV-LP: F_eff 3.4-4.4 vs cv(10%) 23.1-23.1 -> 0/6 pass at 10%, 0/6 at 20%. 
  
 Full columns: diagnostic_tau_inefficiency.csv 

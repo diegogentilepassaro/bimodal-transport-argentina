@@ -204,12 +204,26 @@ run_theta <- function(th, sym, est, ctrls) {
         )
         co  <- safe_coef(fits[["IV-B"]],  "fit_chg_ineff")
         clp <- safe_coef(fits[["IV-LP"]], "fit_chg_ineff")
+        # MOP effective F + critical values on the 1b first stages
+        # (cr-review PR #137 consider 1: the classical-F vs effective-F
+        # distinction is load-bearing at F ~ 8-12).
+        mop_b  <- mop_check(m, o$var, "chg_ineff", c("z_stu", "z_lcp"),
+                            ctrls)
+        mop_lp <- mop_check(m, o$var, "chg_ineff", "z_stu", ctrls)
         out[[length(out) + 1L]] <- data.frame(
             theta = th, outcome = o$var, label = o$lab,
             ivb_beta  = co$est,  ivb_se  = co$se,  ivb_p  = co$p,
             ivb_F     = fitstat_F(fits[["IV-B"]]),
+            ivb_Feff  = mop_b$F_eff,  ivb_cv10  = mop_b$cv10,
+            ivb_pass10  = mop_b$F_eff > mop_b$cv10,
+            ivb_cv20  = mop_b$cv20,
+            ivb_pass20  = mop_b$F_eff > mop_b$cv20,
             ivlp_beta = clp$est, ivlp_se = clp$se, ivlp_p = clp$p,
             ivlp_F    = fitstat_F(fits[["IV-LP"]]),
+            ivlp_Feff = mop_lp$F_eff, ivlp_cv10 = mop_lp$cv10,
+            ivlp_pass10 = mop_lp$F_eff > mop_lp$cv10,
+            ivlp_cv20 = mop_lp$cv20,
+            ivlp_pass20 = mop_lp$F_eff > mop_lp$cv20,
             n_obs     = nobs(fits[["OLS"]]),
             stringsAsFactors = FALSE
         )
@@ -273,11 +287,81 @@ load_tau_ineff <- function(case, pop, dist_df) {
                by = "destination_geolev2", all.x = TRUE)
     s$pop_dest[is.na(s$pop_dest)] <- 0
     s$ok <- is.finite(s$tau) & s$tau > 0
-    # tau' = cost / (c_min * D); c_min in raster units per km:
-    # cost_nav [pesos/ton-km] * tau_units_to_pesos [raster units/peso].
+    # tau' = cost / (c_min * D). Denominator converted to raster units:
+    # cost_nav [pesos/ton-km] x dist [km] gives pesos/ton, and
+    # tau_units_to_pesos converts pesos/ton to raster units (config 7b).
     denom <- cost_nav[["overall"]] * tau_units_to_pesos * s$dist_km
     s$tau_ineff <- ifelse(s$ok, s$tau / denom, Inf)
     s[order(s$origin_geolev2, s$destination_geolev2), ]
+}
+
+# ---------------------------------------------------------------------------
+# MOP effective F + Patnaik critical values on the 1b first stage.
+# Machinery copied from diagnostic_mop_critical.R (PR #136; reduced-form
+# residuals per MOP's setup; exact bias bound B(W); alpha = 5%).
+# ---------------------------------------------------------------------------
+mop_check <- function(m, yvar, endog, instrs, ctrls) {
+    vars <- c(yvar, endog, instrs, ctrls)
+    d <- m[complete.cases(m[, vars]), vars]
+    X <- as.matrix(cbind(1, d[, ctrls]))
+    r <- function(v) as.numeric(qr.resid(qr(X), v))
+    Dt <- r(d[[endog]])
+    Yt <- r(d[[yvar]])
+    Zt <- sapply(instrs, function(z) r(d[[z]]))
+    Zt <- matrix(Zt, ncol = length(instrs))
+    n <- nrow(d); k <- ncol(Zt)
+    qz <- qr(Zt)
+    pi_ <- qr.coef(qz, Dt)
+    v2 <- qr.resid(qz, Dt)
+    v1 <- qr.resid(qz, Yt)
+    hc1 <- n / (n - ncol(X) - k)
+    Q   <- crossprod(Zt)
+    eQ  <- eigen(Q, symmetric = TRUE)
+    Qih <- eQ$vectors %*% diag(1 / sqrt(eQ$values), k) %*% t(eQ$vectors)
+    meat <- function(a, b) hc1 * crossprod(Zt * a, Zt * b)
+    W1  <- Qih %*% meat(v1, v1) %*% Qih
+    W2  <- Qih %*% meat(v2, v2) %*% Qih
+    W12 <- Qih %*% meat(v1, v2) %*% Qih
+    F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
+    B <- B_of_W(W1, W2, W12)
+    list(F_eff = F_eff,
+         cv10 = patnaik_cv(W2, B / 0.10),
+         cv20 = patnaik_cv(W2, B / 0.20))
+}
+
+B_of_W <- function(W1, W2, W12) {
+    trW2 <- sum(diag(W2))
+    ratio_at <- function(b) {
+        S12 <- W12 - b * W2
+        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
+        sym <- (S12 + t(S12)) / 2
+        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
+        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
+                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
+        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
+        num / den
+    }
+    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE,
+                  only.values = TRUE)$values
+    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
+                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
+    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
+    vals <- vapply(grid, ratio_at, numeric(1))
+    i    <- which.max(vals)
+    ref  <- optimize(ratio_at, lower = grid[max(1, i - 1)],
+                     upper = grid[min(length(grid), i + 1)],
+                     maximum = TRUE)
+    max(vals[i], ref$objective, lim)
+}
+
+patnaik_cv <- function(W2, d_tau) {
+    trW2  <- sum(diag(W2))
+    trW22 <- sum(diag(crossprod(W2)))
+    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
+                       only.values = TRUE)$values)
+    k_eff <- trW2^2 * (1 + 2 * d_tau) /
+             (trW22 + 2 * d_tau * trW2 * lmax)
+    qchisq(0.95, df = k_eff, ncp = k_eff * d_tau) / k_eff
 }
 
 # ---------------------------------------------------------------------------
@@ -348,6 +432,26 @@ write_outputs <- function(df, dsc, band, share_lt1) {
                     "chg_log_areatot_ha_88_60")]),
               sub$ivb_p[sub$outcome == "chg_log_pop_91_60"],
               sub$ivb_F[sub$outcome == "chg_log_pop_91_60"])
+    }
+    wline("")
+    wline("MOP weak-instrument test on the 1b first stages (effective F vs")
+    wline("Patnaik critical values, exact bias bound, alpha = 5%%; machinery")
+    wline("from diagnostic_mop_critical.R):")
+    for (th in unique(df$theta)) {
+        sub <- df[df$theta == th, ]
+        wline(paste0("- theta %.2f IV-B: F_eff %.1f-%.1f vs cv(10%%) ",
+                     "%.1f-%.1f -> %d/%d outcomes pass at 10%%, %d/%d at ",
+                     "20%%."),
+              th, min(sub$ivb_Feff), max(sub$ivb_Feff),
+              min(sub$ivb_cv10), max(sub$ivb_cv10),
+              sum(sub$ivb_pass10), nrow(sub),
+              sum(sub$ivb_pass20), nrow(sub))
+        wline(paste0("- theta %.2f IV-LP: F_eff %.1f-%.1f vs cv(10%%) ",
+                     "%.1f-%.1f -> %d/%d pass at 10%%, %d/%d at 20%%."),
+              th, min(sub$ivlp_Feff), max(sub$ivlp_Feff),
+              min(sub$ivlp_cv10), max(sub$ivlp_cv10),
+              sum(sub$ivlp_pass10), nrow(sub),
+              sum(sub$ivlp_pass20), nrow(sub))
     }
     wline("")
     wline("Full columns: diagnostic_tau_inefficiency.csv")
