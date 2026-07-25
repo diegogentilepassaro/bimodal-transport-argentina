@@ -262,6 +262,23 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Decide gitignore treatment of logs/makelog.log and
       logs/session_info.txt (untracked and unignored since the PR #97
       rerun; flagged by PR #106's review).
+- [x] Shared table formatters extracted to
+      code/analysis/_table_helpers.R (fmt + tex_cell; tables 12-17) —
+      cr-review PR #128 consider C1. Byte-identical outputs verified
+      for all six tables (branch refactor/table-helpers). The two
+      theta-sweep diagnostics keep their own cells (different
+      signatures; not duplicates). table_14 keeps its single-use
+      tex_cell_or_blank.
+- [ ] Stale gitignored .tex after worktree-built PRs: the main tree's
+      results/tables/table_15_density_schedules.tex was still
+      pre-#116 (Medium/High/Low row order), so every paper.pdf
+      compiled here since PR #116 — including the committed one —
+      shows Table 15 in the old order; Cote's note #37 reordering
+      never reached the PDF. Disk tex regenerated (correct order) on
+      branch refactor/table-helpers; needs one recompile + paper.pdf
+      commit. Process fix: after merging a worktree-built PR that
+      touches table scripts, re-run those scripts in the main tree
+      before the next paper.pdf commit.
 
 ### 5. Deferred by explicit decision
 
