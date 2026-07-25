@@ -269,16 +269,20 @@ force a rerun anyway (Diego, 2026-07-20).
       theta-sweep diagnostics keep their own cells (different
       signatures; not duplicates). table_14 keeps its single-use
       tex_cell_or_blank.
-- [ ] Stale gitignored .tex after worktree-built PRs: the main tree's
-      results/tables/table_15_density_schedules.tex was still
-      pre-#116 (Medium/High/Low row order), so every paper.pdf
-      compiled here since PR #116 — including the committed one —
-      shows Table 15 in the old order; Cote's note #37 reordering
-      never reached the PDF. Disk tex regenerated (correct order) on
-      branch refactor/table-helpers; needs one recompile + paper.pdf
-      commit. Process fix: after merging a worktree-built PR that
-      touches table scripts, re-run those scripts in the main tree
-      before the next paper.pdf commit.
+- [x] Stale gitignored .tex after worktree-built PRs — RESOLVED in
+      PR #129 (recompile folded in). Full staleness audit of all 23
+      paper inputs (16 table .tex + 7 figure .pdf + scalars) found
+      two real casualties: table_15_density_schedules.tex was
+      pre-#116 (Medium/High/Low row order; Cote note #37 reordering
+      never reached the PDF) and table_6_pre_balance.tex had
+      pre-#119 notes (missing the geographic-controls +
+      self-partialling sentences). Both regenerated; paper.pdf
+      recompiled and committed (52 pp, zero undefined, Table 15
+      order and Table 6 notes verified in the PDF text). All other
+      flags were mtime false positives (byte-identical on re-run).
+      Process rule going forward: after merging a worktree-built PR
+      that touches table/figure scripts, re-run those scripts in the
+      main tree before the next paper.pdf commit.
 
 ### 5. Deferred by explicit decision
 
