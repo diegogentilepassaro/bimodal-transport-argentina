@@ -12,12 +12,13 @@
 # ALGORITHM (verified against Windmeijer 2023, arXiv:2309.01637v2,
 # Section 3, which restates MOP's procedure with explicit formulas;
 # the same algorithm underlies Stata's weakivtest, Pflueger-Wang 2015):
-#   With residualized instruments Z (n x k), treatment D, structural
-#   2SLS residuals u, first-stage residuals v, Q = Z'Z, and HC1-scaled
-#   meats S_ab = c * sum_i a_i b_i z_i z_i':
-#     W1  = Q^{-1/2} S_uu Q^{-1/2}
-#     W2  = Q^{-1/2} S_vv Q^{-1/2}     (tr(W2) = denominator of F_eff)
-#     W12 = Q^{-1/2} S_uv Q^{-1/2}
+#   With residualized instruments Z (n x k), treatment D, REDUCED-FORM
+#   residuals v1 (from Y~ on Z~, per MOP's setup; v1 = u + beta*v2),
+#   first-stage residuals v2, Q = Z'Z, and HC1-scaled meats
+#   S_ab = c * sum_i a_i b_i z_i z_i':
+#     W1  = Q^{-1/2} S_v1v1 Q^{-1/2}
+#     W2  = Q^{-1/2} S_v2v2 Q^{-1/2}   (tr(W2) = denominator of F_eff)
+#     W12 = Q^{-1/2} S_v1v2 Q^{-1/2}
 #   Nagar-bias objects, for scalar beta and unit vector c0:
 #     S1(b)  = W1 - b (W12 + W12') + b^2 W2
 #     S12(b) = W12 - b W2
@@ -147,14 +148,16 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
     n  <- nrow(d)
     k  <- ncol(Zt)
 
-    # Residuals: first-stage v from Z regression; structural u from the
-    # 2SLS fit (full-model residuals are orthogonal to the controls, so
-    # they pair correctly with the residualized Z).
+    # Residuals per MOP's setup (cr-review PR #136 SF2): v1 = REDUCED-
+    # FORM residuals of Y~ on Z~ (= u + beta*v2), v2 = first-stage
+    # residuals of D~ on Z~. (Using structural 2SLS residuals instead
+    # was verified immaterial — B moves <= 0.01, cv(10%) <= 0.2, no
+    # verdict flips — but v1 is what weakivtest/Windmeijer use.)
+    Yt <- r(d[[cell$y]])
     qz <- qr(Zt)
     pi_ <- qr.coef(qz, Dt)
-    v  <- qr.resid(qz, Dt)
-    u  <- as.numeric(resid(m_iv))
-    stopifnot(length(u) == n)
+    v2 <- qr.resid(qz, Dt)
+    v1 <- qr.resid(qz, Yt)
 
     # W matrices with the same HC1 dof scaling as diagnostic_modern_iv.R
     hc1 <- n / (n - ncol(X) - k)
@@ -162,9 +165,9 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
     eQ  <- eigen(Q, symmetric = TRUE)
     Qih <- eQ$vectors %*% diag(1 / sqrt(eQ$values), k) %*% t(eQ$vectors)
     meat <- function(a, b) hc1 * crossprod(Zt * a, Zt * b)
-    W1  <- Qih %*% meat(u, u) %*% Qih
-    W2  <- Qih %*% meat(v, v) %*% Qih
-    W12 <- Qih %*% meat(u, v) %*% Qih
+    W1  <- Qih %*% meat(v1, v1) %*% Qih
+    W2  <- Qih %*% meat(v2, v2) %*% Qih
+    W12 <- Qih %*% meat(v1, v2) %*% Qih
 
     F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
 
@@ -210,12 +213,12 @@ B_of_W <- function(W1, W2, W12) {
         den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
         num / den
     }
-    # beta -> +/-Inf limit: S12 ~ -b W2, S1 ~ b^2 W2, so the ratio tends
-    # to max over eigenvalue extremes of |tr(W2) - 2 lambda(W2)| / (trW2
-    # * sqrt(1)) ... computed directly:
+    # beta -> +/-Inf limit: S12 ~ -b W2 and S1 ~ b^2 W2, so |n|/BM tends
+    # to max over eigenvalue extremes of |tr(W2) - 2 lambda(W2)| / trW2
+    # (the |b| factors cancel between numerator and denominator):
     evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE, only.values = TRUE)$values
     lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
-                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2 / sqrt(trW2 / trW2)
+                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
     grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
     vals <- vapply(grid, ratio_at, numeric(1))
     i    <- which.max(vals)
@@ -308,18 +311,29 @@ write_outputs <- function(df) {
     wline("Reading notes:")
     wline("- IV-B (K=2) cells: %d of %d pass at tau = 10%%; %d of %d at 20%%;",
           sum(ivb$pass_tau10), nrow(ivb), sum(ivb$pass_tau20), nrow(ivb))
-    wline("  %d of %d at 30%%. cv(10%%) sits at %.1f-%.1f for these cells,",
+    wline("  %d of %d at 30%%. cv(10%%) sits at %.1f-%.1f for these cells.",
           sum(ivb$pass_tau30), nrow(ivb),
           min(ivb$cv_tau10), max(ivb$cv_tau10))
-    wline("  well below the K=1 benchmark 23.1: the two-instrument W2")
-    wline("  structure lowers the bar relative to the single-instrument")
-    wline("  rule of thumb.")
-    wline("- Verdicts use the EXACT bias bound B(W); B here is %.3f-%.3f,",
+    wline("- WHERE THE LOW BAR COMES FROM (attribution matters): the K=2")
+    wline("  W2 structure alone only lowers the conservative (B=1) cv to")
+    wline("  %.1f-%.1f — under the conservative test every IV-B cell",
+          min(ivb$cvcons_tau10), max(ivb$cvcons_tau10))
+    wline("  would %s at tau = 10%%. The drop to %.1f-%.1f is the exact",
+          ifelse(any(ivb$F_eff > ivb$cvcons_tau10), "be mixed", "FAIL"),
+          min(ivb$cv_tau10), max(ivb$cv_tau10))
+    wline("  Nagar-bias bound B = %.3f-%.3f doing the work: for these W",
+          min(ivb$B), max(ivb$B))
+    wline("  matrices the worst-case 2SLS Nagar bias is a small fraction")
+    wline("  of the benchmark, so a smaller F suffices. The pass verdicts")
+    wline("  lean on that exact computation, not on instrument count.")
+    wline("- Verdicts use the EXACT bound B(W); B here is %.3f-%.3f, so",
           min(df$B), max(df$B))
-    wline("  so exact cvs sit below the conservative B=1 variants (CSV).")
+    wline("  exact cvs sit at or below the conservative B=1 variants")
+    wline("  (equality at K=1, where B = 1 exactly).")
     wline("- The 'pass' verdict means: reject the null that the Nagar bias")
     wline("  of 2SLS exceeds tau of the worst-case benchmark, at the 5%%")
-    wline("  significance level.")
+    wline("  significance level. Note the one qualification: rural")
+    wline("  population fails at tau = 10%% (passes at 20%%).")
     wline("")
     wline("Full columns (k_eff, conservative cvs): diagnostic_mop_critical.csv")
     close(con)
