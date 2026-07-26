@@ -22,6 +22,17 @@ Agenda set by Cote's 2026-07-24 email. Each item below is a decision
 the meeting has to make, with the evidence now in hand. Where an
 item's follow-up work is tracked elsewhere, the pointer is noted.
 
+- [ ] Pre-meeting evidence brief for Cote — DRAFTED 2026-07-25
+      (`Plan/email_cote_evidencia_theta_tau.md`, workspace root,
+      untracked): the θ/τ three-object comparison (items A i-v),
+      the four instrument pieces (item C a-d incl. the A×C
+      interaction), the V-sourcing spec for his #68 archive visit,
+      and the closed reading-note items. All numbers audited
+      against the committed diagnostic outputs. AWAITING Diego's
+      review + send (tone check on the opening; the 'Mi lectura'
+      paragraph in §2 is the one editorial position — own, soften,
+      or cut).
+
 - [ ] A. DECISION A — the θ/τ object (deepest open question).
       Both cheap experiments Cote asked for are done:
       (i) Gibbons-style decay (PR #127): θ ∈ {0.25, 0.5, 0.75};
@@ -188,8 +199,9 @@ Nothing here starts before the meeting; each item lists its trigger.
       report robust/effective F alongside (or instead of) classical
       F in Tables 8-10, AR sets for the headline cells
       (diagnostic_modern_iv.R computes everything; AR tail grid
-      already densified). MOP K=2 critical values need the Patnaik
-      simulation — only if the meeting wants them.
+      already densified; MOP K=2 critical values COMPUTED, PR #136
+      — diagnostic_mop_critical.R has the verdicts ready to quote
+      or wire).
 - [ ] [after #68 confirms] generate_scalars wiring for the
       studied-share footnote numbers.
 - [ ] [after geocoding lands + A settles] MA integration of the
@@ -455,9 +467,9 @@ the verification record.
       4.3 robust); (d) hand-rolled F_eff validated exactly against
       fixest ivwald on the K=1 cells and cross-checked against the
       ivDiag reference implementation. MOP K=2 critical values not
-      computed (needs Patnaik simulation; flag for the meeting if
-      wanted). Wiring into the paper = post-Wednesday decision
-      (section 2). → agenda item C.
+      computed at the time (since computed: PR #136 below). Wiring
+      into the paper = post-Wednesday decision (section 2).
+      → agenda item C.
 - [x] \doi macro verbatim-safety — FIXED 2026-07-25, PR #132
       squash-merged: catcode-based doi.sty-pattern definition;
       hostile DOIs (% and #) need no escaping. Verified via
@@ -504,8 +516,8 @@ the verification record.
       symmetric/positive/zero-diagonal; per-outcome Ns match
       Tables 9/10. → agenda item A(v).
 - [x] MOP critical values for the effective F — DONE 2026-07-25,
-      diagnostic_mop_critical.R (diagnostic only; completes note
-      #35's remaining gap). Algorithm verified against Windmeijer
+      PR #136, diagnostic_mop_critical.R (diagnostic only;
+      completes note #35's remaining gap). Algorithm verified against Windmeijer
       2023 (arXiv:2309.01637) Sec. 3 = Stata weakivtest: exact
       Nagar-bias bound B(W) (eigenvalue-analytic inner sup + 1-D
       numeric outer sup), Patnaik k_eff, noncentral-chi2 cv;
