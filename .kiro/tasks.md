@@ -92,8 +92,13 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       1947-consistent baselines the placebo is a clean null in all
       four estimators (IV-B -0.004, p=0.89) and first stages
       STRENGTHEN (F 16-24). If adopted: rewrite the intro's
-      validation paragraph (work item, section 2). Revisit after
-      any MA-definition change.
+      validation paragraph (work item, section 2). A×B CHECKED
+      (2026-07-25, diagnostic_crossobject_checks): the clean null
+      SURVIVES on every candidate τ object — decay θ=0.5, iceberg
+      V=4,400/20,000, route-inefficiency at both θ — smallest
+      any-IV p = 0.34, placebo first stages F 21.5-61.1 (the
+      iceberg objects strengthen it further). Decisions A and B do
+      NOT interact: adopt B on its own merits.
 - [ ] C. MAIN-SPEC INSTRUMENT — IV-LP-only vs IV-Both. Three new
       evidence pieces this week, all pointing the same way:
       (i) under iceberg normalization the instrument-strength
@@ -106,6 +111,13 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           exploitable quasi-random variation, and it collapses on
           total MA after correction as a composition effect, not
           invalidity (six-design map, issue #114 / brief).
+      (iii-b) The A×C matrix is now COMPLETE (2026-07-25,
+          diagnostic_crossobject_checks): the interaction is
+          OBJECT-SPECIFIC. On the DECAY object IV-LP keeps the mfg
+          significance at 5% across the whole grid (max p = 0.030,
+          F(LP) 9.2-15.0) — unlike the iceberg (fades at high V)
+          and 1b (MOP-weak). If the meeting wants IV-LP-only, the
+          decay object is the one candidate that supports it.
       (iv) MOP critical values (2026-07-25,
           diagnostic_mop_critical): 8 of 9 IV-B cells PASS at 10%
           Nagar-bias tolerance (rural pop fails 10%, passes 20%);
@@ -494,6 +506,23 @@ the verification record.
       paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
+- [x] Cross-decision checks (A×B and A×C completion) — DONE
+      2026-07-25, diagnostic_crossobject_checks.R (diagnostic only).
+      PART 1 (A×B): the full47 placebo spec run on every candidate
+      τ object (raw anchor, decay θ=0.5, iceberg V=4,400/20,000,
+      1b both θ). VERDICT: clean null EVERYWHERE — smallest any-IV
+      p = 0.34, IV-B p range 0.34-0.95, placebo first stages
+      F 21.5-61.1 (iceberg objects strengthen them). Decisions A
+      and B do not interact. PART 2 (A×C decay cell): sectoral
+      outcomes under IV-LP on the decay object, θ ∈ {0.25,0.5,
+      0.75}. VERDICT: mfg value/wage stay significant at 5%
+      everywhere (max p = 0.030, F(LP) 9.2-15.0) — the decay
+      object is the ONE candidate where IV-LP-only keeps the
+      sectoral significance (iceberg fades; 1b MOP-weak).
+      Anchors asserted: raw placebo row == diagnostic_placebo_1947
+      full47 (all four estimators + N=237); decay IV-B ==
+      diagnostic_theta_gibbons (18 cells); BA-Rosario geodesic.
+      → agenda items B and C(iii-b).
 - [x] Route-inefficiency tau (Decision A option 1b) — DONE
       2026-07-25, PR #137, diagnostic_tau_inefficiency.R
       (diagnostic only; completes the three-option evidence set

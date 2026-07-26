@@ -1,0 +1,58 @@
+============================================================================================ 
+CROSS-DECISION CHECKS BEFORE THE 2026-07-29 MEETING 
+Part 1 (A x B): the full47 placebo spec on each candidate tau 
+object. Part 2 (A x C): sectoral outcomes under IV-LP on the 
+decay object (completes the object x instrument matrix). 
+Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
+Generated: 2026-07-26 11:07:52 
+============================================================================================ 
+ 
+PART 1 — placebo (1947-60 growth), full47 controls, by object: 
+Object            theta  OLS             IV-LP           IV-H            IV-B            
+raw (anchor)       4.55  -0.012 p=0.47   +0.006 p=0.91   -0.019 p=0.73   -0.004 p=0.89   
+decay th=0.5       0.50  -0.110 p=0.57   +0.059 p=0.93   -0.326 p=0.59   -0.179 p=0.67   
+iceberg V=4400     8.22  +0.002 p=0.94   +0.105 p=0.37   +0.030 p=0.53   +0.034 p=0.44   
+iceberg V=20000    8.22  +0.033 p=0.46   -0.040 p=0.93   +0.077 p=0.34   +0.075 p=0.34   
+ineff th=4.55      4.55  -0.005 p=0.77   +0.019 p=0.82   -0.009 p=0.89   -0.003 p=0.95   
+ineff th=8.22      8.22  -0.005 p=0.66   -0.006 p=0.90   -0.004 p=0.91   -0.004 p=0.88   
+IV-B first-stage F by object: raw (anchor) 23.2; decay th=0.5 22.3; iceberg V=4400 35.7; iceberg V=20000 61.1; ineff th=4.55 21.5; ineff th=8.22 22.2 
+ 
+Part 1 verdict: IV-B placebo max |p-deviation from clean| — 
+largest IV-B p = 0.951, smallest ANY-IV p = 0.341 across all 
+objects. Clean null everywhere iff the smallest p stays far 
+from 0.05-0.10. 
+ 
+PART 2 — decay object, IV-LP (new) vs IV-B (PR #127 anchor): 
+ 
+---- theta = 0.25   [beta, p, F] 
+Outcome                          IV-B                  IV-LP 
+population                1.500*   p=0.092    2.299    p=0.110  F(LP)=10.9 
+mfg production value     12.194*** p=0.001   11.980**  p=0.024  F(LP)=11.1 
+mfg wage mass            15.005*** p=0.000   12.600**  p=0.025  F(LP)=12.4 
+mfg establishments        2.082    p=0.270    2.625    p=0.359  F(LP)=11.1 
+ag farms                  3.584    p=0.141    6.030    p=0.209  F(LP)=9.2 
+ag farmed area            3.441    p=0.193    4.346    p=0.340  F(LP)=9.2 
+ 
+---- theta = 0.50   [beta, p, F] 
+Outcome                          IV-B                  IV-LP 
+population                0.745*   p=0.078    1.053    p=0.118  F(LP)=12.2 
+mfg production value      5.637*** p=0.001    5.327**  p=0.027  F(LP)=12.5 
+mfg wage mass             6.942*** p=0.000    5.665**  p=0.025  F(LP)=13.8 
+mfg establishments        1.060    p=0.232    1.250    p=0.338  F(LP)=12.5 
+ag farms                  1.697    p=0.141    2.641    p=0.208  F(LP)=10.6 
+ag farmed area            1.596    p=0.195    1.877    p=0.342  F(LP)=10.6 
+ 
+---- theta = 0.75   [beta, p, F] 
+Outcome                          IV-B                  IV-LP 
+population                0.487*   p=0.072    0.645    p=0.130  F(LP)=13.5 
+mfg production value      3.501*** p=0.001    3.228**  p=0.030  F(LP)=13.7 
+mfg wage mass             4.312*** p=0.000    3.455**  p=0.026  F(LP)=15.0 
+mfg establishments        0.700    p=0.212    0.785    p=0.330  F(LP)=13.7 
+ag farms                  1.076    p=0.142    1.571    p=0.210  F(LP)=11.9 
+ag farmed area            1.001    p=0.195    1.116    p=0.343  F(LP)=11.9 
+ 
+Part 2 verdict: under IV-LP on the decay object, mfg value/wage 
+max p = 0.030 across the grid (IV-B max p = 0.001); F(LP) range 
+9.2-15.0 vs F(IV-B) 9.8-15.2. 
+ 
+Full columns: diagnostic_crossobject_checks.csv 
