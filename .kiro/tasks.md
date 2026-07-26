@@ -93,12 +93,15 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       four estimators (IV-B -0.004, p=0.89) and first stages
       STRENGTHEN (F 16-24). If adopted: rewrite the intro's
       validation paragraph (work item, section 2). A×B CHECKED
-      (2026-07-25, diagnostic_crossobject_checks): the clean null
-      SURVIVES on every candidate τ object — decay θ=0.5, iceberg
-      V=4,400/20,000, route-inefficiency at both θ — smallest
-      any-IV p = 0.34, placebo first stages F 21.5-61.1 (the
-      iceberg objects strengthen it further). Decisions A and B do
-      NOT interact: adopt B on its own merits.
+      (2026-07-26, diagnostic_crossobject_checks, PR #139): the
+      clean null survives on every candidate τ object — decay
+      θ=0.5, iceberg V=4,400/20,000, route-inefficiency at both θ —
+      smallest any-IV p = 0.34, IV-B placebo first stages F
+      21.5-61.1. Caveat: the IV-LP first stage collapses on the
+      iceberg objects (F 3.7 / 1.6), so those IV-LP nulls are
+      low-power; the well-identified IV-B/IV-H cells carry the
+      verdict there. No A×B interaction detected on the candidate
+      set: B can be taken on its own merits.
 - [ ] C. MAIN-SPEC INSTRUMENT — IV-LP-only vs IV-Both. Three new
       evidence pieces this week, all pointing the same way:
       (i) under iceberg normalization the instrument-strength
@@ -111,13 +114,17 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           exploitable quasi-random variation, and it collapses on
           total MA after correction as a composition effect, not
           invalidity (six-design map, issue #114 / brief).
-      (iii-b) The A×C matrix is now COMPLETE (2026-07-25,
-          diagnostic_crossobject_checks): the interaction is
-          OBJECT-SPECIFIC. On the DECAY object IV-LP keeps the mfg
-          significance at 5% across the whole grid (max p = 0.030,
-          F(LP) 9.2-15.0) — unlike the iceberg (fades at high V)
-          and 1b (MOP-weak). If the meeting wants IV-LP-only, the
-          decay object is the one candidate that supports it.
+      (iii-b) The A×C matrix is now COMPLETE (2026-07-26,
+          diagnostic_crossobject_checks, PR #139): on the DECAY
+          object IV-LP keeps the mfg significance at 5% across the
+          whole θ grid (max p = 0.030, classical F(LP) 9.2-15.0) —
+          the only candidate that does; the iceberg holds it only
+          at low V (≲1,000-2,000) and 1b nowhere. BUT by the same
+          MOP standard that judged 1b, decay IV-LP is also weak:
+          F_eff 10.7-16.3 vs the fixed K=1 cvs (23.11 at 10%,
+          15.06 at 20%) → 0/18 cells pass at 10%, 1/18 at 20%.
+          Honest summary for the meeting: decay is the LEAST-WEAK
+          IV-LP candidate; no object makes IV-LP-only MOP-strong.
       (iv) MOP critical values (2026-07-25,
           diagnostic_mop_critical): 8 of 9 IV-B cells PASS at 10%
           Nagar-bias tolerance (rural pop fails 10%, passes 20%);
@@ -507,21 +514,30 @@ the verification record.
       all 15 DOIs render. Pre-deposit flip-back decision tracked in
       section 3.
 - [x] Cross-decision checks (A×B and A×C completion) — DONE
-      2026-07-25, diagnostic_crossobject_checks.R (diagnostic only).
-      PART 1 (A×B): the full47 placebo spec run on every candidate
-      τ object (raw anchor, decay θ=0.5, iceberg V=4,400/20,000,
-      1b both θ). VERDICT: clean null EVERYWHERE — smallest any-IV
-      p = 0.34, IV-B p range 0.34-0.95, placebo first stages
-      F 21.5-61.1 (iceberg objects strengthen them). Decisions A
-      and B do not interact. PART 2 (A×C decay cell): sectoral
-      outcomes under IV-LP on the decay object, θ ∈ {0.25,0.5,
-      0.75}. VERDICT: mfg value/wage stay significant at 5%
-      everywhere (max p = 0.030, F(LP) 9.2-15.0) — the decay
-      object is the ONE candidate where IV-LP-only keeps the
-      sectoral significance (iceberg fades; 1b MOP-weak).
-      Anchors asserted: raw placebo row == diagnostic_placebo_1947
-      full47 (all four estimators + N=237); decay IV-B ==
-      diagnostic_theta_gibbons (18 cells); BA-Rosario geodesic.
+      2026-07-26, PR #139, diagnostic_crossobject_checks.R
+      (diagnostic only). PART 1 (A×B): the full47 placebo spec run
+      on every candidate τ object (raw anchor, decay θ=0.5,
+      iceberg V=4,400/20,000, 1b both θ). VERDICT: no placebo
+      rejection on any candidate object — smallest any-IV p = 0.34,
+      IV-B p range 0.34-0.95, IV-B placebo first stages F
+      21.5-61.1. Caveat: the IV-LP first stage collapses on the
+      iceberg objects (F 3.7 / 1.6), so those IV-LP nulls are
+      low-power; the IV-B/IV-H cells carry the verdict there. No
+      A×B interaction detected on the candidate set. PART 2 (A×C
+      decay cell + MOP, the latter added in the fix pass after the
+      review caught an inconsistent evidentiary standard): mfg
+      value/wage stay significant at 5% under IV-LP across the
+      whole decay grid (max p = 0.030, classical F(LP) 9.2-15.0) —
+      the only candidate grid where that holds (iceberg: low V
+      only; 1b: nowhere) — but by the MOP standard that judged 1b,
+      decay IV-LP is also weak (F_eff 10.7-16.3 vs K=1 cvs
+      23.11/15.06 → 0/18 pass at 10%, 1/18 at 20%). Honest
+      summary: decay = least-weak IV-LP candidate; no object makes
+      IV-LP-only MOP-strong. Anchors asserted: raw placebo row ==
+      diagnostic_placebo_1947 full47 (all four estimators + N=237,
+      constant across objects); decay IV-B ==
+      diagnostic_theta_gibbons (18 cells incl. n_obs); BA-Rosario
+      geodesic; CSV union row-count guard.
       → agenda items B and C(iii-b).
 - [x] Route-inefficiency tau (Decision A option 1b) — DONE
       2026-07-25, PR #137, diagnostic_tau_inefficiency.R

@@ -4,7 +4,7 @@ Part 1 (A x B): the full47 placebo spec on each candidate tau
 object. Part 2 (A x C): sectoral outcomes under IV-LP on the 
 decay object (completes the object x instrument matrix). 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-07-26 11:07:52 
+Generated: 2026-07-26 11:30:21 
 ============================================================================================ 
  
 PART 1 — placebo (1947-60 growth), full47 controls, by object: 
@@ -15,12 +15,17 @@ iceberg V=4400     8.22  +0.002 p=0.94   +0.105 p=0.37   +0.030 p=0.53   +0.034 
 iceberg V=20000    8.22  +0.033 p=0.46   -0.040 p=0.93   +0.077 p=0.34   +0.075 p=0.34   
 ineff th=4.55      4.55  -0.005 p=0.77   +0.019 p=0.82   -0.009 p=0.89   -0.003 p=0.95   
 ineff th=8.22      8.22  -0.005 p=0.66   -0.006 p=0.90   -0.004 p=0.91   -0.004 p=0.88   
-IV-B first-stage F by object: raw (anchor) 23.2; decay th=0.5 22.3; iceberg V=4400 35.7; iceberg V=20000 61.1; ineff th=4.55 21.5; ineff th=8.22 22.2 
+First-stage F by object, IV-B: raw (anchor) 23.2; decay th=0.5 22.3; iceberg V=4400 35.7; iceberg V=20000 61.1; ineff th=4.55 21.5; ineff th=8.22 22.2 
+First-stage F by object, IV-LP: raw (anchor) 24.3; decay th=0.5 15.3; iceberg V=4400 3.7; iceberg V=20000 1.6; ineff th=4.55 8.1; ineff th=8.22 7.5 
  
-Part 1 verdict: IV-B placebo max |p-deviation from clean| — 
-largest IV-B p = 0.951, smallest ANY-IV p = 0.341 across all 
-objects. Clean null everywhere iff the smallest p stays far 
-from 0.05-0.10. 
+Part 1 verdict: no placebo rejection on any candidate object — 
+IV-B p ranges up to 0.951 and the smallest p across all IV 
+estimators and objects is 0.341, far from conventional levels. 
+CAVEAT: the IV-LP first stage collapses on the iceberg objects 
+(F = 3.7 at V=4400, 1.6 at V=20000), so those two IV-LP 
+nulls are low-power non-results rather than affirmative 
+cleanliness; the well-identified IV-B and IV-H cells on the 
+same objects carry the verdict there. 
  
 PART 2 — decay object, IV-LP (new) vs IV-B (PR #127 anchor): 
  
@@ -54,5 +59,14 @@ ag farmed area            1.001    p=0.195    1.116    p=0.343  F(LP)=11.9
 Part 2 verdict: under IV-LP on the decay object, mfg value/wage 
 max p = 0.030 across the grid (IV-B max p = 0.001); F(LP) range 
 9.2-15.0 vs F(IV-B) 9.8-15.2. 
+ 
+MOP test on the decay IV-LP cells (same standard that judged 
+1b; K=1 so cv(10%) = 23.11 and cv(20%) = 15.06 for every cell): 
+F_eff range 10.7-16.3 -> 0/18 cells pass at 10%, 1/18 at 
+20%. READ TOGETHER: decay is the least-weak IV-LP candidate — 
+classical 5% significance holds across its whole grid, unlike 
+the iceberg (low V only) and 1b (nowhere) — but by the MOP 
+standard that disqualified 1b, decay IV-LP is also weak. No 
+candidate object makes IV-LP-only MOP-strong. 
  
 Full columns: diagnostic_crossobject_checks.csv 

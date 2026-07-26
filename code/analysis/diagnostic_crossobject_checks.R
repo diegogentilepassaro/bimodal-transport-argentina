@@ -23,7 +23,11 @@
 #     PR #127 ran IV-Both only; the iceberg (PR #135) and 1b (PR #137)
 #     cells are measured. Grid theta in {0.25, 0.5, 0.75}, six
 #     outcomes, IV-B (anchor: must reproduce
-#     diagnostic_theta_gibbons.csv) + IV-LP (the new content).
+#     diagnostic_theta_gibbons.csv) + IV-LP (the new content), with
+#     the MOP weak-instrument test on each IV-LP cell (cr-review
+#     PR #139 B1: 1b was judged by the MOP standard, so decay must be
+#     too; at K=1 the exact bias bound is 1, so cv(10%) = 23.11 and
+#     cv(20%) = 15.06 for every cell).
 #
 # DESIGN: MA recomputed per object from the four cached s0 tau
 #   parquets with 1960 pop weights (machinery as the iceberg/1b
@@ -203,12 +207,20 @@ run_decay_ivlp <- function(sym, est, geo6) {
             )
             co  <- safe_coef(fits[["IV-B"]],  "fit_chg")
             clp <- safe_coef(fits[["IV-LP"]], "fit_chg")
+            # Same-sample guard: fit_iv_quad NA-drops per model
+            # (cr-review PR #139 consider 3).
+            stopifnot(nobs(fits[["IV-LP"]]) == nobs(fits[["IV-B"]]))
+            mop <- mop_check(m, o$var, "chg", "z_stu",
+                             c(geo6, "log_pop_1960", "l60"))
             rows[[length(rows) + 1L]] <- data.frame(
                 part = "decay_ivlp", outcome = o$lab, theta = th,
                 ivb_beta = co$est, ivb_se = co$se, ivb_p = co$p,
                 ivb_F = fitstat_F(fits[["IV-B"]]),
                 ivlp_beta = clp$est, ivlp_se = clp$se, ivlp_p = clp$p,
                 ivlp_F = fitstat_F(fits[["IV-LP"]]),
+                ivlp_Feff = mop$F_eff,
+                ivlp_cv10 = mop$cv10, ivlp_pass10 = mop$F_eff > mop$cv10,
+                ivlp_cv20 = mop$cv20, ivlp_pass20 = mop$F_eff > mop$cv20,
                 n_obs = nobs(fits[["IV-B"]]),
                 stringsAsFactors = FALSE
             )
@@ -221,6 +233,76 @@ run_decay_ivlp <- function(sym, est, geo6) {
             v$ivlp_p[v$outcome == "mfg wage mass"], v$ivlp_F[1]))
     }
     do.call(rbind, rows)
+}
+
+# ---------------------------------------------------------------------------
+# MOP effective F + Patnaik critical values — copied from
+# diagnostic_tau_inefficiency.R (PR #137; itself per diagnostic_
+# mop_critical.R, PR #136). At K=1 the bias bound B is exactly 1, so
+# the cvs reduce to the fixed MOP K=1 thresholds (23.11 / 15.06).
+# ---------------------------------------------------------------------------
+mop_check <- function(m, yvar, endog, instrs, ctrls) {
+    vars <- c(yvar, endog, instrs, ctrls)
+    d <- m[complete.cases(m[, vars]), vars]
+    X <- as.matrix(cbind(1, d[, ctrls]))
+    r <- function(v) as.numeric(qr.resid(qr(X), v))
+    Dt <- r(d[[endog]])
+    Yt <- r(d[[yvar]])
+    Zt <- sapply(instrs, function(z) r(d[[z]]))
+    Zt <- matrix(Zt, ncol = length(instrs))
+    n <- nrow(d); k <- ncol(Zt)
+    qz <- qr(Zt)
+    pi_ <- qr.coef(qz, Dt)
+    v2 <- qr.resid(qz, Dt)
+    v1 <- qr.resid(qz, Yt)
+    hc1 <- n / (n - ncol(X) - k)
+    Q   <- crossprod(Zt)
+    eQ  <- eigen(Q, symmetric = TRUE)
+    Qih <- eQ$vectors %*% diag(1 / sqrt(eQ$values), k) %*% t(eQ$vectors)
+    meat <- function(a, b) hc1 * crossprod(Zt * a, Zt * b)
+    W1  <- Qih %*% meat(v1, v1) %*% Qih
+    W2  <- Qih %*% meat(v2, v2) %*% Qih
+    W12 <- Qih %*% meat(v1, v2) %*% Qih
+    F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
+    B <- B_of_W(W1, W2, W12)
+    list(F_eff = F_eff,
+         cv10 = patnaik_cv(W2, B / 0.10),
+         cv20 = patnaik_cv(W2, B / 0.20))
+}
+
+B_of_W <- function(W1, W2, W12) {
+    trW2 <- sum(diag(W2))
+    ratio_at <- function(b) {
+        S12 <- W12 - b * W2
+        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
+        sym <- (S12 + t(S12)) / 2
+        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
+        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
+                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
+        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
+        num / den
+    }
+    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE,
+                  only.values = TRUE)$values
+    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
+                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
+    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
+    vals <- vapply(grid, ratio_at, numeric(1))
+    i    <- which.max(vals)
+    ref  <- optimize(ratio_at, lower = grid[max(1, i - 1)],
+                     upper = grid[min(length(grid), i + 1)],
+                     maximum = TRUE)
+    max(vals[i], ref$objective, lim)
+}
+
+patnaik_cv <- function(W2, d_tau) {
+    trW2  <- sum(diag(W2))
+    trW22 <- sum(diag(crossprod(W2)))
+    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
+                       only.values = TRUE)$values)
+    k_eff <- trW2^2 * (1 + 2 * d_tau) /
+             (trW22 + 2 * d_tau * trW2 * lmax)
+    qchisq(0.95, df = k_eff, ncp = k_eff * d_tau) / k_eff
 }
 
 # ---------------------------------------------------------------------------
@@ -241,17 +323,21 @@ verify_placebo <- function(p1) {
         stopifnot(abs(o$beta - rc) < tol, abs(o$se - rs) < tol,
                   o$n_obs == rn)
     }
+    # Common-sample check across all six objects (cr-review PR #139
+    # consider 1; the reference script enforced this explicitly).
+    stopifnot(all(p1$n_obs == 237L))
     message("[verify] raw placebo anchor == diagnostic_placebo_1947 full47")
 }
 
 verify_decay <- function(p2) {
     tol <- 1e-9
     ref <- read.csv(file.path(dir_tables, "diagnostic_theta_gibbons.csv"))
-    chk <- merge(p2, ref[, c("outcome", "theta", "beta", "se")],
-                 by = c("outcome", "theta"))
+    chk <- merge(p2, ref[, c("outcome", "theta", "beta", "se", "n_obs")],
+                 by = c("outcome", "theta"), suffixes = c("", "_ref"))
     stopifnot(nrow(chk) == nrow(p2), nrow(p2) == 18L)
     stopifnot(max(abs(chk$ivb_beta - chk$beta)) < tol,
-              max(abs(chk$ivb_se   - chk$se))   < tol)
+              max(abs(chk$ivb_se   - chk$se))   < tol,
+              all(chk$n_obs == chk$n_obs_ref))
     message("[verify] decay IV-B == diagnostic_theta_gibbons (18 cells)")
 }
 
@@ -324,7 +410,10 @@ geodesic_pairs <- function() {
 write_outputs <- function(p1, p2) {
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
     csv_path <- file.path(dir_tables, "diagnostic_crossobject_checks.csv")
-    all_rows <- merge(p1, p2, all = TRUE)   # column-union rbind
+    # Column-union rbind via merge: safe only while the 'part' values
+    # are disjoint — assert no row multiplication (cr-review PR #139 SF3).
+    all_rows <- merge(p1, p2, all = TRUE)
+    stopifnot(nrow(all_rows) == nrow(p1) + nrow(p2))
     write.csv(all_rows, csv_path, row.names = FALSE)
 
     txt_path <- file.path(dir_tables, "diagnostic_crossobject_checks.txt")
@@ -356,17 +445,27 @@ write_outputs <- function(p1, p2) {
               obj, sub$theta[1],
               cell("OLS"), cell("IV-LP"), cell("IV-H"), cell("IV-B"))
     }
-    fline <- p1[p1$spec == "IV-B", ]
-    wline("IV-B first-stage F by object: %s",
-          paste(sprintf("%s %.1f", fline$object, fline$F), collapse = "; "))
+    fb <- p1[p1$spec == "IV-B", ]
+    wline("First-stage F by object, IV-B: %s",
+          paste(sprintf("%s %.1f", fb$object, fb$F), collapse = "; "))
+    flp <- p1[p1$spec == "IV-LP", ]
+    wline("First-stage F by object, IV-LP: %s",
+          paste(sprintf("%s %.1f", flp$object, flp$F), collapse = "; "))
     wline("")
     maxp <- max(p1$p[p1$spec == "IV-B"])
     minp <- min(p1$p[p1$spec != "OLS"])
-    wline("Part 1 verdict: IV-B placebo max |p-deviation from clean| —")
-    wline("largest IV-B p = %.3f, smallest ANY-IV p = %.3f across all",
-          maxp, minp)
-    wline("objects. Clean null everywhere iff the smallest p stays far")
-    wline("from 0.05-0.10.")
+    wline("Part 1 verdict: no placebo rejection on any candidate object —")
+    wline("IV-B p ranges up to %.3f and the smallest p across all IV",
+          maxp)
+    wline("estimators and objects is %.3f, far from conventional levels.",
+          minp)
+    wline("CAVEAT: the IV-LP first stage collapses on the iceberg objects")
+    wline("(F = %.1f at V=4400, %.1f at V=20000), so those two IV-LP",
+          flp$F[flp$object == "iceberg V=4400"],
+          flp$F[flp$object == "iceberg V=20000"])
+    wline("nulls are low-power non-results rather than affirmative")
+    wline("cleanliness; the well-identified IV-B and IV-H cells on the")
+    wline("same objects carry the verdict there.")
     wline("")
     wline("PART 2 — decay object, IV-LP (new) vs IV-B (PR #127 anchor):")
     for (th in unique(p2$theta)) {
@@ -388,6 +487,18 @@ write_outputs <- function(p1, p2) {
           max(mfg$ivlp_p), max(mfg$ivb_p))
     wline("%.1f-%.1f vs F(IV-B) %.1f-%.1f.",
           min(p2$ivlp_F), max(p2$ivlp_F), min(p2$ivb_F), max(p2$ivb_F))
+    wline("")
+    wline("MOP test on the decay IV-LP cells (same standard that judged")
+    wline("1b; K=1 so cv(10%%) = %.2f and cv(20%%) = %.2f for every cell):",
+          p2$ivlp_cv10[1], p2$ivlp_cv20[1])
+    wline("F_eff range %.1f-%.1f -> %d/%d cells pass at 10%%, %d/%d at",
+          min(p2$ivlp_Feff), max(p2$ivlp_Feff),
+          sum(p2$ivlp_pass10), nrow(p2), sum(p2$ivlp_pass20), nrow(p2))
+    wline("20%%. READ TOGETHER: decay is the least-weak IV-LP candidate —")
+    wline("classical 5%% significance holds across its whole grid, unlike")
+    wline("the iceberg (low V only) and 1b (nowhere) — but by the MOP")
+    wline("standard that disqualified 1b, decay IV-LP is also weak. No")
+    wline("candidate object makes IV-LP-only MOP-strong.")
     wline("")
     wline("Full columns: diagnostic_crossobject_checks.csv")
     close(con)
