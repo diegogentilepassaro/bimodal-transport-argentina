@@ -157,6 +157,50 @@ agreed}
 
 \clearpage
 \appendix
+
+% Numbered (not starred) so that Appendix~\ref{app:migration} in
+% Sections 5.4 and 8.2 resolves to "Appendix A". The table and figure
+% appendices below stay unnumbered; their floats carry the A1, A2, ...
+% numbering set by the \thetable/\thefigure overrides.
+\section{Recent Migration}
+\label{app:migration}
+
+Section~\ref{sec:other_outcomes} reports that the two-instrument
+specification for the recent-migration share fails the
+overidentification test (Sargan $p=\sarganMigration{}$;
+identification-robust $p=\migrationRobustJP{}$). This appendix
+records the estimates and the readings that have been proposed for
+the sign, so that the pattern is on the record without being treated
+as a result.
+
+The OLS estimate is $\migrationOLSCoef{}$ (\migrationOLSSE{}) and the
+combined IV estimate is $\migrationCoefIVBoth{}$
+(\migrationSEIVBoth{}), both negative and significant at the
+one-percent level. Taken separately, the Larkin Plan instrument gives
+$\migrationIVLPCoef{}$ (\migrationIVLPSE{}, $p=\migrationIVLPP{}$),
+with an Anderson--Rubin confidence set of
+$[\migrationARLPlo{}, \migrationARLPhi{}]$ that contains zero, while
+the hypothetical-network instrument gives $\migrationIVHCoef{}$
+($p=\migrationIVHP{}$). The instrument that
+Section~\ref{sec:first_stage_tab} shows to be the stronger of the two
+therefore implies no relationship, and the negative combined estimate
+lies between two estimates that the data reject as descriptions of a
+common parameter.
+
+Were the negative sign taken at face value, it would run opposite to
+a naive prediction that market-access gains attract in-migrants, and
+two readings would be consistent with it. First, high-market-access
+districts may have retained their existing populations, producing
+lower recent-migrant shares because turnover was low. Second,
+districts that lost population through out-migration to
+high-market-access receiving districts may have ended with small
+remaining populations among whom a given absolute inflow of recent
+migrants generates a higher share. Distinguishing these readings
+would require data on migration flows by origin and destination,
+which the cross-sectional sample does not contain. We record both
+possibilities and draw no conclusion.
+
+\clearpage
 \section*{Appendix Tables}
 \renewcommand{\thetable}{A\arabic{table}}
 \setcounter{table}{0}

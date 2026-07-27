@@ -6,7 +6,7 @@ original pass skipped. All three IV specs shown: the
 instrument-dependence is the object of interest. AR sets are 
 valid regardless of instrument strength; MOP pass/fail is at 
 the stated Nagar-bias tolerance, alpha = 5%. 
-Generated: 2026-07-27 11:50:32 
+Generated: 2026-07-27 12:45:11 
 ==================================================================================================== 
  
 Outcome           Spec    K        beta       p   F_eff    cv10 MOP10  AR status      AR 95% set             
@@ -31,7 +31,7 @@ spec, not four independent ones (asserted in code).
 An EMPTY AR set means the joint K=2 AR test rejects EVERY beta 
 at 5%: the two moment conditions cannot both hold. (Note the 
 individual AR sets can still overlap — for migration they do, 
-on [-0.0303, -0.0294] — so state this in joint-moment terms, 
+on [-0.0303, -0.0297] — so state this in joint-moment terms, 
 not as 'no beta is compatible with either instrument'.) An 
 empty set is NOT evidence of a precisely estimated effect. 
  

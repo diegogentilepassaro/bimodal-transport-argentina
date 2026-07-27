@@ -64,6 +64,7 @@ main <- function() {
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
                    "diagnostic_theta_sweep_sectoral",
+                   "diagnostic_modern_iv_table11",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -398,19 +399,114 @@ add_prose_table_macros <- function(macros, tab) {
         r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-LP")
         macros[["secondaryIVLPCoef"]] <- f3(r$estimate)
         macros[["secondaryIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-H")
+        macros[["secondaryIVHCoef"]] <- f3(r$estimate)
+        # 4 decimals: these shares live on the 1e-3 scale, where f3
+        # collapses the two instruments' estimates onto the same two
+        # digits already carried by collegeMin/collegeMax
+        # (cr-review PR #141).
+        f4c <- function(x) sprintf("%.4f", x)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-LP")
+        macros[["collegeIVLPCoef"]] <- f4c(r$estimate)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-H")
+        macros[["collegeIVHCoef"]] <- f4c(r$estimate)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "OLS")
         macros[["migrationOLSCoef"]] <- f3(r$estimate)
         macros[["migrationOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-B")
-        # Prose says "a X decrease": fail loudly if the sign ever flips.
         stopifnot(r$estimate < 0)
-        macros[["migrationCoefAbs"]] <- f3(abs(r$estimate))
+        # Section 5.4 / appendix now report the instrument-specific
+        # migration estimates, because the joint spec is rejected.
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-LP")
+        macros[["migrationIVLPCoef"]] <- f3(r$estimate)
+        macros[["migrationIVLPSE"]]   <- f3(r$std_err)
+        macros[["migrationIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-H")
+        macros[["migrationIVHCoef"]] <- f3(r$estimate)
+        macros[["migrationIVHP"]]    <- f3(r$p_value)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "OLS")
         macros[["employmentOLSCoef"]] <- f3(r$estimate)
         macros[["employmentOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-B")
         macros[["employmentIVBCoef"]] <- f3(r$estimate)
         macros[["employmentIVBSE"]]   <- f3(r$std_err)
+        macros[["employmentIVBP"]]    <- f3(r$p_value)
+        # Magnitude macro for prose that already carries the direction
+        # ("a fall of X"): the signed macro produced a double negative
+        # in Section 5.4 (cr-review PR #141 B1). Same pattern as
+        # migrationCoefAbs. The outcome is a share in [0,1], so the
+        # prose expresses it in percentage points.
+        stopifnot(r$estimate < 0)
+        macros[["employmentIVBCoefPP"]] <- sprintf("%.1f",
+                                                   100 * abs(r$estimate))
+        r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-LP")
+        macros[["employmentIVLPCoef"]] <- f3(r$estimate)
+        macros[["employmentIVLPSE"]]   <- f3(r$std_err)
+        macros[["employmentIVLPP"]]    <- f3(r$p_value)
+        # Overidentification p-values (Sargan) per outcome, IV-Both.
+        # Section 5.4 is organized around these: the joint spec is
+        # rejected everywhere except employment.
+        for (g in list(
+                c("chg_college_91_70",     "sarganCollege"),
+                c("chg_secondary_91_70",   "sarganSecondary"),
+                c("chg_mig5_91_70",        "sarganMigration"),
+                c("chg_empstat_emp_91_70", "sarganEmployment"))) {
+            r <- row1(t11, outcome = g[1], spec = "IV-B")
+            stopifnot(!is.na(r$sargan_p))
+            macros[[g[2]]] <- f3(r$sargan_p)
+        }
+    }
+
+    # -- AR / robust-J evidence for Section 5.4 (PR #140 diagnostic) ---------
+    # The identification-robust counterparts of the Sargan row: quoted in
+    # Section 5.4 and the migration appendix so the prose never states an
+    # identification claim the diagnostics do not carry.
+    t11r <- tab[["diagnostic_modern_iv_table11"]]
+    if (!is.null(t11r)) {
+        # which() drops NAs, so a missing key never silently selects an
+        # all-NA row the way "==" subsetting would. Matches the
+        # !is.na() guard in row1() above (cr-review PR #141).
+        pick <- function(outc, sp) {
+            i <- which(t11r$outcome == outc & t11r$spec == sp)
+            stopifnot(length(i) == 1L)
+            t11r[i, ]
+        }
+        # AR bounds are read from the diagnostic's NUMERIC ar_lo/ar_hi
+        # columns, never parsed out of the display string: an "empty" or
+        # one-sided set would otherwise have printed the literal text
+        # "NA" into the paper and still compiled (cr-review PR #141 B4).
+        # Bounded-interval status is asserted, so a future run that
+        # changes the shape of one of these sets fails loudly here.
+        # 4 decimals: these shares live on the 1e-3 scale, where 3 would
+        # render an upper bound of "-0.000".
+        f4 <- function(x) sprintf("%.4f", x)
+        ar_pair <- function(outc, sp, stem) {
+            r <- pick(outc, sp)
+            stopifnot(isTRUE(r$ar_bounded),
+                      !is.na(r$ar_lo), !is.na(r$ar_hi),
+                      r$ar_lo < r$ar_hi)
+            macros[[paste0(stem, "lo")]] <<- f4(r$ar_lo)
+            macros[[paste0(stem, "hi")]] <<- f4(r$ar_hi)
+        }
+        ar_pair("chg_empstat_emp_91_70", "IV-B",  "employmentAR")
+        ar_pair("chg_mig5_91_70",        "IV-LP", "migrationARLP")
+        # Secondary's IV-LP set is quoted in Section 5.4 because it is
+        # the one piece of evidence that cuts against reading no
+        # schooling effect (cr-review PR #141).
+        ar_pair("chg_secondary_91_70",   "IV-LP", "secondaryARLP")
+        ar_pair("chg_mig5_91_70",        "IV-H",  "migrationARH")
+        for (g in list(
+                c("chg_empstat_emp_91_70", "employmentRobustJP"),
+                c("chg_mig5_91_70",        "migrationRobustJP"),
+                c("chg_secondary_91_70",   "secondaryRobustJP"),
+                c("chg_college_91_70",     "collegeRobustJP"))) {
+            r <- pick(g[1], "IV-B")
+            stopifnot(!is.na(r$robust_J_p))
+            macros[[g[2]]] <- f3(r$robust_J_p)
+        }
+        # Section 5.4 states the level at which the overid tests are
+        # read; the four-way split is a 5% statement.
+        macros[["overidAlpha"]] <- "5"
     }
 
     # -- Table 7 (Section 4.6): placebo columns ------------------------------

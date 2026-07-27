@@ -162,8 +162,11 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           every tolerance. The published -0.0217 sits between two
           jointly incompatible moments — an unidentified
           coefficient, not a noisy one. (The individual AR sets do
-          overlap on [-0.0303, -0.0294]; state the failure in
-          joint-moment terms.)
+          overlap on [-0.0303, -0.0297]; state the failure in
+          joint-moment terms. The interval was first recorded as
+          [-0.0303, -0.0294] from a hardcoded string in the
+          diagnostic; it is computed from the AR bounds now, PR #141
+          fix pass.)
       (ii) secondary share — same joint failure (Sargan p = 0.0078,
           robust J p = 0.0068, AR empty) with the instruments
           pointing OPPOSITE ways (+0.0059 LP vs -0.0101 H). NOTE:
@@ -189,15 +192,34 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       ALSO RELEVANT TO ITEM C: three overid rejections concentrated
       in the 1970-91 outcome window is itself evidence about the
       hypo instrument, beyond the first-stage findings.
-      PROPOSED POSITION (Diego to confirm/adjust): concur on
-      removing migration from the narrative, but on the
-      overidentification ground rather than "it makes noise"; do
-      NOT demote §5.4 wholesale — keep a short subsection built on
-      employment (the one joint-identified result), report the
-      college and secondary IV-LP-vs-IV-H disagreement honestly,
-      and move migration to an annex paragraph. Sequel work: paper
-      edit, email paragraph for Cote, brief entry (all gated on
-      this call).
+      POSITION CONFIRMED (Diego, 2026-07-27) and IMPLEMENTED
+      (PR #141, branch paper/section-5-4-restructure): remove
+      migration from the narrative on the overidentification ground
+      rather than "it makes noise"; do NOT demote §5.4 wholesale.
+      §5.4 stays in the main text reorganized by what is
+      identified — employment as the result (AR [-0.0280, -0.0003]
+      excludes zero), education reported as instrument
+      disagreement, migration in one paragraph pointing to the new
+      Appendix A where the estimates and the two readings of the
+      sign are recorded unadjudicated. Table 11 gains an
+      overidentification row; §8.2 limitation #2 and §1's outcome
+      list updated to match; 26 new AutoFill macros (one removed:
+      \migrationCoefAbs), scalars.tex now 261. Compile 54 pp clean.
+      FIX PASS (same PR) added the §4 paragraph that defines the
+      overidentification test and the AR sets (sargan1958,
+      andersonrubin1949, andrewsstocksun2019 added to
+      references.bib, all three verified), led the §5.4 prose with
+      the robust J rather than the classical Sargan, corrected a
+      "rejects most strongly" claim that reversed under the robust J
+      (secondary 0.0068 < migration 0.0120), added the secondary
+      IV-LP AR set that cuts against a no-schooling reading, gave
+      Table 11 a reader-visible note, and reordered its panels to
+      match the prose. STILL OPEN for Wednesday: Cote's visto bueno,
+      and his option to demote §5.4 entirely if he prefers (one-line
+      change). Email §4 and brief item 6 carry the write-up.
+      ASYMMETRY ON RECORD: Table 11 is the only table with an
+      overidentification row; extending it to Tables 9/10 is a
+      two-line change left as a joint decision (comment in §4).
 - [ ] E. RECENTERING READ-OUT — walk the six-design map
       (Plan/brief_cote_recentering_2026-07-29.md, final): Larkin
       collapses / hypo backbone / settlement clean-but-small /

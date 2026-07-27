@@ -186,9 +186,31 @@ Sections~\ref{sec:pre_balance} and~\ref{sec:pre_trends} present two
 validation exercises that probe the exclusion restriction underlying
 the two instruments. Section~\ref{sec:first_stage_tab} reports the
 first stage.
-% Over-identification test sentence removed in the contractual pass:
-% no Hansen/Sargan statistic is reported anywhere in the paper. If the
-% test is added to Table 9 (one fitstat call), restore the promise.
+
+A specification with two instruments and one endogenous regressor
+imposes one testable restriction: both instruments must identify the
+same parameter. \citet{sargan1958} gives the classical test of that
+restriction. Standard errors throughout this paper are
+heteroskedasticity-robust, so we also compute the
+identification-robust counterpart, obtained by minimizing the
+\citet{andersonrubin1949} statistic over the parameter and referring
+the minimum to a chi-squared distribution with one degree of freedom.
+The same statistic delivers Anderson--Rubin confidence sets, which
+have correct coverage whatever the strength of the instruments; we
+report them where instrument strength is in question.
+\citet{andrewsstocksun2019} review both procedures. Rejection of the
+restriction does not identify which instrument is at fault. It says
+that the two-instrument estimate cannot be read as an estimate of a
+common parameter, and that the two instruments should be reported
+separately instead. Section~\ref{sec:other_outcomes} is organized
+around this test, and Table~\ref{tab:other_outcomes_iv} reports it
+for the four outcomes considered there.
+% NOTE for Cote/Diego: Table 11 is currently the only table carrying an
+% overidentification row. Adding the same row to Tables 9 and 10 is a
+% two-line change (sargan_p() from code/analysis/_iv_helpers.R plus an
+% add_rows entry). Deliberately not done here: it changes the headline
+% tables, so it is a decision for the two of us, not a drafting call.
+% Raised as an asymmetry in the PR #141 review.
 
 \subsubsection{Pre-Period Balance}
 \label{sec:pre_balance}
