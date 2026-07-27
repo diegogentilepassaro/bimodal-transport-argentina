@@ -167,6 +167,19 @@ main <- function() {
     d$chg_mig5_91_70        <- d$mig5_1991      - d$mig5_1970
     d$chg_empstat_emp_91_70 <- d$empstat_1_1991 - d$empstat_1_1970
 
+    # ---- 4c. 1947 log population -------------------------------------------
+    # The placebo control set (placebo_controls in config.R) conditions on
+    # the 1947 population level instead of the 1960 one, so Table 7 needs
+    # this as a stored column rather than computing it inline. Same
+    # "built here once" rule as 4b: the PR #120/#143 diagnostics each
+    # built it themselves, which is fine for a diagnostic and not for a
+    # paper exhibit. NA where the 1947 census gives no comparable count,
+    # which is exactly the 237-district placebo sample.
+    d$log_pop_1947 <- ifelse(!is.na(d$pop_1947) & d$pop_1947 > 0,
+                             log(d$pop_1947), NA_real_)
+    stopifnot(sum(!is.na(d$log_pop_1947)) ==
+              sum(!is.na(d$chg_log_placebo_pop_60_47)))
+
     # ---- 5. Validation / logging ------------------------------------------
     for (v in c("chg_log_pop_91_60",
                 "chg_log_urbpop_91_60",
@@ -176,6 +189,7 @@ main <- function() {
                 main_lp_instrument,
                 main_hypo_instrument,
                 "log_pop_1960",
+                "log_pop_1947",
                 "logMA_actual_1960_s0_elow",
                 "lost_all_rails_86",
                 "gained_first_road_86",

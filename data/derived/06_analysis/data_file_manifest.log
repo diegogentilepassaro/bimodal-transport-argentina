@@ -1,12 +1,12 @@
 Data file manifest — build_estimation_sample.R
-Generated: 2026-07-20 09:03:37.108386
+Generated: 2026-07-27 17:35:51.144021
 rootdir:   /Users/diegogp/Desktop/Diego/Trains/new_repo
 
 ============================================================ 
 FILE: estimation_sample.parquet
 ============================================================ 
 Rows: 311
-Columns: 232
+Columns: 233
 Key: geolev2
 
 New outcome / control / Z_i columns added by this script:

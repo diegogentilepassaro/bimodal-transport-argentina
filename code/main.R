@@ -308,11 +308,19 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.7",
         file.path(dir_tables, "table_6_pre_balance.tex"), makelog)
 
+    # Also emits appendix Table B2, the baseline-control ladder, which
+    # paper.tex \input's unconditionally — so both files are verified
+    # here (cr-review PR #145).
     run_step("D.8  table_7_pre_trends",
              a("table_7_pre_trends.R"),
-             "Table 7: pre-trends placebo (1947-1960 population)", makelog)
+             paste("Table 7: pre-trends placebo (1947-1960 population)",
+                   "+ appendix Table B2 baseline ladder"), makelog)
     verify_outputs("D.8",
-        file.path(dir_tables, "table_7_pre_trends.tex"), makelog)
+        c(file.path(dir_tables,
+                    paste0("table_7_pre_trends.", c("tex", "csv"))),
+          file.path(dir_tables,
+                    paste0("table_b2_placebo_ladder.", c("tex", "csv")))),
+        makelog)
 
     run_step("D.9  table_8_first_stage",
              a("table_8_first_stage.R"),

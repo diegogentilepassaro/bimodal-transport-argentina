@@ -273,17 +273,33 @@ district boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
 match the structure of Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
 
-The OLS coefficient is \placeboOLSCoef{} (\placeboOLSSE{}), significant at the five-percent
-level. The IV-LP estimate is \placeboIVLPCoef{} (\placeboIVLPSE{}), the IV-Hypo estimate is
+The controls in this table differ from those in
+Tables~\ref{tab:pre_balance}, \ref{tab:first_stage}
+and~\ref{tab:population_iv} in one term: the population baseline is
+the 1947 level, not the 1960 level. The reason is that the outcome
+here is $\ln \mathrm{pop}_{1960} - \ln \mathrm{pop}_{1947}$, so the
+1960 level is the terminal value of the window under test, and
+conditioning on it would mean conditioning on a component of the
+outcome. The 1947 level is the initial value, a convergence control.
+The baseline market-access control is retained.
+Table~\ref{tab:placebo_ladder} reports the estimate under four
+baseline control sets, including the set that drops the
+market-access control; the estimate is sensitive to that choice, and
+Section~\ref{sec:limitations} returns to it.
+
+The OLS coefficient is \placeboOLSCoef{} (\placeboOLSSE{}), with
+$p=\placeboOLSP{}$. The IV-LP estimate is \placeboIVLPCoef{} (\placeboIVLPSE{}), the IV-Hypo estimate is
 \placeboIVHCoef{} (\placeboIVHSE{}), and the combined IV estimate is \placeboCoefIVBoth{} (\placeboSEIVBoth{}),
-significant at the five-percent level. The first-stage $F$ for the
+with $p=\placeboIVBP{}$. The first-stage $F$ for the
 IV-Hypo column on this sample of \placeboNIVBoth{} districts is \placeboFHypo{}, below
 conventional weak-instrument thresholds; the IV-Hypo column is
 therefore not interpretable in this specification. The first-stage
 $F$ for IV-LP is \placeboFLP{} and for IV-Both is \placeboFBoth{}.
 
-The OLS and IV-Both point estimates for the placebo outcome are
-non-zero and statistically significant at the five-percent level. Two readings are
+The combined-IV point estimate for the placebo outcome is positive
+and rejects a zero coefficient at the ten-percent level, though not
+at five percent; the OLS estimate has the same sign and does not
+reject. This is not a clean null. Two readings are
 consistent with the evidence. First, there may be a genuine
 pre-existing trend correlated with the eventual infrastructure
 changes of 1960--1986: districts that were growing fastest in

@@ -364,13 +364,56 @@ main_hypo_instrument <- "chg_logMA_lcp_mst_s0_elow"
 main_treatment     <- "chg_logMA_86_60_s0_elow"
 main_lp_instrument <- "chg_logMA_stu_s0_elow"
 
-# Baseline MA and pop controls common to Tables 6, 7, 8, 9.
+# Baseline MA and pop controls common to Tables 6, 8, 9.
 # Standardized geographic controls + baseline log MA (1960) + log pop (1960).
 geo_controls_main <- c(
     "elev_mean_std", "rugged_mea_std", "wheat_std",
     "preCal_std", "postCal_std", "dist_to_BA_std",
     "logMA_actual_1960_s0_elow", "log_pop_1960"
 )
+
+# Controls for the PRE-TRENDS PLACEBO (Table 7) only. Same set as
+# geo_controls_main with the 1960 population baseline replaced by the
+# 1947 one.
+#
+# WHY (adopted 2026-07-27, agenda item B; evidence in PRs #120 and #143):
+# the placebo's outcome is log pop 1960 - log pop 1947, so log pop 1960 is
+# the TERMINAL level of the window being tested and conditioning on it
+# conditions on a component of the outcome. log pop 1947 is the INITIAL
+# level: a standard convergence control, a different object. Swapping the
+# two is not a judgment call.
+#
+# The baseline-MA control STAYS. Dropping it is what turns the placebo
+# into a clean null (-0.004, p 0.89), and the post-outcome justification
+# offered for dropping it is unsupported: a baseline MA rebuilt on 1947
+# population weights correlates 0.9990 (partial) with the 1960-weighted
+# one and leaves the placebo coefficient at +0.078, so there is almost no
+# post-1947 population content in it to remove
+# (diagnostic_placebo_ma1947.txt). Dropping it would also leave the paper
+# needing that control for its headline (beta 0.046 with, 0.020 without;
+# .kiro/baseline_ma_control_note.md) while its validation test could not
+# have it. Whether to drop it anyway is Cote's open call.
+# The setdiff is guarded: if log_pop_1960 were ever renamed in
+# geo_controls_main, the setdiff would silently drop nothing and this set
+# would carry BOTH population baselines — a degenerate spec whose
+# beta ~ 0 would look like a clean placebo (cr-review PR #145).
+stopifnot("log_pop_1960" %in% geo_controls_main)
+placebo_controls <- c(
+    setdiff(geo_controls_main, "log_pop_1960"), "log_pop_1947"
+)
+stopifnot(length(placebo_controls) == length(geo_controls_main),
+          !("log_pop_1960" %in% placebo_controls))
+# SCOPE OF THE SWAP (cr-review PR #145): Table 7 and
+# diagnostic_pretrends_conley.R use placebo_controls. Seven other
+# diagnostics run the placebo outcome under geo_controls_main and were
+# deliberately NOT repointed before the 2026-07-29 meeting:
+# diagnostic_recentering_{results,hypo_results,controls,treatments}.R,
+# diagnostic_fused_results.R, diagnostic_roadseg_results.R and
+# diagnostic_roadtiming_results.R. Their recorded numbers are quoted in
+# the coauthor brief and in the ledger (e.g. the recentering figure
+# "+0.074 -> +0.088"), so silently changing the spec underneath them
+# would invalidate documents already sent. Repoint them as a batch after
+# the meeting, together with whatever Cote decides about the MA baseline.
 
 # ---- 10. Sample parameters ------------------------------------------------
 

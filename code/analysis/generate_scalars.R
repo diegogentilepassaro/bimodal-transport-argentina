@@ -65,6 +65,7 @@ main <- function() {
                    "diagnostic_theta_sweep",
                    "diagnostic_theta_sweep_sectoral",
                    "diagnostic_modern_iv_table11",
+                   "diagnostic_placebo_ma1947",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -522,6 +523,27 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["placeboFLP"]]   <- f2(row1(t7, spec = "IV-LP")$first_stage_F)
         macros[["placeboFHypo"]] <- f2(row1(t7, spec = "IV-Hypo")$first_stage_F)
         macros[["placeboFBoth"]] <- f2(row1(t7, spec = "IV-Both")$first_stage_F)
+        # p-values quoted directly in Section 4.6 since PR #145: under the
+        # adopted 1947-baseline spec the significance words ("at the
+        # five-percent level") stopped being true, and words are prose, not
+        # AutoFill. Quoting p removes the class of error entirely.
+        macros[["placeboOLSP"]] <- f3(row1(t7, spec = "OLS")$p_value)
+        macros[["placeboIVBP"]] <- f3(row1(t7, spec = "IV-Both")$p_value)
+    }
+
+    # -- Section 8.2: the 1947-weighted baseline-MA check --------------------
+    # Section 8.2 argues that the baseline-MA control is kept because a
+    # version of it carrying no post-1947 population information leaves
+    # the placebo estimate where it was. Those numbers were quoted only in
+    # a diagnostic .txt (cr-review PR #145, traceability), so they come
+    # through macros now. ma47_ctrl is the IV-Both cell of Part 1 of
+    # diagnostic_placebo_ma1947.
+    pm <- tab[["diagnostic_placebo_ma1947"]]
+    if (!is.null(pm)) {
+        r <- row1(pm, part = "1_placebo", variant = "ma47_ctrl",
+                  spec = "IV-B")
+        macros[["placeboMAwtCoef"]] <- f3(r$estimate)
+        macros[["placeboMAwtP"]]    <- f3(r$p_value)
     }
 
     # -- Table 12 (Section 5.5): robustness ----------------------------------

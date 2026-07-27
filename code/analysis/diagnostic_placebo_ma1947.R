@@ -217,12 +217,25 @@ run_part1 <- function(dd, y_plac, variants, refs) {
             Fv <- if (sp == "OLS") NA_real_ else fitstat_F(m)
             # Anchors: drift is a bug, not a finding. Every lookup goes
             # through pick1() so a miss fails instead of passing silently.
-            if (vn == "t7") {
+            # PR #145 repointed these: Table 7 now holds the pop47
+            # spec, so pop47 anchors to it and t7 anchors to ladder
+            # row (1). Anchoring t7 to Table 7 is what broke this
+            # script when the paper spec changed.
+            if (vn == "pop47") {
                 r <- refs$t7[refs$t7$spec == refs$map[[sp]], ]
                 stopifnot(nrow(r) == 1L,
                           abs(cc$est - r$estimate) < 1e-8,
                           abs(cc$se - r$std_err) < 1e-8,
                           nobs(m) == r$n_obs)
+            }
+            if (vn == "t7" && sp %in% c("OLS", "IV-B")) {
+                r <- refs$lad[refs$lad$control_set ==
+                              "(1) 1960 baselines", ]
+                stopifnot(nrow(r) == 1L)
+                est <- if (sp == "OLS") r$ols_est else r$ivb_est
+                se  <- if (sp == "OLS") r$ols_se  else r$ivb_se
+                stopifnot(abs(cc$est - est) < 1e-8,
+                          abs(cc$se - se) < 1e-8)
             }
             if (vn %in% c("pop47", "full47")) {
                 gp <- function(st_) pick1(refs$p47$value[
@@ -590,6 +603,9 @@ main <- function() {
                        stringsAsFactors = FALSE),
         p47 = read.csv(file.path(dir_tables,
                                  "diagnostic_placebo_1947.csv"),
+                       stringsAsFactors = FALSE),
+        lad = read.csv(file.path(dir_tables,
+                                 "table_b2_placebo_ladder.csv"),
                        stringsAsFactors = FALSE),
         t9  = read.csv(file.path(dir_tables, "table_9_population_iv.csv"),
                        stringsAsFactors = FALSE),
