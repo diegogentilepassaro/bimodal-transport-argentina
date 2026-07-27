@@ -1,5 +1,5 @@
 # ===========================================================================
-# plot_figure_a1_cost_schedule.R
+# plot_figure_b1_cost_schedule.R
 #
 # PURPOSE: Appendix Figure A1 (task C15) — the Baumgartner & Palazzo (1969)
 #          transport cost schedule: unit cost per ton-km by mode across the
@@ -14,8 +14,8 @@
 #          agricultural = 1,000).
 #
 # PRODUCES:
-#   results/figures/figure_a1_cost_schedule.pdf   (paper version)
-#   results/figures/figure_a1_cost_schedule.png   (review-diff version)
+#   results/figures/figure_b1_cost_schedule.pdf   (paper version)
+#   results/figures/figure_b1_cost_schedule.png   (review-diff version)
 # ===========================================================================
 
 main <- function() {
@@ -33,7 +33,7 @@ main <- function() {
 
     for (fmt in c("pdf", "png")) {
         out <- file.path(dir_figures,
-                         sprintf("figure_a1_cost_schedule.%s", fmt))
+                         sprintf("figure_b1_cost_schedule.%s", fmt))
         if (fmt == "pdf") {
             grDevices::pdf(out, width = 8, height = 6)
         } else {

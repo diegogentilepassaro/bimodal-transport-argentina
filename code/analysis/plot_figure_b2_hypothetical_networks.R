@@ -1,5 +1,5 @@
 # ===========================================================================
-# plot_figure_a2_hypothetical_networks.R
+# plot_figure_b2_hypothetical_networks.R
 #
 # PURPOSE: Appendix Figure A2 (task C16) — the four hypothetical road
 #          networks used to build the hypothetical-MA instruments, each
@@ -16,8 +16,8 @@
 #   data/raw/geo/geo2_ar1970_2010.shp            (district base layer)
 #
 # PRODUCES:
-#   results/figures/figure_a2_hypothetical_networks.pdf
-#   results/figures/figure_a2_hypothetical_networks.png
+#   results/figures/figure_b2_hypothetical_networks.pdf
+#   results/figures/figure_b2_hypothetical_networks.png
 # ===========================================================================
 
 PANELS <- data.frame(
@@ -61,7 +61,7 @@ main <- function() {
 
     for (fmt in c("pdf", "png")) {
         out <- file.path(dir_figures,
-                         sprintf("figure_a2_hypothetical_networks.%s", fmt))
+                         sprintf("figure_b2_hypothetical_networks.%s", fmt))
         if (fmt == "pdf") {
             grDevices::pdf(out, width = 12, height = 12)
         } else {

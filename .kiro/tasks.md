@@ -277,9 +277,12 @@ Nothing here starts before the meeting; each item lists its trigger.
 - [ ] [if B adopts] Swap Table 7 to the 1947-consistent spec +
       rewrite the intro validation paragraph (PR #120 has the spec
       and numbers ready).
-- [ ] [if D concurs] Migration paragraph trim + demote §5.4 Other
-      Outcomes to an annex (writing task; Figure A1/appendix
-      structure already exists since PR #122 wired A2-A4).
+- [x] ~~[if D concurs] Migration paragraph trim + demote §5.4 Other
+      Outcomes to an annex~~ — SUPERSEDED by the confirmed item-D
+      position, done in PR #141: §5.4 stays in the main text
+      reorganized by what is identified, migration moved to
+      Appendix A. Wholesale demotion remains Cote's option (one
+      line) and stays on the agenda under item D, not here.
 - [ ] [if A settles] Main-spec swap mechanics: config.R edit (PR
       #133) + LaTeX labels / figure axis labels / figure_2 binning
       sweep (list in config.R comment) + full Stage D rerun +
@@ -415,6 +418,23 @@ force a rerun anyway (Diego, 2026-07-20).
 The pre-meeting work program: fourteen merged PRs (#115-#128 wave)
 plus the five of 2026-07-25 (#129-#133). Entries kept verbatim as
 the verification record.
+
+APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
+two lettered sections — A. Recent Migration (prose) and B. Additional
+Tables and Figures — and exhibit prefixes match the letter of the
+appendix holding them. Before, the floats were prefixed A while
+sitting under two UNNUMBERED headings, so "Table A1" appeared to
+belong to Appendix A, which has no exhibits. Historical entries below
+and in sections 3-6 keep the old names; the mapping is:
+      table_a1_descriptives          -> table_b1_descriptives
+      figure_a1_cost_schedule        -> figure_b1_cost_schedule
+      figure_a2_hypothetical_networks-> figure_b2_hypothetical_networks
+      figure_a3_larkin_studied       -> figure_b3_larkin_studied
+      figure_a4_navigation           -> figure_b4_navigation
+Scripts, main.R steps D.15-D.19, results/ files and the paper.tex
+includes all moved with them; compiled numbering is Table B1 and
+Figures B1-B4. Labels were untouched, so every in-text cross-
+reference renumbered itself.
 
 - [x] PR #115 (settlement road-timing design, balanced but weak dose:
       recentered F ~ 1) — squash-merged 2026-07-24 (eede3e7) after
