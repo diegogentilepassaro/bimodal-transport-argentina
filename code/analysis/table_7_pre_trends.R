@@ -45,6 +45,7 @@
 #
 # PRODUCES:
 #   results/tables/table_7_pre_trends.{tex,csv}
+#   results/tables/table_b2_placebo_ladder.{tex,csv}  (write_ladder)
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -141,8 +142,13 @@ main <- function() {
     # modelsummary's note-escaping mangles backslashes. Use plain
     # \footnotesize text instead of threeparttable to keep the
     # dependency surface minimal (matches Table 9 which has no notes).
+    # Minipage for the same reason as the ladder below: inside
+    # \begin{table}\centering a bare paragraph is centred line by line,
+    # which strands the "Notes:" label at the right margin once the note
+    # runs past a couple of lines (cr-review PR #145).
     notes_tex <- paste(c(
         "\\vspace{0.5em}",
+        "\\begin{minipage}{0.92\\textwidth}",
         "{\\footnotesize \\textit{Notes:}",
         "Dependent variable: $\\Delta \\ln(\\mathrm{pop}_{1960}/\\mathrm{pop}_{1947})$.",
         "Robust (HC1) SE in parentheses.",
@@ -157,7 +163,8 @@ main <- function() {
         "alternative baseline sets.",
         "A near-zero and insignificant coefficient is evidence that",
         "post-reform $\\Delta \\ln \\mathrm{MA}$ is not picking up pre-reform trends.",
-        "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$.}"
+        "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$.}",
+        "\\end{minipage}"
     ), collapse = "\n")
 
     # Inject the notes just before \end{table}. Use gsub with fixed = TRUE
@@ -214,16 +221,21 @@ main <- function() {
 # baseline control sets.
 #
 # WHY THIS IS IN THE PAPER (agenda item B, 2026-07-27): the placebo's
-# verdict depends on which baselines are conditioned on, and the swing is
-# large — the coefficient runs from +0.087 to -0.004 across these four
-# sets. Reporting only the adopted set would leave a referee to discover
-# that; the ladder puts it on the page. Computed here rather than read
+# verdict depends on which baselines are conditioned on, and the swing
+# across these four sets is large enough to change the reading (see the
+# generated table_b2_placebo_ladder.csv for the current numbers).
+# Reporting only the adopted set would leave a referee to discover that;
+# the ladder puts it on the page. Computed here rather than read
 # from diagnostic_placebo_1947.csv so that no paper exhibit depends on a
 # diagnostic output.
 #
 # The four sets are the same ones diagnostic_placebo_1947baseline.R
-# reports, which is asserted below (the diagnostic remains the fuller
-# treatment: all four estimators, both anchors).
+# reports (that diagnostic remains the fuller treatment: all four
+# estimators). The link is enforced from the OTHER side since PR #145:
+# the diagnostic anchors its own variants to this table's CSV, so a
+# divergence fails there. What IS asserted here is that row (2)
+# reproduces the Table 7 fit computed above in this same script, which
+# is the claim the caption makes.
 # ---------------------------------------------------------------------------
 write_ladder <- function(d) {
     sets <- list(
@@ -263,7 +275,20 @@ write_ladder <- function(d) {
             stringsAsFactors = FALSE)
     }
     L <- do.call(rbind, rows)
-    stopifnot(nrow(L) == 4L, length(unique(L$n_obs)) == 1L)
+    stopifnot(nrow(L) == 4L, length(unique(L$n_obs)) == 1L,
+              !any(is.na(L$ols_est)), !any(is.na(L$ivb_est)),
+              !any(is.na(L$ols_p)),   !any(is.na(L$ivb_p)))
+    # Row (2) IS the specification Table 7 reports. Assert it rather
+    # than stating it in the caption and hoping (cr-review PR #145).
+    t7_csv <- read.csv(file.path(dir_tables, "table_7_pre_trends.csv"),
+                       stringsAsFactors = FALSE)
+    r2 <- L[L$control_set == "(2) 1947 pop baseline", ]
+    for (pair in list(c("OLS", "ols"), c("IV-Both", "ivb"))) {
+        ref <- t7_csv[t7_csv$spec == pair[1], ]
+        stopifnot(nrow(ref) == 1L,
+                  abs(r2[[paste0(pair[2], "_est")]] - ref$estimate) < 1e-10,
+                  abs(r2[[paste0(pair[2], "_se")]]  - ref$std_err) < 1e-10)
+    }
 
     st <- function(p) ifelse(p < 0.01, "^{***}",
                       ifelse(p < 0.05, "^{**}",
@@ -303,11 +328,14 @@ write_ladder <- function(d) {
                "and use one common sample of ", L$n_obs[1], " districts, ",
                "so differences across rows come from the baseline controls ",
                "alone. Row (2) is the specification reported in ",
-               "Table~\\ref{tab:pre_trends}. Row (1) additionally ",
-               "conditions on log pop 1960, the terminal level of the ",
-               "outcome window. Rows (3) and (4) drop the baseline ",
-               "market-access control; the estimate collapses toward zero, ",
-               "which is why the choice is stated rather than assumed. ",
+               "Table~\\ref{tab:pre_trends}. Row (1) substitutes log pop ",
+               "1960 for log pop 1947, conditioning on the terminal ",
+               "rather than the initial level of the outcome window. ",
+               "Row (3) drops the baseline market-access control and row ",
+               "(4) drops the population baseline as well; the estimate ",
+               "collapses toward zero, which is why the choice is stated ",
+               "rather than assumed. The first-stage $F$ column refers to ",
+               "the IV-Both specification. ",
                "Robust (HC1) SE. ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$.}"),
         "\\end{minipage}",

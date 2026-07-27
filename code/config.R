@@ -393,9 +393,27 @@ geo_controls_main <- c(
 # needing that control for its headline (beta 0.046 with, 0.020 without;
 # .kiro/baseline_ma_control_note.md) while its validation test could not
 # have it. Whether to drop it anyway is Cote's open call.
+# The setdiff is guarded: if log_pop_1960 were ever renamed in
+# geo_controls_main, the setdiff would silently drop nothing and this set
+# would carry BOTH population baselines — a degenerate spec whose
+# beta ~ 0 would look like a clean placebo (cr-review PR #145).
+stopifnot("log_pop_1960" %in% geo_controls_main)
 placebo_controls <- c(
     setdiff(geo_controls_main, "log_pop_1960"), "log_pop_1947"
 )
+stopifnot(length(placebo_controls) == length(geo_controls_main),
+          !("log_pop_1960" %in% placebo_controls))
+# SCOPE OF THE SWAP (cr-review PR #145): Table 7 and
+# diagnostic_pretrends_conley.R use placebo_controls. Seven other
+# diagnostics run the placebo outcome under geo_controls_main and were
+# deliberately NOT repointed before the 2026-07-29 meeting:
+# diagnostic_recentering_{results,hypo_results,controls,treatments}.R,
+# diagnostic_fused_results.R, diagnostic_roadseg_results.R and
+# diagnostic_roadtiming_results.R. Their recorded numbers are quoted in
+# the coauthor brief and in the ledger (e.g. the recentering figure
+# "+0.074 -> +0.088"), so silently changing the spec underneath them
+# would invalidate documents already sent. Repoint them as a batch after
+# the meeting, together with whatever Cote decides about the MA baseline.
 
 # ---- 10. Sample parameters ------------------------------------------------
 

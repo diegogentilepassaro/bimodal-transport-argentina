@@ -2,7 +2,7 @@
 CONLEY SPATIAL-SE DIAGNOSTIC (task C37 / memo Decision E, pre-trends) 
 Same point estimates as Tables 7 and 9; SEs recomputed with 
 fixest::conley() at cutoffs 100 / 250 / 500 / 1000 km 
-Generated: 2026-07-27 16:53:17 
+Generated: 2026-07-27 17:36:14 
 ========================================================================== 
 
 Sample: 311 districts with coordinates 

@@ -173,6 +173,17 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       showing what it does; (b) whether Table B2 stays in the appendix
       or moves to the main text; (c) whether the item-B2 direct test
       enters the paper.
+      SCOPE LIMIT ON RECORD (PR #145 fix pass): seven diagnostics still
+      run the placebo outcome under geo_controls_main —
+      diagnostic_recentering_{results,hypo_results,controls,treatments},
+      diagnostic_fused_results, diagnostic_roadseg_results,
+      diagnostic_roadtiming_results. Not repointed on purpose: their
+      recorded numbers are quoted in the brief already sent to Cote and
+      in this ledger (the recentering "+0.074 → +0.088" among them), so
+      changing the spec underneath them before the meeting would
+      invalidate documents in his hands. Batch them after the meeting
+      with whatever he decides on the MA baseline. Listed in config.R
+      next to placebo_controls so the next person finds it there.
 - [ ] B2. PRE-1960 GROWTH AS A CONFOUND (new, PR #143) — the direct
       test the placebo only addresses indirectly: condition the main
       1960-91 regressions on 1947-60 growth. Manufacturing survives.

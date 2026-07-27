@@ -171,12 +171,19 @@ combined-IV specification on the
 sharpen rather than soften that rejection. The estimate is also
 sensitive to the baseline control set: dropping the baseline
 market-access control moves it to approximately zero
-(Table~\ref{tab:placebo_ladder}). We retain that control, because the
-headline specification relies on it and because a market-access
-baseline rebuilt on 1947 population weights --- which carries no
-post-1947 population information --- leaves the placebo estimate
-essentially unchanged, so the argument that the control is itself
-contaminated by the placebo window does not hold. The placebo
+(Table~\ref{tab:placebo_ladder}). We retain that control for two
+reasons. First, the headline specification relies on it, so a
+validation test run without it would not be a test of the reported
+specification. Second, one argument for dropping it --- that a
+market-access level dated 1960 is itself a function of population
+realized during the placebo window --- does not survive measurement:
+a baseline market-access level rebuilt on 1947 population weights
+carries almost the same variation as the 1960-weighted one, and the
+placebo point estimate under it is \placeboMAwtCoef{}, close to the
+reported \placeboCoefIVBoth{}, although with a larger standard error
+its $p$-value is \placeboMAwtP{} rather than \placeboIVBP{}. We
+therefore treat the choice as a stated modelling decision rather than
+a settled one. The placebo
 subsample also differs
 from the full sample, so selection and pre-trend explanations cannot
 be separated with available data; readers should treat the aggregate

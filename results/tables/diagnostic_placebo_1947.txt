@@ -1,5 +1,5 @@
 Placebo baseline experiment (Cote 1.1, email 2026-07-24)
-Generated: 2026-07-24 15:44:31.554891  |  common N = 237
+Generated: 2026-07-27 17:35:55.38973  |  common N = 237
 
 DV = chg_log_placebo_pop_60_47; endog/instruments as Table 7.
 NOTE: no 1947 MA exists (no 1947 network); 'full47' is the

@@ -2,9 +2,12 @@
 # diagnostic_pretrends_conley.R
 #
 # PURPOSE: Task C37 / memo Decision E (pre-trends). The pre-trends placebo
-#          (Table 7) is not a clean null: IV-Both beta = 0.078, p = 0.06
-#          on the placebo subset (237 districts since issue #22), HC1 SE.
-#          Because districts
+#          (Table 7) is not a clean null. Under the control set adopted in
+#          PR #145 (placebo_controls: 1947 population baseline) the
+#          IV-Both estimate is +0.084 with HC1 p = 0.085 on the placebo
+#          subset of 237 districts; the numbers quoted here before PR #145
+#          were from an earlier revision of the table and matched neither
+#          spec. Because districts
 #          are spatially arranged and MA is constructed from a shared
 #          network, residuals are plausibly spatially correlated, and HC1
 #          may overstate precision. This diagnostic re-computes the

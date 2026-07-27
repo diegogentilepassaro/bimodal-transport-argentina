@@ -189,6 +189,7 @@ main <- function() {
                 main_lp_instrument,
                 main_hypo_instrument,
                 "log_pop_1960",
+                "log_pop_1947",
                 "logMA_actual_1960_s0_elow",
                 "lost_all_rails_86",
                 "gained_first_road_86",

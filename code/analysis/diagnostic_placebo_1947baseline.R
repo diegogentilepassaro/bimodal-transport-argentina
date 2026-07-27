@@ -98,12 +98,21 @@ main <- function() {
     add_row <- function(...) out_rows[[length(out_rows) + 1L]] <<-
         data.frame(..., stringsAsFactors = FALSE)
 
-    # Self-enforcing anchor (cr-review PR #120): the t7 variant must
-    # reproduce the committed Table 7 numbers; fail loudly on drift.
+    # Self-enforcing anchor (cr-review PR #120), REPOINTED IN PR #145:
+    # Table 7 adopted the pop47 control set, so it is the POP47 variant
+    # that must now reproduce table_7_pre_trends.csv. Anchoring t7 to
+    # that file is what broke this script when the paper spec changed
+    # (cr-review PR #145, blocking 1); the t7 variant is instead checked
+    # against row (1) of the published ladder, which is where the old
+    # control set now lives.
     t7_ref <- read.csv(file.path(dir_tables, "table_7_pre_trends.csv"),
                        stringsAsFactors = FALSE)
+    lad_ref <- read.csv(file.path(dir_tables,
+                                  "table_b2_placebo_ladder.csv"),
+                        stringsAsFactors = FALSE)
     spec_map <- c("OLS" = "OLS", "IV-LP" = "IV-LP",
                   "IV-H" = "IV-Hypo", "IV-B" = "IV-Both")
+    # pop47 == the paper's Table 7, all four estimators.
     check_anchor <- function(sp, cc, Fv, n) {
         r <- t7_ref[t7_ref$spec == spec_map[[sp]], ]
         stopifnot(nrow(r) == 1L,
@@ -112,6 +121,19 @@ main <- function() {
                   n == r$n_obs,
                   is.na(r$first_stage_F) ||
                       abs(Fv - r$first_stage_F) < 1e-6)
+    }
+    # t7 == ladder row (1). The ladder reports OLS and IV-Both only, so
+    # the other two estimators are unanchored by construction.
+    check_ladder <- function(vn, sp, cc) {
+        row_tag <- c(t7 = "(1) 1960 baselines",
+                     pop47 = "(2) 1947 pop baseline",
+                     full47 = "(3) 1947 pop, no MA baseline",
+                     nobase = "(4) no baselines")[[vn]]
+        r <- lad_ref[lad_ref$control_set == row_tag, ]
+        stopifnot(nrow(r) == 1L)
+        est <- if (sp == "OLS") r$ols_est else r$ivb_est
+        se  <- if (sp == "OLS") r$ols_se  else r$ivb_se
+        stopifnot(abs(cc$est - est) < 1e-8, abs(cc$se - se) < 1e-8)
     }
 
     for (vn in names(variants)) {
@@ -128,7 +150,8 @@ main <- function() {
                 "fit_chg_logMA_86_60_s0_elow"
             cc <- safe_coef(m, cn)
             Fv <- if (sp == "OLS") NA_real_ else fitstat_F(m)
-            if (vn == "t7") check_anchor(sp, cc, Fv, nobs(m))
+            if (vn == "pop47") check_anchor(sp, cc, Fv, nobs(m))
+            if (sp %in% c("OLS", "IV-B")) check_ladder(vn, sp, cc)
             add_row(variant = vn, spec = sp, stat = "coef",
                     value = cc$est)
             add_row(variant = vn, spec = sp, stat = "se",
