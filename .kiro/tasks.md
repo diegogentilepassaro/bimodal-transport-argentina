@@ -189,15 +189,21 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       ALSO RELEVANT TO ITEM C: three overid rejections concentrated
       in the 1970-91 outcome window is itself evidence about the
       hypo instrument, beyond the first-stage findings.
-      PROPOSED POSITION (Diego to confirm/adjust): concur on
-      removing migration from the narrative, but on the
-      overidentification ground rather than "it makes noise"; do
-      NOT demote §5.4 wholesale — keep a short subsection built on
-      employment (the one joint-identified result), report the
-      college and secondary IV-LP-vs-IV-H disagreement honestly,
-      and move migration to an annex paragraph. Sequel work: paper
-      edit, email paragraph for Cote, brief entry (all gated on
-      this call).
+      POSITION CONFIRMED (Diego, 2026-07-27) and IMPLEMENTED
+      (PR #141, branch paper/section-5-4-restructure): remove
+      migration from the narrative on the overidentification ground
+      rather than "it makes noise"; do NOT demote §5.4 wholesale.
+      §5.4 stays in the main text reorganized by what is
+      identified — employment as the result (AR [-0.0280, -0.0003]
+      excludes zero), education reported as instrument
+      disagreement, migration in one paragraph pointing to the new
+      Appendix A where the estimates and the two readings of the
+      sign are recorded unadjudicated. Table 11 gains an
+      overidentification row; §8.2 limitation #2 and §1's outcome
+      list updated to match; 20 new AutoFill macros. Compile 53 pp
+      clean. STILL OPEN for Wednesday: Cote's visto bueno, and his
+      option to demote §5.4 entirely if he prefers (one-line
+      change). Email §4 and brief item 6 carry the write-up.
 - [ ] E. RECENTERING READ-OUT — walk the six-design map
       (Plan/brief_cote_recentering_2026-07-29.md, final): Larkin
       collapses / hypo backbone / settlement clean-but-small /
