@@ -1,7 +1,7 @@
 # ===========================================================================
-# plot_figure_a4_navigation.R
+# plot_figure_b4_navigation.R
 #
-# PURPOSE: Appendix Figure A4 (Cote reading note #19, marked "do not
+# PURPOSE: Appendix Figure B4 (Cote reading note #19, marked "do not
 #          defer"): what the navigation layer of the cost surface
 #          actually contains. Answers the question the text left
 #          open — which ports/waters are connected: the navigable
@@ -23,8 +23,8 @@
 #   data/raw/geo/geo2_ar1970_2010.shp     (district base layer)
 #
 # PRODUCES:
-#   results/figures/figure_a4_navigation.pdf
-#   results/figures/figure_a4_navigation.png
+#   results/figures/figure_b4_navigation.pdf
+#   results/figures/figure_b4_navigation.png
 # ===========================================================================
 
 main <- function() {
@@ -64,7 +64,7 @@ main <- function() {
 
     for (fmt in c("pdf", "png")) {
         out <- file.path(dir_figures,
-                         sprintf("figure_a4_navigation.%s", fmt))
+                         sprintf("figure_b4_navigation.%s", fmt))
         if (fmt == "pdf") {
             grDevices::pdf(out, width = 8, height = 10)
         } else {

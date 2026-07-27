@@ -150,18 +150,35 @@ agreed}
 \bibliography{references}
 
 % ---- Appendix --------------------------------------------------------------
-% Supporting figures referenced from the main text but not part of the
-% main exhibit sequence. Figure numbering restarts as A1, A2, ... so that
-% file names in results/figures/ (figure_a1_*, figure_a2_*, ...) match the
-% compiled numbering.
+% Two lettered appendices:
+%   A. Recent Migration        -- prose, no floats
+%   B. Additional Tables and Figures -- Table B1, Figures B1-B4
+%
+% Exhibit prefixes match the letter of the appendix that contains them, so
+% "Table B1" and "Figure B1" point at Appendix B. Until PR #142 the floats
+% were prefixed A while sitting under two UNNUMBERED headings, which made
+% "Table A1" look like it belonged to Appendix A (Recent Migration), which
+% has no exhibits. File names in results/ track the prefix
+% (figure_b1_*, table_b1_*) so they still match the compiled numbering.
+%
+% The prefix is derived from \thesection rather than hardcoded, and the
+% counters reset per appendix section, so a future Appendix C numbers its
+% floats C1, C2, ... with no further edits here (cr-review PR #142).
+% \counterwithin* adds the reset without redefining \the<counter>, which
+% is why the \renewcommand lines below still control the format (no dot
+% between letter and number).
 
 \clearpage
 \appendix
+\counterwithin*{table}{section}
+\counterwithin*{figure}{section}
+\renewcommand{\thetable}{\thesection\arabic{table}}
+\renewcommand{\thefigure}{\thesection\arabic{figure}}
 
 % Numbered (not starred) so that Appendix~\ref{app:migration} in
-% Sections 5.4 and 8.2 resolves to "Appendix A". The table and figure
-% appendices below stay unnumbered; their floats carry the A1, A2, ...
-% numbering set by the \thetable/\thefigure overrides.
+% Sections 5.4 and 8.2 resolves to "Appendix A". A starred version
+% rendered "Appendix 9" (the section counter keeps running), which is why
+% both appendices are numbered.
 \section{Recent Migration}
 \label{app:migration}
 
@@ -201,19 +218,14 @@ which the cross-sectional sample does not contain. We record both
 possibilities and draw no conclusion.
 
 \clearpage
-\section*{Appendix Tables}
-\renewcommand{\thetable}{A\arabic{table}}
-\setcounter{table}{0}
-\input{../results/tables/table_a1_descriptives.tex}
+\section{Additional Tables and Figures}
+\input{../results/tables/table_b1_descriptives.tex}
 
 \clearpage
-\section*{Appendix Figures}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\setcounter{figure}{0}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.8\textwidth]{figure_a1_cost_schedule.pdf}
+\includegraphics[width=0.8\textwidth]{figure_b1_cost_schedule.pdf}
 \caption{Transport cost per ton-kilometer by mode and cargo density,
 from \citet{baumgartnerpalazzo1969}.}
 \label{fig:cost_schedule}
@@ -221,7 +233,7 @@ from \citet{baumgartnerpalazzo1969}.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a2_hypothetical_networks.png}
+\includegraphics[width=0.85\textwidth]{figure_b2_hypothetical_networks.png}
 \caption{Hypothetical road networks used by instrument 2:
 least-cost-path and Euclidean variants connecting the major cities.}
 \label{fig:hypo_networks}
@@ -229,7 +241,7 @@ least-cost-path and Euclidean variants connecting the major cities.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a3_larkin_studied.png}
+\includegraphics[width=0.85\textwidth]{figure_b3_larkin_studied.png}
 \caption{Rail segments studied versus not studied by the Larkin Plan,
 from the digitized plan tables.}
 \label{fig:larkin_studied}
@@ -237,7 +249,7 @@ from the digitized plan tables.}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{figure_a4_navigation.png}
+\includegraphics[width=0.85\textwidth]{figure_b4_navigation.png}
 \caption{Navigation layer of the transport-cost surface: the
 navigable inland waterways flagged in the IGN hydrography
 \citep{ignhydro} --- the Paran\'a--Paraguay--Uruguay--R\'io de la

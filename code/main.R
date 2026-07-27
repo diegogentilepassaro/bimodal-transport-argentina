@@ -458,43 +458,43 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.14",
         file.path(dir_results, "scalars.tex"), makelog)
 
-    # Appendix figures A1-A3
-    run_step("D.15 figure_a1_cost_schedule",
-             a("plot_figure_a1_cost_schedule.R"),
-             "Figure A1: B&P transport cost schedule by mode and density",
+    # Appendix B figures B1-B4
+    run_step("D.15 figure_b1_cost_schedule",
+             a("plot_figure_b1_cost_schedule.R"),
+             "Figure B1: B&P transport cost schedule by mode and density",
              makelog)
     verify_outputs("D.15",
         file.path(dir_figures,
-                  paste0("figure_a1_cost_schedule.", c("pdf", "png"))),
+                  paste0("figure_b1_cost_schedule.", c("pdf", "png"))),
         makelog)
 
-    run_step("D.16 figure_a2_hypothetical_networks",
-             a("plot_figure_a2_hypothetical_networks.R"),
-             "Figure A2: hypothetical road networks vs actual 1986 roads",
+    run_step("D.16 figure_b2_hypothetical_networks",
+             a("plot_figure_b2_hypothetical_networks.R"),
+             "Figure B2: hypothetical road networks vs actual 1986 roads",
              makelog)
     verify_outputs("D.16",
         file.path(dir_figures,
-                  paste0("figure_a2_hypothetical_networks.", c("pdf", "png"))),
+                  paste0("figure_b2_hypothetical_networks.", c("pdf", "png"))),
         makelog)
 
-    run_step("D.17 figure_a3_larkin_studied",
-             bn("plot_figure_a3_larkin_studied.R"),
-             "Figure A3: Larkin Plan studied vs non-studied rail segments",
+    run_step("D.17 figure_b3_larkin_studied",
+             bn("plot_figure_b3_larkin_studied.R"),
+             "Figure B3: Larkin Plan studied vs non-studied rail segments",
              makelog)
     verify_outputs("D.17",
         file.path(dir_figures,
-                  paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
+                  paste0("figure_b3_larkin_studied.", c("pdf", "png"))),
         makelog)
 
     # Wired with the figure itself (cr-review PR #121 precedent: any
     # fragment/figure the paper includes must be a pipeline output).
-    run_step("D.17b figure_a4_navigation",
-             bn("plot_figure_a4_navigation.R"),
-             "Appendix Figure A4: navigation layer of the cost surface",
+    run_step("D.17b figure_b4_navigation",
+             bn("plot_figure_b4_navigation.R"),
+             "Appendix Figure B4: navigation layer of the cost surface",
              makelog)
     verify_outputs("D.17b",
         file.path(dir_figures,
-                  paste0("figure_a4_navigation.", c("pdf", "png"))),
+                  paste0("figure_b4_navigation.", c("pdf", "png"))),
         makelog)
 
     run_step("D.18 figure_c13_ma_counterfactual_trio",
@@ -507,13 +507,13 @@ stage_d_analysis <- function(makelog) {
                          c("pdf", "png"))),
         makelog)
 
-    run_step("D.19 table_a1_descriptives",
-             a("table_a1_descriptives.R"),
-             "Appendix Table A1: descriptive statistics, estimation sample",
+    run_step("D.19 table_b1_descriptives",
+             a("table_b1_descriptives.R"),
+             "Appendix Table B1: descriptive statistics, estimation sample",
              makelog)
     verify_outputs("D.19",
         file.path(dir_tables,
-                  paste0("table_a1_descriptives.", c("tex", "csv"))),
+                  paste0("table_b1_descriptives.", c("tex", "csv"))),
         makelog)
 }
 

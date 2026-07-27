@@ -1,7 +1,7 @@
 # ===========================================================================
-# plot_figure_a3_larkin_studied.R
+# plot_figure_b3_larkin_studied.R
 #
-# PURPOSE: Appendix Figure A3 (task C17) — the Larkin Plan
+# PURPOSE: Appendix Figure B3 (task C17) — the Larkin Plan
 #          classification that instrument 1 exploits: rail segments the
 #          plan studied in detail (below its freight-density thresholds;
 #          candidates for closure) vs segments it did not study.
@@ -21,8 +21,8 @@
 #   data/raw/geo/geo2_ar1970_2010.shp    (district base layer)
 #
 # PRODUCES:
-#   results/figures/figure_a3_larkin_studied.pdf
-#   results/figures/figure_a3_larkin_studied.png
+#   results/figures/figure_b3_larkin_studied.pdf
+#   results/figures/figure_b3_larkin_studied.png
 # ===========================================================================
 
 main <- function() {
@@ -47,7 +47,7 @@ main <- function() {
 
     for (fmt in c("pdf", "png")) {
         out <- file.path(dir_figures,
-                         sprintf("figure_a3_larkin_studied.%s", fmt))
+                         sprintf("figure_b3_larkin_studied.%s", fmt))
         if (fmt == "pdf") {
             grDevices::pdf(out, width = 8, height = 10)
         } else {

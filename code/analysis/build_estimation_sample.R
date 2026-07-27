@@ -155,10 +155,10 @@ main <- function() {
 
     # ---- 4b. IPUMS outcome changes (1970 -> 1991) ---------------------------
     # Level changes in population shares for Table 11 and the appendix
-    # descriptives (Table A1). Built here once so both table scripts
+    # descriptives (Table B1). Built here once so both table scripts
     # consume stored columns (cr-review PR #104 follow-up: previously
     # constructed identically in table_11_other_outcomes.R and
-    # table_a1_descriptives.R). IPUMS has no pre-1970 Argentina
+    # table_b1_descriptives.R). IPUMS has no pre-1970 Argentina
     # microdata, so the window is 1970-1991, not 1960-1991 (the window
     # caveat is documented in table_11_other_outcomes.R and Section 5.4).
     # Plain subtraction: NA in either year propagates to the change.

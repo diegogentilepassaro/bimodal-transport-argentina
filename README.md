@@ -139,8 +139,8 @@ geographic rasters.
     figure and table scripts listed below, a heterogeneity diagnostic
     (`diagnostic_heterogeneity.R`), `generate_scalars.R` (writes
     `results/scalars.tex`, the AutoFill macros for in-text numbers), and
-    the appendix figure scripts (A1–A3, counterfactual trio) as the final
-    steps.
+    the appendix exhibit scripts (Figures B1–B4, Table B1, counterfactual
+    trio) as the final steps.
 - `code/analysis/_iv_helpers.R` — shared IV estimation template
   (OLS / IV-LP / IV-Hypo / IV-Both grid, HC1 SEs).
 - Data saves are validated in each script (key uniqueness checks and
@@ -194,14 +194,21 @@ numbering locked at submission).
 | Figure 1 (network changes) | `code/base/networks/plot_figure_1.R` | `results/figures/figure_1_network_changes.pdf` |
 | Figure 2 (Δlog MA choropleth) | `code/analysis/plot_figure_2.R` | `results/figures/figure_2_ma_change_choropleth.pdf` |
 | Figure 3 in draft (counterfactual MA trio) | `code/analysis/plot_figure_c13.R` | `results/figures/figure_c13_ma_counterfactual_trio.pdf` |
-| Figure A1 (cost schedule, appendix) | `code/analysis/plot_figure_a1_cost_schedule.R` | `results/figures/figure_a1_cost_schedule.pdf` |
+| Table B1 (descriptives, appendix) | `code/analysis/table_b1_descriptives.R` | `results/tables/table_b1_descriptives.tex` |
+| Figure B1 (cost schedule, appendix) | `code/analysis/plot_figure_b1_cost_schedule.R` | `results/figures/figure_b1_cost_schedule.pdf` |
+| Figure B2 (hypothetical networks, appendix) | `code/analysis/plot_figure_b2_hypothetical_networks.R` | `results/figures/figure_b2_hypothetical_networks.png` |
+| Figure B3 (Larkin studied segments, appendix) | `code/base/networks/plot_figure_b3_larkin_studied.R` | `results/figures/figure_b3_larkin_studied.png` |
+| Figure B4 (navigation layer, appendix) | `code/base/networks/plot_figure_b4_navigation.R` | `results/figures/figure_b4_navigation.png` |
 | In-text numbers | `code/analysis/generate_scalars.R` | `results/scalars.tex` (51 macros) |
 
 Generated but not currently included in the draft: `figure_3_rail_vs_road_change`
 (`code/base/networks/plot_figure_3.R`), `figure_4_infra_vs_ma_scatter`
-(`code/analysis/plot_figure_4.R`), `figure_a2_hypothetical_networks`,
-`figure_a3_larkin_studied`, and the `diagnostic_*` outputs (exploratory
+(`code/analysis/plot_figure_4.R`), and the `diagnostic_*` outputs (exploratory
 diagnostics documented in the repo's PR history).
+
+Appendix exhibits carry the letter of the appendix holding them (Appendix B:
+Table B1, Figures B1–B4). The heavy map figures are `\includegraphics`'d as
+`.png` to keep the committed `paper.pdf` small; both formats are written.
 
 ## References
 

@@ -277,9 +277,12 @@ Nothing here starts before the meeting; each item lists its trigger.
 - [ ] [if B adopts] Swap Table 7 to the 1947-consistent spec +
       rewrite the intro validation paragraph (PR #120 has the spec
       and numbers ready).
-- [ ] [if D concurs] Migration paragraph trim + demote §5.4 Other
-      Outcomes to an annex (writing task; Figure A1/appendix
-      structure already exists since PR #122 wired A2-A4).
+- [x] ~~[if D concurs] Migration paragraph trim + demote §5.4 Other
+      Outcomes to an annex~~ — SUPERSEDED by the confirmed item-D
+      position, done in PR #141: §5.4 stays in the main text
+      reorganized by what is identified, migration moved to
+      Appendix A. Wholesale demotion remains Cote's option (one
+      line) and stays on the agenda under item D, not here.
 - [ ] [if A settles] Main-spec swap mechanics: config.R edit (PR
       #133) + LaTeX labels / figure axis labels / figure_2 binning
       sweep (list in config.R comment) + full Stage D rerun +
@@ -734,6 +737,67 @@ Closed by Cote's 2026-07-24 email (implementation = PR #116 above):
       ferroviario en la Argentina"), NOT a CONADE report. URL:
       eltrimestreeconomico.com.mx article 3317. (Exact DNV volume
       still open — section 1.)
+
+### 8. Completed 2026-07-26 → 2026-07-27, record
+
+The second pre-meeting wave. Section 7 above stops at PR #133; these
+are the nine that followed. One line each, keyed to the agenda item
+they serve — the substantive findings live in the agenda items
+themselves (section 0), not here.
+
+- [x] PR #134 — ledger reorganized around the Wednesday agenda
+      (OPEN ITEMS restructured into sections 0-7).
+- [x] PR #135 — sectoral outcomes on the iceberg V-sweep: the
+      manufacturing/agriculture contrast survives at every V and both
+      θ under IV-Both (item A de-risking).
+- [x] PR #136 — Montiel Olea-Pflueger critical values for the
+      effective F; 8 of 9 IV-B cells pass at 10% bias tolerance
+      (item C evidence, closes reading note #35).
+- [x] PR #137 — route-inefficiency τ (Decision A option 1b)
+      quantified: contrast holds under IV-Both, both agricultural
+      cells go MOP-weak (item A).
+- [x] PR #138 — ledger records the pre-meeting brief + pendings
+      refresh.
+- [x] PR #139 — cross-decision checks: A×B (placebo clean on every
+      candidate τ object) and the decay IV-LP cell, completing the
+      A×C matrix.
+- [x] PR #140 — modern weak-IV inference for the four Table 11
+      outcomes: the overidentification test rejects in three of four
+      (the item-D headline fact).
+- [x] PR #141 — §5.4 restructured on the confirmed item-D position;
+      Table 11 gains an overidentification row; migration moved to
+      Appendix A. Detail in item D, section 0.
+- [x] PR #142 — appendix exhibit prefixes match their appendix
+      (Table B1, Figures B1-B4).
+
+APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
+two lettered sections — A. Recent Migration (prose) and B. Additional
+Tables and Figures — and exhibit prefixes match the letter of the
+appendix holding them. Before, the floats were prefixed A while
+sitting under two UNNUMBERED headings, so "Table A1" appeared to
+belong to Appendix A, which has no exhibits. The mapping:
+
+      table_a1_descriptives           -> table_b1_descriptives
+      figure_a1_cost_schedule         -> figure_b1_cost_schedule
+      figure_a2_hypothetical_networks -> figure_b2_hypothetical_networks
+      figure_a3_larkin_studied        -> figure_b3_larkin_studied
+      figure_a4_navigation            -> figure_b4_navigation
+
+Scripts, main.R steps D.15-D.19, results/ files, the paper.tex
+includes, README's exhibit table, and the in-code exhibit labels all
+moved with them; compiled numbering is Table B1 and Figures B1-B4.
+Cross-references go through labels, so the in-text numbers updated
+themselves. In paper.tex the prefix is derived from \thesection with
+\counterwithin*, so a future Appendix C needs no further edit.
+
+DATED RECORDS KEEP THE OLD NAMES deliberately — rewriting them would
+falsify what PRs #80/#104 actually produced. Survivors sit in section 7
+above, CURRENT STATUS, Done (Block 1 core), and the DEFERRED LEDGER;
+they are dated statements about what those PRs shipped, so read them
+through the mapping. The forward-looking exhibit specs under CODE TASKS
+> Figures (C15, C16, C17) DID move, since a reader consults those for
+which script builds an exhibit. And "Appendix Table A1" in the ledger's
+Gibbons comparisons refers to THEIR table, not ours: it stays.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
@@ -1250,14 +1314,14 @@ Three choropleth maps: ΔMA^full, ΔMA^only_rail, ΔMA^only_road. Depends on C1.
 #### C14. Local infrastructure scatter (Block 2)
 Δln(pop) vs ΔlnMA, colored by station loss. Depends on C4.
 
-#### C15. Transport cost schedule (Figure A1)
-Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover interval (500-1,000 t/day; the three tabulated points do not identify a crossover point). **Done: `code/analysis/plot_figure_a1_cost_schedule.R` (PR #80). Densities read from `cost_density` in config.R.**
+#### C15. Transport cost schedule (Figure B1)
+Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover interval (500-1,000 t/day; the three tabulated points do not identify a crossover point). **Done: `code/analysis/plot_figure_b1_cost_schedule.R` (PR #80). Densities read from `cost_density` in config.R.**
 
-#### C16. Hypothetical network maps (Figure A2)
-Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. **Done: `code/analysis/plot_figure_a2_hypothetical_networks.R` (PR #80). 1986 selector read from `roads_type2_1986` in config.R; CRS asserted per layer.**
+#### C16. Hypothetical network maps (Figure B2)
+Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. **Done: `code/analysis/plot_figure_b2_hypothetical_networks.R` (PR #80). 1986 selector read from `roads_type2_1986` in config.R; CRS asserted per layer.**
 
-#### C17. Larkin Plan studied segments map (Figure A3)
-Studied vs non-studied rail segments. **Done: `code/base/networks/plot_figure_a3_larkin_studied.R` (PR #80). Legend reports km, not share, pending issue #68.**
+#### C17. Larkin Plan studied segments map (Figure B3)
+Studied vs non-studied rail segments. **Done: `code/base/networks/plot_figure_b3_larkin_studied.R` (PR #80). Legend reports km, not share, pending issue #68.**
 
 ---
 
