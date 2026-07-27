@@ -15,7 +15,7 @@
 #          echo = FALSE)
 #
 # SCOPE: analysis-side diagnostics and figure scripts (including the
-# appendix map figures A2/A3, which reuse load_district_shapes() and
+# appendix map figures B2/B3, which reuse load_district_shapes() and
 # add_map_furniture()). The pipeline keeps its own load_centroids() in
 # 03c_compute_taus{,_parallel}.R deliberately — the pipeline is
 # frozen-verified and is not re-run when diagnostics change.

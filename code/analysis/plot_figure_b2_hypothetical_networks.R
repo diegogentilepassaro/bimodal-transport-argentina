@@ -1,7 +1,7 @@
 # ===========================================================================
 # plot_figure_b2_hypothetical_networks.R
 #
-# PURPOSE: Appendix Figure A2 (task C16) — the four hypothetical road
+# PURPOSE: Appendix Figure B2 (task C16) — the four hypothetical road
 #          networks used to build the hypothetical-MA instruments, each
 #          overlaid on the actual 1986 paved+gravel road network so the
 #          reader can see what the instrument does and does not trace.

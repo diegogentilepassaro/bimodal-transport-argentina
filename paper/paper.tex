@@ -159,11 +159,21 @@ agreed}
 % were prefixed A while sitting under two UNNUMBERED headings, which made
 % "Table A1" look like it belonged to Appendix A (Recent Migration), which
 % has no exhibits. File names in results/ track the prefix
-% (figure_b1_*, table_b1_*) so they still match the compiled numbering; a
-% future appendix C would need its own prefix and \thefigure override.
+% (figure_b1_*, table_b1_*) so they still match the compiled numbering.
+%
+% The prefix is derived from \thesection rather than hardcoded, and the
+% counters reset per appendix section, so a future Appendix C numbers its
+% floats C1, C2, ... with no further edits here (cr-review PR #142).
+% \counterwithin* adds the reset without redefining \the<counter>, which
+% is why the \renewcommand lines below still control the format (no dot
+% between letter and number).
 
 \clearpage
 \appendix
+\counterwithin*{table}{section}
+\counterwithin*{figure}{section}
+\renewcommand{\thetable}{\thesection\arabic{table}}
+\renewcommand{\thefigure}{\thesection\arabic{figure}}
 
 % Numbered (not starred) so that Appendix~\ref{app:migration} in
 % Sections 5.4 and 8.2 resolves to "Appendix A". A starred version
@@ -209,11 +219,6 @@ possibilities and draw no conclusion.
 
 \clearpage
 \section{Additional Tables and Figures}
-\label{app:exhibits}
-\renewcommand{\thetable}{B\arabic{table}}
-\setcounter{table}{0}
-\renewcommand{\thefigure}{B\arabic{figure}}
-\setcounter{figure}{0}
 \input{../results/tables/table_b1_descriptives.tex}
 
 \clearpage

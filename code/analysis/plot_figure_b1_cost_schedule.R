@@ -1,7 +1,7 @@
 # ===========================================================================
 # plot_figure_b1_cost_schedule.R
 #
-# PURPOSE: Appendix Figure A1 (task C15) — the Baumgartner & Palazzo (1969)
+# PURPOSE: Appendix Figure B1 (task C15) — the Baumgartner & Palazzo (1969)
 #          transport cost schedule: unit cost per ton-km by mode across the
 #          three tabulated cargo-density scenarios. Shows the road/rail
 #          crossover that drives the scale-economies mechanism in §2.4:

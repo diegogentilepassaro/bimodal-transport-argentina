@@ -1,7 +1,7 @@
 # ===========================================================================
 # plot_figure_b4_navigation.R
 #
-# PURPOSE: Appendix Figure A4 (Cote reading note #19, marked "do not
+# PURPOSE: Appendix Figure B4 (Cote reading note #19, marked "do not
 #          defer"): what the navigation layer of the cost surface
 #          actually contains. Answers the question the text left
 #          open — which ports/waters are connected: the navigable

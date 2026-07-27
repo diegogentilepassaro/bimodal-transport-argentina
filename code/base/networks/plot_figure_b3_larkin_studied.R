@@ -1,7 +1,7 @@
 # ===========================================================================
 # plot_figure_b3_larkin_studied.R
 #
-# PURPOSE: Appendix Figure A3 (task C17) — the Larkin Plan
+# PURPOSE: Appendix Figure B3 (task C17) — the Larkin Plan
 #          classification that instrument 1 exploits: rail segments the
 #          plan studied in detail (below its freight-density thresholds;
 #          candidates for closure) vs segments it did not study.
