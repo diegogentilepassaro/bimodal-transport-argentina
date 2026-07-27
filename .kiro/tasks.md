@@ -147,33 +147,57 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       demote §5.4 to an annex (his note #42). Needs Diego's
       concurrence; then it's a writing task (section 2). Title
       stays as-is, closed jointly with narrative at publication.
-      EVIDENCE NOW IN (2026-07-27, diagnostic_modern_iv_table11):
-      the decision turns on IDENTIFICATION, not noise.
-      (i) recent migration — IV-B AR set EMPTY, Sargan p = 0.0056:
-          no β is compatible with both instruments (IV-LP -0.0066,
-          p=0.52, AR covers zero; IV-H -0.064, p=0.029 on the
-          instrument that MOP-fails everywhere). The published
-          -0.0217 sits between two incompatible estimates — an
-          unidentified coefficient, not a noisy one.
-      (ii) secondary share — same pathology (AR empty, Sargan
-          p = 0.0078) with the instruments pointing OPPOSITE ways
-          (+0.0059 LP vs -0.0101 H).
-      (iii) employment rate — the clean one: Sargan p = 0.74, AR
-          excludes zero under BOTH IV-LP (-0.0121) and IV-B
-          (-0.0109). The only Table 11 result that survives
-          identification-robust inference.
-      (iv) college share — null everywhere (all AR sets cover
-          zero); classical Sargan rejects at 5% (p=0.034) while the
-          robust AR set is non-empty (heteroskedasticity case,
-          documented in the report).
+      EVIDENCE NOW IN (2026-07-27, PR #140,
+      diagnostic_modern_iv_table11, corrected after cr-review): the
+      decision turns on IDENTIFICATION, not noise. THE HEADLINE
+      FACT: the joint (IV-B) overidentification test rejects at 5%
+      for THREE of the four outcomes — only employment survives.
+      Robust J (min-AR quadratic form, χ²_{k-1}) agrees with the
+      classical Sargan in all four cells, so heteroskedasticity is
+      doing no work:
+      (i) recent migration — Sargan p = 0.0056, robust J p = 0.012,
+          IV-B AR set EMPTY (the joint K=2 test rejects every β).
+          IV-LP says -0.0066 (p = 0.52, AR covers zero); IV-H says
+          -0.064 (p = 0.029) on the instrument that MOP-fails at
+          every tolerance. The published -0.0217 sits between two
+          jointly incompatible moments — an unidentified
+          coefficient, not a noisy one. (The individual AR sets do
+          overlap on [-0.0303, -0.0294]; state the failure in
+          joint-moment terms.)
+      (ii) secondary share — same joint failure (Sargan p = 0.0078,
+          robust J p = 0.0068, AR empty) with the instruments
+          pointing OPPOSITE ways (+0.0059 LP vs -0.0101 H). NOTE:
+          an overid rejection does not say which moment fails —
+          under the natural reading (hypo instrument is the weak,
+          MOP-failing one) the IV-LP result STANDS on its own
+          (+0.0059, AR [0.0019, 0.0114], p at zero = 0.005).
+      (iii) employment rate — the clean one: Sargan p = 0.74,
+          robust J p = 0.72, AR excludes zero under both IV-LP
+          (-0.0121, p at zero = 0.017) and IV-B (-0.0109,
+          marginally: p at zero = 0.044). The only Table 11 outcome
+          whose JOINT spec survives identification-robust
+          inference.
+      (iv) college share — both instruments give individual nulls
+          (all AR sets cover zero) but they differ significantly
+          from each other (+0.00103 LP vs -0.00205 H; Sargan
+          p = 0.034, robust J p = 0.031). So the joint spec is not
+          identified here either; "clean null" would be wrong.
+          Its AR set is non-empty only because the emptiness
+          criterion uses k df while the overid test uses k-1 —
+          strictly more conservative (not a heteroskedasticity
+          artifact, as the first pass wrongly claimed).
+      ALSO RELEVANT TO ITEM C: three overid rejections concentrated
+      in the 1970-91 outcome window is itself evidence about the
+      hypo instrument, beyond the first-stage findings.
       PROPOSED POSITION (Diego to confirm/adjust): concur on
       removing migration from the narrative, but on the
       overidentification ground rather than "it makes noise"; do
       NOT demote §5.4 wholesale — keep a short subsection built on
-      employment (+ the college null), move migration and
-      secondary to an annex paragraph that reports the
-      instrument-incompatibility. Sequel work: paper edit, email
-      paragraph for Cote, brief entry (all gated on this call).
+      employment (the one joint-identified result), report the
+      college and secondary IV-LP-vs-IV-H disagreement honestly,
+      and move migration to an annex paragraph. Sequel work: paper
+      edit, email paragraph for Cote, brief entry (all gated on
+      this call).
 - [ ] E. RECENTERING READ-OUT — walk the six-design map
       (Plan/brief_cote_recentering_2026-07-29.md, final): Larkin
       collapses / hypo backbone / settlement clean-but-small /
@@ -296,6 +320,22 @@ force a rerun anyway (Diego, 2026-07-20).
 
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
+- [ ] Post-meeting refactor: promote the diagnostic helper trio
+      (tau/pop loaders, geodesic pairs) AND the modern-IV machinery
+      (AR inversion, MOP effective F / B(W) / Patnaik cv) into the
+      EXISTING code/analysis/_diagnostic_helpers.R. Four copies now
+      (PRs #130/#135/#137/#139/#140) and two drifts to reconcile
+      when it happens: patnaik_cv returns a bare cv in some copies
+      vs list(cv, k_eff) in diagnostic_mop_critical.R (so the k_eff
+      columns are silently absent downstream), and one copy dropped
+      the beta->Inf derivation comment in B_of_W. Flagged by the
+      PR #137 and #140 reviews; deferred deliberately so pre-meeting
+      evidence work stayed surgical.
+- [ ] Standing gap (structure.md "results are regenerable"): the
+      diagnostic_*.{txt,csv} outputs are committed but not produced
+      by main.R (same status as every diagnostic since PR #67).
+      Decide before deposit whether main.R gains a diagnostics stage
+      or the README states they are exploratory artifacts.
 
 ### 6. Deferred by explicit decision
 
