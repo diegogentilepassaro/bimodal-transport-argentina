@@ -13,11 +13,14 @@
 %       be implemented; the industrial and agricultural census activity
 %       outcomes are used instead. See table_10_sectoral.R header.)
 %
-% Subsections deferred (need more analysis before drafting):
-%   5.4 Other Outcomes   (pending Table 11: education, migration,
-%                        employment status)
-%   5.5 Robustness       (pending Table 12: alternative theta, alternative
-%                        hypo instruments, subsample stability)
+%   5.4 Other Outcomes (Table 11: education, recent migration,
+%       employment rate). Organized around the overidentification test
+%       defined in Section 4: only the employment rate has a jointly
+%       identified two-instrument specification. The recent-migration
+%       estimates are recorded in the appendix rather than read as a
+%       result (agenda item D, PR #141).
+%   5.5 Robustness (Table 12: alternative theta, alternative hypo
+%       instruments, subsample stability)
 %
 % All regression numbers in this section are AutoFill macros from
 % results/scalars.tex (paper-wide pass after issue #22). Significance
@@ -285,32 +288,35 @@ computed over 1960--1986; infrastructure restructuring predates the
 1970 outcome measurement. Column structure matches
 Table~\ref{tab:population_iv}.
 
-One feature of these four outcomes organizes how we read them. The
-two instruments are jointly valid only for the employment rate: the
-overidentification test reported in
-Table~\ref{tab:other_outcomes_iv} does not reject for that outcome
-($p=\sarganEmployment{}$) and rejects for the other three
-($p=\sarganCollege{}$ for the college share,
-$p=\sarganSecondary{}$ for the secondary share, and
-$p=\sarganMigration{}$ for the recent-migration share). The
-identification-robust versions of the same test agree
-($p=\employmentRobustJP{}$, $\collegeRobustJP{}$,
-$\secondaryRobustJP{}$ and $\migrationRobustJP{}$ respectively). We
-therefore report the combined-instrument estimate as the result for
-the employment rate, and for the other three outcomes we report what
-each instrument implies separately.
+One feature of these four outcomes organizes how we read them. For
+three of the four, the two instruments do not identify a common
+parameter. The identification-robust overidentification test defined
+in Section~\ref{sec:identification} rejects at the
+\overidAlpha{}-percent level for the college share
+($p=\collegeRobustJP{}$), the secondary share
+($p=\secondaryRobustJP{}$), and the recent-migration share
+($p=\migrationRobustJP{}$), and does not reject for the employment
+rate ($p=\employmentRobustJP{}$). The classical Sargan statistic
+reported in Table~\ref{tab:other_outcomes_iv} gives the same four-way
+split ($p=\sarganCollege{}$, $\sarganSecondary{}$,
+$\sarganMigration{}$, and $\sarganEmployment{}$ respectively), so
+heteroskedasticity is not what drives the result. We therefore report
+the combined-instrument estimate as the result for the employment
+rate, and for the other three outcomes we report what each instrument
+implies separately.
 
 For the employment rate, the OLS estimate is $\employmentOLSCoef{}$
 (\employmentOLSSE{}) and the combined IV estimate is
 $\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at the
-five-percent level. The Larkin Plan instrument alone gives
-$\employmentIVLPCoef{}$ (\employmentIVLPSE{},
+five-percent level ($p=\employmentIVBP{}$). The Larkin Plan instrument
+alone gives $\employmentIVLPCoef{}$ (\employmentIVLPSE{},
 $p=\employmentIVLPP{}$). The Anderson--Rubin confidence set for the
 combined specification, which remains valid whatever the strength of
 the instruments, is $[\employmentARlo{}, \employmentARhi{}]$ and
-excludes zero. A one-unit increase in $\Delta \ln
+excludes zero. The employment rate is measured as a share of
+individuals, so a one-unit increase in $\Delta \ln
 \mathrm{MA}^{\mathrm{full}}_i$ is associated with a fall in the
-employment rate of $\employmentIVBCoef{}$ of a share point.
+employment rate of \employmentIVBCoefPP{} percentage points.
 
 For the college share, every estimate is individually
 indistinguishable from zero, with point estimates between
@@ -318,23 +324,28 @@ $\collegeMin{}$ and $\collegeMax{}$; the two instruments nonetheless
 disagree with each other ($\collegeIVLPCoef{}$ under the Larkin Plan
 instrument against $\collegeIVHCoef{}$ under the hypothetical-network
 instrument), which is what the overidentification test detects. For
-the secondary share, the Larkin Plan instrument gives
-\secondaryIVLPCoef{} ($p=\secondaryIVLPP{}$) while the
-hypothetical-network instrument gives \secondaryIVHCoef{}; the OLS and
-combined-IV point estimates are \secondaryOLSCoef{} and
-\secondaryIVBCoef{}. We do not read a schooling effect from these
-estimates: the two instruments imply different ones.
+the secondary share the disagreement is sharper. The Larkin Plan
+instrument gives $\secondaryIVLPCoef{}$ ($p=\secondaryIVLPP{}$), with an
+Anderson--Rubin set of $[\secondaryARLPlo{}, \secondaryARLPhi{}]$
+lying entirely above zero, while the hypothetical-network instrument
+gives $\secondaryIVHCoef{}$; the OLS and combined-IV point estimates are
+$\secondaryOLSCoef{}$ and $\secondaryIVBCoef{}$. We do not read a
+schooling effect from these estimates, because the two instruments
+imply different ones. This is the one cell in the table where the
+evidence cuts against that reading: taken on its own, the Larkin Plan
+instrument implies a positive effect on the secondary share.
 
-For the recent-migration share, the combined specification is the one
-the overidentification test rejects most strongly
-($p=\sarganMigration{}$), and the two instruments imply estimates of
-different magnitudes: \migrationIVLPCoef{} (\migrationIVLPSE{},
+For the recent-migration share, the two instruments imply estimates of
+different magnitudes: $\migrationIVLPCoef{}$ (\migrationIVLPSE{},
 $p=\migrationIVLPP{}$) under the Larkin Plan instrument, whose
 Anderson--Rubin set $[\migrationARLPlo{}, \migrationARLPhi{}]$
-contains zero, against \migrationIVHCoef{}
+contains zero, against $\migrationIVHCoef{}$
 ($p=\migrationIVHP{}$) under the hypothetical-network instrument,
-which Section~\ref{sec:identification} shows to be the weaker of the
-two. We therefore do not treat the negative combined estimate as a
+which Section~\ref{sec:first_stage_tab} shows to be the weaker of the
+two. The Anderson--Rubin set for that second estimate,
+$[\migrationARHlo{}, \migrationARHhi{}]$, excludes zero but spans
+more than an order of magnitude, so it restricts the sign and not the
+size. We therefore do not treat the negative combined estimate as a
 finding. Appendix~\ref{app:migration} reports the full set of
 estimates and the readings that have been proposed for the sign.
 

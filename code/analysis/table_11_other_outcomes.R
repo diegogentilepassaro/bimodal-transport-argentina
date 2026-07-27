@@ -65,15 +65,20 @@ main <- function() {
              paste(missing_chg, collapse = ", "))
     }
 
+    # Panel order matches the order in which Section 5.4 discusses the
+    # outcomes (cr-review PR #141): the employment rate leads because it
+    # is the only outcome whose two-instrument specification passes the
+    # overidentification test, and recent migration comes last because
+    # its estimates are recorded rather than read as a result.
     outcomes <- list(
+        list(var = "chg_empstat_emp_91_70",
+             label = "$\\Delta$(Employment rate)"),
         list(var = "chg_college_91_70",
              label = "$\\Delta$(College share)"),
         list(var = "chg_secondary_91_70",
              label = "$\\Delta$(Secondary share)"),
         list(var = "chg_mig5_91_70",
-             label = "$\\Delta$(Recent-migration share)"),
-        list(var = "chg_empstat_emp_91_70",
-             label = "$\\Delta$(Employment rate)")
+             label = "$\\Delta$(Recent-migration share)")
     )
 
     # Build 4 × 4 = 16 model fits
@@ -129,6 +134,29 @@ main <- function() {
         list("raw" = "nobs", "clean" = "Observations", "fmt" = 0)
     )
 
+    # Reader-visible note, repeated in every panel float so that each
+    # one is interpretable on its own. It has to state the window
+    # asymmetry (outcomes 1970-1991, regressor 1960-1986) and what the
+    # overidentification row is, since this is the only table in the
+    # paper that carries such a row.
+    table_note <- paste(
+        "Outcomes are level changes in population shares between 1970",
+        "and 1991; the regressor is the 1960--1986 change in log market",
+        "access. All columns include baseline log market access (1960),",
+        "baseline log population (1960), and the six standardized",
+        "geographic controls. Robust (HC1) standard errors.",
+        "``Overid. $p$'' is the",
+        "classical (homoskedastic) Sargan $p$-value for the",
+        "two-instrument column; the identification-robust counterpart",
+        "and the corresponding Anderson--Rubin confidence sets are",
+        "reported in Section~\\ref{sec:other_outcomes}."
+    )
+    table_note_short <- paste(
+        "Sample, controls, standard errors, and the definition of the",
+        "overidentification row are as in",
+        "Table~\\ref{tab:other_outcomes_iv}."
+    )
+
     tex_chunks <- character()
     is_first_panel <- TRUE
     for (out in outcomes) {
@@ -145,7 +173,8 @@ main <- function() {
         # outcomes have a jointly identified specification: the test
         # rejects for every outcome except the employment rate
         # (evidence in diagnostic_modern_iv_table11; PR #140).
-        sp <- sargan_p(all_models[[paste(y, "IV-B", sep = "_")]])
+        sp <- sargan_p(all_models[[paste(y, "IV-B", sep = "_")]],
+                       k_instr = 2L)
         add_rows <- tibble::tibble(
             ` `           = c("First-stage $F$", "Overid. $p$ (Sargan)"),
             `(1) OLS`     = c("---", "---"),
@@ -165,6 +194,12 @@ main <- function() {
             title    = sprintf("Outcome: %s", out$label)
         )
         tbl_txt <- as.character(tbl)
+        # Full note on the first panel; the later panels point back to it
+        # rather than repeating ninety words four times.
+        tbl_txt <- add_table_note(
+            tbl_txt,
+            if (is_first_panel) table_note else table_note_short
+        )
         if (is_first_panel) {
             tbl_txt <- inject_first_label(tbl_txt, "tab:other_outcomes_iv")
             is_first_panel <- FALSE
@@ -214,7 +249,8 @@ main <- function() {
                 p_value  = co$p,
                 n_obs    = nobs(m),
                 first_stage_F = if (spec == "OLS") NA_real_ else fitstat_F(m),
-                sargan_p = if (spec == "IV-B") sargan_p(m) else NA_real_,
+                sargan_p = sargan_p(m, k_instr = if (spec == "IV-B") 2L
+                                                 else 1L),
                 stringsAsFactors = FALSE
             )
         }
@@ -234,19 +270,6 @@ format_co <- function(co) {
             ifelse(co$p < 0.05, "**",
             ifelse(co$p < 0.10, "*", "")))
     sprintf("%+6.3f%-3s(%.3f)", co$est, stars, co$se)
-}
-
-# Classical (homoskedastic) Sargan overidentification p-value for a
-# two-instrument fit; NA if the model is just-identified. The
-# identification-robust counterpart (J from the minimized AR statistic)
-# and the AR confidence sets live in diagnostic_modern_iv_table11.R.
-sargan_p <- function(iv_model) {
-    s <- tryCatch(fitstat(iv_model, type = "sargan"),
-                  error = function(e) NULL)
-    if (is.list(s) && is.list(s$sargan) && !is.null(s$sargan$p)) {
-        return(as.numeric(s$sargan$p))
-    }
-    NA_real_
 }
 
 main()

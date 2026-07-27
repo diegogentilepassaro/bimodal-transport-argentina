@@ -148,6 +148,11 @@ run_cell <- function(o, sp, d, m) {
         F_robust    = F_rob,
         F_eff       = mop$F_eff, B = mop$B,
         ar_set = ar$print, ar_bounded = ar$bounded,
+        # Numeric bounds alongside the display string so downstream
+        # consumers (generate_scalars) never parse the printed form
+        # (cr-review PR #141 B4). NA unless the set is a bounded
+        # interval.
+        ar_lo = ar$lo, ar_hi = ar$hi,
         ar_status = ar$status, ar_maxp = ar$ar_maxp,
         ar_p_at_0 = ar$ar_p_at_0,
         robust_J = rj[["J"]], robust_J_p = rj[["p"]],
@@ -301,7 +306,7 @@ ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
     } else if (!acc[1] && !acc[ng]) {
         b <- range(grid[acc])
         list(print = sprintf("[%s, %s]", fmt(b[1]), fmt(b[2])),
-             bounded = TRUE,
+             bounded = TRUE, lo = b[1], hi = b[2],
              status = if (b[1] <= 0 && 0 <= b[2]) "covers 0" else "excludes 0")
     } else if (acc[1] && acc[ng]) {
         b <- range(grid[!acc])
@@ -317,6 +322,8 @@ ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
         list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE,
              status = if (0 < b) "excludes 0" else "covers 0")
     }
+    if (is.null(out$lo)) out$lo <- NA_real_
+    if (is.null(out$hi)) out$hi <- NA_real_
     out$ar_maxp <- maxp
     # Classify excludes/covers zero from the AR test AT ZERO directly,
     # not from the printed hull (cr-review SF1/SF5): immune to grid
@@ -454,10 +461,20 @@ write_outputs <- function(df) {
     wline("so their repetition down the table is ONE first stage per")
     wline("spec, not four independent ones (asserted in code).")
     wline("")
+    # The migration overlap interval was hardcoded in the first pass and
+    # drifted from the AR bounds actually reported above (it read
+    # -0.0294 against an IV-H upper bound of -0.0297). Computed from the
+    # numeric bounds now so it cannot drift again (cr-review PR #141).
+    mig_lp <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-LP", ]
+    mig_h  <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-H", ]
+    ov_lo  <- max(mig_lp$ar_lo, mig_h$ar_lo)
+    ov_hi  <- min(mig_lp$ar_hi, mig_h$ar_hi)
+    stopifnot(!is.na(ov_lo), !is.na(ov_hi), ov_lo < ov_hi)
     wline("An EMPTY AR set means the joint K=2 AR test rejects EVERY beta")
     wline("at 5%%: the two moment conditions cannot both hold. (Note the")
     wline("individual AR sets can still overlap — for migration they do,")
-    wline("on [-0.0303, -0.0294] — so state this in joint-moment terms,")
+    wline("on [%.4f, %.4f] — so state this in joint-moment terms,",
+          ov_lo, ov_hi)
     wline("not as 'no beta is compatible with either instrument'.) An")
     wline("empty set is NOT evidence of a precisely estimated effect.")
     wline("")
