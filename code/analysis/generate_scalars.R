@@ -522,6 +522,12 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["placeboFLP"]]   <- f2(row1(t7, spec = "IV-LP")$first_stage_F)
         macros[["placeboFHypo"]] <- f2(row1(t7, spec = "IV-Hypo")$first_stage_F)
         macros[["placeboFBoth"]] <- f2(row1(t7, spec = "IV-Both")$first_stage_F)
+        # p-values quoted directly in Section 4.6 since PR #145: under the
+        # adopted 1947-baseline spec the significance words ("at the
+        # five-percent level") stopped being true, and words are prose, not
+        # AutoFill. Quoting p removes the class of error entirely.
+        macros[["placeboOLSP"]] <- f3(row1(t7, spec = "OLS")$p_value)
+        macros[["placeboIVBP"]] <- f3(row1(t7, spec = "IV-Both")$p_value)
     }
 
     # -- Table 12 (Section 5.5): robustness ----------------------------------

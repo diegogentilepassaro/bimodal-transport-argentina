@@ -164,11 +164,20 @@ period.
 
 Four limitations qualify the results. First, the pre-trends placebo
 is not a clean null: post-reform market-access changes predict
-1947--1960 population growth at the five-percent level in the OLS
-and combined-IV specifications on the
+1947--1960 population growth at the ten-percent level in the
+combined-IV specification on the
 \placeboNIVBoth{}-district placebo subsample
-(Table~\ref{tab:pre_trends}), and spatial standard errors do not
-soften that rejection. The placebo subsample differs
+(Table~\ref{tab:pre_trends}), and spatially robust standard errors
+sharpen rather than soften that rejection. The estimate is also
+sensitive to the baseline control set: dropping the baseline
+market-access control moves it to approximately zero
+(Table~\ref{tab:placebo_ladder}). We retain that control, because the
+headline specification relies on it and because a market-access
+baseline rebuilt on 1947 population weights --- which carries no
+post-1947 population information --- leaves the placebo estimate
+essentially unchanged, so the argument that the control is itself
+contaminated by the placebo window does not hold. The placebo
+subsample also differs
 from the full sample, so selection and pre-trend explanations cannot
 be separated with available data; readers should treat the aggregate
 population estimates with corresponding caution. Second, three of the four

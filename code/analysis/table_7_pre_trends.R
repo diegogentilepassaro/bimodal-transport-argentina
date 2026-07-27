@@ -27,7 +27,15 @@
 #     correlated with the eventual infrastructure changes, which
 #     threatens the causal interpretation.
 #
-# CONTROLS: Same as Table 9.
+# CONTROLS: placebo_controls (config.R) — the six standardized geographic
+#           controls + baseline log MA (1960) + baseline log pop (1947).
+#           This DIFFERS from geo_controls_main (Tables 6, 8, 9) in one
+#           term: the population baseline is 1947, not 1960. The placebo
+#           outcome is log pop 1960 - log pop 1947, so log pop 1960 is the
+#           TERMINAL level of the window under test and conditioning on it
+#           conditions on a component of the outcome. Adopted 2026-07-27
+#           (agenda item B); rationale and the rejected alternative
+#           (dropping the MA baseline too) are in config.R.
 #
 # SAMPLE: the subset for which the 1947 census provides
 #         comparable population data — see Section 3.2).
@@ -64,7 +72,7 @@ main <- function() {
         endog = main_treatment,
         lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
-        ctrls_vec = geo_controls_main
+        ctrls_vec = placebo_controls
     )
     m_ols   <- fits[["OLS"]]
     m_iv_lp <- fits[["IV-LP"]]
@@ -138,8 +146,15 @@ main <- function() {
         "{\\footnotesize \\textit{Notes:}",
         "Dependent variable: $\\Delta \\ln(\\mathrm{pop}_{1960}/\\mathrm{pop}_{1947})$.",
         "Robust (HC1) SE in parentheses.",
-        "All columns include baseline log MA (1960), baseline log pop (1960),",
-        "and the six standardized geographic controls.",
+        "All columns include baseline log MA (1960), baseline log pop",
+        "(\\emph{1947}), and the six standardized geographic controls.",
+        "The 1947 population baseline replaces the 1960 one used in",
+        "Tables~\\ref{tab:pre_balance}, \\ref{tab:first_stage} and",
+        "\\ref{tab:population_iv}: the outcome here is",
+        "$\\ln \\mathrm{pop}_{1960} - \\ln \\mathrm{pop}_{1947}$, so the 1960",
+        "level is the terminal value of the window under test.",
+        "Table~\\ref{tab:placebo_ladder} reports the estimate under",
+        "alternative baseline sets.",
         "A near-zero and insignificant coefficient is evidence that",
         "post-reform $\\Delta \\ln \\mathrm{MA}$ is not picking up pre-reform trends.",
         "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$.}"
@@ -190,6 +205,120 @@ main <- function() {
     out_csv <- file.path(dir_tables, "table_7_pre_trends.csv")
     write.csv(csv_df, out_csv, row.names = FALSE)
     message("Saved: ", out_csv)
+
+    write_ladder(d)
+}
+
+# ---------------------------------------------------------------------------
+# write_ladder(d): appendix table showing the placebo estimate under four
+# baseline control sets.
+#
+# WHY THIS IS IN THE PAPER (agenda item B, 2026-07-27): the placebo's
+# verdict depends on which baselines are conditioned on, and the swing is
+# large — the coefficient runs from +0.087 to -0.004 across these four
+# sets. Reporting only the adopted set would leave a referee to discover
+# that; the ladder puts it on the page. Computed here rather than read
+# from diagnostic_placebo_1947.csv so that no paper exhibit depends on a
+# diagnostic output.
+#
+# The four sets are the same ones diagnostic_placebo_1947baseline.R
+# reports, which is asserted below (the diagnostic remains the fuller
+# treatment: all four estimators, both anchors).
+# ---------------------------------------------------------------------------
+write_ladder <- function(d) {
+    sets <- list(
+        list(tag = "(1) 1960 baselines",
+             ctrls = geo_controls_main),
+        list(tag = "(2) 1947 pop baseline",
+             ctrls = placebo_controls),
+        list(tag = "(3) 1947 pop, no MA baseline",
+             ctrls = setdiff(placebo_controls,
+                             "logMA_actual_1960_s0_elow")),
+        list(tag = "(4) no baselines",
+             ctrls = setdiff(placebo_controls,
+                             c("logMA_actual_1960_s0_elow",
+                               "log_pop_1947")))
+    )
+    y <- "chg_log_placebo_pop_60_47"
+    # One sample across rows, so the ladder isolates the control set and
+    # not the sample: complete cases on the union of everything used.
+    all_v <- unique(c(y, main_treatment, main_lp_instrument,
+                      main_hypo_instrument,
+                      unlist(lapply(sets, `[[`, "ctrls"))))
+    dd <- as.data.frame(d)[complete.cases(as.data.frame(d)[, all_v]), ]
+
+    rows <- list()
+    for (s in sets) {
+        fits <- fit_iv_quad(y = y, data = dd, endog = main_treatment,
+                            lp_instr = main_lp_instrument,
+                            hypo_instr = main_hypo_instrument,
+                            ctrls_vec = s$ctrls)
+        co_o <- safe_coef(fits[["OLS"]], main_treatment)
+        co_b <- safe_coef(fits[["IV-B"]], paste0("fit_", main_treatment))
+        rows[[length(rows) + 1L]] <- data.frame(
+            control_set = s$tag,
+            ols_est = co_o$est, ols_se = co_o$se, ols_p = co_o$p,
+            ivb_est = co_b$est, ivb_se = co_b$se, ivb_p = co_b$p,
+            ivb_F = fitstat_F(fits[["IV-B"]]), n_obs = nobs(fits[["IV-B"]]),
+            stringsAsFactors = FALSE)
+    }
+    L <- do.call(rbind, rows)
+    stopifnot(nrow(L) == 4L, length(unique(L$n_obs)) == 1L)
+
+    st <- function(p) ifelse(p < 0.01, "^{***}",
+                      ifelse(p < 0.05, "^{**}",
+                      ifelse(p < 0.10, "^{*}", "")))
+    body <- character()
+    for (i in seq_len(nrow(L))) {
+        body <- c(body, sprintf(
+            "%s & $%+.3f%s$ & (%.3f) & $%+.3f%s$ & (%.3f) & %.1f \\\\",
+            L$control_set[i], L$ols_est[i], st(L$ols_p[i]), L$ols_se[i],
+            L$ivb_est[i], st(L$ivb_p[i]), L$ivb_se[i], L$ivb_F[i]))
+    }
+    tex <- c(
+        "% Appendix ladder for Table 7: placebo estimate by baseline set.",
+        "% Generated by code/analysis/table_7_pre_trends.R (write_ladder).",
+        "\\begin{table}[htbp]",
+        "\\centering",
+        paste0("\\caption{Pre-trends placebo under alternative ",
+               "baseline control sets}"),
+        "\\label{tab:placebo_ladder}",
+        "\\begin{tabular}{lccccc}",
+        "\\toprule",
+        " & \\multicolumn{2}{c}{OLS} & \\multicolumn{2}{c}{IV-Both} & \\\\",
+        "\\cmidrule(lr){2-3} \\cmidrule(lr){4-5}",
+        "Baseline controls & $\\beta$ & (SE) & $\\beta$ & (SE) & First-stage $F$ \\\\",
+        "\\midrule",
+        body,
+        "\\bottomrule",
+        "\\end{tabular}",
+        # The notes go in a minipage: inside \begin{table}\centering a bare
+        # paragraph gets centred line by line, which renders ragged and
+        # pushes the "Notes:" label out to the right margin.
+        "\\vspace{0.5em}",
+        "\\begin{minipage}{0.92\\textwidth}",
+        paste0("{\\footnotesize \\textit{Notes:} Dependent variable: ",
+               "$\\Delta \\ln(\\mathrm{pop}_{1960}/\\mathrm{pop}_{1947})$. ",
+               "All rows include the six standardized geographic controls ",
+               "and use one common sample of ", L$n_obs[1], " districts, ",
+               "so differences across rows come from the baseline controls ",
+               "alone. Row (2) is the specification reported in ",
+               "Table~\\ref{tab:pre_trends}. Row (1) additionally ",
+               "conditions on log pop 1960, the terminal level of the ",
+               "outcome window. Rows (3) and (4) drop the baseline ",
+               "market-access control; the estimate collapses toward zero, ",
+               "which is why the choice is stated rather than assumed. ",
+               "Robust (HC1) SE. ",
+               "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$.}"),
+        "\\end{minipage}",
+        "\\end{table}"
+    )
+    out <- file.path(dir_tables, "table_b2_placebo_ladder.tex")
+    writeLines(tex, out)
+    write.csv(L, file.path(dir_tables, "table_b2_placebo_ladder.csv"),
+              row.names = FALSE)
+    message("Saved: ", out, " and .csv")
+    invisible(L)
 }
 
 # ---------------------------------------------------------------------------

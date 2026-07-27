@@ -28,10 +28,16 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       the four instrument pieces (item C a-d incl. the A×C
       interaction), the V-sourcing spec for his #68 archive visit,
       and the closed reading-note items. All numbers audited
-      against the committed diagnostic outputs. AWAITING Diego's
-      review + send (tone check on the opening; the 'Mi lectura'
-      paragraph in §2 is the one editorial position — own, soften,
-      or cut).
+      against the committed diagnostic outputs. SENT 2026-07-27 after
+      four factual fixes (merged-branch pointer with page numbers, the
+      "nada toca el paper" exception, AR upper bound −0.0003 not
+      −0.000, and a conventions paragraph on planned-vs-compiled table
+      numbering and the two meanings of θ), plus the secondary-share
+      AR nuance that cuts against a no-schooling reading.
+      ⚠ ONE THING THE SENT EMAIL PREDATES: it says the
+      1947-consistent spec "queda limpia en TODOS los objetos
+      candidatos". True of full47, but PR #143 showed that cleanliness
+      is not defensible. Lead the meeting with the correction (item B).
 
 - [ ] A. DECISION A — the θ/τ object (deepest open question).
       Both cheap experiments Cote asked for are done:
@@ -139,11 +145,34 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       obvious question if Cote accepts pop47).
       §8.2 LIMITATION 1 STAYS, BOTH HALVES. Under pop47 the placebo
       still rejects at 10% (p = 0.085), so the pre-trend half is
-      softened, not fixed — its wording changes from a five-percent
-      rejection to a marginal one, and the sentence about spatial SEs
-      needs the Conley rerun on the new spec before it can be
-      restated. The selection half (237 of 311 districts) is untouched
-      by any placebo spec. Do NOT delete the limitation.
+      softened, not fixed. The selection half (237 of 311 districts) is
+      untouched by any placebo spec. The limitation was NOT deleted.
+      IMPLEMENTED 2026-07-27, PR #145 (Diego's call: do the half that
+      is not a judgment call now, leave the MA-baseline question to
+      Cote). Table 7 is now pop47: OLS +0.027 (p 0.149), IV-LP +0.051
+      (0.374), IV-Hypo +0.333 (0.379), IV-Both +0.084 (0.085), N 237,
+      F 18.7 / 1.7 / 11.2. New appendix Table B2 publishes the full
+      ladder (1960 baselines → 1947 pop → no MA baseline → no
+      baselines), so the sensitivity is on the page rather than left
+      for a referee. Prose updated in four places: §4.6's placebo
+      paragraph (control-set rationale + p-values instead of
+      significance words), §5.2's selection-logic argument (weakened
+      to "suggestive rather than decisive" — the positive correlation
+      survives, its significance does not), the intro validation
+      sentence, and §8.2 limitation 1.
+      CONLEY RERUN DONE on the new spec (diagnostic_pretrends_conley.R
+      now carries a per-spec control set): spatially robust SEs still
+      SHARPEN the rejection — IV-Both HC1 p 0.085 → 0.017 / 0.016 /
+      0.062 / 0.030 at 100 / 250 / 500 / 1000 km, and OLS 0.149 →
+      0.093 / 0.064 / 0.055 / 0.003. So the paper's "spatial SEs do not
+      soften it" claim holds and is now stated as "sharpen rather than
+      soften". Uncomfortable but the honest direction: under HC1 the
+      placebo is a marginal rejection, under spatial SEs a clear one.
+      STILL COTE'S CALL: (a) full47 instead of pop47 — a one-line
+      config.R change plus the §4/§8.2 wording, with Table B2 already
+      showing what it does; (b) whether Table B2 stays in the appendix
+      or moves to the main text; (c) whether the item-B2 direct test
+      enters the paper.
 - [ ] B2. PRE-1960 GROWTH AS A CONFOUND (new, PR #143) — the direct
       test the placebo only addresses indirectly: condition the main
       1960-91 regressions on 1947-60 growth. Manufacturing survives.
@@ -336,9 +365,12 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
 
 Nothing here starts before the meeting; each item lists its trigger.
 
-- [ ] [if B confirms] Swap Table 7 to **pop47** (geo controls + log
-      pop 1947 + baseline log MA 1960). BIGGER THAN A SPEC EDIT — full
-      scope, audited by cr-review on PR #144:
+- [x] ~~[if B confirms] Swap Table 7 to **pop47**~~ — DONE 2026-07-27,
+      PR #145, ahead of the meeting rather than after it: the log-pop
+      1960 removal is not a judgment call, so waiting on it would have
+      left an indefensible control in a published table. All six parts
+      below were executed; details and what remains for Cote are in
+      agenda item B. Kept here as the record of what the swap touched:
       (a) table_7_pre_trends.R spec edit + regenerate. All 13 placebo
           scalars move, not one (placeboOLSCoef/SE, IVLP, IVH, IVBoth,
           FLP/FHypo/FBoth, coverage); N stays 237.
@@ -853,9 +885,9 @@ Closed by Cote's 2026-07-24 email (implementation = PR #116 above):
 ### 8. Completed 2026-07-26 → 2026-07-27, record
 
 The second pre-meeting wave. Section 7 above stops at PR #133; these
-are the nine that followed. One line each, keyed to the agenda item
-they serve — the substantive findings live in the agenda items
-themselves (section 0), not here.
+are the twelve that followed (#134-#145). One line each, keyed to the
+agenda item they serve — the substantive findings live in the agenda
+items themselves (section 0), not here.
 
 - [x] PR #134 — ledger reorganized around the Wednesday agenda
       (OPEN ITEMS restructured into sections 0-7).
@@ -889,7 +921,13 @@ themselves (section 0), not here.
       justify dropping the control. Part 2 is the direct
       pre-1960-growth test; manufacturing survives. Detail in agenda
       items B and B2.
-      HONEST NOTE ON HOW THE REVERSAL HAPPENED (cr-review PR #144):
+- [x] PR #144 — ledger records the adopted item-B position, adds item
+      B2, and rewrites the downstream work item. Its own review caught
+      four overstatements in that text, including a pre-registration
+      claim that was not true; corrected in the same PR (see the note
+      below).
+- [x] PR #143 note — HONEST NOTE ON HOW THE REVERSAL HAPPENED
+      (cr-review PR #144):
       the reading guide WAS fixed before the numbers were seen, but
       read literally the outcome mapped to its second scenario
       (neither constructed control rejects at 10%), which favours
@@ -900,6 +938,16 @@ themselves (section 0), not here.
       not, so this is not a case of pre-registration vindicating a
       call. Recorded because the temptation to claim otherwise is
       exactly what the pre-commitment was for.
+
+- [x] PR #145 — Table 7 swapped to pop47 (placebo_controls in
+      config.R), appendix Table B2 publishes the four-row baseline
+      ladder, log_pop_1947 becomes a stored column in
+      build_estimation_sample.R, the Conley diagnostic carries a
+      per-spec control set and was rerun, and the placebo prose was
+      updated in §1, §4.6, §5.2 and §8.2. Two new scalars
+      (\placeboOLSP, \placeboIVBP) so the significance claims are
+      p-values rather than words — the words were what broke. 55 pp,
+      zero undefined, zero warnings. Detail in agenda item B.
 
 APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
 two lettered sections — A. Recent Migration (prose) and B. Additional

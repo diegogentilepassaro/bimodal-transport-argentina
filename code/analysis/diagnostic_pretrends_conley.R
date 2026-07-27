@@ -78,11 +78,19 @@ main <- function() {
     rep("\nSample: %d districts with coordinates", nrow(d))
 
     # ---- Fit both outcomes with the canonical table specs ------------------
+    # Each spec carries its own control set: the placebo uses
+    # placebo_controls (1947 population baseline) since PR #145 adopted
+    # that as Table 7's specification, while the headline population
+    # regression keeps geo_controls_main. Before that change both rows
+    # used geo_controls_main, so the pre-#145 numbers in this file's
+    # history are the old Table 7 spec.
     specs <- list(
         list(label = "Pre-trends placebo (Table 7): d log pop 1947-1960",
-             y     = "chg_log_placebo_pop_60_47"),
+             y     = "chg_log_placebo_pop_60_47",
+             ctrls = placebo_controls),
         list(label = "Headline population (Table 9): d log pop 1960-1991",
-             y     = "chg_log_pop_91_60")
+             y     = "chg_log_pop_91_60",
+             ctrls = geo_controls_main)
     )
 
     csv_rows <- list()
@@ -96,7 +104,7 @@ main <- function() {
             endog      = "chg_logMA_86_60_s0_elow",
             lp_instr   = "chg_logMA_stu_s0_elow",
             hypo_instr = main_hypo_instrument,
-            ctrls_vec  = geo_controls_main
+            ctrls_vec  = sp$ctrls
         )
 
         for (nm in names(fits)) {
