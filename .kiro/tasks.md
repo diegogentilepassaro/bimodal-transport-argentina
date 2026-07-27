@@ -92,23 +92,39 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       keep the baseline-MA control, and report the result as a
       marginal rejection rather than a clean null. Cote's visto bueno
       is what remains.
-      WHY THE POSITION CHANGED (PR #143, the evidence that forced it):
-      the clean null in full47 comes from DROPPING baseline log MA,
-      not from swapping the population baseline to 1947 — pop47 alone
-      moves IV-B p only 0.034 → 0.085 with the coefficient nearly
-      unchanged (+0.087 → +0.084). The justification offered for
-      dropping the MA control was post-outcome conditioning. PR #143
-      tested that by re-weighting the SAME 1960 τ matrix with 1947
-      population: β = +0.078, essentially the t7 value, and the two
-      levels correlate 0.9994 raw / 0.9990 after controls. So
-      MA(1960)'s post-1947 population content is negligible and
-      cannot justify dropping the control. The placebo coefficient is
-      governed by WHETHER a baseline-MA level is in the spec (+0.078
-      to +0.087 with, −0.004 without), not by its population year.
+      WHY THE POSITION CHANGED (PR #143): the clean null in full47
+      comes from DROPPING baseline log MA, not from swapping the
+      population baseline to 1947 — pop47 alone moves IV-B p only
+      0.034 → 0.085 with the coefficient nearly unchanged (+0.087 →
+      +0.084). The justification offered for dropping the MA control
+      was post-outcome conditioning. PR #143 probed that by
+      re-weighting the SAME 1960 τ matrix with 1947 population:
+      β = +0.078 (p = 0.122), close to the t7 point estimate though
+      its CI overlaps full47's, and the two levels correlate 0.9994
+      raw / 0.9990 after controls.
+      WHAT THAT DOES AND DOES NOT ESTABLISH (stated as the artifact
+      states it, diagnostic_placebo_ma1947.txt): the with-vs-without
+      comparison is SUGGESTIVE, NOT A TEST — the CIs overlap and the
+      first stages differ (F 11.1 with vs 23.2 without, the absorption
+      mechanism in baseline_ma_control_note.md). The post-outcome
+      justification is UNSUPPORTED, not refuted, and it is unsupported
+      on the CORRELATION: at 0.9990 partial correlation the ma47-vs-
+      ma60 contrast never had power to separate the two controls, so
+      "remove the post-outcome content and see if the null returns"
+      cannot be answered by that comparison — there was almost nothing
+      to remove. Read literally on p-values, neither constructed
+      control rejects at 10% (0.122 / 0.104), which taken alone would
+      favour full47. The position rests on the collinearity, on the
+      coefficient pattern (+0.078 to +0.087 with a baseline-MA level,
+      −0.004 without), and on the judgment that a validation test
+      should not drop the control the headline spec needs.
       WHAT IS STILL AIRTIGHT: log pop 1960 must go regardless of any
-      p-value — the placebo DV is log pop 1960 − log pop 1947, so the
-      current Table 7 conditions on a component of its own outcome.
-      That is the part of the swap that is not a judgment call.
+      p-value. The placebo DV is log pop 1960 − log pop 1947, and log
+      pop 1960 is its TERMINAL level — conditioning on it conditions on
+      the endpoint of the outcome being tested. (log pop 1947, which
+      pop47 keeps, is the INITIAL level: a standard convergence
+      control, not the same object.) That is the part of the swap that
+      is not a judgment call; whether the MA baseline stays is.
       SECOND ARGUMENT FOR THE SWAP, independent of p-values: in the
       current Table 7 the IV-Hypo column has first-stage F = 1.7 and
       cannot reject anything. Under pop47 it is still 1.7; under
@@ -121,29 +137,33 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       those IV-LP nulls are low-power. NOT YET RUN for pop47: the
       cross-object check on the adopted spec (small, and it is the
       obvious question if Cote accepts pop47).
-      SELECTION IS SEPARATE AND UNRESOLVED: the placebo sample is 237
-      of 311 districts. Adopting any placebo spec fixes the pre-trend
-      half of §8.2 limitation 1 and does nothing about the selection
-      half. PR #143 Part 2 measures it directly for the first time
-      (see item B2).
+      §8.2 LIMITATION 1 STAYS, BOTH HALVES. Under pop47 the placebo
+      still rejects at 10% (p = 0.085), so the pre-trend half is
+      softened, not fixed — its wording changes from a five-percent
+      rejection to a marginal one, and the sentence about spatial SEs
+      needs the Conley rerun on the new spec before it can be
+      restated. The selection half (237 of 311 districts) is untouched
+      by any placebo spec. Do NOT delete the limitation.
 - [ ] B2. PRE-1960 GROWTH AS A CONFOUND (new, PR #143) — the direct
       test the placebo only addresses indirectly: condition the main
       1960-91 regressions on 1947-60 growth. Manufacturing survives.
-      Wage mass 0.378 (311) → 0.350 (237 subsample) → 0.319 with the
-      control, p = 0.011; production value 0.317 → 0.280 → 0.240,
-      p = 0.069; population 0.052 → 0.077 → 0.065. The control is
-      itself insignificant in all three (p = 0.17-0.23), which is a
-      limit on how strong a test this is: little pre-period signal to
-      absorb. NOTE (cr-review): row 3 is algebraically a log pop 1947
-      CONVERGENCE control, since the growth term equals log pop 1960
-      − log pop 1947 and log pop 1960 is already a control; verified
-      identical to 1e-10. Also visible: the placebo subsample is where
-      population is STRONGEST (0.077, p=0.032, vs 0.052, p=0.096 on
-      the full sample) and conditioning pulls it about halfway back —
-      a reason for care with that subsample, and the first direct read
-      on the selection half of §8.2 limitation 1. DECISION FOR COTE:
-      does this go in the paper (robustness row or appendix), and if
-      so under which label?
+      Wage mass 0.378 (N=309) → 0.350 (237 subsample) → 0.319 with the
+      control, p = 0.011; production value 0.317 (N=310) → 0.280 →
+      0.240, p = 0.069; population 0.052 (N=311) → 0.077 → 0.065.
+      The control is itself insignificant in all three (p = 0.17-0.23),
+      which is a limit on how strong a test this is: little pre-period
+      signal to absorb. NOTE (cr-review): row 3 is algebraically a log
+      pop 1947 CONVERGENCE control, since the growth term equals log
+      pop 1960 − log pop 1947 and log pop 1960 is already a control;
+      verified identical to 1e-10. Also visible: the placebo subsample
+      is where population is STRONGEST (0.077, p=0.032, vs 0.052,
+      p=0.096 on the full sample) and conditioning pulls it about
+      halfway back — a reason for care with that subsample. That
+      subsample row is NOT new: it is already Table 12 Panel C in the
+      paper (\subIVBCoef 0.077, \subIVBP 0.032). What IS new is the
+      third row, which conditions on the pre-period as well.
+      DECISION FOR COTE: does this go in the paper (robustness row or
+      appendix), and if so under which label?
 - [ ] C. MAIN-SPEC INSTRUMENT — IV-LP-only vs IV-Both. Three new
       evidence pieces this week, all pointing the same way:
       (i) under iceberg normalization the instrument-strength
@@ -317,18 +337,48 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
 Nothing here starts before the meeting; each item lists its trigger.
 
 - [ ] [if B confirms] Swap Table 7 to **pop47** (geo controls + log
-      pop 1947 + baseline log MA 1960): table_7_pre_trends.R spec
-      edit, regenerate, then the prose that depends on it —
-      §4's placebo paragraph, §8.2 limitation 1 (pre-trend half
-      only; the selection half stays), the intro validation
-      paragraph, and the placebo scalars (placeboCoefIVBoth 0.087 →
-      0.084, N unchanged at 237). Report as a marginal rejection at
-      10%, not a clean null, and publish the t7 → pop47 → full47
-      ladder so the reader sees which control moves the result.
-      Numbers ready in diagnostic_placebo_1947.csv (pop47 variant)
-      and diagnostic_placebo_ma1947.csv. NOT a scalars-only change:
-      the claim "the pre-trend failure was an artifact" has to come
-      out of the prose wherever it appears.
+      pop 1947 + baseline log MA 1960). BIGGER THAN A SPEC EDIT — full
+      scope, audited by cr-review on PR #144:
+      (a) table_7_pre_trends.R spec edit + regenerate. All 13 placebo
+          scalars move, not one (placeboOLSCoef/SE, IVLP, IVH, IVBoth,
+          FLP/FHypo/FBoth, coverage); N stays 237.
+      (b) THE SIGNIFICANCE WORDS BREAK. Under pop47 no column reaches
+          5%: OLS +0.028 (p=0.149), IV-LP +0.051 (0.374), IV-H +0.333
+          (0.379), IV-B +0.084 (0.085). So the hardcoded
+          "significant at the five-percent level" sentences at
+          section_4_empirical_strategy.tex:276 and :286, the intro
+          sentence at section_1_intro.tex:105-109 ("rejects a clean
+          null at the five-percent level"), and §8.2's "at the
+          five-percent level" (section_8_discussion.tex:167) all
+          become false. Significance WORDS are prose, not AutoFill —
+          they need a manual pass (the standing warning at the top of
+          section_5_results.tex).
+      (c) §5.2's SELECTION-LOGIC ARGUMENT depends on the placebo's
+          SIGN and significance (section_5_results.tex:118-129): it
+          uses the positive placebo correlation as evidence that the
+          efficiency-selection pattern dominated, which weighs against
+          selection explaining the OLS/IV gap. Under pop47 the sign is
+          still positive but no longer significant, so that argument
+          weakens and the paragraph needs rework.
+      (d) CONLEY RERUN REQUIRED. Two claims — intro:105-109 and
+          section_8_discussion.tex:170-171 — assert that spatially
+          robust SEs "do not soften that rejection". That was measured
+          on the t7 spec (p 0.061 HC1 → 0.001 at 100 km). Rerun the
+          spatial-SE diagnostic on pop47 before restating either.
+      (e) §8.2 limitation 1: reword the pre-trend half from a
+          five-percent to a marginal rejection; KEEP the selection
+          half; do not delete the limitation.
+      (f) Publish the t7 → pop47 → full47 ladder so the reader sees
+          which control moves the result, rather than leaving a
+          referee to find it.
+      Numbers ready in diagnostic_placebo_1947.csv (pop47 variant) and
+      diagnostic_placebo_ma1947.csv.
+      NOTE: the "pre-trend failure was an artifact" claim does NOT
+      appear in the paper — the paper never adopted it. It lives in
+      this ledger (corrected above), in
+      Plan/memo_identification_measurement_decisions.md, and in the
+      brief already sent to Cote. Correcting the brief is a
+      conversation on Wednesday, not an edit.
 - [ ] [if B confirms, small] Cross-object check for pop47 —
       diagnostic_crossobject_checks.R Part 1 currently runs full47
       on the six candidate τ objects; rerun it on the adopted spec.
@@ -505,13 +555,20 @@ the verification record.
       2026-07-24 (see the open #68 item in section 1 for what
       remains with Cote).
 - [x] Placebo spec with 1947 baselines (Cote 1.1) — DONE, PR #120
-      merged 2026-07-24. HEADLINE: the placebo failure is a
-      post-outcome-conditioning artifact (1960 baselines postdate the
-      1947-60 window; log pop 1960 is a DV component). With the
-      1947-consistent set the placebo is a clean null in all four
-      estimators (IV-B -0.004, p=0.89) and first stages STRENGTHEN
-      (F 16-24). Scope: placebo-specific; 1960 baselines stay
-      legitimate for the main 1960-91 regressions. → agenda item B.
+      merged 2026-07-24. HEADLINE AS RECORDED THEN: the placebo
+      failure is a post-outcome-conditioning artifact (1960 baselines
+      postdate the 1947-60 window; log pop 1960 is a DV component).
+      With the 1947-consistent set the placebo is a clean null in all
+      four estimators (IV-B -0.004, p=0.89) and first stages
+      STRENGTHEN (F 16-24). Scope: placebo-specific; 1960 baselines
+      stay legitimate for the main 1960-91 regressions.
+      ⚠ SUPERSEDED IN PART by PR #143 (2026-07-27): the "artifact"
+      reading does not hold. The clean null comes from dropping the
+      baseline-MA control, not from the 1947 population swap, and the
+      post-outcome justification for dropping it is unsupported. The
+      adopted spec is pop47, which still rejects at 10% (p = 0.085).
+      Read this entry as the dated record of what #120 found, and
+      agenda item B for the current position.
 - [x] Manufacturing robustness exhibit (note #44) — DONE, PR #121
       merged 2026-07-24: sectoral theta-sweep is now a paper exhibit
       (tab:theta_sweep_sectoral; mfg value/wage significant at every
@@ -824,16 +881,25 @@ themselves (section 0), not here.
       Appendix A. Detail in item D, section 0.
 - [x] PR #142 — appendix exhibit prefixes match their appendix
       (Table B1, Figures B1-B4).
-- [x] PR #143 — item-B evidence, two parts. Part 1 tested whether
-      full47 is defensible and found it is not: a baseline-MA level
-      re-weighted with 1947 population (correlating 0.9994 with the
-      1960-weighted one) restores β to +0.078, so the post-outcome
-      justification for dropping the control does not survive. Part 2
-      is the direct pre-1960-growth test; manufacturing survives.
-      Detail in agenda items B and B2. Reversed the position Diego
-      went in with — the diagnostic was written with its reading
-      guide fixed in advance and the outcome argued against the
-      hypothesis.
+- [x] PR #143 — item-B evidence, two parts. Part 1 probed whether
+      full47 is defensible: a baseline-MA level re-weighted with 1947
+      population (correlating 0.9994 raw, 0.9990 partial, with the
+      1960-weighted one) leaves β at +0.078, so MA(1960)'s post-1947
+      population content is too small for "it is post-outcome" to
+      justify dropping the control. Part 2 is the direct
+      pre-1960-growth test; manufacturing survives. Detail in agenda
+      items B and B2.
+      HONEST NOTE ON HOW THE REVERSAL HAPPENED (cr-review PR #144):
+      the reading guide WAS fixed before the numbers were seen, but
+      read literally the outcome mapped to its second scenario
+      (neither constructed control rejects at 10%), which favours
+      full47. The reversal rests on the collinearity argument and the
+      coefficient pattern, assembled after seeing the numbers. The
+      pre-committed note did anticipate that a correlation near 1
+      would weaken the post-outcome case, but the scenario mapping did
+      not, so this is not a case of pre-registration vindicating a
+      call. Recorded because the temptation to claim otherwise is
+      exactly what the pre-commitment was for.
 
 APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
 two lettered sections — A. Recent Migration (prose) and B. Additional
@@ -1263,7 +1329,7 @@ Remaining items not covered by the memo (most flagged in
 3. ~~**Elasticity justification**~~ — superseded by memo Decision A (θ / τ object).
 4. ~~**Tau calculation**~~ — superseded by memo Decision B/A (connector re-cost, transshipment already screened in PR #66).
 5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.55) throughout.
-6. ~~**Pre-trends not clean null**~~ — superseded by memo Decision E (numbers updated: OLS 0.035**, IV-Both 0.078* on the 235-district placebo subset).
+6. **Pre-trends not clean null** — REOPENED 2026-07-27, see agenda item B. Was struck through as "superseded by memo Decision E" when the 1947-consistent spec looked like a clean null; PR #143 showed that reading does not hold. Published Table 7 numbers are OLS +0.0386** and IV-Both +0.0870** on the 237-district placebo subset (the old entry's 0.035/0.078 and "235 districts" were stale). Under the adopted pop47 spec: OLS +0.0275 (p=0.149), IV-Both +0.0839 (p=0.085) — a marginal rejection, not a clean null.
 7. ~~**Migration sign wrong-way**~~ — superseded by memo Decision E (carried unchanged; no new evidence).
 8. ~~**Hypo instrument is weak**~~ — superseded by memo Decision C (estimand) — the rail-vs-total-MA question replaces the two-instrument-vs-LP-only framing.
 9. **Tabla 10 sectoral outcomes**: currently uses industrial + agricultural census activity outcomes (not IPUMS employment). Option to rebuild IPUMS `indgen` shares if coauthor prefers the original framing.
