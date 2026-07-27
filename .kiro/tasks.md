@@ -147,6 +147,33 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       demote §5.4 to an annex (his note #42). Needs Diego's
       concurrence; then it's a writing task (section 2). Title
       stays as-is, closed jointly with narrative at publication.
+      EVIDENCE NOW IN (2026-07-27, diagnostic_modern_iv_table11):
+      the decision turns on IDENTIFICATION, not noise.
+      (i) recent migration — IV-B AR set EMPTY, Sargan p = 0.0056:
+          no β is compatible with both instruments (IV-LP -0.0066,
+          p=0.52, AR covers zero; IV-H -0.064, p=0.029 on the
+          instrument that MOP-fails everywhere). The published
+          -0.0217 sits between two incompatible estimates — an
+          unidentified coefficient, not a noisy one.
+      (ii) secondary share — same pathology (AR empty, Sargan
+          p = 0.0078) with the instruments pointing OPPOSITE ways
+          (+0.0059 LP vs -0.0101 H).
+      (iii) employment rate — the clean one: Sargan p = 0.74, AR
+          excludes zero under BOTH IV-LP (-0.0121) and IV-B
+          (-0.0109). The only Table 11 result that survives
+          identification-robust inference.
+      (iv) college share — null everywhere (all AR sets cover
+          zero); classical Sargan rejects at 5% (p=0.034) while the
+          robust AR set is non-empty (heteroskedasticity case,
+          documented in the report).
+      PROPOSED POSITION (Diego to confirm/adjust): concur on
+      removing migration from the narrative, but on the
+      overidentification ground rather than "it makes noise"; do
+      NOT demote §5.4 wholesale — keep a short subsection built on
+      employment (+ the college null), move migration and
+      secondary to an annex paragraph that reports the
+      instrument-incompatibility. Sequel work: paper edit, email
+      paragraph for Cote, brief entry (all gated on this call).
 - [ ] E. RECENTERING READ-OUT — walk the six-design map
       (Plan/brief_cote_recentering_2026-07-29.md, final): Larkin
       collapses / hypo backbone / settlement clean-but-small /
