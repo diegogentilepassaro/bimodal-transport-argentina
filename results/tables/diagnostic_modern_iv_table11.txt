@@ -1,0 +1,54 @@
+==================================================================================================== 
+MODERN WEAK-IV INFERENCE FOR TABLE 11 (agenda item D evidence) 
+Extends PR #131 (robust/effective F, AR sets) and PR #136 (MOP 
+critical values) to the four Table 11 outcomes, which the 
+original pass skipped. All three IV specs shown: the 
+instrument-dependence is the object of interest. AR sets are 
+valid regardless of instrument strength; MOP pass/fail is at 
+the stated Nagar-bias tolerance, alpha = 5%. 
+Generated: 2026-07-27 11:31:07 
+==================================================================================================== 
+ 
+Outcome           Spec    K        beta       p   F_eff    cv10 MOP10  AR status      AR 95% set             
+college share     IV-LP   1    +0.00103   0.107    22.6    23.1 fail   covers 0       [-0.0003, 0.0024]      
+college share     IV-H    1    -0.00205   0.220     4.3    23.1 fail   covers 0       (-Inf, 0.0005]         
+college share     IV-B    2    +0.00022   0.710    13.1     7.7 PASS   covers 0       [-0.0005, 0.0013]      
+secondary share   IV-LP   1    +0.00594   0.007    22.6    23.1 fail   excludes 0     [0.0019, 0.0114]       
+secondary share   IV-H    1    -0.01011   0.149     4.3    23.1 fail   excludes 0     (-Inf, -0.0002]        
+secondary share   IV-B    2    +0.00175   0.422    13.1     8.0 PASS   EMPTY (overid) empty                  
+recent migration  IV-LP   1    -0.00660   0.518    22.6    23.1 fail   covers 0       [-0.0303, 0.0138]      
+recent migration  IV-H    1    -0.06421   0.029     4.3    23.1 fail   excludes 0     (-Inf, -0.0297]        
+recent migration  IV-B    2    -0.02166   0.007    13.1     8.4 PASS   EMPTY (overid) empty                  
+employment rate   IV-LP   1    -0.01213   0.042    22.6    23.1 fail   excludes 0     [-0.0283, -0.0021]     
+employment rate   IV-H    1    -0.00755   0.487     4.3    23.1 fail   covers 0       [-0.1208, 0.0353]      
+employment rate   IV-B    2    -0.01094   0.032    13.1     7.5 PASS   excludes 0     [-0.0280, -0.0003]     
+ 
+An EMPTY AR set means no beta is compatible with BOTH 
+instruments at 5% — the robust overidentification restriction 
+fails. It is NOT evidence of a precisely estimated effect. 
+Classical (homoskedastic) Sargan p per outcome, IV-B: college share 0.0344; secondary share 0.0078; recent migration 0.0056; employment rate 0.7373 
+(Robust AR and classical Sargan can disagree under 
+heteroskedasticity; the college cell is that case — Sargan 
+rejects at 5% while the robust AR set is non-empty.) 
+ 
+Reading notes (per outcome, the item-D relevant facts): 
+- college share    IV-LP +0.00103 (p=0.107) | IV-H -0.00205 (p=0.220) | IV-B +0.00022 (p=0.710) 
+                   AR: LP covers 0, H covers 0, B covers 0; Sargan p = 0.0344 
+- secondary share  IV-LP +0.00594 (p=0.007) | IV-H -0.01011 (p=0.149) | IV-B +0.00175 (p=0.422) 
+                   AR: LP excludes 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0078 
+- recent migration IV-LP -0.00660 (p=0.518) | IV-H -0.06421 (p=0.029) | IV-B -0.02166 (p=0.007) 
+                   AR: LP covers 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0056 
+- employment rate  IV-LP -0.01213 (p=0.042) | IV-H -0.00755 (p=0.487) | IV-B -0.01094 (p=0.032) 
+                   AR: LP excludes 0, H covers 0, B excludes 0; Sargan p = 0.7373 
+ 
+How to read this for item D: 
+- A result is defensible when the well-identified instrument 
+  (Larkin, F_eff 22.6) carries it AND its AR set excludes zero 
+  AND the overid test does not reject. 
+- A result is NOT defensible when it appears only in a spec 
+  whose AR set is empty (instruments disagree) or only under 
+  the hypothetical instrument (F_eff 4.3, MOP-fails at every 
+  tolerance). 
+ 
+Full columns (SE, robust F, conservative cvs, tau = 20%): 
+diagnostic_modern_iv_table11.csv 
