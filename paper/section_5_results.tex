@@ -285,35 +285,58 @@ computed over 1960--1986; infrastructure restructuring predates the
 1970 outcome measurement. Column structure matches
 Table~\ref{tab:population_iv}.
 
-For the college share, all four estimates are statistically
-indistinguishable from zero, with point estimates between $\collegeMin{}$
-and $\collegeMax{}$. For the secondary share, the OLS and combined-IV
-point estimates are \secondaryOLSCoef{} and \secondaryIVBCoef{}; the IV-LP estimate alone is \secondaryIVLPCoef{}
-($p=\secondaryIVLPP{}$).
+One feature of these four outcomes organizes how we read them. The
+two instruments are jointly valid only for the employment rate: the
+overidentification test reported in
+Table~\ref{tab:other_outcomes_iv} does not reject for that outcome
+($p=\sarganEmployment{}$) and rejects for the other three
+($p=\sarganCollege{}$ for the college share,
+$p=\sarganSecondary{}$ for the secondary share, and
+$p=\sarganMigration{}$ for the recent-migration share). The
+identification-robust versions of the same test agree
+($p=\employmentRobustJP{}$, $\collegeRobustJP{}$,
+$\secondaryRobustJP{}$ and $\migrationRobustJP{}$ respectively). We
+therefore report the combined-instrument estimate as the result for
+the employment rate, and for the other three outcomes we report what
+each instrument implies separately.
 
-For the recent-migration share, the OLS estimate is $\migrationOLSCoef{}$ (\migrationOLSSE{}),
-significant at the one-percent level. The combined IV estimate is
-\migrationCoefIVBoth{} (\migrationSEIVBoth{}), significant at the
-one-percent level. The sample
-is \mainPopNIVBoth{} districts. A one-unit increase in $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a \migrationCoefAbs{} decrease in the
-share of residents reporting recent migration.
+For the employment rate, the OLS estimate is $\employmentOLSCoef{}$
+(\employmentOLSSE{}) and the combined IV estimate is
+$\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at the
+five-percent level. The Larkin Plan instrument alone gives
+$\employmentIVLPCoef{}$ (\employmentIVLPSE{},
+$p=\employmentIVLPP{}$). The Anderson--Rubin confidence set for the
+combined specification, which remains valid whatever the strength of
+the instruments, is $[\employmentARlo{}, \employmentARhi{}]$ and
+excludes zero. A one-unit increase in $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ is associated with a fall in the
+employment rate of $\employmentIVBCoef{}$ of a share point.
 
-For the employment rate, the OLS estimate is $\employmentOLSCoef{}$ (\employmentOLSSE{}) and the
-combined IV estimate is $\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at
-the five-percent level.
+For the college share, every estimate is individually
+indistinguishable from zero, with point estimates between
+$\collegeMin{}$ and $\collegeMax{}$; the two instruments nonetheless
+disagree with each other ($\collegeIVLPCoef{}$ under the Larkin Plan
+instrument against $\collegeIVHCoef{}$ under the hypothetical-network
+instrument), which is what the overidentification test detects. For
+the secondary share, the Larkin Plan instrument gives
+\secondaryIVLPCoef{} ($p=\secondaryIVLPP{}$) while the
+hypothetical-network instrument gives \secondaryIVHCoef{}; the OLS and
+combined-IV point estimates are \secondaryOLSCoef{} and
+\secondaryIVBCoef{}. We do not read a schooling effect from these
+estimates: the two instruments imply different ones.
 
-The direction of the recent-migration coefficient runs opposite to a
-naive prediction that market-access gains attract in-migrants. Two
-readings are consistent with the sign. First, high-market-access
-districts may have retained their existing populations, producing
-lower recent-migrant shares because turnover was low. Second, districts
-that lost population through out-migration to high-market-access
-receiving districts may have ended with small remaining populations
-among whom a given absolute inflow of recent migrants generates a
-higher share. Distinguishing these readings requires data on
-migration flows by origin and destination, which are beyond the
-cross-sectional sample available here.
+For the recent-migration share, the combined specification is the one
+the overidentification test rejects most strongly
+($p=\sarganMigration{}$), and the two instruments imply estimates of
+different magnitudes: \migrationIVLPCoef{} (\migrationIVLPSE{},
+$p=\migrationIVLPP{}$) under the Larkin Plan instrument, whose
+Anderson--Rubin set $[\migrationARLPlo{}, \migrationARLPhi{}]$
+contains zero, against \migrationIVHCoef{}
+($p=\migrationIVHP{}$) under the hypothetical-network instrument,
+which Section~\ref{sec:identification} shows to be the weaker of the
+two. We therefore do not treat the negative combined estimate as a
+finding. Appendix~\ref{app:migration} reports the full set of
+estimates and the readings that have been proposed for the sign.
 
 The window for these four outcomes is 1970--1991 because Argentine
 IPUMS microdata begins in 1970, one decade after the start of the

@@ -64,6 +64,7 @@ main <- function() {
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
                    "diagnostic_theta_sweep_sectoral",
+                   "diagnostic_modern_iv_table11",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -398,6 +399,12 @@ add_prose_table_macros <- function(macros, tab) {
         r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-LP")
         macros[["secondaryIVLPCoef"]] <- f3(r$estimate)
         macros[["secondaryIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-H")
+        macros[["secondaryIVHCoef"]] <- f3(r$estimate)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-LP")
+        macros[["collegeIVLPCoef"]] <- f3(r$estimate)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-H")
+        macros[["collegeIVHCoef"]] <- f3(r$estimate)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "OLS")
         macros[["migrationOLSCoef"]] <- f3(r$estimate)
         macros[["migrationOLSSE"]]   <- f3(r$std_err)
@@ -405,12 +412,71 @@ add_prose_table_macros <- function(macros, tab) {
         # Prose says "a X decrease": fail loudly if the sign ever flips.
         stopifnot(r$estimate < 0)
         macros[["migrationCoefAbs"]] <- f3(abs(r$estimate))
+        # Section 5.4 / appendix now report the instrument-specific
+        # migration estimates, because the joint spec is rejected.
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-LP")
+        macros[["migrationIVLPCoef"]] <- f3(r$estimate)
+        macros[["migrationIVLPSE"]]   <- f3(r$std_err)
+        macros[["migrationIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-H")
+        macros[["migrationIVHCoef"]] <- f3(r$estimate)
+        macros[["migrationIVHP"]]    <- f3(r$p_value)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "OLS")
         macros[["employmentOLSCoef"]] <- f3(r$estimate)
         macros[["employmentOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-B")
         macros[["employmentIVBCoef"]] <- f3(r$estimate)
         macros[["employmentIVBSE"]]   <- f3(r$std_err)
+        macros[["employmentIVBP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-LP")
+        macros[["employmentIVLPCoef"]] <- f3(r$estimate)
+        macros[["employmentIVLPSE"]]   <- f3(r$std_err)
+        macros[["employmentIVLPP"]]    <- f3(r$p_value)
+        # Overidentification p-values (Sargan) per outcome, IV-Both.
+        # Section 5.4 is organized around these: the joint spec is
+        # rejected everywhere except employment.
+        for (g in list(
+                c("chg_college_91_70",     "sarganCollege"),
+                c("chg_secondary_91_70",   "sarganSecondary"),
+                c("chg_mig5_91_70",        "sarganMigration"),
+                c("chg_empstat_emp_91_70", "sarganEmployment"))) {
+            r <- row1(t11, outcome = g[1], spec = "IV-B")
+            stopifnot(!is.na(r$sargan_p))
+            macros[[g[2]]] <- f3(r$sargan_p)
+        }
+    }
+
+    # -- AR / robust-J evidence for Section 5.4 (PR #140 diagnostic) ---------
+    # The identification-robust counterparts of the Sargan row: quoted in
+    # Section 5.4 and the migration appendix so the prose never states an
+    # identification claim the diagnostics do not carry.
+    t11r <- tab[["diagnostic_modern_iv_table11"]]
+    if (!is.null(t11r)) {
+        pick <- function(outc, sp) {
+            r <- t11r[t11r$outcome == outc & t11r$spec == sp, ]
+            stopifnot(nrow(r) == 1L)
+            r
+        }
+        # AR bounds get 4 decimals: these coefficients live on the 1e-3
+        # scale, where 3 decimals would print an upper bound of -0.000.
+        f4 <- function(x) sprintf("%.4f", x)
+        r <- pick("chg_empstat_emp_91_70", "IV-B")
+        macros[["employmentARlo"]] <- f4(as.numeric(
+            sub("^\\[([-0-9.]+),.*$", "\\1", r$ar_set)))
+        macros[["employmentARhi"]] <- f4(as.numeric(
+            sub("^.*, *([-0-9.]+)\\]$", "\\1", r$ar_set)))
+        macros[["employmentRobustJP"]] <- f3(r$robust_J_p)
+        r <- pick("chg_mig5_91_70", "IV-B")
+        macros[["migrationRobustJP"]] <- f3(r$robust_J_p)
+        r <- pick("chg_mig5_91_70", "IV-LP")
+        macros[["migrationARLPlo"]] <- f4(as.numeric(
+            sub("^\\[([-0-9.]+),.*$", "\\1", r$ar_set)))
+        macros[["migrationARLPhi"]] <- f4(as.numeric(
+            sub("^.*, *([-0-9.]+)\\]$", "\\1", r$ar_set)))
+        r <- pick("chg_secondary_91_70", "IV-B")
+        macros[["secondaryRobustJP"]] <- f3(r$robust_J_p)
+        r <- pick("chg_college_91_70", "IV-B")
+        macros[["collegeRobustJP"]] <- f3(r$robust_J_p)
     }
 
     # -- Table 7 (Section 4.6): placebo columns ------------------------------

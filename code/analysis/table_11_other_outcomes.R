@@ -140,12 +140,19 @@ main <- function() {
             "(4) IV-Both"  = all_models[[paste(y, "IV-B",  sep = "_")]]
         )
         fs <- f_stats[[y]]
+        # Overidentification p-value for the two-instrument column.
+        # Reported here because Section 5.4 is organized around which
+        # outcomes have a jointly identified specification: the test
+        # rejects for every outcome except the employment rate
+        # (evidence in diagnostic_modern_iv_table11; PR #140).
+        sp <- sargan_p(all_models[[paste(y, "IV-B", sep = "_")]])
         add_rows <- tibble::tibble(
-            ` `           = "First-stage $F$",
-            `(1) OLS`     = "---",
-            `(2) IV-LP`   = sprintf("%.1f", fs$lp),
-            `(3) IV-Hypo` = sprintf("%.1f", fs$hypo),
-            `(4) IV-Both` = sprintf("%.1f", fs$both)
+            ` `           = c("First-stage $F$", "Overid. $p$ (Sargan)"),
+            `(1) OLS`     = c("---", "---"),
+            `(2) IV-LP`   = c(sprintf("%.1f", fs$lp), "---"),
+            `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo), "---"),
+            `(4) IV-Both` = c(sprintf("%.1f", fs$both),
+                              sprintf("%.3f", sp))
         )
         tbl <- modelsummary(
             models_this,
@@ -179,6 +186,11 @@ main <- function() {
         "% IV-Hypo, IV-Both. All specs include baseline log MA (1960),",
         "% baseline log pop (1960), and the six standardized geographic",
         "% controls. Robust (HC1) standard errors.",
+        "%",
+        "% The overidentification row is the classical Sargan p-value for",
+        "% the two-instrument column; the identification-robust J and the",
+        "% Anderson-Rubin sets that corroborate it are in",
+        "% results/tables/diagnostic_modern_iv_table11.txt (PR #140).",
         "",
         tex_chunks
     ), out_tex)
@@ -202,6 +214,7 @@ main <- function() {
                 p_value  = co$p,
                 n_obs    = nobs(m),
                 first_stage_F = if (spec == "OLS") NA_real_ else fitstat_F(m),
+                sargan_p = if (spec == "IV-B") sargan_p(m) else NA_real_,
                 stringsAsFactors = FALSE
             )
         }
@@ -221,6 +234,19 @@ format_co <- function(co) {
             ifelse(co$p < 0.05, "**",
             ifelse(co$p < 0.10, "*", "")))
     sprintf("%+6.3f%-3s(%.3f)", co$est, stars, co$se)
+}
+
+# Classical (homoskedastic) Sargan overidentification p-value for a
+# two-instrument fit; NA if the model is just-identified. The
+# identification-robust counterpart (J from the minimized AR statistic)
+# and the AR confidence sets live in diagnostic_modern_iv_table11.R.
+sargan_p <- function(iv_model) {
+    s <- tryCatch(fitstat(iv_model, type = "sargan"),
+                  error = function(e) NULL)
+    if (is.list(s) && is.list(s$sargan) && !is.null(s$sargan$p)) {
+        return(as.numeric(s$sargan$p))
+    }
+    NA_real_
 }
 
 main()
