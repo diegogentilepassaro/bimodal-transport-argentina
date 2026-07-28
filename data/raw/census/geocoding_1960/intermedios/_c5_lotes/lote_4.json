@@ -1,0 +1,242 @@
+[
+ {
+  "page": "v3_p18",
+  "n_orden": "76",
+  "localidad": "Quequén",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Lobería",
+  "poblacion": "7589",
+  "deptos_modernos": "Lobería",
+  "pista": "Necochea - Quequen/Necochea [06581050]"
+ },
+ {
+  "page": "v8_p01",
+  "n_orden": "37",
+  "localidad": "Colonia Alvear Oeste",
+  "provincia": "Mendoza",
+  "depto_1960": "General Alvear",
+  "poblacion": "3665",
+  "deptos_modernos": "General Alvear",
+  "pista": ""
+ },
+ {
+  "page": "v3_p11",
+  "n_orden": "158",
+  "localidad": "Juan B. Alberdi",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Leandro N. Alem",
+  "poblacion": "2873",
+  "deptos_modernos": "Leandro N. Alem",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "57",
+  "localidad": "La Bebida",
+  "provincia": "San Juan",
+  "depto_1960": "Rivadavia",
+  "poblacion": "1992",
+  "deptos_modernos": "Rivadavia",
+  "pista": ""
+ },
+ {
+  "page": "v3_p22",
+  "n_orden": "215",
+  "localidad": "Villa Numancia",
+  "provincia": "Buenos Aires",
+  "depto_1960": "San Vicente",
+  "poblacion": "1735",
+  "deptos_modernos": "San Vicente | Presidente Perón",
+  "pista": ""
+ },
+ {
+  "page": "v8_p03",
+  "n_orden": "83",
+  "localidad": "Marquesado",
+  "provincia": "San Juan",
+  "depto_1960": "Rivadavia",
+  "poblacion": "1514",
+  "deptos_modernos": "Rivadavia",
+  "pista": ""
+ },
+ {
+  "page": "v3_p15",
+  "n_orden": "266",
+  "localidad": "Mariano M. Alfonso",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Pergamino",
+  "poblacion": "1353",
+  "deptos_modernos": "Pergamino",
+  "pista": ""
+ },
+ {
+  "page": "v3_p16",
+  "n_orden": "290",
+  "localidad": "Otamendi",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Campana",
+  "poblacion": "1190",
+  "deptos_modernos": "Campana",
+  "pista": "Comandante Nicanor Otamendi/General Alvarado [06280010]"
+ },
+ {
+  "page": "v5_p03",
+  "n_orden": "122",
+  "localidad": "Gobernador Gral. López",
+  "provincia": "Misiones",
+  "depto_1960": "Leandro N. Alem",
+  "poblacion": "1080",
+  "deptos_modernos": "Leandro N. Alem",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "139",
+  "localidad": "Nueve de Julio",
+  "provincia": "Misiones",
+  "depto_1960": "Eldorado",
+  "poblacion": "920",
+  "deptos_modernos": "Eldorado",
+  "pista": ""
+ },
+ {
+  "page": "v8_p04",
+  "n_orden": "122",
+  "localidad": "Piedra Blanca",
+  "provincia": "San Luis",
+  "depto_1960": "Junín",
+  "poblacion": "790",
+  "deptos_modernos": "Junín",
+  "pista": ""
+ },
+ {
+  "page": "v5_p06",
+  "n_orden": "167",
+  "localidad": "Puerto Naranjito",
+  "provincia": "Misiones",
+  "depto_1960": "San Ignacio",
+  "poblacion": "726",
+  "deptos_modernos": "San Ignacio",
+  "pista": ""
+ },
+ {
+  "page": "v4_p04",
+  "n_orden": "541",
+  "localidad": "Colonia O'Higgins",
+  "provincia": "Córdoba",
+  "depto_1960": "Marcos Juárez",
+  "poblacion": "613",
+  "deptos_modernos": "Marcos Juárez",
+  "pista": ""
+ },
+ {
+  "page": "v3_p22",
+  "n_orden": "489",
+  "localidad": "Villa Nueva",
+  "provincia": "Buenos Aires",
+  "depto_1960": "General Paz",
+  "poblacion": "564",
+  "deptos_modernos": "General Paz",
+  "pista": ""
+ },
+ {
+  "page": "v6_p02",
+  "n_orden": "162",
+  "localidad": "El Malacara",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "General Taboada",
+  "poblacion": "527",
+  "deptos_modernos": "General Taboada",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "143",
+  "localidad": "Hipólito Irigoyen",
+  "provincia": "San Luis",
+  "depto_1960": "Belgrano",
+  "poblacion": "481",
+  "deptos_modernos": "Belgrano",
+  "pista": ""
+ },
+ {
+  "page": "v6_p02",
+  "n_orden": "184",
+  "localidad": "Desvío Bruchard",
+  "provincia": "Formosa",
+  "depto_1960": "Patiño",
+  "poblacion": "432",
+  "deptos_modernos": "Patiño",
+  "pista": ""
+ },
+ {
+  "page": "v4_p03",
+  "n_orden": "643",
+  "localidad": "Candelaria Norte",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Seco",
+  "poblacion": "379",
+  "deptos_modernos": "Río Seco",
+  "pista": ""
+ },
+ {
+  "page": "v4_p06",
+  "n_orden": "667",
+  "localidad": "Desvío Km. 691",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Primero",
+  "poblacion": "317",
+  "deptos_modernos": "Río Primero",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p04",
+  "n_orden": "132",
+  "localidad": "San Pedro",
+  "provincia": "Río Negro",
+  "depto_1960": "Bariloche",
+  "poblacion": "274",
+  "deptos_modernos": "Bariloche",
+  "pista": ""
+ },
+ {
+  "page": "v3_p03",
+  "n_orden": "761",
+  "localidad": "Barrow",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Tres Arroyos",
+  "poblacion": "236",
+  "deptos_modernos": "Tres Arroyos",
+  "pista": ""
+ },
+ {
+  "page": "v7_p02",
+  "n_orden": "372",
+  "localidad": "Capitán J. Page",
+  "provincia": "Salta",
+  "depto_1960": "Rivadavia",
+  "poblacion": "207",
+  "deptos_modernos": "Rivadavia",
+  "pista": ""
+ },
+ {
+  "page": "v7_p05",
+  "n_orden": "402",
+  "localidad": "Huasa Pampa Sud",
+  "provincia": "Tucumán",
+  "depto_1960": "Graneros",
+  "poblacion": "149",
+  "deptos_modernos": "Graneros | La Cocha",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p01",
+  "n_orden": "157",
+  "localidad": "Barrio Laprida y Manantial Rosales",
+  "provincia": "Chubut",
+  "depto_1960": "Escalante",
+  "poblacion": "81",
+  "deptos_modernos": "Escalante",
+  "pista": ""
+ }
+]

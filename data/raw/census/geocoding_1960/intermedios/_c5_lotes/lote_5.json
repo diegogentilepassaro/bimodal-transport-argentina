@@ -1,0 +1,232 @@
+[
+ {
+  "page": "v8_p05",
+  "n_orden": "21",
+  "localidad": "Villa Krause",
+  "provincia": "San Juan",
+  "depto_1960": "Rawson",
+  "poblacion": "7311",
+  "deptos_modernos": "Rawson",
+  "pista": ""
+ },
+ {
+  "page": "v3_p18",
+  "n_orden": "126",
+  "localidad": "Puerto Belgrano",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Coronel de Marina Leonardo Rosales",
+  "poblacion": "3607",
+  "deptos_modernos": "Coronel de Marina Leonardo Rosales | Monte Hermoso",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p03",
+  "n_orden": "32",
+  "localidad": "Kilómetro 8 (Petroquímica)",
+  "provincia": "Chubut",
+  "depto_1960": "Escalante",
+  "poblacion": "2783",
+  "deptos_modernos": "Escalante",
+  "pista": ""
+ },
+ {
+  "page": "v3_p11",
+  "n_orden": "193",
+  "localidad": "José A. Guisasola",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Coronel Dorrego",
+  "poblacion": "1967",
+  "deptos_modernos": "Coronel Dorrego | Monte Hermoso",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "78",
+  "localidad": "Manuel F. Mantilla",
+  "provincia": "Corrientes",
+  "depto_1960": "San Roque",
+  "poblacion": "1697",
+  "deptos_modernos": "San Roque",
+  "pista": ""
+ },
+ {
+  "page": "v4_p05",
+  "n_orden": "285",
+  "localidad": "Chateaubriand",
+  "provincia": "Santa Fe",
+  "depto_1960": "General López",
+  "poblacion": "1490",
+  "deptos_modernos": "General López",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p01",
+  "n_orden": "51",
+  "localidad": "Alejandro Stefanelli",
+  "provincia": "Río Negro",
+  "depto_1960": "General Roca",
+  "poblacion": "1346",
+  "deptos_modernos": "General Roca",
+  "pista": ""
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "358",
+  "localidad": "J. B. Molina",
+  "provincia": "Santa Fe",
+  "depto_1960": "Constitución",
+  "poblacion": "1189",
+  "deptos_modernos": "Constitución",
+  "pista": ""
+ },
+ {
+  "page": "v5_p03",
+  "n_orden": "124",
+  "localidad": "Fábrica Colón",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Colón",
+  "poblacion": "1067",
+  "deptos_modernos": "Colón | San Salvador",
+  "pista": ""
+ },
+ {
+  "page": "v7_p03",
+  "n_orden": "153",
+  "localidad": "Cnel. Juan Solá Morillo",
+  "provincia": "Salta",
+  "depto_1960": "Rivadavia",
+  "poblacion": "920",
+  "deptos_modernos": "Rivadavia",
+  "pista": ""
+ },
+ {
+  "page": "v6_p07",
+  "n_orden": "122",
+  "localidad": "Villa Escobar Navegación Río Bermejo",
+  "provincia": "Formosa",
+  "depto_1960": "Laishí",
+  "poblacion": "775",
+  "deptos_modernos": "Laishi",
+  "pista": ""
+ },
+ {
+  "page": "v7_p09",
+  "n_orden": "185",
+  "localidad": "San Rafael",
+  "provincia": "Tucumán",
+  "depto_1960": "Famaillá",
+  "poblacion": "722",
+  "deptos_modernos": "Famaillá | Lules | Yerba Buena",
+  "pista": ""
+ },
+ {
+  "page": "v5_p01",
+  "n_orden": "192",
+  "localidad": "Altamirano Sud",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Tala",
+  "poblacion": "607",
+  "deptos_modernos": "Tala",
+  "pista": ""
+ },
+ {
+  "page": "v4_p19",
+  "n_orden": "566",
+  "localidad": "Villa Independencia",
+  "provincia": "Córdoba",
+  "depto_1960": "Punilla",
+  "poblacion": "556",
+  "deptos_modernos": "Punilla",
+  "pista": ""
+ },
+ {
+  "page": "v3_p21",
+  "n_orden": "513",
+  "localidad": "Spurr",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Bahía Blanca",
+  "poblacion": "524",
+  "deptos_modernos": "Bahía Blanca",
+  "pista": ""
+ },
+ {
+  "page": "v3_p15",
+  "n_orden": "551",
+  "localidad": "M. Colman",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Rauch",
+  "poblacion": "464",
+  "deptos_modernos": "Rauch",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "155",
+  "localidad": "Embalse La Florida",
+  "provincia": "San Luis",
+  "depto_1960": "Coronel Pringles",
+  "poblacion": "417",
+  "deptos_modernos": "Coronel Pringles",
+  "pista": ""
+ },
+ {
+  "page": "v6_p02",
+  "n_orden": "206",
+  "localidad": "El Chorro",
+  "provincia": "Formosa",
+  "depto_1960": "Ramón Lista",
+  "poblacion": "377",
+  "deptos_modernos": "Ramón Lista",
+  "pista": ""
+ },
+ {
+  "page": "v3_p04",
+  "n_orden": "683",
+  "localidad": "Cerro de los Leones",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Tandil",
+  "poblacion": "309",
+  "deptos_modernos": "Tandil",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "275",
+  "localidad": "Piloto Avila",
+  "provincia": "Entre Ríos",
+  "depto_1960": "La Paz",
+  "poblacion": "266",
+  "deptos_modernos": "La Paz | Federal",
+  "pista": ""
+ },
+ {
+  "page": "v3_p21",
+  "n_orden": "766",
+  "localidad": "Tomás Jofré",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Mercedes",
+  "poblacion": "235",
+  "deptos_modernos": "Mercedes",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "291",
+  "localidad": "Miñones",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Federación",
+  "poblacion": "204",
+  "deptos_modernos": "Federación",
+  "pista": ""
+ },
+ {
+  "page": "v7_p06",
+  "n_orden": "406",
+  "localidad": "Luisiana",
+  "provincia": "Tucumán",
+  "depto_1960": "Cruz Alta",
+  "poblacion": "146",
+  "deptos_modernos": "Cruz Alta",
+  "pista": ""
+ }
+]

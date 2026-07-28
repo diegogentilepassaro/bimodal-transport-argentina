@@ -1,0 +1,232 @@
+[
+ {
+  "page": "v4_p14",
+  "n_orden": "56",
+  "localidad": "Pueblo Nuevo",
+  "provincia": "Santa Fe",
+  "depto_1960": "Rosario",
+  "poblacion": "6321",
+  "deptos_modernos": "Rosario",
+  "pista": ""
+ },
+ {
+  "page": "v7_p08",
+  "n_orden": "43",
+  "localidad": "Pocitos",
+  "provincia": "Salta",
+  "depto_1960": "Gral. J. de San Martín",
+  "poblacion": "3438",
+  "deptos_modernos": "General José de San Martín",
+  "pista": "Salar de Pocitos/Los Andes [66105017]"
+ },
+ {
+  "page": "v7_p08",
+  "n_orden": "58",
+  "localidad": "Pedro G. Méndes",
+  "provincia": "Tucumán",
+  "depto_1960": "Cruz Alta",
+  "poblacion": "2425",
+  "deptos_modernos": "Cruz Alta",
+  "pista": ""
+ },
+ {
+  "page": "v4_p11",
+  "n_orden": "198",
+  "localidad": "Los Saladillos",
+  "provincia": "Santa Fe",
+  "depto_1960": "9 de Julio",
+  "poblacion": "1920",
+  "deptos_modernos": "9 de Julio",
+  "pista": ""
+ },
+ {
+  "page": "v6_p04",
+  "n_orden": "65",
+  "localidad": "La Isla",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Banda",
+  "poblacion": "1562",
+  "deptos_modernos": "Banda",
+  "pista": "Isca Yacu/Jiménez [86091050]; Isca Yacu Semaul/Jiménez [8609"
+ },
+ {
+  "page": "v4_p17",
+  "n_orden": "297",
+  "localidad": "Saturnino M. Laspiur",
+  "provincia": "Córdoba",
+  "depto_1960": "San Justo",
+  "poblacion": "1445",
+  "deptos_modernos": "San Justo",
+  "pista": ""
+ },
+ {
+  "page": "v3_p04",
+  "n_orden": "272",
+  "localidad": "Carlos N. Naón",
+  "provincia": "Buenos Aires",
+  "depto_1960": "9 de Julio",
+  "poblacion": "1310",
+  "deptos_modernos": "9 de Julio",
+  "pista": ""
+ },
+ {
+  "page": "v5_p06",
+  "n_orden": "115",
+  "localidad": "Puerto Gisela",
+  "provincia": "Misiones",
+  "depto_1960": "San Ignacio",
+  "poblacion": "1161",
+  "deptos_modernos": "San Ignacio",
+  "pista": ""
+ },
+ {
+  "page": "v7_p10",
+  "n_orden": "143",
+  "localidad": "Santa Rosa",
+  "provincia": "Catamarca",
+  "depto_1960": "Tinogasta",
+  "poblacion": "1006",
+  "deptos_modernos": "Tinogasta",
+  "pista": ""
+ },
+ {
+  "page": "v4_p02",
+  "n_orden": "450",
+  "localidad": "Ascochingas",
+  "provincia": "Santa Fe",
+  "depto_1960": "La Capital",
+  "poblacion": "864",
+  "deptos_modernos": "La Capital",
+  "pista": ""
+ },
+ {
+  "page": "v4_p03",
+  "n_orden": "480",
+  "localidad": "Cap. de la Sgrda. Familia",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Primero",
+  "poblacion": "749",
+  "deptos_modernos": "Río Primero",
+  "pista": ""
+ },
+ {
+  "page": "v5_p08",
+  "n_orden": "173",
+  "localidad": "Yabebiry",
+  "provincia": "Misiones",
+  "depto_1960": "Oberá",
+  "poblacion": "689",
+  "deptos_modernos": "Oberá",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "137",
+  "localidad": "Ingeniero Balloffet",
+  "provincia": "Mendoza",
+  "depto_1960": "San Rafael",
+  "poblacion": "578",
+  "deptos_modernos": "San Rafael",
+  "pista": ""
+ },
+ {
+  "page": "v5_p06",
+  "n_orden": "202",
+  "localidad": "Pueblo San Martín (Pto. Curtiembre)",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Paraná",
+  "poblacion": "544",
+  "deptos_modernos": "Paraná",
+  "pista": ""
+ },
+ {
+  "page": "v3_p13",
+  "n_orden": "526",
+  "localidad": "Libres del Sud",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Chascomús",
+  "poblacion": "505",
+  "deptos_modernos": "Chascomús | Lezama",
+  "pista": ""
+ },
+ {
+  "page": "v6_p07",
+  "n_orden": "180",
+  "localidad": "Vicentini",
+  "provincia": "Chaco",
+  "depto_1960": "San Fernando",
+  "poblacion": "447",
+  "deptos_modernos": "San Fernando",
+  "pista": ""
+ },
+ {
+  "page": "v6_p04",
+  "n_orden": "197",
+  "localidad": "Mal Paso",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Capital",
+  "poblacion": "401",
+  "deptos_modernos": "Capital",
+  "pista": ""
+ },
+ {
+  "page": "v3_p11",
+  "n_orden": "642",
+  "localidad": "José M. Micheo",
+  "provincia": "Buenos Aires",
+  "depto_1960": "General Alvear",
+  "poblacion": "352",
+  "deptos_modernos": "General Alvear",
+  "pista": ""
+ },
+ {
+  "page": "v3_p07",
+  "n_orden": "698",
+  "localidad": "El Arbolito",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Colón",
+  "poblacion": "298",
+  "deptos_modernos": "Colón",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p04",
+  "n_orden": "134",
+  "localidad": "Puerto Coyle",
+  "provincia": "Santa Cruz",
+  "depto_1960": "Güer Aike",
+  "poblacion": "251",
+  "deptos_modernos": "Güer Aike",
+  "pista": ""
+ },
+ {
+  "page": "v4_p05",
+  "n_orden": "718",
+  "localidad": "Cruz Chica",
+  "provincia": "Córdoba",
+  "depto_1960": "Punilla",
+  "poblacion": "233",
+  "deptos_modernos": "Punilla",
+  "pista": ""
+ },
+ {
+  "page": "v4_p15",
+  "n_orden": "741",
+  "localidad": "Rumiyaco",
+  "provincia": "Córdoba",
+  "depto_1960": "Minas",
+  "poblacion": "187",
+  "deptos_modernos": "Minas",
+  "pista": ""
+ },
+ {
+  "page": "v4_p03",
+  "n_orden": "772",
+  "localidad": "Casaffousth",
+  "provincia": "Córdoba",
+  "depto_1960": "Punilla",
+  "poblacion": "108",
+  "deptos_modernos": "Punilla",
+  "pista": ""
+ }
+]

@@ -1,0 +1,79 @@
+[
+ {
+  "page": "v4_p17",
+  "n_orden": "57",
+  "localidad": "Santa Teresa",
+  "tipo_doc": "artefacto_fuente_depto",
+  "fuente_cambio": "Wikipedia ES 'Santa Teresa (Santa Fe)' y municipiosycomunas.com.ar: la localidad pertenece al departamento Constitucion, origen ferroviario, traza aprobada por el gobierno de Santa Fe el 19-03-1889",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Santa_Teresa_(Santa_Fe)",
+  "ley_o_anio": "",
+  "confianza": "alta",
+  "nota": "Es error de departamento en la fuente 1960: la unica Santa Teresa de Santa Fe pertenece al depto Constitucion (fundada 1889, sobre el ramal Villa Constitucion-Venado Tuerto) y siempre estuvo alli. El depto Iriondo (cabecera Canada de Gomez, a ~90 km) no tiene ninguna localidad llamada Santa Teresa entre sus pueblos (Armstrong, Totoras, Serodino, etc.). No hubo transferencia de limite; el censo 1960 imprimio Iriondo en lugar de Constitucion. Depto correcto = Constitucion. La pob 6103 (1960) vs 3243 (2022) requiere ojo humano pero no cambia la conclusion departamental."
+ },
+ {
+  "page": "v5_p02",
+  "n_orden": "114",
+  "localidad": "Dos de Mayo",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Busque en Wikipedia (Dos de Mayo, depto Cainguas, depto Libertador Gral San Martin), El Territorio 'Division politica de Misiones' y FamilySearch. Misiones fijo sus 17 departamentos por Decreto-Ley 1668 del 26-12-1956 (previo al censo) y los limites Cainguas / Libertador Gral San Martin / 25 de Mayo se reajustaron en los anios 1960s (el municipio de Dos de Mayo se creo en 1964 ya dentro de Cainguas). No hallé un acto legal unico y citable que traslade especificamente el area de Dos de Mayo de Libertador Gral San Martin (censo 1960) a Cainguas despues de 1960; es un reajuste de limite entre departamentos ya existentes."
+ },
+ {
+  "page": "v5_p01",
+  "n_orden": "136",
+  "localidad": "Aranguren",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El sitio municipal aranguren.gob.ar/historia reproduce un plano antiguo que rotula 'Pueblo Aranguren, Departamento Victoria, Distrito Chilcas', confirmando que la localidad estuvo en el depto Victoria (coincide con el censo 1960); hoy pertenece al depto Nogoya, distrito Algarrobitos. El decreto 3935/1987 y la ley 7944/1987 solo crean el municipio y fijan el nombre 'Aranguren', no documentan el cambio de departamento. No encontre norma unica citable que reasigne el distrito de Victoria a Nogoya; es reajuste de limite entre departamentos entrerrianos preexistentes."
+ },
+ {
+  "page": "v4_p10",
+  "n_orden": "491",
+  "localidad": "Los Amores",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Wikipedia y Camara de Senadores de Santa Fe: Los Amores es del depto Vera (comuna creada el 01-07-1914, estacion del ramal Santa Fe-Resistencia). Vera y General Obligado son departamentos limitrofes y ambos existian en 1960. El nombre proviene de un arroyo del depto General Obligado, pero eso es etimologia, no jurisdiccion. Tras busqueda no hallé ley/decreto unico que traslade Los Amores de General Obligado (censo 1960) a Vera; es reajuste de limite entre departamentos preexistentes del norte santafesino."
+ },
+ {
+  "page": "v4_p18",
+  "n_orden": "578",
+  "localidad": "Tartagal",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Wikipedia y Georef ubican la comuna de Tartagal en el depto Vera. Vera y General Obligado son limitrofes y ambos preexistian al censo 1960. Tartagal esta cerca del limite entre ambos. No encontre acto legal unico y citable que reasigne Tartagal de General Obligado (censo 1960) a Vera; corresponde a un reajuste de limite entre departamentos ya existentes, sin norma de creacion por segregacion posterior a 1960."
+ },
+ {
+  "page": "v3_p07",
+  "n_orden": "652",
+  "localidad": "Energía",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El partido de San Cayetano se creo por Ley provincial 5921 (sancionada 24-10-1958, promulgada 04-11-1958) segregando tierras de Necochea, Tres Arroyos y Gonzalez Chaves. Energia esta hoy en el partido de Necochea, justo sobre el limite con San Cayetano. El censo 1960 la listo en San Cayetano (el partido nuevo) y hoy figura en Necochea (el partido madre), es decir un reajuste posterior de la demarcacion San Cayetano-Necochea. La ley 5921/1958 crea el partido pero NO documenta el paso especifico de Energia a Necochea; no hallé norma unica citable para ese ajuste de limite."
+ },
+ {
+  "page": "v3_p03",
+  "n_orden": "909",
+  "localidad": "Calderón",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El partido Coronel de Marina Leonardo Rosales se creo el 12-05-1945 segregandose de Bahia Blanca (autonomia de Punta Alta). Como ya existia en 1960, su creacion no documenta el cambio: Calderon (estacion FC) aparece en el censo 1960 bajo Bahia Blanca y hoy en Coronel Rosales, lo que implica un reajuste del limite entre ambos partidos posterior a 1945/1960 o un artefacto de asignacion del censo. No encontre acto legal unico y citable que traslade Calderon de Bahia Blanca a Coronel Rosales; es reajuste de limite entre partidos preexistentes."
+ }
+]

@@ -1,0 +1,15 @@
+page,n_orden,localidad,provincia,depto_1960,depto_moderno,contiguo,dist_borde_km
+v3_p02,871,Arroyo Dulce,Buenos Aires,Pergamino,Salto,contiguo,0.0
+v3_p03,909,Calderón,Buenos Aires,Bahía Blanca,Coronel de Marina Leonardo Rosales,contiguo,0.0
+v3_p07,652,Energía,Buenos Aires,San Cayetano,Necochea,contiguo,0.0
+v3_p17,873,Pasteur,Buenos Aires,General Pinto,Lincoln,contiguo,0.0
+v3_p22,349,Villars,Buenos Aires,Marcos Paz,General Las Heras,contiguo,0.0
+v4_p07,419,Golondrina,Santa Fe,General Obligado,Vera,contiguo,0.0
+v4_p07,572,Garabato,Santa Fe,General Obligado,Vera,contiguo,0.0
+v4_p08,601,Intiyaco,Santa Fe,General Obligado,Vera,contiguo,0.0
+v4_p10,491,Los Amores,Santa Fe,General Obligado,Vera,contiguo,0.0
+v4_p18,578,Tartagal,Santa Fe,General Obligado,Vera,contiguo,0.0
+v4_p18,658,Tinoco,Córdoba,Río Primero,Colón,contiguo,0.0
+v5_p01,136,Aranguren,Entre Ríos,Victoria,Nogoyá,contiguo,0.0
+v5_p02,114,Dos de Mayo,Misiones,Lib. Gral. San Martín,Cainguás,contiguo,0.0
+v7_p07,199,Manuel García Fernández,Tucumán,Famaillá,Leales,contiguo,0.0

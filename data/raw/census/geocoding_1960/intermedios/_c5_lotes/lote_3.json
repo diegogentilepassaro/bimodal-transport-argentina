@@ -1,0 +1,242 @@
+[
+ {
+  "page": "v4_p08",
+  "n_orden": "34",
+  "localidad": "Jobson",
+  "provincia": "Santa Fe",
+  "depto_1960": "Vera",
+  "poblacion": "9754",
+  "deptos_modernos": "Vera",
+  "pista": ""
+ },
+ {
+  "page": "v3_p11",
+  "n_orden": "113",
+  "localidad": "José M. Blanco",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Pellegrini",
+  "poblacion": "4251",
+  "deptos_modernos": "Pellegrini | Salliqueló | Tres Lomas",
+  "pista": ""
+ },
+ {
+  "page": "v4_p06",
+  "n_orden": "146",
+  "localidad": "Empalme V. Constitución",
+  "provincia": "Santa Fe",
+  "depto_1960": "Constitución",
+  "poblacion": "3095",
+  "deptos_modernos": "Constitución",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "65",
+  "localidad": "Juan B. Arruabarrena",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Federación",
+  "poblacion": "1997",
+  "deptos_modernos": "Federación",
+  "pista": ""
+ },
+ {
+  "page": "v4_p19",
+  "n_orden": "217",
+  "localidad": "Villa General Mitre",
+  "provincia": "Córdoba",
+  "depto_1960": "Totoral",
+  "poblacion": "1797",
+  "deptos_modernos": "Totoral",
+  "pista": ""
+ },
+ {
+  "page": "v8_p03",
+  "n_orden": "82",
+  "localidad": "Pampa del Chañar",
+  "provincia": "San Juan",
+  "depto_1960": "Jáchal",
+  "poblacion": "1521",
+  "deptos_modernos": "Jáchal",
+  "pista": ""
+ },
+ {
+  "page": "v4_p16",
+  "n_orden": "304",
+  "localidad": "San Julián",
+  "provincia": "Santa Fe",
+  "depto_1960": "San Jerónimo",
+  "poblacion": "1405",
+  "deptos_modernos": "San Jerónimo",
+  "pista": ""
+ },
+ {
+  "page": "v3_p05",
+  "n_orden": "288",
+  "localidad": "Coronel Mom",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Alberti",
+  "poblacion": "1201",
+  "deptos_modernos": "Alberti",
+  "pista": ""
+ },
+ {
+  "page": "v4_p14",
+  "n_orden": "382",
+  "localidad": "Pueblo Britos",
+  "provincia": "Santa Fe",
+  "depto_1960": "Rosario",
+  "poblacion": "1085",
+  "deptos_modernos": "Rosario",
+  "pista": ""
+ },
+ {
+  "page": "v7_p05",
+  "n_orden": "152",
+  "localidad": "Huaco",
+  "provincia": "Catamarca",
+  "depto_1960": "Andalgalá",
+  "poblacion": "929",
+  "deptos_modernos": "Andalgalá",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "155",
+  "localidad": "Lib. Gral. San Martín",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Diamante",
+  "poblacion": "809",
+  "deptos_modernos": "Diamante",
+  "pista": ""
+ },
+ {
+  "page": "v4_p09",
+  "n_orden": "492",
+  "localidad": "La Buena Parada",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Primero",
+  "poblacion": "730",
+  "deptos_modernos": "Río Primero",
+  "pista": ""
+ },
+ {
+  "page": "v3_p01",
+  "n_orden": "459",
+  "localidad": "Aldea Romana",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Bahía Blanca",
+  "poblacion": "616",
+  "deptos_modernos": "Bahía Blanca",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "199",
+  "localidad": "Ingenio 1er. Correntino",
+  "provincia": "Corrientes",
+  "depto_1960": "San Cosme",
+  "poblacion": "567",
+  "deptos_modernos": "San Cosme",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "205",
+  "localidad": "Leguizamón",
+  "provincia": "Entre Ríos",
+  "depto_1960": "La Paz",
+  "poblacion": "531",
+  "deptos_modernos": "La Paz | Federal",
+  "pista": ""
+ },
+ {
+  "page": "v3_p07",
+  "n_orden": "533",
+  "localidad": "Elordi",
+  "provincia": "Buenos Aires",
+  "depto_1960": "General Villegas",
+  "poblacion": "494",
+  "deptos_modernos": "General Villegas",
+  "pista": ""
+ },
+ {
+  "page": "v8_p04",
+  "n_orden": "152",
+  "localidad": "Rincón del Este",
+  "provincia": "San Luis",
+  "depto_1960": "Junín",
+  "poblacion": "435",
+  "deptos_modernos": "Junín",
+  "pista": ""
+ },
+ {
+  "page": "v4_p02",
+  "n_orden": "642",
+  "localidad": "Cabana",
+  "provincia": "Córdoba",
+  "depto_1960": "Colón",
+  "poblacion": "379",
+  "deptos_modernos": "Colón",
+  "pista": ""
+ },
+ {
+  "page": "v3_p14",
+  "n_orden": "673",
+  "localidad": "Loma Negra",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Olavarría",
+  "poblacion": "322",
+  "deptos_modernos": "Olavarría",
+  "pista": ""
+ },
+ {
+  "page": "v3_p23",
+  "n_orden": "709",
+  "localidad": "Vuelta de Obligado",
+  "provincia": "Buenos Aires",
+  "depto_1960": "San Pedro",
+  "poblacion": "283",
+  "deptos_modernos": "San Pedro",
+  "pista": ""
+ },
+ {
+  "page": "v6_p03",
+  "n_orden": "245",
+  "localidad": "La Brea",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Figueroa",
+  "poblacion": "237",
+  "deptos_modernos": "Figueroa",
+  "pista": "Brea Pozo/San Martín [86175010]"
+ },
+ {
+  "page": "v7_p01",
+  "n_orden": "370",
+  "localidad": "Bajo Grande",
+  "provincia": "Salta",
+  "depto_1960": "Metán",
+  "poblacion": "210",
+  "deptos_modernos": "Metán",
+  "pista": ""
+ },
+ {
+  "page": "v7_p04",
+  "n_orden": "398",
+  "localidad": "General Alvarado",
+  "provincia": "Salta",
+  "depto_1960": "Capital",
+  "poblacion": "159",
+  "deptos_modernos": "Capital",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p04",
+  "n_orden": "154",
+  "localidad": "Planta Compresora Conesa",
+  "provincia": "Río Negro",
+  "depto_1960": "General Conesa",
+  "poblacion": "101",
+  "deptos_modernos": "Conesa",
+  "pista": ""
+ }
+]

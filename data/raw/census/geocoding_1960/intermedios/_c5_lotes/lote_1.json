@@ -1,0 +1,242 @@
+[
+ {
+  "page": "v4_p14",
+  "n_orden": "23",
+  "localidad": "Reinaldo Cullen",
+  "provincia": "Santa Fe",
+  "depto_1960": "La Capital",
+  "poblacion": "11881",
+  "deptos_modernos": "La Capital",
+  "pista": ""
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "92",
+  "localidad": "Humberto 1º",
+  "provincia": "Santa Fe",
+  "depto_1960": "Castellanos",
+  "poblacion": "4453",
+  "deptos_modernos": "Castellanos",
+  "pista": ""
+ },
+ {
+  "page": "v7_p06",
+  "n_orden": "47",
+  "localidad": "León Rouges",
+  "provincia": "Tucumán",
+  "depto_1960": "Monteros",
+  "poblacion": "3196",
+  "deptos_modernos": "Monteros | Simoca",
+  "pista": ""
+ },
+ {
+  "page": "v8_p05",
+  "n_orden": "46",
+  "localidad": "Zonda",
+  "provincia": "San Juan",
+  "depto_1960": "Veinticinco de Mayo",
+  "poblacion": "2183",
+  "deptos_modernos": "25 de Mayo",
+  "pista": "Cañada Honda/Sarmiento [70105010]"
+ },
+ {
+  "page": "v7_p08",
+  "n_orden": "74",
+  "localidad": "Poso del Alto",
+  "provincia": "Tucumán",
+  "depto_1960": "Cruz Alta",
+  "poblacion": "1875",
+  "deptos_modernos": "Cruz Alta",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "81",
+  "localidad": "La Legua",
+  "provincia": "San Juan",
+  "depto_1960": "Santa Lucía",
+  "poblacion": "1551",
+  "deptos_modernos": "Santa Lucía",
+  "pista": ""
+ },
+ {
+  "page": "v6_p04",
+  "n_orden": "80",
+  "localidad": "Laguna Naineck",
+  "provincia": "Formosa",
+  "depto_1960": "Pilcomayo",
+  "poblacion": "1445",
+  "deptos_modernos": "Pilcomayo",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p04",
+  "n_orden": "54",
+  "localidad": "Playa Bonita",
+  "provincia": "Río Negro",
+  "depto_1960": "Bariloche",
+  "poblacion": "1249",
+  "deptos_modernos": "Bariloche",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p02",
+  "n_orden": "58",
+  "localidad": "Coronel Gómez",
+  "provincia": "Río Negro",
+  "depto_1960": "General Roca",
+  "poblacion": "1161",
+  "deptos_modernos": "General Roca",
+  "pista": ""
+ },
+ {
+  "page": "v5_p01",
+  "n_orden": "136",
+  "localidad": "Aranguren",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Victoria",
+  "poblacion": "932",
+  "deptos_modernos": "Victoria",
+  "pista": "Villa Aranguren/Nogoyá [30077010]"
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "118",
+  "localidad": "La Cañada",
+  "provincia": "San Juan",
+  "depto_1960": "Albardón",
+  "poblacion": "858",
+  "deptos_modernos": "Albardón",
+  "pista": "Cañada Honda/Sarmiento [70105010]"
+ },
+ {
+  "page": "v6_p05",
+  "n_orden": "130",
+  "localidad": "Pozo Grande",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Avellaneda",
+  "poblacion": "745",
+  "deptos_modernos": "Avellaneda",
+  "pista": ""
+ },
+ {
+  "page": "v3_p07",
+  "n_orden": "431",
+  "localidad": "Durcudoy",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Puán",
+  "poblacion": "670",
+  "deptos_modernos": "Puán",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p03",
+  "n_orden": "96",
+  "localidad": "Lago Futalaufquen",
+  "provincia": "Chubut",
+  "depto_1960": "Futaleufú",
+  "poblacion": "578",
+  "deptos_modernos": "Futaleufú",
+  "pista": ""
+ },
+ {
+  "page": "v3_p04",
+  "n_orden": "504",
+  "localidad": "Colonia Hogar Ricardo Gutiérrez",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Marcos Paz",
+  "poblacion": "541",
+  "deptos_modernos": "Marcos Paz",
+  "pista": ""
+ },
+ {
+  "page": "v3_p15",
+  "n_orden": "527",
+  "localidad": "Máximo Fernández",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Bragado",
+  "poblacion": "505",
+  "deptos_modernos": "Bragado",
+  "pista": ""
+ },
+ {
+  "page": "v8_p02",
+  "n_orden": "151",
+  "localidad": "Dixonville",
+  "provincia": "San Luis",
+  "depto_1960": "Gobernador Dupuy",
+  "poblacion": "441",
+  "deptos_modernos": "Gobernador Dupuy",
+  "pista": ""
+ },
+ {
+  "page": "v3_p14",
+  "n_orden": "598",
+  "localidad": "Lia Calel",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Tres Arroyos",
+  "poblacion": "392",
+  "deptos_modernos": "Tres Arroyos",
+  "pista": ""
+ },
+ {
+  "page": "v4_p12",
+  "n_orden": "657",
+  "localidad": "Molinari",
+  "provincia": "Córdoba",
+  "depto_1960": "Punilla",
+  "poblacion": "345",
+  "deptos_modernos": "Punilla",
+  "pista": ""
+ },
+ {
+  "page": "v4_p06",
+  "n_orden": "682",
+  "localidad": "El Cano",
+  "provincia": "Córdoba",
+  "depto_1960": "Calamuchita",
+  "poblacion": "298",
+  "deptos_modernos": "Calamuchita",
+  "pista": "Cruz de Cana/Cruz del Eje [14028040]"
+ },
+ {
+  "page": "v5_p06",
+  "n_orden": "281",
+  "localidad": "Primero de Mayo",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Uruguay",
+  "poblacion": "246",
+  "deptos_modernos": "Uruguay",
+  "pista": ""
+ },
+ {
+  "page": "v7_p11",
+  "n_orden": "361",
+  "localidad": "Veintitrés de Agosto",
+  "provincia": "Jujuy",
+  "depto_1960": "Ledesma",
+  "poblacion": "228",
+  "deptos_modernos": "Ledesma",
+  "pista": ""
+ },
+ {
+  "page": "v7_p04",
+  "n_orden": "386",
+  "localidad": "El Tobar",
+  "provincia": "Tucumán",
+  "depto_1960": "Chicligasta",
+  "poblacion": "184",
+  "deptos_modernos": "Chicligasta | Simoca",
+  "pista": ""
+ },
+ {
+  "page": "v3_p04",
+  "n_orden": "905",
+  "localidad": "Colonia La Merced",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Villarino",
+  "poblacion": "105",
+  "deptos_modernos": "Villarino",
+  "pista": ""
+ }
+]

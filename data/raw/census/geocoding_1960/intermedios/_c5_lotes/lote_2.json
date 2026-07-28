@@ -1,0 +1,242 @@
+[
+ {
+  "page": "v4_p13",
+  "n_orden": "30",
+  "localidad": "Posta de San Martín",
+  "provincia": "Santa Fe",
+  "depto_1960": "Rosario",
+  "poblacion": "10152",
+  "deptos_modernos": "Rosario",
+  "pista": ""
+ },
+ {
+  "page": "v8_p01",
+  "n_orden": "30",
+  "localidad": "Bermejito",
+  "provincia": "San Juan",
+  "depto_1960": "Santa Lucía",
+  "poblacion": "4403",
+  "deptos_modernos": "Santa Lucía",
+  "pista": "Bermejo/Caucete [70035010]"
+ },
+ {
+  "page": "v3_p11",
+  "n_orden": "147",
+  "localidad": "Jáuregui",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Luján",
+  "poblacion": "3113",
+  "deptos_modernos": "Luján",
+  "pista": ""
+ },
+ {
+  "page": "v7_p05",
+  "n_orden": "67",
+  "localidad": "La Madrid",
+  "provincia": "Tucumán",
+  "depto_1960": "Graneros",
+  "poblacion": "2116",
+  "deptos_modernos": "Graneros | La Cocha",
+  "pista": ""
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "207",
+  "localidad": "Jesús María",
+  "provincia": "Santa Fe",
+  "depto_1960": "San Lorenzo",
+  "poblacion": "1855",
+  "deptos_modernos": "San Lorenzo",
+  "pista": ""
+ },
+ {
+  "page": "v4_p16",
+  "n_orden": "275",
+  "localidad": "S. Martín de las Escobas",
+  "provincia": "Santa Fe",
+  "depto_1960": "San Martín",
+  "poblacion": "1521",
+  "deptos_modernos": "San Martín",
+  "pista": ""
+ },
+ {
+  "page": "v5_p03",
+  "n_orden": "89",
+  "localidad": "Gobernador J.E. Martínez",
+  "provincia": "Corrientes",
+  "depto_1960": "Lavalle",
+  "poblacion": "1434",
+  "deptos_modernos": "Lavalle",
+  "pista": ""
+ },
+ {
+  "page": "v8_p04",
+  "n_orden": "97",
+  "localidad": "Rodolfo Iselin (La Llave)",
+  "provincia": "Mendoza",
+  "depto_1960": "San Rafael",
+  "poblacion": "1228",
+  "deptos_modernos": "San Rafael",
+  "pista": ""
+ },
+ {
+  "page": "v7_p11",
+  "n_orden": "138",
+  "localidad": "Villa Nva. de Monte Rico",
+  "provincia": "Tucumán",
+  "depto_1960": "Chicligasta",
+  "poblacion": "1092",
+  "deptos_modernos": "Chicligasta | Simoca",
+  "pista": ""
+ },
+ {
+  "page": "v7_p02",
+  "n_orden": "151",
+  "localidad": "Cevil Pozo",
+  "provincia": "Tucumán",
+  "depto_1960": "Cruz Alta",
+  "poblacion": "930",
+  "deptos_modernos": "Cruz Alta",
+  "pista": ""
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "169",
+  "localidad": "Ntra.Sra. de Talavera",
+  "provincia": "Salta",
+  "depto_1960": "Anta",
+  "poblacion": "827",
+  "deptos_modernos": "Anta",
+  "pista": ""
+ },
+ {
+  "page": "v7_p04",
+  "n_orden": "182",
+  "localidad": "Gobernador Garmendia",
+  "provincia": "Tucumán",
+  "depto_1960": "Burruyacú",
+  "poblacion": "740",
+  "deptos_modernos": "Burruyacú",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "188",
+  "localidad": "Ifrán",
+  "provincia": "Corrientes",
+  "depto_1960": "Goya",
+  "poblacion": "622",
+  "deptos_modernos": "Goya",
+  "pista": ""
+ },
+ {
+  "page": "v6_p05",
+  "n_orden": "152",
+  "localidad": "Misión Fco. Tacaaglé",
+  "provincia": "Formosa",
+  "depto_1960": "Pilagás",
+  "poblacion": "570",
+  "deptos_modernos": "Pilagás",
+  "pista": ""
+ },
+ {
+  "page": "v6_p01",
+  "n_orden": "160",
+  "localidad": "Clodomiro Díaz",
+  "provincia": "Chaco",
+  "depto_1960": "Mayor Luis J. Fontana",
+  "poblacion": "540",
+  "deptos_modernos": "Mayor Luis J. Fontana",
+  "pista": ""
+ },
+ {
+  "page": "v3_p12",
+  "n_orden": "532",
+  "localidad": "Kilómetro 158",
+  "provincia": "Buenos Aires",
+  "depto_1960": "San Pedro",
+  "poblacion": "495",
+  "deptos_modernos": "San Pedro",
+  "pista": ""
+ },
+ {
+  "page": "v4_p12",
+  "n_orden": "621",
+  "localidad": "Monte Cristo",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Primero",
+  "poblacion": "439",
+  "deptos_modernos": "Río Primero",
+  "pista": ""
+ },
+ {
+  "page": "v7_p04",
+  "n_orden": "298",
+  "localidad": "El Recreo",
+  "provincia": "Catamarca",
+  "depto_1960": "Santa María",
+  "poblacion": "391",
+  "deptos_modernos": "Santa María",
+  "pista": "Recreo/La Paz [10070140]"
+ },
+ {
+  "page": "v7_p05",
+  "n_orden": "321",
+  "localidad": "Iturbe",
+  "provincia": "Jujuy",
+  "depto_1960": "Humahuaca",
+  "poblacion": "326",
+  "deptos_modernos": "Humahuaca",
+  "pista": ""
+ },
+ {
+  "page": "v5_p07",
+  "n_orden": "271",
+  "localidad": "Veinte de Setiembre",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Nogoyá",
+  "poblacion": "289",
+  "deptos_modernos": "Nogoyá",
+  "pista": ""
+ },
+ {
+  "page": "v6_p02",
+  "n_orden": "242",
+  "localidad": "El Cajón",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Ojo de Agua",
+  "poblacion": "246",
+  "deptos_modernos": "Ojo de Agua",
+  "pista": ""
+ },
+ {
+  "page": "v3_p12",
+  "n_orden": "781",
+  "localidad": "La Japonesa",
+  "provincia": "La Pampa",
+  "depto_1960": "Cura-Có",
+  "poblacion": "225",
+  "deptos_modernos": "Curacó",
+  "pista": ""
+ },
+ {
+  "page": "v7_p08",
+  "n_orden": "389",
+  "localidad": "Rosario del Dorado",
+  "provincia": "Salta",
+  "depto_1960": "Anta",
+  "poblacion": "177",
+  "deptos_modernos": "Anta",
+  "pista": ""
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "775",
+  "localidad": "Jean Maire",
+  "provincia": "Córdoba",
+  "depto_1960": "San Justo",
+  "poblacion": "103",
+  "deptos_modernos": "San Justo",
+  "pista": ""
+ }
+]

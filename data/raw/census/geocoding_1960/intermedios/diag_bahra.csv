@@ -1,0 +1,19 @@
+estado_actual,localidad,provincia,depto_1960,georef_nombre,georef_depto,georef_id,lat,lon,poblacion_1960,tenia_invisible
+flag_bahra,Agustín Roca,Buenos Aires,Junín,Agustí­n Roca,Junín,06413030,-34.5073536019499,-60.8645295130111,1361,True
+flag_bahra,Bahía San Blas,Buenos Aires,Patagones,Bahí­a San Blas,Patagones,06602010,-40.5538720511237,-62.2346860564006,302,True
+flag_bahra,El Paraíso,Buenos Aires,Ramallo,El Paraí­so,Ramallo,06665010,-33.5706334432815,-59.9791952195862,1596,True
+flag_bahra,Fortín Olavarría,Buenos Aires,Rivadavia,Fortí­n Olavarría,Rivadavia,06679010,-35.7025240581481,-63.0238756234993,1275,True
+flag_bahra,Fortín Tiburcio,Buenos Aires,Junín,Fortí­n Tiburcio,Junín,06413040,-34.3460185342182,-61.1308370110561,833,True
+flag_bahra,Junín,Buenos Aires,Junín,Juní­n,Junín,06413050,-34.576704518763,-60.9470682040392,53489,True
+flag_bahra,Lobería,Buenos Aires,Lobería,Loberí­a,Lobería,06476030,-38.1634225547553,-58.7818638300412,8455,True
+flag_bahra,María Ignacia,Buenos Aires,Tandil,Marí­a Ignacia,Tandil,06791040,-37.401287325615,-59.50597398265,3023,True
+flag_bahra,Mariano Benítez,Buenos Aires,Pergamino,Mariano Bení­tez,Pergamino,06623080,-33.7066223714511,-60.5819041309541,569,True
+flag_bahra,Olavarría,Buenos Aires,Olavarría,Olavarrí­a,Olavarría,06595080,-36.8937905479518,-60.3232626222861,35107,True
+flag_bahra,Salvador María,Buenos Aires,Lobos,Salvador Marí­a,Lobos,06483050,-35.2987873618516,-59.1637770276452,1616,True
+flag_bahra,Benjamín Gould,Córdoba,Unión,Benjamí­n Gould,Unión,14182070,-33.5874398718828,-62.7281770733369,1194,True
+flag_bahra,Colonia Santa María,Córdoba,San Justo,Colonia Santa Marí­a,San Justo,14140130,-31.6070894174563,-62.428130574385,278,True
+flag_bahra,Chavarría,Corrientes,San Roque,Chavarrí­a,San Roque,18161010,-28.9552112574363,-58.5718143773259,993,True
+flag_bahra,Santa Lucía,Corrientes,Lavalle,Santa Lucí­a,Lavalle,18091040,-28.9898407899337,-59.1007451261779,2930,True
+flag_bahra,Frías,Santiago del Estero,Choya,Frí­as,Choya,86063040,-28.6369810928448,-65.1333947023733,11862,True
+flag_bahra,Villa Silípica,Santiago del Estero,Silípica,Villa Silí­pica,Silípica,86189050,-28.1092651697295,-64.1464655132768,475,True
+flag_bahra,Santa María,Salta,Rivadavia,Santa Marí­a,Rivadavia,66133080,-22.1545359864759,-62.8090798928455,105,True

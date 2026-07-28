@@ -1,0 +1,17 @@
+page,n_orden,localidad,campo,nota
+v3_p02,497,Bajo Hondo,departamento,depto abreviado; lectura combinada de recortes: 'Cnel. de Mar. L.N.Rosales'
+v3_p02,828,Balneario Mar de Ajó Norte,localidad,texto comprimido en letra chica; confirmar nombre exacto
+v3_p06,564,Denhny,localidad,lectura incierta; podría ser 'Denny'/'Denhny'
+v3_p08,768,Erezcano,localidad,última letra ambigua (o/e); inicial E confirmada por alineación de columna
+v3_p12,763,La Pastora,mujeres,"celda 'mujeres' vacía/no impresa en la fuente (última fila de la página); total=236, varones=141 visibles"
+v3_p14,598,Lia Calel,localidad,primera palabra incierta (¿Lia/Lin?); depto Tres Arroyos
+v4_p05,2,Córdoba,varones,celda borroneada en el escaneo; mejor lectura 283.871 (consistente con total 586.015 - mujeres 302.144); confirmar
+v4_p08,130,Irivilli,localidad,lectura verbatim 'Irivilli' (final incierto); grafía moderna 'Inriville' -> Georef Paso 3
+v4_p19,223,Villa Eloísa,localidad,"impreso 'Elofsa' (la í sale como f); lectura 'Villa Eloísa' (Iriondo, Santa Fe)"
+v5_p02,303,Caza Pava,localidad,"nombre incierto (Santo Tomé, Corrientes); verificar"
+v5_p08,254,Yofré,localidad,"impreso parece 'Tofré' pero orden alfabético (entre Yeruá y Yuquerí) -> 'Yofré' (Y); Mercedes, Corrientes"
+v7_p07,229,Miraflores,total,primer dígito borroso (5/9); leído 587; suma varones+mujeres (284+303) confirma 587
+v7_p07,378,Palta de Aparzo,localidad,"l/t ambiguo; leído ""Palta""; topónimo real de Humahuaca es ""Palca de Aparzo"" (diferir a Paso 3)"
+v7_p03,65,Chumbicha,varones,leído 1.092; re-lectura imagen (FRENAR) = 1.091 → 1091+1097=2188=total OK; corregir en Paso 2.1 (decisiones.csv)
+v7_p08,38,Perico,varones,leído 2.018; re-lectura imagen (FRENAR) = 2.038 → 2038+2087=4125=total OK; corregir en Paso 2.1 (decisiones.csv)
+v8_p05,46,Zonda,departamento,"impreso VERBATIM ""Venticinco de Mayo"" (falta la i); mismo depto San Juan ""Veinticinco de Mayo"" → unificar en 1B"

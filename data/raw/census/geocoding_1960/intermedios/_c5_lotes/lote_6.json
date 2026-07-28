@@ -1,0 +1,232 @@
+[
+ {
+  "page": "v7_p11",
+  "n_orden": "20",
+  "localidad": "Villa Alberdi",
+  "provincia": "Tucumán",
+  "depto_1960": "Río Chico",
+  "poblacion": "7266",
+  "deptos_modernos": "Río Chico | Juan Bautista Alberdi | Simoca",
+  "pista": ""
+ },
+ {
+  "page": "v4_p03",
+  "n_orden": "124",
+  "localidad": "Cañada Verde",
+  "provincia": "Córdoba",
+  "depto_1960": "General Roca",
+  "poblacion": "3558",
+  "deptos_modernos": "General Roca",
+  "pista": ""
+ },
+ {
+  "page": "v4_p01",
+  "n_orden": "168",
+  "localidad": "Alto Verde",
+  "provincia": "Santa Fe",
+  "depto_1960": "La Capital",
+  "poblacion": "2627",
+  "deptos_modernos": "La Capital",
+  "pista": ""
+ },
+ {
+  "page": "v4_p07",
+  "n_orden": "192",
+  "localidad": "Froilán Palacios",
+  "provincia": "Santa Fe",
+  "depto_1960": "Iriondo",
+  "poblacion": "1948",
+  "deptos_modernos": "Iriondo",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "80",
+  "localidad": "Miguel Lanús",
+  "provincia": "Misiones",
+  "depto_1960": "Capital",
+  "poblacion": "1681",
+  "deptos_modernos": "Capital",
+  "pista": ""
+ },
+ {
+  "page": "v7_p09",
+  "n_orden": "98",
+  "localidad": "San Antonio de la Paz",
+  "provincia": "Catamarca",
+  "depto_1960": "La Paz",
+  "poblacion": "1489",
+  "deptos_modernos": "La Paz",
+  "pista": ""
+ },
+ {
+  "page": "v4_p12",
+  "n_orden": "317",
+  "localidad": "Médanos de las Cañas",
+  "provincia": "Córdoba",
+  "depto_1960": "Unión",
+  "poblacion": "1337",
+  "deptos_modernos": "Unión",
+  "pista": ""
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "125",
+  "localidad": "Monte Rico",
+  "provincia": "Jujuy",
+  "depto_1960": "El Carmen",
+  "poblacion": "1177",
+  "deptos_modernos": "El Carmen",
+  "pista": ""
+ },
+ {
+  "page": "v7_p09",
+  "n_orden": "140",
+  "localidad": "San José de Fray Mamerto Esquiú",
+  "provincia": "Catamarca",
+  "depto_1960": "Fray Mamerto Esquiú",
+  "poblacion": "1053",
+  "deptos_modernos": "Fray Mamerto Esquiú",
+  "pista": ""
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "155",
+  "localidad": "Manantial",
+  "provincia": "Tucumán",
+  "depto_1960": "Tafí",
+  "poblacion": "911",
+  "deptos_modernos": "Tafí del Valle | Tafí Viejo | Yerba Buena",
+  "pista": "El Manantial/Lules [90063020]"
+ },
+ {
+  "page": "v4_p07",
+  "n_orden": "475",
+  "localidad": "Gobernador Candioti",
+  "provincia": "Santa Fe",
+  "depto_1960": "La Capital",
+  "poblacion": "767",
+  "deptos_modernos": "La Capital",
+  "pista": ""
+ },
+ {
+  "page": "v6_p03",
+  "n_orden": "132",
+  "localidad": "Km. 100 Nav. Río Bermejo",
+  "provincia": "Formosa",
+  "depto_1960": "Laishí",
+  "poblacion": "717",
+  "deptos_modernos": "Laishi",
+  "pista": ""
+ },
+ {
+  "page": "v4_p17",
+  "n_orden": "556",
+  "localidad": "Tala Norte",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Primero",
+  "poblacion": "583",
+  "deptos_modernos": "Río Primero",
+  "pista": ""
+ },
+ {
+  "page": "v3_p22",
+  "n_orden": "496",
+  "localidad": "Villa Harding Green",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Bahía Blanca",
+  "poblacion": "553",
+  "deptos_modernos": "Bahía Blanca",
+  "pista": ""
+ },
+ {
+  "page": "v5_p04",
+  "n_orden": "209",
+  "localidad": "La Capilla",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Villaguay",
+  "poblacion": "521",
+  "deptos_modernos": "Villaguay | Federal | San Salvador",
+  "pista": ""
+ },
+ {
+  "page": "v3_p08",
+  "n_orden": "558",
+  "localidad": "Enrique Lavalle",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Hipólito Yrigoyen",
+  "poblacion": "457",
+  "deptos_modernos": "Hipólito Yrigoyen",
+  "pista": ""
+ },
+ {
+  "page": "v4_p19",
+  "n_orden": "633",
+  "localidad": "V. Rosario del Saladillo",
+  "provincia": "Córdoba",
+  "depto_1960": "Tulumba",
+  "poblacion": "416",
+  "deptos_modernos": "Tulumba",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p01",
+  "n_orden": "116",
+  "localidad": "Centro Río Mayo",
+  "provincia": "Chubut",
+  "depto_1960": "Río Senguer",
+  "poblacion": "376",
+  "deptos_modernos": "Río Senguer",
+  "pista": ""
+ },
+ {
+  "page": "v7_p10",
+  "n_orden": "330",
+  "localidad": "Tala Pampa",
+  "provincia": "Salta",
+  "depto_1960": "La Viña",
+  "poblacion": "304",
+  "deptos_modernos": "La Viña",
+  "pista": ""
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "344",
+  "localidad": "Osma",
+  "provincia": "Salta",
+  "depto_1960": "La Viña",
+  "poblacion": "263",
+  "deptos_modernos": "La Viña",
+  "pista": ""
+ },
+ {
+  "page": "v6_p06",
+  "n_orden": "246",
+  "localidad": "Puna",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Moreno",
+  "poblacion": "235",
+  "deptos_modernos": "Moreno",
+  "pista": "Estación La Punta/Choya [86063030]; Villa La Punta/Choya [86"
+ },
+ {
+  "page": "v3_p12",
+  "n_orden": "820",
+  "localidad": "Kilómetro 125",
+  "provincia": "Buenos Aires",
+  "depto_1960": "San Andrés de Giles",
+  "poblacion": "192",
+  "deptos_modernos": "San Andrés de Giles",
+  "pista": ""
+ },
+ {
+  "page": "v9_1_2_p05",
+  "n_orden": "147",
+  "localidad": "Yacimiento Petrolífero Solano",
+  "provincia": "Chubut",
+  "depto_1960": "Escalante",
+  "poblacion": "127",
+  "deptos_modernos": "Escalante",
+  "pista": ""
+ }
+]

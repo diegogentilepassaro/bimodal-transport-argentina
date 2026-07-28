@@ -113,3 +113,8 @@ data/raw/**/*.sav
 
 # ---- .gitkeep files ARE committed ------------------------------------------
 !**/.gitkeep
+
+# ---- Excepción: censo 1960 georreferenciado (digitalización propia) --------
+# Datos producidos por nosotros, no obtenibles de terceros: van a git.
+!data/raw/census/geocoding_1960/
+!data/raw/census/geocoding_1960/**
