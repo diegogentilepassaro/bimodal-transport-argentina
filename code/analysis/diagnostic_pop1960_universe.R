@@ -95,21 +95,8 @@ suppressPackageStartupMessages({
     library(fixest)
 })
 
-# Row accumulator shared by all parts.
-new_sink <- function() {
-    e <- new.env(parent = emptyenv())
-    e$rows <- list()
-    e$add <- function(...) {
-        r <- data.frame(..., stringsAsFactors = FALSE)
-        for (col in c("se", "p_value", "n_obs")) {
-            if (is.null(r[[col]])) r[[col]] <- NA_real_
-        }
-        e$rows[[length(e$rows) + 1L]] <- r[, c("part", "stat", "var",
-                                               "value", "se", "p_value",
-                                               "n_obs")]
-    }
-    e
-}
+# Row accumulator shared by all parts: new_sink() from
+# _diagnostic_helpers.R, with this script's column set (no first-stage F).
 
 # ---------------------------------------------------------------------------
 # Part 0: the mismatch, from in-repo quantities only.
@@ -479,6 +466,8 @@ main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)   # new_sink()
 
     message("\n", strrep("=", 72))
     message("diagnostic_pop1960_universe.R  |  1960 universe mismatch")

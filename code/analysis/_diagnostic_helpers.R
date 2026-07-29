@@ -172,3 +172,38 @@ add_map_furniture <- function(km = 500, crs_label = "WGS84 (EPSG:4326)") {
     graphics::text(xa, y0 + 0.130 * dy, "N", cex = 0.8, font = 2,
                    col = "grey20")
 }
+
+# ---------------------------------------------------------------------------
+# Row accumulator for the long-format diagnostic CSVs.
+#
+# The pattern: a diagnostic runs several independent parts, each emitting a
+# handful of (part, stat, var, value, ...) rows, and the parts do not share
+# a column set. Accumulating into an environment lets each part call add()
+# with only the columns it has, and get NA for the rest, without every
+# caller having to construct a full-width data.frame.
+#
+# extra_cols: numeric columns beyond the four required ones, in the order
+#   they should appear. Callers that emit a first-stage F pass
+#   extra_cols = c("se", "p_value", "first_stage_F", "n_obs"); callers that
+#   do not pass c("se", "p_value", "n_obs"). Column ORDER is part of the
+#   contract because the committed CSVs are diffed against reruns.
+#
+# Was copy-pasted in diagnostic_pop1960_universe.R and
+# diagnostic_placebo_universe.R with two different column sets, which is
+# why the schema is a parameter rather than a constant.
+# ---------------------------------------------------------------------------
+new_sink <- function(extra_cols = c("se", "p_value", "n_obs")) {
+    stopifnot(is.character(extra_cols), !anyDuplicated(extra_cols),
+              !any(c("part", "stat", "var", "value") %in% extra_cols))
+    cols <- c("part", "stat", "var", "value", extra_cols)
+    e <- new.env(parent = emptyenv())
+    e$rows <- list()
+    e$add <- function(...) {
+        r <- data.frame(..., stringsAsFactors = FALSE)
+        for (col in extra_cols) {
+            if (is.null(r[[col]])) r[[col]] <- NA_real_
+        }
+        e$rows[[length(e$rows) + 1L]] <- r[, cols]
+    }
+    e
+}
