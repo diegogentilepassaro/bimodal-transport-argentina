@@ -98,6 +98,19 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       keep the baseline-MA control, and report the result as a
       marginal rejection rather than a clean null. Cote's visto bueno
       is what remains.
+      ⚠ READ ITEM H FIRST (found 2026-07-29, after PR #145 shipped).
+      The placebo OUTCOME mixes universes: chg_log_placebo_pop_60_47 =
+      log(pop_1960) - log(pop_1947), which is locality-universe 1960
+      against full-universe 1947, and 143 of the 237 districts
+      "shrink" as a result. Everything below is about which BASELINE
+      CONTROLS to use; item H is about whether the outcome measures
+      what the table says it measures. The control question does not
+      go away, but it is the second-order one. TESTED in PR #149 with a
+      universe-comparable placebo (urban population on both ends): the
+      point estimates fall hard but the movement is NOT statistically
+      distinguishable from zero, so the rejection is fragile to how the
+      outcome is measured without being shown to be caused by the
+      coverage gap. Detail and the numbers in item H.
       WHY THE POSITION CHANGED (PR #143): the clean null in full47
       comes from DROPPING baseline log MA, not from swapping the
       population baseline to 1947 — pop47 alone moves IV-B p only
@@ -336,13 +349,141 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       correlation exists and a referee may ask; agreed answer is
       the density/over-control + mechanical-entanglement rationale
       (decision recorded in DEFERRED LEDGER; no sensitivity table).
-- [ ] G. COLLECT FROM COTE (tracked in section 1): the #68 lookup
-      (report's studied definition + network denominator), the
-      #113 CABA-node sign-off, the DNV publication volume, and
-      geocoding branch status.
+- [ ] G. COLLECT FROM COTE (tracked in section 1). Original four: the
+      #68 lookup (report's studied definition + network denominator),
+      the #113 CABA-node sign-off, the DNV publication volume, and
+      geocoding branch status — the last of which is now answered, his
+      branch landed 2026-07-28 (PR #146 open, review published).
+      ADDED 2026-07-29 after the intake review and item H:
+      (i) DO THE 1960 VOLUMES PUBLISH DEPARTAMENTO TOTALS (including
+          dispersed rural population)? This is the highest-value ask on
+          the list — see item H. It rides the same archive visit as the
+          #68 lookup and the V parameter for Decision A option 1a.
+      (ii) Was volume 2 (Capital Federal) skipped from the geocoding by
+          design? Near-certain yes (his v3-v9 = our Parts 3-9), but it
+          should be confirmed and stated in the folder readme rather
+          than left as a silent omission.
+      (iii) What was the plan behind the `propuesto` / `en_muestra` /
+          `pendiente_muestra` labels? The column names suggest a
+          sample-and-extrapolate QC design rather than an intent to
+          confirm 1,003 rows one by one. Ask before proposing a
+          triage, so we do not cut across his design.
+      (iv) Provenance and licence for ref/deptos_argentina.geojson
+          (55 MB, third-party, no source recorded).
+      (v) The 19 geocoding scripts with hardcoded Windows paths: make
+          them runnable, or relabel as an archived non-runnable record?
+      (vi) The 23 `rojo` rows (point outside its expected departamento)
+          are worth his eyes regardless of any sampling design: a
+          cross-district location error is the one kind MA cares about.
+
+- [ ] H. THE 1960 POPULATION UNIVERSE (new, 2026-07-29, PR #147).
+      FINDING: data/raw/census/censo1960/1c1960_*.xlsx has three
+      columns — provincia, distrito, pop — ONE ROW PER LOCALITY, no
+      locality name, no rural-dispersed line. So pop_1960 is
+      "population living in named localities", NOT district
+      population; dispersed rural population is absent from the source
+      and cannot be in it. pop_1970 and later, from IPUMS, do include
+      it. This is a property of the source, not a coding bug.
+      DECISIVE INTERNAL EVIDENCE (needs no external benchmark):
+      pop_1947 is Cuadro 1 = DISTRICT TOTALS, a full universe. On the
+      237 districts where both exist, pop_1960 is BELOW pop_1947 in
+      143 of them (60%); aggregate ratio 1.146 over 1947-60 against
+      1.460 over 1960-70. Population does not fall in most of a
+      country over thirteen years.
+      WHERE IT PROPAGATES: (1) chg_log_pop_91_60, the headline
+      outcome; (2) urbshr_1960 and chg_urbshr_91_60; (3) log_pop_1960
+      as a baseline control; (4) the MA population weights, which
+      under-weight rural destinations relative to CABA (CABA has
+      almost no dispersed rural population, rural districts have a
+      lot); (5) THE PLACEBO — see below.
+      ⚠ THE PLACEBO OUTCOME IS THE SAME MISMATCH.
+      chg_log_placebo_pop_60_47 = log(pop_1960) - log(pop_1947)
+      exactly (verified), so it is full-universe 1947 against
+      locality-universe 1960, and the 143 districts that "shrink" are
+      exactly the 143 above. Table 7 is therefore measuring
+      1947-60 growth PLUS cross-district variation in 1960 locality
+      coverage. The coverage shortfall's relation to the treatment is
+      a partial correlation of -0.119 with p = 0.065, and PR #147's
+      pre-committed verdict on treatment-correlation is INCONCLUSIVE
+      (its two proxies disagree in sign once conditioned). Both
+      qualifiers matter and an earlier draft of this entry dropped
+      them, quoting p = 0.039, a number that appears nowhere in the
+      diagnostic.
+      TESTED (PR #149): a universe-comparable placebo measuring both
+      endpoints on an agglomerated concept — urbpop_1947 against
+      urbpop_1960. The 1947 urban threshold was checked rather than
+      assumed: across the 24 Cuadro 14 sheets the smallest positive
+      population is 2,002 and none is below 2,000, so both sides use
+      the same 2,000 rule.
+      RESULT: apparent DECLINE affects 143 of 237 districts on the
+      published outcome and 27 of 234 on the comparable one, and the
+      published outcome correlates +0.304 with the coverage proxy
+      against +0.100 for the comparable one at similar SDs. Point
+      estimates fall hard (OLS +0.0253 -> +0.0039; IV-B +0.0829 ->
+      +0.0484, both against the same-sample row).
+      BUT THE MOVEMENT IS NOT DISTINGUISHABLE FROM ZERO. Rows share a
+      sample and 2SLS is linear in the outcome, so the slope
+      difference is exactly estimable: OLS +0.0214 (p 0.114), IV-LP
+      +0.0434 (p 0.229), IV-B +0.0345 (p 0.299). And the ten-percent
+      crossing is NOT the outcome's doing — IV-B's p runs 0.085 to
+      0.105 on the same outcome with three fewer districts, then to
+      0.293.
+      SO THE DEFENSIBLE CLAIM IS: the placebo rejection is not robust
+      to how the outcome is measured, and the published outcome is
+      measurably more contaminated — NOT that the coverage gap caused
+      the rejection.
+      ⚠ AND MY EARLIER SIGN REASONING WAS WRONG. This entry first
+      guessed the artifact pushed the slope DOWN, so the true
+      pre-trend might exceed +0.084. It was labelled a hypothesis
+      because it ran through the contaminated proxy, and the test
+      reversed it: removing the artifact lowers the slope, so the
+      artifact was pushing it UP. Recorded because the guess reached
+      the coauthor brief before the test did.
+      This still reframes agenda item B: the pop47-vs-full47 control
+      debate sits on top of an outcome whose measurement is contested,
+      and the control question should not close the placebo discussion
+      on its own.
+      WHAT IS NOT SETTLED: whether the mismatch biases the IV
+      estimates. PR #147's Part 1 is INCONCLUSIVE by its own
+      pre-committed rule (the two coverage proxies disagree in sign
+      against the treatment once conditioned on controls; the Larkin
+      instrument does predict urbshr_1960 at p 0.007 but predicts
+      neither cov60 nor the growth gap). Part 2's shorter windows have
+      a rival explanation: a 1970 or 1980 baseline is already partly
+      treated by the 1960-86 change, so a first-decade response is
+      differenced away, and no aligned treatment exists.
+      WHAT IS CLEAR: the population OLS estimate is sensitive
+      (+0.0247 → +0.0089 with a coverage control, +0.0047 on the
+      1970-91 window); the IV estimates move less (IV-B +0.0518 →
+      +0.0471 / +0.0373; IV-LP +0.0456 → +0.0487 / +0.0451). Note the
+      direction is inconvenient for §5.2: correcting the mismatch
+      pushes OLS DOWN and WIDENS the OLS/IV gap that §5.2 attributes
+      to attenuation and selection.
+      THE FIX IS A DATA REQUEST: the published departamento totals in
+      the 1960 volumes, which neither digitization captured (item G
+      (i)).
 
 ### 1. Waiting on Cote (independent of the meeting)
 
+- [ ] 1960 DEPARTAMENTO TOTALS from the published volumes — the fix
+      for item H, and the highest-value item on the archive list.
+      Neither our digitization (locality lists, Parts 2-9) nor Cote's
+      geocoding (v3-v9) captured a departamento-total column, so we
+      have no full-universe 1960 population at district level. Rides
+      the same archive visit as the #68 lookup and the V parameter for
+      Decision A option 1a. Until it lands, pop_1960 stays a
+      locality-universe variable and everything in item H stands.
+- [x] Geocoding 1960 intake — HIS BRANCH LANDED 2026-07-28.
+      PR #146 opened and reviewed 2026-07-29 (review published on the
+      thread, plus a correction: the first review claimed a ~6M
+      coverage gap against a half-remembered national total, when
+      against our own non-CABA 1960 figure the file reconciles to
+      99.90%). NOT MERGED: four intake fixes are ours (narrow the
+      recursive .gitignore whitelist, coverage + QC statements and the
+      join key in the readme, the citation — INDEC did not exist in
+      1960 — and declaring Python), and two questions are his (item G
+      (iv) and (v)). Downstream MA integration remains gated on the
+      θ/τ conversation and now also on item H.
 - [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
       `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
       branch `data/geocoding-1960` (data to
@@ -959,6 +1100,34 @@ items themselves (section 0), not here.
       (\placeboOLSP, \placeboIVBP) so the significance claims are
       p-values rather than words — the words were what broke. 55 pp,
       zero undefined, zero warnings. Detail in agenda item B.
+
+- [x] PR #146 (open) — Cote's 1960 geocoding intake, 3,063 localities.
+      Archive checksum verified against the readme, the "sin fuente no
+      hay coordenada" rule verified to hold, and the file reconciles to
+      99.90% of our own non-CABA 1960 total. Review published; blockers
+      are ours, not his. Detail in section 1 and agenda item G.
+- [x] PR #149 — universe-comparable placebo. Established that Table 7's
+      rejection is fragile to how the outcome is measured (apparent
+      declines 143/237 vs 27/234; published outcome correlates +0.304
+      with the coverage proxy vs +0.100) while the slope movement is
+      not distinguishable from zero (difference test p 0.11-0.30) and
+      the ten-percent crossing comes from a three-district sample
+      change rather than the outcome swap. Also settled in-repo that
+      the 1947 and 1960 urban definitions share the 2,000 rule
+      (smallest Cuadro 14 centre is 2,002, none below), recorded in
+      censo1947/readme.md. Its review caught a wrong p-value (0.039
+      for 0.065) that this ledger had inherited, and a headline
+      asserted without the test that was one line away.
+- [x] PR #147 — the 1960 population universe mismatch, found while
+      reviewing #146. See agenda item H for the finding and what it
+      does and does not settle. Its own review found five blocking
+      problems, four of them overstatements in the write-up rather
+      than errors in the numbers: the orthogonality claim rested on
+      raw instead of control-conditional correlations, and the script
+      had written a stopping rule it then made impossible to trigger.
+      Rebuilt; the rule now fires and Part 1 reports INCONCLUSIVE. The
+      review also supplied the better argument the fix pass adopted
+      (the 1947 district-totals comparison).
 
 APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
 two lettered sections — A. Recent Migration (prose) and B. Additional
