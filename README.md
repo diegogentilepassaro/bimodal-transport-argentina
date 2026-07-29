@@ -22,9 +22,12 @@ every table, figure, and in-text number out.
 Approximate total runtime: 2 hours on the reference machine (see Computational
 Requirements). The dominant step is the least-cost-path (tau) computation.
 
-Note on repository vs. deposit: the git repository contains **code only**
-(all raw-data formats are gitignored). The data deposit archive contains
-`data/raw/` in full, except the IPUMS microdata (see Data Availability).
+Note on repository vs. deposit: the git repository contains the code plus one
+raw-data exception, the 1960 locality geocoding
+(`data/raw/census/geocoding_1960/`), which is committed because it is our own
+non-regenerable digitization; every other raw-data format is gitignored. The
+data deposit archive contains `data/raw/` in full, except the IPUMS microdata
+(see Data Availability).
 Code license: MIT (see `LICENSE`); data are subject to the per-source
 licenses listed below.
 
@@ -56,6 +59,7 @@ provenance. Summary:
 | IPUMS `geolev2` district boundaries (time-invariant, 312 districts) | `data/raw/geo/` | Yes | Distributed with IPUMS International; shapefile included. |
 | Censo Nacional de Población 1960 (digitized) | `data/raw/census/censo1960/` | Yes | Argentine government publication (public domain); transcribed by the authors from volumes at the Biblioteca del Congreso de la Nación and INDEC library. |
 | Cuarto Censo General de la Nación 1947 (digitized) | `data/raw/census/censo1947/` | Yes | Public domain; transcribed by the authors (same libraries). |
+| Censo 1960 locality list geocoded to coordinates (3,063 localities, 23 provinces) | `data/raw/census/geocoding_1960/` | Yes (in the git repository as well) | Census figures are public domain, transcribed by the authors from volumes v3–v9 (Capital Federal, volume 2, is not covered). Coordinates were matched against third-party gazetteers whose licenses differ and are **not yet resolved** — Georef/`apis.datos.gob.ar`, Wikipedia (CC-BY-SA), OpenStreetMap–Nominatim (ODbL), BAHRA, dices.net; per-row provenance is in the `fuente` column. `ref/` redistributes third-party district geometry pending a provenance and license decision. A third of rows are not human-confirmed; see that folder's `readme.md` before use. Page scans (414 MB) are hosted outside git with a sha256 recorded in the readme. `[AUTHORS: resolve coordinate-source attribution and ref/ licensing before deposit]` |
 | Industrial censuses 1954, 1985 (digitized) | `data/raw/industrial/` | Yes | Public domain; transcribed by the authors. Issuing agency of the 1954 census under confirmation (repo issue #91). |
 | Agricultural censuses 1960, 1988 (digitized) | `data/raw/agricultural/` | Yes | Public domain; transcribed by the authors. |
 | Rail network 1979 with Larkin attributes (`lp_1979.shp`) | `data/raw/networks/` | Yes | Digitized by the project team from the 1979 *Política Ferroviaria* report (government publication). |
@@ -90,7 +94,15 @@ geographic rasters.
 - `code/00_setup.R` (called by `main.R` Stage A) restores the environment via
   `renv::restore()`, falling back to `install.packages()` from the lockfile.
   No manual package installation is needed.
-- Python is **not** used (`requirements.txt` is intentionally empty).
+- Python is **not** used by the replication pipeline: nothing `main.R` calls
+  depends on it, and the top-level `requirements.txt` is intentionally empty.
+  One set of files outside the pipeline is Python: the 1960 locality
+  geocoding scripts in `code/base/census_1960/geocoding/` (35 scripts), a
+  one-time digitization whose output is committed under
+  `data/raw/census/geocoding_1960/`. Those are an archived record rather
+  than a runnable step (see that folder's `readme.md`); their dependencies
+  are pinned in `code/base/census_1960/geocoding/requirements.txt`.
+  Reproducing the paper does not require running them.
 - LaTeX (pdflatex + bibtex) to compile the paper; not needed for the results.
 
 ### Memory, Runtime, Storage

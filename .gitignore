@@ -114,7 +114,27 @@ data/raw/**/*.sav
 # ---- .gitkeep files ARE committed ------------------------------------------
 !**/.gitkeep
 
-# ---- Excepción: censo 1960 georreferenciado (digitalización propia) --------
-# Datos producidos por nosotros, no obtenibles de terceros: van a git.
+# ---- Exception: 1960 geocoding (own digitization) ---------------------------
+# Two different things live in this folder and the reasons differ:
+#   - the digitization itself (transcription, ledgers, pinned API caches):
+#     produced by us, NOT obtainable from third parties, and not
+#     regenerable, so it belongs in git;
+#   - ref/: third-party reference geometry and a codebook, REDISTRIBUTED
+#     here for convenience. Provenance and licence are pending (issue
+#     raised on PR #146) and the 55 MB geojson is a candidate for removal
+#     in favour of a documented download.
+#
+# SCOPED BY EXTENSION ON PURPOSE (cr-review PR #146). A recursive
+# "!.../geocoding_1960/**" sits after every rule above it and so overrode
+# them all for this subtree, including *.tif and the large-file rules --
+# any file of any size dropped in here would have been committed
+# silently. Add a line when a new extension is genuinely needed.
 !data/raw/census/geocoding_1960/
-!data/raw/census/geocoding_1960/**
+!data/raw/census/geocoding_1960/**/
+!data/raw/census/geocoding_1960/**/*.csv
+!data/raw/census/geocoding_1960/**/*.md
+!data/raw/census/geocoding_1960/**/*.json
+!data/raw/census/geocoding_1960/**/*.html
+# ref/: enumerated file by file, so nothing new lands here unnoticed.
+!data/raw/census/geocoding_1960/ref/deptos_argentina.geojson
+!data/raw/census/geocoding_1960/ref/ar60divp.pdf
