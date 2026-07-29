@@ -92,11 +92,35 @@ main <- function() {
             all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
         }
 
-        # Pull out IV first-stage F for reporting
+        # Pull out IV first-stage F for reporting, classical and
+        # effective. The Montiel Olea-Pflueger effective F is the
+        # statistic a referee now asks for: it is robust to
+        # heteroskedasticity (the classical F is not, and every spec here
+        # uses HC1) and, unlike the classical F, its critical values are
+        # defined for more than one instrument. eff_F_from_fit() is the
+        # implementation validated in diagnostic_modern_iv.R.
+        #
+        # Sample: fit_iv_quad NA-drops per model, so the effective F must
+        # be computed on the same complete-case rows as the fit it sits
+        # beside, not on the full frame.
+        cc_vars <- c(y, main_treatment, main_lp_instrument,
+                     main_hypo_instrument, geo_controls_main)
+        d_cc <- as.data.frame(d)[complete.cases(as.data.frame(d)[, cc_vars]), ]
+        stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
         f_stats[[y]] <- list(
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
-            both = fitstat_F(fits[["IV-B"]])
+            both = fitstat_F(fits[["IV-B"]]),
+            eff_lp   = eff_F_from_fit(d_cc, main_treatment,
+                                      main_lp_instrument,
+                                      geo_controls_main),
+            eff_hypo = eff_F_from_fit(d_cc, main_treatment,
+                                      main_hypo_instrument,
+                                      geo_controls_main),
+            eff_both = eff_F_from_fit(d_cc, main_treatment,
+                                      c(main_lp_instrument,
+                                        main_hypo_instrument),
+                                      geo_controls_main)
         )
     }
 
@@ -151,11 +175,15 @@ main <- function() {
         # Add first-stage F as a row
         fs <- f_stats[[y]]
         add_rows <- tibble::tibble(
-            ` `           = "First-stage $F$",
-            `(1) OLS`     = "---",
-            `(2) IV-LP`   = sprintf("%.1f", fs$lp),
-            `(3) IV-Hypo` = sprintf("%.1f", fs$hypo),
-            `(4) IV-Both` = sprintf("%.1f", fs$both)
+            ` `           = c("First-stage $F$",
+                              "Effective $F$ (MOP)"),
+            `(1) OLS`     = c("---", "---"),
+            `(2) IV-LP`   = c(sprintf("%.1f", fs$lp),
+                              sprintf("%.1f", fs$eff_lp)),
+            `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo),
+                              sprintf("%.1f", fs$eff_hypo)),
+            `(4) IV-Both` = c(sprintf("%.1f", fs$both),
+                              sprintf("%.1f", fs$eff_both))
         )
 
         tbl <- modelsummary(
@@ -192,6 +220,19 @@ main <- function() {
         "% errors. The first-stage F reported is the Wald F for the",
         "% excluded instrument(s) in that column.",
         "%",
+        "% Effective F (MOP) is the Montiel Olea-Pflueger (2013) effective",
+        "% F statistic, controls partialled out of the treatment and the",
+        "% instruments. It is the one to read here. The first-stage F row",
+        "% above it is the CLASSICAL F, which assumes homoskedasticity",
+        "% while these specifications use HC1; and in column (4) the",
+        "% classical F has no defined critical value with two instruments.",
+        "% (Note that Table 8's first-stage F is robust rather than",
+        "% classical, so the two tables' F rows are not the same statistic.)",
+        "% Identification-robust Anderson-Rubin confidence sets for every",
+        "% cell, and the MOP critical values, are in",
+        "% results/tables/diagnostic_modern_iv.txt (they are wide and are",
+        "% reported there rather than in this table).",
+        "%",
         "% Urban-share caveat: IPUMS 1991 uses a different urban/rural",
         "% classification than the 1960 digitized census. See Section 3.",
         "",
@@ -221,6 +262,16 @@ main <- function() {
                     spec == "OLS",
                     NA_real_,
                     fitstat_F(m)
+                ),
+                # The .tex is gitignored, so the CSV is the only
+                # coauthor-visible copy in the repo; the effective F has
+                # to be here or it is invisible outside a LaTeX build.
+                effective_F = switch(
+                    spec,
+                    "OLS"   = NA_real_,
+                    "IV-LP" = f_stats[[y]]$eff_lp,
+                    "IV-H"  = f_stats[[y]]$eff_hypo,
+                    "IV-B"  = f_stats[[y]]$eff_both
                 )
             )
         }

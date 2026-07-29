@@ -54,9 +54,22 @@ retain predictive power: the Larkin Plan coefficient is \fsJointLPCoef{} (\fsJoi
 and the hypothetical-road coefficient is \fsJointHypoCoef{} (\fsJointHypoSE{}); the joint $F$
 is \firstStageFBoth{}.
 
+Because the specifications use heteroskedasticity-robust standard errors,
+and because column~(3) has two instruments, Tables~\ref{tab:first_stage}
+and~\ref{tab:population_iv} also report the Montiel Olea and Pflueger
+effective $F$ statistic, which is the statistic to compare against
+weak-instrument critical values in this setting.
+% [AUTHORS: add the Montiel Olea and Pflueger (2013, JBES) bibliography
+% entry and cite it here. Left descriptive rather than \citet{} because
+% references.bib has no verified entry yet and inventing one is worse.]
+It is \effFLP{} for the
+Larkin Plan instrument alone, \effFHypo{} for the hypothetical-road
+instrument alone, and \effFBoth{} in the joint specification.
+
 The Larkin Plan instrument alone exceeds the Stock--Yogo rule-of-thumb
 threshold of 10. The hypothetical-road instrument alone does not. The
-joint specification exceeds the threshold and is adopted as the main
+joint specification exceeds the threshold on both the reported $F$ and the
+effective $F$, and is adopted as the main
 specification throughout this section. The hypothetical-road-only
 column is reported so that the two sources of variation can be
 inspected separately.

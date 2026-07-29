@@ -120,6 +120,21 @@ main <- function() {
         r <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-B")
         if (nrow(r) == 1L) {
             macros[["firstStageFBoth"]] <- sprintf("%.2f", r$first_stage_F)
+            # Montiel Olea-Pflueger effective F, added to the Table 9 CSV
+            # in PR #155. Needed in prose because Section 5 makes a
+            # Stock-Yogo threshold claim, and the effective F is the
+            # statistic that claim should be made about under HC1.
+            if ("effective_F" %in% names(r)) {
+                macros[["effFBoth"]] <- sprintf("%.2f", r$effective_F)
+            }
+        }
+        r_lp9 <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-LP")
+        if (nrow(r_lp9) == 1L && "effective_F" %in% names(r_lp9)) {
+            macros[["effFLP"]] <- sprintf("%.2f", r_lp9$effective_F)
+        }
+        r_h9 <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-H")
+        if (nrow(r_h9) == 1L && "effective_F" %in% names(r_h9)) {
+            macros[["effFHypo"]] <- sprintf("%.2f", r_h9$effective_F)
             macros[["mainPopCoefIVBoth"]]     <- sprintf("%.3f", r$estimate)
             macros[["mainPopSEIVBoth"]]       <- sprintf("%.3f", r$std_err)
             macros[["mainPopCoefIVBothP"]]    <- sprintf("%.3f", r$p_value)
