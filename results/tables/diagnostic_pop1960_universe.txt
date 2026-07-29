@@ -1,0 +1,83 @@
+============================================================================== 
+THE 1960 POPULATION UNIVERSE MISMATCH AND WHAT IT DOES
+Generated: 2026-07-29 12:09:11
+============================================================================== 
+
+PART 0 - THE MISMATCH, FROM IN-REPO QUANTITIES ONLY
+  census_1960_ipums.parquet: 312 districts
+    pop          16,525,221
+    urbpop       14,772,371   (localities > 2000)
+    rur           1,752,850   (localities <= 2000)
+    of which Capital Federal 2,966,634, rest 13,558,587
+  implied 1960 urban share: 89.4%
+  estimation sample (311 districts, CABA dropped):
+    pop_1960     13,558,587
+    pop_1970     20,435,300
+    pop_1991     32,020,391
+  implied 1960->1970 growth: 1.51x over one decade (4.2%/yr)
+  implied 1960->1991 growth: 2.36x
+  READ THIS AS: a decadal growth rate and an urban share of that
+  size are not credible for Argentina in 1960. Both are what you
+  get when a locality-list denominator meets a full-population
+  numerator. The source has no dispersed-rural rows to include,
+  so this is a property of the data, not a coding error.
+  OPEN: confirm against the published departamento totals in the
+  1960 volumes, which neither digitization captured.
+
+PART 1 - IS THE ERROR TREATMENT-CORRELATED?
+  Coverage proxy c_i = pop_1960 / pop_1970. Distribution:
+    q5%   0.272
+    q25%  0.465
+    q50%  0.598
+    q75%  0.740
+    q95%  0.875
+
+  Correlations (two proxies; agreement is the signal):
+    target                           cov60  urbshr60
+    chg_logMA_86_60_s0_elow         -0.264    -0.124
+    chg_logMA_stu_s0_elow           +0.029    +0.098
+    chg_logMA_lcp_mst_s0_elow       -0.056    +0.034
+    chg_log_pop_91_60               -0.794    -0.253
+    dist_to_BA_std                  -0.453    -0.340
+    urbshr_1960                     +0.429        NA
+
+  Headline population IV, with and without the coverage proxy
+  as a control (the direct sensitivity):
+    OLS   as published +0.0247 (0.0123) p=0.046 | + c_i +0.0089 (0.0089) p=0.318
+    IV-B  as published +0.0518 (0.0311) p=0.096 | + c_i +0.0471 (0.0258) p=0.069
+
+  LIMIT (fixed before the numbers were seen): c_i is
+  contaminated by genuine 1960-70 growth, so a low value can mean
+  high dispersed-rural share OR fast growth. If the two proxies
+  disagree in sign against the treatment or the instruments, this
+  part is inconclusive and must be reported as such.
+
+PART 2 - OUTCOMES ON ONE UNIVERSE (1970->1991, both IPUMS)
+  Outcome / window           Spec         beta        SE        p      N
+  pop_91_60_published        OLS       +0.0247    0.0123    0.046    311
+  pop_91_60_published        IV-LP     +0.0456    0.0399    0.254    311
+  pop_91_60_published        IV-H      +0.0694    0.0684    0.311    311
+  pop_91_60_published        IV-B      +0.0518    0.0311    0.096    311
+  pop_91_70_consistent       OLS       +0.0047    0.0087    0.593    311
+  pop_91_70_consistent       IV-LP     +0.0451    0.0297    0.130    311
+  pop_91_70_consistent       IV-H      +0.0151    0.0587    0.798    311
+  pop_91_70_consistent       IV-B      +0.0373    0.0271    0.170    311
+  urbshr_91_60_published     OLS       +0.0012    0.0054    0.820    311
+  urbshr_91_60_published     IV-LP     +0.0030    0.0178    0.868    311
+  urbshr_91_60_published     IV-H      -0.0260    0.0395    0.512    311
+  urbshr_91_60_published     IV-B      -0.0046    0.0159    0.773    311
+
+  The 1970-91 rows remove the mismatch and cost a decade of the
+  window; the treatment is unchanged (1960-86 market access). If
+  the coefficient survives here, the mismatch is a documentation
+  and data-request item. If it does not, it is a results item.
+  Precedent for the shorter window: every outcome in Table 11 is
+  measured 1970-91 because IPUMS has no earlier microdata.
+
+  NOT FIXABLE THE SAME WAY: the urban-share outcome. urbpop_1970
+  is entirely missing from the IPUMS extract (0 of 311), so no
+  1970 urban share can be formed and chg_urbshr_91_60 keeps the
+  mismatch with no in-repo remedy. Its 1960 leg also sits on the
+  inflated locality-universe denominator (implied urban share
+  above). Treat that outcome as the weakest of the four in
+  Table 9 until a 1970 urban indicator is obtained.
