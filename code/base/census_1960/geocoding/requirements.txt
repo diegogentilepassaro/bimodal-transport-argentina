@@ -1,0 +1,48 @@
+# Python dependencies for the 1960 locality geocoding scripts in this folder.
+#
+# SCOPE. These scripts are NOT part of the replication pipeline. `code/main.R`
+# never calls them and reproducing the paper does not require Python; the
+# top-level `requirements.txt` is empty for that reason. This folder is a
+# one-time digitization whose output is committed under
+# `data/raw/census/geocoding_1960/`. See that folder's `readme.md` for why the
+# scripts are an archived record rather than a runnable step.
+#
+# PROVENANCE OF THESE PINS -- read before treating them as a reproduction
+# environment. The versions below are NOT the versions that produced the
+# committed data; the production environment (a Windows machine) did not
+# record them, and that is an open question for the digitizing coauthor. They
+# are the versions present in the environment where the dependency list was
+# derived (macOS, Python 3.9.6), recorded so that a reader has one concrete
+# working set rather than an unbounded range. `pypdf` was not installed there,
+# so it carries a bounded range instead of an exact pin: the only API used is
+# `PdfReader(...).pages` with `extract_text()` (parse_1960_oficial.py:12,37),
+# stable across the 3.x-6.x line, and the range endpoints were checked against
+# the versions PyPI actually publishes rather than guessed.
+#
+# The list itself is complete and derived from the imports, not estimated:
+# every non-stdlib, non-local import across the 35 scripts appears here.
+#
+#   requests    -- Georef / apis.datos.gob.ar and Wikipedia lookups only
+#                  (geocode_georef.py, guard_ubicacion.py, enrich_wiki.py,
+#                  validar_nombres_wiki.py). NOT Nominatim: no script in this
+#                  folder queries Nominatim or OpenStreetMap. The 54 rows
+#                  whose `fuente` names OSM/Nominatim were looked up by hand,
+#                  which is why they leave no trace in the code.
+#   Pillow      -- page-image cropping for the human-check sheets
+#   pypdfium2   -- rendering scanned volume pages to PNG (render_pages.py)
+#   pypdf       -- text extraction from the 1960 official division PDF
+#                  (parse_1960_oficial.py)
+#   pandas      -- reading the 1c1960_*.xlsx control tables
+#   openpyxl    -- required by pandas.read_excel for .xlsx; not imported
+#                  directly by any script, so it will not show up in a grep
+#                  of the imports
+#   shapely     -- point-in-departamento containment check
+#                  (check_contiguidad.py)
+
+requests==2.32.5
+Pillow==11.3.0
+pypdfium2==4.30.0
+pypdf>=3.9,<7
+pandas==2.3.2
+openpyxl==3.1.5
+shapely==2.0.7

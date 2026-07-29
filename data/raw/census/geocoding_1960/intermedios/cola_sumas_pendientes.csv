@@ -1,0 +1,7 @@
+page,n_orden,localidad,provincia,departamento,total,varones,mujeres,suma_vm,delta,recorte,nota
+v4_p06,558,El Fuertecito,Córdoba,San Justo,578,303,271,574,4,pages/checks/pend_El_Fuertecito.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido
+v4_p07,313,Grutly,Santa Fe,Las Colonias,1349,712,537,1249,100,pages/checks/pend_Grutly.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido
+v5_p02,234,Colonia Hocker,Entre Ríos,Colón,410,222,156,378,32,pages/checks/pend_Colonia_Hocker.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido
+v5_p06,259,Saenz Valiente,Corrientes,Monte Caseros,333,160,153,313,20,pages/checks/pend_Saenz_Valiente.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido
+v6_p06,140,Simbolar,Santiago del Estero,Banda,525,337,288,625,-100,pages/checks/pend_Simbolar.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido
+v6_p06,202,Sumamao,Santiago del Estero,Silípica,305,157,228,385,-80,pages/checks/pend_Sumamao.png,imagen coincide con crudo; decidir: error de fuente vs digito mal leido

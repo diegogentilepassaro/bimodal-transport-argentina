@@ -1,0 +1,79 @@
+[
+ {
+  "page": "v7_p02",
+  "n_orden": "23",
+  "localidad": "Bella Vista",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Ley provincial 4518 de 1976 (reorganizacion departamental de Tucuman) - Anexo:Departamentos de la provincia de Tucuman, Wikipedia",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_provincia_de_Tucum%C3%A1n",
+  "ley_o_anio": "Ley provincial 4518 (1976)",
+  "confianza": "media",
+  "nota": "La ley provincial 4518 de 1976 reorganizo la division de Tucuman en 16 departamentos mas Capital y fijo en ese ano los limites de Leales y Famailla; desde entonces Bella Vista es cabecera de Leales. Antes de esa reorganizacion (censo 1960) figuraba en Famailla. El anexo de departamentos indica que la actual configuracion data de 1976 (ley 4518), acto que explica el paso Famailla -> Leales."
+ },
+ {
+  "page": "v7_p08",
+  "n_orden": "105",
+  "localidad": "Río Colorado",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Ley provincial 4518 de 1976 (reorganizacion departamental de Tucuman) - Anexo:Departamentos de la provincia de Tucuman, Wikipedia",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_provincia_de_Tucum%C3%A1n",
+  "ley_o_anio": "Ley provincial 4518 (1976)",
+  "confianza": "media",
+  "nota": "La misma ley 4518 de 1976 que reorganizo los departamentos de Tucuman fijo los limites actuales de Leales y Famailla; Rio Colorado, limitrofe con Famailla y listado alli en 1960, quedo en Leales tras esa reorganizacion. La actual division departamental rige desde 1976 (ley 4518)."
+ },
+ {
+  "page": "v4_p07",
+  "n_orden": "419",
+  "localidad": "Golondrina",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_provincia_de_Santa_Fe",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El departamento Vera fue creado el 31/12/1890 como desprendimiento de La Capital y General Obligado tambien data de 1890 (desde San Javier); ambos ya existian en 1960. No existe una ley unica que reasigne Golondrina: se trata de un reajuste de limite en la zona forestal (La Forestal) entre dos departamentos preexistentes. Busque el anexo de departamentos de Santa Fe, sitios provinciales y Wikipedia sin hallar norma citable."
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "155",
+  "localidad": "Manantial",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Ley provincial 4518 de 1976 (creacion del depto Lules al reorganizarse los departamentos de Tucuman) - Anexo:Departamentos de la provincia de Tucuman, Wikipedia",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_provincia_de_Tucum%C3%A1n",
+  "ley_o_anio": "Ley provincial 4518 (1976)",
+  "confianza": "media",
+  "nota": "El departamento Lules fue creado por la ley provincial 4518 de 1976, cuando Tucuman reorganizo su division departamental (16 departamentos mas Capital) con limites fijados ese ano. El Manantial, listado en el antiguo y extenso departamento Tafi en 1960, quedo dentro del nuevo Lules tras esa reorganizacion; la actual division data de 1976 (ley 4518)."
+ },
+ {
+  "page": "v4_p07",
+  "n_orden": "572",
+  "localidad": "Garabato",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_provincia_de_Santa_Fe",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Igual que Golondrina (comuna vecina a 13 km): Vera (creado 1890 desde La Capital) y General Obligado (1890, desde San Javier) ya existian en 1960. No hay ley que transfiera Garabato; es un reajuste de limite en la zona de obrajes de La Forestal entre dos departamentos preexistentes. Sin norma citable tras revisar el anexo de departamentos de Santa Fe y fuentes provinciales."
+ },
+ {
+  "page": "v4_p18",
+  "n_orden": "658",
+  "localidad": "Tinoco",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Departamento_Col%C3%B3n_(C%C3%B3rdoba)",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El departamento Colon proviene del cambio de nombre del depto Anejos Norte por decreto del gobernador Pizarro (1892), no de una segregacion de Rio Primero; ambos departamentos ya existian en 1960. La unica modificacion de limites documentada de Colon es la ley 7769 de 1988 (pedania Sinsacate, ex Totoral), que no afecta a Tinoco ni a Rio Primero. Tinoco esta sobre el limite Colon-Rio Primero (estacion del FC Cordoba-Santa Rosa de Rio Primero); es un reajuste de limite sin acto legal unico citable."
+ },
+ {
+  "page": "v3_p17",
+  "n_orden": "873",
+  "localidad": "Pasteur",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Partido_de_Lincoln",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "El partido de Lincoln fue creado por ley 5032 de 1865 y General Pinto en 1891; ambos ya existian en 1960. No se halla ley ni decreto que transfiera Pasteur de General Pinto a Lincoln (la ley 11071, que aparece en la busqueda, crea el partido Florentino Ameghino desde General Pinto y no menciona a Pasteur). Es un reajuste de limite o posible artefacto del censo, sin norma citable tras revisar normas.gba.gob.ar y Wikipedia de ambos partidos."
+ }
+]

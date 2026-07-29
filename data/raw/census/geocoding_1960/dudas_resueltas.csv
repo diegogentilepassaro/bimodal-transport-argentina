@@ -1,0 +1,14 @@
+page,n_orden,campo,estado,nota
+v3_p02,497,departamento,resuelta-confirmada,abreviatura -> Paso 1B
+v3_p02,828,localidad,resuelta-confirmada,lectura correcta
+v3_p08,768,localidad,resuelta-confirmada,Wikipedia exacto
+v3_p12,763,mujeres,resuelta-confirmada,vacio en la fuente
+v3_p06,564,localidad,resuelta-corregida,Jose: 'Dennhy' (censo); hoy Marcelino Ugarte/Dennehy -> Paso 3
+v3_p14,598,localidad,resuelta-incierta,Jose lee 'Lia'; mantener 'Lia Calel'; Wikipedia 'Lin Calel' -> Georef Paso 3
+v4_p05,2,varones,resuelta-confirmada,celda varones ilegible (borroneada); crudo=283871 = total-mujeres (586015-302144=283871); confirmado por derivacion
+v4_p19,223,localidad,resuelta-confirmada,"impreso 'Elofsa' = 'Eloisa' (la f es la i acentuada del scan); Villa Eloisa real de Iriondo, Santa Fe"
+v5_p02,303,localidad,resuelta-confirmada,imagen clara 'Caza Pava' (con z); = crudo
+v5_p08,254,localidad,resuelta-confirmada,impreso 'Iofre' = Yofre (Y sale como I en el scan; orden alfabetico entre Yerua y Yuqueri confirma Y); duda Y/T resuelta=Y; n_orden impreso parece 154 (crudo 254) a revisar aparte
+v7_p07,229,total,resuelta-confirmada,1er digito del total borroso; crudo=587 = varones+mujeres (284+303=587); confirmado por derivacion
+v7_p07,378,localidad,resuelta-confirmada,imagen='Palta de Aparzo' (t confirmada; duda l/t resuelta=t); toponimo real 'Palca de Aparzo' (Humahuaca) -> canonizacion Paso 3
+v8_p05,46,departamento,resuelta-confirmada,"imagen='Venticinco de Mayo' (misprint sin i, verbatim); canonico via 1B = Veinticinco de Mayo (San Juan)"

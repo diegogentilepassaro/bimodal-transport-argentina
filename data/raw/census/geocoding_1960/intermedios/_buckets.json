@@ -1,0 +1,802 @@
+{
+ "A": [
+  "Bell-Ville",
+  "Sebastián el Cano",
+  "Caa-Yarí",
+  "Curuzú-Cuatiá",
+  "Itá-Ibaté",
+  "Mailín",
+  "Riacho He He",
+  "Rumi-Punco",
+  "Tala Pampa",
+  "Villa La Paz",
+  "Colan-Conhué",
+  "Cutral-Có",
+  "Choele-Choel",
+  "Chos-Malal",
+  "Picún-Leufú",
+  "Llao-Llao",
+  "Pichi-Mahuída"
+ ],
+ "B": [
+  [
+   "Albarrellos",
+   "Albarellos (Argentina)"
+  ],
+  [
+   "Iglesias Viejas",
+   "Iglesia vieja (Tonalá, Chiapas)"
+  ],
+  [
+   "Piedrita Blanca",
+   "Piedra Blanca (República Dominicana)"
+  ],
+  [
+   "Tala Norte",
+   "Tano Norte (distrito)"
+  ],
+  [
+   "Cuay Grande",
+   "Cayo Grande (Los Roques)"
+  ],
+  [
+   "Huayamampa",
+   "Huayupampa (Lima)"
+  ],
+  [
+   "Las Termas",
+   "Las Heras (Santa Cruz)"
+  ],
+  [
+   "Agunyo",
+   "Agudo (Ciudad Real)"
+  ],
+  [
+   "Cienaguillas",
+   "Cieneguillas (Argentina)"
+  ],
+  [
+   "El Morano",
+   "El Molino (cabaré)"
+  ],
+  [
+   "Nasareno",
+   "Nazarenos (secta cristiana)"
+  ],
+  [
+   "Mixta",
+   "Mixtape"
+  ],
+  [
+   "La Bebida",
+   "La Cebada (Chile)"
+  ],
+  [
+   "Retamito",
+   "Retamo (Chile)"
+  ]
+ ],
+ "C": [
+  [
+   "v4_p01",
+   "574",
+   "Anizacate",
+   "Anisacate",
+   "1"
+  ],
+  [
+   "v4_p01",
+   "594",
+   "Agua de Ramón",
+   "Aguas de Ramon",
+   "1"
+  ],
+  [
+   "v4_p01",
+   "702",
+   "Altautina",
+   "Altarcina",
+   "2"
+  ],
+  [
+   "v4_p02",
+   "161",
+   "Brinkman",
+   "Brinkmann",
+   "1"
+  ],
+  [
+   "v4_p02",
+   "390",
+   "Bajo Chico",
+   "Bajo Chaco",
+   "1"
+  ],
+  [
+   "v4_p02",
+   "450",
+   "Ascochingas",
+   "Ascochinga",
+   "1"
+  ],
+  [
+   "v4_p02",
+   "474",
+   "Baver y Sigel",
+   "Bauer y Sigel",
+   "1"
+  ],
+  [
+   "v4_p03",
+   "730",
+   "Cañada del Río Pinto",
+   "Cañada de Río Pinto",
+   "1"
+  ],
+  [
+   "v4_p04",
+   "300",
+   "Classon",
+   "Clason",
+   "1"
+  ],
+  [
+   "v4_p04",
+   "611",
+   "Colonia 10 de Julio",
+   "Colonia 18 de Julio",
+   "1"
+  ],
+  [
+   "v4_p04",
+   "669",
+   "Colonia Waltelina",
+   "Colonia Valtelina",
+   "1"
+  ],
+  [
+   "v4_p05",
+   "716",
+   "Chuchiras",
+   "Chuchera",
+   "2"
+  ],
+  [
+   "v4_p08",
+   "130",
+   "Irivilli",
+   "Inriville",
+   "2"
+  ],
+  [
+   "v4_p08",
+   "567",
+   "Kilómetro 711",
+   "Kilómetro 11",
+   "1"
+  ],
+  [
+   "v4_p08",
+   "617",
+   "Jaime Peter",
+   "Jaime Peters",
+   "1"
+  ],
+  [
+   "v4_p08",
+   "775",
+   "Jean Maire",
+   "Jean Mairet",
+   "1"
+  ],
+  [
+   "v4_p10",
+   "758",
+   "Las Averías",
+   "Las Erías",
+   "2"
+  ],
+  [
+   "v4_p11",
+   "198",
+   "Los Saladillos",
+   "Los Alamillos",
+   "2"
+  ],
+  [
+   "v4_p11",
+   "537",
+   "Luxardo",
+   "Lunfardo",
+   "2"
+  ],
+  [
+   "v4_p13",
+   "52",
+   "Onativo",
+   "Oncativo",
+   "1"
+  ],
+  [
+   "v4_p13",
+   "671",
+   "Pichanas",
+   "Pichanal",
+   "1"
+  ],
+  [
+   "v4_p13",
+   "751",
+   "Pedro E. Funes",
+   "Pedro L. Funes",
+   "1"
+  ],
+  [
+   "v4_p14",
+   "382",
+   "Pueblo Brito",
+   "Pueblo Brugo",
+   "2"
+  ],
+  [
+   "v4_p15",
+   "728",
+   "Ruiz Díaz de Guzmán",
+   "Ruy Díaz de Guzmán",
+   "2"
+  ],
+  [
+   "v4_p16",
+   "275",
+   "S. Martín de las Escobas",
+   "San Martín de las Escobas",
+   "2"
+  ],
+  [
+   "v4_p16",
+   "411",
+   "San Marcos Sierra",
+   "San Marcos Sierras",
+   "1"
+  ],
+  [
+   "v4_p17",
+   "368",
+   "Sa Pereyra",
+   "Sa Pereira",
+   "1"
+  ],
+  [
+   "v4_p17",
+   "709",
+   "Tala Cruz",
+   "Taio Cruz",
+   "2"
+  ],
+  [
+   "v4_p18",
+   "72",
+   "Teodolina",
+   "Teodelina",
+   "1"
+  ],
+  [
+   "v4_p18",
+   "530",
+   "Villa del Lago",
+   "Valle del Lago",
+   "2"
+  ],
+  [
+   "v5_p01",
+   "169",
+   "Capiovy",
+   "Capioví",
+   "1"
+  ],
+  [
+   "v5_p01",
+   "192",
+   "Altamirano Sud",
+   "Altamirano Sur",
+   "1"
+  ],
+  [
+   "v5_p02",
+   "282",
+   "Colonia Hughes",
+   "Colonia Hugues",
+   "1"
+  ],
+  [
+   "v5_p04",
+   "231",
+   "Itacuararé",
+   "Itacaruaré",
+   "2"
+  ],
+  [
+   "v5_p05",
+   "80",
+   "Miguel Lanús",
+   "Miguel Layún",
+   "2"
+  ],
+  [
+   "v5_p05",
+   "171",
+   "Ombucito",
+   "Ombucillo",
+   "2"
+  ],
+  [
+   "v5_p05",
+   "293",
+   "Paso Florentín",
+   "Pago Florentino",
+   "2"
+  ],
+  [
+   "v5_p06",
+   "218",
+   "Pueblo Bellock",
+   "Pueblo Bellocq",
+   "1"
+  ],
+  [
+   "v5_p06",
+   "227",
+   "Punta Grande",
+   "Puente Grande",
+   "2"
+  ],
+  [
+   "v5_p07",
+   "264",
+   "Sauce Pintos",
+   "Sauce Pinto",
+   "1"
+  ],
+  [
+   "v5_p08",
+   "142",
+   "Yuquerí",
+   "Yunquera",
+   "2"
+  ],
+  [
+   "v5_p08",
+   "150",
+   "Yataití Calle",
+   "Yatay Tí Calle",
+   "2"
+  ],
+  [
+   "v5_p08",
+   "173",
+   "Yabebiry",
+   "Yabebyry",
+   "1"
+  ],
+  [
+   "v6_p01",
+   "238",
+   "Cejolao",
+   "Cajolá",
+   "2"
+  ],
+  [
+   "v6_p02",
+   "162",
+   "El Malacara",
+   "El Malacate",
+   "2"
+  ],
+  [
+   "v6_p02",
+   "237",
+   "El Pértigo",
+   "El Perdigón",
+   "2"
+  ],
+  [
+   "v6_p02",
+   "271",
+   "Ciervo Petizo",
+   "Ciervo Petiso",
+   "1"
+  ],
+  [
+   "v6_p03",
+   "159",
+   "Girardet",
+   "Girardot",
+   "1"
+  ],
+  [
+   "v6_p03",
+   "185",
+   "Juncal Grande",
+   "Junta Grande",
+   "2"
+  ],
+  [
+   "v6_p03",
+   "223",
+   "Kilómetro 213",
+   "Kilómetro 31",
+   "2"
+  ],
+  [
+   "v6_p04",
+   "151",
+   "Los Matacos",
+   "Los Haticos",
+   "2"
+  ],
+  [
+   "v6_p04",
+   "212",
+   "Los Linares",
+   "Los Vinagres",
+   "2"
+  ],
+  [
+   "v6_p04",
+   "262",
+   "Malota",
+   "Malta",
+   "1"
+  ],
+  [
+   "v6_p04",
+   "282",
+   "Las Abras",
+   "Las Cabras",
+   "1"
+  ],
+  [
+   "v6_p05",
+   "120",
+   "Mesón de Pierro",
+   "Mesón de Fierro",
+   "1"
+  ],
+  [
+   "v6_p05",
+   "130",
+   "Pozo Grande",
+   "Paco Grande",
+   "2"
+  ],
+  [
+   "v6_p05",
+   "205",
+   "Pozo del Indio",
+   "Paso del Indio",
+   "2"
+  ],
+  [
+   "v6_p05",
+   "257",
+   "Pozo Herrera",
+   "Paco Herrera",
+   "2"
+  ],
+  [
+   "v6_p05",
+   "277",
+   "Miel de Palo",
+   "Miel de palma",
+   "2"
+  ],
+  [
+   "v6_p06",
+   "161",
+   "Ramírez de Velasco",
+   "Ramírez de Velazco",
+   "1"
+  ],
+  [
+   "v6_p06",
+   "219",
+   "Sabagasta",
+   "Sañogasta",
+   "2"
+  ],
+  [
+   "v6_p07",
+   "145",
+   "Villa Robles",
+   "Villa Roulet",
+   "2"
+  ],
+  [
+   "v6_p07",
+   "180",
+   "Vicentini",
+   "Vicentico",
+   "2"
+  ],
+  [
+   "v7_p01",
+   "216",
+   "Acambuco",
+   "Arcabuco",
+   "2"
+  ],
+  [
+   "v7_p01",
+   "305",
+   "Arároz",
+   "Arroz",
+   "1"
+  ],
+  [
+   "v7_p01",
+   "370",
+   "Bajo Grande",
+   "Bado Grande",
+   "1"
+  ],
+  [
+   "v7_p02",
+   "317",
+   "Cangrejilla",
+   "Cangrejillos",
+   "2"
+  ],
+  [
+   "v7_p02",
+   "428",
+   "Carahuasi",
+   "Carauari",
+   "2"
+  ],
+  [
+   "v7_p04",
+   "183",
+   "Estación Masán",
+   "Estación Mazán",
+   "1"
+  ],
+  [
+   "v7_p04",
+   "408",
+   "El Taco",
+   "El Tabo",
+   "1"
+  ],
+  [
+   "v7_p05",
+   "106",
+   "Ingenio Lules",
+   "Ingenio Leales",
+   "2"
+  ],
+  [
+   "v7_p07",
+   "125",
+   "Monte Rico",
+   "Montefrío",
+   "2"
+  ],
+  [
+   "v7_p07",
+   "163",
+   "Muñquín",
+   "Mutquín",
+   "1"
+  ],
+  [
+   "v7_p07",
+   "254",
+   "Mina Pirquita",
+   "Mina Pirquitas",
+   "1"
+  ],
+  [
+   "v7_p07",
+   "312",
+   "Mojotoro",
+   "Montoro",
+   "2"
+  ],
+  [
+   "v7_p07",
+   "364",
+   "Padre Lozana",
+   "Padre Lozano",
+   "1"
+  ],
+  [
+   "v7_p07",
+   "378",
+   "Palta de Aparzo",
+   "Palca de Aparzo",
+   "1"
+  ],
+  [
+   "v7_p07",
+   "382",
+   "Noquebe",
+   "Noquear",
+   "2"
+  ],
+  [
+   "v7_p08",
+   "22",
+   "Pueblo Ledesma",
+   "Pablo Ledesma",
+   "2"
+  ],
+  [
+   "v7_p08",
+   "74",
+   "Poso del Alto",
+   "Pozo del Alto",
+   "1"
+  ],
+  [
+   "v7_p08",
+   "337",
+   "Puesto del Marquéz",
+   "Puesto del Marqués",
+   "1"
+  ],
+  [
+   "v7_p08",
+   "380",
+   "Puerto La Paz",
+   "Puerto Capaz",
+   "2"
+  ],
+  [
+   "v7_p08",
+   "383",
+   "Puesto Grande",
+   "Puente Grande",
+   "2"
+  ],
+  [
+   "v7_p08",
+   "400",
+   "Puente de Plata",
+   "Puente de Lata",
+   "1"
+  ],
+  [
+   "v7_p09",
+   "327",
+   "San Solano",
+   "San Rolando",
+   "2"
+  ],
+  [
+   "v7_p10",
+   "277",
+   "Senador Péres",
+   "Senador Perez",
+   "1"
+  ],
+  [
+   "v7_p10",
+   "333",
+   "Saucelito",
+   "Saucesito",
+   "1"
+  ],
+  [
+   "v7_p10",
+   "419",
+   "Telaritos",
+   "TeleXitos",
+   "2"
+  ],
+  [
+   "v7_p11",
+   "230",
+   "Vipos",
+   "Viposia",
+   "2"
+  ],
+  [
+   "v7_p11",
+   "403",
+   "Tuisón",
+   "Tucson",
+   "1"
+  ],
+  [
+   "v8_p01",
+   "50",
+   "Costa del Araujo",
+   "Costa de Araujo",
+   "1"
+  ],
+  [
+   "v8_p01",
+   "89",
+   "Cochagual",
+   "Conchagua",
+   "2"
+  ],
+  [
+   "v8_p01",
+   "161",
+   "Cienegüita",
+   "Cienaguita",
+   "1"
+  ],
+  [
+   "v8_p02",
+   "194",
+   "La Botija",
+   "La botera",
+   "2"
+  ],
+  [
+   "v8_p03",
+   "121",
+   "Las Cortaderas",
+   "Las Cantaderas",
+   "2"
+  ],
+  [
+   "v8_p05",
+   "162",
+   "Villa Praga",
+   "Villa Prat",
+   "2"
+  ],
+  [
+   "v9_1_2_p01",
+   "51",
+   "Alejandro Stefanelli",
+   "Alejandro Stefenelli",
+   "1"
+  ],
+  [
+   "v9_1_2_p01",
+   "62",
+   "Alto Río Senguerr",
+   "Alto Río Senguer",
+   "1"
+  ],
+  [
+   "v9_1_2_p01",
+   "106",
+   "Cona Niyeo",
+   "Cona Niyeu",
+   "1"
+  ],
+  [
+   "v9_1_2_p02",
+   "58",
+   "Coronel Gómez",
+   "Coronel Homer",
+   "2"
+  ],
+  [
+   "v9_1_2_p02",
+   "129",
+   "Challacó",
+   "Challa",
+   "2"
+  ],
+  [
+   "v9_1_2_p03",
+   "87",
+   "Ministro Ramos Mejía",
+   "Ministro Ramos Mexía",
+   "1"
+  ],
+  [
+   "v9_1_2_p05",
+   "26",
+   "Yacimiento Río Turbio",
+   "Yacimientos Rio Turbio",
+   "1"
+  ]
+ ]
+}

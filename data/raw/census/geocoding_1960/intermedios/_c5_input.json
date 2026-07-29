@@ -1,0 +1,1882 @@
+[
+{
+"page": "v4_p14",
+"n_orden": "23",
+"localidad": "Reinaldo Cullen",
+"provincia": "Santa Fe",
+"depto_1960": "La Capital",
+"poblacion": "11881",
+"deptos_modernos": "La Capital",
+"pista": ""
+},
+{
+"page": "v4_p13",
+"n_orden": "30",
+"localidad": "Posta de San Martín",
+"provincia": "Santa Fe",
+"depto_1960": "Rosario",
+"poblacion": "10152",
+"deptos_modernos": "Rosario",
+"pista": ""
+},
+{
+"page": "v4_p08",
+"n_orden": "34",
+"localidad": "Jobson",
+"provincia": "Santa Fe",
+"depto_1960": "Vera",
+"poblacion": "9754",
+"deptos_modernos": "Vera",
+"pista": ""
+},
+{
+"page": "v3_p18",
+"n_orden": "76",
+"localidad": "Quequén",
+"provincia": "Buenos Aires",
+"depto_1960": "Lobería",
+"poblacion": "7589",
+"deptos_modernos": "Lobería",
+"pista": "Necochea - Quequen/Necochea [06581050]"
+},
+{
+"page": "v8_p05",
+"n_orden": "21",
+"localidad": "Villa Krause",
+"provincia": "San Juan",
+"depto_1960": "Rawson",
+"poblacion": "7311",
+"deptos_modernos": "Rawson",
+"pista": ""
+},
+{
+"page": "v7_p11",
+"n_orden": "20",
+"localidad": "Villa Alberdi",
+"provincia": "Tucumán",
+"depto_1960": "Río Chico",
+"poblacion": "7266",
+"deptos_modernos": "Río Chico | Juan Bautista Alberdi | Simoca",
+"pista": ""
+},
+{
+"page": "v4_p19",
+"n_orden": "48",
+"localidad": "Villa Diego",
+"provincia": "Santa Fe",
+"depto_1960": "Rosario",
+"poblacion": "6852",
+"deptos_modernos": "Rosario",
+"pista": ""
+},
+{
+"page": "v4_p14",
+"n_orden": "56",
+"localidad": "Pueblo Nuevo",
+"provincia": "Santa Fe",
+"depto_1960": "Rosario",
+"poblacion": "6321",
+"deptos_modernos": "Rosario",
+"pista": ""
+},
+{
+"page": "v4_p08",
+"n_orden": "92",
+"localidad": "Humberto 1º",
+"provincia": "Santa Fe",
+"depto_1960": "Castellanos",
+"poblacion": "4453",
+"deptos_modernos": "Castellanos",
+"pista": ""
+},
+{
+"page": "v8_p01",
+"n_orden": "30",
+"localidad": "Bermejito",
+"provincia": "San Juan",
+"depto_1960": "Santa Lucía",
+"poblacion": "4403",
+"deptos_modernos": "Santa Lucía",
+"pista": "Bermejo/Caucete [70035010]"
+},
+{
+"page": "v3_p11",
+"n_orden": "113",
+"localidad": "José M. Blanco",
+"provincia": "Buenos Aires",
+"depto_1960": "Pellegrini",
+"poblacion": "4251",
+"deptos_modernos": "Pellegrini | Salliqueló | Tres Lomas",
+"pista": ""
+},
+{
+"page": "v8_p01",
+"n_orden": "37",
+"localidad": "Colonia Alvear Oeste",
+"provincia": "Mendoza",
+"depto_1960": "General Alvear",
+"poblacion": "3665",
+"deptos_modernos": "General Alvear",
+"pista": ""
+},
+{
+"page": "v3_p18",
+"n_orden": "126",
+"localidad": "Puerto Belgrano",
+"provincia": "Buenos Aires",
+"depto_1960": "Coronel de Marina Leonardo Rosales",
+"poblacion": "3607",
+"deptos_modernos": "Coronel de Marina Leonardo Rosales | Monte Hermoso",
+"pista": ""
+},
+{
+"page": "v4_p03",
+"n_orden": "124",
+"localidad": "Cañada Verde",
+"provincia": "Córdoba",
+"depto_1960": "General Roca",
+"poblacion": "3558",
+"deptos_modernos": "General Roca",
+"pista": ""
+},
+{
+"page": "v4_p04",
+"n_orden": "127",
+"localidad": "Colonia Ella",
+"provincia": "Santa Fe",
+"depto_1960": "General Obligado",
+"poblacion": "3498",
+"deptos_modernos": "General Obligado",
+"pista": ""
+},
+{
+"page": "v7_p08",
+"n_orden": "43",
+"localidad": "Pocitos",
+"provincia": "Salta",
+"depto_1960": "Gral. J. de San Martín",
+"poblacion": "3438",
+"deptos_modernos": "General José de San Martín",
+"pista": "Salar de Pocitos/Los Andes [66105017]"
+},
+{
+"page": "v7_p06",
+"n_orden": "47",
+"localidad": "León Rouges",
+"provincia": "Tucumán",
+"depto_1960": "Monteros",
+"poblacion": "3196",
+"deptos_modernos": "Monteros | Simoca",
+"pista": ""
+},
+{
+"page": "v3_p11",
+"n_orden": "147",
+"localidad": "Jáuregui",
+"provincia": "Buenos Aires",
+"depto_1960": "Luján",
+"poblacion": "3113",
+"deptos_modernos": "Luján",
+"pista": ""
+},
+{
+"page": "v4_p06",
+"n_orden": "146",
+"localidad": "Empalme V. Constitución",
+"provincia": "Santa Fe",
+"depto_1960": "Constitución",
+"poblacion": "3095",
+"deptos_modernos": "Constitución",
+"pista": ""
+},
+{
+"page": "v3_p11",
+"n_orden": "158",
+"localidad": "Juan B. Alberdi",
+"provincia": "Buenos Aires",
+"depto_1960": "Leandro N. Alem",
+"poblacion": "2873",
+"deptos_modernos": "Leandro N. Alem",
+"pista": ""
+},
+{
+"page": "v9_1_2_p03",
+"n_orden": "32",
+"localidad": "Kilómetro 8 (Petroquímica)",
+"provincia": "Chubut",
+"depto_1960": "Escalante",
+"poblacion": "2783",
+"deptos_modernos": "Escalante",
+"pista": ""
+},
+{
+"page": "v4_p01",
+"n_orden": "168",
+"localidad": "Alto Verde",
+"provincia": "Santa Fe",
+"depto_1960": "La Capital",
+"poblacion": "2627",
+"deptos_modernos": "La Capital",
+"pista": ""
+},
+{
+"page": "v3_p04",
+"n_orden": "173",
+"localidad": "Carlos Pellegrini",
+"provincia": "Buenos Aires",
+"depto_1960": "Pellegrini",
+"poblacion": "2470",
+"deptos_modernos": "Pellegrini | Salliqueló | Tres Lomas",
+"pista": ""
+},
+{
+"page": "v7_p08",
+"n_orden": "58",
+"localidad": "Pedro G. Méndes",
+"provincia": "Tucumán",
+"depto_1960": "Cruz Alta",
+"poblacion": "2425",
+"deptos_modernos": "Cruz Alta",
+"pista": ""
+},
+{
+"page": "v8_p05",
+"n_orden": "46",
+"localidad": "Zonda",
+"provincia": "San Juan",
+"depto_1960": "Veinticinco de Mayo",
+"poblacion": "2183",
+"deptos_modernos": "25 de Mayo",
+"pista": "Cañada Honda/Sarmiento [70105010]"
+},
+{
+"page": "v7_p05",
+"n_orden": "67",
+"localidad": "La Madrid",
+"provincia": "Tucumán",
+"depto_1960": "Graneros",
+"poblacion": "2116",
+"deptos_modernos": "Graneros | La Cocha",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "65",
+"localidad": "Juan B. Arruabarrena",
+"provincia": "Entre Ríos",
+"depto_1960": "Federación",
+"poblacion": "1997",
+"deptos_modernos": "Federación",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "57",
+"localidad": "La Bebida",
+"provincia": "San Juan",
+"depto_1960": "Rivadavia",
+"poblacion": "1992",
+"deptos_modernos": "Rivadavia",
+"pista": ""
+},
+{
+"page": "v3_p11",
+"n_orden": "193",
+"localidad": "José A. Guisasola",
+"provincia": "Buenos Aires",
+"depto_1960": "Coronel Dorrego",
+"poblacion": "1967",
+"deptos_modernos": "Coronel Dorrego | Monte Hermoso",
+"pista": ""
+},
+{
+"page": "v4_p07",
+"n_orden": "192",
+"localidad": "Froilán Palacios",
+"provincia": "Santa Fe",
+"depto_1960": "Iriondo",
+"poblacion": "1948",
+"deptos_modernos": "Iriondo",
+"pista": ""
+},
+{
+"page": "v6_p05",
+"n_orden": "43",
+"localidad": "Misión San Fco. de Laishí",
+"provincia": "Formosa",
+"depto_1960": "Laishí",
+"poblacion": "1944",
+"deptos_modernos": "Laishi",
+"pista": ""
+},
+{
+"page": "v4_p11",
+"n_orden": "198",
+"localidad": "Los Saladillos",
+"provincia": "Santa Fe",
+"depto_1960": "9 de Julio",
+"poblacion": "1920",
+"deptos_modernos": "9 de Julio",
+"pista": ""
+},
+{
+"page": "v7_p08",
+"n_orden": "74",
+"localidad": "Poso del Alto",
+"provincia": "Tucumán",
+"depto_1960": "Cruz Alta",
+"poblacion": "1875",
+"deptos_modernos": "Cruz Alta",
+"pista": ""
+},
+{
+"page": "v4_p08",
+"n_orden": "207",
+"localidad": "Jesús María",
+"provincia": "Santa Fe",
+"depto_1960": "San Lorenzo",
+"poblacion": "1855",
+"deptos_modernos": "San Lorenzo",
+"pista": ""
+},
+{
+"page": "v4_p19",
+"n_orden": "217",
+"localidad": "Villa General Mitre",
+"provincia": "Córdoba",
+"depto_1960": "Totoral",
+"poblacion": "1797",
+"deptos_modernos": "Totoral",
+"pista": ""
+},
+{
+"page": "v3_p22",
+"n_orden": "215",
+"localidad": "Villa Numancia",
+"provincia": "Buenos Aires",
+"depto_1960": "San Vicente",
+"poblacion": "1735",
+"deptos_modernos": "San Vicente | Presidente Perón",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "78",
+"localidad": "Manuel F. Mantilla",
+"provincia": "Corrientes",
+"depto_1960": "San Roque",
+"poblacion": "1697",
+"deptos_modernos": "San Roque",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "80",
+"localidad": "Miguel Lanús",
+"provincia": "Misiones",
+"depto_1960": "Capital",
+"poblacion": "1681",
+"deptos_modernos": "Capital",
+"pista": ""
+},
+{
+"page": "v3_p12",
+"n_orden": "222",
+"localidad": "La Dulce",
+"provincia": "Buenos Aires",
+"depto_1960": "Necochea",
+"poblacion": "1662",
+"deptos_modernos": "Necochea",
+"pista": "Arroyo Dulce/Salto [06714010]"
+},
+{
+"page": "v6_p04",
+"n_orden": "65",
+"localidad": "La Isla",
+"provincia": "Santiago del Estero",
+"depto_1960": "Banda",
+"poblacion": "1562",
+"deptos_modernos": "Banda",
+"pista": "Isca Yacu/Jiménez [86091050]; Isca Yacu Semaul/Jiménez [8609"
+},
+{
+"page": "v8_p02",
+"n_orden": "81",
+"localidad": "La Legua",
+"provincia": "San Juan",
+"depto_1960": "Santa Lucía",
+"poblacion": "1551",
+"deptos_modernos": "Santa Lucía",
+"pista": ""
+},
+{
+"page": "v4_p16",
+"n_orden": "275",
+"localidad": "S. Martín de las Escobas",
+"provincia": "Santa Fe",
+"depto_1960": "San Martín",
+"poblacion": "1521",
+"deptos_modernos": "San Martín",
+"pista": ""
+},
+{
+"page": "v8_p03",
+"n_orden": "82",
+"localidad": "Pampa del Chañar",
+"provincia": "San Juan",
+"depto_1960": "Jáchal",
+"poblacion": "1521",
+"deptos_modernos": "Jáchal",
+"pista": ""
+},
+{
+"page": "v8_p03",
+"n_orden": "83",
+"localidad": "Marquesado",
+"provincia": "San Juan",
+"depto_1960": "Rivadavia",
+"poblacion": "1514",
+"deptos_modernos": "Rivadavia",
+"pista": ""
+},
+{
+"page": "v4_p05",
+"n_orden": "285",
+"localidad": "Chateaubriand",
+"provincia": "Santa Fe",
+"depto_1960": "General López",
+"poblacion": "1490",
+"deptos_modernos": "General López",
+"pista": ""
+},
+{
+"page": "v7_p09",
+"n_orden": "98",
+"localidad": "San Antonio de la Paz",
+"provincia": "Catamarca",
+"depto_1960": "La Paz",
+"poblacion": "1489",
+"deptos_modernos": "La Paz",
+"pista": ""
+},
+{
+"page": "v3_p19",
+"n_orden": "241",
+"localidad": "Sánchez",
+"provincia": "Buenos Aires",
+"depto_1960": "Ramallo",
+"poblacion": "1480",
+"deptos_modernos": "Ramallo",
+"pista": ""
+},
+{
+"page": "v4_p17",
+"n_orden": "297",
+"localidad": "Saturnino M. Laspiur",
+"provincia": "Córdoba",
+"depto_1960": "San Justo",
+"poblacion": "1445",
+"deptos_modernos": "San Justo",
+"pista": ""
+},
+{
+"page": "v6_p04",
+"n_orden": "80",
+"localidad": "Laguna Naineck",
+"provincia": "Formosa",
+"depto_1960": "Pilcomayo",
+"poblacion": "1445",
+"deptos_modernos": "Pilcomayo",
+"pista": ""
+},
+{
+"page": "v5_p03",
+"n_orden": "89",
+"localidad": "Gobernador J.E. Martínez",
+"provincia": "Corrientes",
+"depto_1960": "Lavalle",
+"poblacion": "1434",
+"deptos_modernos": "Lavalle",
+"pista": ""
+},
+{
+"page": "v4_p16",
+"n_orden": "304",
+"localidad": "San Julián",
+"provincia": "Santa Fe",
+"depto_1960": "San Jerónimo",
+"poblacion": "1405",
+"deptos_modernos": "San Jerónimo",
+"pista": ""
+},
+{
+"page": "v3_p15",
+"n_orden": "266",
+"localidad": "Mariano M. Alfonso",
+"provincia": "Buenos Aires",
+"depto_1960": "Pergamino",
+"poblacion": "1353",
+"deptos_modernos": "Pergamino",
+"pista": ""
+},
+{
+"page": "v9_1_2_p01",
+"n_orden": "51",
+"localidad": "Alejandro Stefanelli",
+"provincia": "Río Negro",
+"depto_1960": "General Roca",
+"poblacion": "1346",
+"deptos_modernos": "General Roca",
+"pista": ""
+},
+{
+"page": "v4_p12",
+"n_orden": "317",
+"localidad": "Médanos de las Cañas",
+"provincia": "Córdoba",
+"depto_1960": "Unión",
+"poblacion": "1337",
+"deptos_modernos": "Unión",
+"pista": ""
+},
+{
+"page": "v7_p11",
+"n_orden": "113",
+"localidad": "Villa Bustos",
+"provincia": "La Rioja",
+"depto_1960": "Sanagasta",
+"poblacion": "1314",
+"deptos_modernos": "Sanagasta",
+"pista": ""
+},
+{
+"page": "v3_p04",
+"n_orden": "272",
+"localidad": "Carlos N. Naón",
+"provincia": "Buenos Aires",
+"depto_1960": "9 de Julio",
+"poblacion": "1310",
+"deptos_modernos": "9 de Julio",
+"pista": ""
+},
+{
+"page": "v9_1_2_p04",
+"n_orden": "54",
+"localidad": "Playa Bonita",
+"provincia": "Río Negro",
+"depto_1960": "Bariloche",
+"poblacion": "1249",
+"deptos_modernos": "Bariloche",
+"pista": ""
+},
+{
+"page": "v8_p04",
+"n_orden": "97",
+"localidad": "Rodolfo Iselin (La Llave)",
+"provincia": "Mendoza",
+"depto_1960": "San Rafael",
+"poblacion": "1228",
+"deptos_modernos": "San Rafael",
+"pista": ""
+},
+{
+"page": "v3_p05",
+"n_orden": "288",
+"localidad": "Coronel Mom",
+"provincia": "Buenos Aires",
+"depto_1960": "Alberti",
+"poblacion": "1201",
+"deptos_modernos": "Alberti",
+"pista": ""
+},
+{
+"page": "v3_p16",
+"n_orden": "290",
+"localidad": "Otamendi",
+"provincia": "Buenos Aires",
+"depto_1960": "Campana",
+"poblacion": "1190",
+"deptos_modernos": "Campana",
+"pista": "Comandante Nicanor Otamendi/General Alvarado [06280010]"
+},
+{
+"page": "v4_p08",
+"n_orden": "358",
+"localidad": "J. B. Molina",
+"provincia": "Santa Fe",
+"depto_1960": "Constitución",
+"poblacion": "1189",
+"deptos_modernos": "Constitución",
+"pista": ""
+},
+{
+"page": "v7_p07",
+"n_orden": "125",
+"localidad": "Monte Rico",
+"provincia": "Jujuy",
+"depto_1960": "El Carmen",
+"poblacion": "1177",
+"deptos_modernos": "El Carmen",
+"pista": ""
+},
+{
+"page": "v4_p06",
+"n_orden": "365",
+"localidad": "Dalmacio Vélez Sarsfield",
+"provincia": "Córdoba",
+"depto_1960": "Tercero Arriba",
+"poblacion": "1175",
+"deptos_modernos": "Tercero Arriba",
+"pista": ""
+},
+{
+"page": "v5_p06",
+"n_orden": "115",
+"localidad": "Puerto Gisela",
+"provincia": "Misiones",
+"depto_1960": "San Ignacio",
+"poblacion": "1161",
+"deptos_modernos": "San Ignacio",
+"pista": ""
+},
+{
+"page": "v9_1_2_p02",
+"n_orden": "58",
+"localidad": "Coronel Gómez",
+"provincia": "Río Negro",
+"depto_1960": "General Roca",
+"poblacion": "1161",
+"deptos_modernos": "General Roca",
+"pista": ""
+},
+{
+"page": "v7_p11",
+"n_orden": "138",
+"localidad": "Villa Nva. de Monte Rico",
+"provincia": "Tucumán",
+"depto_1960": "Chicligasta",
+"poblacion": "1092",
+"deptos_modernos": "Chicligasta | Simoca",
+"pista": ""
+},
+{
+"page": "v4_p14",
+"n_orden": "382",
+"localidad": "Pueblo Britos",
+"provincia": "Santa Fe",
+"depto_1960": "Rosario",
+"poblacion": "1085",
+"deptos_modernos": "Rosario",
+"pista": ""
+},
+{
+"page": "v5_p03",
+"n_orden": "122",
+"localidad": "Gobernador Gral. López",
+"provincia": "Misiones",
+"depto_1960": "Leandro N. Alem",
+"poblacion": "1080",
+"deptos_modernos": "Leandro N. Alem",
+"pista": ""
+},
+{
+"page": "v5_p03",
+"n_orden": "124",
+"localidad": "Fábrica Colón",
+"provincia": "Entre Ríos",
+"depto_1960": "Colón",
+"poblacion": "1067",
+"deptos_modernos": "Colón | San Salvador",
+"pista": ""
+},
+{
+"page": "v7_p09",
+"n_orden": "140",
+"localidad": "San José de Fray Mamerto Esquiú",
+"provincia": "Catamarca",
+"depto_1960": "Fray Mamerto Esquiú",
+"poblacion": "1053",
+"deptos_modernos": "Fray Mamerto Esquiú",
+"pista": ""
+},
+{
+"page": "v4_p17",
+"n_orden": "402",
+"localidad": "Sebastián el Cano",
+"provincia": "Córdoba",
+"depto_1960": "Río Seco",
+"poblacion": "1010",
+"deptos_modernos": "Río Seco",
+"pista": ""
+},
+{
+"page": "v7_p10",
+"n_orden": "143",
+"localidad": "Santa Rosa",
+"provincia": "Catamarca",
+"depto_1960": "Tinogasta",
+"poblacion": "1006",
+"deptos_modernos": "Tinogasta",
+"pista": ""
+},
+{
+"page": "v5_p01",
+"n_orden": "136",
+"localidad": "Aranguren",
+"provincia": "Entre Ríos",
+"depto_1960": "Victoria",
+"poblacion": "932",
+"deptos_modernos": "Victoria",
+"pista": "Villa Aranguren/Nogoyá [30077010]"
+},
+{
+"page": "v7_p02",
+"n_orden": "151",
+"localidad": "Cevil Pozo",
+"provincia": "Tucumán",
+"depto_1960": "Cruz Alta",
+"poblacion": "930",
+"deptos_modernos": "Cruz Alta",
+"pista": ""
+},
+{
+"page": "v7_p05",
+"n_orden": "152",
+"localidad": "Huaco",
+"provincia": "Catamarca",
+"depto_1960": "Andalgalá",
+"poblacion": "929",
+"deptos_modernos": "Andalgalá",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "139",
+"localidad": "Nueve de Julio",
+"provincia": "Misiones",
+"depto_1960": "Eldorado",
+"poblacion": "920",
+"deptos_modernos": "Eldorado",
+"pista": ""
+},
+{
+"page": "v7_p03",
+"n_orden": "153",
+"localidad": "Cnel. Juan Solá Morillo",
+"provincia": "Salta",
+"depto_1960": "Rivadavia",
+"poblacion": "920",
+"deptos_modernos": "Rivadavia",
+"pista": ""
+},
+{
+"page": "v7_p07",
+"n_orden": "155",
+"localidad": "Manantial",
+"provincia": "Tucumán",
+"depto_1960": "Tafí",
+"poblacion": "911",
+"deptos_modernos": "Tafí del Valle | Tafí Viejo | Yerba Buena",
+"pista": "El Manantial/Lules [90063020]"
+},
+{
+"page": "v4_p12",
+"n_orden": "447",
+"localidad": "Mariano Saavedra",
+"provincia": "Santa Fe",
+"depto_1960": "Las Colonias",
+"poblacion": "871",
+"deptos_modernos": "Las Colonias",
+"pista": ""
+},
+{
+"page": "v4_p02",
+"n_orden": "450",
+"localidad": "Ascochingas",
+"provincia": "Santa Fe",
+"depto_1960": "La Capital",
+"poblacion": "864",
+"deptos_modernos": "La Capital",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "118",
+"localidad": "La Cañada",
+"provincia": "San Juan",
+"depto_1960": "Albardón",
+"poblacion": "858",
+"deptos_modernos": "Albardón",
+"pista": "Cañada Honda/Sarmiento [70105010]"
+},
+{
+"page": "v7_p07",
+"n_orden": "169",
+"localidad": "Ntra.Sra. de Talavera",
+"provincia": "Salta",
+"depto_1960": "Anta",
+"poblacion": "827",
+"deptos_modernos": "Anta",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "155",
+"localidad": "Lib. Gral. San Martín",
+"provincia": "Entre Ríos",
+"depto_1960": "Diamante",
+"poblacion": "809",
+"deptos_modernos": "Diamante",
+"pista": ""
+},
+{
+"page": "v8_p04",
+"n_orden": "122",
+"localidad": "Piedra Blanca",
+"provincia": "San Luis",
+"depto_1960": "Junín",
+"poblacion": "790",
+"deptos_modernos": "Junín",
+"pista": ""
+},
+{
+"page": "v6_p07",
+"n_orden": "122",
+"localidad": "Villa Escobar Navegación Río Bermejo",
+"provincia": "Formosa",
+"depto_1960": "Laishí",
+"poblacion": "775",
+"deptos_modernos": "Laishi",
+"pista": ""
+},
+{
+"page": "v4_p07",
+"n_orden": "475",
+"localidad": "Gobernador Candioti",
+"provincia": "Santa Fe",
+"depto_1960": "La Capital",
+"poblacion": "767",
+"deptos_modernos": "La Capital",
+"pista": ""
+},
+{
+"page": "v3_p18",
+"n_orden": "390",
+"localidad": "Río Colorado",
+"provincia": "La Pampa",
+"depto_1960": "Caleu-Caleu",
+"poblacion": "764",
+"deptos_modernos": "Caleu Caleu",
+"pista": ""
+},
+{
+"page": "v4_p03",
+"n_orden": "480",
+"localidad": "Cap. de la Sgrda. Familia",
+"provincia": "Córdoba",
+"depto_1960": "Río Primero",
+"poblacion": "749",
+"deptos_modernos": "Río Primero",
+"pista": ""
+},
+{
+"page": "v6_p05",
+"n_orden": "130",
+"localidad": "Pozo Grande",
+"provincia": "Santiago del Estero",
+"depto_1960": "Avellaneda",
+"poblacion": "745",
+"deptos_modernos": "Avellaneda",
+"pista": ""
+},
+{
+"page": "v7_p04",
+"n_orden": "182",
+"localidad": "Gobernador Garmendia",
+"provincia": "Tucumán",
+"depto_1960": "Burruyacú",
+"poblacion": "740",
+"deptos_modernos": "Burruyacú",
+"pista": ""
+},
+{
+"page": "v4_p09",
+"n_orden": "492",
+"localidad": "La Buena Parada",
+"provincia": "Córdoba",
+"depto_1960": "Río Primero",
+"poblacion": "730",
+"deptos_modernos": "Río Primero",
+"pista": ""
+},
+{
+"page": "v5_p06",
+"n_orden": "167",
+"localidad": "Puerto Naranjito",
+"provincia": "Misiones",
+"depto_1960": "San Ignacio",
+"poblacion": "726",
+"deptos_modernos": "San Ignacio",
+"pista": ""
+},
+{
+"page": "v7_p09",
+"n_orden": "185",
+"localidad": "San Rafael",
+"provincia": "Tucumán",
+"depto_1960": "Famaillá",
+"poblacion": "722",
+"deptos_modernos": "Famaillá | Lules | Yerba Buena",
+"pista": ""
+},
+{
+"page": "v6_p03",
+"n_orden": "132",
+"localidad": "Km. 100 Nav. Río Bermejo",
+"provincia": "Formosa",
+"depto_1960": "Laishí",
+"poblacion": "717",
+"deptos_modernos": "Laishi",
+"pista": ""
+},
+{
+"page": "v3_p12",
+"n_orden": "418",
+"localidad": "Juan J. Almeyra",
+"provincia": "Buenos Aires",
+"depto_1960": "Navarro",
+"poblacion": "696",
+"deptos_modernos": "Navarro",
+"pista": ""
+},
+{
+"page": "v5_p08",
+"n_orden": "173",
+"localidad": "Yabebiry",
+"provincia": "Misiones",
+"depto_1960": "Oberá",
+"poblacion": "689",
+"deptos_modernos": "Oberá",
+"pista": ""
+},
+{
+"page": "v3_p07",
+"n_orden": "431",
+"localidad": "Durcudoy",
+"provincia": "Buenos Aires",
+"depto_1960": "Puán",
+"poblacion": "670",
+"deptos_modernos": "Puán",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "188",
+"localidad": "Ifrán",
+"provincia": "Corrientes",
+"depto_1960": "Goya",
+"poblacion": "622",
+"deptos_modernos": "Goya",
+"pista": ""
+},
+{
+"page": "v3_p01",
+"n_orden": "459",
+"localidad": "Aldea Romana",
+"provincia": "Buenos Aires",
+"depto_1960": "Bahía Blanca",
+"poblacion": "616",
+"deptos_modernos": "Bahía Blanca",
+"pista": ""
+},
+{
+"page": "v4_p04",
+"n_orden": "541",
+"localidad": "Colonia O'Higgins",
+"provincia": "Córdoba",
+"depto_1960": "Marcos Juárez",
+"poblacion": "613",
+"deptos_modernos": "Marcos Juárez",
+"pista": ""
+},
+{
+"page": "v5_p01",
+"n_orden": "192",
+"localidad": "Altamirano Sud",
+"provincia": "Entre Ríos",
+"depto_1960": "Tala",
+"poblacion": "607",
+"deptos_modernos": "Tala",
+"pista": ""
+},
+{
+"page": "v4_p17",
+"n_orden": "556",
+"localidad": "Tala Norte",
+"provincia": "Córdoba",
+"depto_1960": "Río Primero",
+"poblacion": "583",
+"deptos_modernos": "Río Primero",
+"pista": ""
+},
+{
+"page": "v5_p08",
+"n_orden": "196",
+"localidad": "Villa San Marcial (Gob. Urquiza)",
+"provincia": "Entre Ríos",
+"depto_1960": "Uruguay",
+"poblacion": "578",
+"deptos_modernos": "Uruguay",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "137",
+"localidad": "Ingeniero Balloffet",
+"provincia": "Mendoza",
+"depto_1960": "San Rafael",
+"poblacion": "578",
+"deptos_modernos": "San Rafael",
+"pista": ""
+},
+{
+"page": "v9_1_2_p03",
+"n_orden": "96",
+"localidad": "Lago Futalaufquen",
+"provincia": "Chubut",
+"depto_1960": "Futaleufú",
+"poblacion": "578",
+"deptos_modernos": "Futaleufú",
+"pista": ""
+},
+{
+"page": "v6_p05",
+"n_orden": "152",
+"localidad": "Misión Fco. Tacaaglé",
+"provincia": "Formosa",
+"depto_1960": "Pilagás",
+"poblacion": "570",
+"deptos_modernos": "Pilagás",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "199",
+"localidad": "Ingenio 1er. Correntino",
+"provincia": "Corrientes",
+"depto_1960": "San Cosme",
+"poblacion": "567",
+"deptos_modernos": "San Cosme",
+"pista": ""
+},
+{
+"page": "v3_p22",
+"n_orden": "489",
+"localidad": "Villa Nueva",
+"provincia": "Buenos Aires",
+"depto_1960": "General Paz",
+"poblacion": "564",
+"deptos_modernos": "General Paz",
+"pista": ""
+},
+{
+"page": "v4_p19",
+"n_orden": "566",
+"localidad": "Villa Independencia",
+"provincia": "Córdoba",
+"depto_1960": "Punilla",
+"poblacion": "556",
+"deptos_modernos": "Punilla",
+"pista": ""
+},
+{
+"page": "v3_p22",
+"n_orden": "496",
+"localidad": "Villa Harding Green",
+"provincia": "Buenos Aires",
+"depto_1960": "Bahía Blanca",
+"poblacion": "553",
+"deptos_modernos": "Bahía Blanca",
+"pista": ""
+},
+{
+"page": "v4_p08",
+"n_orden": "567",
+"localidad": "Kilómetro 711",
+"provincia": "Córdoba",
+"depto_1960": "Colón",
+"poblacion": "547",
+"deptos_modernos": "Colón",
+"pista": ""
+},
+{
+"page": "v5_p06",
+"n_orden": "202",
+"localidad": "Pueblo San Martín (Pto. Curtiembre)",
+"provincia": "Entre Ríos",
+"depto_1960": "Paraná",
+"poblacion": "544",
+"deptos_modernos": "Paraná",
+"pista": ""
+},
+{
+"page": "v3_p04",
+"n_orden": "504",
+"localidad": "Colonia Hogar Ricardo Gutiérrez",
+"provincia": "Buenos Aires",
+"depto_1960": "Marcos Paz",
+"poblacion": "541",
+"deptos_modernos": "Marcos Paz",
+"pista": ""
+},
+{
+"page": "v6_p01",
+"n_orden": "160",
+"localidad": "Clodomiro Díaz",
+"provincia": "Chaco",
+"depto_1960": "Mayor Luis J. Fontana",
+"poblacion": "540",
+"deptos_modernos": "Mayor Luis J. Fontana",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "205",
+"localidad": "Leguizamón",
+"provincia": "Entre Ríos",
+"depto_1960": "La Paz",
+"poblacion": "531",
+"deptos_modernos": "La Paz | Federal",
+"pista": ""
+},
+{
+"page": "v6_p02",
+"n_orden": "162",
+"localidad": "El Malacara",
+"provincia": "Santiago del Estero",
+"depto_1960": "General Taboada",
+"poblacion": "527",
+"deptos_modernos": "General Taboada",
+"pista": ""
+},
+{
+"page": "v3_p21",
+"n_orden": "513",
+"localidad": "Spurr",
+"provincia": "Buenos Aires",
+"depto_1960": "Bahía Blanca",
+"poblacion": "524",
+"deptos_modernos": "Bahía Blanca",
+"pista": ""
+},
+{
+"page": "v5_p04",
+"n_orden": "209",
+"localidad": "La Capilla",
+"provincia": "Entre Ríos",
+"depto_1960": "Villaguay",
+"poblacion": "521",
+"deptos_modernos": "Villaguay | Federal | San Salvador",
+"pista": ""
+},
+{
+"page": "v6_p02",
+"n_orden": "167",
+"localidad": "Esteros",
+"provincia": "Santiago del Estero",
+"depto_1960": "Figueroa",
+"poblacion": "508",
+"deptos_modernos": "Figueroa",
+"pista": "Santiago del Estero/Capital [86049110]"
+},
+{
+"page": "v3_p13",
+"n_orden": "526",
+"localidad": "Libres del Sud",
+"provincia": "Buenos Aires",
+"depto_1960": "Chascomús",
+"poblacion": "505",
+"deptos_modernos": "Chascomús | Lezama",
+"pista": ""
+},
+{
+"page": "v3_p15",
+"n_orden": "527",
+"localidad": "Máximo Fernández",
+"provincia": "Buenos Aires",
+"depto_1960": "Bragado",
+"poblacion": "505",
+"deptos_modernos": "Bragado",
+"pista": ""
+},
+{
+"page": "v3_p12",
+"n_orden": "532",
+"localidad": "Kilómetro 158",
+"provincia": "Buenos Aires",
+"depto_1960": "San Pedro",
+"poblacion": "495",
+"deptos_modernos": "San Pedro",
+"pista": ""
+},
+{
+"page": "v3_p07",
+"n_orden": "533",
+"localidad": "Elordi",
+"provincia": "Buenos Aires",
+"depto_1960": "General Villegas",
+"poblacion": "494",
+"deptos_modernos": "General Villegas",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "143",
+"localidad": "Hipólito Irigoyen",
+"provincia": "San Luis",
+"depto_1960": "Belgrano",
+"poblacion": "481",
+"deptos_modernos": "Belgrano",
+"pista": ""
+},
+{
+"page": "v3_p15",
+"n_orden": "551",
+"localidad": "M. Colman",
+"provincia": "Buenos Aires",
+"depto_1960": "Rauch",
+"poblacion": "464",
+"deptos_modernos": "Rauch",
+"pista": ""
+},
+{
+"page": "v3_p08",
+"n_orden": "558",
+"localidad": "Enrique Lavalle",
+"provincia": "Buenos Aires",
+"depto_1960": "Hipólito Yrigoyen",
+"poblacion": "457",
+"deptos_modernos": "Hipólito Yrigoyen",
+"pista": ""
+},
+{
+"page": "v7_p10",
+"n_orden": "277",
+"localidad": "Senador Péres",
+"provincia": "Jujuy",
+"depto_1960": "Humahuaca",
+"poblacion": "450",
+"deptos_modernos": "Humahuaca",
+"pista": ""
+},
+{
+"page": "v6_p07",
+"n_orden": "180",
+"localidad": "Vicentini",
+"provincia": "Chaco",
+"depto_1960": "San Fernando",
+"poblacion": "447",
+"deptos_modernos": "San Fernando",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "151",
+"localidad": "Dixonville",
+"provincia": "San Luis",
+"depto_1960": "Gobernador Dupuy",
+"poblacion": "441",
+"deptos_modernos": "Gobernador Dupuy",
+"pista": ""
+},
+{
+"page": "v4_p12",
+"n_orden": "621",
+"localidad": "Monte Cristo",
+"provincia": "Córdoba",
+"depto_1960": "Río Primero",
+"poblacion": "439",
+"deptos_modernos": "Río Primero",
+"pista": ""
+},
+{
+"page": "v8_p04",
+"n_orden": "152",
+"localidad": "Rincón del Este",
+"provincia": "San Luis",
+"depto_1960": "Junín",
+"poblacion": "435",
+"deptos_modernos": "Junín",
+"pista": ""
+},
+{
+"page": "v6_p02",
+"n_orden": "184",
+"localidad": "Desvío Bruchard",
+"provincia": "Formosa",
+"depto_1960": "Patiño",
+"poblacion": "432",
+"deptos_modernos": "Patiño",
+"pista": ""
+},
+{
+"page": "v8_p02",
+"n_orden": "155",
+"localidad": "Embalse La Florida",
+"provincia": "San Luis",
+"depto_1960": "Coronel Pringles",
+"poblacion": "417",
+"deptos_modernos": "Coronel Pringles",
+"pista": ""
+},
+{
+"page": "v4_p19",
+"n_orden": "633",
+"localidad": "V. Rosario del Saladillo",
+"provincia": "Córdoba",
+"depto_1960": "Tulumba",
+"poblacion": "416",
+"deptos_modernos": "Tulumba",
+"pista": ""
+},
+{
+"page": "v7_p03",
+"n_orden": "293",
+"localidad": "Dr. Facundo Zuviría",
+"provincia": "Salta",
+"depto_1960": "Chicoana",
+"poblacion": "402",
+"deptos_modernos": "Chicoana",
+"pista": ""
+},
+{
+"page": "v6_p04",
+"n_orden": "197",
+"localidad": "Mal Paso",
+"provincia": "Santiago del Estero",
+"depto_1960": "Capital",
+"poblacion": "401",
+"deptos_modernos": "Capital",
+"pista": ""
+},
+{
+"page": "v3_p14",
+"n_orden": "598",
+"localidad": "Lia Calel",
+"provincia": "Buenos Aires",
+"depto_1960": "Tres Arroyos",
+"poblacion": "392",
+"deptos_modernos": "Tres Arroyos",
+"pista": ""
+},
+{
+"page": "v7_p04",
+"n_orden": "298",
+"localidad": "El Recreo",
+"provincia": "Catamarca",
+"depto_1960": "Santa María",
+"poblacion": "391",
+"deptos_modernos": "Santa María",
+"pista": "Recreo/La Paz [10070140]"
+},
+{
+"page": "v4_p02",
+"n_orden": "642",
+"localidad": "Cabana",
+"provincia": "Córdoba",
+"depto_1960": "Colón",
+"poblacion": "379",
+"deptos_modernos": "Colón",
+"pista": ""
+},
+{
+"page": "v4_p03",
+"n_orden": "643",
+"localidad": "Candelaria Norte",
+"provincia": "Córdoba",
+"depto_1960": "Río Seco",
+"poblacion": "379",
+"deptos_modernos": "Río Seco",
+"pista": ""
+},
+{
+"page": "v6_p02",
+"n_orden": "206",
+"localidad": "El Chorro",
+"provincia": "Formosa",
+"depto_1960": "Ramón Lista",
+"poblacion": "377",
+"deptos_modernos": "Ramón Lista",
+"pista": ""
+},
+{
+"page": "v9_1_2_p01",
+"n_orden": "116",
+"localidad": "Centro Río Mayo",
+"provincia": "Chubut",
+"depto_1960": "Río Senguer",
+"poblacion": "376",
+"deptos_modernos": "Río Senguer",
+"pista": ""
+},
+{
+"page": "v6_p05",
+"n_orden": "209",
+"localidad": "Pampa Florida",
+"provincia": "Chaco",
+"depto_1960": "Maipú",
+"poblacion": "371",
+"deptos_modernos": "Maipú",
+"pista": ""
+},
+{
+"page": "v3_p11",
+"n_orden": "642",
+"localidad": "José M. Micheo",
+"provincia": "Buenos Aires",
+"depto_1960": "General Alvear",
+"poblacion": "352",
+"deptos_modernos": "General Alvear",
+"pista": ""
+},
+{
+"page": "v4_p12",
+"n_orden": "657",
+"localidad": "Molinari",
+"provincia": "Córdoba",
+"depto_1960": "Punilla",
+"poblacion": "345",
+"deptos_modernos": "Punilla",
+"pista": ""
+},
+{
+"page": "v7_p05",
+"n_orden": "321",
+"localidad": "Iturbe",
+"provincia": "Jujuy",
+"depto_1960": "Humahuaca",
+"poblacion": "326",
+"deptos_modernos": "Humahuaca",
+"pista": ""
+},
+{
+"page": "v3_p14",
+"n_orden": "673",
+"localidad": "Loma Negra",
+"provincia": "Buenos Aires",
+"depto_1960": "Olavarría",
+"poblacion": "322",
+"deptos_modernos": "Olavarría",
+"pista": ""
+},
+{
+"page": "v4_p06",
+"n_orden": "667",
+"localidad": "Desvío Km. 691",
+"provincia": "Córdoba",
+"depto_1960": "Río Primero",
+"poblacion": "317",
+"deptos_modernos": "Río Primero",
+"pista": ""
+},
+{
+"page": "v3_p04",
+"n_orden": "683",
+"localidad": "Cerro de los Leones",
+"provincia": "Buenos Aires",
+"depto_1960": "Tandil",
+"poblacion": "309",
+"deptos_modernos": "Tandil",
+"pista": ""
+},
+{
+"page": "v7_p10",
+"n_orden": "330",
+"localidad": "Tala Pampa",
+"provincia": "Salta",
+"depto_1960": "La Viña",
+"poblacion": "304",
+"deptos_modernos": "La Viña",
+"pista": ""
+},
+{
+"page": "v3_p08",
+"n_orden": "696",
+"localidad": "Fuerte Argentino",
+"provincia": "Buenos Aires",
+"depto_1960": "Tornquist",
+"poblacion": "301",
+"deptos_modernos": "Tornquist",
+"pista": ""
+},
+{
+"page": "v3_p07",
+"n_orden": "698",
+"localidad": "El Arbolito",
+"provincia": "Buenos Aires",
+"depto_1960": "Colón",
+"poblacion": "298",
+"deptos_modernos": "Colón",
+"pista": ""
+},
+{
+"page": "v4_p06",
+"n_orden": "682",
+"localidad": "El Cano",
+"provincia": "Córdoba",
+"depto_1960": "Calamuchita",
+"poblacion": "298",
+"deptos_modernos": "Calamuchita",
+"pista": "Cruz de Cana/Cruz del Eje [14028040]"
+},
+{
+"page": "v5_p07",
+"n_orden": "271",
+"localidad": "Veinte de Setiembre",
+"provincia": "Entre Ríos",
+"depto_1960": "Nogoyá",
+"poblacion": "289",
+"deptos_modernos": "Nogoyá",
+"pista": ""
+},
+{
+"page": "v3_p23",
+"n_orden": "709",
+"localidad": "Vuelta de Obligado",
+"provincia": "Buenos Aires",
+"depto_1960": "San Pedro",
+"poblacion": "283",
+"deptos_modernos": "San Pedro",
+"pista": ""
+},
+{
+"page": "v9_1_2_p04",
+"n_orden": "132",
+"localidad": "San Pedro",
+"provincia": "Río Negro",
+"depto_1960": "Bariloche",
+"poblacion": "274",
+"deptos_modernos": "Bariloche",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "275",
+"localidad": "Piloto Avila",
+"provincia": "Entre Ríos",
+"depto_1960": "La Paz",
+"poblacion": "266",
+"deptos_modernos": "La Paz | Federal",
+"pista": ""
+},
+{
+"page": "v7_p07",
+"n_orden": "344",
+"localidad": "Osma",
+"provincia": "Salta",
+"depto_1960": "La Viña",
+"poblacion": "263",
+"deptos_modernos": "La Viña",
+"pista": ""
+},
+{
+"page": "v3_p01",
+"n_orden": "737",
+"localidad": "Agote",
+"provincia": "Buenos Aires",
+"depto_1960": "Mercedes",
+"poblacion": "260",
+"deptos_modernos": "Mercedes",
+"pista": ""
+},
+{
+"page": "v9_1_2_p04",
+"n_orden": "134",
+"localidad": "Puerto Coyle",
+"provincia": "Santa Cruz",
+"depto_1960": "Güer Aike",
+"poblacion": "251",
+"deptos_modernos": "Güer Aike",
+"pista": ""
+},
+{
+"page": "v5_p06",
+"n_orden": "281",
+"localidad": "Primero de Mayo",
+"provincia": "Entre Ríos",
+"depto_1960": "Uruguay",
+"poblacion": "246",
+"deptos_modernos": "Uruguay",
+"pista": ""
+},
+{
+"page": "v6_p02",
+"n_orden": "242",
+"localidad": "El Cajón",
+"provincia": "Santiago del Estero",
+"depto_1960": "Ojo de Agua",
+"poblacion": "246",
+"deptos_modernos": "Ojo de Agua",
+"pista": ""
+},
+{
+"page": "v6_p03",
+"n_orden": "245",
+"localidad": "La Brea",
+"provincia": "Santiago del Estero",
+"depto_1960": "Figueroa",
+"poblacion": "237",
+"deptos_modernos": "Figueroa",
+"pista": "Brea Pozo/San Martín [86175010]"
+},
+{
+"page": "v3_p03",
+"n_orden": "761",
+"localidad": "Barrow",
+"provincia": "Buenos Aires",
+"depto_1960": "Tres Arroyos",
+"poblacion": "236",
+"deptos_modernos": "Tres Arroyos",
+"pista": ""
+},
+{
+"page": "v3_p21",
+"n_orden": "766",
+"localidad": "Tomás Jofré",
+"provincia": "Buenos Aires",
+"depto_1960": "Mercedes",
+"poblacion": "235",
+"deptos_modernos": "Mercedes",
+"pista": ""
+},
+{
+"page": "v6_p06",
+"n_orden": "246",
+"localidad": "Puna",
+"provincia": "Santiago del Estero",
+"depto_1960": "Moreno",
+"poblacion": "235",
+"deptos_modernos": "Moreno",
+"pista": "Estación La Punta/Choya [86063030]; Villa La Punta/Choya [86"
+},
+{
+"page": "v4_p05",
+"n_orden": "716",
+"localidad": "Chuchiras",
+"provincia": "Córdoba",
+"depto_1960": "San Javier",
+"poblacion": "234",
+"deptos_modernos": "San Javier",
+"pista": ""
+},
+{
+"page": "v4_p05",
+"n_orden": "718",
+"localidad": "Cruz Chica",
+"provincia": "Córdoba",
+"depto_1960": "Punilla",
+"poblacion": "233",
+"deptos_modernos": "Punilla",
+"pista": ""
+},
+{
+"page": "v7_p11",
+"n_orden": "361",
+"localidad": "Veintitrés de Agosto",
+"provincia": "Jujuy",
+"depto_1960": "Ledesma",
+"poblacion": "228",
+"deptos_modernos": "Ledesma",
+"pista": ""
+},
+{
+"page": "v3_p12",
+"n_orden": "781",
+"localidad": "La Japonesa",
+"provincia": "La Pampa",
+"depto_1960": "Cura-Có",
+"poblacion": "225",
+"deptos_modernos": "Curacó",
+"pista": ""
+},
+{
+"page": "v7_p01",
+"n_orden": "370",
+"localidad": "Bajo Grande",
+"provincia": "Salta",
+"depto_1960": "Metán",
+"poblacion": "210",
+"deptos_modernos": "Metán",
+"pista": ""
+},
+{
+"page": "v7_p02",
+"n_orden": "372",
+"localidad": "Capitán J. Page",
+"provincia": "Salta",
+"depto_1960": "Rivadavia",
+"poblacion": "207",
+"deptos_modernos": "Rivadavia",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "291",
+"localidad": "Miñones",
+"provincia": "Entre Ríos",
+"depto_1960": "Federación",
+"poblacion": "204",
+"deptos_modernos": "Federación",
+"pista": ""
+},
+{
+"page": "v3_p12",
+"n_orden": "820",
+"localidad": "Kilómetro 125",
+"provincia": "Buenos Aires",
+"depto_1960": "San Andrés de Giles",
+"poblacion": "192",
+"deptos_modernos": "San Andrés de Giles",
+"pista": ""
+},
+{
+"page": "v3_p03",
+"n_orden": "827",
+"localidad": "Bonifacio",
+"provincia": "Buenos Aires",
+"depto_1960": "Guaminí",
+"poblacion": "187",
+"deptos_modernos": "Guaminí",
+"pista": ""
+},
+{
+"page": "v4_p15",
+"n_orden": "741",
+"localidad": "Rumiyaco",
+"provincia": "Córdoba",
+"depto_1960": "Minas",
+"poblacion": "187",
+"deptos_modernos": "Minas",
+"pista": ""
+},
+{
+"page": "v7_p04",
+"n_orden": "386",
+"localidad": "El Tobar",
+"provincia": "Tucumán",
+"depto_1960": "Chicligasta",
+"poblacion": "184",
+"deptos_modernos": "Chicligasta | Simoca",
+"pista": ""
+},
+{
+"page": "v7_p08",
+"n_orden": "389",
+"localidad": "Rosario del Dorado",
+"provincia": "Salta",
+"depto_1960": "Anta",
+"poblacion": "177",
+"deptos_modernos": "Anta",
+"pista": ""
+},
+{
+"page": "v7_p04",
+"n_orden": "398",
+"localidad": "General Alvarado",
+"provincia": "Salta",
+"depto_1960": "Capital",
+"poblacion": "159",
+"deptos_modernos": "Capital",
+"pista": ""
+},
+{
+"page": "v7_p05",
+"n_orden": "402",
+"localidad": "Huasa Pampa Sud",
+"provincia": "Tucumán",
+"depto_1960": "Graneros",
+"poblacion": "149",
+"deptos_modernos": "Graneros | La Cocha",
+"pista": ""
+},
+{
+"page": "v7_p06",
+"n_orden": "406",
+"localidad": "Luisiana",
+"provincia": "Tucumán",
+"depto_1960": "Cruz Alta",
+"poblacion": "146",
+"deptos_modernos": "Cruz Alta",
+"pista": ""
+},
+{
+"page": "v9_1_2_p05",
+"n_orden": "147",
+"localidad": "Yacimiento Petrolífero Solano",
+"provincia": "Chubut",
+"depto_1960": "Escalante",
+"poblacion": "127",
+"deptos_modernos": "Escalante",
+"pista": ""
+},
+{
+"page": "v5_p05",
+"n_orden": "304",
+"localidad": "Machadiño",
+"provincia": "Misiones",
+"depto_1960": "Concepción",
+"poblacion": "112",
+"deptos_modernos": "Concepción",
+"pista": ""
+},
+{
+"page": "v4_p03",
+"n_orden": "772",
+"localidad": "Casaffousth",
+"provincia": "Córdoba",
+"depto_1960": "Punilla",
+"poblacion": "108",
+"deptos_modernos": "Punilla",
+"pista": ""
+},
+{
+"page": "v3_p04",
+"n_orden": "905",
+"localidad": "Colonia La Merced",
+"provincia": "Buenos Aires",
+"depto_1960": "Villarino",
+"poblacion": "105",
+"deptos_modernos": "Villarino",
+"pista": ""
+},
+{
+"page": "v4_p08",
+"n_orden": "775",
+"localidad": "Jean Maire",
+"provincia": "Córdoba",
+"depto_1960": "San Justo",
+"poblacion": "103",
+"deptos_modernos": "San Justo",
+"pista": ""
+},
+{
+"page": "v9_1_2_p04",
+"n_orden": "154",
+"localidad": "Planta Compresora Conesa",
+"provincia": "Río Negro",
+"depto_1960": "General Conesa",
+"poblacion": "101",
+"deptos_modernos": "Conesa",
+"pista": ""
+},
+{
+"page": "v9_1_2_p01",
+"n_orden": "157",
+"localidad": "Barrio Laprida y Manantial Rosales",
+"provincia": "Chubut",
+"depto_1960": "Escalante",
+"poblacion": "81",
+"deptos_modernos": "Escalante",
+"pista": ""
+}
+]

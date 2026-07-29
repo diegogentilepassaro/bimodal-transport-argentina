@@ -1,0 +1,20 @@
+page,n_orden,localidad,veredicto_humano,estado_final,nota_humano,fecha
+v3_p02,871,Arroyo Dulce,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v3_p03,909,Calderón,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v3_p07,652,Energía,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v3_p08,558,Enrique Lavalle,aceptar,manual_coord_frontera,"Jose: aceptar (residuo chico, mismo lugar confirmado por fuente; guard rojo por borde/split)",2026-07-22
+v3_p17,873,Pasteur,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v3_p18,45,Puerto de la Plata,aceptar,manual_coord_ambiguo,"Jose: punto del puerto (-34.8667,-57.8999), ambiguo; los 17338 hab son del cordon Ensenada-Berisso sin reparto documentado",2026-07-22
+v3_p22,349,Villars,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p07,419,Golondrina,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p07,572,Garabato,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p08,601,Intiyaco,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p10,491,Los Amores,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p12,621,Monte Cristo,aceptar,manual_coord_frontera,"Jose: aceptar (residuo chico, mismo lugar confirmado por fuente; guard rojo por borde/split)",2026-07-22
+v4_p17,57,Santa Teresa,aceptar,correccion_fuente_depto,"Jose: image-check confirmo artefacto de fuente; depto 1960 impreso Iriondo es erroneo, correcto Constitucion",2026-07-22
+v4_p18,578,Tartagal,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v4_p18,658,Tinoco,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v5_p01,136,Aranguren,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v5_p02,114,Dos de Mayo,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22
+v5_p05,291,Miñones,aceptar,manual_coord_frontera,"Jose: aceptar (residuo chico, mismo lugar confirmado por fuente; guard rojo por borde/split)",2026-07-22
+v7_p07,199,Manuel García Fernández,aceptar,transferencia_limite_declarado,"Jose ratifico bloque limite declarado (README 3.1b: reasignacion entre deptos preexistentes, sin ley citable; identidad solida)",2026-07-22

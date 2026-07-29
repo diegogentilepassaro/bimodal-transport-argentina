@@ -1,0 +1,232 @@
+[
+ {
+  "page": "v4_p19",
+  "n_orden": "48",
+  "localidad": "Villa Diego",
+  "provincia": "Santa Fe",
+  "depto_1960": "Rosario",
+  "poblacion": "6852",
+  "deptos_modernos": "Rosario",
+  "pista": ""
+ },
+ {
+  "page": "v4_p04",
+  "n_orden": "127",
+  "localidad": "Colonia Ella",
+  "provincia": "Santa Fe",
+  "depto_1960": "General Obligado",
+  "poblacion": "3498",
+  "deptos_modernos": "General Obligado",
+  "pista": ""
+ },
+ {
+  "page": "v3_p04",
+  "n_orden": "173",
+  "localidad": "Carlos Pellegrini",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Pellegrini",
+  "poblacion": "2470",
+  "deptos_modernos": "Pellegrini | Salliqueló | Tres Lomas",
+  "pista": ""
+ },
+ {
+  "page": "v6_p05",
+  "n_orden": "43",
+  "localidad": "Misión San Fco. de Laishí",
+  "provincia": "Formosa",
+  "depto_1960": "Laishí",
+  "poblacion": "1944",
+  "deptos_modernos": "Laishi",
+  "pista": ""
+ },
+ {
+  "page": "v3_p12",
+  "n_orden": "222",
+  "localidad": "La Dulce",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Necochea",
+  "poblacion": "1662",
+  "deptos_modernos": "Necochea",
+  "pista": "Arroyo Dulce/Salto [06714010]"
+ },
+ {
+  "page": "v3_p19",
+  "n_orden": "241",
+  "localidad": "Sánchez",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Ramallo",
+  "poblacion": "1480",
+  "deptos_modernos": "Ramallo",
+  "pista": ""
+ },
+ {
+  "page": "v7_p11",
+  "n_orden": "113",
+  "localidad": "Villa Bustos",
+  "provincia": "La Rioja",
+  "depto_1960": "Sanagasta",
+  "poblacion": "1314",
+  "deptos_modernos": "Sanagasta",
+  "pista": ""
+ },
+ {
+  "page": "v4_p06",
+  "n_orden": "365",
+  "localidad": "Dalmacio Vélez Sarsfield",
+  "provincia": "Córdoba",
+  "depto_1960": "Tercero Arriba",
+  "poblacion": "1175",
+  "deptos_modernos": "Tercero Arriba",
+  "pista": ""
+ },
+ {
+  "page": "v4_p17",
+  "n_orden": "402",
+  "localidad": "Sebastián el Cano",
+  "provincia": "Córdoba",
+  "depto_1960": "Río Seco",
+  "poblacion": "1010",
+  "deptos_modernos": "Río Seco",
+  "pista": ""
+ },
+ {
+  "page": "v4_p12",
+  "n_orden": "447",
+  "localidad": "Mariano Saavedra",
+  "provincia": "Santa Fe",
+  "depto_1960": "Las Colonias",
+  "poblacion": "871",
+  "deptos_modernos": "Las Colonias",
+  "pista": ""
+ },
+ {
+  "page": "v3_p18",
+  "n_orden": "390",
+  "localidad": "Río Colorado",
+  "provincia": "La Pampa",
+  "depto_1960": "Caleu-Caleu",
+  "poblacion": "764",
+  "deptos_modernos": "Caleu Caleu",
+  "pista": ""
+ },
+ {
+  "page": "v3_p12",
+  "n_orden": "418",
+  "localidad": "Juan J. Almeyra",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Navarro",
+  "poblacion": "696",
+  "deptos_modernos": "Navarro",
+  "pista": ""
+ },
+ {
+  "page": "v5_p08",
+  "n_orden": "196",
+  "localidad": "Villa San Marcial (Gob. Urquiza)",
+  "provincia": "Entre Ríos",
+  "depto_1960": "Uruguay",
+  "poblacion": "578",
+  "deptos_modernos": "Uruguay",
+  "pista": ""
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "567",
+  "localidad": "Kilómetro 711",
+  "provincia": "Córdoba",
+  "depto_1960": "Colón",
+  "poblacion": "547",
+  "deptos_modernos": "Colón",
+  "pista": ""
+ },
+ {
+  "page": "v6_p02",
+  "n_orden": "167",
+  "localidad": "Esteros",
+  "provincia": "Santiago del Estero",
+  "depto_1960": "Figueroa",
+  "poblacion": "508",
+  "deptos_modernos": "Figueroa",
+  "pista": "Santiago del Estero/Capital [86049110]"
+ },
+ {
+  "page": "v7_p10",
+  "n_orden": "277",
+  "localidad": "Senador Péres",
+  "provincia": "Jujuy",
+  "depto_1960": "Humahuaca",
+  "poblacion": "450",
+  "deptos_modernos": "Humahuaca",
+  "pista": ""
+ },
+ {
+  "page": "v7_p03",
+  "n_orden": "293",
+  "localidad": "Dr. Facundo Zuviría",
+  "provincia": "Salta",
+  "depto_1960": "Chicoana",
+  "poblacion": "402",
+  "deptos_modernos": "Chicoana",
+  "pista": ""
+ },
+ {
+  "page": "v6_p05",
+  "n_orden": "209",
+  "localidad": "Pampa Florida",
+  "provincia": "Chaco",
+  "depto_1960": "Maipú",
+  "poblacion": "371",
+  "deptos_modernos": "Maipú",
+  "pista": ""
+ },
+ {
+  "page": "v3_p08",
+  "n_orden": "696",
+  "localidad": "Fuerte Argentino",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Tornquist",
+  "poblacion": "301",
+  "deptos_modernos": "Tornquist",
+  "pista": ""
+ },
+ {
+  "page": "v3_p01",
+  "n_orden": "737",
+  "localidad": "Agote",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Mercedes",
+  "poblacion": "260",
+  "deptos_modernos": "Mercedes",
+  "pista": ""
+ },
+ {
+  "page": "v4_p05",
+  "n_orden": "716",
+  "localidad": "Chuchiras",
+  "provincia": "Córdoba",
+  "depto_1960": "San Javier",
+  "poblacion": "234",
+  "deptos_modernos": "San Javier",
+  "pista": ""
+ },
+ {
+  "page": "v3_p03",
+  "n_orden": "827",
+  "localidad": "Bonifacio",
+  "provincia": "Buenos Aires",
+  "depto_1960": "Guaminí",
+  "poblacion": "187",
+  "deptos_modernos": "Guaminí",
+  "pista": ""
+ },
+ {
+  "page": "v5_p05",
+  "n_orden": "304",
+  "localidad": "Machadiño",
+  "provincia": "Misiones",
+  "depto_1960": "Concepción",
+  "poblacion": "112",
+  "deptos_modernos": "Concepción",
+  "pista": ""
+ }
+]

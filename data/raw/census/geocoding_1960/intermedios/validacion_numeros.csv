@@ -1,0 +1,3064 @@
+page,n_orden,localidad,total,varones,mujeres,suma_vm,delta,estado
+v3_p01,359,Abbott,865,460,405,865,0,ok
+v3_p01,396,Abramo,747,406,341,747,0,ok
+v3_p01,299,Acevedo,1148,598,550,1148,0,ok
+v3_p01,446,Achupallas,638,336,302,638,0,ok
+v3_p01,659,Adela,336,209,127,336,0,ok
+v3_p01,89,Adolfo Alsina,6183,3035,3148,6183,0,ok
+v3_p01,491,Adolfo Van Praet,558,280,278,558,0,ok
+v3_p01,737,Agote,260,130,130,260,0,ok
+v3_p01,313,Agustina,1079,618,461,1079,0,ok
+v3_p01,264,Agustín Roca,1361,729,632,1361,0,ok
+v3_p01,577,Agustoni,418,246,172,418,0,ok
+v3_p01,702,Alagón,289,180,109,289,0,ok
+v3_p01,807,Albariño,202,127,75,202,0,ok
+v3_p01,99,Alberti,5322,2586,2736,5322,0,ok
+v3_p01,459,Aldea Romana,616,354,262,616,0,ok
+v3_p01,825,Alegre,188,112,76,188,0,ok
+v3_p01,808,Alférez de San Martín,202,120,82,202,0,ok
+v3_p01,271,Algarrobo,1317,726,591,1317,0,ok
+v3_p01,775,Algarrobo del Águila,228,122,106,228,0,ok
+v3_p01,14,Almirante Brown,136924,68451,68473,136924,0,ok
+v3_p01,176,Alpachiri,2414,1337,1077,2414,0,ok
+v3_p01,260,Alsina,1375,777,598,1375,0,ok
+v3_p01,285,Alta Italia,1227,646,581,1227,0,ok
+v3_p01,757,Altamira,245,125,120,245,0,ok
+v3_p01,675,Altamirano,320,180,140,320,0,ok
+v3_p01,818,Alta Vista,192,119,73,192,0,ok
+v3_p01,879,Altona,137,76,61,137,0,ok
+v3_p01,318,Alvarez de Toledo,1040,562,478,1040,0,ok
+v3_p01,516,Alvarez Jonte,519,279,240,519,0,ok
+v3_p01,897,Amalia,120,71,49,120,0,ok
+v3_p01,116,Ameghino,4154,2167,1987,4154,0,ok
+v3_p01,814,Anasagasti,198,118,80,198,0,ok
+v3_p01,622,Andant,370,211,159,370,0,ok
+v3_p01,764,Anderson,235,130,105,235,0,ok
+v3_p01,221,Anguil,1665,920,745,1665,0,ok
+v3_p01,443,Antonio Carboni,644,359,285,644,0,ok
+v3_p01,754,Anzoategui,247,163,84,247,0,ok
+v3_p01,394,Aparicio,755,458,297,755,0,ok
+v3_p01,750,Arano,248,143,105,248,0,ok
+v3_p01,269,Arata,1336,735,601,1336,0,ok
+v3_p01,574,Araujo,422,240,182,422,0,ok
+v3_p02,385,Arboledas,781,426,355,781,0,ok
+v3_p02,230,Arenaza,1592,831,761,1592,0,ok
+v3_p02,726,Argerich,267,153,114,267,0,ok
+v3_p02,609,Ariel,379,211,168,379,0,ok
+v3_p02,57,Arrecifes,10397,5234,5163,10397,0,ok
+v3_p02,162,Arribeños,2782,1448,1334,2782,0,ok
+v3_p02,338,Arroyo Corto,956,455,501,956,0,ok
+v3_p02,634,Arroyo de la Cruz,361,203,158,361,0,ok
+v3_p02,586,Arroyo del Medio,403,232,171,403,0,ok
+v3_p02,699,Arroyo de los Huesos,297,187,110,297,0,ok
+v3_p02,871,Arroyo Dulce,147,96,51,147,0,ok
+v3_p02,236,Arroyo Dulce,1514,793,721,1514,0,ok
+v3_p02,447,Arroyo Venado,634,352,282,634,0,ok
+v3_p02,623,Asamblea,369,224,145,369,0,ok
+v3_p02,168,Ascensión,2638,1381,1257,2638,0,ok
+v3_p02,703,Asturias,287,172,115,287,0,ok
+v3_p02,539,Atalaya,484,249,235,484,0,ok
+v3_p02,427,Ataliva Roca,678,373,305,678,0,ok
+v3_p02,909,Atilio Pesagno,100,60,40,100,0,ok
+v3_p02,838,Atreucó,175,119,56,175,0,ok
+v3_p02,868,Atucha,152,102,50,152,0,ok
+v3_p02,5,Avellaneda,326531,163759,162772,326531,0,ok
+v3_p02,651,Avestrus,343,199,144,343,0,ok
+v3_p02,61,Ayacucho,10004,4660,5344,10004,0,ok
+v3_p02,552,Azcuénaga,463,252,211,463,0,ok
+v3_p02,473,Azopardo,578,326,252,578,0,ok
+v3_p02,397,Azucena,743,429,314,743,0,ok
+v3_p02,31,Azul,33535,16542,16993,33535,0,ok
+v3_p02,706,Bacacay,286,171,115,286,0,ok
+v3_p02,15,Bahía Blanca,120580,58804,61776,120580,0,ok
+v3_p02,694,Bahía San Blas,302,212,90,302,0,ok
+v3_p02,187,Baigorrita,2046,1111,935,2046,0,ok
+v3_p02,497,Bajo Hondo,552,311,241,552,0,ok
+v3_p02,877,Balsa,139,83,56,139,0,ok
+v3_p02,554,Balneario Claromecó,459,259,200,459,0,ok
+v3_p02,828,Balneario Mar de Ajó Norte,187,103,84,187,0,ok
+v3_p02,41,Balcarce,20540,10330,10210,20540,0,ok
+v3_p02,296,Banderaló,1161,608,553,1161,0,ok
+v3_p02,72,Baradero,8253,3986,4267,8253,0,ok
+v3_p02,550,Barker,464,263,201,464,0,ok
+v3_p02,245,Bartolomé Bavio,1452,785,667,1452,0,ok
+v3_p03,761,Barrow,236,146,90,236,0,ok
+v3_p03,569,Bathurst,428,270,158,428,0,ok
+v3_p03,857,Baudrix,159,99,60,159,0,ok
+v3_p03,238,Bayauca,1502,812,690,1502,0,ok
+v3_p03,55,Belén de Escobar,11480,5923,5557,11480,0,ok
+v3_p03,443,Bellocq,662,348,314,662,0,ok
+v3_p03,780,Benítez,226,113,113,226,0,ok
+v3_p03,846,Berrahondo,166,108,58,166,0,ok
+v3_p03,366,Berdier,848,487,361,848,0,ok
+v3_p03,27,Berisso,40983,20918,20065,40983,0,ok
+v3_p03,538,Bermúdez,485,265,220,485,0,ok
+v3_p03,242,Bernardo Larroudé,1472,805,667,1472,0,ok
+v3_p03,174,Bernasconi,2453,1289,1164,2453,0,ok
+v3_p03,263,Berutti,1364,691,673,1364,0,ok
+v3_p03,347,Blaquier,920,505,415,920,0,ok
+v3_p03,549,Blanca Grande,465,230,235,465,0,ok
+v3_p03,842,Blandengues,170,106,64,170,0,ok
+v3_p03,893,Blas Durañona,124,67,57,124,0,ok
+v3_p03,635,Bocayuva,360,215,145,360,0,ok
+v3_p03,855,Boeuf,161,90,71,161,0,ok
+v3_p03,49,Bolívar,15750,7464,8286,15750,0,ok
+v3_p03,827,Bonifacio,187,89,98,187,0,ok
+v3_p03,254,Bordenave,1414,750,664,1414,0,ok
+v3_p03,795,Bordeu,211,127,84,211,0,ok
+v3_p03,521,Bosch,511,360,151,511,0,ok
+v3_p03,40,Bragado,20689,10035,10654,20689,0,ok
+v3_p03,172,Cabildo,2470,1307,1163,2470,0,ok
+v3_p03,145,Cacharí,3135,1557,1578,3135,0,ok
+v3_p03,648,Cachirulo,345,209,136,345,0,ok
+v3_p03,409,Cadret,710,420,290,710,0,ok
+v3_p03,909,Calderón,105,66,33,99,6,flag
+v3_p03,689,Calderón,306,211,95,306,0,ok
+v3_p03,199,Caleufú,1927,1016,911,1927,0,ok
+v3_p03,536,Calfucurá,488,306,182,488,0,ok
+v3_p03,625,Calvo,368,222,146,368,0,ok
+v3_p03,845,Cambaceres,167,93,74,167,0,ok
+v3_p03,339,Camet,956,570,386,956,0,ok
+v3_p03,38,Campana,24781,12619,12162,24781,0,ok
+v3_p03,546,Campo Sallee,474,269,205,474,0,ok
+v3_p03,479,Cangallo,573,350,223,573,0,ok
+v3_p03,697,Canónigo Gorriti,299,189,110,299,0,ok
+v3_p04,304,Cañada Seca,1129,633,496,1129,0,ok
+v3_p04,70,Cañuelas,8842,4363,4479,8842,0,ok
+v3_p04,121,Capilla del Señor,3928,1891,2037,3928,0,ok
+v3_p04,721,Capitán Castro,272,154,118,272,0,ok
+v3_p04,83,Capitán Sarmiento,7051,3670,3381,7051,0,ok
+v3_p04,282,Carabelas,1239,684,555,1239,0,ok
+v3_p04,492,Cardenal Cagliero,558,359,199,558,0,ok
+v3_p04,335,Carlos Beguerie,969,505,464,969,0,ok
+v3_p04,67,Carlos Casares,9218,4545,4673,9218,0,ok
+v3_p04,330,Carlos Keen,998,557,441,998,0,ok
+v3_p04,272,Carlos N. Naón,1310,711,599,1310,0,ok
+v3_p04,173,Carlos Pellegrini,2470,1234,1236,2470,0,ok
+v3_p04,403,Carlos Salas,726,377,349,726,0,ok
+v3_p04,129,Carlos Tejedor,3540,1788,1752,3540,0,ok
+v3_p04,94,Carmen de Areco,5772,2836,2936,5772,0,ok
+v3_p04,78,Carmen de Patagones,7478,3556,3922,7478,0,ok
+v3_p04,386,Carro Quemado,780,473,307,780,0,ok
+v3_p04,746,Casalins,252,152,100,252,0,ok
+v3_p04,179,Casbas,2397,1256,1141,2397,0,ok
+v3_p04,449,Cascada,629,368,261,629,0,ok
+v3_p04,778,Casey,227,130,97,227,0,ok
+v3_p04,146,Castelli,3123,1529,1594,3123,0,ok
+v3_p04,306,Castilla,1122,602,520,1122,0,ok
+v3_p04,195,Catriló,1951,1012,939,1951,0,ok
+v3_p04,329,Cazón,999,515,484,999,0,ok
+v3_p04,591,Ceballos,398,227,171,398,0,ok
+v3_p04,819,Centenario,192,115,77,192,0,ok
+v3_p04,853,Centro Guerrero,162,83,79,162,0,ok
+v3_p04,751,Cereales,248,161,87,248,0,ok
+v3_p04,629,Cerrito,365,217,148,365,0,ok
+v3_p04,683,Cerro de los Leones,309,190,119,309,0,ok
+v3_p04,684,Cerro Sotuyo,308,166,142,308,0,ok
+v3_p04,274,Claraz,1299,703,596,1299,0,ok
+v3_p04,565,Claudio Molina,439,292,147,439,0,ok
+v3_p04,833,Cobo,181,118,63,181,0,ok
+v3_p04,748,Coliqueo,250,139,111,250,0,ok
+v3_p04,60,Colón,10209,5175,5034,10209,0,ok
+v3_p04,185,Colonia Barón,2094,1095,999,2094,0,ok
+v3_p04,504,Colonia Hogar Ricardo Gutiérrez,541,381,160,541,0,ok
+v3_p04,905,Colonia La Merced,105,63,42,105,0,ok
+v3_p05,810,Colonia Lapin,200,118,82,200,0,ok
+v3_p05,779,Colonia Mauricio,227,123,104,227,0,ok
+v3_p05,887,Colonia Philippson,129,63,66,129,0,ok
+v3_p05,704,Colonia San José,287,150,137,287,0,ok
+v3_p05,435,Colonia San Miguel,662,368,294,662,0,ok
+v3_p05,258,Colonia San Miguel Arcángel,1379,689,690,1379,0,ok
+v3_p05,515,Colonia Santa María,521,277,244,521,0,ok
+v3_p05,319,Colonia Seré,1034,545,489,1034,0,ok
+v3_p05,410,Colonia 25 de Mayo,709,404,305,709,0,ok
+v3_p05,712,Colonia Velaz,280,148,132,280,0,ok
+v3_p05,541,Comandante Giribone,483,283,200,483,0,ok
+v3_p05,117,Cte. Nicanor Otamendi,4046,2200,1846,4046,0,ok
+v3_p05,219,Comodoro Py,1677,903,774,1677,0,ok
+v3_p05,840,Condarco,173,114,59,173,0,ok
+v3_p05,191,Conesa,2010,1039,971,2010,0,ok
+v3_p05,114,Conhello,4248,2198,2050,4248,0,ok
+v3_p05,232,Copetonas,1575,787,788,1575,0,ok
+v3_p05,856,Corazzi,160,99,61,160,0,ok
+v3_p05,783,Corbett,222,151,71,222,0,ok
+v3_p05,872,Coronel Boerr,147,88,59,147,0,ok
+v3_p05,109,Coronel Brandsen,4775,2381,2394,4775,0,ok
+v3_p05,68,Coronel Dorrego,9154,4496,4658,9154,0,ok
+v3_p05,803,Coronel Falcón,208,128,80,208,0,ok
+v3_p05,312,Coronel Granada,1080,580,500,1080,0,ok
+v3_p05,457,Coronel Hilario Lagos,623,345,278,623,0,ok
+v3_p05,615,Coronel Isleño,372,210,162,372,0,ok
+v3_p05,288,Coronel Mom,1201,615,586,1201,0,ok
+v3_p05,52,Coronel Pringles,14180,6694,7486,14180,0,ok
+v3_p05,765,Coronel Rodolfo Bunge,235,147,88,235,0,ok
+v3_p05,899,Coronel Seguí,117,62,55,117,0,ok
+v3_p05,69,Coronel Suárez,8878,4179,4699,8878,0,ok
+v3_p05,124,Coronel Vidal,3660,1764,1896,3660,0,ok
+v3_p05,323,Cortines,1012,591,421,1012,0,ok
+v3_p05,839,Cotita,174,102,72,174,0,ok
+v3_p05,520,Covello,513,297,216,513,0,ok
+v3_p05,421,Cristiano Muerto,691,416,275,691,0,ok
+v3_p05,503,Crotto,542,307,235,542,0,ok
+v3_p05,679,Cuatro de Noviembre,316,182,134,316,0,ok
+v3_p05,646,Cuculú,346,193,153,346,0,ok
+v3_p05,469,Cucha-Cucha,583,295,288,583,0,ok
+v3_p06,624,Cuchillo-Co,369,248,121,369,0,ok
+v3_p06,406,Curarú,717,414,303,717,0,ok
+v3_p06,353,Curumalán,896,494,402,896,0,ok
+v3_p06,39,Chacabuco,22544,11097,11447,22544,0,ok
+v3_p06,448,Chacharramendi,632,391,241,632,0,ok
+v3_p06,776,Chamaicó,228,144,84,228,0,ok
+v3_p06,865,Chancay,154,93,61,154,0,ok
+v3_p06,181,Chapadmalal,2243,1406,837,2243,0,ok
+v3_p06,729,Chapaleofú,265,153,112,265,0,ok
+v3_p06,494,Charlone,554,303,251,554,0,ok
+v3_p06,56,Chascomús,10521,4959,5562,10521,0,ok
+v3_p06,616,Chasicó,372,216,156,372,0,ok
+v3_p06,860,Chenaut,157,86,71,157,0,ok
+v3_p06,534,Chiclana,492,281,211,492,0,ok
+v3_p06,356,Chillar,869,464,405,869,0,ok
+v3_p06,32,Chivilcoy,32660,15622,17038,32660,0,ok
+v3_p06,849,Choique,165,98,67,165,0,ok
+v3_p06,95,Daireaux,5769,2812,2957,5769,0,ok
+v3_p06,465,Damián Maisonave,598,332,266,598,0,ok
+v3_p06,108,Darragueira,4981,2475,2506,4981,0,ok
+v3_p06,471,De Bary,582,328,254,582,0,ok
+v3_p06,402,Defferrari,727,426,301,727,0,ok
+v3_p06,493,De la Canal,557,352,205,557,0,ok
+v3_p06,210,De la Garma,1837,995,842,1837,0,ok
+v3_p06,216,Del Carril,1717,876,841,1717,0,ok
+v3_p06,828,Delgado,185,100,85,185,0,ok
+v3_p06,594,Delfín Huergo,396,230,166,396,0,ok
+v3_p06,314,Del Valle,1069,636,433,1069,0,ok
+v3_p06,387,Del Viso,778,413,365,778,0,ok
+v3_p06,564,Denhny,441,240,201,441,0,ok
+v3_p06,640,Dieciseis de Julio,354,197,157,354,0,ok
+v3_p06,745,Diego Gaynor,254,153,101,254,0,ok
+v3_p06,243,Doblas,1462,785,677,1462,0,ok
+v3_p06,439,Doce de Octubre,654,340,314,654,0,ok
+v3_p06,858,Dr. Domingo Harósteguy,159,90,69,159,0,ok
+v3_p06,48,Dolores,16003,7576,8427,16003,0,ok
+v3_p06,297,Domselaar,1155,636,519,1155,0,ok
+v3_p06,903,Don Cipriano,108,62,46,108,0,ok
+v3_p06,767,D'Orbigny,234,155,79,234,0,ok
+v3_p06,670,Dorila,324,186,138,324,0,ok
+v3_p06,844,Dos Hermanos,168,114,54,168,0,ok
+v3_p07,824,Drabble,190,123,67,190,0,ok
+v3_p07,786,Drysdale,219,125,94,219,0,ok
+v3_p07,869,Ducos,152,89,63,152,0,ok
+v3_p07,171,Dudignac,2524,1322,1202,2524,0,ok
+v3_p07,417,Dufaur,697,390,307,697,0,ok
+v3_p07,315,Duggan,1052,602,450,1052,0,ok
+v3_p07,762,Duhau,236,154,82,236,0,ok
+v3_p07,769,Durañona,232,144,88,232,0,ok
+v3_p07,431,Durcudoy,670,391,279,670,0,ok
+v3_p07,866,Dussaud,153,83,70,153,0,ok
+v3_p07,301,Eduardo Castex,1140,631,509,1140,0,ok
+v3_p07,852,Eduardo Costa,163,112,51,163,0,ok
+v3_p07,477,Egaña,576,315,261,576,0,ok
+v3_p07,698,El Arbolito,298,148,150,298,0,ok
+v3_p07,867,El Día,153,98,55,153,0,ok
+v3_p07,509,El Divisorio,534,321,213,534,0,ok
+v3_p07,322,El Dorado,1019,566,453,1019,0,ok
+v3_p07,639,El Jabalí,355,209,146,355,0,ok
+v3_p07,682,El Lenguaraz,311,172,139,311,0,ok
+v3_p07,685,El Moro,307,172,135,307,0,ok
+v3_p07,533,Elordi,494,270,224,494,0,ok
+v3_p07,229,El Paraíso,1596,893,703,1596,0,ok
+v3_p07,719,El Pensamiento,274,149,125,274,0,ok
+v3_p07,208,El Socorro,1857,1019,838,1857,0,ok
+v3_p07,686,El Tejar,307,177,130,307,0,ok
+v3_p07,863,El Trigo,155,93,62,155,0,ok
+v3_p07,267,El Triunfo,1346,698,648,1346,0,ok
+v3_p07,470,Elvira,583,321,262,583,0,ok
+v3_p07,784,El Zorro,221,132,89,221,0,ok
+v3_p07,356,Embajador Martini,814,447,367,814,0,ok
+v3_p07,481,Emiliano Reynoso,572,314,258,572,0,ok
+v3_p07,345,Emilio Ayarza,924,538,386,924,0,ok
+v3_p07,718,Emilio Lamarca,275,161,114,275,0,ok
+v3_p07,817,Emilio Mitre,193,114,79,193,0,ok
+v3_p07,224,Emilio V. Bunge,1628,855,773,1628,0,ok
+v3_p07,611,Emma,376,222,154,376,0,ok
+v3_p07,102,Empalme Lobos,5170,2621,2549,5170,0,ok
+v3_p07,86,Empalme San Vicente,6459,3256,3203,6459,0,ok
+v3_p07,900,Encina,116,71,45,116,0,ok
+v3_p07,652,Energía,343,226,117,343,0,ok
+v3_p07,606,Enrique Fynn,382,230,152,382,0,ok
+v3_p08,558,Enrique Lavalle,457,271,186,457,0,ok
+v3_p08,25,Ensenada,26086,13288,12798,26086,0,ok
+v3_p08,768,Erezcano,234,130,104,234,0,ok
+v3_p08,661,Erize,334,188,146,334,0,ok
+v3_p08,407,Ernestina,715,376,339,715,0,ok
+v3_p08,653,Escalada,343,211,132,343,0,ok
+v3_p08,570,Espartillar,426,246,180,426,0,ok
+v3_p08,495,Espartillar,554,282,272,554,0,ok
+v3_p08,328,Espigas,1000,508,492,1000,0,ok
+v3_p08,735,Espora,262,155,107,262,0,ok
+v3_p08,649,Estación Arenales,345,190,155,345,0,ok
+v3_p08,475,Esteban Agustín Gascón,577,324,253,577,0,ok
+v3_p08,592,Esteban de Luca,398,227,171,398,0,ok
+v3_p08,19,Esteban Echeverría,69730,35670,34060,69730,0,ok
+v3_p08,687,Estela,307,181,126,307,0,ok
+v3_p08,663,Esther,330,186,144,330,0,ok
+v3_p08,722,Estomba,270,170,100,270,0,ok
+v3_p08,680,Estrugamou,312,172,140,312,0,ok
+v3_p08,641,Etchegoyen,353,220,133,353,0,ok
+v3_p08,874,Eufemio Uballes,146,79,67,146,0,ok
+v3_p08,710,Fair,282,174,108,282,0,ok
+v3_p08,713,Falucho,280,155,125,280,0,ok
+v3_p08,632,Faro,362,207,155,362,0,ok
+v3_p08,902,Fatraló,110,74,36,110,0,ok
+v3_p08,559,Fauzón,457,269,188,457,0,ok
+v3_p08,279,Felipe Solá,1270,707,563,1270,0,ok
+v3_p08,295,Ferré,1164,603,561,1164,0,ok
+v3_p08,25,Florencio Varela,41707,21587,20120,41707,0,ok
+v3_p08,813,Fontezuela,199,104,95,199,0,ok
+v3_p08,666,Fortín Acha,326,183,143,326,0,ok
+v3_p08,278,Fortín Olavarría,1275,673,602,1275,0,ok
+v3_p08,372,Fortín Tiburcio,833,433,400,833,0,ok
+v3_p08,414,Fournier,704,360,344,704,0,ok
+v3_p08,607,Francisco A. Berra,380,205,175,380,0,ok
+v3_p08,531,Francisco Ayerza,495,289,206,495,0,ok
+v3_p08,835,Francisco de Victoria,178,107,71,178,0,ok
+v3_p08,204,Francisco Madero,1871,957,916,1873,-2,flag
+v3_p08,908,Francisco Magnano,102,62,40,102,0,ok
+v3_p08,589,Francisco Murature,401,215,186,401,0,ok
+v3_p08,252,French,1424,739,685,1424,0,ok
+v3_p08,696,Fuerte Argentino,301,189,112,301,0,ok
+v3_p09,603,Fulton,385,227,158,385,0,ok
+v3_p09,341,Gahan,943,514,429,943,0,ok
+v3_p09,384,Gándara,782,452,330,782,0,ok
+v3_p09,830,García del Río,182,118,64,182,0,ok
+v3_p09,420,Gardey,694,397,297,694,0,ok
+v3_p09,87,Garín,6341,3317,3024,6341,0,ok
+v3_p09,391,Garré,763,429,334,763,0,ok
+v3_p09,97,General Acha,5627,2644,2983,5627,0,ok
+v3_p09,73,Gral. Alvarado (Miramar),7782,3918,3864,7782,0,ok
+v3_p09,106,General Alvear,5017,2431,2586,5017,0,ok
+v3_p09,166,General Arenales,2658,1355,1303,2658,0,ok
+v3_p09,458,General Arias,618,327,291,618,0,ok
+v3_p09,84,General Belgrano,6994,3346,3648,6994,0,ok
+v3_p09,517,General Conesa,519,273,246,519,0,ok
+v3_p09,137,General Daniel Cerri,3298,1668,1630,3298,0,ok
+v3_p09,293,General Guido,1174,611,563,1174,0,ok
+v3_p09,542,General Hornos,483,279,204,483,0,ok
+v3_p09,80,Gral. Juan Madariaga,7196,3379,3817,7196,0,ok
+v3_p09,103,General Lamadrid,5161,2491,2670,5161,0,ok
+v3_p09,120,General Las Heras,4020,1974,2046,4020,0,ok
+v3_p09,280,General Lavalle,1257,619,638,1257,0,ok
+v3_p09,336,General Manuel J. Campos,962,521,441,962,0,ok
+v3_p09,186,General O'Brien,2065,1046,1019,2065,0,ok
+v3_p09,182,General Paz,2217,1080,1137,2217,0,ok
+v3_p09,42,General Pico,18133,9137,8996,18133,0,ok
+v3_p09,132,General Pinto,3431,1669,1762,3431,0,ok
+v3_p09,155,General Pirán,2967,1552,1415,2967,0,ok
+v3_p09,63,General Rodríguez,9771,4836,4935,9771,0,ok
+v3_p09,188,General Rojo,2042,1110,932,2042,0,ok
+v3_p09,633,General Rondeau,362,207,155,362,0,ok
+v3_p09,7,General San Martín,278751,139521,139230,278751,0,ok
+v3_p09,139,General San Martín,3228,1672,1556,3228,0,ok
+v3_p09,13,General Sarmiento,167160,88399,78761,167160,0,ok
+v3_p09,81,General Viamonte,7174,3405,3769,7174,0,ok
+v3_p09,82,General Villegas,7120,3499,3621,7120,0,ok
+v3_p09,231,Germania,1577,851,726,1577,0,ok
+v3_p09,576,Gil,419,257,162,419,0,ok
+v3_p09,681,Girodías,312,172,140,312,0,ok
+v3_p09,530,Girondo,497,301,196,497,0,ok
+v3_p09,800,Gobernador Andonaegui,209,112,97,209,0,ok
+v3_p09,708,Gobernador Arias,283,175,108,283,0,ok
+v3_p10,752,Gobernador Ayala,248,123,125,248,0,ok
+v3_p10,308,Gobernador Castro,1111,613,498,1111,0,ok
+v3_p10,880,Gobernador Obligado,137,74,63,137,0,ok
+v3_p10,486,Gobernador Udaondo,567,322,245,567,0,ok
+v3_p10,291,Gobernador Ugarte,1182,640,542,1182,0,ok
+v3_p10,425,Goldney,683,364,319,683,0,ok
+v3_p10,637,Gómez,357,180,177,357,0,ok
+v3_p10,885,Gómez de la Vega,131,75,56,131,0,ok
+v3_p10,756,Gondra,246,136,110,246,0,ok
+v3_p10,93,González Chaves,5774,2818,2956,5774,0,ok
+v3_p10,275,González Moreno,1298,709,589,1298,0,ok
+v3_p10,886,González Risos,130,73,57,130,0,ok
+v3_p10,348,Gorchs,915,499,416,915,0,ok
+v3_p10,388,Gorostiaga,772,416,356,772,0,ok
+v3_p10,510,Gouin,531,306,225,531,0,ok
+v3_p10,340,Gowland,944,643,301,944,0,ok
+v3_p10,344,Goyena,930,459,471,930,0,ok
+v3_p10,861,Graciarena,157,96,61,157,0,ok
+v3_p10,876,Gregorio Villafañe,142,79,63,142,0,ok
+v3_p10,326,Grumbein,1003,546,457,1003,0,ok
+v3_p10,194,Guaminí,1959,989,970,1959,0,ok
+v3_p10,400,Guanaco,738,433,305,738,0,ok
+v3_p10,165,Guatraché,2674,1355,1319,2674,0,ok
+v3_p10,79,Guernica,7423,3769,3654,7423,0,ok
+v3_p10,331,Guerrico,990,522,468,990,0,ok
+v3_p10,724,Guido Spano,269,146,123,269,0,ok
+v3_p10,678,Gunther,317,164,153,317,0,ok
+v3_p10,375,Hale,819,453,366,819,0,ok
+v3_p10,111,Henderson,4620,2302,2318,4620,0,ok
+v3_p10,529,Henry Bell,498,264,234,498,0,ok
+v3_p10,613,Hereford,374,238,136,374,0,ok
+v3_p10,585,Herrera Vegas,404,233,171,404,0,ok
+v3_p10,247,Hilario Ascasubi,1431,810,621,1431,0,ok
+v3_p10,156,Hinojo,2910,1456,1454,2910,0,ok
+v3_p10,461,Hortensia,612,330,282,612,0,ok
+v3_p10,119,Huanguelén,4022,2042,1980,4022,0,ok
+v3_p10,655,Hucal,341,198,143,341,0,ok
+v3_p10,850,Huelén,164,89,75,164,0,ok
+v3_p10,595,Huetel,393,236,157,393,0,ok
+v3_p10,578,Hunter,416,239,177,416,0,ok
+v3_p10,851,Húsares,164,90,74,164,0,ok
+v3_p11,875,Ibáñez,143,84,59,143,0,ok
+v3_p11,811,Igarzábal,200,113,87,200,0,ok
+v3_p11,568,Indacochea,431,245,186,431,0,ok
+v3_p11,196,Indio Rico,1951,1045,906,1951,0,ok
+v3_p11,259,Inés Indart,1378,753,625,1378,0,ok
+v3_p11,401,Ingeniero Balbín,728,400,328,728,0,ok
+v3_p11,714,Ingeniero Foster,280,163,117,280,0,ok
+v3_p11,190,Ingeniero Luiggi,2016,1000,1016,2016,0,ok
+v3_p11,118,Ingeniero Maschwitz,4029,2019,2010,4029,0,ok
+v3_p11,547,Ingeniero Moneta,474,272,202,474,0,ok
+v3_p11,650,Ingeniero Silveyra,344,224,120,344,0,ok
+v3_p11,422,Ingeniero Thompson,688,380,308,688,0,ok
+v3_p11,91,Ingeniero White,6089,3141,2948,6089,0,ok
+v3_p11,582,Ingeniero Williams,408,237,171,408,0,ok
+v3_p11,626,Inocencio Sosa,368,226,142,368,0,ok
+v3_p11,133,Intendente Alvear,3385,1739,1646,3385,0,ok
+v3_p11,690,Iraizoz,305,206,99,305,0,ok
+v3_p11,307,Irala,1112,631,451,1082,30,flag
+v3_p11,412,Iraola,707,435,272,707,0,ok
+v3_p11,454,Irene,627,365,262,627,0,ok
+v3_p11,466,Ireneo Portela,592,323,269,592,0,ok
+v3_p11,405,Iriarte,719,383,336,719,0,ok
+v3_p11,217,Isla Martín García,1712,1550,162,1712,0,ok
+v3_p11,472,Islas,581,338,243,581,0,ok
+v3_p11,725,Ivanowsky,268,155,113,268,0,ok
+v3_p11,184,Jacinto Aráuz,2126,1139,987,2126,0,ok
+v3_p11,147,Jáuregui,3113,1617,1496,3113,0,ok
+v3_p11,273,Jeppener,1302,692,610,1302,0,ok
+v3_p11,193,José A. Guisasola,1967,1011,956,1967,0,ok
+v3_p11,415,José B. Casas,704,383,321,704,0,ok
+v3_p11,614,José Ferrari,373,224,149,373,0,ok
+v3_p11,113,José M. Blanco,4251,2115,2136,4251,0,ok
+v3_p11,642,José M. Micheo,352,199,153,352,0,ok
+v3_p11,617,José Santos Arévalo,372,212,160,372,0,ok
+v3_p11,444,Juan A. de la Peña,644,347,297,644,0,ok
+v3_p11,244,Juan A. Pradere,1453,768,685,1453,0,ok
+v3_p11,158,Juan B. Alberdi,2873,1482,1391,2873,0,ok
+v3_p11,500,Juan Blaquier,547,314,233,547,0,ok
+v3_p11,604,Juancho,384,246,138,384,0,ok
+v3_p11,404,Juan E. Barra,720,386,334,720,0,ok
+v3_p11,332,Juan F. Ibarra,985,557,428,985,0,ok
+v3_p12,418,Juan J. Almeyra,696,374,322,696,0,ok
+v3_p12,136,Juan N. Fernández,3326,1723,1603,3326,0,ok
+v3_p12,64,Juárez,9535,4611,4924,9535,0,ok
+v3_p12,588,Julio Arditi,402,220,182,402,0,ok
+v3_p12,21,Junín,53489,25800,27689,53489,0,ok
+v3_p12,907,Kenny,103,67,36,103,0,ok
+v3_p12,820,Kilómetro 125,192,106,86,192,0,ok
+v3_p12,532,Kilómetro 158,495,257,238,495,0,ok
+v3_p12,815,Krabbe,197,122,75,197,0,ok
+v3_p12,438,La Angelita,657,372,285,657,0,ok
+v3_p12,281,Labardén,1246,639,607,1246,0,ok
+v3_p12,294,La Barrancosa,1174,641,533,1174,0,ok
+v3_p12,555,La Beba,459,292,167,459,0,ok
+v3_p12,627,La Carreta,366,182,184,366,0,ok
+v3_p12,499,La Colina,550,286,264,550,0,ok
+v3_p12,822,La Constancia,191,100,91,191,0,ok
+v3_p12,898,La Choza,119,66,53,119,0,ok
+v3_p12,572,La Delfina,425,241,184,425,0,ok
+v3_p12,672,La Dorita,322,183,139,322,0,ok
+v3_p12,222,La Dulce,1662,877,785,1662,0,ok
+v3_p12,125,La Emilia,3632,1817,1815,3632,0,ok
+v3_p12,654,La Gloria,343,221,122,343,0,ok
+v3_p12,426,Lago Epecuén,682,412,270,682,0,ok
+v3_p12,309,Laguna Alsina,1103,562,541,1103,0,ok
+v3_p12,430,La Invencible,672,381,291,672,0,ok
+v3_p12,781,La Japonesa,225,124,101,225,0,ok
+v3_p12,482,La Larga,570,327,243,570,0,ok
+v3_p12,445,La Limpia,640,346,294,640,0,ok
+v3_p12,870,La Luisa,149,75,74,149,0,ok
+v3_p12,638,La Manuela,356,196,160,356,0,ok
+v3_p12,320,La Maruja,1022,539,483,1022,0,ok
+v3_p12,1,La Matanza,401738,203947,197791,401738,0,ok
+v3_p12,610,La Negra,378,211,167,378,0,ok
+v3_p12,728,La Nevada,266,163,103,266,0,ok
+v3_p12,831,Langueyú,182,118,64,182,0,ok
+v3_p12,253,La Niña,1423,795,628,1423,0,ok
+v3_p12,620,La Noria,371,213,158,371,0,ok
+v3_p12,373,La Nueva Plata,825,469,356,825,0,ok
+v3_p12,2,Lanús,375428,186877,188551,375428,0,ok
+v3_p12,441,La Oriental,646,356,290,646,0,ok
+v3_p12,763,La Pastora,236,141,,,,incompleto
+v3_p13,557,La Pastoril,458,270,188,458,0,ok
+v3_p13,608,La Paz Chica,380,197,183,380,0,ok
+v3_p13,796,La Pinta,211,117,94,211,0,ok
+v3_p13,437,Laplacette,658,403,255,658,0,ok
+v3_p13,4,La Plata,337060,165749,171311,337060,0,ok
+v3_p13,593,La Porteña,398,228,170,398,0,ok
+v3_p13,92,Laprida,5816,2822,2994,5816,0,ok
+v3_p13,797,La Primavera,211,127,84,211,0,ok
+v3_p13,753,La Providencia,248,148,100,248,0,ok
+v3_p13,749,La Reforma,250,160,90,250,0,ok
+v3_p13,270,La Rica,1324,745,579,1324,0,ok
+v3_p13,736,Larrea,261,147,114,261,0,ok
+v3_p13,790,Lartigau,216,133,83,216,0,ok
+v3_p13,740,Las Armas,258,161,97,258,0,ok
+v3_p13,284,Las Chacras,1229,630,599,1229,0,ok
+v3_p13,51,Las Flores,14838,6959,7879,14838,0,ok
+v3_p13,743,Las Hermanas,256,151,105,256,0,ok
+v3_p13,847,Las Juanitas,166,104,62,166,0,ok
+v3_p13,223,Las Marianas,1643,869,774,1643,0,ok
+v3_p13,362,Las Martinetas,857,451,406,857,0,ok
+v3_p13,645,Las Mostazas,347,227,120,347,0,ok
+v3_p13,429,Las Nutrias,673,449,224,673,0,ok
+v3_p13,657,La Sofía,339,193,146,339,0,ok
+v3_p13,667,La Sortija,325,209,116,325,0,ok
+v3_p13,720,Las Palmas,273,160,113,273,0,ok
+v3_p13,854,Las Parvas,162,92,70,162,0,ok
+v3_p13,798,Las Tahonas,211,129,82,211,0,ok
+v3_p13,490,Las Toscas,562,351,211,562,0,ok
+v3_p13,881,Lastra,137,80,57,137,0,ok
+v3_p13,891,Las Vaquerías,125,75,50,125,0,ok
+v3_p13,734,La Trinidad,263,219,44,263,0,ok
+v3_p13,268,La Violeta,1338,690,648,1338,0,ok
+v3_p13,805,La Vitícola,207,148,59,207,0,ok
+v3_p13,707,La Zanja,286,173,113,286,0,ok
+v3_p13,836,Lazzarino,176,101,75,176,0,ok
+v3_p13,175,Leandro N. Alem,2419,1261,1158,2419,0,ok
+v3_p13,894,Lertora,124,86,38,124,0,ok
+v3_p13,563,Leubuco,448,267,181,448,0,ok
+v3_p13,148,Lezama,3097,1541,1556,3097,0,ok
+v3_p13,321,Líbano,1022,589,433,1022,0,ok
+v3_p13,526,Libres del Sud,505,304,201,505,0,ok
+v3_p14,787,Licenciado Matienzo,219,133,86,219,0,ok
+v3_p14,596,Lima,393,220,173,393,0,ok
+v3_p14,363,Limay-Mahuída,855,498,357,855,0,ok
+v3_p14,598,Lia Calel,392,213,179,392,0,ok
+v3_p14,50,Lincoln,15477,7275,8202,15477,0,ok
+v3_p14,71,Lobería,8455,4159,4296,8455,0,ok
+v3_p14,59,Lobos,10352,4814,5538,10352,0,ok
+v3_p14,673,Loma Negra,322,198,124,322,0,ok
+v3_p14,337,Loma Verde,959,506,453,959,0,ok
+v3_p14,8,Lomas de Zamora,272116,132169,139947,272116,0,ok
+v3_p14,249,Lonquimay,1427,756,671,1427,0,ok
+v3_p14,464,López,604,368,236,604,0,ok
+v3_p14,674,López Lecube,321,193,128,321,0,ok
+v3_p14,630,Los Angeles,364,212,152,364,0,ok
+v3_p14,225,Los Cardales,1628,831,797,1628,0,ok
+v3_p14,691,Los Indios,305,173,132,305,0,ok
+v3_p14,662,Los Laureles,331,186,145,331,0,ok
+v3_p14,211,Los Pinos,1813,1039,774,1813,0,ok
+v3_p14,791,Loventuel,215,118,97,215,0,ok
+v3_p14,518,Lozano,514,288,226,514,0,ok
+v3_p14,342,Luan Toro,918,520,418,938,-20,flag
+v3_p14,601,Lucas Monteverde,387,215,172,387,0,ok
+v3_p14,34,Luján,28976,13958,15018,28976,0,ok
+v3_p14,804,Lumb,208,122,86,208,0,ok
+v3_p14,205,Macachín,1866,992,874,1866,0,ok
+v3_p14,599,Macedo,389,251,138,389,0,ok
+v3_p14,423,Magdala,685,348,337,685,0,ok
+v3_p14,107,Magdalena,4989,2343,2646,4989,0,ok
+v3_p14,785,Maguirre,221,128,93,221,0,ok
+v3_p14,88,Maipú,6239,2984,3255,6239,0,ok
+v3_p14,462,Mamaguita,508,342,266,608,-100,flag
+v3_p14,545,Manuel J. García,478,270,208,478,0,ok
+v3_p14,220,Manuel Ocampo,1676,850,826,1676,0,ok
+v3_p14,505,Manzanares,541,291,250,541,0,ok
+v3_p14,888,Manzone,129,61,68,129,0,ok
+v3_p14,770,Mapis,231,133,98,231,0,ok
+v3_p14,74,Marcos Paz,7697,3824,3873,7697,0,ok
+v3_p14,460,Mar de Ajó,613,329,284,613,0,ok
+v3_p14,11,Mar del Plata,211365,104161,107204,211365,0,ok
+v3_p14,153,María Ignacia,3023,1559,1464,3023,0,ok
+v3_p14,597,María Lucila,393,244,149,393,0,ok
+v3_p15,485,Mariano Benítez,569,302,267,569,0,ok
+v3_p15,266,Mariano M. Alfonso,1353,753,600,1353,0,ok
+v3_p15,571,Mariano Roldán,426,259,167,426,0,ok
+v3_p15,573,Mari Lauquen,425,278,147,425,0,ok
+v3_p15,716,Martín Berraondo,276,149,127,276,0,ok
+v3_p15,248,Martínez de Hoz,1428,762,666,1428,0,ok
+v3_p15,772,Martín Fierro,229,143,86,229,0,ok
+v3_p15,154,Matheu,2993,1540,1453,2993,0,ok
+v3_p15,467,Mauricio Hirsch,590,313,277,590,0,ok
+v3_p15,379,Mauricio Mayer,802,431,371,802,0,ok
+v3_p15,527,Máximo Fernández,505,297,208,505,0,ok
+v3_p15,358,Máximo Paz,866,456,410,866,0,ok
+v3_p15,159,Mayor Buratovich,2872,1630,1242,2872,0,ok
+v3_p15,227,Maza,1609,858,751,1609,0,ok
+v3_p15,551,M. Colman,464,249,215,464,0,ok
+v3_p15,568,Mechita,456,232,224,456,0,ok
+v3_p15,189,Mechita,2042,1043,999,2042,0,ok
+v3_p15,212,Mechongué,1801,1092,709,1801,0,ok
+v3_p15,140,Médanos,3200,1623,1577,3200,0,ok
+v3_p15,656,Membrillar,341,178,163,341,0,ok
+v3_p15,36,Mercedes,25778,12348,13430,25778,0,ok
+v3_p15,16,Merlo,100146,51076,49070,100146,0,ok
+v3_p15,580,Metileo,409,236,173,409,0,ok
+v3_p15,183,Micaela Cascallares,2156,1212,944,2156,0,ok
+v3_p15,283,Miguel Cané,1235,659,576,1235,0,ok
+v3_p15,265,Miguel Riglos,1360,750,610,1360,0,ok
+v3_p15,658,Miramonte,337,175,162,337,0,ok
+v3_p15,440,Miranda,647,342,305,647,0,ok
+v3_p15,889,Mira Pampa,129,66,63,129,0,ok
+v3_p15,365,Moctezuma,852,458,394,852,0,ok
+v3_p15,292,Moll,1175,643,532,1175,0,ok
+v3_p15,688,Monasterio,307,174,133,307,0,ok
+v3_p15,250,Mones Cazón,1426,751,675,1426,0,ok
+v3_p15,829,Monroe,183,110,73,183,0,ok
+v3_p15,730,Monsalvo,265,160,105,265,0,ok
+v3_p15,289,Monte Hermoso,1198,661,537,1198,0,ok
+v3_p15,715,Monte Nievas,279,179,100,279,0,ok
+v3_p15,837,Moores,176,103,73,176,0,ok
+v3_p15,203,Moquehuá,1875,957,918,1875,0,ok
+v3_p15,334,Morea,970,496,474,970,0,ok
+v3_p15,20,Moreno,59338,30445,28893,59338,0,ok
+v3_p16,3,Morón,341920,170888,171032,341920,0,ok
+v3_p16,276,Morse,1277,667,610,1277,0,ok
+v3_p16,316,Mosconi,1050,606,444,1050,0,ok
+v3_p16,883,Mulcahy,132,83,49,132,0,ok
+v3_p16,878,Muñoz,138,85,53,138,0,ok
+v3_p16,590,Nahuel Ruca,400,246,154,400,0,ok
+v3_p16,514,Naicó,523,311,212,523,0,ok
+v3_p16,519,Napaleofú,514,321,193,514,0,ok
+v3_p16,793,Napostá,212,122,90,212,0,ok
+v3_p16,98,Navarro,5431,2528,2903,5431,0,ok
+v3_p16,33,Necochea,29319,14336,14983,29319,0,ok
+v3_p16,884,Necol,132,70,62,132,0,ok
+v3_p16,859,Newton,158,91,67,158,0,ok
+v3_p16,450,Nicolás Descalzi,629,378,251,629,0,ok
+v3_p16,755,Nicolás Levalle,247,151,96,247,0,ok
+v3_p16,741,Nieves,257,144,113,257,0,ok
+v3_p16,128,Norberto de la Riestra,3582,1797,1785,3582,0,ok
+v3_p16,581,Norumbega,409,235,174,409,0,ok
+v3_p16,44,9 de Julio,17768,8594,9174,17768,0,ok
+v3_p16,432,Ochandio,667,393,274,667,0,ok
+v3_p16,240,O'Higgins,1490,791,699,1490,0,ok
+v3_p16,759,Ojeda,243,145,98,243,0,ok
+v3_p16,355,Olascoaga,874,487,387,874,0,ok
+v3_p16,29,Olavarría,35107,17088,18019,35107,0,ok
+v3_p16,544,Oliden,482,288,194,482,0,ok
+v3_p16,428,Olivera,674,368,306,674,0,ok
+v3_p16,664,Ombucta,329,201,128,329,0,ok
+v3_p16,251,Open Door,1426,768,658,1426,0,ok
+v3_p16,399,Ordoqui,739,419,320,739,0,ok
+v3_p16,160,Orense,2841,1461,1380,2841,0,ok
+v3_p16,180,Oriente,2357,1223,1134,2357,0,ok
+v3_p16,476,Ortiz Basualdo,577,340,237,577,0,ok
+v3_p16,671,Ortiz de Rozas,323,182,142,324,-1,flag
+v3_p16,290,Otamendi,1190,666,524,1190,0,ok
+v3_p16,692,Pablo Acosta,303,179,124,303,0,ok
+v3_p16,732,Palantelén,264,144,120,264,0,ok
+v3_p16,368,Palemón Huergo,845,466,379,845,0,ok
+v3_p16,717,Paraguil,276,168,108,276,0,ok
+v3_p16,312,Pardo,1140,619,521,1140,0,ok
+v3_p16,311,Parera,1091,589,502,1091,0,ok
+v3_p16,474,Parish,578,340,238,578,0,ok
+v3_p17,508,Pasman,536,287,249,536,0,ok
+v3_p17,843,Paso Mayer,170,118,52,170,0,ok
+v3_p17,873,Pasteur,147,82,65,147,0,ok
+v3_p17,192,Pasteur,1979,1037,942,1979,0,ok
+v3_p17,201,Patricios,1902,989,913,1902,0,ok
+v3_p17,566,Paula,437,233,204,437,0,ok
+v3_p17,455,Pavón,627,368,259,627,0,ok
+v3_p17,789,Pearson,217,117,100,217,0,ok
+v3_p17,202,Pedernales,1902,964,938,1902,0,ok
+v3_p17,892,Pedro Gamen,125,83,42,125,0,ok
+v3_p17,157,Pedro Luro,2882,1578,1304,2882,0,ok
+v3_p17,792,Pedro Nicolás Escribano,215,132,83,215,0,ok
+v3_p17,668,Pedro P. Lasalle,325,194,131,325,0,ok
+v3_p17,46,Pehuajó,16947,8171,8776,16947,0,ok
+v3_p17,906,Pehuelches,104,56,48,104,0,ok
+v3_p17,882,Pehuenco,134,83,51,134,0,ok
+v3_p17,744,Pelicura,256,157,99,256,0,ok
+v3_p17,207,Pérez Millán,1860,980,880,1860,0,ok
+v3_p17,26,Pergamino,41612,19959,21653,41612,0,ok
+v3_p17,562,Perú,449,281,168,449,0,ok
+v3_p17,602,Pichi-Huinca,386,211,175,386,0,ok
+v3_p17,442,Pichincha,646,375,271,646,0,ok
+v3_p17,333,Piedritas,973,493,480,973,0,ok
+v3_p17,419,Pieres,695,447,248,695,0,ok
+v3_p17,75,Pigüé,7645,3752,3893,7645,0,ok
+v3_p17,351,Pila,906,439,467,906,0,ok
+v3_p17,58,Pilar,10375,5226,5149,10375,0,ok
+v3_p17,381,Pinamar,798,437,361,798,0,ok
+v3_p17,511,Pinzón,526,281,245,526,0,ok
+v3_p17,605,Piñeyro,383,222,161,383,0,ok
+v3_p17,256,Pipinas,1411,814,597,1411,0,ok
+v3_p17,198,Pirovano,1929,993,936,1929,0,ok
+v3_p17,367,Plá,846,463,383,846,0,ok
+v3_p17,747,Plaza Montero,251,147,104,251,0,ok
+v3_p17,777,Plomer,228,123,105,228,0,ok
+v3_p17,360,Polvaredas,862,454,408,862,0,ok
+v3_p17,528,Pontaut,502,281,221,502,0,ok
+v3_p17,567,Porvenir,437,240,197,437,0,ok
+v3_p17,512,Pourtale,526,303,223,526,0,ok
+v3_p17,738,Pozos Kanki,260,149,111,260,0,ok
+v3_p17,841,Pradere,171,96,75,171,0,ok
+v3_p18,104,Presidente Derqui,5068,2535,2533,5068,0,ok
+v3_p18,809,Presidente Quintana,202,112,90,202,0,ok
+v3_p18,612,Primera Junta,375,184,191,375,0,ok
+v3_p18,131,Puán,3439,1702,1737,3439,0,ok
+v3_p18,631,Pueblitos,364,223,141,364,0,ok
+v3_p18,502,Puelches,544,274,270,544,0,ok
+v3_p18,126,Puerto Belgrano,3607,1962,1645,3607,0,ok
+v3_p18,45,Puerto de la Plata,17338,10587,6751,17338,0,ok
+v3_p18,727,Pujol,267,147,120,267,0,ok
+v3_p18,28,Punta Alta,35440,20076,15364,35440,0,ok
+v3_p18,553,Punta Indio,460,265,195,460,0,ok
+v3_p18,163,Quemú-Quemú,2703,1376,1327,2703,0,ok
+v3_p18,483,Quenuma,570,300,270,570,0,ok
+v3_p18,76,Quequén,7589,4019,3570,7589,0,ok
+v3_p18,647,Quetrequén,346,175,171,346,0,ok
+v3_p18,6,Quilmes,317783,159409,158374,317783,0,ok
+v3_p18,660,Quiñihual,336,243,93,336,0,ok
+v3_p18,832,Quirno Costa,182,104,78,182,0,ok
+v3_p18,200,Quiroga,1925,996,929,1925,0,ok
+v3_p18,277,Rafael Obligado,1276,692,584,1276,0,ok
+v3_p18,105,Ramallo,5060,2616,2444,5060,0,ok
+v3_p18,350,Ramón Biaus,910,481,429,910,0,ok
+v3_p18,731,Ramón J. Neild,265,155,110,265,0,ok
+v3_p18,305,Ramón Santamarina,1124,569,555,1124,0,ok
+v3_p18,416,Ramón Otero,701,427,274,701,0,ok
+v3_p18,239,Rancagua,1491,843,648,1491,0,ok
+v3_p18,206,Rancul,1865,965,900,1865,0,ok
+v3_p18,85,Rauch,6953,3301,3652,6953,0,ok
+v3_p18,150,Rawson,3083,1626,1457,3083,0,ok
+v3_p18,801,Real Audiencia,209,112,97,209,0,ok
+v3_p18,135,Realicó,3373,1765,1608,3373,0,ok
+v3_p18,506,Recalde,541,293,248,541,0,ok
+v3_p18,773,Relmo,229,135,94,229,0,ok
+v3_p18,540,Remecó,484,257,227,484,0,ok
+v3_p18,618,Reserva,372,244,128,372,0,ok
+v3_p18,390,Río Colorado,764,450,314,764,0,ok
+v3_p18,677,Río Luján,319,190,129,319,0,ok
+v3_p18,261,Río Tala,1375,754,621,1375,0,ok
+v3_p18,100,Rivadavia,5315,2674,2641,5315,0,ok
+v3_p18,816,Rivadeo,197,112,85,197,0,ok
+v3_p18,393,Rivas,757,402,355,757,0,ok
+v3_p19,141,Rivera,3187,1682,1505,3187,0,ok
+v3_p19,561,Roberto Cano,452,248,204,452,0,ok
+v3_p19,522,Roberto J. Payró,510,285,225,510,0,ok
+v3_p19,152,Roberts,3035,1615,1420,3035,0,ok
+v3_p19,834,Rocha,180,102,78,180,0,ok
+v3_p19,65,Rojas,9446,4655,4791,9446,0,ok
+v3_p19,896,Rolito,123,69,54,123,0,ok
+v3_p19,371,Rolón,835,436,399,835,0,ok
+v3_p19,895,Román Báez,124,68,56,124,0,ok
+v3_p19,524,Rosas,506,289,217,506,0,ok
+v3_p19,389,Roosvelt,771,453,318,771,0,ok
+v3_p19,127,Roque Pérez,3602,1747,1855,3602,0,ok
+v3_p19,317,Rucanelo,1050,561,489,1050,0,ok
+v3_p19,324,Ruiz,1004,548,456,1004,0,ok
+v3_p19,177,Saavedra,666,366,300,666,0,ok
+v3_p19,433,Saforcada,2404,1213,1191,2404,0,ok
+v3_p19,53,Saladillo,13293,6480,6813,13293,0,ok
+v3_p19,234,Salazar,1568,837,731,1568,0,ok
+v3_p19,235,Saldungaray,1565,817,748,1565,0,ok
+v3_p19,62,Salto,9979,4968,5011,9979,0,ok
+v3_p19,226,Salvador María,1616,860,756,1616,0,ok
+v3_p19,115,Salliqueló,4220,2134,2086,4220,0,ok
+v3_p19,862,Samborombón,156,90,66,156,0,ok
+v3_p19,237,San Agustín,1511,877,634,1511,0,ok
+v3_p19,77,San Andrés de Giles,7546,3628,3918,7546,0,ok
+v3_p19,66,San Antonio de Areco,9249,4505,4744,9249,0,ok
+v3_p19,636,San Benito,358,190,168,358,0,ok
+v3_p19,742,San Bernardo,257,150,107,257,0,ok
+v3_p19,96,San Cayetano,5733,2791,2942,5733,0,ok
+v3_p19,214,San Clemente del Tuyú,1736,877,859,1736,0,ok
+v3_p19,241,Sánchez,1480,1072,408,1480,0,ok
+v3_p19,382,San Emilio,796,435,361,796,0,ok
+v3_p19,377,San Enrique,812,450,362,812,0,ok
+v3_p19,901,San Fermín,113,63,50,113,0,ok
+v3_p19,17,San Fernando,92302,46444,45858,92302,0,ok
+v3_p19,257,San Francisco de Bellocq,1389,813,576,1389,0,ok
+v3_p19,452,San Germán,628,348,280,628,0,ok
+v3_p19,537,San Ignacio,486,297,189,486,0,ok
+v3_p19,12,San Isidro,188065,91751,96314,188065,0,ok
+v3_p19,760,San Jacinto,239,134,105,239,0,ok
+v3_p19,424,San Jorge,684,361,323,684,0,ok
+v3_p20,812,San José,200,105,95,200,0,ok
+v3_p20,213,San Manuel,1748,969,779,1748,0,ok
+v3_p20,525,San Mauricio,506,305,201,506,0,ok
+v3_p20,343,San Mayol,936,550,386,936,0,ok
+v3_p20,90,San Miguel del Monte,6092,2980,3112,6092,0,ok
+v3_p20,22,San Nicolás,49082,25654,23428,49082,0,ok
+v3_p20,378,San Patricio,803,477,326,803,0,ok
+v3_p20,43,San Pedro,17960,8930,9030,17960,0,ok
+v3_p20,408,San Román,714,430,284,714,0,ok
+v3_p20,507,San Sebastián,540,297,243,540,0,ok
+v3_p20,411,Sansinena,708,402,306,708,0,ok
+v3_p20,587,Santa Coloma,403,209,194,403,0,ok
+v3_p20,739,Santa Elena,259,151,108,259,0,ok
+v3_p20,456,Santa Eleodora,626,336,290,626,0,ok
+v3_p20,600,Santa Inés,389,202,187,389,0,ok
+v3_p20,413,Santa Isabel,706,368,338,706,0,ok
+v3_p20,161,Santa Lucía,2791,1468,1323,2791,0,ok
+v3_p20,774,Santa Luisa,229,130,99,229,0,ok
+v3_p20,233,Santa María,1569,719,850,1569,0,ok
+v3_p20,369,Santa Regina,838,474,364,838,0,ok
+v3_p20,37,Santa Rosa,25273,12529,12744,25273,0,ok
+v3_p20,451,Santa Teresa,629,313,316,629,0,ok
+v3_p20,501,Santa Teresita,547,311,236,547,0,ok
+v3_p20,700,Santiago Garbarini,293,176,117,293,0,ok
+v3_p20,621,Santiago Larré,371,194,177,371,0,ok
+v3_p20,644,Santo Domingo,348,172,176,348,0,ok
+v3_p20,584,Santos Unzué,405,244,161,405,0,ok
+v3_p20,543,Santo Tomás,483,267,216,483,0,ok
+v3_p20,101,San Vicente,5207,2496,2711,5207,0,ok
+v3_p20,711,Sarah,281,152,129,281,0,ok
+v3_p20,398,Sarasa,743,403,340,743,0,ok
+v3_p20,799,Saturno,210,123,87,210,0,ok
+v3_p20,374,Sevigné,820,452,368,820,0,ok
+v3_p20,453,Sierra de la Ventana,628,344,284,628,0,ok
+v3_p20,142,Sierras Bayas,3168,1673,1495,3168,0,ok
+v3_p20,246,Sierra Chica,1448,717,731,1448,0,ok
+v3_p20,286,Smith,1214,650,564,1214,0,ok
+v3_p20,806,Solanet,203,116,87,203,0,ok
+v3_p20,788,Sol de Mayo,219,133,86,219,0,ok
+v3_p20,498,Solís,552,296,256,552,0,ok
+v3_p20,556,Speluzzi,459,253,206,459,0,ok
+v3_p21,513,Spurr,524,266,258,524,0,ok
+v3_p21,693,Stegman,303,200,103,303,0,ok
+v3_p21,255,Stroeder,1412,756,656,1412,0,ok
+v3_p21,380,Sucre,802,432,370,802,0,ok
+v3_p21,130,Suipacha,3495,1759,1736,3495,0,ok
+v3_p21,676,Sundblad,320,187,133,320,0,ok
+v3_p21,890,Tacuarí,126,75,51,126,0,ok
+v3_p21,325,Tamangueyú,1004,538,466,1004,0,ok
+v3_p21,733,Tambo Nuevo,264,142,122,264,0,ok
+v3_p21,24,Tandil,45703,22161,23542,45703,0,ok
+v3_p21,122,Tapalqué,3795,1747,2048,3795,0,ok
+v3_p21,665,Tatay,327,204,123,327,0,ok
+v3_p21,361,Tedín Uriburu,861,492,369,861,0,ok
+v3_p21,209,Telén,1857,946,911,1857,0,ok
+v3_p21,480,Tte. Gral. Emilio Mitre,573,334,239,573,0,ok
+v3_p21,487,Teniente Origone,567,309,258,567,0,ok
+v3_p21,18,Tigre,91725,47253,44472,91725,0,ok
+v3_p21,300,Timote,1145,594,551,1145,0,ok
+v3_p21,669,Thames,325,184,141,325,0,ok
+v3_p21,144,Toay,3166,1897,1269,3166,0,ok
+v3_p21,287,Todd,1205,635,570,1205,0,ok
+v3_p21,766,Tomás Jofré,235,135,100,235,0,ok
+v3_p21,575,Tomás M. Anchorena,422,242,180,422,0,ok
+v3_p21,151,Tornquist,3062,1539,1523,3062,0,ok
+v3_p21,164,Torres,2699,1289,1410,2699,0,ok
+v3_p21,169,Tortuguitas,2628,1380,1248,2628,0,ok
+v3_p21,548,Trebolares,472,275,197,472,0,ok
+v3_p21,170,30 de Agosto,2601,1352,1249,2601,0,ok
+v3_p21,149,Trenel,3086,1647,1439,3086,0,ok
+v3_p21,54,Trenque Lauquen,13263,6426,6837,13263,0,ok
+v3_p21,134,Tres Algarrobos,3385,1767,1618,3385,0,ok
+v3_p21,30,Tres Arroyos,34139,16573,17566,34139,0,ok
+v3_p21,9,3 de Febrero,263391,132465,130926,263391,0,ok
+v3_p21,628,Tres Lagunas,366,209,157,366,0,ok
+v3_p21,579,Tres Picos,414,252,162,414,0,ok
+v3_p21,392,Tres Sargentos,759,447,312,759,0,ok
+v3_p21,619,Triunvirato,372,218,154,372,0,ok
+v3_p21,823,Trongé,192,104,88,192,0,ok
+v3_p21,705,Tuyutí,287,166,121,287,0,ok
+v3_p21,478,Udaquiola,576,335,241,576,0,ok
+v3_p21,463,Unzué,606,337,269,606,0,ok
+v3_p22,138,Urdampilleta,3229,1615,1614,3229,0,ok
+v3_p22,357,Uribelarrea,867,478,389,867,0,ok
+v3_p22,298,Uriburu,1154,640,514,1154,0,ok
+v3_p22,354,Urquiza,875,471,404,875,0,ok
+v3_p22,723,Vagues,270,158,112,270,0,ok
+v3_p22,303,Valdés,1137,667,470,1137,0,ok
+v3_p22,758,Valentín Gómez,245,144,101,245,0,ok
+v3_p22,864,Vallimanca,155,85,70,155,0,ok
+v3_p22,782,Vázquez,223,106,117,223,0,ok
+v3_p22,112,Vedia,4456,2181,2275,4456,0,ok
+v3_p22,47,25 de Mayo,16184,7953,8231,16184,0,ok
+v3_p22,383,Velloso,785,399,386,785,0,ok
+v3_p22,701,Vergara,291,172,119,291,0,ok
+v3_p22,110,Verónica,4760,2499,2261,4760,0,ok
+v3_p22,468,Vértiz,588,313,275,588,0,ok
+v3_p22,794,Víboras,212,124,88,212,0,ok
+v3_p22,310,Vivoratá,1096,629,467,1096,0,ok
+v3_p22,197,Vicente Casares,1935,1108,827,1935,0,ok
+v3_p22,10,Vicente López,247656,118694,128962,247656,0,ok
+v3_p22,143,Victorica,3167,1605,1562,3167,0,ok
+v3_p22,523,Victorino de la Plaza,510,286,224,510,0,ok
+v3_p22,488,Vieytes,567,289,278,567,0,ok
+v3_p22,823,Vigilancia,191,98,93,191,0,ok
+v3_p22,695,Vilela,302,168,134,302,0,ok
+v3_p22,535,Villa Espil,492,288,204,492,0,ok
+v3_p22,262,Villa Gessell,1374,762,512,1274,100,flag
+v3_p22,496,Villa Harding Green,553,268,285,553,0,ok
+v3_p22,167,Villa Iris,2640,1310,1330,2640,0,ok
+v3_p22,346,Villa Lía,921,477,444,921,0,ok
+v3_p22,218,Villalonga,1680,1009,671,1680,0,ok
+v3_p22,802,Villa María,209,110,99,209,0,ok
+v3_p22,352,Villa Mirasol,902,501,401,902,0,ok
+v3_p22,489,Villa Nueva,564,292,272,564,0,ok
+v3_p22,215,Villa Numancia,1735,896,839,1735,0,ok
+v3_p22,123,Villa Ramallo,3736,1873,1863,3736,0,ok
+v3_p22,228,Villa Rosa,1598,916,682,1598,0,ok
+v3_p22,349,Villars,915,477,438,915,0,ok
+v3_p22,327,Villa Saboya,1001,570,431,1001,0,ok
+v3_p22,364,Villa Sauce,853,454,399,853,0,ok
+v3_p22,848,Villa Sena,166,103,63,166,0,ok
+v3_p22,643,Viñas,349,181,168,349,0,ok
+v3_p23,709,Vuelta de Obligado,283,147,136,283,0,ok
+v3_p23,370,Warnes,838,449,389,838,0,ok
+v3_p23,178,Winifreda,2399,1293,1106,2399,0,ok
+v3_p23,771,Yutuyaco,230,141,89,230,0,ok
+v3_p23,583,Zapiola,406,203,203,406,0,ok
+v3_p23,23,Zárate,46460,23708,22752,46460,0,ok
+v3_p23,484,Zavalía,570,308,262,570,0,ok
+v3_p23,436,Zelaya,661,341,320,661,0,ok
+v3_p23,395,Zenón Videla Dorna,750,433,317,750,0,ok
+v4_p01,393,Aarón Castellanos,1043,576,467,1043,0,ok
+v4_p01,154,Acebal,2986,1548,1438,2986,0,ok
+v4_p01,188,Achiras,1989,1023,966,1989,0,ok
+v4_p01,174,Adelia María,2454,1219,1235,2454,0,ok
+v4_p01,565,Agua de Oro,564,270,294,564,0,ok
+v4_p01,594,Agua de Ramón,490,257,233,490,0,ok
+v4_p01,381,Albarrellos,1090,576,514,1090,0,ok
+v4_p01,143,Alcira,3180,1640,1540,3180,0,ok
+v4_p01,67,Alcorta,5632,2880,2752,5632,0,ok
+v4_p01,339,Aldao,1260,665,595,1260,0,ok
+v4_p01,503,Aldao,710,409,301,710,0,ok
+v4_p01,189,Alejandra,1987,999,988,1987,0,ok
+v4_p01,155,Alejandro,2921,1388,1533,2921,0,ok
+v4_p01,145,Alejo Ledesma,3110,1622,1488,3110,0,ok
+v4_p01,248,Alicia,1637,804,833,1637,0,ok
+v4_p01,93,Almafuerte,4406,2235,2171,4406,0,ok
+v4_p01,629,Alpa Corral,422,219,203,422,0,ok
+v4_p01,26,Alta Gracia,11628,5642,5986,11628,0,ok
+v4_p01,702,Altautina,261,143,118,261,0,ok
+v4_p01,415,Alto Alegre,971,496,475,971,0,ok
+v4_p01,199,Altos de Chipión,1917,1014,903,1917,0,ok
+v4_p01,168,Alto Verde,2627,1341,1286,2627,0,ok
+v4_p01,137,Alvarez,3270,1694,1576,3270,0,ok
+v4_p01,340,Alvear,1259,676,583,1259,0,ok
+v4_p01,597,Amboy,487,235,252,487,0,ok
+v4_p01,315,Ambrosetti,1341,727,614,1341,0,ok
+v4_p01,634,Ambul,414,211,203,414,0,ok
+v4_p01,524,Ana Zumarán,657,380,277,657,0,ok
+v4_p01,290,Andino,1464,781,683,1464,0,ok
+v4_p01,650,Angélica,373,209,164,373,0,ok
+v4_p01,471,Angeloni,789,421,368,789,0,ok
+v4_p01,574,Anizacate,523,280,243,523,0,ok
+v4_p01,74,Arequito,5278,2697,2581,5278,0,ok
+v4_p01,82,Arias,5015,2598,2417,5015,0,ok
+v4_p01,581,Arminda,503,272,231,503,0,ok
+v4_p01,59,Armstrong,6093,3120,2973,6093,0,ok
+v4_p01,278,Arocena,1512,809,703,1512,0,ok
+v4_p01,97,Arroyito,4244,2043,2201,4244,0,ok
+v4_p01,616,Arroyo Algodón,455,255,200,455,0,ok
+v4_p01,757,Arroyo Alvarez,137,78,59,137,0,ok
+v4_p01,590,Arroyo Cabral,493,280,213,493,0,ok
+v4_p02,291,Arroyo Ceibal,1463,730,733,1463,0,ok
+v4_p02,222,Arrufó,1773,917,856,1773,0,ok
+v4_p02,249,Arteaga,1634,839,795,1634,0,ok
+v4_p02,488,Ascochinga,738,378,360,738,0,ok
+v4_p02,450,Ascochingas,864,459,405,864,0,ok
+v4_p02,666,Asunta,320,196,124,320,0,ok
+v4_p02,237,Ataliva,1689,862,827,1689,0,ok
+v4_p02,612,Aurelia,459,239,220,459,0,ok
+v4_p02,318,Ausonia,1335,741,594,1335,0,ok
+v4_p02,595,Avellaneda,490,238,252,490,0,ok
+v4_p02,68,Avellaneda,5557,2748,2809,5557,0,ok
+v4_p02,390,Bajo Chico,1051,577,474,1051,0,ok
+v4_p02,98,Balnearia,4237,2008,2229,4237,0,ok
+v4_p02,158,Ballesteros,2844,1404,1440,2844,0,ok
+v4_p02,125,Barrancas,3542,1786,1756,3542,0,ok
+v4_p02,744,Barreto,176,97,79,176,0,ok
+v4_p02,474,Baver y Sigel,775,425,350,775,0,ok
+v4_p02,12,Bell-Ville,19269,9129,10140,19269,0,ok
+v4_p02,432,Bengolea,918,502,416,918,0,ok
+v4_p02,355,Benjamín Gould,1194,645,549,1194,0,ok
+v4_p02,221,Berabevú,1774,871,903,1774,0,ok
+v4_p02,483,Berna,745,369,376,745,0,ok
+v4_p02,272,Bernardo de Irigoyen,1547,839,708,1547,0,ok
+v4_p02,144,Berrotarán,3131,1570,1561,3131,0,ok
+v4_p02,396,Bialet Massé,1029,532,497,1029,0,ok
+v4_p02,111,Bigand,3884,1996,1888,3884,0,ok
+v4_p02,485,Bismarck,741,379,362,741,0,ok
+v4_p02,342,Bombal,1256,641,615,1256,0,ok
+v4_p02,349,Bouquet,1226,639,587,1226,0,ok
+v4_p02,510,Bouwer,688,383,305,688,0,ok
+v4_p02,161,Brinkman,2826,1409,1417,2826,0,ok
+v4_p02,244,Buchardo,1660,843,817,1660,0,ok
+v4_p02,364,Bulnes,1181,616,565,1181,0,ok
+v4_p02,444,Bustinza,887,456,431,887,0,ok
+v4_p02,610,Cabal,463,251,212,463,0,ok
+v4_p02,642,Cabana,379,193,186,379,0,ok
+v4_p02,430,Cacique Ariacaiquín,936,486,450,936,0,ok
+v4_p02,234,Cafferata,1711,933,778,1711,0,ok
+v4_p02,90,Calchaquí,4493,2215,2278,4493,0,ok
+v4_p02,353,Calchín,1203,594,609,1203,0,ok
+v4_p02,108,Camilo Aldao,3933,1999,1934,3933,0,ok
+v4_p03,733,Caminiaga,207,102,105,207,0,ok
+v4_p03,63,Canals,5918,2981,2937,5918,0,ok
+v4_p03,729,Candelaria,210,115,95,210,0,ok
+v4_p03,686,Candelaria,291,151,140,291,0,ok
+v4_p03,643,Candelaria Norte,379,187,192,379,0,ok
+v4_p03,413,Canteras el Sauce,975,534,441,975,0,ok
+v4_p03,701,Cañada de Alvarez,262,127,135,262,0,ok
+v4_p03,11,Cañada de Gómez,20462,10354,10108,20462,0,ok
+v4_p03,730,Cañada del Río Pinto,209,108,101,209,0,ok
+v4_p03,453,Cañada de Luque,809,416,393,809,0,ok
+v4_p03,593,Cañada de Machado,491,276,215,491,0,ok
+v4_p03,418,Cañada del Ucle,967,513,454,967,0,ok
+v4_p03,370,Cañada Rica,1157,635,522,1157,0,ok
+v4_p03,113,Cañada Rosquín,3865,1998,1867,3865,0,ok
+v4_p03,124,Cañada Verde,3558,1794,1764,3558,0,ok
+v4_p03,480,Cap. de la Sgrda. Familia,749,364,385,749,0,ok
+v4_p03,584,Capilla del Carmen,501,276,225,501,0,ok
+v4_p03,61,Capilla del Monte,5980,2892,3088,5980,0,ok
+v4_p03,404,Capilla de los Remedios,1000,505,495,1000,0,ok
+v4_p03,722,Capilla del Romero,224,116,108,224,0,ok
+v4_p03,721,Capilla de Sitón,224,120,104,224,0,ok
+v4_p03,28,Capitán Bermúdez,11262,5798,5464,11262,0,ok
+v4_p03,360,Capivara,1185,672,513,1185,0,ok
+v4_p03,50,Carcarañá,6775,3489,3286,6775,0,ok
+v4_p03,105,Carlos Pellegrini,4005,2019,1986,4005,0,ok
+v4_p03,257,Carmen,1598,812,786,1598,0,ok
+v4_p03,489,Carmen del Sauce,737,388,349,737,0,ok
+v4_p03,407,Carnerillo,995,519,476,995,0,ok
+v4_p03,700,Carolina,263,155,108,263,0,ok
+v4_p03,190,Carreras,1976,1040,936,1976,0,ok
+v4_p03,386,Carrilobo,1064,489,575,1064,0,ok
+v4_p03,229,Carrizales,1744,904,840,1744,0,ok
+v4_p03,766,Casa Bamba,118,64,54,118,0,ok
+v4_p03,570,Casa Grande,534,311,223,534,0,ok
+v4_p03,632,Casalegno,420,233,187,420,0,ok
+v4_p03,357,Casas,1191,648,543,1191,0,ok
+v4_p03,17,Casilda,17216,8481,8735,17216,0,ok
+v4_p03,772,Casaffousth,108,62,46,108,0,ok
+v4_p03,423,Castelar,957,507,450,957,0,ok
+v4_p03,638,Castellanos,395,205,190,395,0,ok
+v4_p03,324,Cavanagh,1306,706,600,1306,0,ok
+v4_p04,567,Cavour,496,259,237,496,0,ok
+v4_p04,266,Cayastá,1554,781,773,1554,0,ok
+v4_p04,394,Cayastacito,1040,563,477,1040,0,ok
+v4_p04,498,Cello,716,374,342,716,0,ok
+v4_p04,299,Centeno,1435,755,680,1435,0,ok
+v4_p04,546,Cepeda,603,320,283,603,0,ok
+v4_p04,36,Ceres,9578,4627,4951,9578,0,ok
+v4_p04,745,Ciénaga de Allende,174,89,85,174,0,ok
+v4_p04,517,Ciénaga del Coro,674,331,343,674,0,ok
+v4_p04,251,Cintra,1621,821,800,1621,0,ok
+v4_p04,300,Classon,1422,821,601,1422,0,ok
+v4_p04,400,Clucellas,1011,513,498,1011,0,ok
+v4_p04,533,Colazo,630,298,332,630,0,ok
+v4_p04,522,Colonia Almada,662,365,297,662,0,ok
+v4_p04,613,Colonia Anita,459,252,207,459,0,ok
+v4_p04,619,Colonia Barge,444,251,193,444,0,ok
+v4_p04,420,Colonia Belgrano,961,469,492,961,0,ok
+v4_p04,684,Colonia Bicha,292,152,140,292,0,ok
+v4_p04,559,Colonia Bossi,577,314,263,577,0,ok
+v4_p04,428,Colonia Bremen,938,531,407,938,0,ok
+v4_p04,77,Colonia Caroya,5149,2593,2556,5149,0,ok
+v4_p04,723,Colonia Coyunda,223,114,109,223,0,ok
+v4_p04,611,Colonia 10 de Julio,463,249,214,463,0,ok
+v4_p04,644,Colonia el Carmen,378,201,177,378,0,ok
+v4_p04,127,Colonia Ella,3498,1733,1765,3498,0,ok
+v4_p04,514,Colonia Italiana,675,382,293,675,0,ok
+v4_p04,425,Colonia la Tordilla,950,509,441,950,0,ok
+v4_p04,384,Colonia Marina,1071,550,521,1071,0,ok
+v4_p04,541,Colonia O'Higgins,613,340,273,613,0,ok
+v4_p04,553,Colonia Prosperidad,587,330,257,587,0,ok
+v4_p04,552,Colonia Raquel,590,317,273,590,0,ok
+v4_p04,392,Colonia Rosa,1048,551,497,1048,0,ok
+v4_p04,692,Colonia Santa María,278,153,125,278,0,ok
+v4_p04,505,Colonia Santa María,694,387,307,694,0,ok
+v4_p04,706,Colonia Tirolesa,256,137,119,256,0,ok
+v4_p04,747,Colonia Videla,168,92,76,168,0,ok
+v4_p04,391,Colonia Vignaud,1050,605,445,1050,0,ok
+v4_p04,669,Colonia Waltelina,314,163,151,314,0,ok
+v4_p04,191,Concepción del Tío,1962,1002,960,1962,0,ok
+v4_p04,637,Conlara,396,210,186,396,0,ok
+v4_p04,538,Constanza,624,338,286,624,0,ok
+v4_p05,756,Copacabana,137,72,65,137,0,ok
+v4_p05,2,Córdoba,586015,283871,302144,586015,0,ok
+v4_p05,35,Coronda,9611,5020,4591,9611,0,ok
+v4_p05,335,Coronel Arnold,1269,689,580,1269,0,ok
+v4_p05,264,Coronel Baigorria,1567,845,722,1567,0,ok
+v4_p05,337,Coronel Bogado,1262,630,632,1262,0,ok
+v4_p05,408,Coronel Domínguez,995,546,449,995,0,ok
+v4_p05,625,Coronel Fraga,427,225,202,427,0,ok
+v4_p05,60,Corral de Bustos,5986,3017,2969,5986,0,ok
+v4_p05,240,Corralito,1667,860,807,1667,0,ok
+v4_p05,138,Correa,3220,1700,1520,3220,0,ok
+v4_p05,406,Cosme,998,507,491,998,0,ok
+v4_p05,37,Cosquín,9488,4454,5034,9488,0,ok
+v4_p05,403,Costa Sacate,1001,554,447,1001,0,ok
+v4_p05,774,Cotagaita,107,59,48,107,0,ok
+v4_p05,329,Crispi,1281,692,589,1281,0,ok
+v4_p05,66,Cruz Alta,5716,2857,2859,5716,0,ok
+v4_p05,718,Cruz Chica,233,120,113,233,0,ok
+v4_p05,9,Cruz del Eje,22026,10370,11656,22026,0,ok
+v4_p05,462,Cululú,815,442,373,815,0,ok
+v4_p05,603,Curapaligüe,477,263,214,477,0,ok
+v4_p05,468,Curupaity,799,465,334,799,0,ok
+v4_p05,84,Chabás,4916,2562,2354,4916,0,ok
+v4_p05,459,Chaján,832,489,343,832,0,ok
+v4_p05,679,Chalacea,302,168,134,302,0,ok
+v4_p05,545,Chancaní,605,297,308,605,0,ok
+v4_p05,738,Chañaritos,194,110,84,194,0,ok
+v4_p05,83,Chañar Ladeado,4979,2520,2459,4979,0,ok
+v4_p05,466,Chapuy,803,450,353,803,0,ok
+v4_p05,630,Charbonier,421,206,215,421,0,ok
+v4_p05,523,Charras,658,360,298,658,0,ok
+v4_p05,285,Chateaubriand,1490,789,701,1490,0,ok
+v4_p05,371,Chazón,1156,596,560,1156,0,ok
+v4_p05,455,Chilibroste,844,448,396,844,0,ok
+v4_p05,277,Chovet,1518,808,710,1518,0,ok
+v4_p05,431,Christophersen,934,573,361,934,0,ok
+v4_p05,716,Chuchiras,234,135,99,234,0,ok
+v4_p05,499,Chucul,714,398,316,714,0,ok
+v4_p05,557,Chuña,582,295,287,582,0,ok
+v4_p05,614,Chuña Huasi,458,243,215,458,0,ok
+v4_p05,762,Churqui Cañada,126,65,61,126,0,ok
+v4_p06,365,Dalmacio Vélez Sarsfield,1175,622,553,1175,0,ok
+v4_p06,20,Deán Funes,16280,7655,8625,16280,0,ok
+v4_p06,732,De la Serna,209,120,89,209,0,ok
+v4_p06,254,Del Campillo,1614,861,753,1614,0,ok
+v4_p06,202,Despeñaderos,1904,963,941,1904,0,ok
+v4_p06,562,Desvío Arijón,571,311,260,571,0,ok
+v4_p06,759,Desvío las Mojarras,129,73,56,129,0,ok
+v4_p06,667,Desvío Km. 691,317,179,138,317,0,ok
+v4_p06,147,Devoto,3074,1520,1554,3074,0,ok
+v4_p06,319,Díaz,1334,687,647,1334,0,ok
+v4_p06,256,Diego de Alvear,1602,860,742,1602,0,ok
+v4_p06,664,Diego de Rojas,325,160,165,325,0,ok
+v4_p06,218,Dumesnil,1791,965,826,1791,0,ok
+v4_p06,476,Eguzquiza,763,414,349,763,0,ok
+v4_p06,348,El Arañado,1227,657,570,1227,0,ok
+v4_p06,682,El Cano,298,156,142,298,0,ok
+v4_p06,626,El Crispín,426,242,184,426,0,ok
+v4_p06,705,El Chacho,257,132,125,257,0,ok
+v4_p06,312,Elena,1369,676,693,1369,0,ok
+v4_p06,334,El Fortín,1272,661,611,1272,0,ok
+v4_p06,558,El Fuertecito,578,303,271,574,4,flag
+v4_p06,330,Elisa,1278,671,607,1278,0,ok
+v4_p06,651,El Manzano,370,208,162,370,0,ok
+v4_p06,76,Elortondo,5147,2663,2484,5147,0,ok
+v4_p06,720,El Perchel,225,121,104,225,0,ok
+v4_p06,656,El Quebracho,356,182,174,356,0,ok
+v4_p06,726,El Quebracho,214,112,102,214,0,ok
+v4_p06,493,El Rastreador,728,404,324,728,0,ok
+v4_p06,176,El Sombrerito,2414,1317,1097,2414,0,ok
+v4_p06,292,El Tío,1463,750,713,1463,0,ok
+v4_p06,62,El Trébol,5954,3012,2942,5954,0,ok
+v4_p06,183,Embalse,2112,1006,1106,2112,0,ok
+v4_p06,439,Emilia,903,453,450,903,0,ok
+v4_p06,636,Empalme San Carlos,408,214,194,408,0,ok
+v4_p06,146,Empalme V. Constitución,3095,1603,1492,3095,0,ok
+v4_p06,655,Encrucijada,357,179,178,357,0,ok
+v4_p06,435,Esmeralda,911,482,429,911,0,ok
+v4_p06,19,Esperanza,16606,7994,8612,16606,0,ok
+v4_p06,600,Espinillo,479,251,228,479,0,ok
+v4_p06,609,Esteban Rams,466,258,208,466,0,ok
+v4_p06,703,Esther,260,150,110,260,0,ok
+v4_p07,164,Etruria,2785,1466,1319,2785,0,ok
+v4_p07,453,Eusebia,849,474,375,849,0,ok
+v4_p07,598,Eustolia,486,257,229,486,0,ok
+v4_p07,589,Falda del Carmen,494,270,224,494,0,ok
+v4_p07,482,Felicia,747,355,392,747,0,ok
+v4_p07,211,Fighiera,1827,918,909,1827,0,ok
+v4_p07,38,Firmat,9484,4903,4581,9484,0,ok
+v4_p07,279,Florencia,1508,744,764,1508,0,ok
+v4_p07,676,Fragueyro,307,176,131,307,0,ok
+v4_p07,268,Frank,1553,809,744,1553,0,ok
+v4_p07,697,Fray Cayetano Rodríguez,266,168,98,266,0,ok
+v4_p07,80,Fray Luis Beltrán,5093,2634,2459,5093,0,ok
+v4_p07,152,Freyre,3026,1452,1574,3026,0,ok
+v4_p07,192,Froilán Palacios,1948,1023,925,1948,0,ok
+v4_p07,238,Frontera,1672,861,811,1672,0,ok
+v4_p07,316,Fuentes,1337,699,638,1337,0,ok
+v4_p07,91,Funes,4484,2295,2189,4484,0,ok
+v4_p07,232,Gaboto,1737,929,808,1737,0,ok
+v4_p07,678,Galisteo,304,174,130,304,0,ok
+v4_p07,25,Gálvez,11759,5808,5951,11759,0,ok
+v4_p07,572,Garabato,525,284,241,525,0,ok
+v4_p07,540,Garibaldi,616,324,292,616,0,ok
+v4_p07,328,General Baldissera,1282,660,622,1282,0,ok
+v4_p07,70,General Cabrera,5455,2708,2747,5455,0,ok
+v4_p07,148,General Deheza,3056,1606,1450,3056,0,ok
+v4_p07,691,General Fotheringham,280,146,134,280,0,ok
+v4_p07,399,General Gelly,1018,542,476,1018,0,ok
+v4_p07,149,General Levalle,3050,1524,1526,3050,0,ok
+v4_p07,456,General Paz,838,434,404,838,0,ok
+v4_p07,194,General Roca,1945,962,983,1945,0,ok
+v4_p07,710,General Soler,245,141,104,245,0,ok
+v4_p07,395,Gessler,1038,525,513,1038,0,ok
+v4_p07,475,Gobernador Candioti,767,403,364,767,0,ok
+v4_p07,294,Gobernador Crespo,1457,740,717,1457,0,ok
+v4_p07,241,Gödeken,1666,891,775,1666,0,ok
+v4_p07,252,Godoy,1620,837,783,1620,0,ok
+v4_p07,419,Golondrina,966,543,423,966,0,ok
+v4_p07,64,Granadero Baigorria,5818,2975,2843,5818,0,ok
+v4_p07,313,Grutly,1349,712,537,1249,100,flag
+v4_p07,680,Guanaco Muerto,301,161,140,301,0,ok
+v4_p07,694,Guardia Vieja,276,152,124,276,0,ok
+v4_p08,649,Guasapampa,374,173,201,374,0,ok
+v4_p08,163,Guatimozín,2801,1500,1301,2801,0,ok
+v4_p08,511,Gutemberg,685,348,337,685,0,ok
+v4_p08,167,Helvecia,2702,1329,1373,2702,0,ok
+v4_p08,55,Hernando,6453,3179,3274,6453,0,ok
+v4_p08,136,Hersilia,3278,1595,1683,3278,0,ok
+v4_p08,568,Hipatía,536,305,231,536,0,ok
+v4_p08,175,Holmberg,2439,1232,1207,2439,0,ok
+v4_p08,494,Huanchilla,722,395,327,722,0,ok
+v4_p08,288,Huanqueros,1469,831,638,1469,0,ok
+v4_p08,151,Huerta Grande,3028,1432,1596,3028,0,ok
+v4_p08,258,Hughes,1594,816,778,1594,0,ok
+v4_p08,73,Huinca Renancó,5302,2673,2629,5302,0,ok
+v4_p08,92,Humberto 1º,4453,2163,2290,4453,0,ok
+v4_p08,346,Humboldt,1229,602,627,1229,0,ok
+v4_p08,446,Ibarlucea,873,494,379,873,0,ok
+v4_p08,262,Idiazábal,1576,924,652,1576,0,ok
+v4_p08,525,Iglesias Viejas,654,365,289,654,0,ok
+v4_p08,467,Ingeniero Chanourdié,803,412,391,803,0,ok
+v4_p08,130,Irivilli,3408,1794,1614,3408,0,ok
+v4_p08,601,Intiyaco,479,233,246,479,0,ok
+v4_p08,343,Irigoyen,1236,652,584,1236,0,ok
+v4_p08,123,Isla Verde,3603,1845,1758,3603,0,ok
+v4_p08,421,Italó,959,523,436,959,0,ok
+v4_p08,624,Jacinto L. Arauz,429,236,193,429,0,ok
+v4_p08,617,Jaime Peter,449,223,226,449,0,ok
+v4_p08,120,James Craik,3628,1815,1813,3628,0,ok
+v4_p08,775,Jean Maire,103,63,40,103,0,ok
+v4_p08,32,Jesús María,9921,4716,5205,9921,0,ok
+v4_p08,207,Jesús María,1855,972,883,1855,0,ok
+v4_p08,34,Jobson,9754,4626,5128,9754,0,ok
+v4_p08,504,José de la Quintana,698,477,221,698,0,ok
+v4_p08,426,Josefina,943,493,450,943,0,ok
+v4_p08,259,Jovita,1589,822,767,1589,0,ok
+v4_p08,358,J. B. Molina,1189,618,571,1189,0,ok
+v4_p08,536,Juárez Celman,628,330,298,628,0,ok
+v4_p08,186,Juncal,1997,1015,982,1997,0,ok
+v4_p08,110,Justiniano Posse,3891,1972,1919,3891,0,ok
+v4_p08,567,Kilómetro 711,547,285,262,547,0,ok
+v4_p08,112,Laborde,3875,1918,1957,3875,0,ok
+v4_p08,305,Labordeboy,1398,760,638,1398,0,ok
+v4_p09,27,Laboulaye,11265,5507,5758,11265,0,ok
+v4_p09,492,La Buena Parada,730,366,364,730,0,ok
+v4_p09,162,La Calera,2818,1358,1460,2818,0,ok
+v4_p09,53,La Carlota,6532,3202,3330,6532,0,ok
+v4_p09,377,La Cautiva,1117,628,489,1117,0,ok
+v4_p09,309,La Cesira,1379,767,612,1379,0,ok
+v4_p09,688,La Cortadera,288,148,140,288,0,ok
+v4_p09,306,La Criolla,1396,704,692,1396,0,ok
+v4_p09,561,La Cruz,575,267,308,575,0,ok
+v4_p09,85,La Cumbre,4768,2268,2500,4768,0,ok
+v4_p09,486,La Chispa,741,425,316,741,0,ok
+v4_p09,156,La Falda,2908,1363,1545,2908,0,ok
+v4_p09,182,La Francia,2137,1048,1089,2137,0,ok
+v4_p09,99,La Gallareta,4178,2131,2047,4178,0,ok
+v4_p09,620,La Gilda,444,245,199,444,0,ok
+v4_p09,338,La Granja,1261,650,611,1261,0,ok
+v4_p09,639,Laguna del Monte,390,259,131,390,0,ok
+v4_p09,121,Laguna Larga,3609,1827,1782,3609,0,ok
+v4_p09,496,La Higuera,719,360,359,719,0,ok
+v4_p09,660,La Isla de San Antonio,335,190,145,335,0,ok
+v4_p09,295,La Laguna,1456,761,695,1456,0,ok
+v4_p09,526,La Lucila,651,359,292,651,0,ok
+v4_p09,753,La Nacional,154,83,71,154,0,ok
+v4_p09,231,Landeta,1737,910,827,1737,0,ok
+v4_p09,320,Lanteri,1326,668,658,1326,0,ok
+v4_p09,479,La Palestina,750,420,330,750,0,ok
+v4_p09,599,La Pampa,486,252,234,486,0,ok
+v4_p09,452,La Paquita,854,444,410,854,0,ok
+v4_p09,197,La Para,1923,918,1005,1923,0,ok
+v4_p09,506,La Paz,694,330,364,694,0,ok
+v4_p09,242,La Pelada,1666,900,766,1666,0,ok
+v4_p09,698,La Playa,265,127,138,265,0,ok
+v4_p09,344,La Playosa,1233,599,634,1233,0,ok
+v4_p09,618,La Población,445,221,224,445,0,ok
+v4_p09,665,La Posta,322,157,165,322,0,ok
+v4_p09,307,La Puerta,1393,676,717,1393,0,ok
+v4_p09,569,La Puerta,535,296,239,535,0,ok
+v4_p09,508,Larrechea,690,358,332,690,0,ok
+v4_p09,490,La Rubia,736,372,364,736,0,ok
+v4_p09,449,La Vanguardia,867,475,392,867,0,ok
+v4_p09,193,Las Acequias,1945,1050,895,1945,0,ok
+v4_p10,507,Las Arrias,693,331,362,693,0,ok
+v4_p10,758,Las Averías,131,64,67,131,0,ok
+v4_p10,673,Las Avispas,312,176,136,312,0,ok
+v4_p10,542,Las Bajadas,610,349,261,610,0,ok
+v4_p10,596,Las Bandurrias,490,281,209,490,0,ok
+v4_p10,677,Las Calles,306,154,152,306,0,ok
+v4_p10,515,Las Garzas,675,367,308,675,0,ok
+v4_p10,153,Las Higueras,2990,1544,1446,2990,0,ok
+v4_p10,575,Las Isletillas,523,274,249,523,0,ok
+v4_p10,363,Las Junturas,1183,579,604,1183,0,ok
+v4_p10,752,Las Palmas,155,80,75,155,0,ok
+v4_p10,417,Las Palmeras,969,491,478,969,0,ok
+v4_p10,87,Las Parejas,4696,2531,2165,4696,0,ok
+v4_p10,422,Las Peñas,958,465,493,958,0,ok
+v4_p10,142,Las Perdices,3207,1639,1568,3207,0,ok
+v4_p10,429,Las Petacas,938,505,433,938,0,ok
+v4_p10,544,Las Rabonas,606,306,300,606,0,ok
+v4_p10,40,Las Rosas,9235,4731,4504,9235,0,ok
+v4_p10,693,Las Saladas,277,127,150,277,0,ok
+v4_p10,500,Las Tapias,712,352,360,712,0,ok
+v4_p10,628,Las Tapias,424,228,196,424,0,ok
+v4_p10,81,Las Toscas,5055,2640,2415,5055,0,ok
+v4_p10,477,Las Tunas,763,394,369,763,0,ok
+v4_p10,255,Las Varas,1607,863,744,1607,0,ok
+v4_p10,44,Las Varillas,7405,3528,3877,7405,0,ok
+v4_p10,398,Las Vertientes,1022,559,463,1022,0,ok
+v4_p10,436,Lazzarino,911,485,426,911,0,ok
+v4_p10,740,Lecueder,192,99,93,192,0,ok
+v4_p10,564,Leguizamón,568,332,236,568,0,ok
+v4_p10,204,Lehmann,1873,941,932,1873,0,ok
+v4_p10,46,Leones,7161,3627,3534,7161,0,ok
+v4_p10,332,Logroño,1277,722,555,1277,0,ok
+v4_p10,583,Loma Alta,502,263,239,502,0,ok
+v4_p10,387,López,1059,537,522,1059,0,ok
+v4_p10,764,Los Alamos,121,67,54,121,0,ok
+v4_p10,711,Los Alfalfares,244,145,99,244,0,ok
+v4_p10,491,Los Amores,736,395,341,736,0,ok
+v4_p10,282,Los Cardos,1502,802,700,1502,0,ok
+v4_p10,470,Los Cerrillos,792,369,423,792,0,ok
+v4_p10,448,Los Cisnes,869,455,414,869,0,ok
+v4_p10,458,Los Cocos,835,421,414,835,0,ok
+v4_p11,670,Los Cometierra,314,173,141,314,0,ok
+v4_p11,220,Los Cóndores,1777,949,828,1777,0,ok
+v4_p11,659,Los Chañaritos,339,180,159,339,0,ok
+v4_p11,473,Los Hornillos,780,381,399,780,0,ok
+v4_p11,585,Los Hoyos,500,253,247,500,0,ok
+v4_p11,582,Los Jagüeles,503,294,209,503,0,ok
+v4_p11,754,Los Mistoles,152,88,64,152,0,ok
+v4_p11,203,Los Molinos,1892,997,895,1892,0,ok
+v4_p11,773,Los Pozos,108,59,49,108,0,ok
+v4_p11,228,Los Quirquinchos,1754,908,846,1754,0,ok
+v4_p11,683,Los Reartes,298,156,142,298,0,ok
+v4_p11,198,Los Saladillos,1920,989,931,1920,0,ok
+v4_p11,674,Los Sauces,311,154,157,311,0,ok
+v4_p11,173,Los Surgentes,2483,1295,1188,2483,0,ok
+v4_p11,437,Los Zorros,910,486,424,910,0,ok
+v4_p11,351,Lozada,1212,651,561,1212,0,ok
+v4_p11,547,Luca,600,312,288,600,0,ok
+v4_p11,388,Lucio V. López,1057,592,455,1047,10,flag
+v4_p11,366,Lucio V. Mansilla,1175,628,547,1175,0,ok
+v4_p11,265,Luis Palacios,1564,863,701,1564,0,ok
+v4_p11,178,Luque,2313,1183,1130,2313,0,ok
+v4_p11,768,Lutti,114,56,58,114,0,ok
+v4_p11,537,Luxardo,628,339,289,628,0,ok
+v4_p11,464,Luyaba,809,410,399,809,0,ok
+v4_p11,215,Llambi Campbell,1817,967,850,1817,0,ok
+v4_p11,140,Maciel,3213,1606,1607,3213,0,ok
+v4_p11,687,Macha,291,147,144,291,0,ok
+v4_p11,225,Maggiolo,1763,918,845,1763,0,ok
+v4_p11,119,Malagueño,3662,1954,1708,3662,0,ok
+v4_p11,580,Malena,506,288,218,506,0,ok
+v4_p11,739,Manantiales,194,116,78,194,0,ok
+v4_p11,454,Manfredi,846,469,377,846,0,ok
+v4_p11,771,Maquinista Gallini,110,53,57,110,0,ok
+v4_p11,298,Marcelino Escalada,1444,746,698,1444,0,ok
+v4_p11,22,Marcos Juárez,12897,6394,6503,12897,0,ok
+v4_p11,276,Margarita,1520,767,753,1520,0,ok
+v4_p11,513,Margarita,680,366,314,680,0,ok
+v4_p11,129,María Juana,3432,1806,1626,3432,0,ok
+v4_p11,548,María Luisa,600,319,281,600,0,ok
+v4_p11,250,María Susana,1623,804,819,1623,0,ok
+v4_p11,96,María Teresa,4294,2360,1934,4294,0,ok
+v4_p12,447,Mariano Saavedra,871,452,419,871,0,ok
+v4_p12,652,Marini,367,202,165,367,0,ok
+v4_p12,201,Marull,1906,990,916,1906,0,ok
+v4_p12,445,Mattaldi,876,471,405,876,0,ok
+v4_p12,356,Matilde,1193,607,586,1193,0,ok
+v4_p12,385,Matorrales,1067,558,509,1067,0,ok
+v4_p12,115,Máximo Paz,3782,1976,1806,3782,0,ok
+v4_p12,317,Médanos de las Cañas,1337,667,670,1337,0,ok
+v4_p12,725,Media Naranja,216,128,88,216,0,ok
+v4_p12,166,Melincué,2748,1430,1318,2748,0,ok
+v4_p12,416,Melo,970,507,463,970,0,ok
+v4_p12,731,Mendiolaza,209,107,102,209,0,ok
+v4_p12,469,Miguel Torres,796,423,373,796,0,ok
+v4_p12,170,Mina Clavero,2560,1224,1336,2560,0,ok
+v4_p12,367,Miramar,1175,548,627,1175,0,ok
+v4_p12,734,Modestino Pizarro,204,112,92,204,0,ok
+v4_p12,139,Moisés Ville,3217,1576,1641,3217,0,ok
+v4_p12,75,Moldes,5230,2616,2614,5230,0,ok
+v4_p12,657,Molinari,345,119,226,345,0,ok
+v4_p12,586,Molinos,498,255,243,498,0,ok
+v4_p12,401,Monigotes,1011,494,517,1011,0,ok
+v4_p12,712,Monsalvo,240,126,114,240,0,ok
+v4_p12,180,Monte Buey,2244,1136,1108,2244,0,ok
+v4_p12,621,Monte Cristo,439,215,224,439,0,ok
+v4_p12,495,Monte de los Gauchos,720,374,346,720,0,ok
+v4_p12,765,Monte del Rosario,120,60,60,120,0,ok
+v4_p12,359,Montefiore,1186,636,550,1186,0,ok
+v4_p12,554,Monte Leña,586,312,274,586,0,ok
+v4_p12,141,Monte Maíz,3211,1607,1604,3211,0,ok
+v4_p12,372,Monte Ralo,1153,656,497,1153,0,ok
+v4_p12,283,Montes de Oca,1493,713,780,1493,0,ok
+v4_p12,185,Monte Vera,1998,1089,909,1998,0,ok
+v4_p12,177,Morrison,2319,1146,1173,2319,0,ok
+v4_p12,45,Morteros,7351,3475,3876,7351,0,ok
+v4_p12,410,Naré,978,529,449,978,0,ok
+v4_p12,208,Nelson,1854,943,911,1854,0,ok
+v4_p12,531,Nicolás Bruzone,633,343,290,633,0,ok
+v4_p12,743,Ninalquín,177,87,90,177,0,ok
+v4_p12,133,Noetinger,3389,1679,1710,3389,0,ok
+v4_p12,607,Nono,469,228,241,469,0,ok
+v4_p12,662,Nueva Andalucía,329,179,150,329,0,ok
+v4_p13,438,Nuevo Torino,905,479,426,905,0,ok
+v4_p13,647,Ñanducita,375,187,188,375,0,ok
+v4_p13,326,Obispo Trejo,1294,591,703,1294,0,ok
+v4_p13,461,Olaeta,822,446,376,822,0,ok
+v4_p13,29,Oliva,10194,4874,5320,10194,0,ok
+v4_p13,235,Oliveros,1694,785,909,1694,0,ok
+v4_p13,727,Olmos,214,113,101,214,0,ok
+v4_p13,518,Onagoity,674,395,279,674,0,ok
+v4_p13,52,Onativo,6557,3245,3312,6557,0,ok
+v4_p13,246,Ordóñez,1642,814,828,1642,0,ok
+v4_p13,685,Pacheco de Melo,292,152,140,292,0,ok
+v4_p13,374,Palacios,1149,589,560,1149,0,ok
+v4_p13,236,Pampayasta Norte,1691,918,773,1691,0,ok
+v4_p13,274,Pampayasta Sud,1537,823,714,1537,0,ok
+v4_p13,707,Panaholma,253,134,119,253,0,ok
+v4_p13,227,Pascanas,1760,874,886,1760,0,ok
+v4_p13,327,Pasco,1294,681,613,1294,0,ok
+v4_p13,563,Paso Viejo,571,290,281,571,0,ok
+v4_p13,668,Paunero,315,185,130,315,0,ok
+v4_p13,443,Pavón,889,477,412,889,0,ok
+v4_p13,205,Pavón Arriba,1859,1005,854,1859,0,ok
+v4_p13,751,Pedro E. Funes,159,93,66,159,0,ok
+v4_p13,389,Pedro Gómez Cello,1053,580,473,1053,0,ok
+v4_p13,49,Pérez,6800,3466,3334,6800,0,ok
+v4_p13,212,Peyrano,1825,933,892,1825,0,ok
+v4_p13,122,Piamonte,3605,1871,1734,3605,0,ok
+v4_p13,671,Pichanas,314,165,149,314,0,ok
+v4_p13,746,Piedrita Blanca,174,90,84,174,0,ok
+v4_p13,109,Pilar,3909,1963,1946,3909,0,ok
+v4_p13,131,Pilar,3403,1720,1683,3403,0,ok
+v4_p13,472,Pinoén,783,459,324,783,0,ok
+v4_p13,465,Piñero,807,443,364,807,0,ok
+v4_p13,551,Piquillín,593,324,269,593,0,ok
+v4_p13,675,Pocho,311,155,156,311,0,ok
+v4_p13,171,Porteña,2544,1260,1284,2544,0,ok
+v4_p13,30,Posta de San Martín,10152,5210,4942,10152,0,ok
+v4_p13,433,Potrero de Garay,918,478,440,918,0,ok
+v4_p13,434,Pozo Borrado,917,510,407,917,0,ok
+v4_p13,646,Pozo de la Loma,377,201,176,377,0,ok
+v4_p13,761,Pozo del Chañar,127,62,65,127,0,ok
+v4_p13,172,Pozo del Molle,2499,1254,1245,2499,0,ok
+v4_p14,345,Presidente Roca,1232,651,581,1232,0,ok
+v4_p14,663,Pretot Freyre,328,187,141,328,0,ok
+v4_p14,245,Progreso,1643,842,801,1643,0,ok
+v4_p14,361,Providencia,1185,605,580,1185,0,ok
+v4_p14,382,Pueblo Brito,1085,580,505,1085,0,ok
+v4_p14,534,Pueblo Esther,630,340,290,630,0,ok
+v4_p14,397,Pueblo Italiano,1027,545,482,1027,0,ok
+v4_p14,460,Pueblo Muñoz,828,438,390,828,0,ok
+v4_p14,56,Pueblo Nuevo,6321,3291,3030,6321,0,ok
+v4_p14,104,Puerto San Martín,4065,2114,1951,4065,0,ok
+v4_p14,672,Puesto de Castro,313,157,156,313,0,ok
+v4_p14,187,Pujato,1997,1078,919,1997,0,ok
+v4_p14,631,Punta de Agua,421,239,182,421,0,ok
+v4_p14,412,Punta del Agua,976,515,461,976,0,ok
+v4_p14,622,Punta del Agua,437,222,215,437,0,ok
+v4_p14,641,Quebrada de los Pozos,380,208,172,380,0,ok
+v4_p14,527,Quebracho Herrado,651,365,286,651,0,ok
+v4_p14,157,Quilino,2867,1355,1512,2867,0,ok
+v4_p14,7,Rafaela,35653,17183,18470,35653,0,ok
+v4_p14,605,Rafael García,473,247,226,473,0,ok
+v4_p14,497,Ramayón,719,400,319,719,0,ok
+v4_p14,379,Ramona,1106,543,563,1106,0,ok
+v4_p14,591,Ramón J. Cárcano,493,287,206,493,0,ok
+v4_p14,704,Rangel,258,134,124,258,0,ok
+v4_p14,635,Ranqueles,410,253,157,410,0,ok
+v4_p14,661,Rayo Cortado,330,152,178,330,0,ok
+v4_p14,13,Reconquista,19000,9070,9930,19000,0,ok
+v4_p14,380,Recreo,1095,551,544,1095,0,ok
+v4_p14,23,Reinaldo Cullen,11881,5914,5967,11881,0,ok
+v4_p14,509,Ricardone,690,401,289,690,0,ok
+v4_p14,535,Rincón,629,333,296,629,0,ok
+v4_p14,640,Río Bamba,385,214,171,385,0,ok
+v4_p14,65,Río Ceballos,5760,2746,3014,5760,0,ok
+v4_p14,4,Río Cuarto,65569,31138,34431,65569,0,ok
+v4_p14,409,Río de los Sauces,984,508,476,984,0,ok
+v4_p14,209,Río Primero,1845,912,933,1845,0,ok
+v4_p14,43,Río Segundo,7572,3696,3876,7572,0,ok
+v4_p14,15,Río Tercero,18512,9119,9393,18512,0,ok
+v4_p14,71,Roldán,5376,2753,2623,5376,0,ok
+v4_p14,126,Romang,3514,1735,1779,3514,0,ok
+v4_p14,375,Rosales,1134,631,503,1134,0,ok
+v4_p15,1,Rosario,591428,286446,304982,591428,0,ok
+v4_p15,373,Rueda,1150,617,533,1150,0,ok
+v4_p15,21,Rufino,13771,6983,6788,13771,0,ok
+v4_p15,728,Ruiz Díaz de Guzmán,214,131,83,214,0,ok
+v4_p15,741,Rumiyaco,187,95,92,187,0,ok
+v4_p15,193,Sacanta,1935,1037,898,1935,0,ok
+v4_p15,487,Saguier,741,385,356,741,0,ok
+v4_p15,333,Saira,1275,721,554,1275,0,ok
+v4_p15,560,Saladillo,577,311,266,577,0,ok
+v4_p15,325,Saldán,1298,624,674,1298,0,ok
+v4_p15,608,Salguero,469,263,206,469,0,ok
+v4_p15,520,Salsacate,669,308,361,669,0,ok
+v4_p15,286,Salsipuedes,1489,745,744,1489,0,ok
+v4_p15,89,Sampacho,4682,2385,2297,4682,0,ok
+v4_p15,571,Sanabria,529,307,222,529,0,ok
+v4_p15,210,San Agustín,1828,966,862,1828,0,ok
+v4_p15,269,San Agustín,1469,755,714,1469,0,ok
+v4_p15,648,San Ambrosio,375,283,92,375,0,ok
+v4_p15,654,San Antonio,358,183,175,358,0,ok
+v4_p15,724,San Antonio de Arredondo,222,120,102,222,0,ok
+v4_p15,352,San Antonio de Litín,1212,635,577,1212,0,ok
+v4_p15,311,San Antonio de Obligado,1375,690,685,1375,0,ok
+v4_p15,321,San Bartolomé,1324,674,650,1324,0,ok
+v4_p15,717,San Bartolomé,234,128,106,234,0,ok
+v4_p15,214,San Basilio,1819,980,839,1819,0,ok
+v4_p15,770,San Bernardo,113,65,48,113,0,ok
+v4_p15,521,San Carlos,668,322,346,668,0,ok
+v4_p15,76,San Carlos Centro,5212,2540,2672,5212,0,ok
+v4_p15,440,San Carlos Norte,901,475,426,901,0,ok
+v4_p15,253,San Carlos Sud,1618,782,836,1618,0,ok
+v4_p15,555,San Clemente,583,336,247,583,0,ok
+v4_p15,24,San Cristóbal,11825,5794,6031,11825,0,ok
+v4_p15,95,Sancti Spíritu,4402,2334,2068,4402,0,ok
+v4_p15,314,San Eduardo,1347,693,654,1347,0,ok
+v4_p15,512,San Esteban,681,385,296,681,0,ok
+v4_p15,690,San Eugenio,283,153,130,283,0,ok
+v4_p15,427,San Fabián,942,502,440,942,0,ok
+v4_p15,213,Sanford,1823,988,835,1823,0,ok
+v4_p15,6,San Francisco,38000,18794,19206,38000,0,ok
+v4_p15,310,San Francisco del Chañar,1376,688,688,1376,0,ok
+v4_p15,302,San Francisco de Sta. Fe,1414,764,650,1414,0,ok
+v4_p16,263,San Genaro,1571,812,759,1571,0,ok
+v4_p16,280,San Genaro Norte,1507,766,741,1507,0,ok
+v4_p16,106,San Gregorio,4003,2042,1961,4003,0,ok
+v4_p16,206,San Guillermo,1856,907,949,1856,0,ok
+v4_p16,713,San Ignacio,238,132,106,238,0,ok
+v4_p16,107,San Javier,3970,1903,2067,3970,0,ok
+v4_p16,478,San Javier,759,372,387,759,0,ok
+v4_p16,362,San Jerónimo del Sauce,1185,613,572,1185,0,ok
+v4_p16,102,San Jerónimo Norte,4085,1967,2118,4085,0,ok
+v4_p16,271,San Jerónimo Sud,1548,784,764,1548,0,ok
+v4_p16,695,San Joaquín,276,166,110,276,0,ok
+v4_p16,31,San Jorge,10043,5114,4929,10043,0,ok
+v4_p16,341,San José,1257,634,623,1257,0,ok
+v4_p16,519,San José,673,335,338,673,0,ok
+v4_p16,414,San José de la Dormida,972,478,494,972,0,ok
+v4_p16,88,San José de la Esquina,4684,2386,2298,4684,0,ok
+v4_p16,322,San José del Rincón,1307,618,689,1307,0,ok
+v4_p16,304,San Julián,1405,704,701,1405,0,ok
+v4_p16,39,San Justo,9457,4582,4875,9457,0,ok
+v4_p16,10,San Lorenzo,21908,11069,10839,21908,0,ok
+v4_p16,216,San Marcos,1801,854,947,1801,0,ok
+v4_p16,411,San Marcos Sierra,978,507,471,978,0,ok
+v4_p16,275,S. Martín de las Escobas,1521,762,759,1521,0,ok
+v4_p16,481,San Martín Norte,749,407,342,749,0,ok
+v4_p16,767,San Miguel,115,66,49,115,0,ok
+v4_p16,230,San Pedro,1737,863,874,1737,0,ok
+v4_p16,750,San Pedro de Toyos,164,85,79,164,0,ok
+v4_p16,696,San Pedro Norte,271,144,127,271,0,ok
+v4_p16,576,San Roque,518,326,192,518,0,ok
+v4_p16,735,San Severo,202,109,93,202,0,ok
+v4_p16,736,Santa Catalina,202,115,87,202,0,ok
+v4_p16,296,Sta. Clara de Buena Vista,1456,735,721,1456,0,ok
+v4_p16,287,Santa Clara de Saguier,1489,733,756,1489,0,ok
+v4_p16,714,Santa Cruz,238,115,123,238,0,ok
+v4_p16,196,Santa Eufemia,1928,995,933,1928,0,ok
+v4_p16,3,Santa Fe,208900,99851,109049,208900,0,ok
+v4_p16,101,Santa Isabel,4094,2177,1917,4094,0,ok
+v4_p16,184,Santa María,2070,1008,1062,2070,0,ok
+v4_p16,588,Santa María Centro,496,282,214,496,0,ok
+v4_p16,543,Santa María Norte,607,314,293,607,0,ok
+v4_p16,699,Santa Rosa,265,136,129,265,0,ok
+v4_p17,181,Sta. Rosa de Calamuchita,2217,1094,1123,2217,0,ok
+v4_p17,132,Sta. Rosa del Río Primero,3390,1579,1811,3390,0,ok
+v4_p17,57,Santa Teresa,6103,3187,2916,6103,0,ok
+v4_p17,160,Santa Teresa,2831,1506,1325,2831,0,ok
+v4_p17,748,Santa Teresa,168,98,70,168,0,ok
+v4_p17,653,Santa Victoria,365,188,177,365,0,ok
+v4_p17,405,Santiago Temple,999,498,501,999,0,ok
+v4_p17,331,Santo Domingo,1278,661,617,1278,0,ok
+v4_p17,16,Santo Tomé,17400,8924,8476,17400,0,ok
+v4_p17,708,Santurce,253,125,128,253,0,ok
+v4_p17,118,San Vicente,3701,1950,1751,3701,0,ok
+v4_p17,627,San Vicente,425,214,211,425,0,ok
+v4_p17,368,Sa Pereyra,1164,608,556,1164,0,ok
+v4_p17,354,Sargento Cabral,1198,634,564,1198,0,ok
+v4_p17,303,Sarmiento,1410,730,680,1410,0,ok
+v4_p17,516,Sarmiento,675,341,334,675,0,ok
+v4_p17,86,Sastre,4749,2327,2422,4749,0,ok
+v4_p17,297,Saturnino M. Laspiur,1445,731,714,1445,0,ok
+v4_p17,737,Sauce Viejo,197,114,83,197,0,ok
+v4_p17,402,Sebastián el Cano,1010,507,503,1010,0,ok
+v4_p17,577,Seeber,516,271,245,516,0,ok
+v4_p17,134,Serodino,3306,1713,1593,3306,0,ok
+v4_p17,261,Serrano,1576,812,764,1576,0,ok
+v4_p17,179,Serrezuela,2294,1091,1203,2294,0,ok
+v4_p17,532,Silvio Pellico,632,345,287,632,0,ok
+v4_p17,623,Simbolar,436,204,232,436,0,ok
+v4_p17,602,Sinsacate,479,274,205,479,0,ok
+v4_p17,226,Soldini,1763,953,810,1763,0,ok
+v4_p17,281,Soledad,1505,774,731,1505,0,ok
+v4_p17,529,Soutomayor,639,338,301,639,0,ok
+v4_p17,165,Suardi,2767,1364,1403,2767,0,ok
+v4_p17,457,Suco,838,460,378,838,0,ok
+v4_p17,41,Sunchales,7890,3946,3934,7880,10,flag
+v4_p17,378,Susana,1112,570,542,1112,0,ok
+v4_p17,159,Tacuarendí,2838,1515,1323,2838,0,ok
+v4_p17,749,Tala Cañada,168,87,81,168,0,ok
+v4_p17,709,Tala Cruz,252,123,129,252,0,ok
+v4_p17,715,Talaini,236,117,119,236,0,ok
+v4_p17,556,Tala Norte,583,308,275,583,0,ok
+v4_p17,114,Tancacha,3816,1960,1856,3816,0,ok
+v4_p17,323,Tanti,1307,641,666,1307,0,ok
+v4_p18,578,Tartagal,514,276,238,514,0,ok
+v4_p18,760,Tejeda,129,70,59,129,0,ok
+v4_p18,72,Teodolina,5317,2844,2473,5317,0,ok
+v4_p18,501,Theobald,712,392,320,712,0,ok
+v4_p18,301,Ticino,1415,766,649,1415,0,ok
+v4_p18,658,Tinoco,344,181,163,344,0,ok
+v4_p18,369,Tío Pujio,1159,586,573,1159,0,ok
+v4_p18,550,Toledo,595,296,299,595,0,ok
+v4_p18,247,Tortugas,1639,837,802,1639,0,ok
+v4_p18,681,Toano,301,159,142,301,0,ok
+v4_p18,502,Tosquita,711,397,314,711,0,ok
+v4_p18,47,Tostado,6854,3398,3456,6854,0,ok
+v4_p18,755,Totoralejos,146,78,68,146,0,ok
+v4_p18,606,Traill,470,257,213,470,0,ok
+v4_p18,200,Tránsito,1914,913,1001,1914,0,ok
+v4_p18,689,Travesía,287,150,137,287,0,ok
+v4_p18,714,Tres Arboles,233,129,104,233,0,ok
+v4_p18,528,Tuclame,650,346,304,650,0,ok
+v4_p18,100,Ucacha,4101,2105,1996,4101,0,ok
+v4_p18,94,Unquillo,4405,2083,2322,4405,0,ok
+v4_p18,169,Valle Hermoso,2593,1246,1347,2593,0,ok
+v4_p18,8,Venado Tuerto,26284,13194,13090,26284,0,ok
+v4_p18,293,Vera y Pintado,1462,762,700,1462,0,ok
+v4_p18,336,Viamonte,1264,632,632,1264,0,ok
+v4_p18,128,Vicuña Mackenna,3443,1747,1696,3443,0,ok
+v4_p18,224,Videla,1765,921,844,1765,0,ok
+v4_p18,269,Vila,1551,798,753,1551,0,ok
+v4_p18,69,Villa Allende,5548,2643,2905,5548,0,ok
+v4_p18,284,Villa Amelia,1491,807,684,1491,0,ok
+v4_p18,117,Villa Ana,3718,1753,1965,3718,0,ok
+v4_p18,219,Villa Ascasubi,1782,914,868,1782,0,ok
+v4_p18,573,Villa Candelaria,525,264,261,525,0,ok
+v4_p18,42,Villa Cañás,7669,4053,3616,7669,0,ok
+v4_p18,59,Villa Carlos Paz,6102,2985,3117,6102,0,ok
+v4_p18,14,Villa Constitución,18720,9753,8967,18720,0,ok
+v4_p18,260,Villa Cura Brochero,1585,747,838,1585,0,ok
+v4_p18,239,Villada,1672,914,758,1672,0,ok
+v4_p18,442,Villa del Dique,890,449,441,890,0,ok
+v4_p18,530,Villa del Lago,635,279,356,635,0,ok
+v4_p18,54,Villa del Rosario,6493,3117,3376,6493,0,ok
+v4_p18,356,Villa de María,1218,558,660,1218,0,ok
+v4_p19,103,Villa de Soto,4066,1971,2095,4066,0,ok
+v4_p19,48,Villa Diego,6852,3520,3332,6852,0,ok
+v4_p19,18,Villa Dolores,16730,7736,8994,16730,0,ok
+v4_p19,223,Villa Eloísa,1768,920,848,1768,0,ok
+v4_p19,579,Villa Fontana,512,260,252,512,0,ok
+v4_p19,267,Villa General Belgrano,1553,772,781,1553,0,ok
+v4_p19,217,Villa General Mitre,1797,826,971,1797,0,ok
+v4_p19,273,Villa Giardino,1546,731,815,1546,0,ok
+v4_p19,79,Villa Gobernador Gálvez,5142,2667,2475,5142,0,ok
+v4_p19,116,Villa Guillermina,3740,1802,1938,3740,0,ok
+v4_p19,566,Villa Independencia,556,265,291,556,0,ok
+v4_p19,441,Villa Las Rosas,896,439,457,896,0,ok
+v4_p19,5,Villa María,41472,19774,21698,41472,0,ok
+v4_p19,270,Villa Mugueta,1551,791,760,1551,0,ok
+v4_p19,51,Villa Nueva,6611,3292,3319,6611,0,ok
+v4_p19,33,Villa Ocampo,9909,4980,4929,9909,0,ok
+v4_p19,451,Villa Quilino,857,417,440,857,0,ok
+v4_p19,233,Villa Reducción,1731,893,838,1731,0,ok
+v4_p19,763,Villa Río Grande,123,66,57,123,0,ok
+v4_p19,633,V. Rosario del Saladillo,416,186,230,416,0,ok
+v4_p19,383,Villa Rossi,1082,600,482,1082,0,ok
+v4_p19,604,Villa Rumipal,476,247,229,476,0,ok
+v4_p19,549,Villa San José,596,306,290,596,0,ok
+v4_p19,539,Villa Saralegui,622,369,253,622,0,ok
+v4_p19,769,Villa Sarmiento,114,60,54,114,0,ok
+v4_p19,308,Villa Trinidad,1387,722,665,1387,0,ok
+v4_p19,376,Villa Tulumba,1122,535,587,1122,0,ok
+v4_p19,347,Villa Valeria,1228,619,609,1228,0,ok
+v4_p19,645,Villa Yacanto,378,187,191,378,0,ok
+v4_p19,615,Virginia,457,243,214,457,0,ok
+v4_p19,742,Vivero,184,107,77,184,0,ok
+v4_p19,424,Washington,955,543,412,955,0,ok
+v4_p19,135,Wheelwright,3281,1699,1582,3281,0,ok
+v4_p19,592,Yacanto,492,224,268,492,0,ok
+v4_p19,454,Yoscina,745,437,308,745,0,ok
+v4_p19,150,Zavalla,3040,1602,1438,3040,0,ok
+v4_p19,243,Zenón Pereyra,1661,835,826,1661,0,ok
+v5_p01,156,Acuña,805,419,386,805,0,ok
+v5_p01,220,Alba Posse,481,227,254,481,0,ok
+v5_p01,246,Alcaraz,376,188,188,376,0,ok
+v5_p01,189,Aldea Asunción,616,298,318,616,0,ok
+v5_p01,239,Aldea Brasilera,391,189,202,391,0,ok
+v5_p01,226,Aldea María Luisa,451,211,240,451,0,ok
+v5_p01,219,Aldea Protestante,482,240,242,482,0,ok
+v5_p01,214,Aldea San Antonio,502,273,229,502,0,ok
+v5_p01,255,Aldea Santa María,340,167,173,340,0,ok
+v5_p01,101,Almafuerte,1351,708,643,1351,0,ok
+v5_p01,192,Altamirano Sud,607,324,283,607,0,ok
+v5_p01,30,Alvear,4252,1983,2269,4252,0,ok
+v5_p01,240,Antelo,389,191,198,389,0,ok
+v5_p01,290,Apipé,209,108,101,209,0,ok
+v5_p01,27,Apóstoles,6507,3120,3387,6507,0,ok
+v5_p01,136,Aranguren,932,490,442,932,0,ok
+v5_p01,138,Aristóbulo del Valle,925,470,455,925,0,ok
+v5_p01,277,Arroyo Barú,259,144,115,259,0,ok
+v5_p01,242,Arroyo Clé,385,199,186,385,0,ok
+v5_p01,260,Arroyo Grande,328,173,155,328,0,ok
+v5_p01,153,Azara,838,464,374,838,0,ok
+v5_p01,245,Baibiene,380,217,163,380,0,ok
+v5_p01,26,Basavilbaso,6614,3216,3398,6614,0,ok
+v5_p01,21,Bella Vista,8334,3923,4411,8334,0,ok
+v5_p01,222,Berduc,473,284,189,473,0,ok
+v5_p01,92,Bernardo de Irigoyen,1400,722,678,1400,0,ok
+v5_p01,161,Berón de Astrada,765,341,424,765,0,ok
+v5_p01,286,Betbeder,227,119,108,227,0,ok
+v5_p01,204,Bonpland,532,241,291,532,0,ok
+v5_p01,120,Bonpland,1132,545,587,1132,0,ok
+v5_p01,70,Bovril,1955,958,997,1955,0,ok
+v5_p01,193,Caa-Yarí,588,316,272,588,0,ok
+v5_p01,164,Calabacillas,737,386,351,737,0,ok
+v5_p01,97,Campo Grande,1362,717,645,1362,0,ok
+v5_p01,95,Campo Ramón,1372,677,695,1372,0,ok
+v5_p01,105,Campo Viera,1293,670,623,1293,0,ok
+v5_p01,56,Candelaria,2429,1189,1240,2429,0,ok
+v5_p01,248,Cañaditas,368,169,199,368,0,ok
+v5_p01,169,Capiovy,701,346,355,701,0,ok
+v5_p01,177,Caraguatay,664,349,315,664,0,ok
+v5_p01,249,Cataratas del Iguazú,357,191,166,357,0,ok
+v5_p02,303,Caza Pava,119,62,57,119,0,ok
+v5_p02,175,Cazadores Correntinos,672,333,339,672,0,ok
+v5_p02,203,Cerrito,541,265,276,541,0,ok
+v5_p02,77,Cerro Azul,1712,873,839,1712,0,ok
+v5_p02,262,Cerro Corá,324,163,161,324,0,ok
+v5_p02,261,Clodomiro Ledesma,328,162,166,328,0,ok
+v5_p02,25,Colón,6813,3318,3495,6813,0,ok
+v5_p02,210,Colonia Carlos Pellegrini,515,244,271,515,0,ok
+v5_p02,233,Colonia Carolina,416,210,206,416,0,ok
+v5_p02,145,Colonia Caseros,885,462,423,885,0,ok
+v5_p02,94,Colonia Delicia,1389,720,669,1389,0,ok
+v5_p02,141,Colonia Elía,917,453,464,917,0,ok
+v5_p02,234,Colonia Hocker,410,222,156,378,32,flag
+v5_p02,282,Colonia Hughes,244,123,121,244,0,ok
+v5_p02,165,Colonia Libertad,732,445,287,732,0,ok
+v5_p02,71,Colonia Pando,1876,979,897,1876,0,ok
+v5_p02,185,Colonia Porvenir,638,311,327,638,0,ok
+v5_p02,300,Colonia San Ernesto,142,72,70,142,0,ok
+v5_p02,73,Colonia Victoria,1810,911,899,1810,0,ok
+v5_p02,52,Concepción,2593,1226,1367,2593,0,ok
+v5_p02,57,Concepción de la Sierra,2313,1096,1217,2313,0,ok
+v5_p02,5,Concepción del Uruguay,36486,18046,18440,36486,0,ok
+v5_p02,4,Concordia,56654,26720,29934,56654,0,ok
+v5_p02,284,Conscripto Bernardi,234,119,115,234,0,ok
+v5_p02,91,Corpus,1414,724,690,1414,0,ok
+v5_p02,2,Corrientes,97507,46001,51506,97507,0,ok
+v5_p02,28,Crespo,5706,2761,2945,5706,0,ok
+v5_p02,285,Cuay Grande,232,128,104,232,0,ok
+v5_p02,266,Cuchilla Redonda,312,155,157,312,0,ok
+v5_p02,6,Curuzú-Cuatiá,16567,8026,8541,16567,0,ok
+v5_p02,20,Chajarí,9075,4368,4707,9075,0,ok
+v5_p02,126,Chavarría,993,439,554,993,0,ok
+v5_p02,143,Desvío Parada Pucheta,912,471,441,912,0,ok
+v5_p02,17,Diamante,10948,5403,5545,10948,0,ok
+v5_p02,148,Don Cristóbal,852,442,410,852,0,ok
+v5_p02,76,Dos Arroyos,1739,892,847,1739,0,ok
+v5_p02,114,Dos de Mayo,1165,585,580,1165,0,ok
+v5_p02,32,Durazno,419,219,200,419,0,ok
+v5_p02,207,Echagüe,523,271,252,523,0,ok
+v5_p02,47,Eldorado,2778,1434,1344,2778,0,ok
+v5_p03,267,El Pingo,311,169,142,311,0,ok
+v5_p03,273,El Redomón,272,147,125,272,0,ok
+v5_p03,109,El Soberbio,1201,622,579,1201,0,ok
+v5_p03,295,Emilio R. Coni,184,104,80,184,0,ok
+v5_p03,35,Empedrado,3735,1692,2043,3735,0,ok
+v5_p03,131,Enrique Carbó,956,471,485,956,0,ok
+v5_p03,258,Ensenada Grande,333,173,160,333,0,ok
+v5_p03,297,Escriña,183,95,88,183,0,ok
+v5_p03,23,Esquina,7619,3441,4178,7619,0,ok
+v5_p03,124,Fábrica Colón,1067,550,517,1067,0,ok
+v5_p03,201,Fachinal,546,290,256,546,0,ok
+v5_p03,191,Faustino M. Parera,612,296,316,612,0,ok
+v5_p03,230,Febre,429,205,224,429,0,ok
+v5_p03,31,Federación,4247,2083,2164,4247,0,ok
+v5_p03,110,Florentino Ameghino,1200,637,563,1200,0,ok
+v5_p03,88,Garupá,1493,765,728,1493,0,ok
+v5_p03,270,Garruchos,289,131,158,289,0,ok
+v5_p03,257,General Almada,338,156,182,338,0,ok
+v5_p03,119,General Alvear,1144,617,527,1144,0,ok
+v5_p03,93,General Campos,1400,701,699,1400,0,ok
+v5_p03,55,General Galarza,2435,1195,1240,2435,0,ok
+v5_p03,79,General Paz,1689,749,940,1689,0,ok
+v5_p03,217,General Racedo,490,239,251,490,0,ok
+v5_p03,116,General Urquiza,1154,651,503,1154,0,ok
+v5_p03,176,Gilbert,668,336,332,668,0,ok
+v5_p03,122,Gobernador Gral. López,1080,562,518,1080,0,ok
+v5_p03,67,Gobernador Ingeniero Valentín Virasoro,1993,998,995,1993,0,ok
+v5_p03,89,Gobernador J.E. Martínez,1434,683,751,1434,0,ok
+v5_p03,133,Gobernador Mansilla,947,443,504,947,0,ok
+v5_p03,117,Gobernador Racedo,1147,549,598,1147,0,ok
+v5_p03,274,González Calderón,268,164,104,268,0,ok
+v5_p03,6,Goya,30011,14543,15468,30011,0,ok
+v5_p03,9,Gualeguay,16542,7436,9106,16542,0,ok
+v5_p03,7,Gualeguaychú,29863,13956,15907,29863,0,ok
+v5_p03,87,Guaraní,1533,818,715,1533,0,ok
+v5_p03,263,Guardamonte,323,152,171,323,0,ok
+v5_p03,74,Hasenkamp,1789,877,912,1789,0,ok
+v5_p03,206,Herlitzka,527,251,276,527,0,ok
+v5_p03,272,Hernándes,283,134,149,283,0,ok
+v5_p03,162,Herrera,762,384,378,762,0,ok
+v5_p04,41,Ibicuy,3356,1791,1565,3356,0,ok
+v5_p04,188,Ifrán,622,310,312,622,0,ok
+v5_p04,53,Iguazú,2547,1311,1236,2547,0,ok
+v5_p04,199,Ingenio 1er. Correntino,567,286,281,567,0,ok
+v5_p04,179,Invernada de Itacuararé,661,321,340,661,0,ok
+v5_p04,160,Irasusta,773,391,382,773,0,ok
+v5_p04,181,Isabel Victoria,654,340,314,654,0,ok
+v5_p04,231,Itacuararé,422,236,186,422,0,ok
+v5_p04,100,Itá-Ibaté,1356,665,691,1356,0,ok
+v5_p04,82,Itatí,1612,740,872,1612,0,ok
+v5_p04,54,Ituzaingó,2459,1199,1260,2459,0,ok
+v5_p04,84,Jardín América,1589,810,779,1589,0,ok
+v5_p04,65,Juan B. Arruabarrena,1997,947,1050,1997,0,ok
+v5_p04,283,Juan Jorge,236,132,104,236,0,ok
+v5_p04,187,Juan Pujol,625,492,133,625,0,ok
+v5_p04,211,Jubileo,509,260,249,509,0,ok
+v5_p04,213,Labougle,503,238,265,503,0,ok
+v5_p04,209,La Capilla,521,278,243,521,0,ok
+v5_p04,241,La Clarita,389,206,183,389,0,ok
+v5_p04,183,La Criolla,645,336,309,645,0,ok
+v5_p04,37,La Cruz,3522,1654,1868,3522,0,ok
+v5_p04,252,La Esmeralda,348,179,169,348,0,ok
+v5_p04,190,Lagunas Bravas,615,309,306,615,0,ok
+v5_p04,16,La Paz,11028,5088,5940,11028,0,ok
+v5_p04,298,La Picada,182,88,94,182,0,ok
+v5_p04,243,Las Mercedes,385,180,205,385,0,ok
+v5_p04,85,Lavalle,1571,793,778,1571,0,ok
+v5_p04,224,Laso,455,244,211,455,0,ok
+v5_p04,32,Leandro N. Alem,4207,2070,2137,4207,0,ok
+v5_p04,205,Leguizamón,531,298,233,531,0,ok
+v5_p04,278,Líbaros,255,136,119,255,0,ok
+v5_p04,66,Libertad,1996,951,1045,1996,0,ok
+v5_p04,98,Libertador,1360,678,682,1360,0,ok
+v5_p04,155,Lib. Gral. San Martín,809,490,319,809,0,ok
+v5_p04,58,Lib. Gral. San Martín,2267,1148,1119,2267,0,ok
+v5_p04,296,Lomas de Galarza,184,92,92,184,0,ok
+v5_p04,159,Lomas de Vallejos,790,394,396,790,0,ok
+v5_p04,140,Loreto,918,459,459,918,0,ok
+v5_p04,113,Loreto,1186,634,552,1186,0,ok
+v5_p04,125,Los Conquistadores,1044,506,538,1044,0,ok
+v5_p04,135,Los Charrúas,933,480,453,933,0,ok
+v5_p05,106,Los Helechos,1284,679,605,1284,0,ok
+v5_p05,118,Lucas González,1145,524,621,1145,0,ok
+v5_p05,50,Maciá,2674,1280,1394,2674,0,ok
+v5_p05,304,Machadiño,112,54,58,112,0,ok
+v5_p05,146,Malvinas,872,371,501,872,0,ok
+v5_p05,195,Manantiales,586,280,306,586,0,ok
+v5_p05,198,Manuel Belgrano (San Antonio),570,295,275,570,0,ok
+v5_p05,152,Manuel Derqui,842,407,435,842,0,ok
+v5_p05,78,Manuel F. Mantilla,1697,814,883,1697,0,ok
+v5_p05,45,María Grande,2819,1340,1479,2819,0,ok
+v5_p05,166,Mártires,727,394,333,727,0,ok
+v5_p05,51,Mburucuyá,2654,1206,1448,2654,0,ok
+v5_p05,182,Médanos,647,337,310,647,0,ok
+v5_p05,12,Mercedes,13368,5967,7401,13368,0,ok
+v5_p05,80,Miguel Lanús,1681,877,804,1681,0,ok
+v5_p05,291,Miñones,204,116,88,204,0,ok
+v5_p05,130,Mocoretá,960,489,471,960,0,ok
+v5_p05,107,Mojón Grande,1223,627,596,1223,0,ok
+v5_p05,163,Monteagudo,761,397,364,761,0,ok
+v5_p05,75,Montecarlo,1764,934,830,1764,0,ok
+v5_p05,13,Monte Caseros,12930,6323,6607,12930,0,ok
+v5_p05,18,Nogoyá,10911,5084,5827,10911,0,ok
+v5_p05,221,Nueva Vizcaya,475,257,218,475,0,ok
+v5_p05,158,Nueve de Julio,794,368,426,794,0,ok
+v5_p05,139,Nueve de Julio,920,524,396,920,0,ok
+v5_p05,15,Oberá,12322,6019,6303,12322,0,ok
+v5_p05,276,Olegario V. Andrade,262,138,124,262,0,ok
+v5_p05,228,Olegario V. Andrade,448,233,215,448,0,ok
+v5_p05,171,Ombucito,692,328,364,692,0,ok
+v5_p05,250,Pago de los Deseos,355,169,186,355,0,ok
+v5_p05,184,Palmar Grande,640,315,325,640,0,ok
+v5_p05,244,Paraje San Isidro,384,197,187,384,0,ok
+v5_p05,1,Paraná,107551,50859,56692,107551,0,ok
+v5_p05,147,Paso de la Patria,858,437,421,858,0,ok
+v5_p05,11,Paso de los Libres,15054,7642,7412,15054,0,ok
+v5_p05,293,Paso Florentín,202,110,92,202,0,ok
+v5_p05,301,Pastor Britos,135,72,63,135,0,ok
+v5_p05,279,Pedernal,250,137,113,250,0,ok
+v5_p05,221,Perugorría,1110,495,615,1110,0,ok
+v5_p05,275,Piloto Avila,266,132,134,266,0,ok
+v5_p06,197,Playadito,571,298,273,571,0,ok
+v5_p06,3,Posadas,70691,33937,36754,70691,0,ok
+v5_p06,281,Primero de Mayo,246,121,125,246,0,ok
+v5_p06,288,Profundidad,218,119,99,218,0,ok
+v5_p06,174,Pronunciamiento,676,339,337,676,0,ok
+v5_p06,218,Pueblo Bellock,484,240,244,484,0,ok
+v5_p06,149,Pueblo Brugo,845,429,416,845,0,ok
+v5_p06,260,Pueblo Cazés,249,131,118,249,0,ok
+v5_p06,302,Pueblo Moreno,129,64,65,129,0,ok
+v5_p06,202,Pueblo San Martín (Pto. Curtiembre),544,282,262,544,0,ok
+v5_p06,96,Puerto Esperanza,1363,750,613,1363,0,ok
+v5_p06,115,Puerto Gisela,1161,601,560,1161,0,ok
+v5_p06,229,Puerto Leoni,962,533,429,962,0,ok
+v5_p06,254,Puerto Londero,343,177,166,343,0,ok
+v5_p06,167,Puerto Naranjito,726,408,318,726,0,ok
+v5_p06,112,Puerto Panambí,1190,623,567,1190,0,ok
+v5_p06,69,Puerto Piray,1957,1034,923,1957,0,ok
+v5_p06,237,Puerto Rosario,402,211,191,402,0,ok
+v5_p06,200,Puerto Victoria,549,308,241,549,0,ok
+v5_p06,238,Puerto Yeruá,399,219,180,399,0,ok
+v5_p06,269,Puiggari,290,152,138,290,0,ok
+v5_p06,227,Punta Grande,450,219,231,450,0,ok
+v5_p06,225,Raíces,452,251,201,452,0,ok
+v5_p06,178,Ramada Paso,664,354,310,664,0,ok
+v5_p06,268,Rocamora,309,145,164,309,0,ok
+v5_p06,24,Rosario del Tala,7350,3455,3895,7350,0,ok
+v5_p06,83,Ruiz de Montoya,1599,876,723,1599,0,ok
+v5_p06,259,Saenz Valiente,333,160,153,313,20,flag
+v5_p06,33,Saladas,3883,1697,2186,3883,0,ok
+v5_p06,251,San Antonio,350,174,176,350,0,ok
+v5_p06,212,San Benito,509,248,261,509,0,ok
+v5_p06,72,San Carlos,1858,931,927,1858,0,ok
+v5_p06,216,San Cosme,496,226,270,496,0,ok
+v5_p06,249,San Gustavo,145,76,69,145,0,ok
+v5_p06,63,San Ignacio,2106,992,1114,2106,0,ok
+v5_p06,64,San Javier,2102,988,1114,2102,0,ok
+v5_p06,59,San José,2188,1021,1167,2188,0,ok
+v5_p06,49,San José,2691,1339,1352,2691,0,ok
+v5_p06,36,San José de Feliciano,3721,1723,1998,3721,0,ok
+v5_p06,265,San Justo,314,155,159,314,0,ok
+v5_p07,157,San Lorenzo,800,385,415,800,0,ok
+v5_p07,40,San Luis del Palmar,3407,1617,1790,3407,0,ok
+v5_p07,104,San Miguel,1300,622,678,1300,0,ok
+v5_p07,123,San Pedro,1069,557,512,1069,0,ok
+v5_p07,44,San Roque,2918,1351,1567,2918,0,ok
+v5_p07,253,San Salvador,345,165,180,345,0,ok
+v5_p07,62,San Salvador,2108,1023,1085,2108,0,ok
+v5_p07,166,Santa Ana,638,340,298,638,0,ok
+v5_p07,170,Santa Ana,698,361,337,698,0,ok
+v5_p07,61,Santa Ana,2136,1060,1076,2136,0,ok
+v5_p07,137,Santa Anita,927,436,491,927,0,ok
+v5_p07,22,Santa Elena,8174,3993,4181,8174,0,ok
+v5_p07,43,Santa Lucía,2930,1312,1618,2930,0,ok
+v5_p07,287,Santa María,227,116,111,227,0,ok
+v5_p07,180,Santa Rita,661,337,324,661,0,ok
+v5_p07,247,Santa Rosa,369,180,189,369,0,ok
+v5_p07,103,Santiago de Liniers,1327,748,579,1327,0,ok
+v5_p07,151,Santo Pipó,844,445,399,844,0,ok
+v5_p07,19,Santo Tomé,10121,4663,5458,10121,0,ok
+v5_p07,39,Sauce,3448,1507,1941,3448,0,ok
+v5_p07,215,Sauce de Luna,501,242,259,501,0,ok
+v5_p07,264,Sauce Pintos,322,156,166,322,0,ok
+v5_p07,60,Seguí,2161,1045,1116,2161,0,ok
+v5_p07,235,Solá,404,189,215,404,0,ok
+v5_p07,81,Solari,1636,755,881,1636,0,ok
+v5_p07,223,Sosa,458,217,241,458,0,ok
+v5_p07,99,Strobel,1358,695,663,1358,0,ok
+v5_p07,194,Tabay,588,305,283,588,0,ok
+v5_p07,168,Tabossi,707,347,360,707,0,ok
+v5_p07,269,Tacuaral,218,109,109,218,0,ok
+v5_p07,236,Tapebicuá,404,200,204,404,0,ok
+v5_p07,208,Torrent,523,273,250,523,0,ok
+v5_p07,256,Tres Bocas,339,178,161,339,0,ok
+v5_p07,144,Tres Capones,903,481,422,903,0,ok
+v5_p07,229,Ubajay,442,231,211,442,0,ok
+v5_p07,38,Urdinarrain,3484,1613,1871,3484,0,ok
+v5_p07,172,Valle María,690,355,335,690,0,ok
+v5_p07,271,Veinte de Setiembre,289,144,145,289,0,ok
+v5_p07,134,Veinticinco de Mayo,935,469,466,935,0,ok
+v5_p07,34,Viale,3873,1879,1994,3873,0,ok
+v5_p07,10,Victoria,15108,6998,8110,15108,0,ok
+v5_p08,86,Villa Clara,1557,788,769,1557,0,ok
+v5_p08,108,Villa del Rosario,1206,514,692,1206,0,ok
+v5_p08,128,Villa Domínguez,984,472,512,984,0,ok
+v5_p08,48,Villa Elisa,2715,1373,1342,2715,0,ok
+v5_p08,29,Villa Federal,5256,2476,2780,5256,0,ok
+v5_p08,42,Villa General Ramírez,3203,1557,1646,3203,0,ok
+v5_p08,14,Villaguay,12463,5752,6711,12463,0,ok
+v5_p08,46,Villa Hernandarias,2788,1303,1485,2788,0,ok
+v5_p08,68,Villa Larroque,1993,967,1026,1993,0,ok
+v5_p08,127,Villa Mantero,989,484,505,989,0,ok
+v5_p08,111,Villa Piedras Blancas,1196,636,560,1196,0,ok
+v5_p08,196,Villa San Marcial (Gob. Urquiza),578,281,297,578,0,ok
+v5_p08,292,Villa Urquiza,204,105,99,204,0,ok
+v5_p08,132,Villa Zorraquín,952,491,461,952,0,ok
+v5_p08,102,Wanda,1331,742,589,1331,0,ok
+v5_p08,173,Yabebiry,689,373,316,689,0,ok
+v5_p08,90,Yapeyú,1431,769,662,1431,0,ok
+v5_p08,150,Yataití Calle,845,411,434,845,0,ok
+v5_p08,294,Yeruá,194,98,96,194,0,ok
+v5_p08,254,Yofré,826,383,443,826,0,ok
+v5_p08,142,Yuquerí,914,532,382,914,0,ok
+v6_p01,260,Abra Grande,192,87,105,192,0,ok
+v6_p01,183,Aerolito,440,234,206,440,0,ok
+v6_p01,278,Agustina Libarona,154,89,65,154,0,ok
+v6_p01,240,Alhuampa,250,112,138,250,0,ok
+v6_p01,264,Alto Alegre,188,98,90,188,0,ok
+v6_p01,284,Amamá,106,58,48,106,0,ok
+v6_p01,9,Añatuya,11753,5572,6181,11753,0,ok
+v6_p01,228,Ardiles,281,133,148,281,0,ok
+v6_p01,263,Argentina,188,103,85,188,0,ok
+v6_p01,157,Arraga,546,283,263,546,0,ok
+v6_p01,217,Averías,332,182,150,332,0,ok
+v6_p01,118,Avia Terai,818,421,397,818,0,ok
+v6_p01,272,Baez,169,74,95,169,0,ok
+v6_p01,41,Bandera,2035,1004,1031,2035,0,ok
+v6_p01,110,Bandera Bajada,893,453,440,893,0,ok
+v6_p01,243,Barrancas,242,108,134,242,0,ok
+v6_p01,5,Barranqueras,19779,9852,9927,19779,0,ok
+v6_p01,244,Barrialito,241,109,132,241,0,ok
+v6_p01,92,Bartolomé de las Casas,1269,660,609,1269,0,ok
+v6_p01,137,Basail,659,332,327,659,0,ok
+v6_p01,204,Belgrano,381,176,205,381,0,ok
+v6_p01,77,Beltrán,1472,740,732,1472,0,ok
+v6_p01,82,Benítez,1426,738,688,1426,0,ok
+v6_p01,280,Bobadal,117,54,63,117,0,ok
+v6_p01,119,Brea Pozo,815,401,414,815,0,ok
+v6_p01,68,Buena Vista,1511,795,716,1511,0,ok
+v6_p01,38,Campo Gallo,2336,1152,1184,2336,0,ok
+v6_p01,39,Campo Largo,2059,1044,1015,2059,0,ok
+v6_p01,117,Capitán Solari,831,445,386,831,0,ok
+v6_p01,215,Cardozo,337,170,167,337,0,ok
+v6_p01,227,Casares,285,154,131,285,0,ok
+v6_p01,23,Castelli,4131,2024,2107,4131,0,ok
+v6_p01,238,Cejolao,258,126,132,258,0,ok
+v6_p01,18,Clodomira,4685,2291,2394,4685,0,ok
+v6_p01,160,Clodomiro Díaz,540,279,261,540,0,ok
+v6_p01,10,Clorinda,10043,4716,5327,10043,0,ok
+v6_p01,141,Colonia Baranda,622,356,266,622,0,ok
+v6_p01,35,Colonia Dora,2548,1349,1199,2548,0,ok
+v6_p01,86,Colonia Elisa,1338,638,700,1338,0,ok
+v6_p01,100,Colonia José Mármol,1076,599,477,1076,0,ok
+v6_p01,91,Colonias Unidas,1273,626,647,1273,0,ok
+v6_p02,42,Colonia Villafañe,1966,998,968,1966,0,ok
+v6_p02,271,Ciervo Petizo,169,79,90,169,0,ok
+v6_p02,54,Comandante Fontana,1686,794,892,1686,0,ok
+v6_p02,103,Concepción del Bermejo,1037,512,525,1037,0,ok
+v6_p02,81,Coronel Du Graty,1438,691,747,1438,0,ok
+v6_p02,239,Coronel Manuel L. Rico,250,134,116,250,0,ok
+v6_p02,29,Corzuela,3295,1639,1656,3295,0,ok
+v6_p02,105,Cote Lai,982,492,490,982,0,ok
+v6_p02,46,Charadai,1872,937,935,1872,0,ok
+v6_p02,11,Charata,8953,4327,4626,8953,0,ok
+v6_p02,248,Chaupi Pozo,231,91,140,231,0,ok
+v6_p02,200,Chilca Juliana,394,179,215,394,0,ok
+v6_p02,147,Chorotis,607,328,279,607,0,ok
+v6_p02,127,Choya,754,377,377,754,0,ok
+v6_p02,184,Desvío Bruchard,432,237,195,432,0,ok
+v6_p02,128,Donadeu,754,356,398,754,0,ok
+v6_p02,230,Doña Luisa,276,124,152,276,0,ok
+v6_p02,133,El Caburé,703,375,328,703,0,ok
+v6_p02,242,El Cajón,246,130,116,246,0,ok
+v6_p02,199,El Charco,398,192,206,398,0,ok
+v6_p02,206,El Chorro,377,189,188,377,0,ok
+v6_p02,26,El Colorado,3755,1867,1888,3755,0,ok
+v6_p02,162,El Malacara,527,264,263,527,0,ok
+v6_p02,249,El Mojón,226,116,110,226,0,ok
+v6_p02,213,El Negrito,343,166,177,343,0,ok
+v6_p02,237,El Pértigo,263,139,124,263,0,ok
+v6_p02,201,El Pintado,388,203,185,388,0,ok
+v6_p02,94,Enrique Urien,1254,684,570,1254,0,ok
+v6_p02,84,Espinillo,1398,671,727,1398,0,ok
+v6_p02,149,Estación Atamisqui,590,267,323,590,0,ok
+v6_p02,171,Estación Los Tigres,490,320,170,490,0,ok
+v6_p02,143,Estación Medellín,620,293,327,620,0,ok
+v6_p02,66,Estanislao del Campo,1532,705,827,1532,0,ok
+v6_p02,167,Esteros,508,236,272,508,0,ok
+v6_p02,30,Fernández,3115,1533,1582,3115,0,ok
+v6_p02,49,Fontana,1737,880,857,1737,0,ok
+v6_p02,3,Formosa,36499,17574,18925,36499,0,ok
+v6_p02,62,Forres,1634,824,810,1634,0,ok
+v6_p02,214,Fortín Aguilar,338,181,157,338,0,ok
+v6_p02,275,Fortín Cardoso,161,91,70,161,0,ok
+v6_p03,8,Frías,11862,5554,6308,11862,0,ok
+v6_p03,67,Frontera,1514,773,741,1514,0,ok
+v6_p03,125,Gancedo,757,379,378,757,0,ok
+v6_p03,139,Garza,632,310,322,632,0,ok
+v6_p03,166,General Capdevila,510,282,228,510,0,ok
+v6_p03,14,Gral. José de San Martín,5390,2522,2868,5390,0,ok
+v6_p03,22,General Pinedo,4308,2126,2182,4308,0,ok
+v6_p03,115,General Vedia,851,430,421,851,0,ok
+v6_p03,159,Girardet,542,299,243,542,0,ok
+v6_p03,112,Gramilla,888,424,464,888,0,ok
+v6_p03,170,Granadero Gatica,491,254,237,491,0,ok
+v6_p03,79,Gran Guardia,1450,770,680,1450,0,ok
+v6_p03,134,Guardia Escolta,698,367,331,698,0,ok
+v6_p03,247,Haase,234,134,100,234,0,ok
+v6_p03,188,Haumonia,426,244,182,426,0,ok
+v6_p03,56,Herradura,1679,845,834,1679,0,ok
+v6_p03,55,Herrera,1685,848,837,1685,0,ok
+v6_p03,113,Hermoso Campo,879,464,415,879,0,ok
+v6_p03,169,Horquilla,506,264,242,506,0,ok
+v6_p03,150,Hoyón,586,242,344,586,0,ok
+v6_p03,273,Huayamampa,165,87,78,165,0,ok
+v6_p03,20,Ibarreta,4366,2220,2146,4366,0,ok
+v6_p03,44,Icaño,1926,979,947,1926,0,ok
+v6_p03,221,Ingeniero Barbet,311,160,151,311,0,ok
+v6_p03,258,Ingeniero Ezcurra,199,99,100,199,0,ok
+v6_p03,76,Ingeniero Juárez,1478,746,732,1478,0,ok
+v6_p03,255,Isca Yacu,206,101,105,206,0,ok
+v6_p03,158,Itín,543,285,258,543,0,ok
+v6_p03,189,Juan G. Bazán,426,213,213,426,0,ok
+v6_p03,185,Juncal Grande,431,209,222,431,0,ok
+v6_p03,132,Km. 100 Nav. Río Bermejo,717,386,331,717,0,ok
+v6_p03,223,Kilómetro 213,300,167,133,300,0,ok
+v6_p03,154,La Aurora,568,298,270,568,0,ok
+v6_p03,4,La Banda,23772,11177,12595,23772,0,ok
+v6_p03,245,La Brea,237,111,126,237,0,ok
+v6_p03,172,La Cañada,487,237,250,487,0,ok
+v6_p03,73,La Clotilde,1485,764,721,1485,0,ok
+v6_p03,123,La Eduvigis,768,420,348,768,0,ok
+v6_p03,40,La Escondida,2044,1059,985,2044,0,ok
+v6_p03,135,La Fragua,694,353,341,694,0,ok
+v6_p03,236,Laguna Blanca,266,118,148,266,0,ok
+v6_p04,59,Laguna Blanca,1657,797,860,1657,0,ok
+v6_p04,83,Laguna Limpia,1423,728,695,1423,0,ok
+v6_p04,80,Laguna Naineck,1445,779,666,1445,0,ok
+v6_p04,121,Laguna Yema,801,417,384,801,0,ok
+v6_p04,65,La Isla,1562,764,798,1562,0,ok
+v6_p04,36,La Leonesa,2464,1263,1201,2464,0,ok
+v6_p04,144,Lapachito,618,304,314,618,0,ok
+v6_p04,129,Laprida,746,393,353,746,0,ok
+v6_p04,195,La Sabana,406,216,190,406,0,ok
+v6_p04,282,Las Abras,113,57,56,113,0,ok
+v6_p04,13,Las Breñas,6768,3294,3474,6768,0,ok
+v6_p04,64,Las Garcitas,1592,827,765,1592,0,ok
+v6_p04,60,Las Lomitas,1650,743,907,1650,0,ok
+v6_p04,27,Las Palmas,3590,1780,1810,3590,0,ok
+v6_p04,12,Las Termas,7412,3690,3722,7412,0,ok
+v6_p04,136,Las Tinajas,688,316,372,688,0,ok
+v6_p04,190,La Tapa,424,213,211,424,0,ok
+v6_p04,108,La Tigra,910,483,427,910,0,ok
+v6_p04,96,Lavalle,1162,566,596,1162,0,ok
+v6_p04,51,La Verde,1728,878,850,1728,0,ok
+v6_p04,283,La Vicuña,109,52,57,109,0,ok
+v6_p04,192,Lilo Viejo,412,212,200,412,0,ok
+v6_p04,176,Los Chiriguanos,468,244,224,468,0,ok
+v6_p04,87,Los Frentones,1315,693,622,1315,0,ok
+v6_p04,45,Los Juríes,1920,973,947,1920,0,ok
+v6_p04,212,Los Linares,346,175,171,346,0,ok
+v6_p04,151,Los Matacos,585,268,317,585,0,ok
+v6_p04,198,Los Núñez,400,169,231,400,0,ok
+v6_p04,104,Los Telares,1033,505,528,1033,0,ok
+v6_p04,138,Lugones,634,302,332,634,0,ok
+v6_p04,270,Llajta Mauca,170,86,84,170,0,ok
+v6_p04,17,Machagai,4716,2264,2452,4716,0,ok
+v6_p04,222,Mailín,307,154,153,307,0,ok
+v6_p04,78,Makalle,1462,702,760,1462,0,ok
+v6_p04,181,Malbrán,442,220,222,442,0,ok
+v6_p04,262,Malota,189,95,94,189,0,ok
+v6_p04,197,Mal Paso,401,209,192,401,0,ok
+v6_p04,52,Margarita Belén,1711,858,853,1711,0,ok
+v6_p04,168,Mariano Boedo,506,266,240,506,0,ok
+v6_p04,175,Matará,475,214,261,475,0,ok
+v6_p04,276,Melero,159,82,77,159,0,ok
+v6_p05,120,Mesón de Pierro,808,433,375,808,0,ok
+v6_p05,277,Miel de Palo,155,84,71,155,0,ok
+v6_p05,152,Misión Fco. Tacaaglé,570,328,242,570,0,ok
+v6_p05,43,Misión San Fco. de Laishí,1944,1033,911,1944,0,ok
+v6_p05,24,Monte Quemado,4083,2024,2059,4083,0,ok
+v6_p05,253,Napalpí,207,104,103,207,0,ok
+v6_p05,88,Napenay,1300,699,601,1300,0,ok
+v6_p05,285,Navarro,100,48,52,100,0,ok
+v6_p05,229,Nueva Esperanza,281,132,149,281,0,ok
+v6_p05,90,Nueva Francia,1275,642,633,1275,0,ok
+v6_p05,268,Oetling,173,100,73,173,0,ok
+v6_p05,124,Otumpa,760,442,318,760,0,ok
+v6_p05,210,Palo Negro,366,175,191,366,0,ok
+v6_p05,97,Palo Santo,1123,523,600,1123,0,ok
+v6_p05,102,Palma Sola,1067,587,480,1067,0,ok
+v6_p05,85,Pampa Almirón,1380,733,647,1380,0,ok
+v6_p05,74,Pampa del Indio,1484,753,731,1484,0,ok
+v6_p05,93,Pampa del Infierno,1261,654,607,1261,0,ok
+v6_p05,47,Pampa de los Guanacos,1791,957,834,1791,0,ok
+v6_p05,209,Pampa Florida,371,197,174,371,0,ok
+v6_p05,220,Pampa Grande,317,151,166,317,0,ok
+v6_p05,187,Patay,427,208,219,427,0,ok
+v6_p05,34,Pinto,2598,1321,1277,2598,0,ok
+v6_p05,15,Pirané,5285,2584,2701,5285,0,ok
+v6_p05,235,Pozo Betbeder,267,139,128,267,0,ok
+v6_p05,205,Pozo del Indio,378,200,178,378,0,ok
+v6_p05,208,Pozo del Mortero,376,187,189,376,0,ok
+v6_p05,53,Pozo del Tigre,1700,810,890,1700,0,ok
+v6_p05,252,Pozo Dulce,211,118,93,211,0,ok
+v6_p05,130,Pozo Grande,745,364,381,745,0,ok
+v6_p05,257,Pozo Herrera,199,110,89,199,0,ok
+v6_p05,114,Pozo Hondo,872,425,447,872,0,ok
+v6_p05,256,Pozuelos,428,195,233,428,0,ok
+v6_p05,19,Presidencia de la Plaza,4568,2201,2367,4568,0,ok
+v6_p05,48,Presidencia Roca,1768,835,933,1768,0,ok
+v6_p05,7,Pcia. Roque Saenz Peña,14381,6893,7488,14381,0,ok
+v6_p05,131,Presidente Irigoyen,732,337,395,732,0,ok
+v6_p05,61,Puerto Bermejo,1646,776,870,1646,0,ok
+v6_p05,211,Puerto Las Palmas,353,183,170,353,0,ok
+v6_p05,109,Puerto Pilcomayo,899,459,440,899,0,ok
+v6_p05,75,Puerto Tirol,1480,685,795,1480,0,ok
+v6_p06,246,Puna,235,122,113,235,0,ok
+v6_p06,259,Punta Corral,192,97,95,192,0,ok
+v6_p06,50,Punta Pora,1729,905,824,1729,0,ok
+v6_p06,233,Quebracho Coto,271,143,128,271,0,ok
+v6_p06,31,Quimilí,2902,1371,1531,2902,0,ok
+v6_p06,16,Quitilipi,5217,2451,2766,5217,0,ok
+v6_p06,161,Ramírez de Velasco,540,258,282,540,0,ok
+v6_p06,218,Rapelli,332,159,173,332,0,ok
+v6_p06,207,Real Sayana,377,178,199,377,0,ok
+v6_p06,1,Resistencia,84036,40397,43639,84036,0,ok
+v6_p06,57,Riacho He He,1677,849,828,1677,0,ok
+v6_p06,163,Río Muerto,520,296,224,520,0,ok
+v6_p06,251,Río Tapenagá,219,114,105,219,0,ok
+v6_p06,241,Robles,249,125,124,249,0,ok
+v6_p06,142,Roversi,621,347,274,621,0,ok
+v6_p06,219,Sabagasta,331,151,180,331,0,ok
+v6_p06,153,Sachayoj,570,276,294,570,0,ok
+v6_p06,71,Samuhú,1497,800,697,1497,0,ok
+v6_p06,164,San Antonio de Copo,517,261,256,517,0,ok
+v6_p06,58,San Bernardo,1673,827,846,1673,0,ok
+v6_p06,286,San Francisco,95,47,48,95,0,ok
+v6_p06,111,San Hilario,890,475,415,890,0,ok
+v6_p06,216,San José,337,161,176,337,0,ok
+v6_p06,126,San Pedro,757,329,428,757,0,ok
+v6_p06,267,San Pedro,175,108,67,175,0,ok
+v6_p06,99,San Ramón,1082,558,524,1082,0,ok
+v6_p06,225,Santa Catalina,293,149,144,293,0,ok
+v6_p06,32,Santa Sylvina,2858,1443,1415,2858,0,ok
+v6_p06,2,Santiago del Estero,80395,36969,43426,80395,0,ok
+v6_p06,194,Santo Domingo,410,197,213,410,0,ok
+v6_p06,281,Santo Domingo,114,60,54,114,0,ok
+v6_p06,269,San Vicente,172,81,91,172,0,ok
+v6_p06,261,San Vicente,190,94,96,190,0,ok
+v6_p06,101,Selva,1070,541,529,1070,0,ok
+v6_p06,63,Siete Palmas,1621,883,738,1621,0,ok
+v6_p06,191,Simbol,423,234,189,423,0,ok
+v6_p06,140,Simbolar,525,337,288,625,-100,flag
+v6_p06,95,Sol de Julio,1219,582,637,1219,0,ok
+v6_p06,202,Sumamao,305,157,228,385,-80,flag
+v6_p06,37,Sumampa,2401,1175,1226,2401,0,ok
+v6_p06,33,Suncho Corral,2693,1240,1453,2693,0,ok
+v6_p07,178,Taboada,459,244,215,459,0,ok
+v6_p07,107,Tacañitas,914,439,475,914,0,ok
+v6_p07,155,Taco Pozo,561,290,271,561,0,ok
+v6_p07,234,Taco Pozo,270,135,135,270,0,ok
+v6_p07,203,Tapso,381,193,188,381,0,ok
+v6_p07,250,Teniente Brown,219,116,103,219,0,ok
+v6_p07,70,Tintina,1500,689,811,1500,0,ok
+v6_p07,256,Tipiro,203,91,112,203,0,ok
+v6_p07,279,Tobas,139,74,65,139,0,ok
+v6_p07,224,Tomás Young,294,150,144,294,0,ok
+v6_p07,21,Tres Isletas,4318,2129,2189,4318,0,ok
+v6_p07,274,Tres Pozos,163,78,85,163,0,ok
+v6_p07,193,Urutaú,411,217,194,411,0,ok
+v6_p07,182,Velaz,440,234,206,440,0,ok
+v6_p07,265,Venados Grandes,184,103,81,184,0,ok
+v6_p07,180,Vicentini,447,213,234,447,0,ok
+v6_p07,72,Vilelas,1495,830,665,1495,0,ok
+v6_p07,6,Villa Angela,18518,9053,9465,18518,0,ok
+v6_p07,98,Villa Atamisqui,1122,469,653,1122,0,ok
+v6_p07,25,Villa Berthet,4070,1994,2076,4070,0,ok
+v6_p07,196,Villa Brana,403,204,199,403,0,ok
+v6_p07,122,Villa Escobar Navegación Río Bermejo,775,376,399,775,0,ok
+v6_p07,232,Villa Figueroa,273,129,144,273,0,ok
+v6_p07,266,Villa Guasayán,178,81,97,178,0,ok
+v6_p07,173,Villa Jiménez,478,214,264,478,0,ok
+v6_p07,165,Villa La Punta,515,258,257,515,0,ok
+v6_p07,254,Villa Matoque,206,119,87,206,0,ok
+v6_p07,231,Villa Nueva,275,139,136,275,0,ok
+v6_p07,69,Villa Ojo de Agua,1505,693,812,1505,0,ok
+v6_p07,145,Villa Robles,616,307,309,616,0,ok
+v6_p07,106,Villa Salavina,924,454,470,924,0,ok
+v6_p07,28,Villa San Martín,3354,1542,1812,3354,0,ok
+v6_p07,174,Villa Silípica,475,220,255,475,0,ok
+v6_p07,146,Villa Unión,615,324,291,615,0,ok
+v6_p07,179,Vilmer,451,225,226,451,0,ok
+v6_p07,226,Vinará,289,125,164,289,0,ok
+v6_p07,177,Vuelta de la Barranca,460,232,228,460,0,ok
+v6_p07,116,Weisburd,843,439,404,843,0,ok
+v6_p07,89,Zanjón,1300,680,620,1300,0,ok
+v6_p07,156,Zaparinqui,555,319,236,555,0,ok
+v7_p01,376,Abdón Castro Tolay,203,98,105,203,0,ok
+v7_p01,107,Abra Pampa,1391,667,724,1391,0,ok
+v7_p01,216,Acambuco,612,306,306,612,0,ok
+v7_p01,64,Acheral,2207,1135,1072,2207,0,ok
+v7_p01,302,Adolfo E. Carranza,379,219,160,379,0,ok
+v7_p01,334,Agua Blanca,282,164,118,282,0,ok
+v7_p01,146,Agua Dulce,984,545,439,984,0,ok
+v7_p01,34,Aguaray,4428,2395,2033,4428,0,ok
+v7_p01,362,Agunyo,223,114,109,223,0,ok
+v7_p01,17,Aguilares,9816,4767,5049,9816,0,ok
+v7_p01,55,Aimogasta,2721,1368,1353,2721,0,ok
+v7_p01,97,Alderetes,1497,770,727,1497,0,ok
+v7_p01,412,Alemania,126,68,58,126,0,ok
+v7_p01,238,Alijilán,563,295,268,563,0,ok
+v7_p01,323,Almirante Brown,320,171,149,320,0,ok
+v7_p01,139,Alpachiri,1078,583,495,1078,0,ok
+v7_p01,315,Alpasinche,346,170,176,346,0,ok
+v7_p01,387,Alto de la Sierra,181,101,80,181,0,ok
+v7_p01,80,Alto Verde,1700,899,801,1700,0,ok
+v7_p01,212,Amaichá del Valle,620,297,323,620,0,ok
+v7_p01,375,Ambil,203,102,101,203,0,ok
+v7_p01,263,Aminga,480,254,226,480,0,ok
+v7_p01,377,Ampascachi,202,109,93,202,0,ok
+v7_p01,401,Ancasti,149,79,70,149,0,ok
+v7_p01,46,Andalgalá,3260,1531,1729,3260,0,ok
+v7_p01,242,Angastaco,541,295,246,541,0,ok
+v7_p01,141,Anguinán,1017,518,499,1017,0,ok
+v7_p01,385,Anquincila,187,87,100,187,0,ok
+v7_p01,237,Anillaco,565,282,283,565,0,ok
+v7_p01,211,Animaná,622,318,304,622,0,ok
+v7_p01,272,Anjullón,465,241,224,465,0,ok
+v7_p01,215,Antilla,613,316,297,613,0,ok
+v7_p01,273,Antofagasta de la Sierra,462,256,206,462,0,ok
+v7_p01,118,Apolinario Saravia,1286,683,603,1286,0,ok
+v7_p01,305,Arároz,374,190,184,374,0,ok
+v7_p01,331,Arauco,302,154,148,302,0,ok
+v7_p01,69,Arcadia,1595,857,738,1595,0,ok
+v7_p01,368,Arenal,211,112,99,211,0,ok
+v7_p01,247,Atahona,525,253,272,525,0,ok
+v7_p01,370,Bajo Grande,210,120,90,210,0,ok
+v7_p02,425,Balboa,94,48,46,94,0,ok
+v7_p02,226,Balcosna,595,285,310,595,0,ok
+v7_p02,10,Banda del Río Salí,14604,7414,7190,14604,0,ok
+v7_p02,223,Banda Florida,599,303,296,599,0,ok
+v7_p02,379,Bañado de Ovanta,198,101,97,198,0,ok
+v7_p02,29,Belén,5469,2479,2990,5469,0,ok
+v7_p02,405,Bella Vista,147,75,72,147,0,ok
+v7_p02,23,Bella Vista,6816,3485,3331,6816,0,ok
+v7_p02,232,Benjamín Aráoz,576,296,280,576,0,ok
+v7_p02,180,Benjamín Paz,760,398,362,760,0,ok
+v7_p02,198,Betania,682,368,314,682,0,ok
+v7_p02,248,Burruyacú,524,267,257,524,0,ok
+v7_p02,258,Cachi,491,229,262,491,0,ok
+v7_p02,59,Cafayate,2407,1122,1285,2407,0,ok
+v7_p02,109,Caimancito,1340,772,568,1340,0,ok
+v7_p02,28,Calilegua,5646,3075,2571,5646,0,ok
+v7_p02,286,Campichuelo,419,265,154,419,0,ok
+v7_p02,318,Campo Durán,342,256,86,342,0,ok
+v7_p02,68,Campo Quijano,2069,1018,1051,2069,0,ok
+v7_p02,91,Campo Santo,1573,800,773,1573,0,ok
+v7_p02,317,Cangrejilla,343,159,184,343,0,ok
+v7_p02,187,Capayán,718,376,342,718,0,ok
+v7_p02,372,Capitán J. Page,207,113,94,207,0,ok
+v7_p02,428,Carahuasi,90,38,52,90,0,ok
+v7_p02,222,Carrizal,600,297,303,600,0,ok
+v7_p02,336,Casabindo,280,132,148,280,0,ok
+v7_p02,332,Caspalá,288,118,170,288,0,ok
+v7_p02,358,Castro Barros,233,110,123,233,0,ok
+v7_p02,3,Catamarca,45929,21102,24827,45929,0,ok
+v7_p02,391,Catua,174,86,88,174,0,ok
+v7_p02,341,Cebollar,268,149,119,268,0,ok
+v7_p02,203,Ceibalito,664,394,270,664,0,ok
+v7_p02,78,Cerrillos,1718,856,862,1718,0,ok
+v7_p02,420,Cerro Negro,113,52,61,113,0,ok
+v7_p02,151,Cevil Pozo,930,511,419,930,0,ok
+v7_p02,304,Cevil Redondo,377,214,163,377,0,ok
+v7_p02,350,Cienaguillas,251,124,127,251,0,ok
+v7_p02,154,Cobos,914,525,389,914,0,ok
+v7_p02,430,Cobres,84,43,41,84,0,ok
+v7_p03,280,Cochinoca,440,203,237,440,0,ok
+v7_p03,179,Colalao del Valle,764,360,404,764,0,ok
+v7_p03,281,Colana,439,238,201,439,0,ok
+v7_p03,83,Colombres,1677,860,817,1677,0,ok
+v7_p03,94,Colonia Santa Rosa,1535,830,705,1535,0,ok
+v7_p03,414,Comandante Leal,118,54,64,118,0,ok
+v7_p03,8,Concepción,15832,7574,8258,15832,0,ok
+v7_p03,149,Copacabana,957,464,493,957,0,ok
+v7_p03,426,Copo Quile,93,46,47,93,0,ok
+v7_p03,311,Coranzuli,351,162,189,351,0,ok
+v7_p03,148,Coronel Cornejo,972,517,455,972,0,ok
+v7_p03,153,Cnel. Juan Solá Morillo,920,476,444,920,0,ok
+v7_p03,82,Coronel Moldes,1695,881,814,1695,0,ok
+v7_p03,404,Coronel Mollinedo,148,79,69,148,0,ok
+v7_p03,418,Corral de Isaac,114,50,64,114,0,ok
+v7_p03,422,Crossmayo,107,51,56,107,0,ok
+v7_p03,111,Chalicán,1321,778,543,1321,0,ok
+v7_p03,40,Chamical,3756,1818,1938,3756,0,ok
+v7_p03,168,Chañar,829,392,437,829,0,ok
+v7_p03,164,Chaquiago,848,408,440,848,0,ok
+v7_p03,399,Chelcos,155,72,83,155,0,ok
+v7_p03,50,Chepes,2941,1479,1462,2941,0,ok
+v7_p03,257,Chicligasta,498,213,285,498,0,ok
+v7_p03,137,Chicoana,1093,540,553,1093,0,ok
+v7_p03,18,Chilecito,9809,4509,5300,9809,0,ok
+v7_p03,189,Choromoro,716,372,344,716,0,ok
+v7_p03,65,Chumbicha,2188,1092,1097,2189,-1,flag
+v7_p03,335,Chuquis,280,143,137,280,0,ok
+v7_p03,60,Delfín Gallo,2405,1257,1148,2405,0,ok
+v7_p03,240,Desiderio Tello,556,278,278,556,0,ok
+v7_p03,293,Dr. Facundo Zuviría,402,209,193,402,0,ok
+v7_p03,116,Donato Alvarez,1304,699,605,1304,0,ok
+v7_p03,246,Dragones,525,271,254,525,0,ok
+v7_p03,35,El Aguilar,4257,2316,1941,4257,0,ok
+v7_p03,102,El Bordo,1453,767,686,1453,0,ok
+v7_p03,241,El Bracho,544,277,267,544,0,ok
+v7_p03,69,El Carmen,2029,1031,998,2029,0,ok
+v7_p03,101,El Carril,1455,758,697,1455,0,ok
+v7_p03,121,El Chañar,1229,674,555,1229,0,ok
+v7_p04,76,El Galpón,1821,899,922,1821,0,ok
+v7_p04,181,El Molino,759,397,362,759,0,ok
+v7_p04,310,El Morano,358,159,199,358,0,ok
+v7_p04,178,El Naranjo,767,419,348,767,0,ok
+v7_p04,309,El Pajonal,359,190,169,359,0,ok
+v7_p04,44,El Piquete,3414,2036,1378,3414,0,ok
+v7_p04,294,El Portezuelo,401,192,209,401,0,ok
+v7_p04,359,El Portezuelo,231,118,113,231,0,ok
+v7_p04,288,El Potrero,415,230,185,415,0,ok
+v7_p04,184,El Puesto,723,341,382,723,0,ok
+v7_p04,123,El Quebrachal,1212,600,612,1212,0,ok
+v7_p04,188,El Quemado,718,454,264,718,0,ok
+v7_p04,298,El Recreo,391,179,212,391,0,ok
+v7_p04,204,El Rodeo,648,315,333,648,0,ok
+v7_p04,408,El Taco,136,63,73,136,0,ok
+v7_p04,386,El Tobar,184,107,77,184,0,ok
+v7_p04,303,El Tunal,378,213,165,378,0,ok
+v7_p04,25,Embarcación,6371,3277,3094,6371,0,ok
+v7_p04,84,Esquina,1292,660,632,1292,0,ok
+v7_p04,231,Esquiú,584,284,300,584,0,ok
+v7_p04,183,Estación Masán,726,367,359,726,0,ok
+v7_p04,363,Esteban de Urizar,221,138,83,221,0,ok
+v7_p04,27,Famaillá,6233,3119,3114,6233,0,ok
+v7_p04,110,Famatina,1330,643,687,1330,0,ok
+v7_p04,103,Fiambalá,1450,706,744,1450,0,ok
+v7_p04,84,Fraile Pintado,1676,857,819,1676,0,ok
+v7_p04,202,Fuerte Quemado,672,320,352,672,0,ok
+v7_p04,134,Gaona,1100,579,521,1100,0,ok
+v7_p04,96,Gastona,1506,800,706,1506,0,ok
+v7_p04,398,General Alvarado,159,82,77,159,0,ok
+v7_p04,171,General Ballivián,795,428,367,795,0,ok
+v7_p04,19,General Martín Miguel de Güemes,8748,4376,4372,8748,0,ok
+v7_p04,201,General Pizarro,673,352,321,673,0,ok
+v7_p04,182,Gobernador Garmendia,740,368,372,740,0,ok
+v7_p04,308,Gobernador Piedrabuena,363,171,192,363,0,ok
+v7_p04,279,Golpes,440,210,230,440,0,ok
+v7_p04,130,Graneros,1127,536,591,1127,0,ok
+v7_p04,284,Guachipas,433,206,227,433,0,ok
+v7_p04,120,Guandacol,1255,607,648,1255,0,ok
+v7_p05,296,Hickman,397,219,178,397,0,ok
+v7_p05,206,Huacalera,641,315,326,641,0,ok
+v7_p05,152,Huaco,929,477,452,929,0,ok
+v7_p05,225,Hualfín,595,310,285,595,0,ok
+v7_p05,402,Huasa Pampa Sud,149,65,84,149,0,ok
+v7_p05,157,Huillapima,902,456,446,902,0,ok
+v7_p05,57,Humahuaca,2530,1179,1351,2530,0,ok
+v7_p05,343,Horcones,267,124,143,267,0,ok
+v7_p05,131,Icaño,1114,585,529,1114,0,ok
+v7_p05,30,Ingenio La Esperanza,5076,2580,2496,5076,0,ok
+v7_p05,106,Ingenio Lules,1427,752,675,1427,0,ok
+v7_p05,14,Ingenio Santa Ana,11771,6138,5633,11771,0,ok
+v7_p05,410,Ipisca,131,64,67,131,0,ok
+v7_p05,429,Iruya,85,48,37,85,0,ok
+v7_p05,321,Iturbe,326,146,180,326,0,ok
+v7_p05,227,Jagüé,594,276,318,594,0,ok
+v7_p05,306,Jerónimo Matorras,369,209,160,369,0,ok
+v7_p05,45,Joaquín V. González,3274,1632,1642,3274,0,ok
+v7_p05,228,La Caldera,589,333,256,589,0,ok
+v7_p05,260,La Candelaria,485,264,221,485,0,ok
+v7_p05,194,La Carrera,696,328,368,696,0,ok
+v7_p05,259,La Ciénaga,491,224,267,491,0,ok
+v7_p05,79,La Cocha,1709,843,866,1709,0,ok
+v7_p05,360,La Dorada,229,112,117,229,0,ok
+v7_p05,77,La Encantada,1793,949,844,1793,0,ok
+v7_p05,287,La Falda,417,212,205,417,0,ok
+v7_p05,119,La Fronterita,1283,718,565,1283,0,ok
+v7_p05,289,La Guardia,414,195,219,414,0,ok
+v7_p05,352,La Jarilla,249,126,123,249,0,ok
+v7_p05,67,La Madrid,2116,1059,1057,2116,0,ok
+v7_p05,326,La Majada,315,153,162,315,0,ok
+v7_p05,49,La Mendieta,2991,1560,1431,2991,0,ok
+v7_p05,159,La Merced,895,468,427,895,0,ok
+v7_p05,73,La Merced,1908,993,915,1908,0,ok
+v7_p05,411,La Poma,129,77,52,129,0,ok
+v7_p05,354,La Posta,245,137,108,245,0,ok
+v7_p05,278,La Puerta,444,236,208,444,0,ok
+v7_p05,396,La Puerta de San José,161,78,83,161,0,ok
+v7_p05,26,La Quiaca,6290,3029,3261,6290,0,ok
+v7_p05,88,La Ramada,1609,846,763,1609,0,ok
+v7_p06,191,La Reducción,710,393,317,710,0,ok
+v7_p06,5,La Rioja,35431,17073,18358,35431,0,ok
+v7_p06,397,Las Cañas,160,84,76,160,0,ok
+v7_p06,87,Las Cejas,1613,774,839,1613,0,ok
+v7_p06,316,La Silleta,345,179,166,345,0,ok
+v7_p06,173,Las Lajitas,783,398,385,783,0,ok
+v7_p06,100,Las Pirquitas,1470,744,726,1470,0,ok
+v7_p06,39,Lastenia,3851,1998,1853,3851,0,ok
+v7_p06,37,La Trinidad,4199,2182,2017,4199,0,ok
+v7_p06,394,La Unión,163,86,77,163,0,ok
+v7_p06,235,La Viña,570,251,319,570,0,ok
+v7_p06,127,Leales,1168,588,580,1168,0,ok
+v7_p06,234,Leocadio Paz,573,300,273,573,0,ok
+v7_p06,261,León,483,239,244,483,0,ok
+v7_p06,47,León Rouges,3196,1644,1552,3196,0,ok
+v7_p06,31,Lib. Gral. San Martín,5051,2727,2324,5051,0,ok
+v7_p06,62,Londres,2236,1089,1147,2236,0,ok
+v7_p06,176,Loro Huasi,772,335,437,772,0,ok
+v7_p06,353,Los Aguirres,246,143,103,246,0,ok
+v7_p06,285,Los Altos,422,208,214,422,0,ok
+v7_p06,299,Los Angeles,387,205,182,387,0,ok
+v7_p06,409,Los Baños,134,77,57,134,0,ok
+v7_p06,251,Los Blancos,520,280,240,520,0,ok
+v7_p06,384,Los Castillos,187,94,93,187,0,ok
+v7_p06,249,Los Gómez,523,235,288,523,0,ok
+v7_p06,161,Los Lapachos,874,492,382,874,0,ok
+v7_p06,190,Los Palacios,712,353,359,712,0,ok
+v7_p06,328,Los Puestos,312,149,163,312,0,ok
+v7_p06,72,Los Ralos,1909,1028,881,1909,0,ok
+v7_p06,51,Los Sarmientos,2874,1505,1369,2874,0,ok
+v7_p06,392,Los Varela,173,96,77,173,0,ok
+v7_p06,186,Luis Burela,720,425,295,720,0,ok
+v7_p06,406,Luisiana,146,78,68,146,0,ok
+v7_p06,32,Lules,4828,2397,2431,4828,0,ok
+v7_p06,221,Lumbreras,600,353,247,600,0,ok
+v7_p06,267,Macapillo,472,226,246,472,0,ok
+v7_p06,208,Maconitas,632,363,269,632,0,ok
+v7_p06,217,Machigasta,609,318,291,609,0,ok
+v7_p06,115,Maimará,1308,681,627,1308,0,ok
+v7_p06,349,Malanzán,253,122,131,253,0,ok
+v7_p07,165,Malligasta,847,431,416,847,0,ok
+v7_p07,155,Manantial,911,446,465,911,0,ok
+v7_p07,421,Manuel Elordi,108,50,58,108,0,ok
+v7_p07,199,Manuel García Fernández,681,361,320,681,0,ok
+v7_p07,213,Mariño,619,344,275,619,0,ok
+v7_p07,415,Martínez del Tineo,116,60,56,116,0,ok
+v7_p07,342,Maucasén,268,127,141,268,0,ok
+v7_p07,132,Medinas,1110,553,557,1110,0,ok
+v7_p07,12,Metán,12849,6196,6653,12849,0,ok
+v7_p07,192,Metán Viejo,710,390,320,710,0,ok
+v7_p07,71,Milagro,1967,977,990,1967,0,ok
+v7_p07,254,Mina Pirquita,512,277,235,512,0,ok
+v7_p07,229,Miraflores,587,284,303,587,0,ok
+v7_p07,345,Mixta,262,117,145,262,0,ok
+v7_p07,312,Mojotoro,350,198,152,350,0,ok
+v7_p07,390,Molinos,174,86,88,174,0,ok
+v7_p07,177,Monteagudo,771,381,390,771,0,ok
+v7_p07,125,Monte Rico,1177,646,531,1177,0,ok
+v7_p07,13,Monteros,11968,5682,6286,11968,0,ok
+v7_p07,163,Muñquín,848,463,385,848,0,ok
+v7_p07,416,Nacate,116,55,61,116,0,ok
+v7_p07,313,Nasareno,350,154,196,350,0,ok
+v7_p07,86,Nonogasta,1671,839,832,1671,0,ok
+v7_p07,169,Ntra.Sra. de Talavera,827,443,384,827,0,ok
+v7_p07,144,Nueva Trinidad,1000,565,435,1000,0,ok
+v7_p07,382,Noquebe,192,90,102,192,0,ok
+v7_p07,423,Olpas,106,44,62,106,0,ok
+v7_p07,122,Olta,1226,589,637,1226,0,ok
+v7_p07,339,Oratorio,273,100,173,273,0,ok
+v7_p07,344,Osma,263,147,116,263,0,ok
+v7_p07,291,Padilla,407,215,192,407,0,ok
+v7_p07,364,Padre Lozana,221,113,108,221,0,ok
+v7_p07,195,Pagancillo,688,344,344,688,0,ok
+v7_p07,197,Palma Sola,682,393,289,682,0,ok
+v7_p07,275,Palomitas,460,281,179,460,0,ok
+v7_p07,16,Palpalá,10843,5734,5109,10843,0,ok
+v7_p07,378,Palta de Aparzo,201,90,111,201,0,ok
+v7_p07,346,Pampa Blanca,259,141,118,259,0,ok
+v7_p07,367,Pampa Grande,215,119,96,215,0,ok
+v7_p08,365,Pampichuela,217,105,112,217,0,ok
+v7_p08,166,Patquía,839,425,414,839,0,ok
+v7_p08,324,Payogasta,319,159,160,319,0,ok
+v7_p08,58,Pedro G. Méndes,2425,1315,1110,2425,0,ok
+v7_p08,38,Perico,4125,2018,2087,4105,20,flag
+v7_p08,56,Pichanal,2536,1271,1265,2536,0,ok
+v7_p08,314,Piquete Cabado,349,190,159,349,0,ok
+v7_p08,209,Piquirenda,627,320,307,627,0,ok
+v7_p08,158,Pituil,897,446,451,897,0,ok
+v7_p08,338,Pluma de Pato,275,144,131,275,0,ok
+v7_p08,43,Pocitos,3438,1737,1701,3438,0,ok
+v7_p08,135,Pomán,1100,529,571,1100,0,ok
+v7_p08,307,Pomancillo,368,190,178,368,0,ok
+v7_p08,74,Poso del Alto,1875,1021,854,1875,0,ok
+v7_p08,22,Pueblo Ledesma,6871,3664,3207,6871,0,ok
+v7_p08,400,Puente de Plata,149,86,63,149,0,ok
+v7_p08,380,Puerto La Paz,198,88,110,198,0,ok
+v7_p08,337,Puesto del Marquéz,277,124,153,277,0,ok
+v7_p08,383,Puesto Grande,188,78,110,188,0,ok
+v7_p08,292,Pumahuasi,407,166,241,407,0,ok
+v7_p08,252,Punta de Los Llanos,518,263,255,518,0,ok
+v7_p08,269,Purmamarca,472,217,255,472,0,ok
+v7_p08,167,Quirós,835,452,383,835,0,ok
+v7_p08,200,Raco,680,348,332,680,0,ok
+v7_p08,75,Ranchillos,1870,997,873,1870,0,ok
+v7_p08,52,Recreo,2834,1412,1422,2834,0,ok
+v7_p08,355,Reyes,243,128,115,243,0,ok
+v7_p08,256,Rincón,500,254,246,500,0,ok
+v7_p08,174,Rinconada,782,366,416,782,0,ok
+v7_p08,348,Rinconadillas,258,120,138,258,0,ok
+v7_p08,105,Río Colorado,1433,741,692,1433,0,ok
+v7_p08,193,Río Chico,704,377,327,704,0,ok
+v7_p08,213,Río del Valle,575,329,246,575,0,ok
+v7_p08,300,Río Piedras,380,178,202,380,0,ok
+v7_p08,63,Río Seco,2211,1187,1024,2211,0,ok
+v7_p08,366,Rivadavia,215,103,112,215,0,ok
+v7_p08,21,Rosario de la Frontera,7134,3472,3662,7134,0,ok
+v7_p08,389,Rosario del Dorado,177,101,76,177,0,ok
+v7_p08,36,Rosario de Lerma,4241,2123,2118,4241,0,ok
+v7_p08,262,Rumi-Punco,481,250,231,481,0,ok
+v7_p09,265,Sacrificio,479,238,241,479,0,ok
+v7_p09,218,Salado,606,287,319,606,0,ok
+v7_p09,220,Salinas,602,311,291,602,0,ok
+v7_p09,2,Salta,117400,55044,62356,117400,0,ok
+v7_p09,92,San Andrés,1564,848,716,1564,0,ok
+v7_p09,114,San Antonio,1312,662,650,1312,0,ok
+v7_p09,356,San Antonio,242,120,122,242,0,ok
+v7_p09,253,San Antonio,517,280,237,517,0,ok
+v7_p09,98,San Antonio de la Paz,1489,763,726,1489,0,ok
+v7_p09,104,San Antonio de los Cobres,1439,765,674,1439,0,ok
+v7_p09,347,San Blas de los Sauces,259,121,138,259,0,ok
+v7_p09,210,San Carlos,623,271,352,623,0,ok
+v7_p09,374,San Fernando,204,102,102,204,0,ok
+v7_p09,124,San Gabriel,1184,640,544,1184,0,ok
+v7_p09,371,San Ignacio,207,123,84,207,0,ok
+v7_p09,61,San Isidro,2271,1114,1157,2271,0,ok
+v7_p09,268,San José,472,221,251,472,0,ok
+v7_p09,266,San José,477,218,259,477,0,ok
+v7_p09,407,San José,138,68,70,138,0,ok
+v7_p09,255,San José de Escalchi,508,251,257,508,0,ok
+v7_p09,140,San José de Fray Mamerto Esquiú,1053,504,549,1053,0,ok
+v7_p09,126,San Juancito,1170,663,507,1170,0,ok
+v7_p09,147,San Lorenzo,978,530,448,978,0,ok
+v7_p09,351,San Lorenzo,250,145,105,250,0,ok
+v7_p09,373,San Martín,207,104,103,207,0,ok
+v7_p09,90,San Miguel,1574,856,718,1574,0,ok
+v7_p09,1,San Miguel de Tucumán,271546,127683,143863,271546,0,ok
+v7_p09,99,San Pablo,1481,771,710,1481,0,ok
+v7_p09,340,San Pedro,269,126,143,269,0,ok
+v7_p09,9,San Pedro,15354,7505,7849,15354,0,ok
+v7_p09,357,San Pedro,235,122,113,235,0,ok
+v7_p09,162,San Pedro de Colalao,853,456,397,853,0,ok
+v7_p09,185,San Rafael,722,365,357,722,0,ok
+v7_p09,11,San Ramón de la Nueva Orán,14286,7190,7096,14286,0,ok
+v7_p09,4,San Salvador de Jujuy,44188,21344,22844,44188,0,ok
+v7_p09,327,San Solano,314,160,154,314,0,ok
+v7_p09,322,Santa Ana,322,148,174,322,0,ok
+v7_p09,320,Santa Catalina,331,136,195,331,0,ok
+v7_p09,93,Santa Clara,1535,1021,514,1535,0,ok
+v7_p10,196,Santa Clara,684,339,345,684,0,ok
+v7_p10,142,Santa Cruz,1012,540,472,1012,0,ok
+v7_p10,70,Santa Lucía,1972,1070,902,1972,0,ok
+v7_p10,53,Santa María,2826,1235,1591,2826,0,ok
+v7_p10,424,Santa María,105,58,47,105,0,ok
+v7_p10,205,Santa Rita de Catuna,641,322,319,641,0,ok
+v7_p10,143,Santa Rosa,1006,476,530,1006,0,ok
+v7_p10,128,Santa Rosa,1149,568,581,1149,0,ok
+v7_p10,66,Santa Rosa de Leales,2133,1117,1016,2133,0,ok
+v7_p10,388,Santa Rosa de Tastil,180,90,90,180,0,ok
+v7_p10,413,Santa Victoria,126,65,61,126,0,ok
+v7_p10,393,Santa Victoria,165,88,77,165,0,ok
+v7_p10,95,Sañogasta,1508,733,775,1508,0,ok
+v7_p10,333,Saucelito,287,168,119,287,0,ok
+v7_p10,172,Saujil,786,390,396,786,0,ok
+v7_p10,319,Schaqui,335,173,162,335,0,ok
+v7_p10,156,Seclantas,908,470,438,908,0,ok
+v7_p10,277,Senador Péres,450,204,246,450,0,ok
+v7_p10,325,Sey,318,160,158,318,0,ok
+v7_p10,236,Siete de Abril,565,291,274,565,0,ok
+v7_p10,175,Siján,780,406,374,780,0,ok
+v7_p10,48,Simoca,3101,1487,1614,3101,0,ok
+v7_p10,329,Solca,309,160,149,309,0,ok
+v7_p10,219,Sumalao,604,307,297,604,0,ok
+v7_p10,243,Susques,537,254,283,537,0,ok
+v7_p10,15,Tabacal,11346,6409,4937,11346,0,ok
+v7_p10,245,Taco Ralo,530,245,285,530,0,ok
+v7_p10,207,Tafí del Valle,640,289,351,640,0,ok
+v7_p10,6,Tafí Viejo,21197,10310,10887,21197,0,ok
+v7_p10,136,Tala,1099,536,563,1099,0,ok
+v7_p10,330,Tala Pampa,304,164,140,304,0,ok
+v7_p10,290,Tama,411,192,219,411,0,ok
+v7_p10,255,Tapia,399,213,186,399,0,ok
+v7_p10,7,Tartagal,16740,8557,8183,16740,0,ok
+v7_p10,271,Taruca Pampa,470,254,216,470,0,ok
+v7_p10,419,Telaritos,113,67,46,113,0,ok
+v7_p10,381,Termas de Reyes,196,111,85,196,0,ok
+v7_p10,85,Tilcara,1675,860,815,1675,0,ok
+v7_p10,42,Tinogasta,3557,1619,1938,3557,0,ok
+v7_p11,301,Tolar Grande,379,239,140,379,0,ok
+v7_p11,250,Toloche,521,278,243,521,0,ok
+v7_p11,264,Tolombón,480,234,246,480,0,ok
+v7_p11,129,Trancas,1135,577,558,1135,0,ok
+v7_p11,274,Tres Cruces,462,220,242,462,0,ok
+v7_p11,403,Tuisón,148,83,65,148,0,ok
+v7_p11,283,Tumbaya,435,279,156,435,0,ok
+v7_p11,282,Ulapes,438,219,219,438,0,ok
+v7_p11,54,Urundel,2823,1580,1243,2823,0,ok
+v7_p11,369,Valle Grande,211,107,104,211,0,ok
+v7_p11,170,Vaqueros,802,470,332,802,0,ok
+v7_p11,361,Veintitrés de Agosto,228,136,92,228,0,ok
+v7_p11,24,Vespucio,6809,3364,3445,6809,0,ok
+v7_p11,133,Vichigasta,1104,566,538,1104,0,ok
+v7_p11,427,Vilisman,93,40,53,93,0,ok
+v7_p11,20,Villa Alberdi,7266,3551,3715,7266,0,ok
+v7_p11,145,Villa Belgrano,1000,518,482,1000,0,ok
+v7_p11,113,Villa Bustos,1314,635,679,1314,0,ok
+v7_p11,224,Villa Castelli,597,321,276,597,0,ok
+v7_p11,395,Villa Chepes,162,89,73,162,0,ok
+v7_p11,160,Villa Clodomiro Hileret,875,461,414,875,0,ok
+v7_p11,108,Villa Dolores,1355,600,755,1355,0,ok
+v7_p11,244,Villa El Alto,530,286,244,530,0,ok
+v7_p11,150,Villa Mazán,951,517,434,951,0,ok
+v7_p11,138,Villa Nva. de Monte Rico,1092,526,566,1092,0,ok
+v7_p11,41,Villa Quinteros,3723,1994,1729,3723,0,ok
+v7_p11,81,Villa Unión,1696,844,852,1696,0,ok
+v7_p11,297,Vinchina,395,193,202,395,0,ok
+v7_p11,230,Vipos,584,292,292,584,0,ok
+v7_p11,112,Volcán,1319,685,634,1319,0,ok
+v7_p11,214,Yala,613,327,286,613,0,ok
+v7_p11,270,Yaví,472,197,275,472,0,ok
+v7_p11,33,Yerba Buena,4519,2274,2245,4519,0,ok
+v7_p11,417,Yoscaba,116,42,74,116,0,ok
+v7_p11,239,Yuchán,562,321,241,562,0,ok
+v7_p11,276,Yuto,451,234,217,451,0,ok
+v8_p01,200,Agua Escondida,29,19,10,29,0,ok
+v8_p01,22,Albardón,6985,3466,3519,6985,0,ok
+v8_p01,47,Algarrobal,2093,1082,1011,2093,0,ok
+v8_p01,92,Algarrobo Verde,1279,665,614,1279,0,ok
+v8_p01,44,Alto de Sierra,2468,1252,1216,2468,0,ok
+v8_p01,192,Alto Pelado,120,66,54,120,0,ok
+v8_p01,165,Alto Pencoso,338,175,163,338,0,ok
+v8_p01,117,Anchorena,862,436,426,862,0,ok
+v8_p01,100,Andrade,1191,645,546,1191,0,ok
+v8_p01,169,Angualasto,312,186,126,312,0,ok
+v8_p01,101,Arizona,1167,639,528,1167,0,ok
+v8_p01,167,Astica,321,162,159,321,0,ok
+v8_p01,168,Bagual,317,190,127,317,0,ok
+v8_p01,141,Balde,521,281,240,521,0,ok
+v8_p01,75,Barreal,1790,967,823,1790,0,ok
+v8_p01,148,Batavia,457,258,199,457,0,ok
+v8_p01,110,Beazley,1070,609,461,1070,0,ok
+v8_p01,30,Bermejito,4403,2190,2213,4403,0,ok
+v8_p01,138,Bermejo,578,306,272,578,0,ok
+v8_p01,33,Bowen,4058,2044,2014,4058,0,ok
+v8_p01,104,Buena Esperanza,1145,610,535,1145,0,ok
+v8_p01,115,Calingasta,910,475,435,910,0,ok
+v8_p01,94,Candelaria,1248,615,633,1248,0,ok
+v8_p01,163,Cañada Honda,345,185,160,345,0,ok
+v8_p01,58,Cañada Seca,1986,1063,923,1986,0,ok
+v8_p01,179,Carpintería,219,122,97,219,0,ok
+v8_p01,53,Carrodilla,2000,976,1024,2000,0,ok
+v8_p01,13,Caucete,11950,5864,6086,11950,0,ok
+v8_p01,161,Cienegüita,354,203,151,354,0,ok
+v8_p01,89,Cochagual,1335,748,587,1335,0,ok
+v8_p01,37,Colonia Alvear Oeste,3665,1833,1832,3665,0,ok
+v8_p01,74,Concarán,1844,901,943,1844,0,ok
+v8_p01,54,Coquimbito,1998,1023,975,1998,0,ok
+v8_p01,50,Costa del Araujo,2003,1039,964,2003,0,ok
+v8_p01,67,Cuadro Nacional,1879,917,962,1879,0,ok
+v8_p01,63,Cruz de Piedra,1948,999,949,1948,0,ok
+v8_p01,32,Chacras de Coria,4109,2068,2041,4109,0,ok
+v8_p01,78,Chilecito,1584,831,753,1584,0,ok
+v8_p01,15,Chimbas,11398,5854,5544,11398,0,ok
+v8_p01,197,Chosmes,90,52,38,90,0,ok
+v8_p01,191,Chucuma,129,63,66,129,0,ok
+v8_p02,109,Divisoria,1090,569,521,1090,0,ok
+v8_p02,151,Dixonville,441,242,199,441,0,ok
+v8_p02,154,El Chorrillo,432,250,182,432,0,ok
+v8_p02,196,El Gigante,100,59,41,100,0,ok
+v8_p02,108,El Nihuil,1103,660,443,1103,0,ok
+v8_p02,48,El Resguardo,2012,1018,994,2012,0,ok
+v8_p02,153,El Volcán,432,231,201,432,0,ok
+v8_p02,155,Embalse La Florida,417,223,194,417,0,ok
+v8_p02,65,Eugenio Bustos,1906,963,943,1906,0,ok
+v8_p02,130,Fortuna,709,405,304,709,0,ok
+v8_p02,135,Fraga,618,337,281,618,0,ok
+v8_p02,55,Fray Luis Beltrán,1996,1013,983,1996,0,ok
+v8_p02,12,General Alvear,12325,5910,6415,12325,0,ok
+v8_p02,16,General Gutierrez,10126,4952,5174,10126,0,ok
+v8_p02,4,Godoy Cruz,80024,38037,41987,80024,0,ok
+v8_p02,73,Goudge,1852,994,858,1852,0,ok
+v8_p02,174,Guanacache,240,127,113,240,0,ok
+v8_p02,3,Guaymallén,85718,41403,44315,85718,0,ok
+v8_p02,143,Hipólito Irigoyen,481,241,240,481,0,ok
+v8_p02,98,Huaco,1217,633,584,1217,0,ok
+v8_p02,139,Iglesia,575,284,291,575,0,ok
+v8_p02,137,Ingeniero Balloffet,578,270,308,578,0,ok
+v8_p02,64,Ingeniero Gustavo André,1929,1021,908,1929,0,ok
+v8_p02,24,Jáchal,6886,3299,3587,6886,0,ok
+v8_p02,87,Jaime Prats,1454,744,710,1454,0,ok
+v8_p02,189,Jarrilla,138,73,65,138,0,ok
+v8_p02,56,Jocolí,1994,1094,900,1994,0,ok
+v8_p02,140,Juan Jorba,562,336,226,562,0,ok
+v8_p02,142,Juan Llerena,488,275,213,488,0,ok
+v8_p02,26,Justo Daract,5812,2917,2895,5812,0,ok
+v8_p02,57,La Bebida,1992,1038,954,1992,0,ok
+v8_p02,194,La Botija,112,68,44,112,0,ok
+v8_p02,118,La Cañada,858,447,411,858,0,ok
+v8_p02,156,La Carolina,397,213,184,397,0,ok
+v8_p02,195,La Ciénaga,101,52,49,101,0,ok
+v8_p02,34,La Colonia,3899,1953,1946,3899,0,ok
+v8_p02,20,La Consulta,7556,3925,3631,7556,0,ok
+v8_p02,62,La Dormida,1952,1042,910,1952,0,ok
+v8_p02,175,Lafinur,228,111,117,228,0,ok
+v8_p02,81,La Legua,1551,790,761,1551,0,ok
+v8_p02,85,La Puntilla,1491,719,772,1491,0,ok
+v8_p03,36,Las Casuarinas,3691,1890,1801,3691,0,ok
+v8_p03,95,Las Catitas,1246,655,591,1246,0,ok
+v8_p03,121,Las Cortaderas,794,399,395,794,0,ok
+v8_p03,185,Las Cuevas,163,123,40,163,0,ok
+v8_p03,157,Las Chacras,385,192,193,385,0,ok
+v8_p03,131,Las Flores,670,347,323,670,0,ok
+v8_p03,7,Las Heras,36494,17803,18691,36494,0,ok
+v8_p03,71,Las Malvinas,1858,964,894,1858,0,ok
+v8_p03,45,La Toma,2352,1180,1172,2352,0,ok
+v8_p03,164,Lavaisse,341,184,157,341,0,ok
+v8_p03,150,Leandro N. Alem,455,230,225,455,0,ok
+v8_p03,88,Los Arboles,1356,695,661,1356,0,ok
+v8_p03,129,Los Berros,723,392,331,723,0,ok
+v8_p03,59,Los Campamentos,1978,1046,932,1978,0,ok
+v8_p03,29,Luján,4418,2187,2231,4418,0,ok
+v8_p03,76,Luján,1616,794,822,1616,0,ok
+v8_p03,10,Maipú,14951,7389,7562,14951,0,ok
+v8_p03,128,Marayes,727,383,344,727,0,ok
+v8_p03,83,Marquesado,1514,743,771,1514,0,ok
+v8_p03,28,Mayor Drummond,4422,2212,2210,4422,0,ok
+v8_p03,102,Médano de Oro,1163,608,555,1163,0,ok
+v8_p03,40,Media Agua,3098,1634,1464,3098,0,ok
+v8_p03,111,Medrano,977,519,458,977,0,ok
+v8_p03,4,Mendoza,109122,50871,58251,109122,0,ok
+v8_p03,8,Mercedes,35449,16764,18685,35449,0,ok
+v8_p03,123,Merlo,785,377,408,785,0,ok
+v8_p03,158,Mogna,383,187,196,383,0,ok
+v8_p03,31,Monte Comán,4278,2142,2136,4278,0,ok
+v8_p03,193,Mosmota,112,66,46,112,0,ok
+v8_p03,127,Naschel,770,386,384,770,0,ok
+v8_p03,178,Navia,226,133,93,226,0,ok
+v8_p03,90,Niquivil,1301,693,608,1301,0,ok
+v8_p03,52,Nueva California,2000,1072,928,2000,0,ok
+v8_p03,125,Nueva Galia,781,455,326,781,0,ok
+v8_p03,126,Nueve de Julio,776,408,368,776,0,ok
+v8_p03,19,Palmira,9645,4812,4833,9645,0,ok
+v8_p03,82,Pampa del Chañar,1521,820,701,1521,0,ok
+v8_p03,124,Pampa Vieja,782,414,368,782,0,ok
+v8_p03,172,Paso Grande,261,122,139,261,0,ok
+v8_p03,113,Perdriel,951,484,467,951,0,ok
+v8_p03,112,Pie de Palo,975,525,450,975,0,ok
+v8_p04,122,Piedra Blanca,790,391,399,790,0,ok
+v8_p04,144,Polvaredas,478,278,200,478,0,ok
+v8_p04,182,Potrerillo,199,115,84,199,0,ok
+v8_p04,186,Potrero de los Funes,151,90,61,151,0,ok
+v8_p04,184,Pozo del Tala,174,98,76,174,0,ok
+v8_p04,198,Punta del Agua,85,43,42,85,0,ok
+v8_p04,176,Punta de Vacas,227,139,88,227,0,ok
+v8_p04,39,Quines,3319,1651,1668,3319,0,ok
+v8_p04,68,Real del Padre,1877,951,926,1877,0,ok
+v8_p04,171,Renca,298,154,144,298,0,ok
+v8_p04,180,Retamito,209,122,87,209,0,ok
+v8_p04,105,Rinconada,1143,565,578,1143,0,ok
+v8_p04,152,Rincón del Este,435,198,237,435,0,ok
+v8_p04,11,Rivadavia,14358,6934,7424,14358,0,ok
+v8_p04,17,Rivadavia,9896,4729,5167,9896,0,ok
+v8_p04,119,Rodeo,832,404,428,832,0,ok
+v8_p04,23,Rodeo de la Cruz,6955,3481,3474,6955,0,ok
+v8_p04,69,Rodeo del Medio,1965,1073,892,1965,0,ok
+v8_p04,97,Rodolfo Iselin (La Llave),1228,650,578,1228,0,ok
+v8_p04,51,Russell,2002,1019,983,2002,0,ok
+v8_p04,173,Saladillo,250,123,127,250,0,ok
+v8_p04,181,San Antonio,201,125,76,201,0,ok
+v8_p04,69,San Francisco,1864,876,988,1864,0,ok
+v8_p04,66,San Isidro,1881,1012,869,1881,0,ok
+v8_p04,190,San Jerónimo,137,71,66,137,0,ok
+v8_p04,103,Salto de las Rosas,1158,591,567,1158,0,ok
+v8_p04,183,San José del Morro,194,98,96,194,0,ok
+v8_p04,2,San Juan,106564,49643,56921,106564,0,ok
+v8_p04,6,San Luis,40420,19128,21292,40420,0,ok
+v8_p04,9,San Martín,20466,9842,10624,20466,0,ok
+v8_p04,84,San Martín,1494,775,719,1494,0,ok
+v8_p04,159,San Martín,382,203,179,382,0,ok
+v8_p04,147,San Pablo,458,230,228,458,0,ok
+v8_p04,5,San Rafael,46599,22267,24332,46599,0,ok
+v8_p04,93,San Roque,1249,670,579,1249,0,ok
+v8_p04,146,San Roque,465,267,198,465,0,ok
+v8_p04,14,Santa Lucía,11659,5640,6019,11659,0,ok
+v8_p04,70,Santa María de Oro,1860,959,901,1860,0,ok
+v8_p04,42,Santa Rosa,2880,1296,1584,2880,0,ok
+v8_p04,199,Talacasto,50,26,24,50,0,ok
+v8_p04,177,Talita,226,110,116,226,0,ok
+v8_p05,106,Tamberías,1129,602,527,1129,0,ok
+v8_p05,72,Tilisarao,1856,891,965,1856,0,ok
+v8_p05,145,Trapiche,466,242,224,466,0,ok
+v8_p05,79,Tres de Mayo,1574,856,718,1574,0,ok
+v8_p05,188,Tucunuco,138,89,49,138,0,ok
+v8_p05,132,Tudcum,638,319,319,638,0,ok
+v8_p05,18,Tunuyán,9781,4886,4895,9781,0,ok
+v8_p05,41,Ullún,2896,1510,1386,2896,0,ok
+v8_p05,133,Unión,630,311,319,630,0,ok
+v8_p05,38,Uspallata,3525,2521,1004,3525,0,ok
+v8_p05,160,Varela,367,224,143,367,0,ok
+v8_p05,80,Villa Aberastain,1569,766,803,1569,0,ok
+v8_p05,25,Villa Atuel,6072,3095,2977,6072,0,ok
+v8_p05,170,Villa de la Quebrada,304,148,156,304,0,ok
+v8_p05,134,Villa del Carmen,625,315,310,625,0,ok
+v8_p05,77,Villa del Salvador,1592,851,741,1592,0,ok
+v8_p05,166,Villa General Roca,325,160,165,325,0,ok
+v8_p05,96,Villa Independencia,1232,665,567,1232,0,ok
+v8_p05,60,Villa Junín,1972,1022,950,1972,0,ok
+v8_p05,21,Villa Krause,7311,3570,3741,7311,0,ok
+v8_p05,43,Villa La Paz,2502,1281,1221,2502,0,ok
+v8_p05,149,Villa Larca,456,240,216,456,0,ok
+v8_p05,27,Villa Malargüe,4523,2312,2211,4523,0,ok
+v8_p05,114,Villa Mercedes,928,477,451,928,0,ok
+v8_p05,162,Villa Praga,345,179,166,345,0,ok
+v8_p05,116,Villa Reynolds,865,741,124,865,0,ok
+v8_p05,91,Villa San Agustín,1293,611,682,1293,0,ok
+v8_p05,120,Villa San Carlos,809,421,388,809,0,ok
+v8_p05,136,Villa Santa Rosa,607,284,323,607,0,ok
+v8_p05,99,Villa Santa Rosa,1205,620,585,1205,0,ok
+v8_p05,49,Villa Tulumaya,2004,1010,994,2004,0,ok
+v8_p05,35,Villa Tupungato,3716,1872,1844,3716,0,ok
+v8_p05,86,Villa 25 de Mayo,1460,858,602,1460,0,ok
+v8_p05,107,Vista Flores,1126,602,524,1126,0,ok
+v8_p05,187,Zanjitas,150,78,72,150,0,ok
+v8_p05,46,Zonda,2183,1250,933,2183,0,ok
+v9_1_2_p01,127,Aguada Cecilio,298,178,120,298,0,ok
+v9_1_2_p01,145,Aguada de Guerra,153,77,76,153,0,ok
+v9_1_2_p01,131,Aldea Apeleg,277,178,99,277,0,ok
+v9_1_2_p01,51,Alejandro Stefanelli,1346,818,528,1346,0,ok
+v9_1_2_p01,8,Allen,11389,6032,5357,11389,0,ok
+v9_1_2_p01,62,Alto Río Senguerr,1110,562,548,1110,0,ok
+v9_1_2_p01,82,Aluminé,744,368,376,744,0,ok
+v9_1_2_p01,95,Andacollo,587,289,298,587,0,ok
+v9_1_2_p01,160,Añelo,46,19,27,46,0,ok
+v9_1_2_p01,68,Astra,1019,587,432,1019,0,ok
+v9_1_2_p01,143,Auca Mahuída,167,116,51,167,0,ok
+v9_1_2_p01,153,Bahía Laura,115,76,39,115,0,ok
+v9_1_2_p01,99,Bajada del Agrio,560,289,271,560,0,ok
+v9_1_2_p01,65,Barda del Medio,1073,560,513,1073,0,ok
+v9_1_2_p01,5,Bariloche,15995,7876,8119,15995,0,ok
+v9_1_2_p01,157,Barrio Laprida y Manantial Rosales,81,66,15,81,0,ok
+v9_1_2_p01,158,Benjamín Zorrilla,73,47,26,73,0,ok
+v9_1_2_p01,123,Buen Pasto,332,192,140,332,0,ok
+v9_1_2_p01,101,Buta Ranquil,527,249,278,527,0,ok
+v9_1_2_p01,25,Caleta Olivia,3639,2112,1527,3639,0,ok
+v9_1_2_p01,103,Camarones,501,305,196,501,0,ok
+v9_1_2_p01,42,Cañadón Seco,1700,1617,83,1700,0,ok
+v9_1_2_p01,19,Centenario,4922,2691,2231,4922,0,ok
+v9_1_2_p01,116,Centro Río Mayo,376,221,155,376,0,ok
+v9_1_2_p01,89,Cervantes,703,354,349,703,0,ok
+v9_1_2_p01,11,Cinco Saltos,10196,5306,4890,10196,0,ok
+v9_1_2_p01,3,Cipolletti,19862,10312,9550,19862,0,ok
+v9_1_2_p01,137,Clemente Onelli,227,123,104,227,0,ok
+v9_1_2_p01,125,Colan-Conhué,306,177,129,306,0,ok
+v9_1_2_p01,88,Colonia Catriel,707,432,275,707,0,ok
+v9_1_2_p01,38,Colonia Las Heras,1880,1022,858,1880,0,ok
+v9_1_2_p01,74,Comallo,901,457,444,901,0,ok
+v9_1_2_p01,50,Comandante Luis Piedrabuena,1441,768,673,1441,0,ok
+v9_1_2_p01,1,Comodoro Rivadavia,35966,18747,17219,35966,0,ok
+v9_1_2_p01,106,Cona Niyeo,446,243,203,446,0,ok
+v9_1_2_p01,63,Contralmirante Cordero,1106,609,497,1106,0,ok
+v9_1_2_p01,91,El Corcovado,641,345,296,641,0,ok
+v9_1_2_p01,76,Coronel Belisle,827,471,356,827,0,ok
+v9_1_2_p02,120,Coronel Eugenio del Busto,363,186,177,363,0,ok
+v9_1_2_p02,58,Coronel Gómez,1161,672,489,1161,0,ok
+v9_1_2_p02,155,Cubanea,99,64,35,99,0,ok
+v9_1_2_p02,10,Cutral-Có,11292,5684,5608,11292,0,ok
+v9_1_2_p02,129,Challacó,287,178,109,287,0,ok
+v9_1_2_p02,115,Chelforo,384,206,178,384,0,ok
+v9_1_2_p02,37,Chichinales,1962,1076,886,1962,0,ok
+v9_1_2_p02,64,Chimpay,1103,617,486,1103,0,ok
+v9_1_2_p02,30,Choele-Choel,3079,1583,1496,3079,0,ok
+v9_1_2_p02,49,Cholita,1458,731,727,1458,0,ok
+v9_1_2_p02,31,Chos-Malal,2874,1334,1540,2874,0,ok
+v9_1_2_p02,83,Darwin,737,402,335,737,0,ok
+v9_1_2_p02,28,Deseado,3120,1645,1475,3120,0,ok
+v9_1_2_p02,60,Diadema Argentina,1139,630,509,1139,0,ok
+v9_1_2_p02,59,Dique Florentino Ameghino,1160,707,453,1160,0,ok
+v9_1_2_p02,53,Dolavon,1277,680,597,1277,0,ok
+v9_1_2_p02,34,El Bolsón,2607,1280,1327,2607,0,ok
+v9_1_2_p02,98,El Calafate,567,305,262,567,0,ok
+v9_1_2_p02,121,El Cuy,355,213,142,355,0,ok
+v9_1_2_p02,90,El Cholar,672,337,335,672,0,ok
+v9_1_2_p02,126,El Huecu,298,136,162,298,0,ok
+v9_1_2_p02,35,El Maitén,2382,1171,1211,2382,0,ok
+v9_1_2_p02,141,El Mayoco,178,98,80,178,0,ok
+v9_1_2_p02,94,El Turbio,593,470,123,593,0,ok
+v9_1_2_p02,70,Epuyén,957,501,456,957,0,ok
+v9_1_2_p02,12,Esquel,9900,4879,5021,9900,0,ok
+v9_1_2_p02,108,Facundo,430,238,192,430,0,ok
+v9_1_2_p02,156,Fitz Roy,98,50,48,98,0,ok
+v9_1_2_p02,52,Gaiman,1286,646,640,1286,0,ok
+v9_1_2_p02,130,Gan Gan,281,131,150,281,0,ok
+v9_1_2_p02,159,Gastre,67,34,33,67,0,ok
+v9_1_2_p02,78,Gobernador Costa,803,383,420,803,0,ok
+v9_1_2_p02,79,Gobernador Gregores,772,404,368,772,0,ok
+v9_1_2_p02,85,General Conesa,716,343,373,716,0,ok
+v9_1_2_p02,36,General Fernández Oro,2079,1161,918,2079,0,ok
+v9_1_2_p02,46,General E. Godoy,1591,928,663,1591,0,ok
+v9_1_2_p02,128,General Lorenzo Vintter,290,165,125,290,0,ok
+v9_1_2_p02,2,General Roca,21969,11218,10751,21969,0,ok
+v9_1_2_p03,80,Guardia Mitre,746,366,380,746,0,ok
+v9_1_2_p03,113,Gualjaina,389,205,184,389,0,ok
+v9_1_2_p03,29,Ingeniero Huergo,3083,1657,1426,3083,0,ok
+v9_1_2_p03,33,Ingeniero Jacobacci,2656,1332,1324,2656,0,ok
+v9_1_2_p03,107,Jaramillo,437,264,173,437,0,ok
+v9_1_2_p03,61,José de San Martín,1143,588,555,1143,0,ok
+v9_1_2_p03,142,Juan de Garay,174,102,72,174,0,ok
+v9_1_2_p03,56,Junín de los Andes,1183,552,631,1183,0,ok
+v9_1_2_p03,32,Kilómetro 8 (Petroquímica),2783,1545,1238,2783,0,ok
+v9_1_2_p03,135,Lago Blanco,244,148,96,244,0,ok
+v9_1_2_p03,96,Lago Futalaufquen,578,285,293,578,0,ok
+v9_1_2_p03,117,Llao-Llao,376,215,161,376,0,ok
+v9_1_2_p03,55,Lamarque,1207,586,621,1207,0,ok
+v9_1_2_p03,69,Las Coloradas,975,503,472,975,0,ok
+v9_1_2_p03,40,Las Lajas,1805,1039,766,1805,0,ok
+v9_1_2_p03,122,Las Ovejas,341,161,180,341,0,ok
+v9_1_2_p03,139,Las Plumas,182,93,89,182,0,ok
+v9_1_2_p03,111,Leleque,401,248,153,401,0,ok
+v9_1_2_p03,75,Loncopué,856,405,451,856,0,ok
+v9_1_2_p03,86,Los Antiguos,709,392,317,709,0,ok
+v9_1_2_p03,41,Los Menucos,1749,915,834,1749,0,ok
+v9_1_2_p03,67,Luis Beltrán,1058,529,529,1058,0,ok
+v9_1_2_p03,148,Mainque,126,61,65,126,0,ok
+v9_1_2_p03,109,Manantiales Behr,426,303,123,426,0,ok
+v9_1_2_p03,152,Mancha Blanca,116,70,46,116,0,ok
+v9_1_2_p03,39,Maquinchao,1851,951,900,1851,0,ok
+v9_1_2_p03,97,Mariano Moreno,568,283,285,568,0,ok
+v9_1_2_p03,138,Mencué,208,103,105,208,0,ok
+v9_1_2_p03,87,Ministro Ramos Mejía,708,367,341,708,0,ok
+v9_1_2_p03,4,Neuquén,16738,8306,8432,16738,0,ok
+v9_1_2_p03,93,Norquincó,602,299,303,602,0,ok
+v9_1_2_p03,133,Pampa del Castillo,272,231,41,272,0,ok
+v9_1_2_p03,66,Paso de Indios,1067,593,474,1067,0,ok
+v9_1_2_p03,47,Perito Moreno,1587,837,750,1587,0,ok
+v9_1_2_p03,48,Pico Truncado,1527,1268,259,1527,0,ok
+v9_1_2_p03,104,Picún-Leufú,495,261,234,495,0,ok
+v9_1_2_p03,151,Pichi-Mahuída,123,66,57,123,0,ok
+v9_1_2_p03,144,Piedra del Aguila,155,75,80,155,0,ok
+v9_1_2_p03,112,Pilcaniyeu,395,201,194,395,0,ok
+v9_1_2_p04,154,Planta Compresora Conesa,101,47,54,101,0,ok
+v9_1_2_p04,54,Playa Bonita,1249,786,463,1249,0,ok
+v9_1_2_p04,20,Plaza Huincul,4906,2556,2350,4906,0,ok
+v9_1_2_p04,72,Plottier,934,492,442,934,0,ok
+v9_1_2_p04,92,Pomona,607,326,281,607,0,ok
+v9_1_2_p04,134,Puerto Coyle,251,176,75,251,0,ok
+v9_1_2_p04,140,Puerto Lobos,178,116,62,178,0,ok
+v9_1_2_p04,16,Puerto Madryn,5586,2787,2799,5586,0,ok
+v9_1_2_p04,110,Puerto Pirámides,425,286,139,425,0,ok
+v9_1_2_p04,146,Quili Malal,136,72,64,136,0,ok
+v9_1_2_p04,22,Rawson,4109,2204,1905,4109,0,ok
+v9_1_2_p04,15,Río Colorado,5892,3077,2815,5892,0,ok
+v9_1_2_p04,84,Río Chico,719,372,347,719,0,ok
+v9_1_2_p04,6,Río Gallegos,14439,8471,5968,14439,0,ok
+v9_1_2_p04,23,Río Grande,3666,2359,1307,3666,0,ok
+v9_1_2_p04,71,Río Mayo,937,460,477,937,0,ok
+v9_1_2_p04,73,Río Pico,915,462,453,915,0,ok
+v9_1_2_p04,149,Río Villegas,125,88,37,125,0,ok
+v9_1_2_p04,17,San Antonio Oeste,5278,2686,2592,5278,0,ok
+v9_1_2_p04,119,San Javier,370,221,149,370,0,ok
+v9_1_2_p04,24,San Julián,3649,1967,1682,3649,0,ok
+v9_1_2_p04,21,San Martín de los Andes,4567,2557,2010,4567,0,ok
+v9_1_2_p04,132,San Pedro,274,159,115,274,0,ok
+v9_1_2_p04,57,Santa Cruz,1178,608,570,1178,0,ok
+v9_1_2_p04,18,Sarmiento,4922,3102,1820,4922,0,ok
+v9_1_2_p04,114,Senillosa,389,224,165,389,0,ok
+v9_1_2_p04,100,Sierra Colorada,541,258,283,541,0,ok
+v9_1_2_p04,102,Sierra Grande,512,284,228,512,0,ok
+v9_1_2_p04,81,Tecka,745,430,315,745,0,ok
+v9_1_2_p04,150,Tellier,123,64,59,123,0,ok
+v9_1_2_p04,105,Telsen,490,294,196,490,0,ok
+v9_1_2_p04,7,Trelew,11852,5747,6105,11852,0,ok
+v9_1_2_p04,136,Tres Lagos,227,161,66,227,0,ok
+v9_1_2_p04,44,Trevelín,1642,829,813,1642,0,ok
+v9_1_2_p04,118,Tricao Malal,370,195,175,370,0,ok
+v9_1_2_p04,27,Ushuaia,3398,2179,1219,3398,0,ok
+v9_1_2_p04,43,Valcheta,1697,778,919,1697,0,ok
+v9_1_2_p04,14,Viedma,7253,3585,3668,7253,0,ok
+v9_1_2_p04,77,Villa La Angostura,804,431,373,804,0,ok
+v9_1_2_p05,124,Villa Llanquín,324,153,171,324,0,ok
+v9_1_2_p05,9,Villa Regina,11360,5954,5406,11360,0,ok
+v9_1_2_p05,45,Vista Alegre,1606,874,732,1606,0,ok
+v9_1_2_p05,26,Yacimiento Río Turbio,3506,2796,710,3506,0,ok
+v9_1_2_p05,147,Yacimiento Petrolífero Solano,127,73,54,127,0,ok
+v9_1_2_p05,13,Zapala,7497,4150,3347,7497,0,ok

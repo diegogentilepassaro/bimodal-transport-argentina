@@ -1,0 +1,79 @@
+[
+ {
+  "page": "v3_p18",
+  "n_orden": "76",
+  "localidad": "Quequén",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Decreto-Ley provincial 9327/79 (Bs As), sancionado y promulgado el 22/05/1979, que segrego las secciones urbanas de la Circunscripcion VII de Quequen del partido de Loberia y las incorporo al partido de Necochea a partir del 01/07/1979 (ampliado luego por Decreto-Ley 9710/1981 para una fraccion rural).",
+  "fuente_url_cambio": "https://archivoquequen.blogspot.com/2010/11/el-22-de-mayo-de-1979-quequen-fue.html",
+  "ley_o_anio": "Decreto-Ley 9327/1979",
+  "confianza": "alta",
+  "nota": "El archivo historico quequenense y las cronicas locales confirman que el 22/05/1979, por Decreto-Ley 9327 del gobernador Iberico Saint Jean, Quequen (circunscripcion VII) paso de Loberia a Necochea; la transferencia material se firmo el 30/06/1979. Confirma la transferencia Loberia -> Necochea del censo 1960."
+ },
+ {
+  "page": "v7_p11",
+  "n_orden": "33",
+  "localidad": "Yerba Buena",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Ley provincial 4518 (1976) de Tucuman, que reorganizo la division departamental y creo el departamento Yerba Buena con tierras de los departamentos Capital, Famailla y Tafi (Yerba Buena dejo de depender de Tafi Viejo).",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Anexo:Departamentos_de_la_Provincia_de_Tucum%C3%A1n",
+  "ley_o_anio": "Ley provincial 4518 (1976)",
+  "confianza": "alta",
+  "nota": "El Anexo de Wikipedia 'Departamentos de la Provincia de Tucuman' indica que en 1976 la ley 4518 creo el departamento Yerba Buena con tierras de Capital, Famailla y Tafi; coincidente con FamilySearch (depto establecido en 1976). Por eso en el censo 1960 la localidad figuraba en el antiguo depto Tafi. Segregacion documentada."
+ },
+ {
+  "page": "v5_p03",
+  "n_orden": "117",
+  "localidad": "Gobernador Racedo",
+  "tipo_doc": "documentada",
+  "fuente_cambio": "Ley provincial 6378 (Entre Rios, 21/06/1979), que rectifico los limites interdepartamentales: el limite Diamante-Parana, antes apoyado en el arroyo Paracao y la traza de la RN 131, se rectifico dejando General Racedo (El Carmen) en el departamento Diamante.",
+  "fuente_url_cambio": "https://es.wikipedia.org/wiki/Historia_de_la_organizaci%C3%B3n_territorial_de_Entre_R%C3%ADos",
+  "ley_o_anio": "Ley provincial 6378 (1979)",
+  "confianza": "alta",
+  "nota": "La Historia de la organizacion territorial de Entre Rios (Wikipedia) detalla que la Ley 6378 del 21/06/1979 rectifico el limite Diamante-Parana y dejo General Racedo en Diamante (mientras Oro Verde, Tezanos Pinto, Crespo, etc. quedaron en Parana). Documenta el cambio de etiqueta de departamento Parana -> Diamante."
+ },
+ {
+  "page": "v3_p22",
+  "n_orden": "349",
+  "localidad": "Villars",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Busque en Wikipedia (Villars, Estacion Villars, partidos de General Las Heras y Marcos Paz) y en normas.gba.gob.ar sin hallar una ley o decreto que transfiera Villars de Marcos Paz a General Las Heras. Ambos partidos ya existian en 1960 (Gral Las Heras con limites por decreto de 1875) y no figuran en anexos de creacion; es un reajuste de limite entre partidos preexistentes, sin acto legal unico citable."
+ },
+ {
+  "page": "v7_p07",
+  "n_orden": "199",
+  "localidad": "Manuel García Fernández",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "baja",
+  "nota": "Wikipedia y los sitios municipales confirman que hoy esta en el depto Leales y en 1960 figuraba en Famailla, pero no hallé fuente que documente el traslado de ESTA localidad. La Ley 4518/1976 reorganizo la division departamental de Tucuman y pudo redibujar el limite Leales-Famailla, pero ninguna fuente la vincula especificamente a Manuel Garcia Fernandez, por lo que no cito la norma. Reajuste de limite entre deptos preexistentes."
+ },
+ {
+  "page": "v4_p08",
+  "n_orden": "601",
+  "localidad": "Intiyaco",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "baja",
+  "nota": "Wikipedia (Intiyaco) solo confirma que hoy es comuna del depto Vera; no menciona cambio de departamento ni ley. Vera y General Obligado ya existian en 1960; los pueblos forestales de La Forestal (Intiyaco, Villa Guillermina, etc.) se extendian por Vera, 9 de Julio y Gral Obligado, y la asignacion censal de 1960 a Gral Obligado no responde a un acto legal unico identificable. Reajuste de limite sin norma citable."
+ },
+ {
+  "page": "v3_p02",
+  "n_orden": "871",
+  "localidad": "Arroyo Dulce",
+  "tipo_doc": "limite_no_documentada",
+  "fuente_cambio": "",
+  "fuente_url_cambio": "",
+  "ley_o_anio": "",
+  "confianza": "media",
+  "nota": "Wikipedia (Arroyo Dulce) describe una disputa vigente: la localidad esta clasificada en el partido de Salto pero Pergamino la reclama, sin base legal, decreto ni fecha de cambio; esta a medio camino entre ambas ciudades. No existe un acto administrativo unico que transfiera Arroyo Dulce de Pergamino a Salto; ambos partidos son de mediados del siglo XIX (Salto, Ley 422 de 1854). Es un limite en conflicto, no documentado."
+ }
+]
