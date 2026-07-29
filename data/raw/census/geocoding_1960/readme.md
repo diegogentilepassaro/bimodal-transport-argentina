@@ -78,8 +78,10 @@ of this file: INDEC did not exist in 1960.
   Lanús 375,428, Morón 341,920, Avellaneda 326,531, Quilmes 317,783,
   General San Martín 278,751, and 12 more. For those 18 districts the file
   does **not** deliver the intra-departamento geography that is its stated
-  purpose, and the point attached to each is a single representative location
-  for the whole partido. Two further rows carry `footnote == "2"`
+  purpose. The point attached to each is the *cabecera del partido*, per the
+  decision recorded in `ROADMAP.md:105` ("footnote(1) conurbano → 1 punto =
+  cabecera del partido", agreed 2026-07-15). All 18 sit on `v3_*` pages.
+  Two further rows carry `footnote == "2"`
   (Isla Martín García 1,712; Puerto de la Plata 17,338 = 19,050).
 - **Localities only, otherwise.** For the remaining 3,043 rows this is a
   locality list, so dispersed rural population is absent. See
@@ -96,6 +98,14 @@ of this file: INDEC did not exist in 1960.
   inherit the locality-universe gap: the 312-district file sums to 16,525,221,
   below the published national total. A high number here is not evidence that
   the universe is complete.
+- **And it is a netted total, not a row-level check.** Province by province,
+  the −13,901 difference is 91% Santa Fe on its own (−12,720); gross |Δ|
+  across provinces is 15,689, and only 13 of the 23 agree exactly. The
+  independence of the two transcriptions also holds partly by default: this
+  folder ships `validar_depto_xlsx.py` (step 2.4), whose job is to check these
+  departamento sums against our `1c1960_3_*.xlsx` for Buenos Aires and La
+  Pampa, and its output `intermedios/validacion_depto.csv` is 65 bytes —
+  header only, so the gated path fired and the step was deferred.
 
 ## QC status — almost nothing here is human-confirmed
 `estado` is the coarse label. Percentages are of the file's 13,544,686 people.
@@ -145,19 +155,23 @@ Location flags:
   199 are middling (`media` in three variants).
 
 ## Join key
-`(page, n_orden)` is **not** unique. It collides on four pairs, and because
-`page` is a reused page-image label the two rows in each pair are in
-**different provinces**:
+`(page, n_orden)` is **not** unique. It collides on four pairs. `page` is a
+reused page-image label and the `footnote(1)` conurbano rows sit in their own
+numbering section (`ROADMAP.md:162`), which is what produces the collisions —
+Florencio Varela below is one of the 18. **Three of the four pairs are in
+different provinces; the fourth is two different departamentos inside Buenos
+Aires:**
 
-| `(page, n_orden)` | row A | row B |
-|---|---|---|
-| `v3_p08` / 25 | Buenos Aires, Ensenada | Buenos Aires, Florencio Varela |
-| `v5_p05` / 221 | Entre Ríos, Nueva Vizcaya | Corrientes, Perugorría |
-| `v7_p04` / 84 | Tucumán, Esquina | Jujuy, Fraile Pintado |
-| `v8_p04` / 69 | Mendoza, Rodeo del Medio | San Luis, San Francisco |
+| `(page, n_orden)` | row A | row B | crosses |
+|---|---|---|---|
+| `v3_p08` / 25 | Buenos Aires, Ensenada | Buenos Aires, Florencio Varela | departamento |
+| `v5_p05` / 221 | Entre Ríos, Nueva Vizcaya | Corrientes, Perugorría | province |
+| `v7_p04` / 84 | Tucumán, Esquina | Jujuy, Fraile Pintado | province |
+| `v8_p04` / 69 | Mendoza, Rodeo del Medio | San Luis, San Francisco | province |
 
 A merge on that key therefore does not just drop rows, it **moves population
-across provinces**. Keys that hold, both 3,063 distinct:
+across districts** — across provinces in three of the four cases. Keys that
+hold, both 3,063 distinct:
 `(page, n_orden, localidad_canon)` and
 `(provincia_canon, departamento_canon, localidad_canon)`.
 
@@ -234,7 +248,8 @@ compound rows:
 Wikipedia at 128 rows and OSM at 54 are the share-alike exposures, and both
 are larger than an earlier version of this readme stated (58 and 33, which
 counted only literal machine-written values and missed the compound
-human-entered ones).
+human-entered ones). The two sets overlap on 4 rows that name both, so do not
+add them.
 
 BAHRA does **not** appear in `fuente` at all; it appears in `confianza` for 72
 rows, as the layer a fuzzy match was made against. Do not look for it in the

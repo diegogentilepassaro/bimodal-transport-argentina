@@ -349,30 +349,60 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       correlation exists and a referee may ask; agreed answer is
       the density/over-control + mechanical-entanglement rationale
       (decision recorded in DEFERRED LEDGER; no sensitivity table).
-- [ ] G. COLLECT FROM COTE (tracked in section 1). Original four: the
-      #68 lookup (report's studied definition + network denominator),
-      the #113 CABA-node sign-off, the DNV publication volume, and
-      geocoding branch status — the last of which is now answered, his
-      branch landed 2026-07-28 and merged 2026-07-29 (PR #146 + the
-      intake-fix PR #150, squashed to main as 00e0334).
-      LIST REVISED 2026-07-29 after the intake fix pass. Eight items,
-      ordered by value. (2) and (6) are new; (3) and (5) are the same
-      questions with a sharper basis; the rest are unchanged.
+- [ ] G. COLLECT FROM COTE. Original four: the #68 lookup (report's
+      studied definition + network denominator), the #113 CABA-node
+      sign-off, the DNV publication volume, and geocoding branch
+      status — the last of which is now answered, his branch landed
+      2026-07-28 and merged 2026-07-29 (PR #146 + the intake-fix
+      PR #150, squashed to main as 00e0334).
+      LIST REVISED 2026-07-29 after the intake fix pass. Eight items in
+      three blocks. (2) and (4) are new; (5) and (7) are the same
+      questions with a sharper basis; the rest are unchanged. Only
+      (1) has its own section-1 entry; the rest live here, so when this
+      agenda item closes the survivors must be moved to section 1
+      rather than closed with it.
+
+      BLOCK 1 — WHAT THE VOLUMES CONTAIN. One archive/scan check
+      disposes of all three, so present them together.
       (1) DO THE 1960 VOLUMES PUBLISH DEPARTAMENTO TOTALS (including
           dispersed rural population)? Still the highest-value ask on
-          the list — see item H. It rides the same archive visit as the
+          the list — see item H. Rides the same archive visit as the
           #68 lookup and the V parameter for Decision A option 1a.
-      (2) NEW — THE 18 GRAN BUENOS AIRES PARTIDOS. His file carries the
-          same `footnote == "1"` whole-partido rows that our own 1960
-          cleaner already has to dodge, and they hold 3,772,411 people
-          = 27.85% of the file (La Matanza 401,738, Lanús 375,428,
+      (2) NEW — THE 18 GRAN BUENOS AIRES PARTIDOS. `footnote == "1"`
+          rows are the whole-partido total for a conurbano partido
+          rather than a locality, and they hold 3,772,411 people =
+          27.85% of the file (La Matanza 401,738, Lanús 375,428,
           Morón 341,920, …). So in the densest part of the country the
-          geocoding gives one point per partido, not per locality. Do
-          the volumes list localities inside those partidos, or is one
-          row the ceiling the source imposes? This governs how much the
-          multi-point MA upgrade actually buys, and it was not on the
-          list before because the property was not documented.
-      (3) What was the plan behind the `propuesto` / `en_muestra` /
+          geocoding gives one point per partido, not per locality.
+          CAREFUL HOW THIS IS PUT: the property is documented in his
+          own material and the handling was AGREED WITH HIM — PROTOCOLO
+          .md:186 flags `tipo=total_partido`, and ROADMAP.md:105
+          records the 2026-07-15 decision "footnote(1) conurbano →
+          1 punto = cabecera del partido". What is new is only the
+          MAGNITUDE. So the ask is not "did you know", it is: given
+          that this is 27.85% of the file, does the cabecera decision
+          still stand, and do the volumes list localities inside those
+          partidos or is one row the ceiling the source imposes? This
+          governs how much the multi-point MA upgrade actually buys —
+          if one row is the ceiling, it buys least where density is
+          highest.
+      (3) Was volume 2 (Capital Federal) skipped from the geocoding by
+          design? Near-certain yes (his v3-v9 = our Parts 3-9, and our
+          own 1c1960_2.xlsx IS Part 2 = Capital Federal). Now
+          documented in the folder readme as a by-construction
+          omission; confirmation is so it stops being an inference.
+
+      BLOCK 2 — ONE-LINE ANSWERS THAT UNBLOCK US.
+      (4) NEW — CRS and what the point represents. Neither is recorded
+          anywhere in the material. EPSG:4326 is a safe inference from
+          Georef and the readme states it as an assumption, but he can
+          settle it in one line, and it gates any spatial use of the
+          file. Whether a point is a locality centroid, a town centre
+          or a station varies with `fuente` and matters for
+          short-distance tau. Partially answered already for the 18
+          GBA rows: the 2026-07-15 decision puts those at the
+          cabecera del partido.
+      (5) What was the plan behind the `propuesto` / `en_muestra` /
           `pendiente_muestra` labels? SHARPER BASIS: the question is
           not "confirm 1,003 rows". Reading `criterio_aceptacion`,
           21 of 3,063 rows (0.7%) carry an individual human decision —
@@ -382,27 +412,24 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           confirmation status and reading it as one overstates the QC
           by ~50x. So the sampling design is the whole question, not a
           detail. Still ask before proposing a triage.
-      (4) The 23 `rojo` rows (point outside its expected departamento)
-          are worth his eyes regardless of any sampling design: a
-          cross-district location error is the one kind MA cares about.
-      (5) LICENSING, WIDER THAN FIRST FRAMED. Not only the provenance
+
+      BLOCK 3 — WORK OR DECISIONS HE HAS TO MAKE.
+      (6) The 23 `rojo` rows (point outside its expected departamento,
+          all 23 with coordinates) are worth his eyes regardless of any
+          sampling design: a cross-district location error is the one
+          kind MA cares about.
+      (7) LICENSING, WIDER THAN FIRST FRAMED. Not only the provenance
           and licence of ref/deptos_argentina.geojson (55 MB,
-          third-party, no source recorded): 128 rows trace to Wikipedia
-          (CC-BY-SA) and 54 to OSM/Nominatim (ODbL). Both are
-          share-alike, so they may attach conditions to redistributing
-          the coordinate column itself. `fuente` is free text with 88
-          distinct values and a tail of ~15 further sites, so this
-          needs a decision, not just a source list.
-      (6) NEW — CRS and what the point represents. Neither is recorded
-          anywhere in the material. EPSG:4326 is a safe inference from
-          Georef and the readme states it as an assumption, but he can
-          settle it in one line. Whether a point is a locality
-          centroid, a town centre or a station varies with `fuente`
-          and matters for short-distance tau.
-      (7) Was volume 2 (Capital Federal) skipped from the geocoding by
-          design? Near-certain yes (his v3-v9 = our Parts 3-9). Now
-          documented in the folder readme as a by-construction
-          omission; confirmation is so it stops being an inference.
+          third-party, no source recorded): 128 rows mention Wikipedia
+          (CC-BY-SA) and 54 mention OSM/Nominatim (ODbL), 4 of them
+          both, so the two sets overlap and must not be added. Both
+          licences are share-alike, so they may attach conditions to
+          redistributing the coordinate column itself. `fuente` is free
+          text with 88 distinct values and a tail naming further sites
+          (Mapcarta, Wikimapia, GeoNames, Mindat, dices.net, db-city,
+          citypopulation, getamap, SIPAR, provincial and municipal
+          pages, among others), so this needs a decision, not just a
+          source list.
       (8) The 19 geocoding scripts with hardcoded Windows paths: make
           them runnable, or keep the archived-non-runnable label the
           readme now carries? Plus the Python version used in
@@ -522,32 +549,51 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       upgrade):
       - Capital Federal absent (volume 2 not transcribed). Clean
         non-CABA universe: 13,544,686 against 13,558,587 for the 311
-        non-CABA districts, 99.90%. That agreement is between two
-        independent transcriptions of the SAME volumes, so it validates
-        transcription and not coverage; both inherit item H's gap.
+        non-CABA districts, 99.90%. Two things that headline hides.
+        First, WHAT IT COMPARES: two independent transcriptions of the
+        SAME volumes (clean_census_1960.R reads the manually
+        transcribed 1c1960_*.xlsx; his is a vision transcription of the
+        v3-v9 scans), so it validates transcription and not coverage,
+        and both inherit item H's gap. Second, IT IS A NETTED TOTAL,
+        not a row-level check: the -13,901 gap is 91% Santa Fe alone
+        (-12,720), gross |delta| across provinces is 15,689, and only
+        13 of 23 provinces agree exactly. And the independence holds
+        only because a gated step did not run — the intake ships
+        validar_depto_xlsx.py (step 2.4), whose job is to check his
+        departamento sums against OUR 1c1960_3_*.xlsx for Buenos Aires
+        and La Pampa, and its output intermedios/validacion_depto.csv
+        is 65 bytes, header only.
       - 27.85% of the file's population sits on 18 whole-partido GBA
-        totals, not localities. See item G (2).
-      - 0.7% of rows human-confirmed. See item G (3).
-      - (page, n_orden) is NOT unique, and because `page` is a reused
-        page label the four colliding pairs are cross-province, so a
-        naive merge moves population between provinces. Two working
-        keys documented. No geolev2 column; georef_depto has 417
-        non-blank values against our 312 and is blank on 236 rows
-        (7.7%), so the crosswalk is real work, not a rename.
+        totals, not localities. See item G (2). NOTE what our own
+        cleaner does and does not do here: clean_census_1960.R:24-31
+        and check_gba_duplicates() drop the PART 2 copies of those
+        partidos as duplicates of Part 3 and then consume the Part 3
+        whole-partido rows normally. So we handle a double count
+        between volumes; the loss of locality resolution is invisible
+        to us because we collapse to district anyway. It is not
+        machinery for the problem item G (2) asks about.
+      - 0.7% of rows human-confirmed. See item G (5).
+      - (page, n_orden) is NOT unique. Three of the four colliding
+        pairs are cross-PROVINCE; the fourth (v3_p08/25, Ensenada vs
+        Florencio Varela) is cross-departamento inside Buenos Aires.
+        Either way a naive merge moves population across districts. The
+        mechanism is the conurbano rows: `page` is a reused page label
+        and the footnote(1) partidos sit in their own numbering section
+        (his ROADMAP.md:162), which is why Florencio Varela — one of
+        the 18 — collides with an ordinary locality row.
       - coordenadas_1960.csv, not poblados_1960.csv, is authoritative
         for population: they differ on 6 rows, net +292, all logged in
         decisiones.csv as step 2.3 correccion_lectura.
-      - 27 nombre_oficial values carry an invisible U+00AD soft hyphen,
-        so exact joins on that column fail silently.
-      - The 35 scripts are an archived record, not a runnable pipeline:
-        19 hardcode Windows absolute paths, and the folder
-        reorganisation means the pinned caches are not where they look,
-        so a re-run would hit the live Georef API.
       - .gitignore exception is now extension-scoped with *.png/*.jpg
         denied explicitly, verified with `git check-ignore --no-index`
         (the plain form skips indexed paths and cannot catch this class
         of regression — that is how the first pass missed a tracked
         .txt).
+      - The 35 scripts are an archived record, not a runnable pipeline:
+        19 hardcode Windows absolute paths, and the folder
+        reorganisation means the pinned caches are not where they look,
+        so a re-run would hit the live Georef API. Open decision in
+        item G (8).
 - [x] Geocoding 1960 intake — instructions email sent (2026-07-24,
       `Plan/email_cote_geocoding_instrucciones.md`). Closed by the
       entry above: branch pushed, PR opened, reviewed and merged. The
@@ -557,11 +603,31 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       exist (internal links in INFORME/ROADMAP still point at the old
       name — cosmetic, unfixed).
 - [ ] Geocoding 1960 — DOWNSTREAM MA INTEGRATION (the bigger, separate
-      piece). Replace load_centroids or move to multi-point weights.
-      Gated on the θ/τ conversation (section 2), on item H, and now
-      also on item G (2): if the 18 GBA partidos cannot be broken into
-      localities, the upgrade buys least where density is highest, and
-      that changes how much the whole exercise is worth.
+      piece; memo Decision D). Replace load_centroids or move to
+      multi-point weights per district. Gated on the θ/τ conversation
+      (section 2), on item H, and now also on item G (2): if the 18 GBA
+      partidos cannot be broken into localities, the upgrade buys least
+      where density is highest, and that changes how much the whole
+      exercise is worth. This is the single open home for the
+      integration — the section-2 copy was removed 2026-07-29 to keep
+      the "exactly once" rule.
+      ACCEPTANCE CRITERIA, from what the intake established (these are
+      live work, not record, and would otherwise be archived with the
+      closed intake entry above):
+      - Join on (page, n_orden, localidad_canon) or (provincia_canon,
+        departamento_canon, localidad_canon), NEVER on (page, n_orden).
+      - Build the geolev2 crosswalk: there is no geolev2 column, and
+        georef_depto has 417 distinct non-blank values against our 312
+        districts and is blank on 236 rows (7.7%). The blanks are the
+        hard part, not the cardinality.
+      - Strip U+00AD before any join on nombre_oficial (27 values carry
+        an invisible soft hyphen; exact joins fail silently).
+      - Add CABA (2,966,634, geolev2 32002001) from
+        census_1960_ipums.parquet rather than inheriting the gap.
+      - Take population from coordenadas_1960.csv, not
+        poblados_1960.csv.
+      - Decide the usable-tier rule explicitly, and do not lean on
+        `estado` for it (item G (5)).
 - [ ] Issue #68 studied-share — SUBSTANTIALLY RESOLVED (PR #119
       reconciliation footnote in the paper; recom_code semantics
       decoded: 1 maintain 2,310 km / 2 close 14,377 km / 3
@@ -657,9 +723,10 @@ Nothing here starts before the meeting; each item lists its trigger.
       or wire).
 - [ ] [after #68 confirms] generate_scalars wiring for the
       studied-share footnote numbers.
-- [ ] [after geocoding lands + A settles] MA integration of the
-      geocoded 1960 localities (load_centroids replacement or
-      multi-point per district; memo Decision D).
+      (MA integration of the geocoded 1960 localities used to sit here
+      as a second open item. It now lives once, in section 1, with its
+      acceptance criteria; the old "[after geocoding lands]" gate is
+      spent — the geocoding landed in 00e0334.)
 - [ ] [standing, post-A] Sector-specific MA — how it relates to the
       counterfactual exercise (PENDING DECISIONS item; Cote
       discussion).
@@ -1182,9 +1249,11 @@ items themselves (section 0), not here.
       undocumented 27.85% of population on 18 GBA aggregates, and a
       .gitignore check that could not detect its own failure mode — all
       fixed before merge. Detail in section 1 and agenda item G. NOTE
-      FOR FUTURE PASSES: that is four consecutive PRs where the review
-      caught claims in the write-up rather than errors in the numbers.
-      Treat summaries as claims to verify, not as prose.
+      FOR FUTURE PASSES: reviews have now caught claims in the
+      WRITE-UP rather than errors in the numbers on #144, #145, #147,
+      #149, #150 and #151 — an unbroken run, not the "four" an earlier
+      version of this entry counted. Treat summaries as claims to
+      verify, not as prose.
 - [x] PR #149 — universe-comparable placebo. Established that Table 7's
       rejection is fragile to how the outcome is measured (apparent
       declines 143/237 vs 27/234; published outcome correlates +0.304
