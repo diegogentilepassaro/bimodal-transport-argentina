@@ -1,6 +1,6 @@
 ==============================================================================
 IS THE PRE-TRENDS PLACEBO A 1960 COVERAGE ARTIFACT?
-Generated: 2026-07-29 13:36:34
+Generated: 2026-07-29 14:02:21
 ==============================================================================
 
 THE PROBLEM. Table 7's outcome is exactly log(pop_1960) -
@@ -35,6 +35,38 @@ only in the OUTCOME, not the sample.
   3_urban_comparable         IV-LP     +0.0120    0.0505    0.812    18.4   234
   3_urban_comparable         IV-H      +0.4911    0.6400    0.444     0.9   234
   3_urban_comparable         IV-B      +0.0484    0.0459    0.293    10.5   234
+
+IS THE MOVEMENT DISTINGUISHABLE FROM ZERO? Rows 2 and 3 share a
+sample and 2SLS is linear in the outcome, so the same
+specification on the DIFFERENCE of the two outcomes gives
+beta(row 2) - beta(row 3) exactly, with a standard error:
+    OLS    +0.0214 (0.0135)  p = 0.114
+    IV-LP  +0.0434 (0.0360)  p = 0.229
+    IV-H   -0.0735 (0.1977)  p = 0.710
+    IV-B   +0.0345 (0.0331)  p = 0.299
+  READ THIS BEFORE THE PERCENTAGES BELOW. The point estimates fall
+  a long way, but if these p-values are not small then the drop is
+  NOT distinguishable from zero and the honest claim is that the
+  rejection is not robust to how the outcome is measured -- not
+  that the coverage gap caused it.
+
+MOVEMENTS, all quoted against row 2 (the same-sample published
+outcome) so that the sample restriction is not counted twice:
+    OLS    +0.0253 -> +0.0039  (-85%)
+    IV-LP  +0.0555 -> +0.0120  (-78%)
+    IV-B   +0.0829 -> +0.0484  (-42%)
+  AND THE SIGNIFICANCE CROSSING IS NOT THE OUTCOME'S DOING:
+  IV-B p runs 0.085 (row 1) -> 0.105 (row 2, SAME outcome, three
+  fewer districts) -> 0.293 (row 3). The ten-percent crossing
+  happens at the SAMPLE restriction, before the universe fix is
+  applied at all (cr-review PR #149 blocking 3).
+
+HOW CONTAMINATED IS EACH OUTCOME? Correlation with the coverage
+proxy log(pop_1960/pop_1970), and the SDs so that a slope
+difference cannot be waved away as the urban outcome being
+noisier:
+    published  corr +0.304   sd 0.569
+    urban      corr +0.100   sd 0.509
 
 READING (fixed before the numbers were seen):
   slope survives on row 3  -> the pre-trend is not an artifact of

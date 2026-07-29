@@ -15,10 +15,23 @@
 #       (true 1947-60 growth) + log(1960 locality coverage rate),
 #   and the second term is not noise: 143 of 237 districts show a
 #   NEGATIVE outcome, i.e. apparent population decline over thirteen
-#   years, and the coverage shortfall is related to the treatment
-#   (partial corr -0.119, p 0.039; PR #147). Table 7 is therefore
-#   measuring pre-period growth plus cross-district variation in 1960
-#   locality coverage, in unknown proportions.
+#   years.
+#
+#   ON THE PREMISE, STATED AS PR #147 STATED IT (cr-review PR #149
+#   blocking 1): the coverage shortfall's relation to the treatment is
+#   a partial correlation of -0.119 with p read FROM THE #147 CSV
+#   below rather than hardcoded -- an earlier version of this header
+#   said "p 0.039", which appears nowhere in that diagnostic and was
+#   copied out of prose instead of output. And PR #147's own
+#   pre-committed verdict on whether the measurement error is
+#   treatment-correlated is INCONCLUSIVE, because its two coverage
+#   proxies disagree in sign once conditioned on the controls. That
+#   qualifier belongs wherever the premise is invoked, including here.
+#
+#   So the motivation for this test is the DESCRIPTIVE contamination of
+#   the outcome (the 143 apparent declines, and the correlation with
+#   the coverage proxy computed below), not an established
+#   treatment-correlation.
 #
 # THE TEST: measure both endpoints on an agglomerated-population concept,
 #   where the dispersed-rural gap is excluded from BOTH sides:
@@ -28,12 +41,13 @@
 #   localities with pop > 2000, the standard Argentine definition applied
 #   by clean_census_1960.R.
 #
-#   ASSUMPTION, STATED NOT VERIFIED: that the two urban definitions are
-#   close enough to compare. The 1947 census's urban threshold is not
-#   documented in this repo. If it differs materially from 2,000, this
-#   outcome swaps one comparability problem for a smaller one rather than
-#   removing it. Worth confirming against the published volumes; it is on
-#   the archive list with the departamento totals.
+#   COMPARABILITY OF THE TWO URBAN DEFINITIONS: checked, not assumed.
+#   An earlier version said the 1947 threshold "is not documented in
+#   this repo" and put it on the archive list. It is answerable from the
+#   raw files (cr-review PR #149): the smallest urban centre across the
+#   1947 Cuadro 14 sheets is computed below, and if no centre falls
+#   below 2,000 then the 1947 classification uses the same 2,000 rule
+#   that clean_census_1960.R applies to the 1960 localities.
 #
 #   SECOND LIMIT: the urban outcome is not the same object as the total
 #   outcome. A slope difference can mean (a) the coverage artifact is
@@ -41,6 +55,23 @@
 #   change differently from total growth. This test cannot separate those,
 #   so it is evidence about whether the rejection is FRAGILE, not proof of
 #   its cause.
+#
+#   AND THE DIFFERENCE IS TESTED, NOT EYEBALLED (cr-review blocking 2).
+#   Rows 2 and 3 share a sample and 2SLS is linear in the outcome, so
+#   the difference in slopes is EXACTLY the coefficient from the same
+#   specification run on the difference of the two outcomes. That
+#   regression is estimated below. An earlier version called the
+#   rejection "substantially a coverage artifact" on the strength of
+#   the point estimates alone, without testing whether the movement is
+#   distinguishable from zero.
+#
+# WHO ELSE INHERITS THIS OUTCOME (checked, cr-review should-fix):
+#   section_4_empirical_strategy.tex (the Table 7 discussion),
+#   section_8_discussion.tex limitation 1, table_7_pre_trends.R,
+#   table_b1_descriptives.R, and the recentering / roadseg / roadtiming
+#   diagnostics that report placebo balance. table_12_robustness.R
+#   Panel C does NOT inherit: it uses the placebo SAMPLE definition
+#   only, not the outcome.
 #
 # READING FIXED BEFORE THE NUMBERS:
 #   - Slope survives on the urban outcome  -> the pre-trend is not an
@@ -50,8 +81,11 @@
 #     rejection is substantially a coverage artifact, and Table 7 needs
 #     rebuilding on comparable universes before any control debate.
 #   - Sample-restricted total outcome moves as much as the urban one
-#     -> the difference is the SAMPLE (235 vs 237), not the universe, and
-#     this test says nothing. Hence the same-sample row below.
+#     -> the difference is the SAMPLE (234 vs 237), not the universe, and
+#     this test says nothing. Hence the same-sample row below, and hence
+#     all percentage movements are quoted against THAT row rather than
+#     against the published one (cr-review: an earlier version mixed the
+#     two baselines).
 #
 # READS:
 #   data/derived/06_analysis/estimation_sample.parquet
@@ -66,6 +100,7 @@
 suppressPackageStartupMessages({
     library(arrow)
     library(fixest)
+    library(readxl)   # the 1947 Cuadro 14 urban-threshold check
 })
 
 fit_row <- function(y, d, tag, S, t7 = NULL) {
@@ -142,6 +177,35 @@ main <- function() {
 
     S <- new_sink()
 
+    # The #147 premise, read from its output instead of retyped.
+    u <- read.csv(file.path(dir_tables,
+                            "diagnostic_pop1960_universe.csv"),
+                  stringsAsFactors = FALSE)
+    ur <- u[u$part == "1_cond_treat" & u$stat == "cov60" &
+            u$var == "partial_corr", ]
+    stopifnot(nrow(ur) == 1L)
+    S$add(part = "premise", stat = "pr147_cov60_treat", var = "partial_corr",
+          value = ur$value, p_value = ur$p_value, n_obs = ur$n_obs)
+
+    # Is the 1947 urban classification the same 2,000 rule as 1960?
+    # Answered from the raw Cuadro 14 sheets rather than assumed.
+    c14 <- list.files(file.path(dir_raw, "census", "censo1947"),
+                      pattern = "^1947_Cuadro14_.*\\.xlsx$",
+                      full.names = TRUE)
+    vals <- unlist(lapply(c14, function(f) {
+        x <- suppressMessages(readxl::read_excel(f, col_names = FALSE))
+        v <- suppressWarnings(as.numeric(unlist(x)))
+        v[is.finite(v) & v > 0]
+    }))
+    S$add(part = "urban_rule", stat = "n_files", var = "cuadro14",
+          value = length(c14))
+    S$add(part = "urban_rule", stat = "min_positive", var = "cuadro14",
+          value = min(vals), n_obs = length(vals))
+    S$add(part = "urban_rule", stat = "n_below_2000", var = "cuadro14",
+          value = sum(vals < 2000), n_obs = length(vals))
+    message(sprintf("[pu] 1947 Cuadro 14: %d files, min positive %.0f, %d below 2000",
+                    length(c14), min(vals), sum(vals < 2000)))
+
     # Descriptives: how much of the "decline" survives the universe fix.
     n_pub  <- sum(!is.na(d[[pub]]))
     n_urb  <- sum(!is.na(d$chg_log_urbpop_60_47))
@@ -157,6 +221,37 @@ main <- function() {
     S$add(part = "desc", stat = "corr", var = "published_vs_urban",
           value = cor(d[[pub]][both], d$chg_log_urbpop_60_47[both]),
           n_obs = sum(both))
+
+    # Direct support for the premise, which the first version omitted:
+    # how strongly does each OUTCOME correlate with the coverage proxy,
+    # and are their variances comparable (so a slope difference cannot be
+    # dismissed as "the urban outcome is just noisier")?
+    d$log_cov60 <- log(d$pop_1960 / d$pop_1970)
+    z <- both & is.finite(d$log_cov60)
+    S$add(part = "contam", stat = "corr_with_log_cov60", var = "published",
+          value = cor(d[[pub]][z], d$log_cov60[z]), n_obs = sum(z))
+    S$add(part = "contam", stat = "corr_with_log_cov60", var = "urban",
+          value = cor(d$chg_log_urbpop_60_47[z], d$log_cov60[z]),
+          n_obs = sum(z))
+    S$add(part = "contam", stat = "sd", var = "published",
+          value = sd(d[[pub]][z]), n_obs = sum(z))
+    S$add(part = "contam", stat = "sd", var = "urban",
+          value = sd(d$chg_log_urbpop_60_47[z]), n_obs = sum(z))
+
+    # Which districts the urban outcome loses, and why -- one of them is
+    # dropped because urbpop_1960 is zero, which is itself a symptom of
+    # the list problem under test.
+    lost <- d[!is.na(d[[pub]]) & is.na(d$chg_log_urbpop_60_47), ]
+    for (i in seq_len(nrow(lost))) {
+        S$add(part = "dropped", stat = lost$geolev2[i],
+              var = if (!is.na(lost$urbpop_1960[i]) &&
+                        lost$urbpop_1960[i] == 0) "urbpop_1960_zero"
+                    else "urbpop_1947_missing",
+              value = lost$pop_1947[i], n_obs = lost$pop_1960[i])
+        message(sprintf("[pu] dropped %s: pop47 %.0f pop60 %.0f urb60 %s",
+                        lost$geolev2[i], lost$pop_1947[i], lost$pop_1960[i],
+                        format(lost$urbpop_1960[i])))
+    }
     message(sprintf("[pu] negative outcomes: published %d/%d, urban %d/%d",
                     neg_p, n_pub, neg_u, n_urb))
 
@@ -172,6 +267,14 @@ main <- function() {
     # 3. the universe-comparable outcome.
     fit_row("chg_log_urbpop_60_47", d, "3_urban_comparable", S)
 
+    # 4. IS THE MOVEMENT REAL? Rows 2 and 3 share a sample and 2SLS is
+    #    linear in the outcome, so running the same specification on the
+    #    DIFFERENCE of the two outcomes gives beta(row 2) - beta(row 3)
+    #    exactly, with a standard error. Without this the comparison is
+    #    two point estimates and an adjective.
+    d_same$outcome_diff <- d_same[[pub]] - d_same$chg_log_urbpop_60_47
+    fit_row("outcome_diff", d_same, "4_difference_test", S)
+
     res <- do.call(rbind, S$rows)
     if (!dir.exists(dir_tables)) dir.create(dir_tables, recursive = TRUE)
     csv_path <- file.path(dir_tables, "diagnostic_placebo_universe.csv")
@@ -185,6 +288,11 @@ main <- function() {
     gd <- function(stat, var) {
         v <- res$value[res$part == "desc" & res$stat == stat &
                        res$var == var]
+        if (length(v) != 1L) NA_real_ else v
+    }
+    gg <- function(part, stat, var, col = "value") {
+        v <- res[[col]][res$part == part & res$stat == stat &
+                        res$var == var]
         if (length(v) != 1L) NA_real_ else v
     }
 
@@ -233,7 +341,50 @@ main <- function() {
         }
     }
 
-    w("\nREADING (fixed before the numbers were seen):\n")
+    w("\nIS THE MOVEMENT DISTINGUISHABLE FROM ZERO? Rows 2 and 3 share a\n")
+    w("sample and 2SLS is linear in the outcome, so the same\n")
+    w("specification on the DIFFERENCE of the two outcomes gives\n")
+    w("beta(row 2) - beta(row 3) exactly, with a standard error:\n")
+    for (sp in c("OLS", "IV-LP", "IV-H", "IV-B")) {
+        w("    %-6s %+.4f (%.4f)  p = %.3f\n", sp,
+          g("4_difference_test", sp), g("4_difference_test", sp, "se"),
+          g("4_difference_test", sp, "p_value"))
+    }
+    w("  READ THIS BEFORE THE PERCENTAGES BELOW. The point estimates fall\n")
+    w("  a long way, but if these p-values are not small then the drop is\n")
+    w("  NOT distinguishable from zero and the honest claim is that the\n")
+    w("  rejection is not robust to how the outcome is measured -- not\n")
+    w("  that the coverage gap caused it.\n\n")
+
+    w("MOVEMENTS, all quoted against row 2 (the same-sample published\n")
+    w("outcome) so that the sample restriction is not counted twice:\n")
+    for (sp in c("OLS", "IV-LP", "IV-B")) {
+        b2 <- g("2_published_same_sample", sp)
+        b3 <- g("3_urban_comparable", sp)
+        w("    %-6s %+.4f -> %+.4f  (%.0f%%)\n", sp, b2, b3,
+          100 * (b3 - b2) / abs(b2))
+    }
+    w("  AND THE SIGNIFICANCE CROSSING IS NOT THE OUTCOME'S DOING:\n")
+    w("  IV-B p runs %.3f (row 1) -> %.3f (row 2, SAME outcome, three\n",
+      g("1_published_pop_237", "IV-B", "p_value"),
+      g("2_published_same_sample", "IV-B", "p_value"))
+    w("  fewer districts) -> %.3f (row 3). The ten-percent crossing\n",
+      g("3_urban_comparable", "IV-B", "p_value"))
+    w("  happens at the SAMPLE restriction, before the universe fix is\n")
+    w("  applied at all (cr-review PR #149 blocking 3).\n\n")
+
+    w("HOW CONTAMINATED IS EACH OUTCOME? Correlation with the coverage\n")
+    w("proxy log(pop_1960/pop_1970), and the SDs so that a slope\n")
+    w("difference cannot be waved away as the urban outcome being\n")
+    w("noisier:\n")
+    w("    published  corr %+.3f   sd %.3f\n",
+      gg("contam", "corr_with_log_cov60", "published"),
+      gg("contam", "sd", "published"))
+    w("    urban      corr %+.3f   sd %.3f\n\n",
+      gg("contam", "corr_with_log_cov60", "urban"),
+      gg("contam", "sd", "urban"))
+
+    w("READING (fixed before the numbers were seen):\n")
     w("  slope survives on row 3  -> the pre-trend is not an artifact of\n")
     w("    the coverage gap; item B's control question stands on its own.\n")
     w("  slope collapses          -> the published rejection is\n")
