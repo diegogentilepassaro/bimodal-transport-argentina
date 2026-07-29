@@ -2,10 +2,19 @@
 # _diagnostic_helpers.R
 #
 # Shared helpers for the diagnostic_*.R scripts. Consolidates functions
-# that had been copy-pasted (and had begun to drift cosmetically) across
-# seven diagnostics: the district-shapefile loader block, its point-set
-# derivatives, the 1960 population loader, and the market-access
-# computation.
+# that had been copy-pasted (and had begun to drift cosmetically). Sourced
+# by 14 diagnostics and 4 figure scripts as of 2026-07-29.
+#
+# CONTENTS (keep this list current — it has drifted twice):
+#   load_district_shapes()    district polygons, the canonical filter block
+#   load_centroids_sp()       \
+#   load_centroids_vect()      | point-set derivatives of the above
+#   load_interior_points()     |
+#   load_district_latlon()    /
+#   load_1960_pop()           1960 population loader (geolev2 + pop)
+#   compute_ma()              market-access computation
+#   add_map_furniture()       scale bar / CRS note for the map figures
+#   new_sink()                row accumulator for long-format diagnostic CSVs
 #
 # USAGE: source AFTER config.R and base/utils.R — this file assumes
 #   dir_raw_geo, dir_derived_census1960, crs_raster, geolev2_exclude
@@ -14,9 +23,17 @@
 #   source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
 #          echo = FALSE)
 #
-# SCOPE: analysis-side diagnostics and figure scripts (including the
-# appendix map figures B2/B3, which reuse load_district_shapes() and
-# add_map_furniture()). The pipeline keeps its own load_centroids() in
+#   new_sink() is the ONE function here that needs none of that — it is
+#   pure. The load-order guard below still applies to it, because the guard
+#   is file-level. That is accepted coupling rather than a reason to split
+#   the file for a single function; note it if a caller ever wants
+#   new_sink() alone.
+#
+# SCOPE: analysis-side diagnostics and figure scripts. The figure users are
+# plot_figure_b2_hypothetical_networks.R, plot_figure_c13.R and, under
+# code/base/networks/, plot_figure_b3_larkin_studied.R and
+# plot_figure_b4_navigation.R — they reuse load_district_shapes() and
+# add_map_furniture(). The pipeline keeps its own load_centroids() in
 # 03c_compute_taus{,_parallel}.R deliberately — the pipeline is
 # frozen-verified and is not re-run when diagnostics change.
 # ===========================================================================
@@ -183,23 +200,31 @@ add_map_furniture <- function(km = 500, crs_label = "WGS84 (EPSG:4326)") {
 # caller having to construct a full-width data.frame.
 #
 # extra_cols: numeric columns beyond the four required ones, in the order
-#   they should appear. Callers that emit a first-stage F pass
-#   extra_cols = c("se", "p_value", "first_stage_F", "n_obs"); callers that
-#   do not pass c("se", "p_value", "n_obs"). Column ORDER is part of the
-#   contract because the committed CSVs are diffed against reruns.
+#   they should appear. REQUIRED, with no default on purpose (cr-review
+#   PR #152): a default would encode one caller's schema, and a caller that
+#   forgot the argument would silently lose its extra column rather than
+#   fail. Column ORDER is part of the contract because the committed CSVs
+#   are diffed against reruns.
 #
 # Was copy-pasted in diagnostic_pop1960_universe.R and
 # diagnostic_placebo_universe.R with two different column sets, which is
 # why the schema is a parameter rather than a constant.
 # ---------------------------------------------------------------------------
-new_sink <- function(extra_cols = c("se", "p_value", "n_obs")) {
-    stopifnot(is.character(extra_cols), !anyDuplicated(extra_cols),
+new_sink <- function(extra_cols) {
+    stopifnot(is.character(extra_cols), length(extra_cols) > 0L,
+              !anyDuplicated(extra_cols),
               !any(c("part", "stat", "var", "value") %in% extra_cols))
     cols <- c("part", "stat", "var", "value", extra_cols)
     e <- new.env(parent = emptyenv())
     e$rows <- list()
     e$add <- function(...) {
         r <- data.frame(..., stringsAsFactors = FALSE)
+        # A misspelled column name would otherwise be dropped silently by
+        # the r[, cols] subset below while its intended column came out NA
+        # -- a wrong number in a committed CSV with no error. Verified
+        # against all 25 existing call sites before adding.
+        stopifnot("new_sink()$add(): unknown column name" =
+                      all(names(r) %in% cols))
         for (col in extra_cols) {
             if (is.null(r[[col]])) r[[col]] <- NA_real_
         }

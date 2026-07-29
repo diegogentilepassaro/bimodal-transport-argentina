@@ -96,7 +96,7 @@ suppressPackageStartupMessages({
 })
 
 # Row accumulator shared by all parts: new_sink() from
-# _diagnostic_helpers.R, with this script's column set (no first-stage F).
+# _diagnostic_helpers.R. Column set passed at the call site in main().
 
 # ---------------------------------------------------------------------------
 # Part 0: the mismatch, from in-repo quantities only.
@@ -498,7 +498,7 @@ main <- function() {
     t9 <- read.csv(file.path(dir_tables, "table_9_population_iv.csv"),
                    stringsAsFactors = FALSE)
 
-    S <- new_sink()
+    S <- new_sink(c("se", "p_value", "n_obs"))
     run_part1(d, S)
     run_part2(d, t9, S)
     res <- do.call(rbind, S$rows)
