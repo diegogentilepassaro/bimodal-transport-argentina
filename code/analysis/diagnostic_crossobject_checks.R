@@ -6,17 +6,27 @@
 #          Table 7 placebo spec (B), and the instrument set (C) in the
 #          same sitting:
 #
-#   PART 1 (A x B): does the CLEAN PLACEBO NULL survive on the
-#     candidate tau objects? The adoption candidate for Table 7 is
-#     PR #120's "full47" spec (placebo DV = 1947-60 growth; controls =
-#     six standardized geo + log pop 1947; NO MA baseline — which
-#     conveniently removes any object-baseline choice). PR #120's
-#     ledger entry itself says "revisit after each MA-definition
-#     change"; Decision A may change the MA definition in the same
-#     meeting. Rows: raw anchor (theta 4.55; must reproduce the
-#     committed full47 numbers exactly), decay theta = 0.5, iceberg
-#     V = 4,400 and 20,000 pesos/ton at theta 8.22, and the
-#     route-inefficiency object at both thetas.
+#   PART 1 (A x B): does the placebo result survive on the candidate tau
+#     objects? Run on the spec Table 7 ACTUALLY ADOPTED — "pop47": six
+#     standardized geo + log pop 1947 + the baseline MA. PR #120's
+#     ledger entry says "revisit after each MA-definition change", and
+#     Decision A may still change the MA definition. Rows: raw anchor
+#     (theta 4.55; must reproduce the committed pop47 numbers exactly),
+#     decay theta = 0.5, iceberg V = 4,400 and 20,000 pesos/ton at
+#     theta 8.22, and the route-inefficiency object at both thetas.
+#
+#     WAS full47 UNTIL 2026-07-29. full47 (same set, but dropping the MA
+#     baseline) was the adoption candidate when this script was written,
+#     and it had the convenience of removing any object-baseline choice.
+#     PR #143 showed its clean null comes FROM dropping the MA baseline
+#     rather than from the 1947 population swap, which is not a
+#     defensible reason to drop it, so Table 7 adopted pop47 and this
+#     part follows. The baseline is now object-consistent (`l60` from
+#     ma_deltas), matching Part 2's convention, so the object choice is
+#     handled rather than avoided. Note the consequence: the placebo is
+#     NOT a clean null under the adopted spec, so Part 1 is now asking
+#     whether the MARGINAL rejection is stable across objects rather
+#     than whether a null survives.
 #
 #   PART 2 (A x C): the missing cell of the object x instrument
 #     matrix — sectoral outcomes under IV-LP on the DECAY object.
@@ -38,13 +48,16 @@
 #                                         the (raw cost, low theta) pair)
 #     iceberg   1 + tau / (V * tau_units_to_pesos)
 #     ineff     tau / (cost_nav * tau_units_to_pesos * geodesic_km)
-#   Estimation via fit_iv_quad; controls per part (Part 1: full47 set;
+#   Estimation via fit_iv_quad; controls per part (Part 1: pop47 set,
+#   six geo + log_pop_1947 + object-consistent baseline logMA;
 #   Part 2: six geo + log_pop_1960 + object-consistent baseline logMA,
 #   matching the gibbons variant's convention). HC1 throughout.
 #
 # VERIFICATION (asserted in code, row-count-guarded):
 #   - Part 1 raw anchor reproduces diagnostic_placebo_1947.csv's
-#     full47 rows (all four estimators, coef/se; N = 237).
+#     pop47 rows (all four estimators, coef/se; N = 237). Because pop47
+#     controls for the baseline MA, this also proves the recomputed
+#     `l60` equals the pipeline's logMA_actual_1960_s0_elow.
 #   - Part 2 IV-B reproduces diagnostic_theta_gibbons.csv beta/se
 #     per (outcome, theta) on all 18 cells.
 #   - BA-Rosario geodesic = 265.9 km (1b machinery anchor).
@@ -149,7 +162,7 @@ ma_deltas <- function(obj, sym, dist_df) {
 }
 
 # ---------------------------------------------------------------------------
-# Part 1: full47 placebo spec on each candidate object
+# Part 1: the ADOPTED (pop47) placebo spec on each candidate object
 # ---------------------------------------------------------------------------
 run_placebo <- function(sym, dist_df, est, geo6) {
     y <- "chg_log_placebo_pop_60_47"
@@ -164,13 +177,20 @@ run_placebo <- function(sym, dist_df, est, geo6) {
             endog      = "chg",
             lp_instr   = "z_stu",
             hypo_instr = "z_lcp",
-            ctrls_vec  = c(geo6, "log_pop_1947")   # full47: no MA baseline
+            # pop47, the spec Table 7 adopted: six geo + the 1947
+            # population baseline + the baseline MA. The MA baseline is
+            # `l60`, recomputed FROM THIS OBJECT by ma_deltas(), not the
+            # pipeline's fixed logMA_actual_1960_s0_elow -- the same
+            # object-consistency convention Part 2 uses. Using the fixed
+            # s0 raw column would control for a baseline built from a
+            # different tau object than the treatment.
+            ctrls_vec  = c(geo6, "log_pop_1947", "l60")
         )
         for (k in c("OLS", "IV-LP", "IV-H", "IV-B")) {
             cn <- if (k == "OLS") "chg" else "fit_chg"
             co <- safe_coef(fits[[k]], cn)
             rows[[length(rows) + 1L]] <- data.frame(
-                part = "placebo_full47", object = obj$id,
+                part = "placebo_pop47", object = obj$id,
                 theta = obj$theta, spec = k,
                 beta = co$est, se = co$se, p = co$p,
                 F = if (k == "OLS") NA_real_ else fitstat_F(fits[[k]]),
@@ -311,7 +331,13 @@ patnaik_cv <- function(W2, d_tau) {
 verify_placebo <- function(p1) {
     tol <- 1e-9
     ref <- read.csv(file.path(dir_tables, "diagnostic_placebo_1947.csv"))
-    ref <- ref[ref$variant == "full47", ]
+    # pop47, not full47: Table 7 adopted the pop47 spec (agenda item B).
+    # This anchor is STRICTLY STRONGER than the full47 one it replaces.
+    # full47 carries no MA baseline, so reproducing it said nothing about
+    # the MA recomputation in ma_deltas(); pop47 controls for `l60`, so an
+    # exact match on the raw object at theta 4.55 also proves this script's
+    # recomputed baseline equals the pipeline's logMA_actual_1960_s0_elow.
+    ref <- ref[ref$variant == "pop47", ]
     ours <- p1[p1$object == "raw (anchor)", ]
     stopifnot(nrow(ours) == 4L)
     for (k in c("OLS", "IV-LP", "IV-H", "IV-B")) {
@@ -326,7 +352,7 @@ verify_placebo <- function(p1) {
     # Common-sample check across all six objects (cr-review PR #139
     # consider 1; the reference script enforced this explicitly).
     stopifnot(all(p1$n_obs == 237L))
-    message("[verify] raw placebo anchor == diagnostic_placebo_1947 full47")
+    message("[verify] raw placebo anchor == diagnostic_placebo_1947 pop47")
 }
 
 verify_decay <- function(p2) {
@@ -425,14 +451,14 @@ write_outputs <- function(p1, p2) {
                        ifelse(p < 0.10, "*", "")))
     wline("%s", strrep("=", 92))
     wline("CROSS-DECISION CHECKS BEFORE THE 2026-07-29 MEETING")
-    wline("Part 1 (A x B): the full47 placebo spec on each candidate tau")
+    wline("Part 1 (A x B): the adopted pop47 placebo spec on each candidate tau")
     wline("object. Part 2 (A x C): sectoral outcomes under IV-LP on the")
     wline("decay object (completes the object x instrument matrix).")
     wline("Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE")
     wline("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
     wline("%s", strrep("=", 92))
     wline("")
-    wline("PART 1 — placebo (1947-60 growth), full47 controls, by object:")
+    wline("PART 1 — placebo (1947-60 growth), pop47 controls, by object:")
     wline("%-17s %5s  %-15s %-15s %-15s %-15s",
           "Object", "theta", "OLS", "IV-LP", "IV-H", "IV-B")
     for (obj in unique(p1$object)) {
