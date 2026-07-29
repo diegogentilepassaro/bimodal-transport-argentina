@@ -230,8 +230,9 @@ main <- function() {
         "% first-stage F row above it is the CLASSICAL F, which assumes",
         "% homoskedasticity while these specifications use HC1, and with two",
         "% instruments the classical F has no defined critical value.",
-        "% Anderson-Rubin sets and MOP critical values are in",
-        "% results/tables/diagnostic_modern_iv.txt.",
+        "% Anderson-Rubin sets are in diagnostic_modern_iv.txt; the MOP",
+        "% critical values the effective F should be judged against are in",
+        "% diagnostic_mop_critical.txt (a DIFFERENT file).",
         "",
         tex_chunks
     ), out_tex)

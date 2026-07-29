@@ -51,8 +51,13 @@
 # WHAT THIS DOES NOT DO: MOP critical values for the 2-instrument
 #   IV-B cells (they require the Patnaik-approximation simulation);
 #   for K = 1, F_eff = F_robust and conventional benchmarks apply.
-#   Wiring any of this into the paper is a post-Wednesday decision;
-#   this is diagnostic-only (no paper change, no main.R wiring).
+#   MOP critical values for the K=2 cells live in
+#   diagnostic_mop_critical.R (PR #136), not here.
+#
+# NO LONGER DIAGNOSTIC-ONLY (PR #155): eff_F() and fitstat_F_robust()
+#   moved to _iv_helpers.R and Tables 8, 9 and 10 now report the effective
+#   F from them. This script remains the validation of that implementation
+#   (the ivDiag cross-check above) and the home of the AR sets.
 #
 # READS:
 #   data/derived/06_analysis/estimation_sample.parquet
@@ -161,9 +166,6 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
     )
 }
 
-# ---------------------------------------------------------------------------
-# MOP effective F on residualized treatment/instruments (HC1 vcov).
-# For K = 1 this reduces to the robust first-stage t^2 exactly.
 # ---------------------------------------------------------------------------
 # eff_F() and fitstat_F_robust() moved to _iv_helpers.R in PR #155, so that
 # Tables 8-10 report the effective F from the same implementation this
