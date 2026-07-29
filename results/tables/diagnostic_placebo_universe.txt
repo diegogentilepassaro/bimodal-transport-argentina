@@ -1,0 +1,63 @@
+==============================================================================
+IS THE PRE-TRENDS PLACEBO A 1960 COVERAGE ARTIFACT?
+Generated: 2026-07-29 13:36:34
+==============================================================================
+
+THE PROBLEM. Table 7's outcome is exactly log(pop_1960) -
+log(pop_1947) (asserted in code). pop_1947 is Cuadro 1 = district
+TOTALS, a full universe; pop_1960 is a sum of NAMED LOCALITIES,
+with dispersed rural population absent from the source. So the
+outcome equals true 1947-60 growth PLUS log of the 1960 locality
+coverage rate, and that second term is related to the treatment
+(partial corr -0.119, p 0.039; diagnostic_pop1960_universe).
+
+  Districts with a NEGATIVE outcome, i.e. apparent decline:
+    published (total pop)   143 of 237  (60%)
+    urban-comparable         27 of 234  (12%)
+  correlation between the two outcomes: 0.742
+
+THE TEST. Both endpoints on an agglomerated-population concept:
+urbpop_1947 (Cuadro 14, the census's own urban classification)
+against urbpop_1960 (localities > 2000). Controls: placebo_controls
+as adopted in PR #145. Row 2 exists so that row 3 differs from it
+only in the OUTCOME, not the sample.
+
+  Outcome                    Spec         beta        SE        p       F     N
+  1_published_pop_237        OLS       +0.0275    0.0190    0.149      --   237
+  1_published_pop_237        IV-LP     +0.0512    0.0575    0.374    18.7   237
+  1_published_pop_237        IV-H      +0.3331    0.3781    0.379     1.7   237
+  1_published_pop_237        IV-B      +0.0839    0.0484    0.085    11.2   237
+  2_published_same_sample    OLS       +0.0253    0.0195    0.197      --   234
+  2_published_same_sample    IV-LP     +0.0555    0.0584    0.344    18.4   234
+  2_published_same_sample    IV-H      +0.4175    0.6022    0.489     0.9   234
+  2_published_same_sample    IV-B      +0.0829    0.0510    0.105    10.5   234
+  3_urban_comparable         OLS       +0.0039    0.0165    0.813      --   234
+  3_urban_comparable         IV-LP     +0.0120    0.0505    0.812    18.4   234
+  3_urban_comparable         IV-H      +0.4911    0.6400    0.444     0.9   234
+  3_urban_comparable         IV-B      +0.0484    0.0459    0.293    10.5   234
+
+READING (fixed before the numbers were seen):
+  slope survives on row 3  -> the pre-trend is not an artifact of
+    the coverage gap; item B's control question stands on its own.
+  slope collapses          -> the published rejection is
+    substantially a coverage artifact and Table 7 needs rebuilding
+    on comparable universes BEFORE the control debate.
+  row 2 moves as much as row 3 -> the difference is the sample,
+    not the universe, and this test says nothing.
+
+TWO LIMITS, both real:
+  (i) ASSUMPTION NOT VERIFIED: that the 1947 and 1960 urban
+      definitions are close enough to compare. The 1947 threshold
+      is not documented in this repo. If it differs materially
+      from 2,000, row 3 swaps one comparability problem for a
+      smaller one rather than removing it. On the archive list
+      with the departamento totals.
+  (ii) The urban outcome is a DIFFERENT OBJECT, not a cleaned
+      version of the same one. A slope difference can mean the
+      coverage artifact is removed, or that urban growth relates
+      to future market-access change differently from total
+      growth. This test is evidence about FRAGILITY, not proof of
+      cause.
+  The clean fix for both remains the published departamento
+  totals, which would let the placebo be built on one universe
+  without changing the concept.
