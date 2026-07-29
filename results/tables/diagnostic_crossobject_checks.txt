@@ -1,31 +1,36 @@
 ============================================================================================ 
 CROSS-DECISION CHECKS BEFORE THE 2026-07-29 MEETING 
-Part 1 (A x B): the full47 placebo spec on each candidate tau 
+Part 1 (A x B): the adopted pop47 placebo spec on each candidate tau 
 object. Part 2 (A x C): sectoral outcomes under IV-LP on the 
 decay object (completes the object x instrument matrix). 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-07-26 11:30:21 
+Generated: 2026-07-29 19:17:08 
 ============================================================================================ 
  
-PART 1 — placebo (1947-60 growth), full47 controls, by object: 
-Object            theta  OLS             IV-LP           IV-H            IV-B            
-raw (anchor)       4.55  -0.012 p=0.47   +0.006 p=0.91   -0.019 p=0.73   -0.004 p=0.89   
-decay th=0.5       0.50  -0.110 p=0.57   +0.059 p=0.93   -0.326 p=0.59   -0.179 p=0.67   
-iceberg V=4400     8.22  +0.002 p=0.94   +0.105 p=0.37   +0.030 p=0.53   +0.034 p=0.44   
-iceberg V=20000    8.22  +0.033 p=0.46   -0.040 p=0.93   +0.077 p=0.34   +0.075 p=0.34   
-ineff th=4.55      4.55  -0.005 p=0.77   +0.019 p=0.82   -0.009 p=0.89   -0.003 p=0.95   
-ineff th=8.22      8.22  -0.005 p=0.66   -0.006 p=0.90   -0.004 p=0.91   -0.004 p=0.88   
-First-stage F by object, IV-B: raw (anchor) 23.2; decay th=0.5 22.3; iceberg V=4400 35.7; iceberg V=20000 61.1; ineff th=4.55 21.5; ineff th=8.22 22.2 
-First-stage F by object, IV-LP: raw (anchor) 24.3; decay th=0.5 15.3; iceberg V=4400 3.7; iceberg V=20000 1.6; ineff th=4.55 8.1; ineff th=8.22 7.5 
+PART 1 — placebo (1947-60 growth), pop47 controls, by object: 
+Object            theta  OLS               IV-LP             IV-H              IV-B              
+raw (anchor)       4.55  +0.027 p=0.15     +0.051 p=0.37     +0.333 p=0.38     +0.084* p=0.08    
+decay th=0.5       0.50  +0.588*** p=0.01  +0.868 p=0.31     +1.596 p=0.20     +1.171** p=0.04   
+iceberg V=4400     8.22  +0.110*** p=0.00  +0.150 p=0.29     +0.222 p=0.12     +0.204* p=0.06    
+iceberg V=20000    8.22  +0.330*** p=0.00  -0.038 p=0.94     +0.460 p=0.14     +0.391 p=0.15     
+ineff th=4.55      4.55  +0.078*** p=0.00  +0.173 p=0.29     +0.189 p=0.23     +0.184* p=0.09    
+ineff th=8.22      8.22  +0.047*** p=0.00  +0.097 p=0.40     +0.107 p=0.17     +0.105* p=0.09    
+First-stage F by object, IV-B: raw (anchor) 11.2; decay th=0.5 9.7; iceberg V=4400 12.8; iceberg V=20000 20.2; ineff th=4.55 6.2; ineff th=8.22 6.5 
+First-stage F by object, IV-LP: raw (anchor) 18.7; decay th=0.5 10.5; iceberg V=4400 6.1; iceberg V=20000 5.9; ineff th=4.55 3.3; ineff th=8.22 2.2 
  
-Part 1 verdict: no placebo rejection on any candidate object — 
-IV-B p ranges up to 0.951 and the smallest p across all IV 
-estimators and objects is 0.341, far from conventional levels. 
-CAVEAT: the IV-LP first stage collapses on the iceberg objects 
-(F = 3.7 at V=4400, 1.6 at V=20000), so those two IV-LP 
-nulls are low-power non-results rather than affirmative 
-cleanliness; the well-identified IV-B and IV-H cells on the 
-same objects carry the verdict there. 
+Part 1 verdict: the placebo rejection is NOT dissolved by the 
+tau object. IV-B rejects at 10% on 5 of 6 objects and at 5% 
+on 1 (min p = 0.042, on decay th=0.5; max p = 0.151, on iceberg V=20000). 
+Coefficient MAGNITUDES are not comparable across objects (the 
+tau scales differ); the p-values are. 
+ 
+CAVEAT 1 — first stages are weaker than under full47. IV-B F by 
+object runs 6.2-20.2 here against 21.5-61.1 under full47, and 
+3 of the 5 rejections at 10% sit on F < 10, so read them as 
+suggestive rather than firm. 
+CAVEAT 2 — the weakest IV-LP first stages are ineff th=8.22 (F = 2.2) 
+and ineff th=4.55 (F = 3.3); IV-LP results on those two objects are 
+low-power non-results either way. 
  
 PART 2 — decay object, IV-LP (new) vs IV-B (PR #127 anchor): 
  
