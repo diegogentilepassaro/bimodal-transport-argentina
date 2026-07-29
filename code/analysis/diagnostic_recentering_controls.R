@@ -18,9 +18,14 @@
 #   2. Selection criterion: the RECENTERED first-stage F (treatment on
 #      z_rec + controls). Sets are ranked by F alone. The R2 of mu on
 #      each set is reported for context.
-#   3. Only after ranking: the four diagnostic outcomes are estimated
-#      under EVERY set (full transparency; the top-F set is marked as
-#      selected). Reduced-form RI p-values under the selected set use
+#   3. Only after ranking: the diagnostic outcomes are estimated under
+#      EVERY set (full transparency; the top-F set is marked as
+#      selected). Five outcome ROWS from four outcomes -- the pre-trends
+#      placebo appears under both baseline population controls, and for
+#      the pop47 row the swap is applied INSIDE whichever set is in use,
+#      so a set label means "these additions on top of the outcome's own
+#      baseline". Stage A is unaffected: its regression is a first stage
+#      with no outcome in it. Reduced-form RI p-values under the selected set use
 #      LEAVE-ONE-OUT mu for the null draws (removes the O(1/S)
 #      leave-in contamination flagged in PR #111's review).
 #

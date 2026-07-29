@@ -1,5 +1,5 @@
 Corridor-timing design instrument diagnostic (base)
-Generated: 2026-07-29 18:04:08.362499  |  permuted draws: 100
+Generated: 2026-07-29 18:43:30.41966  |  permuted draws: 100
 
 VERDICT: real dose, loaded dice. Recentered relevance rises an
 order of magnitude over the settlement design (F 3-4.5 vs ~1)
@@ -27,7 +27,7 @@ random conditional on these strata.
 
 (d) IV estimates (coef / se / p / first-stage F):
     CAVEAT (cr-review PR #117): with slope(z_obs, mu) = 1.30 and R2 = 0.40,
-    controlling for mu soaks up the instrument (F = 0.2-7.1);
+    controlling for mu soaks up the instrument (F = 0.2-6.2);
     the mu_control rows are uninformative noise here and are
     NOT a recentering equivalent (unlike the settlement
     design). Read the recentered rows.

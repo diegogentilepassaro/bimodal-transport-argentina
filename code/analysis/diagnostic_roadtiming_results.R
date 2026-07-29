@@ -22,8 +22,11 @@
 #         the hypo families' 0.93-0.99), sd(z_obs) vs sd(z_rec).
 #   (b)   Do geo_controls_main span mu?
 #   (c)   BH spec test: recentered z on controls, RI p from the draws.
-#   (d)   Estimates: endog in {total 86-60, road-only} x four outcomes
-#         (pop, mfg valprod, mfg wage mass, placebo) x three variants
+#   (d)   Estimates: endog in {total 86-60, road-only} x five outcome
+#         rows (pop, mfg valprod, mfg wage mass, and the placebo under
+#         BOTH baseline population controls -- `placebo_pretrend` on
+#         log_pop_1960 and `placebo_pretrend_pop47` on log_pop_1947,
+#         the spec Table 7 adopted; see config.R) x three variants
 #         (unadjusted / recentered / mu-control); first-stage F is the
 #         relevance headline. Reduced-form RI p uses leave-one-out mu
 #         for the null draws (deep-dive refinement, PR #112).

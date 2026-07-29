@@ -1,5 +1,5 @@
 Corridor-timing design instrument diagnostic (growth)
-Generated: 2026-07-24 22:29:39.135506  |  permuted draws: 100
+Generated: 2026-07-29 18:43:40.882103  |  permuted draws: 100
 
 GROWTH-STRATIFIED REPAIR of the base design's failed
 balance margin: early status permuted within region x
@@ -8,7 +8,7 @@ row below tests the CONTINUOUS km-weighted growth, so
 within-tercile sorting can and does remain; only the
 tercile label itself is balanced by construction.
 VERDICT: timing entropy does NOT survive -- recentered F
-0.5-1.4 here vs 3-4.5 in the base design. The collapse
+0.3-1.4 here vs 3-4.5 in the base design. The collapse
 is not mechanical entropy destruction: sd(z_rec) = 0.964
 (base 0.956) and backbone R2 = 0.378 (base 0.402) are
 unchanged -- recentered VARIATION survives; its
@@ -66,6 +66,11 @@ sacrificed length splits to preserve growth cells.
     recentered   b=+0.3610  se=0.6768  p=0.594  F=0.7  N=237
     mu_control   b=+3.4716  se=28.6878  p=0.904  F=0.0  N=237
     reduced-form RI p = 0.287
+  total.placebo_pretrend_pop47
+    unadjusted   b=+0.0551  se=0.0434  p=0.206  F=49.1  N=237
+    recentered   b=+0.1667  se=0.5398  p=0.758  F=0.4  N=237
+    mu_control   b=+13.3017  se=1470.4748  p=0.993  F=0.0  N=237
+    reduced-form RI p = 0.713
   road_only.population
     unadjusted   b=+0.0241  se=0.0269  p=0.373  F=88.8  N=311
     recentered   b=-0.0510  se=0.2228  p=0.819  F=1.3  N=311
@@ -86,3 +91,8 @@ sacrificed length splits to preserve growth cells.
     recentered   b=+0.4625  se=1.1140  p=0.678  F=0.5  N=237
     mu_control   b=-1.8821  se=8.2093  p=0.819  F=0.1  N=237
     reduced-form RI p = 0.287
+  road_only.placebo_pretrend_pop47
+    unadjusted   b=+0.0538  se=0.0421  p=0.202  F=63.4  N=237
+    recentered   b=+0.2269  se=0.8807  p=0.797  F=0.3  N=237
+    mu_control   b=-0.4006  se=1.8129  p=0.825  F=0.2  N=237
+    reduced-form RI p = 0.713

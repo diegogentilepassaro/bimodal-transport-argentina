@@ -24,6 +24,12 @@
 # sector-consistent geo_controls_main analogue (baseline logMA of the
 # same sector replaces the s0 one for s1/s2).
 #
+# The pre-trends placebo is reported TWICE, under both baseline
+# population controls: `placebo_pretrend` (log_pop_1960) and
+# `placebo_pretrend_pop47` (log_pop_1947, the spec Table 7 adopted).
+# The swap is applied to the sector-consistent set above, so the sector
+# baseline logMA survives it. See config.R.
+#
 # READS:   draws + estimation sample via _recentering_helpers.R
 # PRODUCES:
 #   results/tables/diagnostic_recentering_treatments_<sector>.csv / .txt

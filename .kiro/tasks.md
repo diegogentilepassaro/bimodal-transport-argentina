@@ -186,17 +186,37 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       showing what it does; (b) whether Table B2 stays in the appendix
       or moves to the main text; (c) whether the item-B2 direct test
       enters the paper.
-      SCOPE LIMIT ON RECORD (PR #145 fix pass): seven diagnostics still
-      run the placebo outcome under geo_controls_main —
-      diagnostic_recentering_{results,hypo_results,controls,treatments},
-      diagnostic_fused_results, diagnostic_roadseg_results,
-      diagnostic_roadtiming_results. Not repointed on purpose: their
-      recorded numbers are quoted in the brief already sent to Cote and
-      in this ledger (the recentering "+0.074 → +0.088" among them), so
-      changing the spec underneath them before the meeting would
-      invalidate documents in his hands. Batch them after the meeting
-      with whatever he decides on the MA baseline. Listed in config.R
-      next to placebo_controls so the next person finds it there.
+      SCOPE LIMIT — RESOLVED 2026-07-29 (PR #153). The seven diagnostics
+      that also estimate the placebo outcome now report it under BOTH
+      baselines, as separate rows `placebo_pretrend` (log_pop_1960,
+      values unchanged) and `placebo_pretrend_pop47`. Reporting both
+      rather than repointing keeps the numbers already sent to Cote
+      reproducible from the repo — including the recentering
+      "+0.074 → +0.088" quoted in the brief and in this ledger — while
+      showing the adopted spec. Verified: 0 pre-existing values moved,
+      0 lost, 321 rows added across ten outputs.
+      WHAT THE ADOPTED BASELINE DOES TO THE RECENTERING PLACEBO — the
+      concern largely dissolves. Recentered: +0.0879 (p 0.244) →
+      +0.0215 (p 0.812), reduced-form RI p 0.337 → 0.881; across the
+      whole C0–C6 ladder +0.022 to −0.016, every p between 0.77 and
+      0.97; rail-only +0.0617 → +0.0142; road-only +0.5944 → +0.2295;
+      fused +0.0873 → +0.0557. Consistency check: the `unadjusted`
+      pop47 rows reproduce Table 7 exactly (IV-LP +0.0512 p 0.374,
+      IV-Hypo +0.3331 p 0.379 F 1.72).
+      ⚠ ONE CHARACTERIZATION CHANGES, and the brief needs the edit
+      before it is quoted again. In the CORRIDORS design
+      (diagnostic_roadseg) the unadjusted placebo IV was significant at
+      5% — total +0.0797 (p 0.0250), road-only +0.0783 (p 0.0227) — and
+      is not under the adopted baseline: +0.0551 (p 0.206) and +0.0538
+      (p 0.202), with reduced-form RI p 0.099 → 0.495. roadtiming moves
+      the same way (total +0.0756 p 0.083 → +0.0401 p 0.229; RI p
+      0.812 → 0.495). THE VERDICT DOES NOT CHANGE: the other strike
+      against corridors is a corridor-level BALANCE fact (early
+      corridors cross faster-growing districts, b +0.074, p 0.039)
+      which does not depend on the placebo control set, and PR #124's
+      stratification result (recentered F collapses to 0.5–1.4) is the
+      decisive one. But "el IV placebo sin ajustar da significativo"
+      in the brief is now true only of the pre-adoption spec.
 - [ ] B2. PRE-1960 GROWTH AS A CONFOUND (new, PR #143) — the direct
       test the placebo only addresses indirectly: condition the main
       1960-91 regressions on 1947-60 growth. Manufacturing survives.

@@ -16,7 +16,11 @@
 #       joint sum-of-squared-fitted-values statistic with a
 #       randomization-inference p-value from the draws.
 #   (d) Estimates: population, mfg production value, mfg wage mass, and
-#       the pre-trends placebo, each in three variants --
+#       the pre-trends placebo, each in three variants. The placebo is
+#       reported TWICE, once per baseline population control: row
+#       `placebo_pretrend` (log_pop_1960) and `placebo_pretrend_pop47`
+#       (log_pop_1947, the spec Table 7 adopted). See config.R.
+#       Variants --
 #         unadjusted   IV-LP exactly as in Tables 7/9/10;
 #         recentered   instrument = z - mu;
 #         mu-control   instrument = z, mu added to controls.

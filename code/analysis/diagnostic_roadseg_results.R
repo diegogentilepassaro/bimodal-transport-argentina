@@ -18,9 +18,13 @@
 #   (a)   Backbone/variance: R2 of z_obs on mu; sd comparison.
 #   (b)   Do geo_controls_main span mu?
 #   (c)   BH spec test: recentered z on controls, RI p from draws.
-#   (d)   Estimates: endog in {total 86-60, road-only} x four outcomes
-#         x three variants (unadjusted / recentered / mu-control);
-#         reduced-form RI p with leave-one-out mu.
+#   (d)   Estimates: endog in {total 86-60, road-only} x five outcome
+#         rows x three variants (unadjusted / recentered / mu-control);
+#         reduced-form RI p with leave-one-out mu. Five rows from four
+#         outcomes: the pre-trends placebo is reported under both
+#         baseline population controls, `placebo_pretrend`
+#         (log_pop_1960) and `placebo_pretrend_pop47` (log_pop_1947,
+#         the spec Table 7 adopted). See config.R.
 #   (x)   Context correlations with treatments and the other
 #         instruments.
 #
@@ -443,8 +447,13 @@ main <- function() {
     cat(sprintf("(c) Spec test (recentered z on controls): RI p = %.3f\n\n",
                 p_ri))
     cat("(d) IV estimates (coef / se / p / first-stage F):\n")
+    # Range over the ORIGINAL outcome rows only. The pop47 placebo rows
+    # added in PR #153 are a second reading of the same outcome, and letting
+    # them into this min/max widened the printed range until the sentence
+    # below stopped supporting its own point (cr-review PR #153).
     f_mu <- res$value[res$block == "d_estimates" &
-                      res$spec == "mu_control" & res$stat == "F"]
+                      res$spec == "mu_control" & res$stat == "F" &
+                      !grepl("_pop47$", res$outcome)]
     cat("    CAVEAT (cr-review PR #117): with slope(z_obs, mu) = ",
         sprintf("%.2f", coef(m_a)[["mu"]]),
         " and R2 = ", sprintf("%.2f", r2_a), ",\n", sep = "")
