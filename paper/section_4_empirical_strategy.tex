@@ -69,7 +69,7 @@ changes in market access, each computed on a counterfactual network:
 one that isolates rule-based rail closure, and one that isolates
 geography-driven road placement.
 
-\subsubsection{Instrument 1: Larkin Plan Discontinuity}
+\subsubsection{Instrument 1: The Larkin Plan Classification}
 \label{sssec:iv_larkin}
 
 The first instrument exploits the Larkin Plan (1960--1962), the
@@ -77,10 +77,23 @@ government technical study of the rail network described in
 Section~\ref{ssec:larkin}. The Plan evaluated segments against an
 engineering and freight-traffic standard and designated a subset for
 study toward closure; we label these segments \emph{studied} and the
-remainder \emph{non-studied}
-(\placeholder{studied share of network km: our data give 48.8\%,
-\S2 cites Larkin's 39.6\%; basis unresolved, issue \#68 --- do not fix
-until decided}). The classification predates and is defined
+remainder \emph{non-studied}, mapped in
+Figure~\ref{fig:larkin_studied}.\footnote{In our cleaned data, studied
+segments account for 48.8~percent of network kilometers, compared
+with the 39.6~percent the report cites
+(Section~\ref{ssec:larkin}). The two figures are consistent with a
+definitional difference. The plan's tables assign every studied
+segment one of three recommendations
+(Section~\ref{ssec:larkin}), and the segments recommended for
+\emph{a new study} appear not to be counted as studied in the
+report's own accounting. In the raw digitized tables, where the
+studied share is 49.0~percent, the new-study segments account for
+5{,}197~km; excluding them, the studied share is 38.4~percent of
+the approximately 43{,}500-kilometer 1960 network of
+Section~\ref{ssec:implementation}. Our instrument retains these
+segments: they fell below the freight-density thresholds and were
+scrutinized by the plan, which is the classification the instrument
+exploits.} The classification predates and is defined
 independently of the regional-development outcomes we study. We
 construct $\Delta \ln \mathrm{MA}^{\mathrm{LP}}_i$ as the change in log
 market access between 1960 and 1986 on a counterfactual network in
@@ -119,7 +132,8 @@ that connects all cities without cycles --- which yields a parsimonious
 network that does not depend on which individual city pairs happen to
 be linked. This produces four variants: the full bilateral least-cost
 network (LCP) and its spanning tree (LCP-MST), and the full Euclidean
-network (EUC) and its spanning tree (EUC-MST). The main specification
+network (EUC) and its spanning tree (EUC-MST); Figure~\ref{fig:hypo_networks}
+maps the variants. The main specification
 uses LCP-MST. We construct $\Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i$
 as the change in log market access induced by adding this hypothetical
 network.
@@ -150,20 +164,63 @@ The first stage regression is:
 
 \subsection{Validation Package}
 
+Both instruments are formula instruments in the sense of
+\citet{borusyakhull2023}: each is a market-access index computed from
+a counterfactual network, so each combines its source of
+identifying variation (the Larkin study designations; the
+least-cost-routing geography) with every district's non-random
+exposure to that variation through the population weights, district
+locations, and the remainder of the network.
+\citet{borusyakhull2023} show that instruments of this form can be
+correlated with outcome shocks even when the underlying variation is
+as good as random, because centrally located districts receive
+systematically different instrument values than peripheral ones. The
+validation exercises below address this concern directly: the balance
+table asks whether the instruments correlate with predetermined
+characteristics, the placebo asks whether they predict pre-period
+growth, and the main specification conditions on baseline log market
+access, baseline log population, and the geographic controls. These
+checks partially address, but do not eliminate, the exposure concern.
+
 Sections~\ref{sec:pre_balance} and~\ref{sec:pre_trends} present two
 validation exercises that probe the exclusion restriction underlying
 the two instruments. Section~\ref{sec:first_stage_tab} reports the
 first stage.
-% Over-identification test sentence removed in the contractual pass:
-% no Hansen/Sargan statistic is reported anywhere in the paper. If the
-% test is added to Table 9 (one fitstat call), restore the promise.
+
+A specification with two instruments and one endogenous regressor
+imposes one testable restriction: both instruments must identify the
+same parameter. \citet{sargan1958} gives the classical test of that
+restriction. Standard errors throughout this paper are
+heteroskedasticity-robust, so we also compute the
+identification-robust counterpart, obtained by minimizing the
+\citet{andersonrubin1949} statistic over the parameter and referring
+the minimum to a chi-squared distribution with one degree of freedom.
+The same statistic delivers Anderson--Rubin confidence sets, which
+have correct coverage whatever the strength of the instruments; we
+report them where instrument strength is in question.
+\citet{andrewsstocksun2019} review both procedures. Rejection of the
+restriction does not identify which instrument is at fault. It says
+that the two-instrument estimate cannot be read as an estimate of a
+common parameter, and that the two instruments should be reported
+separately instead. Section~\ref{sec:other_outcomes} is organized
+around this test, and Table~\ref{tab:other_outcomes_iv} reports it
+for the four outcomes considered there.
+% NOTE for Cote/Diego: Table 11 is currently the only table carrying an
+% overidentification row. Adding the same row to Tables 9 and 10 is a
+% two-line change (sargan_p() from code/analysis/_iv_helpers.R plus an
+% add_rows entry). Deliberately not done here: it changes the headline
+% tables, so it is a decision for the two of us, not a drafting call.
+% Raised as an asymmetry in the PR #141 review.
 
 \subsubsection{Pre-Period Balance}
 \label{sec:pre_balance}
 
 Table~\ref{tab:pre_balance} reports regressions of each baseline
 district characteristic on the two instruments, partialling out
-baseline log market access and baseline log population. Each row is a
+baseline log market access, baseline log population, and the six
+geographic controls of the main specification; a characteristic that
+is itself one of these controls is excluded from its own control
+set. Each row is a
 separate regression of the row-label characteristic; columns report
 the instrument coefficients under three specifications: the Larkin
 Plan instrument alone (column~1), the hypothetical-road instrument
@@ -216,17 +273,33 @@ district boundaries, as discussed in Section~\ref{sec:data}. Columns~(1) to~(4)
 match the structure of Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv}: OLS, IV-LP, IV-Hypo, IV-Both.
 
-The OLS coefficient is \placeboOLSCoef{} (\placeboOLSSE{}), significant at the five-percent
-level. The IV-LP estimate is \placeboIVLPCoef{} (\placeboIVLPSE{}), the IV-Hypo estimate is
+The controls in this table differ from those in
+Tables~\ref{tab:pre_balance}, \ref{tab:first_stage}
+and~\ref{tab:population_iv} in one term: the population baseline is
+the 1947 level, not the 1960 level. The reason is that the outcome
+here is $\ln \mathrm{pop}_{1960} - \ln \mathrm{pop}_{1947}$, so the
+1960 level is the terminal value of the window under test, and
+conditioning on it would mean conditioning on a component of the
+outcome. The 1947 level is the initial value, a convergence control.
+The baseline market-access control is retained.
+Table~\ref{tab:placebo_ladder} reports the estimate under four
+baseline control sets, including the set that drops the
+market-access control; the estimate is sensitive to that choice, and
+Section~\ref{sec:limitations} returns to it.
+
+The OLS coefficient is \placeboOLSCoef{} (\placeboOLSSE{}), with
+$p=\placeboOLSP{}$. The IV-LP estimate is \placeboIVLPCoef{} (\placeboIVLPSE{}), the IV-Hypo estimate is
 \placeboIVHCoef{} (\placeboIVHSE{}), and the combined IV estimate is \placeboCoefIVBoth{} (\placeboSEIVBoth{}),
-significant at the five-percent level. The first-stage $F$ for the
+with $p=\placeboIVBP{}$. The first-stage $F$ for the
 IV-Hypo column on this sample of \placeboNIVBoth{} districts is \placeboFHypo{}, below
 conventional weak-instrument thresholds; the IV-Hypo column is
 therefore not interpretable in this specification. The first-stage
 $F$ for IV-LP is \placeboFLP{} and for IV-Both is \placeboFBoth{}.
 
-The OLS and IV-Both point estimates for the placebo outcome are
-non-zero and statistically significant at the five-percent level. Two readings are
+The combined-IV point estimate for the placebo outcome is positive
+and rejects a zero coefficient at the ten-percent level, though not
+at five percent; the OLS estimate has the same sign and does not
+reject. This is not a clean null. Two readings are
 consistent with the evidence. First, there may be a genuine
 pre-existing trend correlated with the eventual infrastructure
 changes of 1960--1986: districts that were growing fastest in

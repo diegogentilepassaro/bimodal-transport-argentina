@@ -43,14 +43,14 @@ main <- function() {
 
         draw_panel(d,
                    x_col = "chg_pav_and_grav_86_54",
-                   y_col = "chg_logMA_86_60_s0_elow",
+                   y_col = main_treatment,
                    x_lab = "Change in paved+gravel road km, 1954-1986",
                    y_lab = expression(paste(Delta, " log MA, 1960-1986")),
                    title = "(a) Roads")
 
         draw_panel(d,
                    x_col = "chg_tot_rails_86_60",
-                   y_col = "chg_logMA_86_60_s0_elow",
+                   y_col = main_treatment,
                    x_lab = "Change in rail km, 1960-1986",
                    y_lab = expression(paste(Delta, " log MA, 1960-1986")),
                    title = "(b) Rails")

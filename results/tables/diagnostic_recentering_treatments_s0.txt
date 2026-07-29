@@ -1,0 +1,15 @@
+Recentered Larkin instrument x alternative treatments
+Generated: 2026-07-22 11:44:50.096557  |  sector s0  |  draws: 100
+
+NOTE: only_road's unadjusted column is LP-instrumented here for
+symmetry; the paper's Table 13 Panel C uses the hypo instrument.
+
+First-stage robust Wald F (full sample):
+  total      z_obs   F =  22.64
+  total      z_rec   F =  10.49
+  only_rail  z_obs   F =  14.61
+  only_rail  z_rec   F =   7.37
+  only_road  z_obs   F =   3.64
+  only_road  z_rec   F =   1.04
+
+Estimates: see CSV for all cells.

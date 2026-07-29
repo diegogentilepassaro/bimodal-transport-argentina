@@ -36,7 +36,18 @@
 #   data/derived/06_analysis/estimation_sample.parquet
 #
 # PRODUCES:
-#   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv}
+#   results/tables/diagnostic_theta_sweep_sectoral.{txt,csv,tex}
+#   (variant "gibbons": diagnostic_theta_gibbons.{txt,csv} only —
+#   no paper exhibit; see USAGE)
+#
+# USAGE:
+#   Rscript code/analysis/diagnostic_theta_sweep_sectoral.R [variant]
+#   variant = "main" (default: THETA_GRID 1..12, writes the paper
+#   exhibit) or "gibbons" (Cote email 2026-07-24, experiment (i):
+#   decay at Gibbons-like low values, THETA_GRID_GIBBONS =
+#   {0.25, 0.5, 0.75}; DIAGNOSTIC ONLY — writes its own csv/txt and
+#   deliberately does NOT touch the paper exhibit, whose grid stays
+#   [1, 12] until the theta/tau interpretation is settled).
 # ===========================================================================
 
 suppressPackageStartupMessages({
@@ -45,6 +56,7 @@ suppressPackageStartupMessages({
 })
 
 THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
+THETA_GRID_GIBBONS <- c(0.25, 0.5, 0.75)
 
 OUTCOMES <- list(
     list(var = "chg_log_pop_91_60",        lab = "population"),
@@ -64,15 +76,32 @@ main <- function() {
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
 
-    report_path <- file.path(dir_tables,
-                             "diagnostic_theta_sweep_sectoral.txt")
+    # Honor the variant arg only when this file is the Rscript target:
+    # a sourced run (main.R passes its own args through commandArgs)
+    # must always get the default (cr-review PR #127 consider 3).
+    is_target <- any(grepl("diagnostic_theta_sweep_sectoral",
+                           commandArgs(trailingOnly = FALSE)))
+    args <- if (is_target) commandArgs(trailingOnly = TRUE) else
+        character(0)
+    variant <- if (length(args) >= 1) args[1] else "main"
+    stopifnot(variant %in% c("main", "gibbons"))
+    grid <- if (variant == "gibbons") THETA_GRID_GIBBONS else THETA_GRID
+    stem <- if (variant == "gibbons") "diagnostic_theta_gibbons"
+            else "diagnostic_theta_sweep_sectoral"
+
+    report_path <- file.path(dir_tables, paste0(stem, ".txt"))
     con <- file(report_path, open = "wt")
     rep <- function(...) { line <- sprintf(...); cat(line, "\n")
                            cat(line, "\n", file = con) }
 
     rep("%s", strrep("=", 70))
-    rep("THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta)")
-    rep("Is 'manufacturing responds, agriculture does not' robust to theta?")
+    if (variant == "gibbons") {
+        rep("THETA AT GIBBONS-LIKE DECAY (IV-Both beta by outcome x theta)")
+        rep("Cote experiment (i): what does the low-decay regime look like?")
+    } else {
+        rep("THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta)")
+        rep("Is 'manufacturing responds, agriculture does not' robust to theta?")
+    }
     rep("Generated: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
     rep("Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE")
     rep("%s", strrep("=", 70))
@@ -91,7 +120,7 @@ main <- function() {
     base <- base[, keep]
 
     rows <- list()
-    for (th in THETA_GRID) {
+    for (th in grid) {
         ma <- build_ma_changes(tau, pop, th)  # geolev2, chg, chgstu, chglcp, l60
         d0 <- merge(base, ma, by = "geolev2")
         for (o in OUTCOMES) {
@@ -103,16 +132,30 @@ main <- function() {
     df <- do.call(rbind, rows)
 
     print_matrix(df, rep)
+    if (variant == "main") write_paper_tex(df)
     write.csv(df[, c("outcome", "theta", "beta", "se", "p", "stars",
                      "F_ivf", "F_robust", "n_obs")],
-              file.path(dir_tables, "diagnostic_theta_sweep_sectoral.csv"),
+              file.path(dir_tables, paste0(stem, ".csv")),
               row.names = FALSE)
 
     rep("\n%s", strrep("=", 70))
-    rep("READING: scan each row across theta. If the mfg rows stay")
-    rep("positive+significant and the ag rows stay ~0/ns across the grid,")
-    rep("the sectoral pattern is robust to theta even though the population")
-    rep("LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1).")
+    if (variant == "gibbons") {
+        rep("READING (cr-review PR #127): beta LEVELS are NOT comparable")
+        rep("across theta -- sd(chg logMA) scales with theta, so beta")
+        rep("grows ~1/theta mechanically (theta x beta is ~0.37 across")
+        rep("this grid and the main sweep's theta = 1 column alike).")
+        rep("The scale-invariant facts are: t and F are stable down to")
+        rep("theta = 0.25 (the instrument does not degrade in the")
+        rep("centrality-like regime), and at the externally motivated")
+        rep("theta = 0.5 the population level is +0.75 (SE 0.42), a CI")
+        rep("covering Gibbons' ~0.3. Input for the theta/tau")
+        rep("conversation (Decision A), not a paper exhibit.")
+    } else {
+        rep("READING: scan each row across theta. If the mfg rows stay")
+        rep("positive+significant and the ag rows stay ~0/ns across the grid,")
+        rep("the sectoral pattern is robust to theta even though the population")
+        rep("LEVEL is not (it rises toward Gibbons ~0.3 only near theta=1).")
+    }
     rep("%s", strrep("=", 70))
     close(con)
     message("\nSaved: ", report_path)
@@ -217,6 +260,85 @@ print_matrix <- function(df, rep) {
         }
         rep("%s", line)
     }
+
+}
+
+
+# ---------------------------------------------------------------------------
+# Paper exhibit (.tex), added per Cote reading note #44 (2026-07-24):
+# the sweep existed only in the archive CSV; the paper now shows the
+# five sectoral outcomes (population's sweep is tab:theta_sweep).
+# Rows = theta grid, columns = outcomes, cells = IV-Both coefficient
+# with stars, HC1 SE beneath. Extracted into its own function per
+# cr-review PR #121 should-fix 4.
+write_paper_tex <- function(df) {
+    outs <- unique(df$outcome)
+    thetas <- sort(unique(df$theta))
+    sec_outs <- setdiff(outs, "population")
+    col_lab <- c("mfg production value" = "Value of prod.",
+                 "mfg wage mass"        = "Wage mass",
+                 "mfg establishments"   = "Establishments",
+                 "ag farms"             = "Farms",
+                 "ag farmed area"       = "Farmed area")
+    # The 3-Mfg/2-Ag multicolumn header is positionally coupled to this
+    # order; fail loudly if the outcome set or order ever changes
+    # (cr-review PR #121 consider 5).
+    stopifnot(identical(sec_outs, names(col_lab)))
+    tex_cell <- function(r) {
+        sprintf("\\begin{tabular}{@{}c@{}} %.3f%s \\\\ (%.3f) \\end{tabular}",
+                r$beta, ifelse(nchar(r$stars) > 0,
+                               sprintf("$^{%s}$", r$stars), ""),
+                r$se)
+    }
+    tex <- c(
+        "% Sectoral theta sweep table.",
+        "% Generated by code/analysis/diagnostic_theta_sweep_sectoral.R.",
+        "\\begin{table}[htbp]",
+        "\\centering",
+        "\\caption{Sectoral Elasticities Across the Trade-Elasticity",
+        "Sweep (combined-IV estimates)}",
+        "\\label{tab:theta_sweep_sectoral}",
+        "\\footnotesize",
+        "\\begin{tabular}{lccccc}",
+        "\\toprule",
+        " & \\multicolumn{3}{c}{Manufacturing} & \\multicolumn{2}{c}{Agriculture} \\\\",
+        "\\cmidrule(lr){2-4} \\cmidrule(lr){5-6}",
+        paste0("$\\theta$ & ",
+               paste(col_lab[sec_outs], collapse = " & "), " \\\\"),
+        "\\midrule")
+    for (th in thetas) {
+        tag <- if (abs(th - 4.55) < 1e-9) " (main)"
+               else if (abs(th - 8.11) < 1e-9) " (alt.)" else ""
+        cells <- vapply(sec_outs, function(o) {
+            tex_cell(df[df$outcome == o & abs(df$theta - th) < 1e-9, ])
+        }, character(1))
+        tex <- c(tex, sprintf("%.2f%s & %s \\\\", th, tag,
+                              paste(cells, collapse = " & ")))
+    }
+    n_rng <- range(df$n_obs[df$outcome %in% sec_outs])
+    f_rng <- range(df$F_ivf[df$outcome %in% sec_outs])
+    tex <- c(tex,
+        "\\bottomrule",
+        "\\end{tabular}",
+        "",
+        "\\footnotesize",
+        paste0("\\emph{Notes}: Each row recomputes market access from the ",
+               "existing transport-cost matrices with the row's $\\theta$ ",
+               "(treatment, both instruments, and the baseline log-MA ",
+               "control all switch), then re-estimates the combined-IV ",
+               "specification of Table~\\ref{tab:sectoral_iv} for each ",
+               "sectoral outcome. ",
+               sprintf("$N$ = %d--%d by outcome. ", n_rng[1], n_rng[2]),
+               sprintf("First-stage $F$ between %.1f and %.1f across ",
+                       f_rng[1], f_rng[2]),
+               "the grid. Robust (HC1) SE in parentheses. ",
+               "Significance: $^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$. ",
+               "The population sweep is in Table~\\ref{tab:theta_sweep}."),
+        "\\end{table}")
+    writeLines(tex, file.path(dir_tables,
+                              "diagnostic_theta_sweep_sectoral.tex"))
+    message("Saved: ",
+            file.path(dir_tables, "diagnostic_theta_sweep_sectoral.tex"))
 }
 
 main()

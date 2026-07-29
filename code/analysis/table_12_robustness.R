@@ -38,6 +38,7 @@ main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_table_helpers.R"), echo = FALSE)
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
 
@@ -85,14 +86,14 @@ main <- function() {
     for (h in hypo_alts) {
         fits_B <- fit_iv_quad(
             y = "chg_log_pop_91_60", data = d,
-            endog = "chg_logMA_86_60_s0_elow",
-            lp_instr = "chg_logMA_stu_s0_elow",
+            endog = main_treatment,
+            lp_instr = main_lp_instrument,
             hypo_instr = h$name,
             ctrls_vec = ctrls_elow
         )
         rows[[length(rows) + 1L]] <- build_row(
             panel = "B", label = sprintf("Hypo = %s", h$label),
-            fits = fits_B, endog = "chg_logMA_86_60_s0_elow"
+            fits = fits_B, endog = main_treatment
         )
     }
 
@@ -105,27 +106,27 @@ main <- function() {
     n_sub <- nrow(d_sub)
     fits_C <- fit_iv_quad(
         y = "chg_log_pop_91_60", data = d_sub,
-        endog = "chg_logMA_86_60_s0_elow",
-        lp_instr = "chg_logMA_stu_s0_elow",
+        endog = main_treatment,
+        lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
         ctrls_vec = ctrls_elow
     )
     rows[[length(rows) + 1L]] <- build_row(
         panel = "C", label = sprintf("Placebo subsample (N=%d)", nrow(d_sub)),
-        fits = fits_C, endog = "chg_logMA_86_60_s0_elow"
+        fits = fits_C, endog = main_treatment
     )
 
     # For comparison, also report the main-spec IV-Both on the full sample
     fits_main <- fit_iv_quad(
         y = "chg_log_pop_91_60", data = d,
-        endog = "chg_logMA_86_60_s0_elow",
-        lp_instr = "chg_logMA_stu_s0_elow",
+        endog = main_treatment,
+        lp_instr = main_lp_instrument,
         hypo_instr = main_hypo_instrument,
         ctrls_vec = ctrls_elow
     )
     rows[[length(rows) + 1L]] <- build_row(
         panel = "C", label = "Full sample (for reference)",
-        fits = fits_main, endog = "chg_logMA_86_60_s0_elow"
+        fits = fits_main, endog = main_treatment
     )
 
     # ----------------------------------------------------------------------
@@ -258,25 +259,6 @@ build_row <- function(panel, label, fits, endog) {
         iv_b_F       = fitstat_F(fits[["IV-B"]]),
         n_obs        = nobs(fits[["OLS"]]),
         stringsAsFactors = FALSE
-    )
-}
-
-fmt <- function(est, se, p) {
-    if (is.na(est)) return("     NA       ")
-    stars <- ifelse(p < 0.01, "***",
-            ifelse(p < 0.05, "**",
-            ifelse(p < 0.10, "*", "")))
-    sprintf("%+6.3f%-3s(%.3f)", est, stars, se)
-}
-
-tex_cell <- function(est, se, p) {
-    if (is.na(est)) return(" ")
-    stars <- ifelse(p < 0.01, "$^{***}$",
-            ifelse(p < 0.05, "$^{**}$",
-            ifelse(p < 0.10, "$^{*}$", "")))
-    sprintf(
-        "\\begin{tabular}{@{}c@{}} %.3f%s \\\\ (%.3f) \\end{tabular}",
-        est, stars, se
     )
 }
 

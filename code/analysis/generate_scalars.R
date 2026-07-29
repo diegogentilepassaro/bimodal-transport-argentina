@@ -57,11 +57,15 @@ main <- function() {
                    "table_11_other_outcomes_iv",
                    "table_12_robustness",
                    "table_13_counterfactual",
+                   "table_17_counterfactual_sectoral",
                    "table_14_mechanisms",
                    "table_15_density_schedules",
                    "table_16_sector_matched",
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
+                   "diagnostic_theta_sweep_sectoral",
+                   "diagnostic_modern_iv_table11",
+                   "diagnostic_placebo_ma1947",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -95,7 +99,7 @@ main <- function() {
     if (!is.null(t8)) {
         # The LP F-stat = (t-stat)^2 of chg_logMA_stu_s0_elow in LP-only row
         r_lp <- subset(t8, spec == "LP only" &
-                           variable == "chg_logMA_stu_s0_elow")
+                           variable == main_lp_instrument)
         r_h  <- subset(t8, spec == "Hypo only" &
                            variable == "chg_logMA_lcp_mst_s0_elow")
         if (nrow(r_lp) == 1L) {
@@ -318,13 +322,13 @@ add_prose_table_macros <- function(macros, tab) {
     # -- Table 8 (Section 5.1): first-stage coefficients ---------------------
     t8 <- tab[["table_8_first_stage"]]
     if (!is.null(t8)) {
-        r <- row1(t8, spec = "LP only", variable = "chg_logMA_stu_s0_elow")
+        r <- row1(t8, spec = "LP only", variable = main_lp_instrument)
         macros[["fsLPCoef"]] <- f3(r$estimate)
         macros[["fsLPSE"]]   <- f3(r$std_err)
         r <- row1(t8, spec = "Hypo only", variable = "chg_logMA_lcp_mst_s0_elow")
         macros[["fsHypoCoef"]] <- f3(r$estimate)
         macros[["fsHypoSE"]]   <- f3(r$std_err)
-        r <- row1(t8, spec = "Both", variable = "chg_logMA_stu_s0_elow")
+        r <- row1(t8, spec = "Both", variable = main_lp_instrument)
         macros[["fsJointLPCoef"]] <- f3(r$estimate)
         macros[["fsJointLPSE"]]   <- f3(r$std_err)
         r <- row1(t8, spec = "Both", variable = "chg_logMA_lcp_mst_s0_elow")
@@ -396,19 +400,114 @@ add_prose_table_macros <- function(macros, tab) {
         r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-LP")
         macros[["secondaryIVLPCoef"]] <- f3(r$estimate)
         macros[["secondaryIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_secondary_91_70", spec = "IV-H")
+        macros[["secondaryIVHCoef"]] <- f3(r$estimate)
+        # 4 decimals: these shares live on the 1e-3 scale, where f3
+        # collapses the two instruments' estimates onto the same two
+        # digits already carried by collegeMin/collegeMax
+        # (cr-review PR #141).
+        f4c <- function(x) sprintf("%.4f", x)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-LP")
+        macros[["collegeIVLPCoef"]] <- f4c(r$estimate)
+        r <- row1(t11, outcome = "chg_college_91_70", spec = "IV-H")
+        macros[["collegeIVHCoef"]] <- f4c(r$estimate)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "OLS")
         macros[["migrationOLSCoef"]] <- f3(r$estimate)
         macros[["migrationOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-B")
-        # Prose says "a X decrease": fail loudly if the sign ever flips.
         stopifnot(r$estimate < 0)
-        macros[["migrationCoefAbs"]] <- f3(abs(r$estimate))
+        # Section 5.4 / appendix now report the instrument-specific
+        # migration estimates, because the joint spec is rejected.
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-LP")
+        macros[["migrationIVLPCoef"]] <- f3(r$estimate)
+        macros[["migrationIVLPSE"]]   <- f3(r$std_err)
+        macros[["migrationIVLPP"]]    <- f3(r$p_value)
+        r <- row1(t11, outcome = "chg_mig5_91_70", spec = "IV-H")
+        macros[["migrationIVHCoef"]] <- f3(r$estimate)
+        macros[["migrationIVHP"]]    <- f3(r$p_value)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "OLS")
         macros[["employmentOLSCoef"]] <- f3(r$estimate)
         macros[["employmentOLSSE"]]   <- f3(r$std_err)
         r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-B")
         macros[["employmentIVBCoef"]] <- f3(r$estimate)
         macros[["employmentIVBSE"]]   <- f3(r$std_err)
+        macros[["employmentIVBP"]]    <- f3(r$p_value)
+        # Magnitude macro for prose that already carries the direction
+        # ("a fall of X"): the signed macro produced a double negative
+        # in Section 5.4 (cr-review PR #141 B1). Same pattern as
+        # migrationCoefAbs. The outcome is a share in [0,1], so the
+        # prose expresses it in percentage points.
+        stopifnot(r$estimate < 0)
+        macros[["employmentIVBCoefPP"]] <- sprintf("%.1f",
+                                                   100 * abs(r$estimate))
+        r <- row1(t11, outcome = "chg_empstat_emp_91_70", spec = "IV-LP")
+        macros[["employmentIVLPCoef"]] <- f3(r$estimate)
+        macros[["employmentIVLPSE"]]   <- f3(r$std_err)
+        macros[["employmentIVLPP"]]    <- f3(r$p_value)
+        # Overidentification p-values (Sargan) per outcome, IV-Both.
+        # Section 5.4 is organized around these: the joint spec is
+        # rejected everywhere except employment.
+        for (g in list(
+                c("chg_college_91_70",     "sarganCollege"),
+                c("chg_secondary_91_70",   "sarganSecondary"),
+                c("chg_mig5_91_70",        "sarganMigration"),
+                c("chg_empstat_emp_91_70", "sarganEmployment"))) {
+            r <- row1(t11, outcome = g[1], spec = "IV-B")
+            stopifnot(!is.na(r$sargan_p))
+            macros[[g[2]]] <- f3(r$sargan_p)
+        }
+    }
+
+    # -- AR / robust-J evidence for Section 5.4 (PR #140 diagnostic) ---------
+    # The identification-robust counterparts of the Sargan row: quoted in
+    # Section 5.4 and the migration appendix so the prose never states an
+    # identification claim the diagnostics do not carry.
+    t11r <- tab[["diagnostic_modern_iv_table11"]]
+    if (!is.null(t11r)) {
+        # which() drops NAs, so a missing key never silently selects an
+        # all-NA row the way "==" subsetting would. Matches the
+        # !is.na() guard in row1() above (cr-review PR #141).
+        pick <- function(outc, sp) {
+            i <- which(t11r$outcome == outc & t11r$spec == sp)
+            stopifnot(length(i) == 1L)
+            t11r[i, ]
+        }
+        # AR bounds are read from the diagnostic's NUMERIC ar_lo/ar_hi
+        # columns, never parsed out of the display string: an "empty" or
+        # one-sided set would otherwise have printed the literal text
+        # "NA" into the paper and still compiled (cr-review PR #141 B4).
+        # Bounded-interval status is asserted, so a future run that
+        # changes the shape of one of these sets fails loudly here.
+        # 4 decimals: these shares live on the 1e-3 scale, where 3 would
+        # render an upper bound of "-0.000".
+        f4 <- function(x) sprintf("%.4f", x)
+        ar_pair <- function(outc, sp, stem) {
+            r <- pick(outc, sp)
+            stopifnot(isTRUE(r$ar_bounded),
+                      !is.na(r$ar_lo), !is.na(r$ar_hi),
+                      r$ar_lo < r$ar_hi)
+            macros[[paste0(stem, "lo")]] <<- f4(r$ar_lo)
+            macros[[paste0(stem, "hi")]] <<- f4(r$ar_hi)
+        }
+        ar_pair("chg_empstat_emp_91_70", "IV-B",  "employmentAR")
+        ar_pair("chg_mig5_91_70",        "IV-LP", "migrationARLP")
+        # Secondary's IV-LP set is quoted in Section 5.4 because it is
+        # the one piece of evidence that cuts against reading no
+        # schooling effect (cr-review PR #141).
+        ar_pair("chg_secondary_91_70",   "IV-LP", "secondaryARLP")
+        ar_pair("chg_mig5_91_70",        "IV-H",  "migrationARH")
+        for (g in list(
+                c("chg_empstat_emp_91_70", "employmentRobustJP"),
+                c("chg_mig5_91_70",        "migrationRobustJP"),
+                c("chg_secondary_91_70",   "secondaryRobustJP"),
+                c("chg_college_91_70",     "collegeRobustJP"))) {
+            r <- pick(g[1], "IV-B")
+            stopifnot(!is.na(r$robust_J_p))
+            macros[[g[2]]] <- f3(r$robust_J_p)
+        }
+        # Section 5.4 states the level at which the overid tests are
+        # read; the four-way split is a 5% statement.
+        macros[["overidAlpha"]] <- "5"
     }
 
     # -- Table 7 (Section 4.6): placebo columns ------------------------------
@@ -424,6 +523,27 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["placeboFLP"]]   <- f2(row1(t7, spec = "IV-LP")$first_stage_F)
         macros[["placeboFHypo"]] <- f2(row1(t7, spec = "IV-Hypo")$first_stage_F)
         macros[["placeboFBoth"]] <- f2(row1(t7, spec = "IV-Both")$first_stage_F)
+        # p-values quoted directly in Section 4.6 since PR #145: under the
+        # adopted 1947-baseline spec the significance words ("at the
+        # five-percent level") stopped being true, and words are prose, not
+        # AutoFill. Quoting p removes the class of error entirely.
+        macros[["placeboOLSP"]] <- f3(row1(t7, spec = "OLS")$p_value)
+        macros[["placeboIVBP"]] <- f3(row1(t7, spec = "IV-Both")$p_value)
+    }
+
+    # -- Section 8.2: the 1947-weighted baseline-MA check --------------------
+    # Section 8.2 argues that the baseline-MA control is kept because a
+    # version of it carrying no post-1947 population information leaves
+    # the placebo estimate where it was. Those numbers were quoted only in
+    # a diagnostic .txt (cr-review PR #145, traceability), so they come
+    # through macros now. ma47_ctrl is the IV-Both cell of Part 1 of
+    # diagnostic_placebo_ma1947.
+    pm <- tab[["diagnostic_placebo_ma1947"]]
+    if (!is.null(pm)) {
+        r <- row1(pm, part = "1_placebo", variant = "ma47_ctrl",
+                  spec = "IV-B")
+        macros[["placeboMAwtCoef"]] <- f3(r$estimate)
+        macros[["placeboMAwtP"]]    <- f3(r$p_value)
     }
 
     # -- Table 12 (Section 5.5): robustness ----------------------------------
@@ -575,6 +695,41 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["sweepFMin"]] <- f1(min(sw$first_stage_F, na.rm = TRUE))
         macros[["sweepFMax"]] <- f1(max(sw$first_stage_F, na.rm = TRUE))
     }
+    # Table 17: sectoral counterfactual decomposition (Section 6 prose;
+    # Cote notes #40/#45). Manufacturing rows per panel, IV column.
+    t17 <- tab[["table_17_counterfactual_sectoral"]]
+    if (!is.null(t17)) {
+        for (pn in list(list(id = "B", stem = "cfRailMfg"),
+                        list(id = "C", stem = "cfRoadMfg"))) {
+            for (oc in list(list(var = "chg_log_valprod_85_54",
+                                 suf = "Val"),
+                            list(var = "chg_log_massal_85_54",
+                                 suf = "Wage"))) {
+                r <- t17[t17$panel == pn$id & t17$outcome == oc$var, ]
+                if (nrow(r) == 1L) {
+                    macros[[paste0(pn$stem, oc$suf, "Coef")]] <-
+                        sprintf("%.3f", r$iv_est)
+                    macros[[paste0(pn$stem, oc$suf, "SE")]] <-
+                        sprintf("%.3f", r$iv_se)
+                }
+            }
+        }
+        # Section 6.3 caveats: first-stage F ranges across the five
+        # sectoral outcomes, per counterfactual panel (cr-review PR #128).
+        macros[["cfRailFSectMin"]] <- f1(min(t17$iv_F[t17$panel == "B"]))
+        macros[["cfRailFSectMax"]] <- f1(max(t17$iv_F[t17$panel == "B"]))
+        macros[["cfRoadFSectMin"]] <- f1(min(t17$iv_F[t17$panel == "C"]))
+        macros[["cfRoadFSectMax"]] <- f1(max(t17$iv_F[t17$panel == "C"]))
+    }
+
+    # -- Sectoral theta sweep (Section 5.5 prose; cr-review PR #121) ---------
+    # Largest p across the two significant manufacturing outcomes over
+    # the whole grid: the number the prose quotes as "largest p".
+    sws <- tab[["diagnostic_theta_sweep_sectoral"]]
+    if (!is.null(sws)) {
+        sel <- sws$outcome %in% c("mfg production value", "mfg wage mass")
+        macros[["sweepSectoralMaxP"]] <- sprintf("%.3f", max(sws$p[sel]))
+    }
 
     macros
 }
@@ -600,6 +755,10 @@ add_panel_macros <- function(macros) {
 
     big <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
 
+    # Mean district area (all 312 districts; Section 8.2 granularity
+    # comparison with Gibbons 2024; cr-review PR #116)
+    macros[["meanDistrictArea"]] <- big(mean(p$area_km2, na.rm = TRUE))
+
     # Population (all 312 districts; Section 3 reports full-geography stats)
     macros[["popMeanBase"]]  <- big(mean(p$pop_1960, na.rm = TRUE))
     macros[["popTotalBase"]] <- sprintf("%.1f",
@@ -612,7 +771,7 @@ add_panel_macros <- function(macros) {
     macros[["chgLogPopSD"]]   <- sprintf("%.2f", sd(v, na.rm = TRUE))
 
     # Treatment variable distribution
-    m <- p$chg_logMA_86_60_s0_elow
+    m <- p[[main_treatment]]
     macros[["maMean"]]     <- sprintf("%+.2f", mean(m, na.rm = TRUE))
     macros[["maSD"]]       <- sprintf("%.2f", sd(m, na.rm = TRUE))
     # Prose writes the minus sign explicitly: fail loudly on sign flip.

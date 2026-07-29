@@ -44,11 +44,18 @@
             urlcolor=blue]{hyperref}
 % Clickable DOIs. plainnat emits \doi{...} in the .bbl via \providecommand,
 % so this definition takes precedence (doi.sty is not in this TeX Live).
-% \nolinkurl handles underscores and most special characters in DOI strings.
-% CAVEAT: not verbatim-safe for DOIs containing % or # (none of the current
-% DOIs do). If such a DOI is ever added, escape it in the bib entry (\%, \#)
-% or install doi.sty and replace this definition with \usepackage{doi}.
-\newcommand{\doi}[1]{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}}
+% Verbatim-safe: % and # are set to catcode 12 (other) BEFORE the argument
+% is tokenized (the doi.sty pattern), so hostile DOIs need no escaping.
+% Limitation shared with all verbatim-style macros: \doi cannot appear
+% inside another macro's argument — fine for .bbl entries, which call it
+% at top level. Verified against 10.1000/weird%20case#frag (PR chore/
+% repo-hygiene test compile). If doi.sty is ever installed and
+% \usepackage{doi} added, DELETE this whole block first (the
+% \newcommand will clash with the package's definition).
+\makeatletter
+\newcommand{\doi}{\begingroup \catcode`\%=12 \catcode`\#=12 \@doi}
+\def\@doi#1{doi: \href{https://doi.org/#1}{\nolinkurl{#1}}\endgroup}
+\makeatother
 
 % ---- Paths ----------------------------------------------------------------
 \graphicspath{{../results/figures/}{figures/}}
@@ -143,29 +150,117 @@ agreed}
 \bibliography{references}
 
 % ---- Appendix --------------------------------------------------------------
-% Supporting figures referenced from the main text but not part of the
-% main exhibit sequence. Figure numbering restarts as A1, A2, ... so that
-% file names in results/figures/ (figure_a1_*, figure_a2_*, ...) match the
-% compiled numbering.
+% Two lettered appendices:
+%   A. Recent Migration        -- prose, no floats
+%   B. Additional Tables and Figures -- Table B1, Figures B1-B4
+%
+% Exhibit prefixes match the letter of the appendix that contains them, so
+% "Table B1" and "Figure B1" point at Appendix B. Until PR #142 the floats
+% were prefixed A while sitting under two UNNUMBERED headings, which made
+% "Table A1" look like it belonged to Appendix A (Recent Migration), which
+% has no exhibits. File names in results/ track the prefix
+% (figure_b1_*, table_b1_*) so they still match the compiled numbering.
+%
+% The prefix is derived from \thesection rather than hardcoded, and the
+% counters reset per appendix section, so a future Appendix C numbers its
+% floats C1, C2, ... with no further edits here (cr-review PR #142).
+% \counterwithin* adds the reset without redefining \the<counter>, which
+% is why the \renewcommand lines below still control the format (no dot
+% between letter and number).
 
 \clearpage
 \appendix
-\section*{Appendix Tables}
-\renewcommand{\thetable}{A\arabic{table}}
-\setcounter{table}{0}
-\input{../results/tables/table_a1_descriptives.tex}
+\counterwithin*{table}{section}
+\counterwithin*{figure}{section}
+\renewcommand{\thetable}{\thesection\arabic{table}}
+\renewcommand{\thefigure}{\thesection\arabic{figure}}
+
+% Numbered (not starred) so that Appendix~\ref{app:migration} in
+% Sections 5.4 and 8.2 resolves to "Appendix A". A starred version
+% rendered "Appendix 9" (the section counter keeps running), which is why
+% both appendices are numbered.
+\section{Recent Migration}
+\label{app:migration}
+
+Section~\ref{sec:other_outcomes} reports that the two-instrument
+specification for the recent-migration share fails the
+overidentification test (Sargan $p=\sarganMigration{}$;
+identification-robust $p=\migrationRobustJP{}$). This appendix
+records the estimates and the readings that have been proposed for
+the sign, so that the pattern is on the record without being treated
+as a result.
+
+The OLS estimate is $\migrationOLSCoef{}$ (\migrationOLSSE{}) and the
+combined IV estimate is $\migrationCoefIVBoth{}$
+(\migrationSEIVBoth{}), both negative and significant at the
+one-percent level. Taken separately, the Larkin Plan instrument gives
+$\migrationIVLPCoef{}$ (\migrationIVLPSE{}, $p=\migrationIVLPP{}$),
+with an Anderson--Rubin confidence set of
+$[\migrationARLPlo{}, \migrationARLPhi{}]$ that contains zero, while
+the hypothetical-network instrument gives $\migrationIVHCoef{}$
+($p=\migrationIVHP{}$). The instrument that
+Section~\ref{sec:first_stage_tab} shows to be the stronger of the two
+therefore implies no relationship, and the negative combined estimate
+lies between two estimates that the data reject as descriptions of a
+common parameter.
+
+Were the negative sign taken at face value, it would run opposite to
+a naive prediction that market-access gains attract in-migrants, and
+two readings would be consistent with it. First, high-market-access
+districts may have retained their existing populations, producing
+lower recent-migrant shares because turnover was low. Second,
+districts that lost population through out-migration to
+high-market-access receiving districts may have ended with small
+remaining populations among whom a given absolute inflow of recent
+migrants generates a higher share. Distinguishing these readings
+would require data on migration flows by origin and destination,
+which the cross-sectional sample does not contain. We record both
+possibilities and draw no conclusion.
 
 \clearpage
-\section*{Appendix Figures}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\setcounter{figure}{0}
+\section{Additional Tables and Figures}
+\input{../results/tables/table_b1_descriptives.tex}
+\clearpage
+\input{../results/tables/table_b2_placebo_ladder.tex}
+
+\clearpage
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.8\textwidth]{figure_a1_cost_schedule.pdf}
+\includegraphics[width=0.8\textwidth]{figure_b1_cost_schedule.pdf}
 \caption{Transport cost per ton-kilometer by mode and cargo density,
 from \citet{baumgartnerpalazzo1969}.}
 \label{fig:cost_schedule}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_b2_hypothetical_networks.png}
+\caption{Hypothetical road networks used by instrument 2:
+least-cost-path and Euclidean variants connecting the major cities.}
+\label{fig:hypo_networks}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_b3_larkin_studied.png}
+\caption{Rail segments studied versus not studied by the Larkin Plan,
+from the digitized plan tables.}
+\label{fig:larkin_studied}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figure_b4_navigation.png}
+\caption{Navigation layer of the transport-cost surface: the
+navigable inland waterways flagged in the IGN hydrography
+\citep{ignhydro} --- the Paran\'a--Paraguay--Uruguay--R\'io de la
+Plata system and a few Patagonian rivers --- and the buffered
+Strait of Magellan crossing. Waterways are drawn as line geometries;
+the cost surface buffers them by 1~km when rasterising. The cost
+surface contains no open-ocean coastal shipping; Atlantic ports
+connect through land or river legs only.}
+\label{fig:navigation}
 \end{figure}
 
 \end{document}

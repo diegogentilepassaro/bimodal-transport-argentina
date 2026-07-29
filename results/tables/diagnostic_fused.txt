@@ -1,0 +1,24 @@
+Fused-instrument diagnostic (BH-2026 efficiency test)
+Generated: 2026-07-24 18:44:23.857664  |  S = 100 (paired permutations)
+
+Question: does network-consistent weighting (LCP-MST road
+world) extract more recentered first-stage strength from the
+same permuted Larkin variation than the plain instrument?
+
+stu:
+  backbone R2 = 0.391  slope = 0.939
+  recentered F: total = 9.59, rail_only = 30.69
+  population         b=-0.0231  se=0.0606  p=0.704  RI p=0.703
+  mfg_valprod        b=-0.0606  se=0.1959  p=0.757  RI p=0.782
+  mfg_wagemass       b=-0.0209  se=0.1993  p=0.917  RI p=0.901
+  placebo_pretrend   b=+0.0879  se=0.0753  p=0.244  RI p=0.337
+
+fused:
+  backbone R2 = 0.608  slope = 0.924
+  recentered F: total = 15.91, rail_only = 32.16
+  population         b=-0.0036  se=0.0490  p=0.941  RI p=0.950
+  mfg_valprod        b=-0.1513  se=0.1581  p=0.340  RI p=0.366
+  mfg_wagemass       b=-0.0132  se=0.1577  p=0.933  RI p=0.931
+  placebo_pretrend   b=+0.0873  se=0.0613  p=0.156  RI p=0.228
+
+cor(z_rec stu, z_rec fused) = +0.795

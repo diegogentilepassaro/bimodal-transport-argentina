@@ -2,9 +2,12 @@
 # diagnostic_pretrends_conley.R
 #
 # PURPOSE: Task C37 / memo Decision E (pre-trends). The pre-trends placebo
-#          (Table 7) is not a clean null: IV-Both beta = 0.078, p = 0.06
-#          on the placebo subset (237 districts since issue #22), HC1 SE.
-#          Because districts
+#          (Table 7) is not a clean null. Under the control set adopted in
+#          PR #145 (placebo_controls: 1947 population baseline) the
+#          IV-Both estimate is +0.084 with HC1 p = 0.085 on the placebo
+#          subset of 237 districts; the numbers quoted here before PR #145
+#          were from an earlier revision of the table and matched neither
+#          spec. Because districts
 #          are spatially arranged and MA is constructed from a shared
 #          network, residuals are plausibly spatially correlated, and HC1
 #          may overstate precision. This diagnostic re-computes the
@@ -78,11 +81,19 @@ main <- function() {
     rep("\nSample: %d districts with coordinates", nrow(d))
 
     # ---- Fit both outcomes with the canonical table specs ------------------
+    # Each spec carries its own control set: the placebo uses
+    # placebo_controls (1947 population baseline) since PR #145 adopted
+    # that as Table 7's specification, while the headline population
+    # regression keeps geo_controls_main. Before that change both rows
+    # used geo_controls_main, so the pre-#145 numbers in this file's
+    # history are the old Table 7 spec.
     specs <- list(
         list(label = "Pre-trends placebo (Table 7): d log pop 1947-1960",
-             y     = "chg_log_placebo_pop_60_47"),
+             y     = "chg_log_placebo_pop_60_47",
+             ctrls = placebo_controls),
         list(label = "Headline population (Table 9): d log pop 1960-1991",
-             y     = "chg_log_pop_91_60")
+             y     = "chg_log_pop_91_60",
+             ctrls = geo_controls_main)
     )
 
     csv_rows <- list()
@@ -96,7 +107,7 @@ main <- function() {
             endog      = "chg_logMA_86_60_s0_elow",
             lp_instr   = "chg_logMA_stu_s0_elow",
             hypo_instr = main_hypo_instrument,
-            ctrls_vec  = geo_controls_main
+            ctrls_vec  = sp$ctrls
         )
 
         for (nm in names(fits)) {

@@ -1,0 +1,38 @@
+==================================================================================== 
+MODERN WEAK-IV INFERENCE CHECK (Cote reading note #35) 
+F_classical = the paper's current (non-robust) first-stage F; 
+F_robust = HC1 first-stage Wald F (fixest ivwald); 
+F_eff = Montiel Olea-Pflueger effective F (controls partialled 
+out; = F_robust up to dof conventions when K = 1, distinct for 
+the 2-instrument IV-B cells). AR set = 95% Anderson-Rubin 
+confidence set by robust test inversion. Diagnostic only. 
+Generated: 2026-07-25 13:47:01 
+==================================================================================== 
+ 
+Cell            Spec      N beta (SE)          F_cls   F_rob   F_eff  AR 95% set                 
+T9 total pop    IV-LP   311 +0.046 (0.040)      22.1    22.6    22.6  [-0.032, 0.140]            
+T9 total pop    IV-H    311 +0.069 (0.068)       6.9     4.3     4.3  [-0.221, 0.729]            
+T9 total pop    IV-B    311 +0.052 (0.031)      16.2    15.2    13.1  [-0.033, 0.136]            
+T9 urban pop    IV-B    286 +0.063 (0.038)      14.7    14.0    12.6  [-0.036, 0.173]            
+T9 rural pop    IV-B    272 +0.116 (0.087)       9.9     9.9     8.4  [-0.141, 0.369]            
+T9 urban share  IV-B    311 -0.005 (0.016)      16.2    15.2    13.1  [-0.046, 0.036]            
+T10 mfg value   IV-B    310 +0.317 (0.120)      16.5    15.5    13.4  [0.035, 0.678]             
+T10 wage mass   IV-B    309 +0.378 (0.124)      17.1    15.8    13.8  [0.136, 0.732]             
+T10 establish.  IV-B    310 +0.067 (0.060)      16.5    15.5    13.4  [-0.094, 0.233]            
+T10 farms       IV-B    297 +0.096 (0.078)      15.3    15.1    12.7  [-0.063, 0.338]            
+T10 farmed area IV-B    297 +0.102 (0.077)      15.3    15.1    12.7  [-0.064, 0.351]            
+ 
+Reading notes: 
+- Single-instrument anchor: F_eff vs fixest's F_robust agree to 
+  a max relative deviation of 0.00% across the K=1 cells (dof 
+  conventions only), validating the hand-rolled formula. 
+- IV-B cells: F_eff between 8.4 and 13.8 vs robust Wald 9.9 
+  to 15.8. MOP critical values for K=2 are NOT computed here 
+  (Patnaik approximation); for K=1 conventional benchmarks 
+  apply to F_eff directly. 
+- AR sets: 0 of 11 cells are unbounded or otherwise 
+  non-standard (the informative weak-IV outcome); see the 
+  set column. Bounded AR sets close to the Wald CIs indicate 
+  the conventional inference is not weak-IV fragile there. 
+ 
+Full columns (CIs, AR p at beta=0): diagnostic_modern_iv.csv 

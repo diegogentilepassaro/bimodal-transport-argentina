@@ -23,7 +23,19 @@ SantaFe, SantiagoDelEstero, Tucuman, ZonaMilitardeComodoroRivadavia.
 
 ## Key variables
 - `n1947`: population count (total in Cuadro 1, urban in Cuadro 14)
-- `cUrbano`: urban/rural classification flag (Cuadro 14 only)
+- `cUrbano`: the urban centre's NAME (Cuadro 14 only). An earlier
+  version of this readme called it a classification flag; it is not.
+- URBAN THRESHOLD (established 2026-07-29; see
+  `results/tables/diagnostic_placebo_universe.txt`): across the 24
+  Cuadro 14 sheets the smallest positive population is **2,002** and
+  **none** falls below 2,000, so the 1947 urban classification uses the
+  same 2,000-inhabitant rule that `clean_census_1960.R` applies to the
+  1960 localities. That makes `urbpop_1947` and `urbpop_1960`
+  comparable concepts, which matters because Cuadro 1 (`pop_1947`) is a
+  full-universe district total while `pop_1960` is a locality-list sum —
+  so the urban pair is the only like-for-like 1947/1960 comparison
+  available without new archival data. See
+  `results/tables/diagnostic_pop1960_universe.txt` for the mismatch.
 
 ## Notes
 - The Zona Militar de Comodoro Rivadavia was a federal territory in 1947,

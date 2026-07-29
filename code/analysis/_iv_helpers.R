@@ -25,7 +25,11 @@
 #       "fit_" by fixest.
 #
 #   fitstat_F(iv_model)
-#       Returns the first-stage Wald F for the excluded instrument(s).
+#       Returns the first-stage F for the excluded instrument(s),
+#       fixest type = "ivf": the IID F, NOT the robust Wald
+#       ("ivwald") — the distinction matters when quoting against
+#       weak-IV thresholds (cr-review PR #123; see also the open
+#       modern-IV ledger item, Cote note #35).
 #       Defensive across fixest versions (handles both the list-of-
 #       stats and the simplified return shapes).
 #
@@ -118,4 +122,48 @@ inject_first_label <- function(tex_text, label) {
     pattern  <- "(\\\\caption\\{[^}]*\\})"
     replace  <- sprintf("\\1\n\\\\label{%s}", label)
     sub(pattern, replace, tex_text, perl = TRUE)
+}
+
+# Append a reader-visible note inside a table float, immediately before
+# the LAST \end{table} in a tex string. Notes carried only as LaTeX "%"
+# comments in the generated file are invisible in the compiled PDF
+# (cr-review PR #141): anything a reader needs in order to interpret a
+# row has to go through this helper. Each panel of a multi-panel table
+# is its own float, so the note is applied per panel to keep every float
+# self-contained.
+add_table_note <- function(tex_text, note) {
+    marker <- "\\end{table}"
+    pos <- max(gregexpr(marker, tex_text, fixed = TRUE)[[1]])
+    if (pos < 0) return(tex_text)
+    block <- sprintf(
+        "\\vspace{0.4em}\n{\\footnotesize \\textit{Notes:} %s}\n", note
+    )
+    paste0(substr(tex_text, 1, pos - 1), block,
+           substr(tex_text, pos, nchar(tex_text)))
+}
+
+# ---------------------------------------------------------------------------
+# sargan_p(iv_model, k_instr)
+#
+# Classical (homoskedastic) Sargan overidentification p-value. Returns
+# NA for a just-identified fit (k_instr < 2), where the test does not
+# exist. Defensive about fitstat's return shape across fixest versions,
+# like fitstat_F above.
+#
+# CAVEAT for callers: this statistic assumes homoskedasticity, while
+# every specification in this project uses HC1. Quote the
+# identification-robust counterpart (J from the minimized
+# Anderson-Rubin statistic, computed in
+# code/analysis/diagnostic_modern_iv_table11.R) as the primary
+# evidence and this one for comparability with the classical
+# literature.
+# ---------------------------------------------------------------------------
+sargan_p <- function(iv_model, k_instr) {
+    if (k_instr < 2L) return(NA_real_)
+    s <- tryCatch(fitstat(iv_model, type = "sargan"),
+                  error = function(e) NULL)
+    if (is.list(s) && is.list(s$sargan) && !is.null(s$sargan$p)) {
+        return(as.numeric(s$sargan$p))
+    }
+    NA_real_
 }

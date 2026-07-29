@@ -11,76 +11,591 @@ this one (CURRENT STATUS, Done, DEFERRED LEDGER, PENDING DECISIONS,
 the original C/A/W task specs, QUESTIONS TO RESOLVE, and PRIORITY
 ORDER) are historical record: completed items, dated decisions, and
 superseded plans. When an item here closes, mark it [x] with the
-PR/date; if it records a decision, add the record to the DEFERRED
-LEDGER.
+PR/date and move it to section 7 (completed this cycle); if it
+records a decision, add the record to the DEFERRED LEDGER.
+Reorganized 2026-07-25 around the Wednesday meeting; the pre-meeting
+work program (PRs #115-#133) is section 7.
 
-### 1. Blocked on Cote
+### 0. WEDNESDAY MEETING 2026-07-29 — prepared agenda
 
-- [ ] **Coauthor meeting on the identification memo** — resolve the
-      decisions in `Plan/memo_identification_measurement_decisions.md`
-      §6 (θ/τ object, estimand, connector re-cost, reference point),
-      Decision A first. Not blocking day-to-day work
-      (decide-and-document mode since 2026-07-17), but the deepest
-      open questions and the ones only the coauthors can settle.
-      Meeting-prep email sent 2026-07-14; full-draft email sent
-      2026-07-20. NEW input for the meeting: the density-schedule
-      gradient (PR #99) means the θ/τ question now interacts with the
-      cost-schedule choice.
-- [ ] Theta 4.55 provenance — SEARCH EXHAUSTED (2026-07-16, dead end
-      documented in section_3_data.tex comment): 4.55 not found in
-      Simonovska-Waugh 2014 (full text, benchmark ~4.1), Caliendo-Parro
-      2015 (8.64 avg / 8.11 agri), D&H 2016 fn. 55 list, Fajgelbaum-
-      Redding 2022, or the old draft (no MA-theta framework). Unless
-      Cote recalls the source, options: adopt a cited value (SW 4.1) or
-      state 4.55 as a midpoint choice. Memo Decision A still separate.
-- [ ] Abstract wording sign-off (red flag in PDF; 149 words — count
-      moved 148 to 149 in #94's framing pass, Larkin clause added in
-      #98). The post-#93 framing pass (PR #94, merged) recharacterizes
-      population as "small, marginally significant" — needs explicit
-      sign-off alongside the abstract.
-- [ ] Log-area awareness (decision made: excluded entirely, see
-      DEFERRED LEDGER): Cote should know the balance-table correlation
-      exists and that a referee may ask; the agreed answer is the
-      density/over-control + mechanical-entanglement rationale, not a
-      sensitivity table.
-- [ ] Larkin Plan canonical year: Section 2 says the study was
-      published and announced in 1961; the abstract, Section 3, and
-      the bib entry (larkin1962) say 1962. Surfaced by PR #98's
-      review (the abstract now names the year prominently). Decide
-      the canonical year and align all mentions + the bib entry.
-- [ ] Issue #91: 1954 industrial census issuing agency — web pass done
-      (2026-07-16, findings posted on the issue): INDEC history confirms
-      the 1954 CNE was provincially decentralized; national office at
-      census date was Dirección Nacional del Servicio Estadístico; the
-      1950 industrial census volumes were published by Secretaría de
-      Asuntos Técnicos (1957). Three candidate imprints; República
-      Argentina stays until Cote checks the physical title page.
-- [ ] Issue #68 studied-share basis: two testable reconciliation
-      hypotheses posted on the issue (exact-match 39.60% arithmetic;
-      ~43,856 km denominator); needs the physical Larkin volumes. Then
-      align §2/§4 + document in clean_railroads.R.
-- [ ] Issue #103 (filed by PR #102's review): Section 2 says ~35,000
-      km of road network in 1986; Section 3's digitized ACA series
-      gives 79,820 km. Plausibly paved-only vs paved+gravel
-      (reconciliation paths posted on the issue). Needs Cote's source
-      for the 35,000 figure, then align the two sections.
-- [ ] B&P source volume: was Table II digitized from the El Trimestre
-      Económico article or from a separate CONADE report? The planning
-      doc cites "Baumgartner, T. and Palazzo, J. A., CONADE". (Author
-      names themselves are settled — verified 2026-07-16 against the
-      publisher's archive: Jean-Pierre Baumgartner, Pascual Santiago
-      Palazzo; see the [x] entry in the DEFERRED LEDGER.)
-- [ ] Migration sign interpretation, title (long-standing flags; the
-      two migration readings remain tied; title alternatives in
-      PENDING DECISIONS item 1).
-- [ ] [optional, decided — no action required] Vicente López 1960
-      digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
-      one digit). Decision (Diego, 2026-07-16): document and leave as
-      is — pipeline uses Part 3, both values pinned in
-      clean_census_1960.R. Check the published volume only if
-      convenient.
+Agenda set by Cote's 2026-07-24 email. Each item below is a decision
+the meeting has to make, with the evidence now in hand. Where an
+item's follow-up work is tracked elsewhere, the pointer is noted.
 
-### 2. Held until Cote's decisions (unblocked, deliberately parked)
+- [ ] Pre-meeting evidence brief for Cote — DRAFTED 2026-07-25
+      (`Plan/email_cote_evidencia_theta_tau.md`, workspace root,
+      untracked): the θ/τ three-object comparison (items A i-v),
+      the four instrument pieces (item C a-d incl. the A×C
+      interaction), the V-sourcing spec for his #68 archive visit,
+      and the closed reading-note items. All numbers audited
+      against the committed diagnostic outputs. SENT 2026-07-27 after
+      four factual fixes (merged-branch pointer with page numbers, the
+      "nada toca el paper" exception, AR upper bound −0.0003 not
+      −0.000, and a conventions paragraph on planned-vs-compiled table
+      numbering and the two meanings of θ), plus the secondary-share
+      AR nuance that cuts against a no-schooling reading.
+      ⚠ ONE THING THE SENT EMAIL PREDATES: it says the
+      1947-consistent spec "queda limpia en TODOS los objetos
+      candidatos". True of full47, but PR #143 showed that cleanliness
+      is not defensible. Lead the meeting with the correction (item B).
+
+- [ ] A. DECISION A — the θ/τ object (deepest open question).
+      Both cheap experiments Cote asked for are done:
+      (i) Gibbons-style decay (PR #127): θ ∈ {0.25, 0.5, 0.75};
+          β·θ ≈ 0.37 scale-invariant; at θ=0.5 the level is +0.745
+          (SE 0.42), CI covers Gibbons 0.3; sectoral pattern
+          survives at every decay.
+      (ii) Iceberg normalization τ' = 1 + cost/V (PR #130): β(V)
+          rises monotonically toward the D&H band, F strengthens
+          13→37, but nothing clears 5% anywhere — including the
+          published main spec itself (p=0.096). V unsourced (rides
+          the #68 archive visit; honesty rule: source picks V).
+      (iii) Sectoral de-risking ON the iceberg object (2026-07-25,
+          diagnostic_ma_iceberg_sectoral): under IV-BOTH (the
+          published spec) the headline contrast SURVIVES at every V
+          grid point and both θ — mfg value/wage max p =
+          0.013/0.004, establishments + both ag outcomes min p =
+          0.127. Under IV-LP the contrast holds only in the
+          low-to-mid V region (mfg ** at V=100-1000; already just *
+          at raw, per Table 10) and fades to null at high V (max p
+          0.18/0.33) as normalization weakens the Larkin instrument
+          — so Decision A and the instrument choice INTERACT:
+          IV-LP-only + deep normalization together would cost the
+          sectoral significance.
+      (v) Option 1b QUANTIFIED (2026-07-25,
+          diagnostic_tau_inefficiency): the route-inefficiency
+          object τ' = cost/(c_min × geodesic) — pair-varying, no
+          external data, τ' band 4.5-25.5, 0% below 1. The
+          sectoral contrast HOLDS under IV-Both (mfg value/wage
+          p ≤ 0.004 at both θ; establishments/ag/population null)
+          and Δlog MA correlates 0.88 with the raw treatment. THE
+          COSTS, quantified: classical IV-B F falls from 13-16
+          (raw) to 8-12 — and by the MOP test the two AGRICULTURAL
+          cells fail even at 20% bias tolerance (F_eff ≈ 7.0 vs
+          cv ≈ 10.2-11.5) while population + all three mfg cells
+          pass at 10% (F_eff 8.2-8.7 vs cv 6.5-7.4); the ag null
+          also thins (farms p 0.22 → 0.12). Under IV-LP the 1b
+          object is MOP-weak everywhere (F_eff 3.4-5.7 vs 23.1;
+          mfg value still significant at 5% at θ=4.55, p=0.047,
+          10% at θ=8.22 — but the real cost vs raw is the F
+          collapse from 22-23 to 4-6.5). CAVEAT the meeting should
+          weigh: τ' spans 4.5-25.5 — internally coherent as an
+          inefficiency multiple, but NOT the D&H narrow-band-
+          above-1 object, so "why is a trade elasticity the right
+          exponent for an inefficiency ratio" (the scoping note's
+          own con) stands. All three τ-object options now have
+          quantitative evidence.
+      Options priced in .kiro/decision_a_option1_scoping.md (1a
+      Fogel-scalar ~2-3 days once V sourced; 1b route-inefficiency
+      DONE above; option 2 Gibbons-centrality ≈ the decay
+      experiment). Interacts with the density-schedule gradient (PR #99,
+      Table 15). Mechanics: the main-spec swap is now a config.R
+      edit (PR #133) plus the label/binning sweep listed in
+      config.R's comment.
+- [ ] B. TABLE 7 PLACEBO SPEC — which 1947-consistent baseline set
+      becomes the paper's Table 7? DIEGO'S POSITION (2026-07-27,
+      adopted): **pop47, NOT full47.** Swap the indefensible control,
+      keep the baseline-MA control, and report the result as a
+      marginal rejection rather than a clean null. Cote's visto bueno
+      is what remains.
+      ⚠ READ ITEM H FIRST (found 2026-07-29, after PR #145 shipped).
+      The placebo OUTCOME mixes universes: chg_log_placebo_pop_60_47 =
+      log(pop_1960) - log(pop_1947), which is locality-universe 1960
+      against full-universe 1947, and 143 of the 237 districts
+      "shrink" as a result. Everything below is about which BASELINE
+      CONTROLS to use; item H is about whether the outcome measures
+      what the table says it measures. The control question does not
+      go away, but it is the second-order one. TESTED in PR #149 with a
+      universe-comparable placebo (urban population on both ends): the
+      point estimates fall hard but the movement is NOT statistically
+      distinguishable from zero, so the rejection is fragile to how the
+      outcome is measured without being shown to be caused by the
+      coverage gap. Detail and the numbers in item H.
+      WHY THE POSITION CHANGED (PR #143): the clean null in full47
+      comes from DROPPING baseline log MA, not from swapping the
+      population baseline to 1947 — pop47 alone moves IV-B p only
+      0.034 → 0.085 with the coefficient nearly unchanged (+0.087 →
+      +0.084). The justification offered for dropping the MA control
+      was post-outcome conditioning. PR #143 probed that by
+      re-weighting the SAME 1960 τ matrix with 1947 population:
+      β = +0.078 (p = 0.122), close to the t7 point estimate though
+      its CI overlaps full47's, and the two levels correlate 0.9994
+      raw / 0.9990 after controls.
+      WHAT THAT DOES AND DOES NOT ESTABLISH (stated as the artifact
+      states it, diagnostic_placebo_ma1947.txt): the with-vs-without
+      comparison is SUGGESTIVE, NOT A TEST — the CIs overlap and the
+      first stages differ (F 11.1 with vs 23.2 without, the absorption
+      mechanism in baseline_ma_control_note.md). The post-outcome
+      justification is UNSUPPORTED, not refuted, and it is unsupported
+      on the CORRELATION: at 0.9990 partial correlation the ma47-vs-
+      ma60 contrast never had power to separate the two controls, so
+      "remove the post-outcome content and see if the null returns"
+      cannot be answered by that comparison — there was almost nothing
+      to remove. Read literally on p-values, neither constructed
+      control rejects at 10% (0.122 / 0.104), which taken alone would
+      favour full47. The position rests on the collinearity, on the
+      coefficient pattern (+0.078 to +0.087 with a baseline-MA level,
+      −0.004 without), and on the judgment that a validation test
+      should not drop the control the headline spec needs.
+      WHAT IS STILL AIRTIGHT: log pop 1960 must go regardless of any
+      p-value. The placebo DV is log pop 1960 − log pop 1947, and log
+      pop 1960 is its TERMINAL level — conditioning on it conditions on
+      the endpoint of the outcome being tested. (log pop 1947, which
+      pop47 keeps, is the INITIAL level: a standard convergence
+      control, not the same object.) That is the part of the swap that
+      is not a judgment call; whether the MA baseline stays is.
+      SECOND ARGUMENT FOR THE SWAP, independent of p-values: in the
+      current Table 7 the IV-Hypo column has first-stage F = 1.7 and
+      cannot reject anything. Under pop47 it is still 1.7; under
+      full47 it rises to 16.0. Worth stating whichever spec wins.
+      A×B CHECKED (2026-07-26, PR #139) for full47: the clean null
+      survives on every candidate τ object — decay θ=0.5, iceberg
+      V=4,400/20,000, route-inefficiency at both θ — smallest any-IV
+      p = 0.34, IV-B first stages F 21.5-61.1. Caveat: the IV-LP
+      first stage collapses on the iceberg objects (F 3.7 / 1.6), so
+      those IV-LP nulls are low-power. NOT YET RUN for pop47: the
+      cross-object check on the adopted spec (small, and it is the
+      obvious question if Cote accepts pop47).
+      §8.2 LIMITATION 1 STAYS, BOTH HALVES. Under pop47 the placebo
+      still rejects at 10% (p = 0.085), so the pre-trend half is
+      softened, not fixed. The selection half (237 of 311 districts) is
+      untouched by any placebo spec. The limitation was NOT deleted.
+      IMPLEMENTED 2026-07-27, PR #145 (Diego's call: do the half that
+      is not a judgment call now, leave the MA-baseline question to
+      Cote). Table 7 is now pop47: OLS +0.027 (p 0.149), IV-LP +0.051
+      (0.374), IV-Hypo +0.333 (0.379), IV-Both +0.084 (0.085), N 237,
+      F 18.7 / 1.7 / 11.2. New appendix Table B2 publishes the full
+      ladder (1960 baselines → 1947 pop → no MA baseline → no
+      baselines), so the sensitivity is on the page rather than left
+      for a referee. Prose updated in four places: §4.6's placebo
+      paragraph (control-set rationale + p-values instead of
+      significance words), §5.2's selection-logic argument (weakened
+      to "suggestive rather than decisive" — the positive correlation
+      survives, its significance does not), the intro validation
+      sentence, and §8.2 limitation 1.
+      CONLEY RERUN DONE on the new spec (diagnostic_pretrends_conley.R
+      now carries a per-spec control set): spatially robust SEs still
+      SHARPEN the rejection — IV-Both HC1 p 0.085 → 0.017 / 0.016 /
+      0.062 / 0.030 at 100 / 250 / 500 / 1000 km, and OLS 0.149 →
+      0.093 / 0.064 / 0.055 / 0.003. So the paper's "spatial SEs do not
+      soften it" claim holds and is now stated as "sharpen rather than
+      soften". Uncomfortable but the honest direction: under HC1 the
+      placebo is a marginal rejection, under spatial SEs a clear one.
+      STILL COTE'S CALL: (a) full47 instead of pop47 — a one-line
+      config.R change plus the §4/§8.2 wording, with Table B2 already
+      showing what it does; (b) whether Table B2 stays in the appendix
+      or moves to the main text; (c) whether the item-B2 direct test
+      enters the paper.
+      SCOPE LIMIT ON RECORD (PR #145 fix pass): seven diagnostics still
+      run the placebo outcome under geo_controls_main —
+      diagnostic_recentering_{results,hypo_results,controls,treatments},
+      diagnostic_fused_results, diagnostic_roadseg_results,
+      diagnostic_roadtiming_results. Not repointed on purpose: their
+      recorded numbers are quoted in the brief already sent to Cote and
+      in this ledger (the recentering "+0.074 → +0.088" among them), so
+      changing the spec underneath them before the meeting would
+      invalidate documents in his hands. Batch them after the meeting
+      with whatever he decides on the MA baseline. Listed in config.R
+      next to placebo_controls so the next person finds it there.
+- [ ] B2. PRE-1960 GROWTH AS A CONFOUND (new, PR #143) — the direct
+      test the placebo only addresses indirectly: condition the main
+      1960-91 regressions on 1947-60 growth. Manufacturing survives.
+      Wage mass 0.378 (N=309) → 0.350 (237 subsample) → 0.319 with the
+      control, p = 0.011; production value 0.317 (N=310) → 0.280 →
+      0.240, p = 0.069; population 0.052 (N=311) → 0.077 → 0.065.
+      The control is itself insignificant in all three (p = 0.17-0.23),
+      which is a limit on how strong a test this is: little pre-period
+      signal to absorb. NOTE (cr-review): row 3 is algebraically a log
+      pop 1947 CONVERGENCE control, since the growth term equals log
+      pop 1960 − log pop 1947 and log pop 1960 is already a control;
+      verified identical to 1e-10. Also visible: the placebo subsample
+      is where population is STRONGEST (0.077, p=0.032, vs 0.052,
+      p=0.096 on the full sample) and conditioning pulls it about
+      halfway back — a reason for care with that subsample. That
+      subsample row is NOT new: it is already Table 12 Panel C in the
+      paper (\subIVBCoef 0.077, \subIVBP 0.032). What IS new is the
+      third row, which conditions on the pre-period as well.
+      DECISION FOR COTE: does this go in the paper (robustness row or
+      appendix), and if so under which label?
+- [ ] C. MAIN-SPEC INSTRUMENT — IV-LP-only vs IV-Both. Three new
+      evidence pieces this week, all pointing the same way:
+      (i) under iceberg normalization the instrument-strength
+          ranking REVERSES (IV-H F 7.9→65.5 while Larkin falls
+          15.6→9.7; PR #130);
+      (ii) under robust inference the hypo instrument weakens
+          (IV-H F 6.9 classical → 4.3 robust) while IV-LP slightly
+          strengthens (22.1 → 22.6; PR #131);
+      (iii) recentering: the Larkin instrument is the only one with
+          exploitable quasi-random variation, and it collapses on
+          total MA after correction as a composition effect, not
+          invalidity (six-design map, issue #114 / brief).
+      (iii-b) The A×C matrix is now COMPLETE (2026-07-26,
+          diagnostic_crossobject_checks, PR #139): on the DECAY
+          object IV-LP keeps the mfg significance at 5% across the
+          whole θ grid (max p = 0.030, classical F(LP) 9.2-15.0) —
+          the only candidate that does; the iceberg holds it only
+          at low V (≲1,000-2,000) and 1b nowhere. BUT by the same
+          MOP standard that judged 1b, decay IV-LP is also weak:
+          F_eff 10.7-16.3 vs the fixed K=1 cvs (23.11 at 10%,
+          15.06 at 20%) → 0/18 cells pass at 10%, 1/18 at 20%.
+          Honest summary for the meeting: decay is the LEAST-WEAK
+          IV-LP candidate; no object makes IV-LP-only MOP-strong.
+      (iv) MOP critical values (2026-07-25,
+          diagnostic_mop_critical): 8 of 9 IV-B cells PASS at 10%
+          Nagar-bias tolerance (rural pop fails 10%, passes 20%);
+          IV-LP alone sits at the boundary (F_eff 22.64 vs cv
+          23.11); IV-H fails at every tolerance. ATTRIBUTION
+          (matters for the meeting): the low K=2 cvs (6.5-9.7) are
+          NOT mainly the instrument count — the conservative B=1
+          test would still demand ~19.7-20.5 and every IV-B cell
+          would FAIL it at 10%. The bar drops because the exact
+          Nagar-bias bound B ≈ 0.15-0.30 for our W matrices: the
+          worst-case 2SLS bias is a small fraction of the
+          benchmark. So "the combined spec passes MOP at 10%
+          (except rural pop)" leans on the exact bias-bound
+          computation; dropping to IV-LP-only would move the main
+          spec from "passes" to "borderline".
+      Modern-IV wiring into the paper is a follow-up decision
+      (section 2).
+- [ ] D. MIGRATION SIGN + §5.4 — Cote leans REMOVE ("la sacaría si
+      hace ruido"), at most a paragraph in Other Outcomes, and
+      demote §5.4 to an annex (his note #42). Needs Diego's
+      concurrence; then it's a writing task (section 2). Title
+      stays as-is, closed jointly with narrative at publication.
+      EVIDENCE NOW IN (2026-07-27, PR #140,
+      diagnostic_modern_iv_table11, corrected after cr-review): the
+      decision turns on IDENTIFICATION, not noise. THE HEADLINE
+      FACT: the joint (IV-B) overidentification test rejects at 5%
+      for THREE of the four outcomes — only employment survives.
+      Robust J (min-AR quadratic form, χ²_{k-1}) agrees with the
+      classical Sargan in all four cells, so heteroskedasticity is
+      doing no work:
+      (i) recent migration — Sargan p = 0.0056, robust J p = 0.012,
+          IV-B AR set EMPTY (the joint K=2 test rejects every β).
+          IV-LP says -0.0066 (p = 0.52, AR covers zero); IV-H says
+          -0.064 (p = 0.029) on the instrument that MOP-fails at
+          every tolerance. The published -0.0217 sits between two
+          jointly incompatible moments — an unidentified
+          coefficient, not a noisy one. (The individual AR sets do
+          overlap on [-0.0303, -0.0297]; state the failure in
+          joint-moment terms. The interval was first recorded as
+          [-0.0303, -0.0294] from a hardcoded string in the
+          diagnostic; it is computed from the AR bounds now, PR #141
+          fix pass.)
+      (ii) secondary share — same joint failure (Sargan p = 0.0078,
+          robust J p = 0.0068, AR empty) with the instruments
+          pointing OPPOSITE ways (+0.0059 LP vs -0.0101 H). NOTE:
+          an overid rejection does not say which moment fails —
+          under the natural reading (hypo instrument is the weak,
+          MOP-failing one) the IV-LP result STANDS on its own
+          (+0.0059, AR [0.0019, 0.0114], p at zero = 0.005).
+      (iii) employment rate — the clean one: Sargan p = 0.74,
+          robust J p = 0.72, AR excludes zero under both IV-LP
+          (-0.0121, p at zero = 0.017) and IV-B (-0.0109,
+          marginally: p at zero = 0.044). The only Table 11 outcome
+          whose JOINT spec survives identification-robust
+          inference.
+      (iv) college share — both instruments give individual nulls
+          (all AR sets cover zero) but they differ significantly
+          from each other (+0.00103 LP vs -0.00205 H; Sargan
+          p = 0.034, robust J p = 0.031). So the joint spec is not
+          identified here either; "clean null" would be wrong.
+          Its AR set is non-empty only because the emptiness
+          criterion uses k df while the overid test uses k-1 —
+          strictly more conservative (not a heteroskedasticity
+          artifact, as the first pass wrongly claimed).
+      ALSO RELEVANT TO ITEM C: three overid rejections concentrated
+      in the 1970-91 outcome window is itself evidence about the
+      hypo instrument, beyond the first-stage findings.
+      POSITION CONFIRMED (Diego, 2026-07-27) and IMPLEMENTED
+      (PR #141, branch paper/section-5-4-restructure): remove
+      migration from the narrative on the overidentification ground
+      rather than "it makes noise"; do NOT demote §5.4 wholesale.
+      §5.4 stays in the main text reorganized by what is
+      identified — employment as the result (AR [-0.0280, -0.0003]
+      excludes zero), education reported as instrument
+      disagreement, migration in one paragraph pointing to the new
+      Appendix A where the estimates and the two readings of the
+      sign are recorded unadjudicated. Table 11 gains an
+      overidentification row; §8.2 limitation #2 and §1's outcome
+      list updated to match; 26 new AutoFill macros (one removed:
+      \migrationCoefAbs), scalars.tex now 261. Compile 54 pp clean.
+      FIX PASS (same PR) added the §4 paragraph that defines the
+      overidentification test and the AR sets (sargan1958,
+      andersonrubin1949, andrewsstocksun2019 added to
+      references.bib, all three verified), led the §5.4 prose with
+      the robust J rather than the classical Sargan, corrected a
+      "rejects most strongly" claim that reversed under the robust J
+      (secondary 0.0068 < migration 0.0120), added the secondary
+      IV-LP AR set that cuts against a no-schooling reading, gave
+      Table 11 a reader-visible note, and reordered its panels to
+      match the prose. STILL OPEN for Wednesday: Cote's visto bueno,
+      and his option to demote §5.4 entirely if he prefers (one-line
+      change). Email §4 and brief item 6 carry the write-up.
+      ASYMMETRY ON RECORD: Table 11 is the only table with an
+      overidentification row; extending it to Tables 9/10 is a
+      two-line change left as a joint decision (comment in §4).
+- [ ] E. RECENTERING READ-OUT — walk the six-design map
+      (Plan/brief_cote_recentering_2026-07-29.md, final): Larkin
+      collapses / hypo backbone / settlement clean-but-small /
+      corridor dosed-but-loaded / stratification closes the door /
+      fused strengthens F but stays null. One characterization:
+      variation big enough to matter was chosen for
+      growth-correlated reasons; plausibly-random variation is too
+      small at 312-district aggregation. Close issue #114 after
+      the conversation. Known limitation on record:
+      snap-tolerance sensitivity unexplored.
+- [ ] F. MENTION-ONLY — log-area awareness: the balance-table
+      correlation exists and a referee may ask; agreed answer is
+      the density/over-control + mechanical-entanglement rationale
+      (decision recorded in DEFERRED LEDGER; no sensitivity table).
+- [ ] G. COLLECT FROM COTE (tracked in section 1). Original four: the
+      #68 lookup (report's studied definition + network denominator),
+      the #113 CABA-node sign-off, the DNV publication volume, and
+      geocoding branch status — the last of which is now answered, his
+      branch landed 2026-07-28 (PR #146 open, review published).
+      ADDED 2026-07-29 after the intake review and item H:
+      (i) DO THE 1960 VOLUMES PUBLISH DEPARTAMENTO TOTALS (including
+          dispersed rural population)? This is the highest-value ask on
+          the list — see item H. It rides the same archive visit as the
+          #68 lookup and the V parameter for Decision A option 1a.
+      (ii) Was volume 2 (Capital Federal) skipped from the geocoding by
+          design? Near-certain yes (his v3-v9 = our Parts 3-9), but it
+          should be confirmed and stated in the folder readme rather
+          than left as a silent omission.
+      (iii) What was the plan behind the `propuesto` / `en_muestra` /
+          `pendiente_muestra` labels? The column names suggest a
+          sample-and-extrapolate QC design rather than an intent to
+          confirm 1,003 rows one by one. Ask before proposing a
+          triage, so we do not cut across his design.
+      (iv) Provenance and licence for ref/deptos_argentina.geojson
+          (55 MB, third-party, no source recorded).
+      (v) The 19 geocoding scripts with hardcoded Windows paths: make
+          them runnable, or relabel as an archived non-runnable record?
+      (vi) The 23 `rojo` rows (point outside its expected departamento)
+          are worth his eyes regardless of any sampling design: a
+          cross-district location error is the one kind MA cares about.
+
+- [ ] H. THE 1960 POPULATION UNIVERSE (new, 2026-07-29, PR #147).
+      FINDING: data/raw/census/censo1960/1c1960_*.xlsx has three
+      columns — provincia, distrito, pop — ONE ROW PER LOCALITY, no
+      locality name, no rural-dispersed line. So pop_1960 is
+      "population living in named localities", NOT district
+      population; dispersed rural population is absent from the source
+      and cannot be in it. pop_1970 and later, from IPUMS, do include
+      it. This is a property of the source, not a coding bug.
+      DECISIVE INTERNAL EVIDENCE (needs no external benchmark):
+      pop_1947 is Cuadro 1 = DISTRICT TOTALS, a full universe. On the
+      237 districts where both exist, pop_1960 is BELOW pop_1947 in
+      143 of them (60%); aggregate ratio 1.146 over 1947-60 against
+      1.460 over 1960-70. Population does not fall in most of a
+      country over thirteen years.
+      WHERE IT PROPAGATES: (1) chg_log_pop_91_60, the headline
+      outcome; (2) urbshr_1960 and chg_urbshr_91_60; (3) log_pop_1960
+      as a baseline control; (4) the MA population weights, which
+      under-weight rural destinations relative to CABA (CABA has
+      almost no dispersed rural population, rural districts have a
+      lot); (5) THE PLACEBO — see below.
+      ⚠ THE PLACEBO OUTCOME IS THE SAME MISMATCH.
+      chg_log_placebo_pop_60_47 = log(pop_1960) - log(pop_1947)
+      exactly (verified), so it is full-universe 1947 against
+      locality-universe 1960, and the 143 districts that "shrink" are
+      exactly the 143 above. Table 7 is therefore measuring
+      1947-60 growth PLUS cross-district variation in 1960 locality
+      coverage. The coverage shortfall's relation to the treatment is
+      a partial correlation of -0.119 with p = 0.065, and PR #147's
+      pre-committed verdict on treatment-correlation is INCONCLUSIVE
+      (its two proxies disagree in sign once conditioned). Both
+      qualifiers matter and an earlier draft of this entry dropped
+      them, quoting p = 0.039, a number that appears nowhere in the
+      diagnostic.
+      TESTED (PR #149): a universe-comparable placebo measuring both
+      endpoints on an agglomerated concept — urbpop_1947 against
+      urbpop_1960. The 1947 urban threshold was checked rather than
+      assumed: across the 24 Cuadro 14 sheets the smallest positive
+      population is 2,002 and none is below 2,000, so both sides use
+      the same 2,000 rule.
+      RESULT: apparent DECLINE affects 143 of 237 districts on the
+      published outcome and 27 of 234 on the comparable one, and the
+      published outcome correlates +0.304 with the coverage proxy
+      against +0.100 for the comparable one at similar SDs. Point
+      estimates fall hard (OLS +0.0253 -> +0.0039; IV-B +0.0829 ->
+      +0.0484, both against the same-sample row).
+      BUT THE MOVEMENT IS NOT DISTINGUISHABLE FROM ZERO. Rows share a
+      sample and 2SLS is linear in the outcome, so the slope
+      difference is exactly estimable: OLS +0.0214 (p 0.114), IV-LP
+      +0.0434 (p 0.229), IV-B +0.0345 (p 0.299). And the ten-percent
+      crossing is NOT the outcome's doing — IV-B's p runs 0.085 to
+      0.105 on the same outcome with three fewer districts, then to
+      0.293.
+      SO THE DEFENSIBLE CLAIM IS: the placebo rejection is not robust
+      to how the outcome is measured, and the published outcome is
+      measurably more contaminated — NOT that the coverage gap caused
+      the rejection.
+      ⚠ AND MY EARLIER SIGN REASONING WAS WRONG. This entry first
+      guessed the artifact pushed the slope DOWN, so the true
+      pre-trend might exceed +0.084. It was labelled a hypothesis
+      because it ran through the contaminated proxy, and the test
+      reversed it: removing the artifact lowers the slope, so the
+      artifact was pushing it UP. Recorded because the guess reached
+      the coauthor brief before the test did.
+      This still reframes agenda item B: the pop47-vs-full47 control
+      debate sits on top of an outcome whose measurement is contested,
+      and the control question should not close the placebo discussion
+      on its own.
+      WHAT IS NOT SETTLED: whether the mismatch biases the IV
+      estimates. PR #147's Part 1 is INCONCLUSIVE by its own
+      pre-committed rule (the two coverage proxies disagree in sign
+      against the treatment once conditioned on controls; the Larkin
+      instrument does predict urbshr_1960 at p 0.007 but predicts
+      neither cov60 nor the growth gap). Part 2's shorter windows have
+      a rival explanation: a 1970 or 1980 baseline is already partly
+      treated by the 1960-86 change, so a first-decade response is
+      differenced away, and no aligned treatment exists.
+      WHAT IS CLEAR: the population OLS estimate is sensitive
+      (+0.0247 → +0.0089 with a coverage control, +0.0047 on the
+      1970-91 window); the IV estimates move less (IV-B +0.0518 →
+      +0.0471 / +0.0373; IV-LP +0.0456 → +0.0487 / +0.0451). Note the
+      direction is inconvenient for §5.2: correcting the mismatch
+      pushes OLS DOWN and WIDENS the OLS/IV gap that §5.2 attributes
+      to attenuation and selection.
+      THE FIX IS A DATA REQUEST: the published departamento totals in
+      the 1960 volumes, which neither digitization captured (item G
+      (i)).
+
+### 1. Waiting on Cote (independent of the meeting)
+
+- [ ] 1960 DEPARTAMENTO TOTALS from the published volumes — the fix
+      for item H, and the highest-value item on the archive list.
+      Neither our digitization (locality lists, Parts 2-9) nor Cote's
+      geocoding (v3-v9) captured a departamento-total column, so we
+      have no full-universe 1960 population at district level. Rides
+      the same archive visit as the #68 lookup and the V parameter for
+      Decision A option 1a. Until it lands, pop_1960 stays a
+      locality-universe variable and everything in item H stands.
+- [x] Geocoding 1960 intake — HIS BRANCH LANDED 2026-07-28.
+      PR #146 opened and reviewed 2026-07-29 (review published on the
+      thread, plus a correction: the first review claimed a ~6M
+      coverage gap against a half-remembered national total, when
+      against our own non-CABA 1960 figure the file reconciles to
+      99.90%). NOT MERGED: four intake fixes are ours (narrow the
+      recursive .gitignore whitelist, coverage + QC statements and the
+      join key in the readme, the citation — INDEC did not exist in
+      1960 — and declaring Python), and two questions are his (item G
+      (iv) and (v)). Downstream MA integration remains gated on the
+      θ/τ conversation and now also on item H.
+- [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
+      `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
+      branch `data/geocoding-1960` (data to
+      data/raw/census/geocoding_1960/, scripts to
+      code/base/census_1960/geocoding/, .gitignore exception, pages/
+      via Drive + sha256). When his branch lands: we open the PR,
+      review, merge. Downstream (bigger, separate): integration into
+      MA (load_centroids replacement or multi-point), gated on the
+      θ/τ conversation (section 2).
+- [ ] Issue #68 studied-share — SUBSTANTIALLY RESOLVED (PR #119
+      reconciliation footnote in the paper; recom_code semantics
+      decoded: 1 maintain 2,310 km / 2 close 14,377 km / 3
+      new-study 5,197 km; excluding new-study gives 38.4% on §2's
+      43,500 km). Awaiting Cote's 10-minute lookup: the report's
+      studied definition (excludes new-study?) and its network
+      denominator (§2's 15,000 km ~ 32% implies ~46,900 → 35.6%).
+      generate_scalars wiring deferred until confirmed (section 2).
+      The V-sourcing for Decision A option 1a rides the same
+      archive visit.
+- [ ] Issue #113 — hypo-instrument node set omits CABA (curation
+      artifact); awaiting Cote's sign-off.
+- [ ] DNV publication volume (PR #116 review follow-up): dnvseries
+      bib entry is year = n.d. until Cote confirms the exact
+      volume. Needed before deposit.
+- [ ] Controls rationalization — CO-OWNED: Cote took it as homework
+      (collinearity, region FE from census regions, threats-based
+      selection, what the literature uses; notes #26-#31). Our side
+      already has the outcome-blind grid (PR #112) to feed in.
+
+### 2. Unblocked by Wednesday's decisions (work that flows)
+
+Nothing here starts before the meeting; each item lists its trigger.
+
+- [x] ~~[if B confirms] Swap Table 7 to **pop47**~~ — DONE 2026-07-27,
+      PR #145, ahead of the meeting rather than after it: the log-pop
+      1960 removal is not a judgment call, so waiting on it would have
+      left an indefensible control in a published table. All six parts
+      below were executed; details and what remains for Cote are in
+      agenda item B. Kept here as the record of what the swap touched:
+      (a) table_7_pre_trends.R spec edit + regenerate. All 13 placebo
+          scalars move, not one (placeboOLSCoef/SE, IVLP, IVH, IVBoth,
+          FLP/FHypo/FBoth, coverage); N stays 237.
+      (b) THE SIGNIFICANCE WORDS BREAK. Under pop47 no column reaches
+          5%: OLS +0.028 (p=0.149), IV-LP +0.051 (0.374), IV-H +0.333
+          (0.379), IV-B +0.084 (0.085). So the hardcoded
+          "significant at the five-percent level" sentences at
+          section_4_empirical_strategy.tex:276 and :286, the intro
+          sentence at section_1_intro.tex:105-109 ("rejects a clean
+          null at the five-percent level"), and §8.2's "at the
+          five-percent level" (section_8_discussion.tex:167) all
+          become false. Significance WORDS are prose, not AutoFill —
+          they need a manual pass (the standing warning at the top of
+          section_5_results.tex).
+      (c) §5.2's SELECTION-LOGIC ARGUMENT depends on the placebo's
+          SIGN and significance (section_5_results.tex:118-129): it
+          uses the positive placebo correlation as evidence that the
+          efficiency-selection pattern dominated, which weighs against
+          selection explaining the OLS/IV gap. Under pop47 the sign is
+          still positive but no longer significant, so that argument
+          weakens and the paragraph needs rework.
+      (d) CONLEY RERUN REQUIRED. Two claims — intro:105-109 and
+          section_8_discussion.tex:170-171 — assert that spatially
+          robust SEs "do not soften that rejection". That was measured
+          on the t7 spec (p 0.061 HC1 → 0.001 at 100 km). Rerun the
+          spatial-SE diagnostic on pop47 before restating either.
+      (e) §8.2 limitation 1: reword the pre-trend half from a
+          five-percent to a marginal rejection; KEEP the selection
+          half; do not delete the limitation.
+      (f) Publish the t7 → pop47 → full47 ladder so the reader sees
+          which control moves the result, rather than leaving a
+          referee to find it.
+      Numbers ready in diagnostic_placebo_1947.csv (pop47 variant) and
+      diagnostic_placebo_ma1947.csv.
+      NOTE: the "pre-trend failure was an artifact" claim does NOT
+      appear in the paper — the paper never adopted it. It lives in
+      this ledger (corrected above), in
+      Plan/memo_identification_measurement_decisions.md, and in the
+      brief already sent to Cote. Correcting the brief is a
+      conversation on Wednesday, not an edit.
+- [ ] [if B confirms, small] Cross-object check for pop47 —
+      diagnostic_crossobject_checks.R Part 1 currently runs full47
+      on the six candidate τ objects; rerun it on the adopted spec.
+- [x] ~~[if D concurs] Migration paragraph trim + demote §5.4 Other
+      Outcomes to an annex~~ — SUPERSEDED by the confirmed item-D
+      position, done in PR #141: §5.4 stays in the main text
+      reorganized by what is identified, migration moved to
+      Appendix A. Wholesale demotion remains Cote's option (one
+      line) and stays on the agenda under item D, not here.
+- [ ] [if A settles] Main-spec swap mechanics: config.R edit (PR
+      #133) + LaTeX labels / figure axis labels / figure_2 binning
+      sweep (list in config.R comment) + full Stage D rerun +
+      recompile. If option 1a: V sourcing first (rides #68 visit),
+      then productionize diagnostic_ma_iceberg.R's transform into
+      the MA step. τ-rebuild design (transshipment costs etc.,
+      Plan/tau_rebuild_plan.md) also lands here.
+- [ ] [if C or on demand] Wire modern-IV inference into the paper:
+      report robust/effective F alongside (or instead of) classical
+      F in Tables 8-10, AR sets for the headline cells
+      (diagnostic_modern_iv.R computes everything; AR tail grid
+      already densified; MOP K=2 critical values COMPUTED, PR #136
+      — diagnostic_mop_critical.R has the verdicts ready to quote
+      or wire).
+- [ ] [after #68 confirms] generate_scalars wiring for the
+      studied-share footnote numbers.
+- [ ] [after geocoding lands + A settles] MA integration of the
+      geocoded 1960 localities (load_centroids replacement or
+      multi-point per district; memo Decision D).
+- [ ] [standing, post-A] Sector-specific MA — how it relates to the
+      counterfactual exercise (PENDING DECISIONS item; Cote
+      discussion).
+
+### 3. Parked until pre-deposit (unblocked, deliberately held)
 
 Parked because memo Decision A (θ/τ) could reshuffle exhibits and
 force a rerun anyway (Diego, 2026-07-20).
@@ -98,26 +613,45 @@ force a rerun anyway (Diego, 2026-07-20).
       committed PDF. Now includes the unimodal step (D.13f, ~15 min
       extra vs the PR #97 run). Run after the draft stabilizes
       post-Cote.
+- [ ] Pre-submission figure format decision: the six heavy map
+      figures compile from PNG since PR #132 (repo-size fix);
+      journal production typically wants vector. Decide whether to
+      flip the includes back to .pdf for the final submission /
+      AEA deposit (vector PDFs are still produced by every plot
+      script, so the flip is six one-line edits + recompile).
 
-### 3. Data-limited (need new raw sources; flagged to Cote)
+### 4. Data-limited (need new raw sources; flagged to Cote)
 
 - [ ] gained/lost national highway (needs raw road-class data)
 - [ ] gained/lost railway station (needs additional raw data;
       lp_1979.shp is lines-only)
 - [ ] lost railway depot (needs Damus or similar source)
+- [ ] Agri intensive-margin outcome + urbanization measurement
+      doubts (notes #36/#39) — Cote may fold into his digitization
+      track.
 
-### 4. Bookkeeping (small, no urgency)
+### 5. Bookkeeping (small, no urgency)
 
-- [ ] \doi macro not verbatim-safe for DOIs containing % or # (caveat
-      documented in paper.tex preamble; matters only if such a DOI
-      enters the bib).
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Decide gitignore treatment of logs/makelog.log and
-      logs/session_info.txt (untracked and unignored since the PR #97
-      rerun; flagged by PR #106's review).
+- [ ] Post-meeting refactor: promote the diagnostic helper trio
+      (tau/pop loaders, geodesic pairs) AND the modern-IV machinery
+      (AR inversion, MOP effective F / B(W) / Patnaik cv) into the
+      EXISTING code/analysis/_diagnostic_helpers.R. Four copies now
+      (PRs #130/#135/#137/#139/#140) and two drifts to reconcile
+      when it happens: patnaik_cv returns a bare cv in some copies
+      vs list(cv, k_eff) in diagnostic_mop_critical.R (so the k_eff
+      columns are silently absent downstream), and one copy dropped
+      the beta->Inf derivation comment in B_of_W. Flagged by the
+      PR #137 and #140 reviews; deferred deliberately so pre-meeting
+      evidence work stayed surgical.
+- [ ] Standing gap (structure.md "results are regenerable"): the
+      diagnostic_*.{txt,csv} outputs are committed but not produced
+      by main.R (same status as every diagnostic since PR #67).
+      Decide before deposit whether main.R gains a diagnostics stage
+      or the README states they are exploratory artifacts.
 
-### 5. Deferred by explicit decision
+### 6. Deferred by explicit decision
 
 - [ ] C7 Heterogeneity regressions — diagnostic + §7.2 prose exist
       (sign patterns only; weak interaction first stages). Remaining:
@@ -127,6 +661,16 @@ force a rerun anyway (Diego, 2026-07-20).
 - [ ] Demand-side sectoral MA (sectoral destination weights) — stated
       as future work in the Conclusion (PRs #101, #102); revisit only
       if the coauthors want it in this paper.
+- [ ] BACK-POCKET (Diego, 2026-07-23): DH-style own-district MA
+      robustness. Baseline MA excludes j = i (eq:ma; matches
+      Donaldson-Hornbeck's baseline; avoids the reflection problem and
+      the undefined tau_ii). The standard referee answer if asked is
+      the DH robustness variant: include own-district access with an
+      internal trade cost built from district area (the
+      (2/3)-radius-type convention on area_km2). Cheap: touches only
+      the MA step (04), no new Dijkstra. Not needed unless asked;
+      Table 14's Z_i decomposition already speaks to the own-district
+      margin more informatively.
 - [ ] OPTIONAL: Borusyak-Hull recentering + GPHK contamination-bias +
       Fuchs-Wong positioning additions — staged plan prepared
       2026-07-20 in `Plan/borusyak_hull_recentering_plan.md`
@@ -141,20 +685,478 @@ force a rerun anyway (Diego, 2026-07-20).
       option (their designs need traffic data that does not exist for
       1960s Argentina), and the ideal is a structural companion paper
       (future work), not an addition.
-      Optional stages: S=100 recentering diagnostic for the Larkin
-      instrument (line-level permutation within region×branch strata;
-      includes the pre-trends-cleaning check), promotion to recentered
-      spec + randomization inference (gated on diagnostic + Cote), and
-      the BH-2026 optimal-IV fusion instrument (Cote required), plus a
-      referee-contingent Table 14 interacted-controls robustness
-      variant (GPHK ideal). The
-      stratification choice is flagged for Cote (interacts with
-      Decision A and issue #68); known implementation facts verified:
-      lp_1979 id_main is segment-level (line grouping must be built),
-      recom_code populated for non-studied segments (meaning unclear —
-      clarify before stratifying on it).
+      STAGE 1 EXECUTED (PRs #111, #112; 2026-07-21/22) with the STOP
+      outcome: 39% of the Larkin instrument is expected given
+      geography; controls span 17% of mu; estimates collapse under
+      recentering (imprecisely, recentered F ~ 10); placebo does NOT
+      clean. Outcome-blind control exploration (protocol: seven
+      predetermined sets fixed ex ante, ranked by recentered
+      first-stage F only, all outcome cells reported, LOO-mu RI)
+      returned a clean negative: best set is the existing
+      geo_controls_main + mu. Stage 2 NOT recommended without the
+      meeting's input.
+- [ ] [optional, decided — no action required] Vicente López 1960
+      digitization discrepancy (Part 2: 241,656 vs Part 3: 247,656;
+      one digit). Decision (Diego, 2026-07-16): document and leave as
+      is — pipeline uses Part 3, both values pinned in
+      clean_census_1960.R. Check the published volume only if
+      convenient.
 
----
+### 7. Completed this cycle (2026-07-24 → 2026-07-25), record
+
+The pre-meeting work program: fourteen merged PRs (#115-#128 wave)
+plus the five of 2026-07-25 (#129-#133). Entries kept verbatim as
+the verification record.
+
+- [x] PR #115 (settlement road-timing design, balanced but weak dose:
+      recentered F ~ 1) — squash-merged 2026-07-24 (eede3e7) after
+      published review + fixes.
+- [x] Corridor-timing design instrument — DONE, PR #117 squash-merged
+      2026-07-24 (1e66852) with published review + fix pass. Verdict:
+      real dose (recentered F 3-4.5, order of magnitude over the
+      settlement design) but loaded dice (early corridors traverse
+      districts with faster 1947-60 placebo growth, b=+0.074 p=0.039;
+      unadjusted placebo IV p=0.025). Known limitation recorded:
+      snap-tolerance sensitivity unexplored (needs recompute).
+- [x] Branch-sync step — done 2026-07-24 (clean merge, no conflicts)
+      before PR #117; branch deleted after squash-merge.
+- [x] Paper fixes settled by Cote's email — ALL TEN DONE, PR #116
+      squash-merged 2026-07-24 (closed issues #91 and #103
+      automatically). Items: (a) Larkin year 1962 + announcement
+      footnote; (b) 1954 census agency (DNEC, Secretaría de Estado
+      de Hacienda) in bib; (c) DNV-vs-ACA road-km footnote + new
+      dnvseries data citation; (d) B&P El Trimestre URL, CONADE
+      resolved; (e) "discontinuity" removed §1/§2.2, "Argentine
+      restructuring" referent; (f) θ = 4.55 declared midpoint, SW
+      4.1 cited, provenance placeholder retired (Decision A flag
+      kept); (g) sectoral θ-robustness sentence in §5.5; (h) Table
+      15 rows low→high (CSV order-only); (i) Table 6
+      self-partialling note + explicit setdiff in code + §4.5.1
+      full control list; (j) §8.2 Gibbons gap = granularity
+      (\meanDistrictArea macro, censo1960pop cited). Review
+      published; blocking finding fixed in the same PR.
+- [x] Studied-share reconciliation footnote — PR #119, squash-merged
+      2026-07-24 (see the open #68 item in section 1 for what
+      remains with Cote).
+- [x] Placebo spec with 1947 baselines (Cote 1.1) — DONE, PR #120
+      merged 2026-07-24. HEADLINE AS RECORDED THEN: the placebo
+      failure is a post-outcome-conditioning artifact (1960 baselines
+      postdate the 1947-60 window; log pop 1960 is a DV component).
+      With the 1947-consistent set the placebo is a clean null in all
+      four estimators (IV-B -0.004, p=0.89) and first stages
+      STRENGTHEN (F 16-24). Scope: placebo-specific; 1960 baselines
+      stay legitimate for the main 1960-91 regressions.
+      ⚠ SUPERSEDED IN PART by PR #143 (2026-07-27): the "artifact"
+      reading does not hold. The clean null comes from dropping the
+      baseline-MA control, not from the 1947 population swap, and the
+      post-outcome justification for dropping it is unsupported. The
+      adopted spec is pop47, which still rejects at 10% (p = 0.085).
+      Read this entry as the dated record of what #120 found, and
+      agenda item B for the current position.
+- [x] Manufacturing robustness exhibit (note #44) — DONE, PR #121
+      merged 2026-07-24: sectoral theta-sweep is now a paper exhibit
+      (tab:theta_sweep_sectoral; mfg value/wage significant at every
+      theta, max p = \sweepSectoralMaxP = 0.014; establishments + ag
+      null throughout). BONUS: the archive CSV was stale (PR #71
+      vintage); refreshed to current pipeline, matches Table 10 to
+      float precision. Sweep wired into main.R as D.13h.
+- [x] Navigation/ports map (note #19) — DONE, PR #122 merged
+      2026-07-24: Appendix Figure A4 + §3.3 prose. Answer: inland
+      Parana-Plata system (8,062 km geodesic) + a few Patagonian
+      rivers + Magellan crossing; NO open-ocean coastal shipping;
+      Atlantic ports connect by land/river legs only. Also wired the
+      never-included A2/A3 into the appendix (paper 47 -> 51 pp).
+      (Its +8.8 MB PDF-bloat note: RESOLVED by PR #132 below.)
+- [x] Fused-instrument (BH-2026 Stage 3) S=100 run — DONE, PR #123
+      squash-merged 2026-07-24 (with published review + fix pass).
+      VERDICT: efficiency gain is real (recentered F 9.6 -> 15.9 vs
+      the studied-only backbone) but estimates are nulls everywhere;
+      pairing integrity asserted via the studied_km fingerprint
+      (deviation 0.0e+00). Feeds the recentering characterization.
+- [x] Growth-stratified corridor repair — DONE, PR #124
+      squash-merged 2026-07-24 (with review + fix pass). VERDICT:
+      door closed with a number. F recentrado 0.5-1.4 (base 3-4.5)
+      with recentered variance intact (sd 0.964 vs 0.956): the
+      timing entropy WAS demand, not mechanical over-stratification.
+      Residual continuous placebo imbalance within terciles (+0.042,
+      p=0.045) corroborates. RECENTERING PROGRAM COMPLETE: six
+      designs, one characterization → agenda item E.
+- [x] §2.4 conceptual channels — DONE, PR #125 merged 2026-07-24
+      (margin-of-change + network geometry paragraphs, hypotheses
+      flagged, anchored to Figure 1; empirics deferred per Cote's own
+      note). Review considers left for Cote: §6.3/§8.3 loop-closing
+      sentence; durability premise used differently in §2.4 vs §8.2.
+- [x] Gibbons-style decay — DONE 2026-07-24, PR #127 (variant
+      "gibbons" on the sectoral sweep script; theta in {0.25, 0.5,
+      0.75}; diagnostic only, paper exhibits untouched). HEADLINE:
+      population turns marginally significant at low decay (+0.49*
+      at 0.75 rising to +1.50* at 0.25 — through and past the
+      Gibbons ~0.3 benchmark) and the sectoral pattern SURVIVES
+      (mfg value/wage ***, ag and establishments null), F 10-15.
+      → agenda item A.
+- [x] Recentering brief — COMPLETE 2026-07-24
+      (`Plan/brief_cote_recentering_2026-07-29.md`): all six design
+      verdicts in, placebo-1.1 breakthrough integrated, prose pass
+      done. Converted to a sendable email
+      (Plan/email_cote_recentering_estado.md); SENT by Diego.
+- [x] Sectoral counterfactual — DONE, PR #128 squash-merged
+      2026-07-25 (Table 17, tab:counterfactual_sectoral, mirrors
+      Table 13's panels for the five Table 10 outcomes;
+      regression-only, MA columns existed). FINDING (answers Cote
+      note #40): manufacturing responds through BOTH modal channels
+      (only-rail +0.215*/+0.222* val/wage; only-road
+      +0.323*/+0.471**), estimates not statistically
+      distinguishable across channels; establishments and
+      agriculture null in every panel. The rail-loss channel is
+      real (consistent with a de-industrialization component) but
+      the road channel is at least as large. Wired: §6 prose + 12
+      AutoFill macros + main.R D.13i; §8.3's false frequency claim
+      retired.
+- [x] Shared table formatters extracted to
+      code/analysis/_table_helpers.R (fmt + tex_cell + star_str;
+      tables 12-17) — PR #129, squash-merged 2026-07-25 (cr-review
+      PR #128 consider C1). Byte-identical outputs verified for all
+      six tables. The two theta-sweep diagnostics keep their own
+      cells (different signatures; not duplicates). table_14 keeps
+      its single-use tex_cell_or_blank.
+- [x] Stale gitignored .tex after worktree-built PRs — RESOLVED in
+      PR #129 (recompile folded in). Full staleness audit of all 23
+      paper inputs (16 table .tex + 7 figure .pdf + scalars) found
+      two real casualties: table_15_density_schedules.tex was
+      pre-#116 (Medium/High/Low row order; Cote note #37 reordering
+      never reached the PDF) and table_6_pre_balance.tex had
+      pre-#119 notes (missing the geographic-controls +
+      self-partialling sentences). Both regenerated; paper.pdf
+      recompiled and committed (52 pp, zero undefined, Table 15
+      order and Table 6 notes verified in the PDF text). All other
+      flags were mtime false positives (byte-identical on re-run).
+      Process rule going forward: after merging a worktree-built PR
+      that touches table/figure scripts, re-run those scripts in the
+      main tree before the next paper.pdf commit.
+- [x] τ normalization experiment (Cote 1.5 / memo point ii; the
+      second cheap experiment for the θ/τ conversation, after the
+      Gibbons decay) — DONE 2026-07-25, PR #130 squash-merged,
+      diagnostic_ma_iceberg.R (diagnostic only, paper untouched;
+      §3.3 placeholder stays until Decision A). Affine iceberg
+      τ' = 1 + cost/V, V-sweep at θ=8.22 and 4.55. HEADLINE: β(V)
+      rises monotonically as τ' compresses toward the D&H band —
+      IV-B at θ=8.22 goes 0.024 (raw) → 0.067 (V=4,400 p/t, τ'
+      p10-p90 1.36-3.40) → 0.12-0.32 at high V — but no point on
+      either curve clears the 5% LEVEL, including the raw anchor
+      itself (p=0.096, the published main spec); the t-stat peaks
+      at V≈100-500 (p=0.055 at θ=4.55 V=100, no weaker than the
+      main spec) before precision decays. The combined-F
+      strengthening (13→37) is ENTIRELY the hypo instrument (IV-H F
+      7.9→65.5 at θ=8.22 while Larkin F falls 15.6→9.7): the
+      normalization REVERSES the instrument-strength ranking, which
+      feeds the IV-LP-only main-spec question. The Gibbons ≈0.3
+      crossing lives only in the degenerate tail (V=100k p/t ≈ 23×
+      the median raw cost). θ·β rescaling from the decay experiment
+      roughly holds (~20% loose at raw/low V, within ~3% by
+      V=4,400). V not sourced yet (rides the #68 archive visit);
+      honesty rule: V gets picked by the source, not by where β
+      lands. Raw anchor reproduces the pipeline with zero diff,
+      asserted in code. → agenda items A and C.
+- [x] Modern IV inference check (note #35) — DONE 2026-07-25, PR
+      #131 squash-merged, diagnostic_modern_iv.R (diagnostic only,
+      paper untouched). 11 headline IV cells (Table 9 pop ×
+      IV-LP/IV-H/IV-B, Table 10 sectoral × IV-B): classical F vs
+      robust Wald F vs MOP effective F + 95% AR sets by robust
+      inversion. HEADLINES: (a) the mfg results SURVIVE weak-IV
+      robust inference — AR sets exclude zero (valprod [0.035,
+      0.678], wage [0.136, 0.732]); (b) every AR set is bounded,
+      population sets include zero (consistent with published
+      nulls); (c) the IV-B (K=2) effective Fs run 1.5-3.3 points
+      below the classical Fs the paper quotes (total pop 13.1 vs
+      16.2); the K=1 IV-LP cell is essentially unchanged and
+      slightly STRONGER under robust inference (22.6 vs 22.1),
+      while the hypo instrument weakens (IV-H F 6.9 classical →
+      4.3 robust); (d) hand-rolled F_eff validated exactly against
+      fixest ivwald on the K=1 cells and cross-checked against the
+      ivDiag reference implementation. MOP K=2 critical values not
+      computed at the time (since computed: PR #136 below). Wiring
+      into the paper = post-Wednesday decision (section 2).
+      → agenda item C.
+- [x] \doi macro verbatim-safety — FIXED 2026-07-25, PR #132
+      squash-merged: catcode-based doi.sty-pattern definition;
+      hostile DOIs (% and #) need no escaping. Verified via
+      standalone test compile against 10.1000/weird%20case#frag;
+      all 15 in-paper DOIs render (whitespace-insensitive match
+      against the .bbl call sites), including the two structurally
+      unusual note-field DOIs (IPUMS 10.18128/D020.V7.3, USGS
+      10.5066/F7DF6PQS).
+- [x] Gitignore treatment of logs/makelog.log and
+      logs/session_info.txt — DECIDED 2026-07-25 (Diego): ignore
+      both, consistent with main.Rout (per-run artifacts; the AEA
+      deposit produces them fresh at the final clean-machine run).
+      Two lines added to .gitignore, PR #132.
+- [x] paper.pdf bloat from embedded vector maps (ledger note from PR
+      #122: +8.8 MB per recompile) — FIXED 2026-07-25, PR #132
+      squash-merged: the six heavy map figures (1, 2, A2, A3, A4,
+      C13) compile from their existing PNGs (1400-3600 px;
+      effective ~253 dpi at the figure_2 minimum to ~554 at the c13
+      maximum, given textwidth 6.5in / 0.85x = 5.525in); figure_a1
+      stays vector (5 KB). Vector PDFs still produced to
+      results/figures/ by every plot script (unchanged). Committed
+      paper.pdf: 17.95 MB -> 3.18 MB (-82%), 52 pp, zero undefined,
+      all 15 DOIs render. Pre-deposit flip-back decision tracked in
+      section 3.
+- [x] Cross-decision checks (A×B and A×C completion) — DONE
+      2026-07-26, PR #139, diagnostic_crossobject_checks.R
+      (diagnostic only). PART 1 (A×B): the full47 placebo spec run
+      on every candidate τ object (raw anchor, decay θ=0.5,
+      iceberg V=4,400/20,000, 1b both θ). VERDICT: no placebo
+      rejection on any candidate object — smallest any-IV p = 0.34,
+      IV-B p range 0.34-0.95, IV-B placebo first stages F
+      21.5-61.1. Caveat: the IV-LP first stage collapses on the
+      iceberg objects (F 3.7 / 1.6), so those IV-LP nulls are
+      low-power; the IV-B/IV-H cells carry the verdict there. No
+      A×B interaction detected on the candidate set. PART 2 (A×C
+      decay cell + MOP, the latter added in the fix pass after the
+      review caught an inconsistent evidentiary standard): mfg
+      value/wage stay significant at 5% under IV-LP across the
+      whole decay grid (max p = 0.030, classical F(LP) 9.2-15.0) —
+      the only candidate grid where that holds (iceberg: low V
+      only; 1b: nowhere) — but by the MOP standard that judged 1b,
+      decay IV-LP is also weak (F_eff 10.7-16.3 vs K=1 cvs
+      23.11/15.06 → 0/18 pass at 10%, 1/18 at 20%). Honest
+      summary: decay = least-weak IV-LP candidate; no object makes
+      IV-LP-only MOP-strong. Anchors asserted: raw placebo row ==
+      diagnostic_placebo_1947 full47 (all four estimators + N=237,
+      constant across objects); decay IV-B ==
+      diagnostic_theta_gibbons (18 cells incl. n_obs); BA-Rosario
+      geodesic; CSV union row-count guard.
+      → agenda items B and C(iii-b).
+- [x] Route-inefficiency tau (Decision A option 1b) — DONE
+      2026-07-25, PR #137, diagnostic_tau_inefficiency.R
+      (diagnostic only; completes the three-option evidence set
+      for Decision A). τ' = cost/(c_min × geodesic distance
+      between the 03c centroids), pair-varying, zero external
+      data. FINDINGS: τ' p10/p50/p90 = 4.5/9.4/25.5 with 0% of
+      pairs below 1; Δlog MA correlates 0.88 with the raw-object
+      treatment; IV-Both sectoral contrast HOLDS (mfg value
+      p=0.003-0.004, wage p=0.001, at both θ; establishments/ag
+      min p=0.12; population null p=0.15-0.17). Quantified costs:
+      classical IV-B F 8-12 (vs 13-16 raw); MOP test (machinery
+      from PR #136, added in the fix pass): population + mfg cells
+      PASS at 10% (F_eff 8.2-8.7 vs cv 6.5-7.4) but both ag cells
+      FAIL even at 20% (F_eff ≈ 7.0 vs cv 10.2-11.5); ag farms p
+      thins 0.22 → 0.12. IV-LP on the 1b object is MOP-weak
+      everywhere (F_eff 3.4-5.7 vs 23.1; mfg value p=0.047 at
+      θ=4.55, 0.069 at 8.22). Referee caveat carried: τ' is not
+      the D&H narrow-band object. Anchors asserted: BA-Rosario
+      geodesic = 265.9 km (scoping-note value); distance matrix
+      symmetric/positive/zero-diagonal; per-outcome Ns match
+      Tables 9/10. → agenda item A(v).
+- [x] MOP critical values for the effective F — DONE 2026-07-25,
+      PR #136, diagnostic_mop_critical.R (diagnostic only;
+      completes note #35's remaining gap). Algorithm verified against Windmeijer
+      2023 (arXiv:2309.01637) Sec. 3 = Stata weakivtest: exact
+      Nagar-bias bound B(W) (eigenvalue-analytic inner sup + 1-D
+      numeric outer sup), Patnaik k_eff, noncentral-chi2 cv;
+      tau ∈ {5,10,20,30}%, alpha 5%. VERDICTS: 8/9 IV-B cells PASS
+      at tau=10% (rural pop fails 10%, passes 20%); IV-LP alone
+      borderline (22.64 vs 23.11); IV-H fails all. Attribution
+      (per the PR #136 review, which independently reimplemented
+      the machinery): the low exact cvs (6.5-9.7) come from the
+      Nagar-bias bound B ≈ 0.15-0.30, not from K=2 per se — the
+      conservative B=1 cvs are 19.7-20.5 and every IV-B cell would
+      fail those at 10%. Residuals per MOP's reduced-form setup
+      (v1 = u + βv2; the structural-residual variant was verified
+      immaterial, no verdict flips). Anchors asserted in code:
+      F_eff == diagnostic_modern_iv.csv digit-for-digit (11
+      cells); conservative K=1 cv(10%) == MOP's published 23.1;
+      B <= 1 everywhere; k_eff = 1 exactly at K=1; exact cv <=
+      conservative cv. → agenda item C(iv).
+- [x] Sectoral outcomes on the iceberg V-sweep — DONE 2026-07-25,
+      PR #135, diagnostic_ma_iceberg_sectoral.R (diagnostic only;
+      companion to PR #130, theta_sweep-pair precedent). VERDICT,
+      two parts: (a) under IV-BOTH the paper's headline contrast
+      survives the iceberg object at EVERY grid point and both θ —
+      mfg value max p = 0.013 (θ=8.22) / 0.009 (θ=4.55), wage max
+      p = 0.004/0.002; establishments + both ag outcomes never
+      significant (min p = 0.127); (b) under IV-LP (added per the
+      PR #135 review — the IV-LP-only question is on the agenda)
+      the contrast holds only at low-to-mid V (** at V=100-1000;
+      already just * at raw, per Table 10) and fades to null at
+      high V (max p 0.18/0.33), consistent with the Larkin F
+      falling with V (PR #130): Decision A and the instrument
+      choice interact. β levels grow by an order of magnitude
+      along the grid as Δlog MA compresses; the growth factor is
+      OUTCOME-DEPENDENT because the transform is nonlinear (θ=8.22
+      raw → V=100k: wage ×41.7, population ×13.1) — levels are
+      object-dependent, the contrast (under IV-Both) is not.
+      Verified in code with row-count-guarded assertions: raw θ-low
+      anchor reproduces Table 10 IV-B AND IV-LP (all 5) and Table 9
+      IV-B and IV-LP (population) exactly; population rows match
+      diagnostic_ma_iceberg.csv at every cell, both specs.
+      → agenda item A(iii), feeds C too.
+- [x] Main-spec column names centralized — DONE 2026-07-25, PR #133
+      squash-merged (PR #131 review consider C4): main_treatment +
+      main_lp_instrument now live in config.R next to
+      main_hypo_instrument; the 17 paper-surface scripts that
+      carried the literals (tables 6-15, 17, a1 — table_16 had
+      none — figures 2/4/c13, generate_scalars,
+      build_estimation_sample) use the constants. Changing the main
+      spec after Decision A is now a one-line config edit (plus the
+      label/binning sweep listed in config.R's comment).
+      Diagnostics keep their own literals (archived experiments).
+      Verified: all 17 touched scripts rerun; 24 table files + 3
+      PNGs byte-identical, scalars identical net of timestamp,
+      estimation-sample parquet content-identical.
+
+Closed by Cote's 2026-07-24 email (implementation = PR #116 above):
+
+- [x] Theta 4.55 provenance — CLOSED: he does not recall the source;
+      4.55 declared a midpoint with Simonovska-Waugh ~4.1 cited
+      (adopting 4.1 as the computed θ would force a full MA/tau
+      recompute; not done). Decision A flag kept.
+- [x] Abstract wording sign-off — CLOSED for now ("me sirve como
+      está por ahora"); Cote rewrites it himself at publication
+      time, together with title/narrative.
+- [x] Larkin Plan canonical year — CLOSED: report cover + elevation
+      letter dated 1962 (Ministerio de Obras y Servicios Públicos);
+      1961 = Frondizi's announcement.
+- [x] Issue #91: 1954 industrial census issuing agency — CLOSED
+      against the physical title page: Dirección Nacional de
+      Estadística y Censos (Secretaría de Estado de Hacienda),
+      Buenos Aires 1960; "INDEC" in catalogs is anachronistic
+      (INDEC created 1968). Source:
+      bibliotecadigital.estadistica.ec.gba.gov.ar cn1958i post.
+- [x] Issue #103 (35,000 vs 79,820 km) — CLOSED: source difference.
+      §2's ~35,000 = DNV national-network series
+      (`Train/raw_data/kms_road_arg/kmVia_DNV`: 27,276 paved +
+      7,153 gravel in 1986, excludes dirt); §3.1's 79,820 =
+      digitized ACA network (broader).
+- [x] B&P source volume — CLOSED: El Trimestre Económico article
+      ("Estructura económica del transporte de carga automotor y
+      ferroviario en la Argentina"), NOT a CONADE report. URL:
+      eltrimestreeconomico.com.mx article 3317. (Exact DNV volume
+      still open — section 1.)
+
+### 8. Completed 2026-07-26 → 2026-07-27, record
+
+The second pre-meeting wave. Section 7 above stops at PR #133; these
+are the twelve that followed (#134-#145). One line each, keyed to the
+agenda item they serve — the substantive findings live in the agenda
+items themselves (section 0), not here.
+
+- [x] PR #134 — ledger reorganized around the Wednesday agenda
+      (OPEN ITEMS restructured into sections 0-7).
+- [x] PR #135 — sectoral outcomes on the iceberg V-sweep: the
+      manufacturing/agriculture contrast survives at every V and both
+      θ under IV-Both (item A de-risking).
+- [x] PR #136 — Montiel Olea-Pflueger critical values for the
+      effective F; 8 of 9 IV-B cells pass at 10% bias tolerance
+      (item C evidence, closes reading note #35).
+- [x] PR #137 — route-inefficiency τ (Decision A option 1b)
+      quantified: contrast holds under IV-Both, both agricultural
+      cells go MOP-weak (item A).
+- [x] PR #138 — ledger records the pre-meeting brief + pendings
+      refresh.
+- [x] PR #139 — cross-decision checks: A×B (placebo clean on every
+      candidate τ object) and the decay IV-LP cell, completing the
+      A×C matrix.
+- [x] PR #140 — modern weak-IV inference for the four Table 11
+      outcomes: the overidentification test rejects in three of four
+      (the item-D headline fact).
+- [x] PR #141 — §5.4 restructured on the confirmed item-D position;
+      Table 11 gains an overidentification row; migration moved to
+      Appendix A. Detail in item D, section 0.
+- [x] PR #142 — appendix exhibit prefixes match their appendix
+      (Table B1, Figures B1-B4).
+- [x] PR #143 — item-B evidence, two parts. Part 1 probed whether
+      full47 is defensible: a baseline-MA level re-weighted with 1947
+      population (correlating 0.9994 raw, 0.9990 partial, with the
+      1960-weighted one) leaves β at +0.078, so MA(1960)'s post-1947
+      population content is too small for "it is post-outcome" to
+      justify dropping the control. Part 2 is the direct
+      pre-1960-growth test; manufacturing survives. Detail in agenda
+      items B and B2.
+- [x] PR #144 — ledger records the adopted item-B position, adds item
+      B2, and rewrites the downstream work item. Its own review caught
+      four overstatements in that text, including a pre-registration
+      claim that was not true; corrected in the same PR (see the note
+      below).
+- [x] PR #143 note — HONEST NOTE ON HOW THE REVERSAL HAPPENED
+      (cr-review PR #144):
+      the reading guide WAS fixed before the numbers were seen, but
+      read literally the outcome mapped to its second scenario
+      (neither constructed control rejects at 10%), which favours
+      full47. The reversal rests on the collinearity argument and the
+      coefficient pattern, assembled after seeing the numbers. The
+      pre-committed note did anticipate that a correlation near 1
+      would weaken the post-outcome case, but the scenario mapping did
+      not, so this is not a case of pre-registration vindicating a
+      call. Recorded because the temptation to claim otherwise is
+      exactly what the pre-commitment was for.
+
+- [x] PR #145 — Table 7 swapped to pop47 (placebo_controls in
+      config.R), appendix Table B2 publishes the four-row baseline
+      ladder, log_pop_1947 becomes a stored column in
+      build_estimation_sample.R, the Conley diagnostic carries a
+      per-spec control set and was rerun, and the placebo prose was
+      updated in §1, §4.6, §5.2 and §8.2. Two new scalars
+      (\placeboOLSP, \placeboIVBP) so the significance claims are
+      p-values rather than words — the words were what broke. 55 pp,
+      zero undefined, zero warnings. Detail in agenda item B.
+
+- [x] PR #146 (open) — Cote's 1960 geocoding intake, 3,063 localities.
+      Archive checksum verified against the readme, the "sin fuente no
+      hay coordenada" rule verified to hold, and the file reconciles to
+      99.90% of our own non-CABA 1960 total. Review published; blockers
+      are ours, not his. Detail in section 1 and agenda item G.
+- [x] PR #149 — universe-comparable placebo. Established that Table 7's
+      rejection is fragile to how the outcome is measured (apparent
+      declines 143/237 vs 27/234; published outcome correlates +0.304
+      with the coverage proxy vs +0.100) while the slope movement is
+      not distinguishable from zero (difference test p 0.11-0.30) and
+      the ten-percent crossing comes from a three-district sample
+      change rather than the outcome swap. Also settled in-repo that
+      the 1947 and 1960 urban definitions share the 2,000 rule
+      (smallest Cuadro 14 centre is 2,002, none below), recorded in
+      censo1947/readme.md. Its review caught a wrong p-value (0.039
+      for 0.065) that this ledger had inherited, and a headline
+      asserted without the test that was one line away.
+- [x] PR #147 — the 1960 population universe mismatch, found while
+      reviewing #146. See agenda item H for the finding and what it
+      does and does not settle. Its own review found five blocking
+      problems, four of them overstatements in the write-up rather
+      than errors in the numbers: the orthogonality claim rested on
+      raw instead of control-conditional correlations, and the script
+      had written a stopping rule it then made impossible to trigger.
+      Rebuilt; the rule now fires and Part 1 reports INCONCLUSIVE. The
+      review also supplied the better argument the fix pass adopted
+      (the 1947 district-totals comparison).
+
+APPENDIX EXHIBIT RENAME (PR #142, 2026-07-27). The appendix now has
+two lettered sections — A. Recent Migration (prose) and B. Additional
+Tables and Figures — and exhibit prefixes match the letter of the
+appendix holding them. Before, the floats were prefixed A while
+sitting under two UNNUMBERED headings, so "Table A1" appeared to
+belong to Appendix A, which has no exhibits. The mapping:
+
+      table_a1_descriptives           -> table_b1_descriptives
+      figure_a1_cost_schedule         -> figure_b1_cost_schedule
+      figure_a2_hypothetical_networks -> figure_b2_hypothetical_networks
+      figure_a3_larkin_studied        -> figure_b3_larkin_studied
+      figure_a4_navigation            -> figure_b4_navigation
+
+Scripts, main.R steps D.15-D.19, results/ files, the paper.tex
+includes, README's exhibit table, and the in-code exhibit labels all
+moved with them; compiled numbering is Table B1 and Figures B1-B4.
+Cross-references go through labels, so the in-text numbers updated
+themselves. In paper.tex the prefix is derived from \thesection with
+\counterwithin*, so a future Appendix C needs no further edit.
+
+DATED RECORDS KEEP THE OLD NAMES deliberately — rewriting them would
+falsify what PRs #80/#104 actually produced. Survivors sit in section 7
+above, CURRENT STATUS, Done (Block 1 core), and the DEFERRED LEDGER;
+they are dated statements about what those PRs shipped, so read them
+through the mapping. The forward-looking exhibit specs under CODE TASKS
+> Figures (C15, C16, C17) DID move, since a reader consults those for
+which script builds an exhibit. And "Appendix Table A1" in the ledger's
+Gibbons comparisons refers to THEIR table, not ours: it stays.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
@@ -555,7 +1557,7 @@ Remaining items not covered by the memo (most flagged in
 3. ~~**Elasticity justification**~~ — superseded by memo Decision A (θ / τ object).
 4. ~~**Tau calculation**~~ — superseded by memo Decision B/A (connector re-cost, transshipment already screened in PR #66).
 5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.55) throughout.
-6. ~~**Pre-trends not clean null**~~ — superseded by memo Decision E (numbers updated: OLS 0.035**, IV-Both 0.078* on the 235-district placebo subset).
+6. **Pre-trends not clean null** — REOPENED 2026-07-27, see agenda item B. Was struck through as "superseded by memo Decision E" when the 1947-consistent spec looked like a clean null; PR #143 showed that reading does not hold. Published Table 7 numbers are OLS +0.0386** and IV-Both +0.0870** on the 237-district placebo subset (the old entry's 0.035/0.078 and "235 districts" were stale). Under the adopted pop47 spec: OLS +0.0275 (p=0.149), IV-Both +0.0839 (p=0.085) — a marginal rejection, not a clean null.
 7. ~~**Migration sign wrong-way**~~ — superseded by memo Decision E (carried unchanged; no new evidence).
 8. ~~**Hypo instrument is weak**~~ — superseded by memo Decision C (estimand) — the rail-vs-total-MA question replaces the two-instrument-vs-LP-only framing.
 9. **Tabla 10 sectoral outcomes**: currently uses industrial + agricultural census activity outcomes (not IPUMS employment). Option to rebuild IPUMS `indgen` shares if coauthor prefers the original framing.
@@ -671,14 +1673,14 @@ Three choropleth maps: ΔMA^full, ΔMA^only_rail, ΔMA^only_road. Depends on C1.
 #### C14. Local infrastructure scatter (Block 2)
 Δln(pop) vs ΔlnMA, colored by station loss. Depends on C4.
 
-#### C15. Transport cost schedule (Figure A1)
-Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover interval (500-1,000 t/day; the three tabulated points do not identify a crossover point). **Done: `code/analysis/plot_figure_a1_cost_schedule.R` (PR #80). Densities read from `cost_density` in config.R.**
+#### C15. Transport cost schedule (Figure B1)
+Road and rail costs vs cargo density from Baumgartner & Palazzo (1969). Shows crossover interval (500-1,000 t/day; the three tabulated points do not identify a crossover point). **Done: `code/analysis/plot_figure_b1_cost_schedule.R` (PR #80). Densities read from `cost_density` in config.R.**
 
-#### C16. Hypothetical network maps (Figure A2)
-Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. **Done: `code/analysis/plot_figure_a2_hypothetical_networks.R` (PR #80). 1986 selector read from `roads_type2_1986` in config.R; CRS asserted per layer.**
+#### C16. Hypothetical network maps (Figure B2)
+Four panels: Euclidean bilateral, LCP bilateral, Euclidean MST, LCP MST. Overlaid on actual 1986 roads. **Done: `code/analysis/plot_figure_b2_hypothetical_networks.R` (PR #80). 1986 selector read from `roads_type2_1986` in config.R; CRS asserted per layer.**
 
-#### C17. Larkin Plan studied segments map (Figure A3)
-Studied vs non-studied rail segments. **Done: `code/base/networks/plot_figure_a3_larkin_studied.R` (PR #80). Legend reports km, not share, pending issue #68.**
+#### C17. Larkin Plan studied segments map (Figure B3)
+Studied vs non-studied rail segments. **Done: `code/base/networks/plot_figure_b3_larkin_studied.R` (PR #80). Legend reports km, not share, pending issue #68.**
 
 ---
 

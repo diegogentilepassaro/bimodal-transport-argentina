@@ -13,11 +13,14 @@
 %       be implemented; the industrial and agricultural census activity
 %       outcomes are used instead. See table_10_sectoral.R header.)
 %
-% Subsections deferred (need more analysis before drafting):
-%   5.4 Other Outcomes   (pending Table 11: education, migration,
-%                        employment status)
-%   5.5 Robustness       (pending Table 12: alternative theta, alternative
-%                        hypo instruments, subsample stability)
+%   5.4 Other Outcomes (Table 11: education, recent migration,
+%       employment rate). Organized around the overidentification test
+%       defined in Section 4: only the employment rate has a jointly
+%       identified two-instrument specification. The recent-migration
+%       estimates are recorded in the appendix rather than read as a
+%       result (agenda item D, PR #141).
+%   5.5 Robustness (Table 12: alternative theta, alternative hypo
+%       instruments, subsample stability)
 %
 % All regression numbers in this section are AutoFill macros from
 % results/scalars.tex (paper-wide pass after issue #22). Significance
@@ -117,12 +120,18 @@ slowly anyway, gains align with negative outcome shocks and OLS
 understates the causal response. The opposing efficiency logic ---
 closures concentrated where outcomes were already falling --- biases
 OLS upward and so cannot explain a gap of this direction. The placebo
-evidence bears on which logic dominated: on the subsample where
+evidence bears weakly on which logic dominated: on the subsample where
 pre-period growth is observed, post-reform market-access changes
 correlate \emph{positively} with 1947--1960 growth
-(Section~\ref{sec:pre_trends}), the efficiency-selection pattern,
-which taken alone points to upward, not downward, OLS bias and so
-weighs against selection of either sign explaining the observed gap.
+(Section~\ref{sec:pre_trends}), which is the efficiency-selection
+pattern and points to upward rather than downward OLS bias. That
+correlation is significant at the ten-percent level in the
+combined-IV specification and not at conventional levels in OLS under
+the heteroskedasticity-robust standard errors used throughout, so it
+is suggestive rather than decisive; under the spatially robust
+standard errors reported in Section~\ref{sec:limitations} both
+specifications reject. Read as suggestive, it weighs
+against selection of either sign explaining the observed gap.
 The second mechanism is attenuation: market
 access is a constructed regressor built from digitised networks and
 calibrated cost parameters, and classical measurement error in it
@@ -146,14 +155,14 @@ schedules, switching every market-access object --- treatment, both
 instruments, and the baseline log-MA control --- to the row's
 schedule. The treatment correlates \densHighCorrBase{} (high density)
 and \densLowCorrBase{} (low density) with its baseline version, so the
-three rows are related but not interchangeable measures. The
-combined-IV estimate rises monotonically as the cost schedule shifts
-from rail-favouring to road-favouring: \densHighIVBCoef{}
-(\densHighIVBSE{}) at high density, \mainPopCoefIVBoth{}
-(\mainPopSEIVBoth{}) at the baseline, and \densLowIVBCoef{}
-(\densLowIVBSE{}, $p = \densLowIVBP{}$) at low density. The
-combined-IV first-stage $F$ is \densHighF{}, \firstStageFBoth{}, and
-\densLowF{} respectively; identification is strongest under the
+three rows are related but not interchangeable measures. Reading
+down the table, the combined-IV estimate falls monotonically as the
+cost schedule shifts from road-favouring to rail-favouring:
+\densLowIVBCoef{} (\densLowIVBSE{}, $p = \densLowIVBP{}$) at low
+density, \mainPopCoefIVBoth{} (\mainPopSEIVBoth{}) at the baseline,
+and \densHighIVBCoef{} (\densHighIVBSE{}) at high density. The
+combined-IV first-stage $F$ is \densLowF{}, \firstStageFBoth{}, and
+\densHighF{} respectively; identification is strongest under the
 low-density schedule.
 
 \input{../results/tables/table_15_density_schedules.tex}
@@ -285,35 +294,66 @@ computed over 1960--1986; infrastructure restructuring predates the
 1970 outcome measurement. Column structure matches
 Table~\ref{tab:population_iv}.
 
-For the college share, all four estimates are statistically
-indistinguishable from zero, with point estimates between $\collegeMin{}$
-and $\collegeMax{}$. For the secondary share, the OLS and combined-IV
-point estimates are \secondaryOLSCoef{} and \secondaryIVBCoef{}; the IV-LP estimate alone is \secondaryIVLPCoef{}
-($p=\secondaryIVLPP{}$).
+One feature of these four outcomes organizes how we read them. For
+three of the four, the two instruments do not identify a common
+parameter. The identification-robust overidentification test defined
+in Section~\ref{sec:identification} rejects at the
+\overidAlpha{}-percent level for the college share
+($p=\collegeRobustJP{}$), the secondary share
+($p=\secondaryRobustJP{}$), and the recent-migration share
+($p=\migrationRobustJP{}$), and does not reject for the employment
+rate ($p=\employmentRobustJP{}$). The classical Sargan statistic
+reported in Table~\ref{tab:other_outcomes_iv} gives the same four-way
+split ($p=\sarganCollege{}$, $\sarganSecondary{}$,
+$\sarganMigration{}$, and $\sarganEmployment{}$ respectively), so
+heteroskedasticity is not what drives the result. We therefore report
+the combined-instrument estimate as the result for the employment
+rate, and for the other three outcomes we report what each instrument
+implies separately.
 
-For the recent-migration share, the OLS estimate is $\migrationOLSCoef{}$ (\migrationOLSSE{}),
-significant at the one-percent level. The combined IV estimate is
-\migrationCoefIVBoth{} (\migrationSEIVBoth{}), significant at the
-one-percent level. The sample
-is \mainPopNIVBoth{} districts. A one-unit increase in $\Delta \ln
-\mathrm{MA}^{\mathrm{full}}_i$ corresponds to a \migrationCoefAbs{} decrease in the
-share of residents reporting recent migration.
+For the employment rate, the OLS estimate is $\employmentOLSCoef{}$
+(\employmentOLSSE{}) and the combined IV estimate is
+$\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at the
+five-percent level ($p=\employmentIVBP{}$). The Larkin Plan instrument
+alone gives $\employmentIVLPCoef{}$ (\employmentIVLPSE{},
+$p=\employmentIVLPP{}$). The Anderson--Rubin confidence set for the
+combined specification, which remains valid whatever the strength of
+the instruments, is $[\employmentARlo{}, \employmentARhi{}]$ and
+excludes zero. The employment rate is measured as a share of
+individuals, so a one-unit increase in $\Delta \ln
+\mathrm{MA}^{\mathrm{full}}_i$ is associated with a fall in the
+employment rate of \employmentIVBCoefPP{} percentage points.
 
-For the employment rate, the OLS estimate is $\employmentOLSCoef{}$ (\employmentOLSSE{}) and the
-combined IV estimate is $\employmentIVBCoef{}$ (\employmentIVBSE{}), significant at
-the five-percent level.
+For the college share, every estimate is individually
+indistinguishable from zero, with point estimates between
+$\collegeMin{}$ and $\collegeMax{}$; the two instruments nonetheless
+disagree with each other ($\collegeIVLPCoef{}$ under the Larkin Plan
+instrument against $\collegeIVHCoef{}$ under the hypothetical-network
+instrument), which is what the overidentification test detects. For
+the secondary share the disagreement is sharper. The Larkin Plan
+instrument gives $\secondaryIVLPCoef{}$ ($p=\secondaryIVLPP{}$), with an
+Anderson--Rubin set of $[\secondaryARLPlo{}, \secondaryARLPhi{}]$
+lying entirely above zero, while the hypothetical-network instrument
+gives $\secondaryIVHCoef{}$; the OLS and combined-IV point estimates are
+$\secondaryOLSCoef{}$ and $\secondaryIVBCoef{}$. We do not read a
+schooling effect from these estimates, because the two instruments
+imply different ones. This is the one cell in the table where the
+evidence cuts against that reading: taken on its own, the Larkin Plan
+instrument implies a positive effect on the secondary share.
 
-The direction of the recent-migration coefficient runs opposite to a
-naive prediction that market-access gains attract in-migrants. Two
-readings are consistent with the sign. First, high-market-access
-districts may have retained their existing populations, producing
-lower recent-migrant shares because turnover was low. Second, districts
-that lost population through out-migration to high-market-access
-receiving districts may have ended with small remaining populations
-among whom a given absolute inflow of recent migrants generates a
-higher share. Distinguishing these readings requires data on
-migration flows by origin and destination, which are beyond the
-cross-sectional sample available here.
+For the recent-migration share, the two instruments imply estimates of
+different magnitudes: $\migrationIVLPCoef{}$ (\migrationIVLPSE{},
+$p=\migrationIVLPP{}$) under the Larkin Plan instrument, whose
+Anderson--Rubin set $[\migrationARLPlo{}, \migrationARLPhi{}]$
+contains zero, against $\migrationIVHCoef{}$
+($p=\migrationIVHP{}$) under the hypothetical-network instrument,
+which Section~\ref{sec:first_stage_tab} shows to be the weaker of the
+two. The Anderson--Rubin set for that second estimate,
+$[\migrationARHlo{}, \migrationARHhi{}]$, excludes zero but spans
+more than an order of magnitude, so it restricts the sign and not the
+size. We therefore do not treat the negative combined estimate as a
+finding. Appendix~\ref{app:migration} reports the full set of
+estimates and the readings that have been proposed for the sign.
 
 The window for these four outcomes is 1970--1991 because Argentine
 IPUMS microdata begins in 1970, one decade after the start of the
@@ -352,11 +392,20 @@ coefficient declines monotonically in $\theta$, from
 \sweepBetaThetaOne{} at $\theta = 1$ to \sweepBetaThetaTwelve{} at
 $\theta = 12$, while the first-stage $F$ stays between
 \sweepFMin{} and \sweepFMax{} across the grid. The level of the population elasticity is
-therefore calibration-dependent; its sign is not.
+therefore calibration-dependent; its sign is not. The sectoral
+contrast of Section~\ref{sec:sectoral} is not calibration-dependent:
+Table~\ref{tab:theta_sweep_sectoral} repeats the sweep for the five
+sectoral outcomes. Manufacturing production value and wage mass are
+significant at every value of $\theta$ in the grid (largest
+$p = \sweepSectoralMaxP{}$), while manufacturing establishments and both
+agricultural outcomes are null throughout. The pattern the paper
+emphasizes --- manufacturing responds on the intensive margin,
+agriculture does not --- holds at every calibration we examined.
 Section~\ref{sec:discussion} discusses the implications for
 comparisons with estimates in the literature.
 
 \input{../results/tables/diagnostic_theta_sweep.tex}
+\input{../results/tables/diagnostic_theta_sweep_sectoral.tex}
 
 \paragraph{Transshipment bound.}
 The cost surface underlying all estimates allows free mode switching:
@@ -384,7 +433,11 @@ coefficient here differs from Table~\ref{tab:population_iv}
 column~(1).} The truth --- finite transshipment costs at
 stations and ports --- lies between the two extremes, which agree on
 the population elasticity; on this evidence the free-switching
-assumption is not driving that estimate.
+assumption is not driving that estimate. The interior case is the
+object of structural work: \citet{fuchswong2026} estimate terminal
+congestion directly and calibrate mode-switching costs at intermodal
+terminals for the contemporary United States, placing the multimodal
+freight system strictly between the two extremes bracketed here.
 
 \paragraph{Panel B --- alternative hypothetical-road instruments.}
 The main specification uses the least-cost-path minimum spanning

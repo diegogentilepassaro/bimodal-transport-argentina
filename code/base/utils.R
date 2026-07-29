@@ -37,3 +37,36 @@ ensure_geolev2_char <- function(df, col = "geolev2") {
     }
     df
 }
+
+#' INDEC five-region grouping by numeric province code.
+#' Province codes are the INDEC codes used in geolev2 (characters 3-5
+#' after the leading-zero strip, e.g. "32006072" -> "006" Buenos Aires)
+#' and in the PARENT field of the district shapefile. Shared by the
+#' recentering-diagnostic scripts (lines/strata construction; region
+#' fixed effects in the controls exploration).
+region_of_province <- c(
+    "002" = "Pampeana",  # CABA
+    "006" = "Pampeana",  # Buenos Aires
+    "014" = "Pampeana",  # Cordoba
+    "030" = "Pampeana",  # Entre Rios
+    "042" = "Pampeana",  # La Pampa
+    "082" = "Pampeana",  # Santa Fe
+    "010" = "NOA",       # Catamarca
+    "038" = "NOA",       # Jujuy
+    "046" = "NOA",       # La Rioja
+    "066" = "NOA",       # Salta
+    "086" = "NOA",       # Santiago del Estero
+    "090" = "NOA",       # Tucuman
+    "018" = "NEA",       # Corrientes
+    "022" = "NEA",       # Chaco
+    "034" = "NEA",       # Formosa
+    "054" = "NEA",       # Misiones
+    "050" = "Cuyo",      # Mendoza
+    "070" = "Cuyo",      # San Juan
+    "074" = "Cuyo",      # San Luis
+    "026" = "Patagonia", # Chubut
+    "058" = "Patagonia", # Neuquen
+    "062" = "Patagonia", # Rio Negro
+    "078" = "Patagonia", # Santa Cruz
+    "094" = "Patagonia"  # Tierra del Fuego
+)

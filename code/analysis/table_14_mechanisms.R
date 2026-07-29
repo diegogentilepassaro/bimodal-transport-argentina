@@ -66,6 +66,7 @@ main <- function() {
 
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_table_helpers.R"), echo = FALSE)
     options(modelsummary_factory_latex = "kableExtra")
     options(modelsummary_format_numeric_latex = "plain")
 
@@ -76,8 +77,8 @@ main <- function() {
     )
 
     y      <- "chg_log_pop_91_60"
-    endog  <- "chg_logMA_86_60_s0_elow"
-    lp     <- "chg_logMA_stu_s0_elow"
+    endog  <- main_treatment
+    lp     <- main_lp_instrument
     hypo   <- main_hypo_instrument
     ctrls  <- paste(geo_controls_main, collapse = " + ")
 
@@ -249,25 +250,6 @@ main <- function() {
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
-fmt <- function(est, se, p) {
-    if (is.na(est)) return("    NA       ")
-    stars <- ifelse(p < 0.01, "***",
-            ifelse(p < 0.05, "**",
-            ifelse(p < 0.10, "*", "")))
-    sprintf("%+6.3f%-3s(%.3f)", est, stars, se)
-}
-
-tex_cell <- function(est, se, p) {
-    if (is.na(est)) return(" ")
-    stars <- ifelse(p < 0.01, "$^{***}$",
-            ifelse(p < 0.05, "$^{**}$",
-            ifelse(p < 0.10, "$^{*}$", "")))
-    sprintf(
-        "\\begin{tabular}{@{}c@{}} %.3f%s \\\\ (%.3f) \\end{tabular}",
-        est, stars, se
-    )
-}
-
 tex_cell_or_blank <- function(est, se) {
     if (is.na(est)) return(" ")
     # No stars row in this view (we display SE only; user looks at p in the CSV)

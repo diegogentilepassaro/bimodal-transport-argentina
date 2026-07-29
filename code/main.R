@@ -308,11 +308,19 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.7",
         file.path(dir_tables, "table_6_pre_balance.tex"), makelog)
 
+    # Also emits appendix Table B2, the baseline-control ladder, which
+    # paper.tex \input's unconditionally — so both files are verified
+    # here (cr-review PR #145).
     run_step("D.8  table_7_pre_trends",
              a("table_7_pre_trends.R"),
-             "Table 7: pre-trends placebo (1947-1960 population)", makelog)
+             paste("Table 7: pre-trends placebo (1947-1960 population)",
+                   "+ appendix Table B2 baseline ladder"), makelog)
     verify_outputs("D.8",
-        file.path(dir_tables, "table_7_pre_trends.tex"), makelog)
+        c(file.path(dir_tables,
+                    paste0("table_7_pre_trends.", c("tex", "csv"))),
+          file.path(dir_tables,
+                    paste0("table_b2_placebo_ladder.", c("tex", "csv")))),
+        makelog)
 
     run_step("D.9  table_8_first_stage",
              a("table_8_first_stage.R"),
@@ -428,6 +436,28 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_theta_sweep.", c("txt", "csv", "tex"))),
         makelog)
+    # Sectoral sweep: same wiring necessity as D.13e — Section 5.5
+    # \inputs its .tex and generate_scalars reads its CSV
+    # (sweepSectoralMaxP), so a from-scratch run must produce both
+    # (cr-review PR #121 blocking finding).
+    run_step("D.13h diagnostic_theta_sweep_sectoral",
+             a("diagnostic_theta_sweep_sectoral.R"),
+             "Sectoral theta sweep (Section 5.5 exhibit + scalars input)",
+             makelog)
+    verify_outputs("D.13h",
+        file.path(dir_tables,
+                  paste0("diagnostic_theta_sweep_sectoral.",
+                         c("txt", "csv", "tex"))),
+        makelog)
+    run_step("D.13i table_17_counterfactual_sectoral",
+             a("table_17_counterfactual_sectoral.R"),
+             "Sectoral counterfactual decomposition (Section 6, Table 17)",
+             makelog)
+    verify_outputs("D.13i",
+        file.path(dir_tables,
+                  paste0("table_17_counterfactual_sectoral.",
+                         c("tex", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
@@ -436,32 +466,43 @@ stage_d_analysis <- function(makelog) {
     verify_outputs("D.14",
         file.path(dir_results, "scalars.tex"), makelog)
 
-    # Appendix figures A1-A3
-    run_step("D.15 figure_a1_cost_schedule",
-             a("plot_figure_a1_cost_schedule.R"),
-             "Figure A1: B&P transport cost schedule by mode and density",
+    # Appendix B figures B1-B4
+    run_step("D.15 figure_b1_cost_schedule",
+             a("plot_figure_b1_cost_schedule.R"),
+             "Figure B1: B&P transport cost schedule by mode and density",
              makelog)
     verify_outputs("D.15",
         file.path(dir_figures,
-                  paste0("figure_a1_cost_schedule.", c("pdf", "png"))),
+                  paste0("figure_b1_cost_schedule.", c("pdf", "png"))),
         makelog)
 
-    run_step("D.16 figure_a2_hypothetical_networks",
-             a("plot_figure_a2_hypothetical_networks.R"),
-             "Figure A2: hypothetical road networks vs actual 1986 roads",
+    run_step("D.16 figure_b2_hypothetical_networks",
+             a("plot_figure_b2_hypothetical_networks.R"),
+             "Figure B2: hypothetical road networks vs actual 1986 roads",
              makelog)
     verify_outputs("D.16",
         file.path(dir_figures,
-                  paste0("figure_a2_hypothetical_networks.", c("pdf", "png"))),
+                  paste0("figure_b2_hypothetical_networks.", c("pdf", "png"))),
         makelog)
 
-    run_step("D.17 figure_a3_larkin_studied",
-             bn("plot_figure_a3_larkin_studied.R"),
-             "Figure A3: Larkin Plan studied vs non-studied rail segments",
+    run_step("D.17 figure_b3_larkin_studied",
+             bn("plot_figure_b3_larkin_studied.R"),
+             "Figure B3: Larkin Plan studied vs non-studied rail segments",
              makelog)
     verify_outputs("D.17",
         file.path(dir_figures,
-                  paste0("figure_a3_larkin_studied.", c("pdf", "png"))),
+                  paste0("figure_b3_larkin_studied.", c("pdf", "png"))),
+        makelog)
+
+    # Wired with the figure itself (cr-review PR #121 precedent: any
+    # fragment/figure the paper includes must be a pipeline output).
+    run_step("D.17b figure_b4_navigation",
+             bn("plot_figure_b4_navigation.R"),
+             "Appendix Figure B4: navigation layer of the cost surface",
+             makelog)
+    verify_outputs("D.17b",
+        file.path(dir_figures,
+                  paste0("figure_b4_navigation.", c("pdf", "png"))),
         makelog)
 
     run_step("D.18 figure_c13_ma_counterfactual_trio",
@@ -474,13 +515,13 @@ stage_d_analysis <- function(makelog) {
                          c("pdf", "png"))),
         makelog)
 
-    run_step("D.19 table_a1_descriptives",
-             a("table_a1_descriptives.R"),
-             "Appendix Table A1: descriptive statistics, estimation sample",
+    run_step("D.19 table_b1_descriptives",
+             a("table_b1_descriptives.R"),
+             "Appendix Table B1: descriptive statistics, estimation sample",
              makelog)
     verify_outputs("D.19",
         file.path(dir_tables,
-                  paste0("table_a1_descriptives.", c("tex", "csv"))),
+                  paste0("table_b1_descriptives.", c("tex", "csv"))),
         makelog)
 }
 
