@@ -16,7 +16,11 @@
 #       joint sum-of-squared-fitted-values statistic with a
 #       randomization-inference p-value from the draws.
 #   (d) Estimates: population, mfg production value, mfg wage mass, and
-#       the pre-trends placebo, each in three variants --
+#       the pre-trends placebo, each in three variants. The placebo is
+#       reported TWICE, once per baseline population control: row
+#       `placebo_pretrend` (log_pop_1960) and `placebo_pretrend_pop47`
+#       (log_pop_1947, the spec Table 7 adopted). See config.R.
+#       Variants --
 #         unadjusted   IV-LP exactly as in Tables 7/9/10;
 #         recentered   instrument = z - mu;
 #         mu-control   instrument = z, mu added to controls.
@@ -171,17 +175,24 @@ main <- function() {
     add_row(block = "c_spec_test", outcome = "z_obs", spec = "on_controls",
             stat = "r2", value = r2(m_c0, type = "r2"))
 
-    # ---- 6. (d) Estimates: three variants x four outcomes -------------------
+    # ---- 6. (d) Estimates: three variants x five outcome rows ---------------
     endog <- "chg_logMA_86_60_s0_elow"
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so the numbers circulated to the coauthor stay
+    # reproducible from the repo. Third element = swap the baseline.
     outcomes <- list(
         c("chg_log_pop_91_60",      "population"),
         c("chg_log_valprod_85_54",  "mfg_valprod"),
         c("chg_log_massal_85_54",   "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend")
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47")
     )
 
-    fit_variant <- function(y, instr, extra_ctrl = NULL) {
-        cv <- c(geo_controls_main, extra_ctrl)
+    fit_variant <- function(y, instr, extra_ctrl = NULL, pop47 = FALSE) {
+        base_ctrl <- if (pop47) swap_pop_baseline_1947(geo_controls_main)
+                     else geo_controls_main
+        cv <- c(base_ctrl, extra_ctrl)
         f <- as.formula(sprintf("%s ~ %s | %s ~ %s",
                                 y, paste(cv, collapse = " + "),
                                 endog, instr))
@@ -189,11 +200,12 @@ main <- function() {
     }
 
     for (oc in outcomes) {
-        y <- oc[1]; lbl <- oc[2]
+        y <- oc[1]; lbl <- oc[2]; p47 <- length(oc) >= 3L && oc[3] == "pop47"
         specs <- list(
-            unadjusted = fit_variant(y, "z_obs"),
-            recentered = fit_variant(y, "z_rec"),
-            mu_control = fit_variant(y, "z_obs", extra_ctrl = "mu")
+            unadjusted = fit_variant(y, "z_obs", pop47 = p47),
+            recentered = fit_variant(y, "z_rec", pop47 = p47),
+            mu_control = fit_variant(y, "z_obs", extra_ctrl = "mu",
+                                     pop47 = p47)
         )
         for (sp in names(specs)) {
             m <- specs[[sp]]
@@ -216,9 +228,15 @@ main <- function() {
         # Reduced-form RI p (sharp null beta = 0): coefficient of y on
         # the recentered instrument + controls, compared with the same
         # coefficient across permuted-draw recentered instruments.
+        # Controls follow THIS outcome row, not the file-level ctrls_expr:
+        # using the latter would silently give the pop47 row the
+        # geo_controls_main reduced form and hence an identical RI p.
+        rf_ctrls_expr <- paste(
+            if (p47) swap_pop_baseline_1947(geo_controls_main)
+            else geo_controls_main, collapse = " + ")
         rf_coef <- function(zv) {
             dd <- cbind(d2, zv = zv)
-            m <- feols(as.formula(paste(y, "~ zv +", ctrls_expr)),
+            m <- feols(as.formula(paste(y, "~ zv +", rf_ctrls_expr)),
                        data = dd, vcov = "hetero")
             unname(coef(m)[["zv"]])
         }

@@ -1,5 +1,5 @@
 Hypo-instrument node-permutation characterization (Part C)
-Generated: 2026-07-22 21:10:55.752981  |  draws: 100
+Generated: 2026-07-29 17:57:18.259542  |  draws: 100
 
 EPISTEMIC NOTE: researcher randomization -- characterization,
 not design-based validity.

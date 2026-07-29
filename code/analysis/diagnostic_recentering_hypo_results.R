@@ -96,11 +96,16 @@ main <- function() {
         c("chg_logMA_86_60_s0_elow",     "total"),
         c("chg_logMA_only_road_s0_elow", "only_road")
     )
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so numbers already circulated stay reproducible.
+    # Third element = swap the baseline.
     outcomes <- list(
         c("chg_log_pop_91_60",         "population"),
         c("chg_log_valprod_85_54",     "mfg_valprod"),
         c("chg_log_massal_85_54",      "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend")
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47")
     )
     for (tr in treatments) {
         endog <- tr[1]; tlbl <- tr[2]
@@ -115,10 +120,13 @@ main <- function() {
                             tlbl, iv, (tz$est / tz$se)^2))
         }
         for (oc in outcomes) {
+            oc_ctrls <- if (length(oc) >= 3L && oc[3] == "pop47") {
+                swap_pop_baseline_1947(ctrls)
+            } else ctrls
             specs <- list(
-                unadjusted = list(instr = "z_obs", ctrl = ctrls),
-                recentered = list(instr = "z_rec", ctrl = ctrls),
-                mu_control = list(instr = "z_obs", ctrl = c(ctrls, "mu"))
+                unadjusted = list(instr = "z_obs", ctrl = oc_ctrls),
+                recentered = list(instr = "z_rec", ctrl = oc_ctrls),
+                mu_control = list(instr = "z_obs", ctrl = c(oc_ctrls, "mu"))
             )
             for (sp in names(specs)) {
                 s <- specs[[sp]]

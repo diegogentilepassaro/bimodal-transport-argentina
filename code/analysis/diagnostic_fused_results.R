@@ -113,11 +113,15 @@ main <- function() {
     ctrls_expr <- paste(geo_controls_main, collapse = " + ")
     endogs <- list(total = "chg_logMA_86_60_s0_elow",
                    rail_only = "chg_logMA_only_rail_s0_elow")
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so numbers already circulated stay reproducible.
     outcomes <- list(
         c("chg_log_pop_91_60",         "population"),
         c("chg_log_valprod_85_54",     "mfg_valprod"),
         c("chg_log_massal_85_54",      "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend"))
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47"))
 
     for (nm in names(S_)) {
         ds <- S_[[nm]]
@@ -150,8 +154,15 @@ main <- function() {
 
         for (oc in outcomes) {
             y <- oc[1]; lbl <- oc[2]
+            # Controls follow THIS outcome row. The file-level ctrls_expr
+            # stays in use for the instrument-side blocks above, whose
+            # regressions have no outcome baseline in them.
+            p47 <- length(oc) >= 3L && oc[3] == "pop47"
+            oc_ctrls_expr <- paste(
+                if (p47) swap_pop_baseline_1947(geo_controls_main)
+                else geo_controls_main, collapse = " + ")
             f <- as.formula(sprintf("%s ~ %s | %s ~ z_rec",
-                                    y, ctrls_expr, endogs$total))
+                                    y, oc_ctrls_expr, endogs$total))
             m <- feols(f, data = dd, vcov = "hetero")
             cc <- safe_coef(m, paste0("fit_", endogs$total))
             add_row(design = nm, block = "d", outcome = lbl,
@@ -162,7 +173,7 @@ main <- function() {
                     spec = "recentered", stat = "p", value = cc$p)
 
             rf_coef <- function(zv) {
-                m2 <- feols(as.formula(paste(y, "~ zv +", ctrls_expr)),
+                m2 <- feols(as.formula(paste(y, "~ zv +", oc_ctrls_expr)),
                             data = cbind(d, zv = zv), vcov = "hetero")
                 unname(coef(m2)[["zv"]])
             }

@@ -1,5 +1,5 @@
-Corridor-timing design instrument diagnostic
-Generated: 2026-07-24 13:48:31.836325  |  permuted draws: 100
+Corridor-timing design instrument diagnostic (base)
+Generated: 2026-07-29 18:43:30.41966  |  permuted draws: 100
 
 VERDICT: real dose, loaded dice. Recentered relevance rises an
 order of magnitude over the settlement design (F 3-4.5 vs ~1)
@@ -27,7 +27,7 @@ random conditional on these strata.
 
 (d) IV estimates (coef / se / p / first-stage F):
     CAVEAT (cr-review PR #117): with slope(z_obs, mu) = 1.30 and R2 = 0.40,
-    controlling for mu soaks up the instrument (F = 0.2-0.4);
+    controlling for mu soaks up the instrument (F = 0.2-6.2);
     the mu_control rows are uninformative noise here and are
     NOT a recentering equivalent (unlike the settlement
     design). Read the recentered rows.
@@ -51,6 +51,11 @@ random conditional on these strata.
     recentered   b=+0.2267  se=0.2171  p=0.298  F=2.9  N=237
     mu_control   b=-0.2431  se=0.2467  p=0.325  F=2.7  N=237
     reduced-form RI p = 0.099
+  total.placebo_pretrend_pop47
+    unadjusted   b=+0.0551  se=0.0434  p=0.206  F=49.1  N=237
+    recentered   b=+0.1247  se=0.2026  p=0.539  F=2.2  N=237
+    mu_control   b=-0.0653  se=0.1840  p=0.723  F=3.2  N=237
+    reduced-form RI p = 0.495
   road_only.population
     unadjusted   b=+0.0241  se=0.0269  p=0.373  F=88.8  N=311
     recentered   b=+0.0124  se=0.1163  p=0.915  F=4.5  N=311
@@ -71,3 +76,8 @@ random conditional on these strata.
     recentered   b=+0.2394  se=0.2363  p=0.312  F=3.1  N=237
     mu_control   b=-0.2071  se=0.1950  p=0.289  F=6.2  N=237
     reduced-form RI p = 0.099
+  road_only.placebo_pretrend_pop47
+    unadjusted   b=+0.0538  se=0.0421  p=0.202  F=63.4  N=237
+    recentered   b=+0.1309  se=0.2142  p=0.542  F=2.4  N=237
+    mu_control   b=-0.0570  se=0.1615  p=0.725  F=7.1  N=237
+    reduced-form RI p = 0.495

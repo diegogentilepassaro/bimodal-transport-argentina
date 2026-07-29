@@ -22,8 +22,11 @@
 #         the hypo families' 0.93-0.99), sd(z_obs) vs sd(z_rec).
 #   (b)   Do geo_controls_main span mu?
 #   (c)   BH spec test: recentered z on controls, RI p from the draws.
-#   (d)   Estimates: endog in {total 86-60, road-only} x four outcomes
-#         (pop, mfg valprod, mfg wage mass, placebo) x three variants
+#   (d)   Estimates: endog in {total 86-60, road-only} x five outcome
+#         rows (pop, mfg valprod, mfg wage mass, and the placebo under
+#         BOTH baseline population controls -- `placebo_pretrend` on
+#         log_pop_1960 and `placebo_pretrend_pop47` on log_pop_1947,
+#         the spec Table 7 adopted; see config.R) x three variants
 #         (unadjusted / recentered / mu-control); first-stage F is the
 #         relevance headline. Reduced-form RI p uses leave-one-out mu
 #         for the null draws (deep-dive refinement, PR #112).
@@ -236,15 +239,22 @@ main <- function() {
     # ---- 7. (d) Estimates: two endogs x four outcomes x three variants ------
     endogs <- list(total = "chg_logMA_86_60_s0_elow",
                    road_only = "chg_logMA_only_road_s0_elow")
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so numbers already circulated stay reproducible.
     outcomes <- list(
         c("chg_log_pop_91_60",         "population"),
         c("chg_log_valprod_85_54",     "mfg_valprod"),
         c("chg_log_massal_85_54",      "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend")
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47")
     )
 
-    fit_variant <- function(y, endog, instr, extra_ctrl = NULL) {
-        cv <- c(geo_controls_main, extra_ctrl)
+    fit_variant <- function(y, endog, instr, extra_ctrl = NULL,
+                            pop47 = FALSE) {
+        base_ctrl <- if (pop47) swap_pop_baseline_1947(geo_controls_main)
+                     else geo_controls_main
+        cv <- c(base_ctrl, extra_ctrl)
         f <- as.formula(sprintf("%s ~ %s | %s ~ %s",
                                 y, paste(cv, collapse = " + "),
                                 endog, instr))
@@ -255,11 +265,12 @@ main <- function() {
         endog <- endogs[[en]]
         for (oc in outcomes) {
             y <- oc[1]; lbl <- sprintf("%s.%s", en, oc[2])
+            p47 <- length(oc) >= 3L && oc[3] == "pop47"
             specs <- list(
-                unadjusted = fit_variant(y, endog, "z_obs"),
-                recentered = fit_variant(y, endog, "z_rec"),
+                unadjusted = fit_variant(y, endog, "z_obs", pop47 = p47),
+                recentered = fit_variant(y, endog, "z_rec", pop47 = p47),
                 mu_control = fit_variant(y, endog, "z_obs",
-                                         extra_ctrl = "mu")
+                                         extra_ctrl = "mu", pop47 = p47)
             )
             for (sp in names(specs)) {
                 m <- specs[[sp]]
@@ -279,9 +290,15 @@ main <- function() {
                     lbl, sp, cc$est, cc$se, cc$p, fitstat_F(m), nobs(m)))
             }
 
+            # Controls follow THIS outcome row, not the file-level
+            # ctrls_expr: using the latter would give the pop47 row the
+            # geo_controls_main reduced form and an identical RI p.
+            rf_ctrls_expr <- paste(
+                if (p47) swap_pop_baseline_1947(geo_controls_main)
+                else geo_controls_main, collapse = " + ")
             rf_coef <- function(zv) {
                 dd <- cbind(d2, zv = zv)
-                m <- feols(as.formula(paste(y, "~ zv +", ctrls_expr)),
+                m <- feols(as.formula(paste(y, "~ zv +", rf_ctrls_expr)),
                            data = dd, vcov = "hetero")
                 unname(coef(m)[["zv"]])
             }

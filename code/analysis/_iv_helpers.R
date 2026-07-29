@@ -167,3 +167,42 @@ sargan_p <- function(iv_model, k_instr) {
     }
     NA_real_
 }
+
+# ---------------------------------------------------------------------------
+# swap_pop_baseline_1947(ctrls)
+#
+# Replace the 1960 population baseline with the 1947 one, in place, keeping
+# every other control the caller passed.
+#
+# WHY THIS EXISTS. The pre-trends placebo's outcome is
+# log(pop_1960) - log(pop_1947), so log_pop_1960 is the TERMINAL level of
+# the window being tested: conditioning on it conditions on a component of
+# the outcome. log_pop_1947 is the INITIAL level, an ordinary convergence
+# control. config.R encodes that swap once as placebo_controls, for Table 7.
+#
+# WHY A TRANSFORM RATHER THAN placebo_controls DIRECTLY. The diagnostics
+# that estimate the placebo outcome do not use geo_controls_main verbatim:
+# diagnostic_recentering_treatments.R substitutes a sector-consistent
+# baseline logMA, diagnostic_recentering_controls.R adds mu, rail baselines,
+# a lat/lon quadratic and fixed effects across its C0-C6 ladder, and others
+# add mu alone. Substituting placebo_controls wholesale would silently throw
+# those modifications away. This swaps ONLY the population baseline and
+# leaves the rest of each script's set intact.
+#
+# INVARIANT, asserted below: applied to geo_controls_main this reproduces
+# placebo_controls exactly, so the diagnostics and Table 7 cannot drift
+# apart. Both are built by the same setdiff-then-append construction.
+# ---------------------------------------------------------------------------
+swap_pop_baseline_1947 <- function(ctrls) {
+    stopifnot(is.character(ctrls), "log_pop_1960" %in% ctrls,
+              !("log_pop_1947" %in% ctrls))
+    c(setdiff(ctrls, "log_pop_1960"), "log_pop_1947")
+}
+
+if (exists("geo_controls_main") && exists("placebo_controls")) {
+    stopifnot(
+        "swap_pop_baseline_1947(geo_controls_main) must equal placebo_controls" =
+            identical(swap_pop_baseline_1947(geo_controls_main),
+                      placebo_controls)
+    )
+}

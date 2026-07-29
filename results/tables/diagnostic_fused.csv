@@ -19,6 +19,10 @@
 "stu","d","placebo_pretrend","recentered","se",0.0753102119126753
 "stu","d","placebo_pretrend","recentered","p",0.244131302874471
 "stu","d","placebo_pretrend","reduced_form","ri_p",0.336633663366337
+"stu","d","placebo_pretrend_pop47","recentered","coef",0.021491894940913
+"stu","d","placebo_pretrend_pop47","recentered","se",0.0900956801127681
+"stu","d","placebo_pretrend_pop47","recentered","p",0.811673442789861
+"stu","d","placebo_pretrend_pop47","reduced_form","ri_p",0.871287128712871
 "fused","a","z_obs","on_mu","r2",0.607747019995736
 "fused","a","z_obs","on_mu","slope",0.923835452558458
 "fused","F","total","recentered","F",15.9064130767964
@@ -39,4 +43,8 @@
 "fused","d","placebo_pretrend","recentered","se",0.0613328428903407
 "fused","d","placebo_pretrend","recentered","p",0.156155975008739
 "fused","d","placebo_pretrend","reduced_form","ri_p",0.227722772277228
+"fused","d","placebo_pretrend_pop47","recentered","coef",0.0556699444779761
+"fused","d","placebo_pretrend_pop47","recentered","se",0.0697568117299392
+"fused","d","placebo_pretrend_pop47","recentered","p",0.425671220194666
+"fused","d","placebo_pretrend_pop47","reduced_form","ri_p",0.356435643564356
 "both","x","z_rec","stu_vs_fused","cor",0.794611729605155

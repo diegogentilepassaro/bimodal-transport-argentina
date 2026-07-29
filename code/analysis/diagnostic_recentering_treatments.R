@@ -24,6 +24,12 @@
 # sector-consistent geo_controls_main analogue (baseline logMA of the
 # same sector replaces the s0 one for s1/s2).
 #
+# The pre-trends placebo is reported TWICE, under both baseline
+# population controls: `placebo_pretrend` (log_pop_1960) and
+# `placebo_pretrend_pop47` (log_pop_1947, the spec Table 7 adopted).
+# The swap is applied to the sector-consistent set above, so the sector
+# baseline logMA survives it. See config.R.
+#
 # READS:   draws + estimation sample via _recentering_helpers.R
 # PRODUCES:
 #   results/tables/diagnostic_recentering_treatments_<sector>.csv / .txt
@@ -64,18 +70,23 @@ main <- function() {
         ctrls[ctrls == "logMA_actual_1960_s0_elow"] <-
             sprintf("logMA_actual_1960_%s_elow", sector)
     }
-    ctrls_mu <- c(ctrls, "mu")
 
     treatments <- list(
         c(sprintf("chg_logMA_86_60_%s_elow", sector),     "total"),
         c(sprintf("chg_logMA_only_rail_%s_elow", sector), "only_rail"),
         c(sprintf("chg_logMA_only_road_%s_elow", sector), "only_road")
     )
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so numbers already circulated stay reproducible.
+    # The swap is applied to THIS script's ctrls, so the sector-consistent
+    # baseline logMA substituted above is preserved.
     outcomes <- list(
         c("chg_log_pop_91_60",         "population"),
         c("chg_log_valprod_85_54",     "mfg_valprod"),
         c("chg_log_massal_85_54",      "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend")
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47")
     )
 
     out_rows <- list()
@@ -101,10 +112,14 @@ main <- function() {
 
         for (oc in outcomes) {
             y <- oc[1]; olbl <- oc[2]
+            oc_ctrls <- if (length(oc) >= 3L && oc[3] == "pop47") {
+                swap_pop_baseline_1947(ctrls)
+            } else ctrls
             specs <- list(
-                unadjusted = list(instr = "z_obs", ctrl = ctrls),
-                recentered = list(instr = "z_rec", ctrl = ctrls),
-                mu_control = list(instr = "z_obs", ctrl = ctrls_mu)
+                unadjusted = list(instr = "z_obs", ctrl = oc_ctrls),
+                recentered = list(instr = "z_rec", ctrl = oc_ctrls),
+                mu_control = list(instr = "z_obs",
+                                  ctrl = c(oc_ctrls, "mu"))
             )
             for (sp in names(specs)) {
                 s <- specs[[sp]]
