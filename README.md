@@ -22,9 +22,12 @@ every table, figure, and in-text number out.
 Approximate total runtime: 2 hours on the reference machine (see Computational
 Requirements). The dominant step is the least-cost-path (tau) computation.
 
-Note on repository vs. deposit: the git repository contains **code only**
-(all raw-data formats are gitignored). The data deposit archive contains
-`data/raw/` in full, except the IPUMS microdata (see Data Availability).
+Note on repository vs. deposit: the git repository contains the code plus one
+raw-data exception, the 1960 locality geocoding
+(`data/raw/census/geocoding_1960/`), which is committed because it is our own
+non-regenerable digitization; every other raw-data format is gitignored. The
+data deposit archive contains `data/raw/` in full, except the IPUMS microdata
+(see Data Availability).
 Code license: MIT (see `LICENSE`); data are subject to the per-source
 licenses listed below.
 
@@ -43,7 +46,12 @@ licenses listed below.
 
 - Some data **cannot be made** publicly available (IPUMS microdata; see below).
 - All other data are provided in the package or freely downloadable from the
-  documented sources.
+  documented sources, with one exception pending: the 414 MB of 1960 census
+  page scans behind the digitization in `data/raw/census/geocoding_1960/` are
+  currently distributed only through a personal Dropbox link recorded in that
+  folder's `readme.md`. They are not needed to run the code — the transcribed
+  output is committed — but they are the evidence behind it, so they need a
+  durable home before deposit. `[AUTHORS: archive the page scans]`
 
 ### Details on each Data Source
 
@@ -56,6 +64,7 @@ provenance. Summary:
 | IPUMS `geolev2` district boundaries (time-invariant, 312 districts) | `data/raw/geo/` | Yes | Distributed with IPUMS International; shapefile included. |
 | Censo Nacional de Población 1960 (digitized) | `data/raw/census/censo1960/` | Yes | Argentine government publication (public domain); transcribed by the authors from volumes at the Biblioteca del Congreso de la Nación and INDEC library. |
 | Cuarto Censo General de la Nación 1947 (digitized) | `data/raw/census/censo1947/` | Yes | Public domain; transcribed by the authors (same libraries). |
+| Censo 1960 locality list geocoded to coordinates (3,063 localities, 23 of the 24 first-order jurisdictions) | `data/raw/census/geocoding_1960/` | Yes (in the git repository as well) | Census figures are public domain, transcribed by the authors from volumes v3–v9 (Capital Federal, volume 2, is not covered). Coordinates were matched against third-party gazetteers whose licenses differ and are **not yet resolved** — Georef/`apis.datos.gob.ar` (2,871 rows), Wikipedia (128, CC-BY-SA), OpenStreetMap–Nominatim (54, ODbL), dices.net (16), plus a tail of about fifteen other sites; `fuente` is free text, so these counts double-count compound rows and BAHRA appears in `confianza` rather than `fuente`. `ref/` redistributes third-party district geometry pending a provenance and license decision. Only 21 of 3,063 rows (0.7%) carry an individual human confirmation, and 27.9% of the population sits on 18 whole-partido Gran Buenos Aires totals rather than at locality resolution; read that folder's `readme.md` before use. Page scans (414 MB, sha256 in the readme) are **not** in the package or at a durable public URL — currently a personal Dropbox link only. `[AUTHORS: resolve coordinate-source attribution and ref/ licensing, and deposit the page scans somewhere citable, before deposit]` |
 | Industrial censuses 1954, 1985 (digitized) | `data/raw/industrial/` | Yes | Public domain; transcribed by the authors. Issuing agency of the 1954 census under confirmation (repo issue #91). |
 | Agricultural censuses 1960, 1988 (digitized) | `data/raw/agricultural/` | Yes | Public domain; transcribed by the authors. |
 | Rail network 1979 with Larkin attributes (`lp_1979.shp`) | `data/raw/networks/` | Yes | Digitized by the project team from the 1979 *Política Ferroviaria* report (government publication). |
@@ -69,8 +78,13 @@ provenance. Summary:
 | Galor–Özak caloric suitability rasters | `data/raw/geo/` | Yes | Distributed by the authors of Galor and Özak (2016). |
 | IGN shapefiles (settlements, hydrography, country polygon, wetlands, water bodies) | `data/raw/geo/`, `data/raw/networks_hypo/` | Yes | Instituto Geográfico Nacional, Argentina ([ign.gob.ar](https://www.ign.gob.ar/)); open government data. |
 
-All data citations appear in the paper's References section
-(`paper/references.bib`, entries flagged `DATA CITATION`).
+Data citations for every source above appear in the paper's References section
+(`paper/references.bib`, entries flagged `DATA CITATION`), with one gap: the
+gazetteers used to geocode the 1960 locality list — Georef/`apis.datos.gob.ar`,
+Wikipedia, OpenStreetMap–Nominatim, BAHRA, dices.net — are documented in
+`data/raw/census/geocoding_1960/readme.md` but have no `references.bib`
+entries yet. `[AUTHORS: add gazetteer citations once the licensing decision is
+made, since the wording depends on it]`
 
 ## Dataset List
 
@@ -90,7 +104,16 @@ geographic rasters.
 - `code/00_setup.R` (called by `main.R` Stage A) restores the environment via
   `renv::restore()`, falling back to `install.packages()` from the lockfile.
   No manual package installation is needed.
-- Python is **not** used (`requirements.txt` is intentionally empty).
+- Python is **not** used by the replication pipeline: nothing `main.R` calls
+  depends on it, and the top-level `requirements.txt` is intentionally empty.
+  One set of files outside the pipeline is Python: the 1960 locality
+  geocoding scripts in `code/base/census_1960/geocoding/` (35 scripts), a
+  one-time digitization whose output is committed under
+  `data/raw/census/geocoding_1960/`. Those are an archived record rather
+  than a runnable step (see that folder's `readme.md`); their dependencies
+  are pinned in `code/base/census_1960/geocoding/requirements.txt` and were
+  resolved under Python 3.9.6. The version used to produce the data was not
+  recorded. Reproducing the paper does not require running them.
 - LaTeX (pdflatex + bibtex) to compile the paper; not needed for the results.
 
 ### Memory, Runtime, Storage
