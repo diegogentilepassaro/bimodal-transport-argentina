@@ -206,3 +206,85 @@ if (exists("geo_controls_main") && exists("placebo_controls")) {
                       placebo_controls)
     )
 }
+
+# ---------------------------------------------------------------------------
+# Robust first-stage Wald F from fixest (type = "ivwald"), defensive across
+# fixest versions like fitstat_F above.
+#
+# Moved here from diagnostic_modern_iv.R (PR #155) so the paper's tables can
+# report the same statistics the diagnostic does, computed by the same code
+# rather than read out of the diagnostic's CSV. Coupling a table to a
+# diagnostic's output would make table order depend on diagnostic order in
+# main.R, which is exactly the kind of hidden dependency the AEA checklist
+# warns about.
+# ---------------------------------------------------------------------------
+fitstat_F_robust <- function(iv_model) {
+    fs <- tryCatch(fitstat(iv_model, type = "ivwald"),
+                   error = function(e) NULL)
+    if (is.list(fs) && !is.null(fs[[1]]$stat)) return(as.numeric(fs[[1]]$stat))
+    fs2 <- tryCatch(fitstat(iv_model, type = "ivwald", simplify = TRUE),
+                    error = function(e) NULL)
+    if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
+    NA_real_
+}
+
+# ---------------------------------------------------------------------------
+# eff_F(Dt, Zt, n_ctrl): Montiel Olea & Pflueger (2013) effective F.
+#
+#   F_eff = pi' Q_zz pi / tr(Sigma Q_zz)
+#
+# with pi the first-stage instrument coefficients, Sigma their HC1 vcov
+# block and Q_zz = Z~'Z~. Following Pflueger & Wang (2015), the included
+# exogenous controls must ALREADY be partialled out of both Dt and Zt by the
+# caller (see eff_F_from_fit below, which does it).
+#
+# Cross-checked against the ivDiag reference implementation (Lal, Lockhart,
+# Xu & Zu 2023, R/effF.R) with ONE DELIBERATE DIVERGENCE: ivDiag builds Q_zz
+# from instruments WITHOUT residualizing them on the controls; we
+# residualize, per the MOP definition and Stata's weakivtest convention.
+# Verified consequence on the total-pop IV-B cell: 13.11 (ours) vs 14.39
+# (ivDiag-style), so a future cross-check will differ BY DESIGN, not by bug.
+#
+# For a SINGLE instrument F_eff = pi^2 / Sigma, i.e. the robust first-stage
+# Wald F, and the conventional benchmarks apply.
+#
+# Moved here from diagnostic_modern_iv.R (PR #155).
+# ---------------------------------------------------------------------------
+eff_F <- function(Dt, Zt, n_ctrl) {
+    n <- length(Dt)
+    k <- ncol(Zt)
+    qz  <- qr(Zt)
+    pi_ <- qr.coef(qz, Dt)
+    e   <- qr.resid(qz, Dt)
+    # HC1 with dof matching the full first stage (controls + instruments)
+    ZZ    <- crossprod(Zt)
+    ZZinv <- solve(ZZ)
+    meat  <- crossprod(Zt * e, Zt * e)
+    hc1   <- n / (n - n_ctrl - k)
+    Sigma <- hc1 * ZZinv %*% meat %*% ZZinv
+    as.numeric(t(pi_) %*% ZZ %*% pi_ / sum(diag(Sigma %*% ZZ)))
+}
+
+# ---------------------------------------------------------------------------
+# eff_F_from_fit(data, endog, instrs, ctrls_vec): the effective F for one
+# (treatment, instrument set, control set) triple, doing the
+# Frisch-Waugh-Lovell residualization eff_F() requires.
+#
+# `data` must already be the ESTIMATION SAMPLE -- complete cases on every
+# variable the corresponding IV fit used. Passing a wider frame silently
+# computes the statistic on a different sample from the coefficient it sits
+# beside in a table, so this asserts completeness rather than trusting it.
+# ---------------------------------------------------------------------------
+eff_F_from_fit <- function(data, endog, instrs, ctrls_vec) {
+    vars <- c(endog, instrs, ctrls_vec)
+    stopifnot(all(vars %in% names(data)))
+    stopifnot("eff_F_from_fit(): data must be the estimation sample" =
+                  all(complete.cases(data[, vars])))
+    X <- as.matrix(cbind(1, data[, ctrls_vec]))
+    qx <- qr(X)
+    resid_on_ctrls <- function(v) as.numeric(qr.resid(qx, v))
+    Dt <- resid_on_ctrls(data[[endog]])
+    Zt <- matrix(sapply(instrs, function(z) resid_on_ctrls(data[[z]])),
+                 ncol = length(instrs))
+    eff_F(Dt, Zt, n_ctrl = ncol(X))
+}

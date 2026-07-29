@@ -51,8 +51,13 @@
 # WHAT THIS DOES NOT DO: MOP critical values for the 2-instrument
 #   IV-B cells (they require the Patnaik-approximation simulation);
 #   for K = 1, F_eff = F_robust and conventional benchmarks apply.
-#   Wiring any of this into the paper is a post-Wednesday decision;
-#   this is diagnostic-only (no paper change, no main.R wiring).
+#   MOP critical values for the K=2 cells live in
+#   diagnostic_mop_critical.R (PR #136), not here.
+#
+# NO LONGER DIAGNOSTIC-ONLY (PR #155): eff_F() and fitstat_F_robust()
+#   moved to _iv_helpers.R and Tables 8, 9 and 10 now report the effective
+#   F from them. This script remains the validation of that implementation
+#   (the ivDiag cross-check above) and the home of the AR sets.
 #
 # READS:
 #   data/derived/06_analysis/estimation_sample.parquet
@@ -162,36 +167,9 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
 }
 
 # ---------------------------------------------------------------------------
-# MOP effective F on residualized treatment/instruments (HC1 vcov).
-# For K = 1 this reduces to the robust first-stage t^2 exactly.
-# ---------------------------------------------------------------------------
-eff_F <- function(Dt, Zt, n_ctrl) {
-    n <- length(Dt)
-    k <- ncol(Zt)
-    qz  <- qr(Zt)
-    pi_ <- qr.coef(qz, Dt)
-    e   <- qr.resid(qz, Dt)
-    # HC1 with dof matching the full first stage (controls + instruments)
-    ZZ   <- crossprod(Zt)
-    ZZinv <- solve(ZZ)
-    meat <- crossprod(Zt * e, Zt * e)
-    hc1  <- n / (n - n_ctrl - k)
-    Sigma <- hc1 * ZZinv %*% meat %*% ZZinv
-    as.numeric(t(pi_) %*% ZZ %*% pi_ / sum(diag(Sigma %*% ZZ)))
-}
-
-# ---------------------------------------------------------------------------
-# Robust first-stage Wald F from fixest (type = "ivwald"), defensive
-# across versions like fitstat_F.
-# ---------------------------------------------------------------------------
-fitstat_F_robust <- function(iv_model) {
-    fs <- tryCatch(fitstat(iv_model, type = "ivwald"), error = function(e) NULL)
-    if (is.list(fs) && !is.null(fs[[1]]$stat)) return(as.numeric(fs[[1]]$stat))
-    fs2 <- tryCatch(fitstat(iv_model, type = "ivwald", simplify = TRUE),
-                    error = function(e) NULL)
-    if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
-    NA_real_
-}
+# eff_F() and fitstat_F_robust() moved to _iv_helpers.R in PR #155, so that
+# Tables 8-10 report the effective F from the same implementation this
+# diagnostic validated rather than a second copy of it. Sourced in main().
 
 # ---------------------------------------------------------------------------
 # AR test inversion (robust). Returns p at beta = 0, the 95% set as a

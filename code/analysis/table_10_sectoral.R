@@ -110,10 +110,31 @@ main <- function() {
             all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
         }
 
+        # Classical and Montiel Olea-Pflueger effective first-stage F.
+        # The effective F is the statistic to quote under HC1 and with
+        # more than one instrument; see the note in _iv_helpers.R. It
+        # must be computed on the SAME complete-case rows as the fit,
+        # because fit_iv_quad NA-drops per model and the sectoral
+        # outcomes have real missingness.
+        cc_vars <- c(y, main_treatment, main_lp_instrument,
+                     main_hypo_instrument, geo_controls_main)
+        dd <- as.data.frame(d)
+        d_cc <- dd[complete.cases(dd[, cc_vars]), ]
+        stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
         f_stats[[y]] <- list(
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
-            both = fitstat_F(fits[["IV-B"]])
+            both = fitstat_F(fits[["IV-B"]]),
+            eff_lp   = eff_F_from_fit(d_cc, main_treatment,
+                                      main_lp_instrument,
+                                      geo_controls_main),
+            eff_hypo = eff_F_from_fit(d_cc, main_treatment,
+                                      main_hypo_instrument,
+                                      geo_controls_main),
+            eff_both = eff_F_from_fit(d_cc, main_treatment,
+                                      c(main_lp_instrument,
+                                        main_hypo_instrument),
+                                      geo_controls_main)
         )
     }
 
@@ -160,11 +181,15 @@ main <- function() {
         )
         fs <- f_stats[[y]]
         add_rows <- tibble::tibble(
-            ` `           = "First-stage $F$",
-            `(1) OLS`     = "---",
-            `(2) IV-LP`   = sprintf("%.1f", fs$lp),
-            `(3) IV-Hypo` = sprintf("%.1f", fs$hypo),
-            `(4) IV-Both` = sprintf("%.1f", fs$both)
+            ` `           = c("First-stage $F$",
+                              "Effective $F$ (MOP)"),
+            `(1) OLS`     = c("---", "---"),
+            `(2) IV-LP`   = c(sprintf("%.1f", fs$lp),
+                              sprintf("%.1f", fs$eff_lp)),
+            `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo),
+                              sprintf("%.1f", fs$eff_hypo)),
+            `(4) IV-Both` = c(sprintf("%.1f", fs$both),
+                              sprintf("%.1f", fs$eff_both))
         )
         tbl <- modelsummary(
             models_this,
@@ -199,6 +224,15 @@ main <- function() {
         "% baseline log pop, and the six standardized geographic controls.",
         "% Robust (HC1) standard errors. First-stage F is the Wald F for",
         "% the excluded instrument(s) in that column.",
+        "%",
+        "% Effective F (MOP) is the Montiel Olea-Pflueger (2013) effective",
+        "% F, controls partialled out. It is the one to read: the",
+        "% first-stage F row above it is the CLASSICAL F, which assumes",
+        "% homoskedasticity while these specifications use HC1, and with two",
+        "% instruments the classical F has no defined critical value.",
+        "% Anderson-Rubin sets are in diagnostic_modern_iv.txt; the MOP",
+        "% critical values the effective F should be judged against are in",
+        "% diagnostic_mop_critical.txt (a DIFFERENT file).",
         "",
         tex_chunks
     ), out_tex)
@@ -224,6 +258,16 @@ main <- function() {
                 n_obs    = nobs(m),
                 first_stage_F = if (spec == "OLS") NA_real_ else
                                 fitstat_F(m),
+                # The .tex is gitignored, so the CSV is the only
+                # coauthor-visible copy in the repo; the effective F has
+                # to be here or it is invisible outside a LaTeX build.
+                effective_F = switch(
+                    spec,
+                    "OLS"   = NA_real_,
+                    "IV-LP" = f_stats[[y]]$eff_lp,
+                    "IV-H"  = f_stats[[y]]$eff_hypo,
+                    "IV-B"  = f_stats[[y]]$eff_both
+                ),
                 stringsAsFactors = FALSE
             )
         }

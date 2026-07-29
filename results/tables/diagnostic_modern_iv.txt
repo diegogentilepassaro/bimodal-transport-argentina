@@ -6,7 +6,7 @@ F_eff = Montiel Olea-Pflueger effective F (controls partialled
 out; = F_robust up to dof conventions when K = 1, distinct for 
 the 2-instrument IV-B cells). AR set = 95% Anderson-Rubin 
 confidence set by robust test inversion. Diagnostic only. 
-Generated: 2026-07-25 13:47:01 
+Generated: 2026-07-29 19:24:56 
 ==================================================================================== 
  
 Cell            Spec      N beta (SE)          F_cls   F_rob   F_eff  AR 95% set                 

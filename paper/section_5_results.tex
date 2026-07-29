@@ -56,10 +56,40 @@ is \firstStageFBoth{}.
 
 The Larkin Plan instrument alone exceeds the Stock--Yogo rule-of-thumb
 threshold of 10. The hypothetical-road instrument alone does not. The
-joint specification exceeds the threshold and is adopted as the main
-specification throughout this section. The hypothetical-road-only
-column is reported so that the two sources of variation can be
-inspected separately.
+joint specification exceeds it and is adopted as the main specification
+throughout this section. The hypothetical-road-only column is reported so
+that the two sources of variation can be inspected separately.
+
+Two qualifications on instrument strength. First, because the
+specifications use heteroskedasticity-robust standard errors, and because
+column~(3) has two instruments, Tables~\ref{tab:first_stage},
+\ref{tab:population_iv} and~\ref{tab:sectoral_iv} also report the
+effective $F$ statistic of Montiel Olea and Pflueger, which is the
+appropriate strength measure in that setting.
+{\color{red}[PLACEHOLDER CITATION: Montiel Olea and Pflueger (2013),
+\emph{Journal of Business \& Economic Statistics} 31(3). Named in prose
+because \texttt{references.bib} has no entry yet; add the entry and
+replace this marker.]}
+It is \effFLP{} for the Larkin Plan instrument alone, \effFHypo{} for the
+hypothetical-road instrument alone, and \effFBoth{} in the joint
+specification. With a single instrument the effective $F$ coincides with
+the robust first-stage Wald $F$ by construction, which is why the first
+two values reappear here.
+
+Second, the effective $F$ has no Stock--Yogo threshold: its benchmark is
+the Montiel Olea--Pflueger critical value, which depends on the number of
+instruments and on the estimated variance ratio, and so differs across
+columns. Judged that way the ranking of the columns changes. The Larkin
+Plan instrument alone, at \effFLP{}, falls just short of its critical
+value of \mopCVtenLP{} for a ten-percent bias tolerance. The joint
+specification, at \effFBoth{}, clears its critical value of
+\mopCVfiveBoth{} even at a five-percent tolerance, because with two
+instruments the relevant critical value is far lower. The hypothetical-road
+instrument alone clears no tolerance. The joint specification is therefore
+the strongest of the three by this standard, not merely the largest $F$.
+Identification-robust Anderson--Rubin confidence sets, which do not rely
+on a strength threshold at all, are reported in
+Section~\ref{sec:limitations}.
 
 \subsection{Population Effects}
 \label{sec:population}

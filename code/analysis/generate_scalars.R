@@ -65,6 +65,7 @@ main <- function() {
                    "diagnostic_theta_sweep",
                    "diagnostic_theta_sweep_sectoral",
                    "diagnostic_modern_iv_table11",
+                   "diagnostic_mop_critical",
                    "diagnostic_placebo_ma1947",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
@@ -120,10 +121,53 @@ main <- function() {
         r <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-B")
         if (nrow(r) == 1L) {
             macros[["firstStageFBoth"]] <- sprintf("%.2f", r$first_stage_F)
+            # Montiel Olea-Pflueger effective F, added to the Table 9 CSV
+            # in PR #155. Needed in prose because Section 5 makes a
+            # Stock-Yogo threshold claim, and the effective F is the
+            # statistic that claim should be made about under HC1.
+            if ("effective_F" %in% names(r)) {
+                macros[["effFBoth"]] <- sprintf("%.2f", r$effective_F)
+            }
             macros[["mainPopCoefIVBoth"]]     <- sprintf("%.3f", r$estimate)
             macros[["mainPopSEIVBoth"]]       <- sprintf("%.3f", r$std_err)
             macros[["mainPopCoefIVBothP"]]    <- sprintf("%.3f", r$p_value)
             macros[["mainPopNIVBoth"]]        <- as.character(r$n_obs)
+        }
+        # NOTE (cr-review PR #155): the four mainPop* macros above must stay
+        # inside the IV-B guard. An earlier version of this PR left them
+        # inside the IV-Hypo block below, which made four macros quoted in
+        # §1 and §5.2 conditional on an unrelated row and column existing.
+        r_lp9 <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-LP")
+        if (nrow(r_lp9) == 1L && "effective_F" %in% names(r_lp9)) {
+            macros[["effFLP"]] <- sprintf("%.2f", r_lp9$effective_F)
+        }
+        r_h9 <- subset(t9, outcome == "chg_log_pop_91_60" & spec == "IV-H")
+        if (nrow(r_h9) == 1L && "effective_F" %in% names(r_h9)) {
+            macros[["effFHypo"]] <- sprintf("%.2f", r_h9$effective_F)
+        }
+    }
+
+    # MOP critical values for the total-population cells (PR #136 computed
+    # these; PR #155 quotes them). The effective F has no Stock-Yogo
+    # threshold -- its benchmark is the MOP critical value, which depends on
+    # the number of instruments and on the estimated B, so it differs by
+    # column and cannot be replaced by "10".
+    mopc <- tab[["diagnostic_mop_critical"]]
+    if (!is.null(mopc)) {
+        pick <- function(sp, col) {
+            row <- subset(mopc, outcome == "chg_log_pop_91_60" & spec == sp)
+            if (nrow(row) == 1L) row[[col]] else NA_real_
+        }
+        for (sp in c("IV-LP", "IV-H", "IV-B")) {
+            key <- switch(sp, "IV-LP" = "LP", "IV-H" = "Hypo", "IV-B" = "Both")
+            cv10 <- pick(sp, "cv_tau10")
+            cv05 <- pick(sp, "cv_tau05")
+            if (!is.na(cv10)) {
+                macros[[paste0("mopCVten", key)]] <- sprintf("%.2f", cv10)
+            }
+            if (!is.na(cv05)) {
+                macros[[paste0("mopCVfive", key)]] <- sprintf("%.2f", cv05)
+            }
         }
         # (urban/rural IV-B macros live in add_prose_table_macros as
         # urbIVB*/rurIVB*; the old mainUrbPop*/mainRurPop* names were

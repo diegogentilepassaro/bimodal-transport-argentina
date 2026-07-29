@@ -75,9 +75,25 @@ main <- function() {
     F2 <- first_stage_F(m2, "chg_logMA_lcp_mst_s0_elow")
     F3 <- first_stage_F_joint(m3, c(main_lp_instrument,
                                      "chg_logMA_lcp_mst_s0_elow"))
+    # Montiel Olea-Pflueger effective F alongside the classical one. This
+    # is the first-stage table, so it is where the distinction matters
+    # most: the classical F assumes homoskedasticity while every
+    # specification here uses HC1, and for the two-instrument column the
+    # classical F has no defined critical value. eff_F_from_fit() is the
+    # implementation validated in diagnostic_modern_iv.R.
+    E1 <- eff_F_from_fit(d, main_treatment, main_lp_instrument,
+                         geo_controls_main)
+    E2 <- eff_F_from_fit(d, main_treatment, "chg_logMA_lcp_mst_s0_elow",
+                         geo_controls_main)
+    E3 <- eff_F_from_fit(d, main_treatment,
+                         c(main_lp_instrument,
+                           "chg_logMA_lcp_mst_s0_elow"),
+                         geo_controls_main)
 
     message(sprintf("\n[t8] F-stats: LP=%.2f, Hypo=%.2f, Both=%.2f\n",
                     F1, F2, F3))
+    message(sprintf("[t8] Effective F (MOP): LP=%.2f, Hypo=%.2f, Both=%.2f\n",
+                    E1, E2, E3))
 
     # --- Write LaTeX ------------------------------------------------------
     models <- list(
@@ -109,10 +125,11 @@ main <- function() {
         stringsAsFactors = FALSE
     )
     footer <- tibble::tibble(
-        "_" = c("First-stage $F$ (instruments)"),
-        "(1) LP only"   = sprintf("%.2f", F1),
-        "(2) Hypo only" = sprintf("%.2f", F2),
-        "(3) Both"      = sprintf("%.2f", F3)
+        "_" = c("First-stage $F$ (instruments)",
+                "Effective $F$ (MOP)"),
+        "(1) LP only"   = c(sprintf("%.2f", F1), sprintf("%.2f", E1)),
+        "(2) Hypo only" = c(sprintf("%.2f", F2), sprintf("%.2f", E2)),
+        "(3) Both"      = c(sprintf("%.2f", F3), sprintf("%.2f", E3))
     )
     names(footer)[1] <- ""
 
@@ -147,6 +164,16 @@ main <- function() {
             "and the six standardized geographic controls",
             "(elevation, ruggedness, wheat suitability, pre- and post-1500",
             "caloric potential, distance to Buenos Aires).",
+            "The first-stage $F$ in this table is already",
+            "heteroskedasticity-robust: a squared robust $t$ in columns (1)",
+            "and (2), a robust Wald statistic in column (3).",
+            "``Effective $F$ (MOP)'' is the Montiel Olea and Pflueger (2013)",
+            "effective $F$, computed with the included controls partialled",
+            "out of the treatment and the instruments. With one instrument",
+            "the two coincide by construction, which columns (1) and (2)",
+            "confirm. They differ only in column (3), where the effective",
+            "$F$ is the statistic with a defined critical value under two",
+            "instruments.",
             "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."
         )
     )
@@ -156,10 +183,21 @@ main <- function() {
     writeLines(tbl_txt, out_tex)
     message("Saved: ", out_tex)
 
-    # CSV with the coefficient matrix for convenience
+    # CSV with the coefficient matrix for convenience. The .tex is
+    # gitignored, so this is the only copy visible in the repo; the two F
+    # statistics are appended as pseudo-variable rows so they travel with
+    # it rather than living only in a LaTeX build.
     out_csv <- file.path(dir_tables, "table_8_first_stage.csv")
     csv_df <- extract_coef_matrix(list(m1, m2, m3),
                                   c("LP only", "Hypo only", "Both"))
+    f_rows <- data.frame(
+        spec      = rep(c("LP only", "Hypo only", "Both"), each = 2L),
+        variable  = rep(c("_first_stage_F", "_effective_F_MOP"), times = 3L),
+        estimate  = c(F1, E1, F2, E2, F3, E3),
+        std_err   = NA_real_, t_value = NA_real_, p_value = NA_real_,
+        stringsAsFactors = FALSE
+    )
+    csv_df <- rbind(csv_df, f_rows[, names(csv_df)])
     write.csv(csv_df, out_csv, row.names = FALSE)
     message("Saved: ", out_csv)
 }
