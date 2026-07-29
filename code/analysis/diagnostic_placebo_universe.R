@@ -138,24 +138,15 @@ fit_row <- function(y, d, tag, S, t7 = NULL) {
     invisible(nrow(dd))
 }
 
-new_sink <- function() {
-    e <- new.env(parent = emptyenv()); e$rows <- list()
-    e$add <- function(...) {
-        r <- data.frame(..., stringsAsFactors = FALSE)
-        for (col in c("se", "p_value", "first_stage_F", "n_obs")) {
-            if (is.null(r[[col]])) r[[col]] <- NA_real_
-        }
-        e$rows[[length(e$rows) + 1L]] <- r[, c("part", "stat", "var",
-                                              "value", "se", "p_value",
-                                              "first_stage_F", "n_obs")]
-    }
-    e
-}
+# Row accumulator: new_sink() from _diagnostic_helpers.R. This script's
+# rows carry a first-stage F, so the column set is passed explicitly.
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
+    source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
+           echo = FALSE)   # new_sink()
 
     message("\n", strrep("=", 72))
     message("diagnostic_placebo_universe.R  |  is the placebo a coverage artifact?")
@@ -175,7 +166,7 @@ main <- function() {
         !is.na(d$urbpop_1960) & d$urbpop_1960 > 0,
         log(d$urbpop_1960) - log(d$urbpop_1947), NA_real_)
 
-    S <- new_sink()
+    S <- new_sink(c("se", "p_value", "first_stage_F", "n_obs"))
 
     # The #147 premise, read from its output instead of retyped.
     u <- read.csv(file.path(dir_tables,
