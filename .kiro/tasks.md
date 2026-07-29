@@ -148,14 +148,37 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       current Table 7 the IV-Hypo column has first-stage F = 1.7 and
       cannot reject anything. Under pop47 it is still 1.7; under
       full47 it rises to 16.0. Worth stating whichever spec wins.
-      A×B CHECKED (2026-07-26, PR #139) for full47: the clean null
-      survives on every candidate τ object — decay θ=0.5, iceberg
+      A×B CHECKED for full47 (2026-07-26, PR #139): the clean null
+      survived on every candidate τ object — decay θ=0.5, iceberg
       V=4,400/20,000, route-inefficiency at both θ — smallest any-IV
-      p = 0.34, IV-B first stages F 21.5-61.1. Caveat: the IV-LP
-      first stage collapses on the iceberg objects (F 3.7 / 1.6), so
-      those IV-LP nulls are low-power. NOT YET RUN for pop47: the
-      cross-object check on the adopted spec (small, and it is the
-      obvious question if Cote accepts pop47).
+      p = 0.34, IV-B first stages F 21.5-61.1.
+      ⚠ NOW RUN FOR pop47 TOO (2026-07-29, PR #154), AND THE ANSWER
+      INVERTS. On the ADOPTED spec the placebo rejection is NOT
+      dissolved by the τ object: IV-B rejects at 10% on FIVE of six
+      objects and at 5% on one (decay θ=0.5, p 0.042); max p 0.151
+      (iceberg V=20,000). OLS is starker still — p 0.001-0.008 on five
+      objects, the exception being the RAW anchor at p 0.149, i.e. the
+      object the paper actually uses. IV-LP rejects nowhere either way
+      (0.29-0.94). So "changing the τ object" is not an escape route
+      from the placebo, and the full47 conclusion above belongs to
+      full47 only.
+      TWO CAVEATS ON THE pop47 CROSS-OBJECT RESULT: IV-B first stages
+      fall to 6.2-20.2 (from 21.5-61.1), and three of the five 10%
+      rejections sit on F < 10 — suggestive, not firm. The weakest
+      IV-LP first stages are now the route-inefficiency objects
+      (F 2.2 / 3.3), not the iceberg ones.
+      WHY full47 LOOKED CLEAN — MECHANISM ESTABLISHED (PR #154 review).
+      Because chg ≡ l86 − l60 identically, dropping the baseline MA
+      does not remove a control, it IMPOSES THE RESTRICTION
+      b_l86 = −b_l60. Verified on the raw object: unrestricted
+      y ~ l86 + l60 gives b_l86 = +0.0275, which equals the pop47 `chg`
+      coefficient to machine precision, and the pop47 coefficient ON
+      l60 (+0.0460, p < 0.0001) IS the test of that restriction — it
+      rejects. Same on the decay object (OLS chg −0.110 → +0.588,
+      l60 +0.860). Sample and df are ruled out (N = 237 both ways, one
+      regressor). So full47's clean null is attenuation from a REJECTED
+      linear restriction, not merely an indefensibly dropped control.
+      That is a stronger argument for pop47 than the one on record.
       §8.2 LIMITATION 1 STAYS, BOTH HALVES. Under pop47 the placebo
       still rejects at 10% (p = 0.085), so the pre-trend half is
       softened, not fixed. The selection half (237 of 311 districts) is
@@ -718,9 +741,11 @@ Nothing here starts before the meeting; each item lists its trigger.
       Plan/memo_identification_measurement_decisions.md, and in the
       brief already sent to Cote. Correcting the brief is a
       conversation on Wednesday, not an edit.
-- [ ] [if B confirms, small] Cross-object check for pop47 —
-      diagnostic_crossobject_checks.R Part 1 currently runs full47
-      on the six candidate τ objects; rerun it on the adopted spec.
+- [x] Cross-object check for pop47 — DONE 2026-07-29 (PR #154).
+      diagnostic_crossobject_checks.R Part 1 now runs the adopted pop47
+      spec, with an object-consistent baseline MA (`l60` recomputed per
+      object, matching Part 2's convention). The answer inverts the
+      full47 conclusion; detail and the mechanism in agenda item B.
 - [x] ~~[if D concurs] Migration paragraph trim + demote §5.4 Other
       Outcomes to an annex~~ — SUPERSEDED by the confirmed item-D
       position, done in PR #141: §5.4 stays in the main text
@@ -1067,7 +1092,10 @@ the verification record.
       21.5-61.1. Caveat: the IV-LP first stage collapses on the
       iceberg objects (F 3.7 / 1.6), so those IV-LP nulls are
       low-power; the IV-B/IV-H cells carry the verdict there. No
-      A×B interaction detected on the candidate set. PART 2 (A×C
+      A×B interaction detected on the candidate set — ⚠ TRUE OF full47
+      ONLY; PR #154 reran Part 1 on the adopted pop47 spec and the
+      placebo rejects at 10% on five of six objects. See agenda item B.
+      PART 2 (A×C
       decay cell + MOP, the latter added in the fix pass after the
       review caught an inconsistent evidentiary standard): mfg
       value/wage stay significant at 5% under IV-LP across the
@@ -1211,7 +1239,8 @@ items themselves (section 0), not here.
 - [x] PR #138 — ledger records the pre-meeting brief + pendings
       refresh.
 - [x] PR #139 — cross-decision checks: A×B (placebo clean on every
-      candidate τ object) and the decay IV-LP cell, completing the
+      candidate τ object, UNDER full47 — superseded for the adopted
+      spec by PR #154) and the decay IV-LP cell, completing the
       A×C matrix.
 - [x] PR #140 — modern weak-IV inference for the four Table 11
       outcomes: the overidentification test rejects in three of four

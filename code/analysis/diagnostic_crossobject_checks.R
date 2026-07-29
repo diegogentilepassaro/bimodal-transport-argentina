@@ -55,9 +55,11 @@
 #
 # VERIFICATION (asserted in code, row-count-guarded):
 #   - Part 1 raw anchor reproduces diagnostic_placebo_1947.csv's
-#     pop47 rows (all four estimators, coef/se; N = 237). Because pop47
-#     controls for the baseline MA, this also proves the recomputed
-#     `l60` equals the pipeline's logMA_actual_1960_s0_elow.
+#     pop47 rows (all four estimators, coef/se/F; N = 237).
+#   - The raw object's recomputed l60 and chg equal the pipeline's
+#     logMA_actual_1960_s0_elow and chg_logMA_86_60_s0_elow to 1e-12.
+#     Asserted directly: the coefficient anchor alone cannot tell l60
+#     from an affine transform of it.
 #   - Part 2 IV-B reproduces diagnostic_theta_gibbons.csv beta/se
 #     per (outcome, theta) on all 18 cells.
 #   - BA-Rosario geodesic = 265.9 km (1b machinery anchor).
@@ -171,6 +173,18 @@ run_placebo <- function(sym, dist_df, est, geo6) {
         ma <- ma_deltas(obj, sym, dist_df)
         m  <- merge(est, ma, by = "geolev2", all.x = FALSE)
         stopifnot(nrow(m) == nrow(est))
+        # The raw object at the published theta must reproduce the
+        # pipeline's own MA columns exactly -- the recomputation here is
+        # only trustworthy for the transformed objects if it is exact on
+        # the untransformed one. Asserted directly rather than inferred
+        # from the coefficient anchor, which cannot distinguish l60 from
+        # an affine transform of it (cr-review PR #154).
+        if (obj$id == "raw (anchor)") {
+            stopifnot(
+                max(abs(m$l60 - m$logMA_actual_1960_s0_elow)) < 1e-12,
+                max(abs(m$chg - m$chg_logMA_86_60_s0_elow))   < 1e-12
+            )
+        }
         fits <- fit_iv_quad(
             y          = y,
             data       = m,
@@ -332,11 +346,17 @@ verify_placebo <- function(p1) {
     tol <- 1e-9
     ref <- read.csv(file.path(dir_tables, "diagnostic_placebo_1947.csv"))
     # pop47, not full47: Table 7 adopted the pop47 spec (agenda item B).
-    # This anchor is STRICTLY STRONGER than the full47 one it replaces.
-    # full47 carries no MA baseline, so reproducing it said nothing about
-    # the MA recomputation in ma_deltas(); pop47 controls for `l60`, so an
-    # exact match on the raw object at theta 4.55 also proves this script's
-    # recomputed baseline equals the pipeline's logMA_actual_1960_s0_elow.
+    # This anchor is stronger than the full47 one it replaces -- full47
+    # carries no MA baseline, so reproducing it said nothing about the MA
+    # recomputation in ma_deltas(), whereas pop47 controls for `l60`.
+    # BUT NOT AS STRONG AS "l60 EQUALS THE PIPELINE COLUMN" (cr-review
+    # PR #154): coefficients are invariant to an affine reparametrization
+    # of a control and to adding any linear combination of the other
+    # regressors, so l60' = a + b*logMA_1960 + 3*elev_mean_std would pass
+    # this test identically. It pins l60 only up to an affine transform
+    # within the span of the remaining controls. The exact equality is
+    # asserted separately in run_placebo(), where the raw object's l60 is
+    # compared with the pipeline column directly.
     ref <- ref[ref$variant == "pop47", ]
     ours <- p1[p1$object == "raw (anchor)", ]
     stopifnot(nrow(ours) == 4L)
@@ -345,9 +365,14 @@ verify_placebo <- function(p1) {
         rc <- ref$value[ref$spec == k & ref$stat == "coef"]
         rs <- ref$value[ref$spec == k & ref$stat == "se"]
         rn <- ref$value[ref$spec == k & ref$stat == "N"]
-        stopifnot(length(rc) == 1L, length(rs) == 1L, length(rn) == 1L)
+        rf <- ref$value[ref$spec == k & ref$stat == "F"]
+        stopifnot(length(rc) == 1L, length(rs) == 1L, length(rn) == 1L,
+                  length(rf) == 1L)
         stopifnot(abs(o$beta - rc) < tol, abs(o$se - rs) < tol,
                   o$n_obs == rn)
+        # F was previously unanchored while the write-ups quoted it
+        # (cr-review PR #154). NA for OLS on both sides.
+        stopifnot(isTRUE(all.equal(o$F, rf, tolerance = 1e-8)))
     }
     # Common-sample check across all six objects (cr-review PR #139
     # consider 1; the reference script enforced this explicitly).
@@ -459,7 +484,7 @@ write_outputs <- function(p1, p2) {
     wline("%s", strrep("=", 92))
     wline("")
     wline("PART 1 — placebo (1947-60 growth), pop47 controls, by object:")
-    wline("%-17s %5s  %-15s %-15s %-15s %-15s",
+    wline("%-17s %5s  %-17s %-17s %-17s %-17s",
           "Object", "theta", "OLS", "IV-LP", "IV-H", "IV-B")
     for (obj in unique(p1$object)) {
         sub <- p1[p1$object == obj, ]
@@ -467,7 +492,9 @@ write_outputs <- function(p1, p2) {
             r <- sub[sub$spec == k, ]
             sprintf("%+.3f%s p=%.2f", r$beta, star(r$p), r$p)
         }
-        wline("%-17s %5.2f  %-15s %-15s %-15s %-15s",
+        # %-17s not %-15s: pop47 produces significance stars, and
+        # "+0.588*** p=0.01" is 16 characters (cr-review PR #154).
+        wline("%-17s %5.2f  %-17s %-17s %-17s %-17s",
               obj, sub$theta[1],
               cell("OLS"), cell("IV-LP"), cell("IV-H"), cell("IV-B"))
     }
@@ -478,20 +505,36 @@ write_outputs <- function(p1, p2) {
     wline("First-stage F by object, IV-LP: %s",
           paste(sprintf("%s %.1f", flp$object, flp$F), collapse = "; "))
     wline("")
-    maxp <- max(p1$p[p1$spec == "IV-B"])
-    minp <- min(p1$p[p1$spec != "OLS"])
-    wline("Part 1 verdict: no placebo rejection on any candidate object —")
-    wline("IV-B p ranges up to %.3f and the smallest p across all IV",
-          maxp)
-    wline("estimators and objects is %.3f, far from conventional levels.",
-          minp)
-    wline("CAVEAT: the IV-LP first stage collapses on the iceberg objects")
-    wline("(F = %.1f at V=4400, %.1f at V=20000), so those two IV-LP",
-          flp$F[flp$object == "iceberg V=4400"],
-          flp$F[flp$object == "iceberg V=20000"])
-    wline("nulls are low-power non-results rather than affirmative")
-    wline("cleanliness; the well-identified IV-B and IV-H cells on the")
-    wline("same objects carry the verdict there.")
+    # VERDICT. Rewritten for pop47 (cr-review PR #154): the previous text
+    # summarised IV-B by its MAXIMUM p, which is the right statistic for a
+    # "the null survives everywhere" claim and the wrong one now that the
+    # question is whether a rejection is stable. Under pop47 it printed
+    # "far from conventional levels" directly above a p of 0.042. Every
+    # number below is computed, and the object names are looked up rather
+    # than hard-coded, so this block cannot go stale against the table
+    # again.
+    ivb <- p1[p1$spec == "IV-B", ]
+    n10 <- sum(ivb$p < 0.10); n05 <- sum(ivb$p < 0.05)
+    wline("Part 1 verdict: the placebo rejection is NOT dissolved by the")
+    wline("tau object. IV-B rejects at 10%% on %d of %d objects and at 5%%",
+          n10, nrow(ivb))
+    wline("on %d (min p = %.3f, on %s; max p = %.3f, on %s).",
+          n05, min(ivb$p), ivb$object[which.min(ivb$p)],
+          max(ivb$p), ivb$object[which.max(ivb$p)])
+    wline("Coefficient MAGNITUDES are not comparable across objects (the")
+    wline("tau scales differ); the p-values are.")
+    wline("")
+    wline("CAVEAT 1 — first stages are weaker than under full47. IV-B F by")
+    wline("object runs %.1f-%.1f here against 21.5-61.1 under full47, and",
+          min(ivb$F), max(ivb$F))
+    wline("%d of the %d rejections at 10%% sit on F < 10, so read them as",
+          sum(ivb$p < 0.10 & ivb$F < 10), n10)
+    wline("suggestive rather than firm.")
+    wline("CAVEAT 2 — the weakest IV-LP first stages are %s (F = %.1f)",
+          flp$object[order(flp$F)][1], sort(flp$F)[1])
+    wline("and %s (F = %.1f); IV-LP results on those two objects are",
+          flp$object[order(flp$F)][2], sort(flp$F)[2])
+    wline("low-power non-results either way.")
     wline("")
     wline("PART 2 — decay object, IV-LP (new) vs IV-B (PR #127 anchor):")
     for (th in unique(p2$theta)) {
