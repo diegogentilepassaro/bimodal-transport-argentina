@@ -105,8 +105,12 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       "shrink" as a result. Everything below is about which BASELINE
       CONTROLS to use; item H is about whether the outcome measures
       what the table says it measures. The control question does not
-      go away, but it is the second-order one. A universe-comparable
-      placebo (urban population on both ends) is the test.
+      go away, but it is the second-order one. TESTED in PR #149 with a
+      universe-comparable placebo (urban population on both ends): the
+      point estimates fall hard but the movement is NOT statistically
+      distinguishable from zero, so the rejection is fragile to how the
+      outcome is measured without being shown to be caused by the
+      coverage gap. Detail and the numbers in item H.
       WHY THE POSITION CHANGED (PR #143): the clean null in full47
       comes from DROPPING baseline log MA, not from swapping the
       population baseline to 1947 — pop47 alone moves IV-B p only
@@ -398,20 +402,47 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       locality-universe 1960, and the 143 districts that "shrink" are
       exactly the 143 above. Table 7 is therefore measuring
       1947-60 growth PLUS cross-district variation in 1960 locality
-      coverage. Since the coverage shortfall is related to the
-      treatment (partial corr -0.119, p 0.039), the placebo slope has
-      a coverage component. Sign reasoning suggests the artifact
-      pushes the slope DOWN, i.e. the true pre-trend could be larger
-      than +0.084 — but that reasoning runs through the contaminated
-      proxy, so it is a HYPOTHESIS TO TEST, not a finding. This
-      reframes agenda item B: the pop47-vs-full47 control debate sits
-      on top of a contaminated outcome.
-      TEST AVAILABLE AND CHEAP (proposed, not run): a
-      universe-comparable placebo using urban population on both ends
-      — urbpop_1947 (235 districts) against urbpop_1960 — since both
-      are agglomerated-population concepts. If the placebo slope
-      survives that, the pre-trend is real; if it collapses, Table 7
-      has been reporting a coverage artifact.
+      coverage. The coverage shortfall's relation to the treatment is
+      a partial correlation of -0.119 with p = 0.065, and PR #147's
+      pre-committed verdict on treatment-correlation is INCONCLUSIVE
+      (its two proxies disagree in sign once conditioned). Both
+      qualifiers matter and an earlier draft of this entry dropped
+      them, quoting p = 0.039, a number that appears nowhere in the
+      diagnostic.
+      TESTED (PR #149): a universe-comparable placebo measuring both
+      endpoints on an agglomerated concept — urbpop_1947 against
+      urbpop_1960. The 1947 urban threshold was checked rather than
+      assumed: across the 24 Cuadro 14 sheets the smallest positive
+      population is 2,002 and none is below 2,000, so both sides use
+      the same 2,000 rule.
+      RESULT: apparent DECLINE affects 143 of 237 districts on the
+      published outcome and 27 of 234 on the comparable one, and the
+      published outcome correlates +0.304 with the coverage proxy
+      against +0.100 for the comparable one at similar SDs. Point
+      estimates fall hard (OLS +0.0253 -> +0.0039; IV-B +0.0829 ->
+      +0.0484, both against the same-sample row).
+      BUT THE MOVEMENT IS NOT DISTINGUISHABLE FROM ZERO. Rows share a
+      sample and 2SLS is linear in the outcome, so the slope
+      difference is exactly estimable: OLS +0.0214 (p 0.114), IV-LP
+      +0.0434 (p 0.229), IV-B +0.0345 (p 0.299). And the ten-percent
+      crossing is NOT the outcome's doing — IV-B's p runs 0.085 to
+      0.105 on the same outcome with three fewer districts, then to
+      0.293.
+      SO THE DEFENSIBLE CLAIM IS: the placebo rejection is not robust
+      to how the outcome is measured, and the published outcome is
+      measurably more contaminated — NOT that the coverage gap caused
+      the rejection.
+      ⚠ AND MY EARLIER SIGN REASONING WAS WRONG. This entry first
+      guessed the artifact pushed the slope DOWN, so the true
+      pre-trend might exceed +0.084. It was labelled a hypothesis
+      because it ran through the contaminated proxy, and the test
+      reversed it: removing the artifact lowers the slope, so the
+      artifact was pushing it UP. Recorded because the guess reached
+      the coauthor brief before the test did.
+      This still reframes agenda item B: the pop47-vs-full47 control
+      debate sits on top of an outcome whose measurement is contested,
+      and the control question should not close the placebo discussion
+      on its own.
       WHAT IS NOT SETTLED: whether the mismatch biases the IV
       estimates. PR #147's Part 1 is INCONCLUSIVE by its own
       pre-committed rule (the two coverage proxies disagree in sign
@@ -1075,6 +1106,18 @@ items themselves (section 0), not here.
       hay coordenada" rule verified to hold, and the file reconciles to
       99.90% of our own non-CABA 1960 total. Review published; blockers
       are ours, not his. Detail in section 1 and agenda item G.
+- [x] PR #149 — universe-comparable placebo. Established that Table 7's
+      rejection is fragile to how the outcome is measured (apparent
+      declines 143/237 vs 27/234; published outcome correlates +0.304
+      with the coverage proxy vs +0.100) while the slope movement is
+      not distinguishable from zero (difference test p 0.11-0.30) and
+      the ten-percent crossing comes from a three-district sample
+      change rather than the outcome swap. Also settled in-repo that
+      the 1947 and 1960 urban definitions share the 2,000 rule
+      (smallest Cuadro 14 centre is 2,002, none below), recorded in
+      censo1947/readme.md. Its review caught a wrong p-value (0.039
+      for 0.065) that this ledger had inherited, and a headline
+      asserted without the test that was one line away.
 - [x] PR #147 — the 1960 population universe mismatch, found while
       reviewing #146. See agenda item H for the finding and what it
       does and does not settle. Its own review found five blocking
