@@ -135,6 +135,20 @@ data/raw/**/*.sav
 !data/raw/census/geocoding_1960/**/*.md
 !data/raw/census/geocoding_1960/**/*.json
 !data/raw/census/geocoding_1960/**/*.html
-# ref/: enumerated file by file, so nothing new lands here unnoticed.
+!data/raw/census/geocoding_1960/**/*.txt
+# The two ref/ files whose extensions are NOT whitelisted above. The third,
+# ref/deptos_1960_oficial.csv, rides the *.csv line -- so this is not a
+# file-by-file allowlist for ref/, and a new ref/*.csv|.md|.json|.html|.txt
+# will land without a .gitignore edit. Scoping here is by extension, not by
+# path.
 !data/raw/census/geocoding_1960/ref/deptos_argentina.geojson
 !data/raw/census/geocoding_1960/ref/ar60divp.pdf
+# Page scans stay OUT of git, explicitly. The readme tells the reader to
+# download pages_geocoding_1960.zip (1,085 PNGs, 414 MB) and this folder is
+# its natural unzip location. Leaving *.png off the whitelist above is NOT
+# enough: the data/raw/ rules at the top of this file are an extension
+# denylist and *.png is not on it, so image files under data/raw/ are
+# committable by default. These two lines are the only thing standing between
+# a stray unzip and 414 MB in the history.
+data/raw/census/geocoding_1960/**/*.png
+data/raw/census/geocoding_1960/**/*.jpg
