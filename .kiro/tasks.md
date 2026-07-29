@@ -353,28 +353,61 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       #68 lookup (report's studied definition + network denominator),
       the #113 CABA-node sign-off, the DNV publication volume, and
       geocoding branch status — the last of which is now answered, his
-      branch landed 2026-07-28 (PR #146 open, review published).
-      ADDED 2026-07-29 after the intake review and item H:
-      (i) DO THE 1960 VOLUMES PUBLISH DEPARTAMENTO TOTALS (including
-          dispersed rural population)? This is the highest-value ask on
+      branch landed 2026-07-28 and merged 2026-07-29 (PR #146 + the
+      intake-fix PR #150, squashed to main as 00e0334).
+      LIST REVISED 2026-07-29 after the intake fix pass. Eight items,
+      ordered by value. (2) and (6) are new; (3) and (5) are the same
+      questions with a sharper basis; the rest are unchanged.
+      (1) DO THE 1960 VOLUMES PUBLISH DEPARTAMENTO TOTALS (including
+          dispersed rural population)? Still the highest-value ask on
           the list — see item H. It rides the same archive visit as the
           #68 lookup and the V parameter for Decision A option 1a.
-      (ii) Was volume 2 (Capital Federal) skipped from the geocoding by
-          design? Near-certain yes (his v3-v9 = our Parts 3-9), but it
-          should be confirmed and stated in the folder readme rather
-          than left as a silent omission.
-      (iii) What was the plan behind the `propuesto` / `en_muestra` /
-          `pendiente_muestra` labels? The column names suggest a
-          sample-and-extrapolate QC design rather than an intent to
-          confirm 1,003 rows one by one. Ask before proposing a
-          triage, so we do not cut across his design.
-      (iv) Provenance and licence for ref/deptos_argentina.geojson
-          (55 MB, third-party, no source recorded).
-      (v) The 19 geocoding scripts with hardcoded Windows paths: make
-          them runnable, or relabel as an archived non-runnable record?
-      (vi) The 23 `rojo` rows (point outside its expected departamento)
+      (2) NEW — THE 18 GRAN BUENOS AIRES PARTIDOS. His file carries the
+          same `footnote == "1"` whole-partido rows that our own 1960
+          cleaner already has to dodge, and they hold 3,772,411 people
+          = 27.85% of the file (La Matanza 401,738, Lanús 375,428,
+          Morón 341,920, …). So in the densest part of the country the
+          geocoding gives one point per partido, not per locality. Do
+          the volumes list localities inside those partidos, or is one
+          row the ceiling the source imposes? This governs how much the
+          multi-point MA upgrade actually buys, and it was not on the
+          list before because the property was not documented.
+      (3) What was the plan behind the `propuesto` / `en_muestra` /
+          `pendiente_muestra` labels? SHARPER BASIS: the question is
+          not "confirm 1,003 rows". Reading `criterio_aceptacion`,
+          21 of 3,063 rows (0.7%) carry an individual human decision —
+          auto_match 1,993, auto_muestreo 829 (never inspected),
+          humano_lote 172 (queued, not done), documentado_3.3b 31,
+          humano_individual 21, sin_coordenada 17. `estado` is not a
+          confirmation status and reading it as one overstates the QC
+          by ~50x. So the sampling design is the whole question, not a
+          detail. Still ask before proposing a triage.
+      (4) The 23 `rojo` rows (point outside its expected departamento)
           are worth his eyes regardless of any sampling design: a
           cross-district location error is the one kind MA cares about.
+      (5) LICENSING, WIDER THAN FIRST FRAMED. Not only the provenance
+          and licence of ref/deptos_argentina.geojson (55 MB,
+          third-party, no source recorded): 128 rows trace to Wikipedia
+          (CC-BY-SA) and 54 to OSM/Nominatim (ODbL). Both are
+          share-alike, so they may attach conditions to redistributing
+          the coordinate column itself. `fuente` is free text with 88
+          distinct values and a tail of ~15 further sites, so this
+          needs a decision, not just a source list.
+      (6) NEW — CRS and what the point represents. Neither is recorded
+          anywhere in the material. EPSG:4326 is a safe inference from
+          Georef and the readme states it as an assumption, but he can
+          settle it in one line. Whether a point is a locality
+          centroid, a town centre or a station varies with `fuente`
+          and matters for short-distance tau.
+      (7) Was volume 2 (Capital Federal) skipped from the geocoding by
+          design? Near-certain yes (his v3-v9 = our Parts 3-9). Now
+          documented in the folder readme as a by-construction
+          omission; confirmation is so it stops being an inference.
+      (8) The 19 geocoding scripts with hardcoded Windows paths: make
+          them runnable, or keep the archived-non-runnable label the
+          readme now carries? Plus the Python version used in
+          production, if recoverable — requirements.txt currently pins
+          a known-working set, explicitly not the production one.
 
 - [ ] H. THE 1960 POPULATION UNIVERSE (new, 2026-07-29, PR #147).
       FINDING: data/raw/census/censo1960/1c1960_*.xlsx has three
@@ -461,7 +494,7 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       to attenuation and selection.
       THE FIX IS A DATA REQUEST: the published departamento totals in
       the 1960 volumes, which neither digitization captured (item G
-      (i)).
+      (1)).
 
 ### 1. Waiting on Cote (independent of the meeting)
 
@@ -473,26 +506,62 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       the same archive visit as the #68 lookup and the V parameter for
       Decision A option 1a. Until it lands, pop_1960 stays a
       locality-universe variable and everything in item H stands.
-- [x] Geocoding 1960 intake — HIS BRANCH LANDED 2026-07-28.
-      PR #146 opened and reviewed 2026-07-29 (review published on the
-      thread, plus a correction: the first review claimed a ~6M
-      coverage gap against a half-remembered national total, when
-      against our own non-CABA 1960 figure the file reconciles to
-      99.90%). NOT MERGED: four intake fixes are ours (narrow the
-      recursive .gitignore whitelist, coverage + QC statements and the
-      join key in the readme, the citation — INDEC did not exist in
-      1960 — and declaring Python), and two questions are his (item G
-      (iv) and (v)). Downstream MA integration remains gated on the
-      θ/τ conversation and now also on item H.
-- [ ] Geocoding 1960 intake — instructions email sent (2026-07-24,
-      `Plan/email_cote_geocoding_instrucciones.md`): Cote pushes
-      branch `data/geocoding-1960` (data to
-      data/raw/census/geocoding_1960/, scripts to
-      code/base/census_1960/geocoding/, .gitignore exception, pages/
-      via Drive + sha256). When his branch lands: we open the PR,
-      review, merge. Downstream (bigger, separate): integration into
-      MA (load_centroids replacement or multi-point), gated on the
-      θ/τ conversation (section 2).
+- [x] Geocoding 1960 intake — MERGED 2026-07-29 as 00e0334.
+      His branch landed 2026-07-28; PR #146 reviewed 2026-07-29 (review
+      published on the thread, plus a correction: the first review
+      claimed a ~6M coverage gap against a half-remembered national
+      total, when against our own non-CABA 1960 figure the file
+      reconciles to 99.90%). The four intake fixes went in as PR #150
+      onto his branch first, so the recursive .gitignore never reached
+      main; #150 was itself reviewed and got a fix pass. 80 data files
+      and 36 script files now tracked. main.R untouched — nothing in
+      the R pipeline reads the folder yet, and downstream MA
+      integration stays gated on the θ/τ conversation and on item H.
+      WHAT THE INTAKE ESTABLISHED (all now in the folder readme, and
+      all of it either an input to item G or a constraint on the MA
+      upgrade):
+      - Capital Federal absent (volume 2 not transcribed). Clean
+        non-CABA universe: 13,544,686 against 13,558,587 for the 311
+        non-CABA districts, 99.90%. That agreement is between two
+        independent transcriptions of the SAME volumes, so it validates
+        transcription and not coverage; both inherit item H's gap.
+      - 27.85% of the file's population sits on 18 whole-partido GBA
+        totals, not localities. See item G (2).
+      - 0.7% of rows human-confirmed. See item G (3).
+      - (page, n_orden) is NOT unique, and because `page` is a reused
+        page label the four colliding pairs are cross-province, so a
+        naive merge moves population between provinces. Two working
+        keys documented. No geolev2 column; georef_depto has 417
+        non-blank values against our 312 and is blank on 236 rows
+        (7.7%), so the crosswalk is real work, not a rename.
+      - coordenadas_1960.csv, not poblados_1960.csv, is authoritative
+        for population: they differ on 6 rows, net +292, all logged in
+        decisiones.csv as step 2.3 correccion_lectura.
+      - 27 nombre_oficial values carry an invisible U+00AD soft hyphen,
+        so exact joins on that column fail silently.
+      - The 35 scripts are an archived record, not a runnable pipeline:
+        19 hardcode Windows absolute paths, and the folder
+        reorganisation means the pinned caches are not where they look,
+        so a re-run would hit the live Georef API.
+      - .gitignore exception is now extension-scoped with *.png/*.jpg
+        denied explicitly, verified with `git check-ignore --no-index`
+        (the plain form skips indexed paths and cannot catch this class
+        of regression — that is how the first pass missed a tracked
+        .txt).
+- [x] Geocoding 1960 intake — instructions email sent (2026-07-24,
+      `Plan/email_cote_geocoding_instrucciones.md`). Closed by the
+      entry above: branch pushed, PR opened, reviewed and merged. The
+      only deviation from the instructions is that pages/ went via
+      Dropbox rather than Drive, and that a name collision forced his
+      51 KB protocol to PROTOCOLO.md so the convention readme.md could
+      exist (internal links in INFORME/ROADMAP still point at the old
+      name — cosmetic, unfixed).
+- [ ] Geocoding 1960 — DOWNSTREAM MA INTEGRATION (the bigger, separate
+      piece). Replace load_centroids or move to multi-point weights.
+      Gated on the θ/τ conversation (section 2), on item H, and now
+      also on item G (2): if the 18 GBA partidos cannot be broken into
+      localities, the upgrade buys least where density is highest, and
+      that changes how much the whole exercise is worth.
 - [ ] Issue #68 studied-share — SUBSTANTIALLY RESOLVED (PR #119
       reconciliation footnote in the paper; recom_code semantics
       decoded: 1 maintain 2,310 km / 2 close 14,377 km / 3
@@ -1101,11 +1170,21 @@ items themselves (section 0), not here.
       p-values rather than words — the words were what broke. 55 pp,
       zero undefined, zero warnings. Detail in agenda item B.
 
-- [x] PR #146 (open) — Cote's 1960 geocoding intake, 3,063 localities.
-      Archive checksum verified against the readme, the "sin fuente no
-      hay coordenada" rule verified to hold, and the file reconciles to
-      99.90% of our own non-CABA 1960 total. Review published; blockers
-      are ours, not his. Detail in section 1 and agenda item G.
+- [x] PR #146 + #150 — Cote's 1960 geocoding intake, 3,063 localities,
+      merged as 00e0334. Archive checksum verified against the readme,
+      the "sin fuente no hay coordenada" rule verified to hold, and the
+      file reconciles to 99.90% of our own non-CABA 1960 total. Blockers
+      were ours, not his, and went in as #150 on his branch: the
+      recursive .gitignore, and readme statements on coverage, QC, the
+      join key and the citation. #150's own review then caught four
+      overstatements in my write-up — the QC claim wrong by ~50x, the
+      licence counts undercounting the two share-alike sources, an
+      undocumented 27.85% of population on 18 GBA aggregates, and a
+      .gitignore check that could not detect its own failure mode — all
+      fixed before merge. Detail in section 1 and agenda item G. NOTE
+      FOR FUTURE PASSES: that is four consecutive PRs where the review
+      caught claims in the write-up rather than errors in the numbers.
+      Treat summaries as claims to verify, not as prose.
 - [x] PR #149 — universe-comparable placebo. Established that Table 7's
       rejection is fragile to how the outcome is measured (apparent
       declines 143/237 vs 27/234; published outcome correlates +0.304
