@@ -1,5 +1,5 @@
 Recentered Larkin instrument x alternative treatments
-Generated: 2026-07-22 14:58:01.297692  |  sector s2  |  draws: 100
+Generated: 2026-07-29 17:58:50.399314  |  sector s2  |  draws: 100
 
 NOTE: only_road's unadjusted column is LP-instrumented here for
 symmetry; the paper's Table 13 Panel C uses the hypo instrument.

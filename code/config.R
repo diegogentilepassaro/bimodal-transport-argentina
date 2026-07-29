@@ -403,17 +403,30 @@ placebo_controls <- c(
 )
 stopifnot(length(placebo_controls) == length(geo_controls_main),
           !("log_pop_1960" %in% placebo_controls))
-# SCOPE OF THE SWAP (cr-review PR #145): Table 7 and
-# diagnostic_pretrends_conley.R use placebo_controls. Seven other
-# diagnostics run the placebo outcome under geo_controls_main and were
-# deliberately NOT repointed before the 2026-07-29 meeting:
-# diagnostic_recentering_{results,hypo_results,controls,treatments}.R,
-# diagnostic_fused_results.R, diagnostic_roadseg_results.R and
-# diagnostic_roadtiming_results.R. Their recorded numbers are quoted in
-# the coauthor brief and in the ledger (e.g. the recentering figure
-# "+0.074 -> +0.088"), so silently changing the spec underneath them
-# would invalidate documents already sent. Repoint them as a batch after
-# the meeting, together with whatever Cote decides about the MA baseline.
+# SCOPE OF THE SWAP. Table 7 and diagnostic_pretrends_conley.R use
+# placebo_controls directly. The seven diagnostics that also estimate the
+# placebo outcome -- diagnostic_recentering_{results,hypo_results,controls,
+# treatments}.R, diagnostic_fused_results.R, diagnostic_roadseg_results.R
+# and diagnostic_roadtiming_results.R -- now report it under BOTH baselines,
+# as separate rows labelled `placebo_pretrend` (log_pop_1960, unchanged) and
+# `placebo_pretrend_pop47` (log_pop_1947).
+#
+# WHY BOTH RATHER THAN A REPOINT (2026-07-29). These were held back before
+# the meeting because their numbers are quoted in the coauthor brief, and a
+# silent repoint would have made a sent document unreproducible from the
+# repo. Adding rows instead of replacing them keeps the sent numbers
+# regenerable AND shows the adopted spec, so the movement can be reported as
+# a finding rather than discovered as an inconsistency. It also matters for
+# diagnostic_recentering_controls.R, whose C0-C6 ladder would otherwise lose
+# label comparability across its four outcomes.
+#
+# The swap is applied by swap_pop_baseline_1947() in _iv_helpers.R, which
+# transforms whatever control set each script uses rather than substituting
+# placebo_controls wholesale -- several of them modify the set (sector
+# baseline logMA, +mu, rail baselines, lat/lon quadratic, FE) and those
+# modifications must survive. An assertion there pins
+# swap_pop_baseline_1947(geo_controls_main) == placebo_controls, so the
+# diagnostics and Table 7 cannot drift apart.
 
 # ---- 10. Sample parameters ------------------------------------------------
 

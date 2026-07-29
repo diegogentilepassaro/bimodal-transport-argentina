@@ -136,17 +136,34 @@ main <- function() {
             spec = "selected", stat = "selected", value = 1)
 
     # ---- 5. Stage B: outcomes under every set (top set marked) --------------
+    # The placebo appears TWICE, under both baseline population controls.
+    # The pop47 row is the spec Table 7 adopted (agenda item B); the
+    # original row is kept so numbers already circulated stay reproducible.
+    #
+    # HOW THIS INTERACTS WITH THE LADDER. Stage A selects a set on the
+    # RECENTERED FIRST STAGE, which has no outcome in it, so the selection
+    # is untouched by this and stays on geo_controls_main. Stage B then
+    # applies each set with the baseline appropriate to the outcome: for the
+    # pop47 row, log_pop_1960 is swapped for log_pop_1947 INSIDE whichever
+    # set is being used, leaving that set's mu / rail / lat-lon / FE
+    # additions intact. So a set label means "these additions on top of the
+    # outcome's own baseline" rather than a single fixed column list.
     outcomes <- list(
         c("chg_log_pop_91_60",         "population"),
         c("chg_log_valprod_85_54",     "mfg_valprod"),
         c("chg_log_massal_85_54",      "mfg_wagemass"),
-        c("chg_log_placebo_pop_60_47", "placebo_pretrend")
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend"),
+        c("chg_log_placebo_pop_60_47", "placebo_pretrend_pop47", "pop47")
     )
+    is_pop47 <- function(oc) length(oc) >= 3L && oc[3] == "pop47"
+    ctrl_for <- function(oc, ctrl) {
+        if (is_pop47(oc)) swap_pop_baseline_1947(ctrl) else ctrl
+    }
     message("\n[ctl] Stage B: outcome estimates under every set")
     for (nm in names(sets)) {
         s <- sets[[nm]]
         for (oc in outcomes) {
-            m <- feols(iv_fml(oc[1], "z_rec", s$ctrl, s$fe),
+            m <- feols(iv_fml(oc[1], "z_rec", ctrl_for(oc, s$ctrl), s$fe),
                        data = d2, vcov = "hetero")
             cc <- safe_coef(m, paste0("fit_", endog))
             add_row(block = "B_outcomes", set = nm, outcome = oc[2],
@@ -176,10 +193,14 @@ main <- function() {
     message(sprintf("\n[ctl] Stage C: reduced-form RI (LOO mu), set %s",
                     selected))
     ssel <- sets[[selected]]
-    ctrl_expr <- paste(setdiff(ssel$ctrl, "mu"), collapse = " + ")
     fe_expr <- if (is.null(ssel$fe)) "" else sprintf(" | %s", ssel$fe)
     mu_full <- d2$mu
     for (oc in outcomes) {
+        # Controls follow THIS outcome row. Hoisting ctrl_expr out of the
+        # loop, as an earlier version did, would give the pop47 row the
+        # geo_controls_main reduced form and an identical RI p.
+        ctrl_expr <- paste(setdiff(ctrl_for(oc, ssel$ctrl), "mu"),
+                           collapse = " + ")
         rf_coef <- function(zv, muv) {
             dd <- cbind(d2, zv = zv, muv = muv)
             m <- feols(as.formula(sprintf("%s ~ zv + muv + %s%s",

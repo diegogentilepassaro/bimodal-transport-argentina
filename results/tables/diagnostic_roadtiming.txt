@@ -1,5 +1,5 @@
 Road-timing design instrument diagnostic (issue #114)
-Generated: 2026-07-24 10:25:19.193664  |  permuted draws: 100
+Generated: 2026-07-29 18:04:18.142575  |  permuted draws: 100
 
 (bal) Balance, early vs not-early within strata (SEs clustered by district):
     dist54_km                    b=-58.9756  se=28.1900  p=0.038  N=216
@@ -39,6 +39,11 @@ Generated: 2026-07-24 10:25:19.193664  |  permuted draws: 100
     recentered   b=+0.1186  se=0.2201  p=0.590  F=1.1  N=237
     mu_control   b=+0.0887  se=0.0804  p=0.271  F=5.1  N=237
     reduced-form RI p = 0.812
+  total.placebo_pretrend_pop47
+    unadjusted   b=+0.0401  se=0.0332  p=0.229  F=11.2  N=237
+    recentered   b=+0.2605  se=0.3809  p=0.495  F=1.2  N=237
+    mu_control   b=+0.1088  se=0.0810  p=0.180  F=5.0  N=237
+    reduced-form RI p = 0.495
   road_only.population
     unadjusted   b=+0.0342  se=0.0337  p=0.311  F=21.6  N=311
     recentered   b=-0.0898  se=0.1582  p=0.571  F=1.4  N=311
@@ -59,3 +64,8 @@ Generated: 2026-07-24 10:25:19.193664  |  permuted draws: 100
     recentered   b=+0.1403  se=0.2879  p=0.626  F=0.9  N=237
     mu_control   b=+0.0925  se=0.0853  p=0.279  F=5.5  N=237
     reduced-form RI p = 0.812
+  road_only.placebo_pretrend_pop47
+    unadjusted   b=+0.0396  se=0.0326  p=0.226  F=13.5  N=237
+    recentered   b=+0.3037  se=0.5155  p=0.556  F=1.0  N=237
+    mu_control   b=+0.1129  se=0.0859  p=0.190  F=5.5  N=237
+    reduced-form RI p = 0.495

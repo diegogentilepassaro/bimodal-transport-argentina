@@ -1,5 +1,5 @@
 Recentered-instrument control exploration (outcome-blind)
-Generated: 2026-07-22 10:44:38.596754  |  draws: 100  |  selected set: C1
+Generated: 2026-07-29 17:57:59.128476  |  draws: 100  |  selected set: C1
 
 Protocol: sets fixed ex ante; ranked by recentered first-stage
 F only; outcomes estimated for every set afterwards; RI under
