@@ -168,6 +168,16 @@ main <- function() {
             if (!is.na(cv05)) {
                 macros[[paste0("mopCVfive", key)]] <- sprintf("%.2f", cv05)
             }
+            # The CONSERVATIVE (B = 1) critical value, i.e. the same test
+            # assuming the worst-case bias bound takes its maximum. Needed
+            # in prose because the joint column clears its exact critical
+            # value but NOT this one, and §5 has to say so -- otherwise the
+            # strength claim looks unconditional when it is not
+            # (cr-review PR #156).
+            cvc <- pick(sp, "cvcons_tau10")
+            if (!is.na(cvc)) {
+                macros[[paste0("mopCVcons", key)]] <- sprintf("%.2f", cvc)
+            }
         }
         # (urban/rural IV-B macros live in add_prose_table_macros as
         # urbIVB*/rurIVB*; the old mainUrbPop*/mainRurPop* names were

@@ -13,13 +13,26 @@ ORDER) are historical record: completed items, dated decisions, and
 superseded plans. When an item here closes, mark it [x] with the
 PR/date and move it to section 7 (completed this cycle); if it
 records a decision, add the record to the DEFERRED LEDGER.
-Reorganized 2026-07-25 around the Wednesday meeting; the pre-meeting
-work program (PRs #115-#133) is section 7.
+Reorganized 2026-07-25 around what was then a Wednesday meeting; the
+work program of that period (PRs #115-#133) is section 7.
 
-### 0. WEDNESDAY MEETING 2026-07-29 — prepared agenda
+REFRAMED 2026-07-29: THE MEETING DID NOT HAPPEN. It became an email
+thread instead, so the decisions below arrive over several days and
+SEPARATELY rather than in one sitting. Two consequences for anyone
+reading this ledger:
+  - "[post-Wednesday]" and "[if X settles]" gates now mean "waiting on
+    that specific reply", not "waiting on one meeting". Each gate names
+    its decision.
+  - Items C and A INTERACT and must not be answered in isolation:
+    IV-LP-only combined with deep normalization would cost the sectoral
+    significance, which is the cleanest result in the paper. The email
+    (Plan/email_cote_batch_2026-07-29.md) puts them in one message
+    deliberately.
+
+### 0. DECISIONS OPEN WITH COTE — agenda, now an email thread
 
 Agenda set by Cote's 2026-07-24 email. Each item below is a decision
-the meeting has to make, with the evidence now in hand. Where an
+that has to be made, with the evidence now in hand. Where an
 item's follow-up work is tracked elsewhere, the pointer is noted.
 
 - [ ] Pre-meeting evidence brief for Cote — DRAFTED 2026-07-25
@@ -37,7 +50,10 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       ⚠ ONE THING THE SENT EMAIL PREDATES: it says the
       1947-consistent spec "queda limpia en TODOS los objetos
       candidatos". True of full47, but PR #143 showed that cleanliness
-      is not defensible. Lead the meeting with the correction (item B).
+      is not defensible. CORRECTION DELIVERED 2026-07-29 in
+      Plan/email_cote_batch_2026-07-29.md §2.6, which also carries the
+      stronger restriction-mechanism argument (item B) and the
+      sign-reversal admission. Nothing further owed on this line.
 
 - [ ] A. DECISION A — the θ/τ object (deepest open question).
       Both cheap experiments Cote asked for are done:
@@ -92,7 +108,17 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       Table 15). Mechanics: the main-spec swap is now a config.R
       edit (PR #133) plus the label/binning sweep listed in
       config.R's comment.
-- [ ] B. TABLE 7 PLACEBO SPEC — which 1947-consistent baseline set
+- [ ] B. TABLE 7 PLACEBO SPEC — MY POSITION IS NOW SETTLED, AND ON A
+      STRONGER ARGUMENT THAN THE ONE ON RECORD (2026-07-29, PR #154
+      review). full47 is not a defensible alternative, and the argument
+      is the RESTRICTION MECHANISM recorded further down this item under
+      "WHY full47 LOOKED CLEAN" — not the weaker "the justification for
+      dropping the MA control was unsupported". Read that block before
+      replying to Cote on this item: it is checkable in one regression,
+      which is why it is the thing to put to him. (Stated once, there.
+      An earlier version of this PR restated the whole mechanism here
+      and left two copies in the same item.)
+      Which 1947-consistent set
       becomes the paper's Table 7? DIEGO'S POSITION (2026-07-27,
       adopted): **pop47, NOT full47.** Swap the indefensible control,
       keep the baseline-MA control, and report the result as a
@@ -298,8 +324,35 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           (except rural pop)" leans on the exact bias-bound
           computation; dropping to IV-LP-only would move the main
           spec from "passes" to "borderline".
-      Modern-IV wiring into the paper is a follow-up decision
-      (section 2).
+      (v) THE EFFECTIVE F IS NOW IN THE PAPER (2026-07-29, PR #155),
+          which changes this item from "evidence we hold" to "evidence
+          the reader sees". Tables 8, 9 and 10 report it beside the
+          classical F, and §5 states the three values with their MOP
+          critical values. The B-attribution caveat from (iv) was NOT in
+          §5 as first written — the paragraph said the joint column
+          clears its threshold "because with two instruments the
+          relevant critical value is far lower", which is the
+          attribution (iv) rejects. Corrected in PR #156 with a new
+          scalar (\mopCVconsBoth) so the published claim now says
+          explicitly that it holds under the exact bias-bound
+          computation and NOT under the conservative variant, where the
+          joint column would fail. Also surfaced
+          while wiring it: Table 8's "first-stage F" was already ROBUST
+          (matches diagnostic F_robust 22.64/4.27/15.19) while Tables
+          9-10's is CLASSICAL (matches F_classical 22.12/6.87/16.17) —
+          the same label on two different statistics. Recorded rather
+          than harmonized, because picking one convention across tables
+          is Cote's call, not a bug fix. NOTE ON WHERE it is recorded:
+          Table 8's note is reader-visible in the PDF; Tables 9 and 10
+          carry it only as LaTeX `%` comments, which this repo has
+          already ruled insufficient (cr-review PR #141 — only
+          table_11_other_outcomes.R calls add_table_note()). So a
+          reader of the compiled paper does NOT see the distinction on
+          Tables 9-10. Converting those two to real notes is a small
+          follow-up, listed in section 5.
+      WHAT WOULD CHANGE THE ANSWER: (iv)'s attribution. If we ever have
+      to retreat to the conservative B=1 test, every IV-B cell fails at
+      10% and this item reopens from scratch.
 - [ ] D. MIGRATION SIGN + §5.4 — Cote leans REMOVE ("la sacaría si
       hace ruido"), at most a paragraph in Other Outcomes, and
       demote §5.4 to an annex (his note #42). Needs Diego's
@@ -372,7 +425,7 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       (secondary 0.0068 < migration 0.0120), added the secondary
       IV-LP AR set that cuts against a no-schooling reading, gave
       Table 11 a reader-visible note, and reordered its panels to
-      match the prose. STILL OPEN for Wednesday: Cote's visto bueno,
+      match the prose. STILL OPEN, now an email reply: Cote's visto bueno,
       and his option to demote §5.4 entirely if he prefers (one-line
       change). Email §4 and brief item 6 carry the write-up.
       ASYMMETRY ON RECORD: Table 11 is the only table with an
@@ -388,6 +441,27 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       small at 312-district aggregation. Close issue #114 after
       the conversation. Known limitation on record:
       snap-tolerance sensitivity unexplored.
+      UPDATE 2026-07-29 (PR #153) — the placebo half of the read-out
+      IMPROVES under the adopted Table 7 spec, and the corridors
+      sentence in the brief needs an edit before it is quoted again.
+      Detail in the section-1 PR #153 entry; in short, the recentering
+      placebo goes +0.0879 (p 0.244) → +0.0215 (p 0.812) with RI p
+      0.337 → 0.881 and stays near zero across the whole C0-C6 ladder,
+      while the corridors design's unadjusted placebo stops being
+      significant at 5%. The corridors VERDICT is unchanged (the
+      decisive evidence is PR #124's stratification collapse, and the
+      other strike is a balance fact independent of the control set).
+      ALSO SURFACED, and the INTERPRETIVE half belongs in this
+      conversation: the mu-control F range printed in
+      diagnostic_roadseg.txt is 0.2-6.2, so the report's own sentence
+      "controlling for mu soaks up the instrument" is weaker than it
+      sounds at the top of that range. The MECHANICAL half is already
+      fixed: before PR #153 the file printed 0.2-0.4 while its body
+      showed 6.2 (the range was computed over rows it should not have
+      included), and #153 corrected it —
+      diagnostic_roadseg_results.R:453-456. So what is open is only
+      whether that sentence should be softened, not whether the number
+      is right.
 - [ ] F. MENTION-ONLY — log-area awareness: the balance-table
       correlation exists and a referee may ask; agreed answer is
       the density/over-control + mechanical-entanglement rationale
@@ -566,7 +640,7 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       the 1960 volumes, which neither digitization captured (item G
       (1)).
 
-### 1. Waiting on Cote (independent of the meeting)
+### 1. Waiting on Cote (data and access, not decisions)
 
 - [ ] 1960 DEPARTAMENTO TOTALS from the published volumes — the fix
       for item H, and the highest-value item on the archive list.
@@ -691,9 +765,11 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       selection, what the literature uses; notes #26-#31). Our side
       already has the outcome-blind grid (PR #112) to feed in.
 
-### 2. Unblocked by Wednesday's decisions (work that flows)
+### 2. Unblocked by the section-0 decisions (work that flows)
 
-Nothing here starts before the meeting; each item lists its trigger.
+Each item lists the reply it waits on. Some have already shipped ahead
+of a reply where the work was defensible on its own (#145, #154, #155);
+those are marked done in place.
 
 - [x] ~~[if B confirms] Swap Table 7 to **pop47**~~ — DONE 2026-07-27,
       PR #145, ahead of the meeting rather than after it: the log-pop
@@ -739,8 +815,12 @@ Nothing here starts before the meeting; each item lists its trigger.
       appear in the paper — the paper never adopted it. It lives in
       this ledger (corrected above), in
       Plan/memo_identification_measurement_decisions.md, and in the
-      brief already sent to Cote. Correcting the brief is a
-      conversation on Wednesday, not an edit.
+      brief already sent to Cote. CORRECTED 2026-07-29 in
+      Plan/email_cote_batch_2026-07-29.md §2.6, which states the
+      sign-reversal admission to him directly rather than waiting for a
+      conversation that is no longer happening. The brief text itself
+      still carries the old claim; it goes as an attachment, so either
+      edit it before sending or rely on §2.6 to override it.
 - [x] Cross-object check for pop47 — DONE 2026-07-29 (PR #154).
       diagnostic_crossobject_checks.R Part 1 now runs the adopted pop47
       spec, with an object-consistent baseline MA (`l60` recomputed per
@@ -759,13 +839,41 @@ Nothing here starts before the meeting; each item lists its trigger.
       then productionize diagnostic_ma_iceberg.R's transform into
       the MA step. τ-rebuild design (transshipment costs etc.,
       Plan/tau_rebuild_plan.md) also lands here.
-- [ ] [if C or on demand] Wire modern-IV inference into the paper:
-      report robust/effective F alongside (or instead of) classical
-      F in Tables 8-10, AR sets for the headline cells
-      (diagnostic_modern_iv.R computes everything; AR tail grid
-      already densified; MOP K=2 critical values COMPUTED, PR #136
-      — diagnostic_mop_critical.R has the verdicts ready to quote
-      or wire).
+- [ ] [no trigger — the remaining half is on demand] Modern-IV
+      inference in the paper. EFFECTIVE F DONE 2026-07-29 (PR #155);
+      AR sets still held. DONE: eff_F() and fitstat_F_robust() moved from
+      diagnostic_modern_iv.R into _iv_helpers.R with an
+      eff_F_from_fit() wrapper, so Tables 8/9/10 report the effective F
+      from the implementation the diagnostic validated (not a second
+      copy, and not a read of the diagnostic's CSV, which would have
+      made table order depend on diagnostic order in main.R). New
+      scalars effFLP/effFHypo/effFBoth and mopCVten*/mopCVfive*, and a
+      §5 paragraph judging the effective F against MOP critical values
+      instead of Stock-Yogo 10.
+      STILL OPEN: the AR-set half, tracked as its own item immediately
+      below rather than described twice.
+      DEFERRED REFACTORS this PR chose not to bolt on (no live bug —
+      nobs is identical across all four columns for all nine outcomes,
+      verified): (a) the complete-case block is duplicated across
+      Tables 9 and 10 in two idioms plus a third variant in Table 8,
+      and wants one helper; (b) that helper should assert the sample
+      PER COLUMN — today eff_F_from_fit() is handed the IV-B frame for
+      all three columns and only the IV-B row count is checked, so if
+      an instrument ever acquired missingness the IV-LP effective F
+      would be computed on the wrong sample silently; (c)
+      diagnostic_modern_iv_table11.R still holds its own copy of
+      fitstat_F_robust().
+- [ ] [on demand, or if a referee asks] AR sets into the paper — the
+      half of the modern-IV wiring PR #155 deliberately left out.
+      Anderson-Rubin confidence sets for the headline cells, and the
+      robust/effective F for the Table 11 outcomes. Everything is
+      computed: diagnostic_modern_iv.R has the sets with a densified
+      tail grid, diagnostic_modern_iv_table11.R has the Table 11 cells,
+      and diagnostic_mop_critical.R has the MOP verdicts. The reason to
+      hold: the sets are wide and Tables 9-10 are already dense. The
+      reason it may become necessary: AR needs no strength threshold at
+      all, so it is the clean answer if the B-attribution in item C
+      (iv) is ever challenged.
 - [ ] [after #68 confirms] generate_scalars wiring for the
       studied-share footnote numbers.
       (MA integration of the geocoded 1960 localities used to sit here
@@ -815,11 +923,24 @@ force a rerun anyway (Diego, 2026-07-20).
 
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Post-meeting refactor: promote the diagnostic helper trio
-      (tau/pop loaders, geodesic pairs) AND the modern-IV machinery
-      (AR inversion, MOP effective F / B(W) / Patnaik cv) into the
-      EXISTING code/analysis/_diagnostic_helpers.R. Four copies now
+- [ ] Tables 9 and 10 have no reader-visible notes block — their table
+      notes are LaTeX `%` comments, invisible in the PDF, which the
+      PR #141 review already ruled insufficient. Only
+      table_11_other_outcomes.R calls add_table_note(). Consequence
+      today: the classical-vs-effective F distinction PR #155 added is
+      explained to a reader of Table 8 and not to a reader of Tables 9
+      or 10. Convert both to add_table_note(). Small, and it should
+      happen before the draft goes out for comment.
+- [ ] Helper-consolidation refactor (was "post-meeting"; no longer
+      gated on anything). PARTLY DONE 2026-07-29: PR #155 moved the MOP
+      effective F and the robust Wald F into _iv_helpers.R, NOT
+      _diagnostic_helpers.R as this item assumed — _iv_helpers.R is
+      where the estimation helpers live and the tables source it.
+      STILL OPEN: the diagnostic helper trio (tau/pop loaders, geodesic
+      pairs), and the AR inversion / B(W) / Patnaik cv machinery, which
+      still has four copies
       (PRs #130/#135/#137/#139/#140) and two drifts to reconcile
+      and two drifts to reconcile
       when it happens: patnaik_cv returns a bare cv in some copies
       vs list(cv, k_eff) in diagnostic_mop_critical.R (so the k_eff
       columns are silently absent downstream), and one copy dropped
@@ -1058,6 +1179,9 @@ the verification record.
       computed at the time (since computed: PR #136 below). Wiring
       into the paper = post-Wednesday decision (section 2).
       → agenda item C.
+      [Kept verbatim per section 7's convention. For what happened to
+      that decision, see section 2 and section 9: PR #155 wired the
+      effective F on 2026-07-29 and held the AR sets.]
 - [x] \doi macro verbatim-safety — FIXED 2026-07-25, PR #132
       squash-merged: catcode-based doi.sty-pattern definition;
       hostile DOIs (% and #) need no escaping. Verified via
@@ -1303,6 +1427,11 @@ items themselves (section 0), not here.
       #149, #150 and #151 — an unbroken run, not the "four" an earlier
       version of this entry counted. Treat summaries as claims to
       verify, not as prose.
+- [x] PR #148 — ledger: recorded the 1960 universe finding as agenda
+      item H, its implication for the Table 7 placebo, and the asks for
+      Cote. Added 2026-07-29 in PR #156; the PR had shipped without a
+      ledger entry, which is how the "every PR in the run" miscount in
+      section 9 arose.
 - [x] PR #149 — universe-comparable placebo. Established that Table 7's
       rejection is fragile to how the outcome is measured (apparent
       declines 143/237 vs 27/234; published outcome correlates +0.304
@@ -1354,6 +1483,79 @@ through the mapping. The forward-looking exhibit specs under CODE TASKS
 > Figures (C15, C16, C17) DID move, since a reader consults those for
 which script builds an exhibit. And "Appendix Table A1" in the ledger's
 Gibbons comparisons refers to THEIR table, not ours: it stays.
+
+### 9. Completed 2026-07-29, record
+
+The batch run after the meeting became an email thread. Five PRs, all
+merged; main at 3480e62, paper 56 pp, zero undefined, zero warnings.
+
+- [x] PR #151 — ledger: geocoding intake closed, the asks for Cote
+      revised from six to eight in three blocks. Detail in item G.
+- [x] PR #152 — refactor: the duplicated new_sink() row accumulator
+      folded into _diagnostic_helpers.R. The two copies were NOT
+      identical (one carries a first_stage_F column), so the shared
+      version takes the schema as a REQUIRED argument — a default
+      would silently give a future caller the wrong column set. Both
+      output CSVs byte-identical after the move, and again after the
+      fix pass. The fix pass also closed a real hole: a misspelled
+      column name in $add() was dropped silently by the r[, cols]
+      subset while its intended column came out NA, i.e. a wrong
+      number in a committed CSV with no error. Guard added after
+      checking all 25 call sites; negative-tested so it is not dead
+      code.
+- [x] PR #153 — the seven diagnostics that estimate the placebo
+      outcome now report it under BOTH baselines rather than being
+      repointed, so the numbers already sent to Cote stay reproducible
+      from the repo. 0 pre-existing values moved, 0 lost, 321 rows
+      added across ten outputs. Substantive result and the corridors
+      caveat are in the section-1 entry and item E.
+      Method note worth keeping: the first pass had the pop47 rows
+      silently using the OLD reduced form, because rf_coef() closed
+      over a file-level ctrls_expr pinned to geo_controls_main. The
+      tell was an IDENTICAL RI p across the two placebo rows. Fixed in
+      four scripts.
+- [x] PR #154 — crossobject Part 1 moved off the abandoned full47 spec
+      onto the adopted pop47, with an object-consistent baseline MA.
+      Inverts the PR #139 conclusion; detail and the
+      rejected-restriction mechanism in item B.
+      Method note: the anchor was strengthened. Reproducing full47 said
+      nothing about the MA recomputation (full47 has no MA control);
+      pop47 controls for l60, so the match also tests it — but the
+      coefficient anchor alone cannot distinguish l60 from an affine
+      transform of it, so the exact equality against the pipeline
+      column is now asserted directly.
+- [x] PR #155 — effective F wired into Tables 8, 9 and 10. Detail in
+      section 2 and item C.
+      Two of my own errors caught in review and worth remembering:
+      four headline macros (mainPopCoefIVBoth and siblings, quoted in
+      §1 and §5.2) were accidentally re-scoped behind an unrelated
+      condition and would have vanished silently on a later
+      regeneration; and the paper compared an MOP statistic to
+      Stock-Yogo 10, a threshold that does not apply to it, when the
+      correct critical values were already committed from PR #136.
+- [x] Pre-email documentation pass — Plan/email_cote_batch_2026-07-29.md
+      drafted (single email replacing the meeting: what shipped, the
+      three new findings, three corrections to what was already sent,
+      the five decisions, the eight asks). Untracked, reference-only.
+
+STANDING CAUTION, reinforced by this batch. Reviews have caught
+substantive findings on #144, #145, #147, #149, #150, #151, #153, #154,
+#155 and #156 — not every PR in the span (#146, #148 and #152 also
+merged in it), so the honest statement is "most of the run", not "every
+PR". The dominant error is one kind: a summary sentence, a verdict line
+or a header that was true of the previous version and was not repointed
+when the numbers changed. #154 and #156 are the cleanest examples — a
+report asserting the opposite of its own table, and a ledger line
+claiming the paper carried a caveat it did not.
+BUT NOT ONLY PROSE, and an earlier version of this entry got that wrong:
+#152's silent-NA column and #153's rf_coef() closure were both CODE
+defects that would have put wrong numbers in committed CSVs. The right
+lesson is narrower than "prose is the weak point": DERIVED TEXT AND
+DERIVED STATISTICS BOTH GO STALE WHEN THE THING THEY DESCRIBE CHANGES,
+and neither the build nor the test suite catches it. Treat every
+generated verdict string, every "this shows" sentence, and every
+statistic computed from a filtered subset as a claim to re-verify
+against its own source.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
