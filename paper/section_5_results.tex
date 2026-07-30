@@ -78,15 +78,26 @@ two values reappear here.
 
 Second, the effective $F$ has no Stock--Yogo threshold: its benchmark is
 the Montiel Olea--Pflueger critical value, which depends on the number of
-instruments and on the estimated variance ratio, and so differs across
-columns. Judged that way the ranking of the columns changes. The Larkin
-Plan instrument alone, at \effFLP{}, falls just short of its critical
-value of \mopCVtenLP{} for a ten-percent bias tolerance. The joint
+instruments and on a bound on the worst-case bias of the estimator, and so
+differs across columns. Judged that way the ranking of the columns changes.
+The Larkin Plan instrument alone, at \effFLP{}, falls just short of its
+critical value of \mopCVtenLP{} for a ten-percent bias tolerance. The joint
 specification, at \effFBoth{}, clears its critical value of
-\mopCVfiveBoth{} even at a five-percent tolerance, because with two
-instruments the relevant critical value is far lower. The hypothetical-road
+\mopCVfiveBoth{} even at a five-percent tolerance. The hypothetical-road
 instrument alone clears no tolerance. The joint specification is therefore
 the strongest of the three by this standard, not merely the largest $F$.
+
+That last conclusion rests on one step that should be stated rather than
+buried, because it is where the argument could be contested. The joint
+column does not clear its threshold because two instruments mechanically
+lower the bar. It clears it because the estimated bound on the worst-case
+bias for our weighting matrix is small: the bias-tolerance calculation
+gives a critical value of \mopCVfiveBoth{}, whereas the conservative
+version of the same test, which assumes the worst-case bound takes its
+maximum value, would require \mopCVconsBoth{} at a ten-percent tolerance
+and the joint specification would not clear it. So the claim is that the
+combined instrument set is strong under the exact bias-bound computation,
+not under its most conservative variant.
 Identification-robust Anderson--Rubin confidence sets, which do not rely
 on a strength threshold at all, are reported in
 Section~\ref{sec:limitations}.

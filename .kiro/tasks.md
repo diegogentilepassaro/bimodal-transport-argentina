@@ -50,7 +50,10 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       ⚠ ONE THING THE SENT EMAIL PREDATES: it says the
       1947-consistent spec "queda limpia en TODOS los objetos
       candidatos". True of full47, but PR #143 showed that cleanliness
-      is not defensible. Lead the meeting with the correction (item B).
+      is not defensible. CORRECTION DELIVERED 2026-07-29 in
+      Plan/email_cote_batch_2026-07-29.md §2.6, which also carries the
+      stronger restriction-mechanism argument (item B) and the
+      sign-reversal admission. Nothing further owed on this line.
 
 - [ ] A. DECISION A — the θ/τ object (deepest open question).
       Both cheap experiments Cote asked for are done:
@@ -107,20 +110,15 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       config.R's comment.
 - [ ] B. TABLE 7 PLACEBO SPEC — MY POSITION IS NOW SETTLED, AND ON A
       STRONGER ARGUMENT THAN THE ONE ON RECORD (2026-07-29, PR #154
-      review). full47 is not a defensible alternative, for a reason
-      better than "the justification for dropping the MA control was
-      unsupported": because Δlog MA ≡ l86 − l60 identically, dropping
-      the baseline MA does not remove a control, it IMPOSES THE
-      RESTRICTION b_l86 = −b_l60. Verified on the raw object — the
-      unrestricted y ~ l86 + l60 gives b_l86 = +0.0275, exactly the
-      pop47 Δlog MA coefficient to machine precision, and the pop47
-      coefficient ON l60 (+0.0460, p < 0.0001) IS the test of that
-      restriction. It rejects. So full47's clean null is attenuation
-      from a restriction the data reject. Same on the decay object (OLS
-      −0.110 → +0.588). Sample and df ruled out (N = 237 both ways).
-      This is checkable in one regression, which is why it is the
-      argument to put to Cote.
-      Original framing of the item follows — which 1947-consistent set
+      review). full47 is not a defensible alternative, and the argument
+      is the RESTRICTION MECHANISM recorded further down this item under
+      "WHY full47 LOOKED CLEAN" — not the weaker "the justification for
+      dropping the MA control was unsupported". Read that block before
+      replying to Cote on this item: it is checkable in one regression,
+      which is why it is the thing to put to him. (Stated once, there.
+      An earlier version of this PR restated the whole mechanism here
+      and left two copies in the same item.)
+      Which 1947-consistent set
       becomes the paper's Table 7? DIEGO'S POSITION (2026-07-27,
       adopted): **pop47, NOT full47.** Swap the indefensible control,
       keep the baseline-MA control, and report the result as a
@@ -330,15 +328,28 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
           which changes this item from "evidence we hold" to "evidence
           the reader sees". Tables 8, 9 and 10 report it beside the
           classical F, and §5 states the three values with their MOP
-          critical values and the B-attribution caveat from (iv) — so
-          the "passes at 5%" claim is published WITH the fact that it
-          leans on the exact bias-bound computation. Also surfaced
+          critical values. The B-attribution caveat from (iv) was NOT in
+          §5 as first written — the paragraph said the joint column
+          clears its threshold "because with two instruments the
+          relevant critical value is far lower", which is the
+          attribution (iv) rejects. Corrected in PR #156 with a new
+          scalar (\mopCVconsBoth) so the published claim now says
+          explicitly that it holds under the exact bias-bound
+          computation and NOT under the conservative variant, where the
+          joint column would fail. Also surfaced
           while wiring it: Table 8's "first-stage F" was already ROBUST
           (matches diagnostic F_robust 22.64/4.27/15.19) while Tables
           9-10's is CLASSICAL (matches F_classical 22.12/6.87/16.17) —
-          the same label on two different statistics. Documented in
-          both tables' notes rather than harmonized, because picking
-          one convention across tables is Cote's call, not a bug fix.
+          the same label on two different statistics. Recorded rather
+          than harmonized, because picking one convention across tables
+          is Cote's call, not a bug fix. NOTE ON WHERE it is recorded:
+          Table 8's note is reader-visible in the PDF; Tables 9 and 10
+          carry it only as LaTeX `%` comments, which this repo has
+          already ruled insufficient (cr-review PR #141 — only
+          table_11_other_outcomes.R calls add_table_note()). So a
+          reader of the compiled paper does NOT see the distinction on
+          Tables 9-10. Converting those two to real notes is a small
+          follow-up, listed in section 5.
       WHAT WOULD CHANGE THE ANSWER: (iv)'s attribution. If we ever have
       to retreat to the conservative B=1 test, every IV-B cell fails at
       10% and this item reopens from scratch.
@@ -440,12 +451,17 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
       significant at 5%. The corridors VERDICT is unchanged (the
       decisive evidence is PR #124's stratification collapse, and the
       other strike is a balance fact independent of the control set).
-      ALSO SURFACED, and it belongs in this conversation rather than
-      being quietly fixed: diagnostic_roadseg.txt on main claimed the
-      mu-control F range was 0.2-0.4 while its own body showed 6.2.
-      Computed correctly it is 0.2-6.2, so "controlling for mu soaks up
-      the instrument" is weaker than the committed report implied. That
-      is independent of PR #153 and unresolved.
+      ALSO SURFACED, and the INTERPRETIVE half belongs in this
+      conversation: the mu-control F range printed in
+      diagnostic_roadseg.txt is 0.2-6.2, so the report's own sentence
+      "controlling for mu soaks up the instrument" is weaker than it
+      sounds at the top of that range. The MECHANICAL half is already
+      fixed: before PR #153 the file printed 0.2-0.4 while its body
+      showed 6.2 (the range was computed over rows it should not have
+      included), and #153 corrected it —
+      diagnostic_roadseg_results.R:453-456. So what is open is only
+      whether that sentence should be softened, not whether the number
+      is right.
 - [ ] F. MENTION-ONLY — log-area awareness: the balance-table
       correlation exists and a referee may ask; agreed answer is
       the density/over-control + mechanical-entanglement rationale
@@ -751,7 +767,9 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
 
 ### 2. Unblocked by the section-0 decisions (work that flows)
 
-Nothing here starts before the meeting; each item lists its trigger.
+Each item lists the reply it waits on. Some have already shipped ahead
+of a reply where the work was defensible on its own (#145, #154, #155);
+those are marked done in place.
 
 - [x] ~~[if B confirms] Swap Table 7 to **pop47**~~ — DONE 2026-07-27,
       PR #145, ahead of the meeting rather than after it: the log-pop
@@ -821,8 +839,9 @@ Nothing here starts before the meeting; each item lists its trigger.
       then productionize diagnostic_ma_iceberg.R's transform into
       the MA step. τ-rebuild design (transshipment costs etc.,
       Plan/tau_rebuild_plan.md) also lands here.
-- [~] PARTIALLY DONE 2026-07-29 (PR #155) — effective F is wired;
-      AR sets are not. DONE: eff_F() and fitstat_F_robust() moved from
+- [ ] [no trigger — the remaining half is on demand] Modern-IV
+      inference in the paper. EFFECTIVE F DONE 2026-07-29 (PR #155);
+      AR sets still held. DONE: eff_F() and fitstat_F_robust() moved from
       diagnostic_modern_iv.R into _iv_helpers.R with an
       eff_F_from_fit() wrapper, so Tables 8/9/10 report the effective F
       from the implementation the diagnostic validated (not a second
@@ -831,10 +850,8 @@ Nothing here starts before the meeting; each item lists its trigger.
       scalars effFLP/effFHypo/effFBoth and mopCVten*/mopCVfive*, and a
       §5 paragraph judging the effective F against MOP critical values
       instead of Stock-Yogo 10.
-      STILL OPEN: the AR sets and the robust/effective F for the
-      Table 11 outcomes. Left in diagnostic_modern_iv.txt on purpose —
-      the sets are wide and would clutter already dense tables. Wire on
-      demand or if a referee asks.
+      STILL OPEN: the AR-set half, tracked as its own item immediately
+      below rather than described twice.
       DEFERRED REFACTORS this PR chose not to bolt on (no live bug —
       nobs is identical across all four columns for all nine outcomes,
       verified): (a) the complete-case block is duplicated across
@@ -906,11 +923,24 @@ force a rerun anyway (Diego, 2026-07-20).
 
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Post-meeting refactor: promote the diagnostic helper trio
-      (tau/pop loaders, geodesic pairs) AND the modern-IV machinery
-      (AR inversion, MOP effective F / B(W) / Patnaik cv) into the
-      EXISTING code/analysis/_diagnostic_helpers.R. Four copies now
+- [ ] Tables 9 and 10 have no reader-visible notes block — their table
+      notes are LaTeX `%` comments, invisible in the PDF, which the
+      PR #141 review already ruled insufficient. Only
+      table_11_other_outcomes.R calls add_table_note(). Consequence
+      today: the classical-vs-effective F distinction PR #155 added is
+      explained to a reader of Table 8 and not to a reader of Tables 9
+      or 10. Convert both to add_table_note(). Small, and it should
+      happen before the draft goes out for comment.
+- [ ] Helper-consolidation refactor (was "post-meeting"; no longer
+      gated on anything). PARTLY DONE 2026-07-29: PR #155 moved the MOP
+      effective F and the robust Wald F into _iv_helpers.R, NOT
+      _diagnostic_helpers.R as this item assumed — _iv_helpers.R is
+      where the estimation helpers live and the tables source it.
+      STILL OPEN: the diagnostic helper trio (tau/pop loaders, geodesic
+      pairs), and the AR inversion / B(W) / Patnaik cv machinery, which
+      still has four copies
       (PRs #130/#135/#137/#139/#140) and two drifts to reconcile
+      and two drifts to reconcile
       when it happens: patnaik_cv returns a bare cv in some copies
       vs list(cv, k_eff) in diagnostic_mop_critical.R (so the k_eff
       columns are silently absent downstream), and one copy dropped
@@ -1147,9 +1177,11 @@ the verification record.
       fixest ivwald on the K=1 cells and cross-checked against the
       ivDiag reference implementation. MOP K=2 critical values not
       computed at the time (since computed: PR #136 below). Wiring
-      into the paper was then a later decision; DONE 2026-07-29 in
-      PR #155 for the effective F, AR sets still held (section 2).
+      into the paper = post-Wednesday decision (section 2).
       → agenda item C.
+      [Kept verbatim per section 7's convention. For what happened to
+      that decision, see section 2 and section 9: PR #155 wired the
+      effective F on 2026-07-29 and held the AR sets.]
 - [x] \doi macro verbatim-safety — FIXED 2026-07-25, PR #132
       squash-merged: catcode-based doi.sty-pattern definition;
       hostile DOIs (% and #) need no escaping. Verified via
@@ -1395,6 +1427,11 @@ items themselves (section 0), not here.
       #149, #150 and #151 — an unbroken run, not the "four" an earlier
       version of this entry counted. Treat summaries as claims to
       verify, not as prose.
+- [x] PR #148 — ledger: recorded the 1960 universe finding as agenda
+      item H, its implication for the Table 7 placebo, and the asks for
+      Cote. Added 2026-07-29 in PR #156; the PR had shipped without a
+      ledger entry, which is how the "every PR in the run" miscount in
+      section 9 arose.
 - [x] PR #149 — universe-comparable placebo. Established that Table 7's
       rejection is fragile to how the outcome is measured (apparent
       declines 143/237 vs 27/234; published outcome correlates +0.304
@@ -1501,14 +1538,24 @@ merged; main at 3480e62, paper 56 pp, zero undefined, zero warnings.
       three new findings, three corrections to what was already sent,
       the five decisions, the eight asks). Untracked, reference-only.
 
-STANDING CAUTION, reinforced by this batch. Reviews have now caught
-claims in the WRITE-UP rather than errors in the numbers on #144, #145,
-#147, #149, #150, #151, #153, #154 and #155 — every PR in the run. The
-errors are consistently of one kind: a summary sentence, a verdict line
+STANDING CAUTION, reinforced by this batch. Reviews have caught
+substantive findings on #144, #145, #147, #149, #150, #151, #153, #154,
+#155 and #156 — not every PR in the span (#146, #148 and #152 also
+merged in it), so the honest statement is "most of the run", not "every
+PR". The dominant error is one kind: a summary sentence, a verdict line
 or a header that was true of the previous version and was not repointed
-when the numbers changed. Estimation code has held up; prose about
-estimation code has not. Treat every generated verdict string and every
-"this shows" sentence as a claim to re-verify against its own table.
+when the numbers changed. #154 and #156 are the cleanest examples — a
+report asserting the opposite of its own table, and a ledger line
+claiming the paper carried a caveat it did not.
+BUT NOT ONLY PROSE, and an earlier version of this entry got that wrong:
+#152's silent-NA column and #153's rf_coef() closure were both CODE
+defects that would have put wrong numbers in committed CSVs. The right
+lesson is narrower than "prose is the weak point": DERIVED TEXT AND
+DERIVED STATISTICS BOTH GO STALE WHEN THE THING THEY DESCRIBE CHANGES,
+and neither the build nor the test suite catches it. Treat every
+generated verdict string, every "this shows" sentence, and every
+statistic computed from a filtered subset as a claim to re-verify
+against its own source.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
