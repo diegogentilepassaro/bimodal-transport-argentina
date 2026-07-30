@@ -29,14 +29,14 @@
 #   Patnaik critical values at tau in {10%, 20%} and pass/fail, and
 #   the 95% Anderson-Rubin confidence set by robust test inversion.
 #
-# MACHINERY: residualization + AR inversion copied from
-#   diagnostic_modern_iv.R; effective F + B(W) + Patnaik cv copied
-#   from diagnostic_mop_critical.R (reduced-form residuals per MOP's
-#   setup). Diagnostics are self-contained by repo convention; NOTE
-#   this is the fourth consumer of these helpers, which per the
-#   PR #137 review triggers promotion to a shared _diagnostic_helpers
-#   file — deliberately deferred to a post-meeting refactor rather
-#   than mixed into a pre-meeting evidence task.
+# MACHINERY: shared with _iv_helpers.R since PRs #155/#158/#159 —
+#   ar_p(), fitstat_F_robust(), sargan_p(), B_of_W() and patnaik_cv()
+#   come from there. Two variants stay LOCAL BY DESIGN, renamed so the
+#   shared names cannot shadow them (the sourcing happens inside main()
+#   after this file's own definitions, so a shared same-name function
+#   silently wins — that bit ar_invert between #158 and #159):
+#   ar_invert_wide() (+/-120 SE grid, this file's cells need it) and
+#   mop_check_resid() (pre-residualized inputs over the TAUS grid).
 #
 # VERIFICATION (asserted in code, row-count-guarded):
 #   - beta and SE reproduce table_11_other_outcomes_iv.csv
@@ -128,8 +128,8 @@ run_cell <- function(o, sp, d, m) {
                  ncol = length(instrs))
     n  <- nrow(d)
 
-    mop <- mop_check(Yt, Dt, Zt, n_ctrl = ncol(X))
-    ar  <- ar_invert(Yt, Dt, Zt, n_ctrl = ncol(X),
+    mop <- mop_check_resid(Yt, Dt, Zt, n_ctrl = ncol(X))
+    ar  <- ar_invert_wide(Yt, Dt, Zt, n_ctrl = ncol(X),
                      beta_hat = co$est, se_hat = co$se)
     rj  <- robust_J(Yt, Dt, Zt, n_ctrl = ncol(X),
                     beta_hat = co$est, se_hat = co$se)
@@ -173,10 +173,15 @@ run_cell <- function(o, sp, d, m) {
 }
 
 # ---------------------------------------------------------------------------
-# MOP: effective F, exact bias bound, Patnaik critical values
-# (copied from diagnostic_mop_critical.R, PR #136)
+# MOP: effective F, exact bias bound, Patnaik critical values over the
+# full TAUS grid. RENAMED from mop_check in PR #159: _iv_helpers.R now
+# exports a mop_check() with a DIFFERENT signature (raw frame + variable
+# names; this one takes pre-residualized Yt/Dt/Zt), and because the
+# helpers are sourced inside main() AFTER this file's definitions, the
+# shared one would silently shadow this one at the call site. B_of_W()
+# and patnaik_cv() come from _iv_helpers.R.
 # ---------------------------------------------------------------------------
-mop_check <- function(Yt, Dt, Zt, n_ctrl) {
+mop_check_resid <- function(Yt, Dt, Zt, n_ctrl) {
     n <- length(Dt); k <- ncol(Zt)
     qz  <- qr(Zt)
     pi_ <- qr.coef(qz, Dt)
@@ -193,87 +198,32 @@ mop_check <- function(Yt, Dt, Zt, n_ctrl) {
     F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
     B <- B_of_W(W1, W2, W12)
     list(F_eff = F_eff, B = B,
-         cv     = vapply(TAUS, function(t) patnaik_cv(W2, B / t), numeric(1)),
-         cvcons = vapply(TAUS, function(t) patnaik_cv(W2, 1 / t), numeric(1)))
+         cv     = vapply(TAUS, function(t) patnaik_cv(W2, B / t,
+                                                      alpha = ALPHA)$cv,
+                         numeric(1)),
+         cvcons = vapply(TAUS, function(t) patnaik_cv(W2, 1 / t,
+                                                      alpha = ALPHA)$cv,
+                         numeric(1)))
 }
 
-B_of_W <- function(W1, W2, W12) {
-    trW2 <- sum(diag(W2))
-    ratio_at <- function(b) {
-        S12 <- W12 - b * W2
-        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
-        sym <- (S12 + t(S12)) / 2
-        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
-        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
-                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
-        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
-        num / den
-    }
-    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE,
-                  only.values = TRUE)$values
-    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
-                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
-    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
-    vals <- vapply(grid, ratio_at, numeric(1))
-    i    <- which.max(vals)
-    ref  <- optimize(ratio_at, lower = grid[max(1, i - 1)],
-                     upper = grid[min(length(grid), i + 1)],
-                     maximum = TRUE)
-    max(vals[i], ref$objective, lim)
-}
 
-patnaik_cv <- function(W2, d_tau) {
-    trW2  <- sum(diag(W2))
-    trW22 <- sum(diag(crossprod(W2)))
-    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
-                       only.values = TRUE)$values)
-    k_eff <- trW2^2 * (1 + 2 * d_tau) /
-             (trW22 + 2 * d_tau * trW2 * lmax)
-    qchisq(1 - ALPHA, df = k_eff, ncp = k_eff * d_tau) / k_eff
-}
 
-# Classical (homoskedastic) Sargan overid p-value; NA when k = 1
-# (not overidentified). Reported alongside the robust AR-based
-# evidence because the two can differ under heteroskedasticity —
-# the college cell is exactly that case (see the report's notes).
-sargan_p <- function(iv_model, k_instr) {
-    if (k_instr < 2L) return(NA_real_)   # just-identified: no overid test
-    s <- tryCatch(fitstat(iv_model, type = "sargan"),
-                  error = function(e) NULL)
-    if (is.list(s) && is.list(s$sargan) && !is.null(s$sargan$p)) {
-        return(as.numeric(s$sargan$p))
-    }
-    NA_real_
-}
+# sargan_p() comes from _iv_helpers.R (PR #159; the local copy was
+# identical and, being defined before the source() in main(), was
+# silently clobbered by the shared one at runtime anyway).
 
-fitstat_F_robust <- function(iv_model) {
-    fs <- tryCatch(fitstat(iv_model, type = "ivwald"),
-                   error = function(e) NULL)
-    if (is.list(fs) && !is.null(fs[[1]]$stat)) return(as.numeric(fs[[1]]$stat))
-    fs2 <- tryCatch(fitstat(iv_model, type = "ivwald", simplify = TRUE),
-                    error = function(e) NULL)
-    if (is.list(fs2) && !is.null(fs2$stat)) return(as.numeric(fs2$stat))
-    NA_real_
-}
 
-# ---------------------------------------------------------------------------
-# AR test inversion (copied from diagnostic_modern_iv.R, PR #131)
-# ---------------------------------------------------------------------------
-ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
-    u  <- Yt - beta0 * Dt
-    n  <- length(u); k <- ncol(Zt)
-    qz <- qr(Zt)
-    g  <- qr.coef(qz, u)
-    e  <- qr.resid(qz, u)
-    ZZinv <- solve(crossprod(Zt))
-    meat  <- crossprod(Zt * e, Zt * e)
-    df2   <- n - n_ctrl - k
-    vcv   <- (n / df2) * ZZinv %*% meat %*% ZZinv
-    Fst   <- as.numeric(t(g) %*% solve(vcv) %*% g) / k
-    pf(Fst, k, df2, lower.tail = FALSE)
-}
 
-ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
+ar_invert_wide <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
+    # RENAMED from ar_invert in PR #159. _iv_helpers.R exports an
+    # ar_invert() since PR #158, and because the helpers are sourced
+    # inside main() AFTER this file's top-level definitions, the shared
+    # version silently SHADOWED this one -- caught here as an
+    # ar_contiguous assertion failure on the first rerun, because the
+    # shared grid is +/- 25 SE while this file needs +/- 120 (below).
+    # The name collision was live from the moment #158 merged; this
+    # rename is the fix, and the assertion is what caught it.
+    #
     # Grid width: +/- 25 SE was too narrow here — the IV-H sets extend
     # to -35 SE, so bounded sets printed as unbounded half-lines
     # (cr-review PR #140 B2). Widened to +/- 120 SE, and the

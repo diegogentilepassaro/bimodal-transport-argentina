@@ -110,24 +110,24 @@ main <- function() {
             all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
         }
 
-        # Classical and Montiel Olea-Pflueger effective first-stage F.
-        # The effective F is the statistic to quote under HC1 and with
-        # more than one instrument; see the note in _iv_helpers.R. It
-        # must be computed on the SAME complete-case rows as the fit,
-        # because fit_iv_quad NA-drops per model and the sectoral
-        # outcomes have real missingness.
-        cc_vars <- c(y, main_treatment, main_lp_instrument,
-                     main_hypo_instrument, geo_controls_main)
-        dd <- as.data.frame(d)
-        d_cc <- dd[complete.cases(dd[, cc_vars]), ]
-        stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
-        # Anderson-Rubin 95% sets; see the note in table_9_population.R and
-        # the rationale in _iv_helpers.R. These are the cells where AR
-        # matters most: the manufacturing results are the paper's cleanest,
-        # and AR confirms them without any first-stage strength assumption.
-        ar_of <- function(spec, instrs) {
+        # Effective F and AR sets per IV column; see the notes in
+        # table_9_population.R and the rationale in _iv_helpers.R. These
+        # are the cells where AR matters most: the manufacturing results
+        # are the paper's cleanest, and AR confirms them without any
+        # first-stage strength assumption. Frames are per cell
+        # (cell_frame(), PR #159) so each statistic is asserted against
+        # the sample of the fit it annotates.
+        frame_of <- function(spec, instrs) {
+            cell_frame(d, c(y, main_treatment, instrs, geo_controls_main),
+                       fits[[spec]])
+        }
+        d_lp <- frame_of("IV-LP", main_lp_instrument)
+        d_h  <- frame_of("IV-H",  main_hypo_instrument)
+        d_b  <- frame_of("IV-B",  c(main_lp_instrument,
+                                    main_hypo_instrument))
+        ar_of <- function(spec, frame, instrs) {
             cc <- safe_coef(fits[[spec]], paste0("fit_", main_treatment))
-            ar_from_fit(d_cc, y, main_treatment, instrs,
+            ar_from_fit(frame, y, main_treatment, instrs,
                         geo_controls_main,
                         beta_hat = cc$est, se_hat = cc$se)
         }
@@ -135,20 +135,20 @@ main <- function() {
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
             both = fitstat_F(fits[["IV-B"]]),
-            eff_lp   = eff_F_from_fit(d_cc, main_treatment,
+            eff_lp   = eff_F_from_fit(d_lp, main_treatment,
                                       main_lp_instrument,
                                       geo_controls_main),
-            eff_hypo = eff_F_from_fit(d_cc, main_treatment,
+            eff_hypo = eff_F_from_fit(d_h, main_treatment,
                                       main_hypo_instrument,
                                       geo_controls_main),
-            eff_both = eff_F_from_fit(d_cc, main_treatment,
+            eff_both = eff_F_from_fit(d_b, main_treatment,
                                       c(main_lp_instrument,
                                         main_hypo_instrument),
                                       geo_controls_main),
-            ar_lp   = ar_of("IV-LP", main_lp_instrument),
-            ar_hypo = ar_of("IV-H",  main_hypo_instrument),
-            ar_both = ar_of("IV-B",  c(main_lp_instrument,
-                                       main_hypo_instrument))
+            ar_lp   = ar_of("IV-LP", d_lp, main_lp_instrument),
+            ar_hypo = ar_of("IV-H",  d_h,  main_hypo_instrument),
+            ar_both = ar_of("IV-B",  d_b,  c(main_lp_instrument,
+                                             main_hypo_instrument))
         )
     }
 

@@ -4,7 +4,7 @@ Part 1 (A x B): the adopted pop47 placebo spec on each candidate tau
 object. Part 2 (A x C): sectoral outcomes under IV-LP on the 
 decay object (completes the object x instrument matrix). 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-07-29 19:17:08 
+Generated: 2026-07-30 12:41:30 
 ============================================================================================ 
  
 PART 1 — placebo (1947-60 growth), pop47 controls, by object: 

@@ -533,3 +533,127 @@ ar_row_note <- function() {
         "sharper statement of weakness than the $F$ statistics give."
     )
 }
+
+# ---------------------------------------------------------------------------
+# MONTIEL OLEA-PFLUEGER MACHINERY. B_of_W(), patnaik_cv() and mop_check()
+# moved here from four diagnostics (PR #159; flagged by the PR #137/#140
+# reviews and ledgered since). The copies had already drifted in two ways,
+# both reconciled here:
+#   - patnaik_cv returned a bare cv in three copies and list(cv, k_eff) in
+#     diagnostic_mop_critical.R, so the k_eff columns were silently absent
+#     from the other scripts' outputs. The canonical version returns the
+#     list; callers that want only the cv take $cv.
+#   - three copies had dropped the beta -> +/-Inf derivation comment in
+#     B_of_W. The commented version is the canonical one.
+#
+# B_of_W(W1, W2, W12): the exact Nagar-bias bound B for the MOP effective-F
+# test, from the three W matrices (HC1-scaled, instrument-whitened).
+# ---------------------------------------------------------------------------
+B_of_W <- function(W1, W2, W12) {
+    trW2 <- sum(diag(W2))
+    ratio_at <- function(b) {
+        S12 <- W12 - b * W2
+        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
+        sym <- (S12 + t(S12)) / 2
+        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
+        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
+                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
+        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
+        num / den
+    }
+    # beta -> +/-Inf limit: S12 ~ -b W2 and S1 ~ b^2 W2, so |n|/BM tends
+    # to max over eigenvalue extremes of |tr(W2) - 2 lambda(W2)| / trW2
+    # (the |b| factors cancel between numerator and denominator):
+    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE, only.values = TRUE)$values
+    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
+                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
+    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
+    vals <- vapply(grid, ratio_at, numeric(1))
+    i    <- which.max(vals)
+    lo   <- grid[max(1, i - 1)]
+    hi   <- grid[min(length(grid), i + 1)]
+    ref  <- optimize(ratio_at, lower = lo, upper = hi, maximum = TRUE)
+    max(vals[i], ref$objective, lim)
+}
+
+# ---------------------------------------------------------------------------
+# patnaik_cv(W2, d_tau, alpha = 0.05): the Patnaik-approximation critical
+# value for the effective F at noncentrality d_tau, WITH its effective
+# degrees of freedom. Returns list(cv, k_eff) always -- the return-shape
+# drift where three copies gave a bare cv is what silently dropped k_eff
+# from their outputs.
+# ---------------------------------------------------------------------------
+patnaik_cv <- function(W2, d_tau, alpha = 0.05) {
+    trW2  <- sum(diag(W2))
+    trW22 <- sum(diag(crossprod(W2)))
+    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
+                       only.values = TRUE)$values)
+    k_eff <- trW2^2 * (1 + 2 * d_tau) /
+             (trW22 + 2 * d_tau * trW2 * lmax)
+    cv <- qchisq(1 - alpha, df = k_eff, ncp = k_eff * d_tau) / k_eff
+    list(cv = cv, k_eff = k_eff)
+}
+
+# ---------------------------------------------------------------------------
+# mop_check(m, yvar, endog, instrs, ctrls, alpha = 0.05): effective F plus
+# the exact-B MOP critical values at 10% and 20% bias tolerance, for one
+# cell. Self-contained: residualizes on the controls itself (its own
+# complete-case subset, asserted implicitly by the algebra using one `d`).
+# Returns list(F_eff, cv10, cv20). alpha passes through to patnaik_cv()
+# rather than being hardcoded here -- patnaik_cv gained the argument so
+# callers cannot silently disagree, and a hardcoded wrapper would
+# reintroduce exactly that (cr-review PR #159).
+# ---------------------------------------------------------------------------
+mop_check <- function(m, yvar, endog, instrs, ctrls, alpha = 0.05) {
+    vars <- c(yvar, endog, instrs, ctrls)
+    d <- m[complete.cases(m[, vars]), vars]
+    X <- as.matrix(cbind(1, d[, ctrls]))
+    r <- function(v) as.numeric(qr.resid(qr(X), v))
+    Dt <- r(d[[endog]])
+    Yt <- r(d[[yvar]])
+    Zt <- sapply(instrs, function(z) r(d[[z]]))
+    Zt <- matrix(Zt, ncol = length(instrs))
+    n <- nrow(d); k <- ncol(Zt)
+    qz <- qr(Zt)
+    pi_ <- qr.coef(qz, Dt)
+    v2 <- qr.resid(qz, Dt)
+    v1 <- qr.resid(qz, Yt)
+    hc1 <- n / (n - ncol(X) - k)
+    Q   <- crossprod(Zt)
+    eQ  <- eigen(Q, symmetric = TRUE)
+    Qih <- eQ$vectors %*% diag(1 / sqrt(eQ$values), k) %*% t(eQ$vectors)
+    meat <- function(a, b) hc1 * crossprod(Zt * a, Zt * b)
+    W1  <- Qih %*% meat(v1, v1) %*% Qih
+    W2  <- Qih %*% meat(v2, v2) %*% Qih
+    W12 <- Qih %*% meat(v1, v2) %*% Qih
+    F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
+    B <- B_of_W(W1, W2, W12)
+    list(F_eff = F_eff,
+         cv10 = patnaik_cv(W2, B / 0.10, alpha = alpha)$cv,
+         cv20 = patnaik_cv(W2, B / 0.20, alpha = alpha)$cv)
+}
+
+# ---------------------------------------------------------------------------
+# cell_frame(data, vars, fit): the complete-case frame for ONE table cell,
+# asserted against the fit it will sit beside.
+#
+# WHY PER CELL (deferred from the PR #155/#158 reviews, closed in PR #159):
+# fit_iv_quad NA-drops per model, so each column of a table can in
+# principle have its own sample. The previous pattern built one frame on
+# BOTH instruments and asserted only against the IV-B fit -- so if an
+# instrument ever acquired missingness, the IV-LP effective F and AR set
+# would be computed on the wrong rows with no error anywhere. This asserts
+# nrow == nobs(fit) for the fit actually being annotated. Today all four
+# columns have identical samples for every outcome, so switching to
+# per-cell frames changes no value; the assert is what changes.
+# ---------------------------------------------------------------------------
+cell_frame <- function(data, vars, fit) {
+    dd <- as.data.frame(data)
+    stopifnot(all(vars %in% names(dd)))
+    cc <- dd[complete.cases(dd[, vars]), ]
+    # stats::nobs, not fixest::nobs -- nobs is a stats generic that fixest
+    # provides a method for, not an exported fixest object.
+    stopifnot("cell_frame(): frame does not match the fit's sample" =
+                  nrow(cc) == stats::nobs(fit))
+    cc
+}

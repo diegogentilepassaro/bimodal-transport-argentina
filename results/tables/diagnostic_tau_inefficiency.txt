@@ -6,7 +6,7 @@ constants cancel in Delta log MA (the regression object is
 cost-per-geodesic-km); they only scale the reported tau' band. 
 Table 9/10 spec, 1b-object baseline logMA control, HC1. 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-07-25 23:38:57 
+Generated: 2026-07-30 12:41:43 
 ============================================================================================ 
  
 tau' (1960) p10/p50/p90 = 4.49 / 9.44 / 25.53 ; share < 1 = 0.00% 
