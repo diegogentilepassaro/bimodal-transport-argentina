@@ -131,13 +131,26 @@ inject_first_label <- function(tex_text, label) {
 # row has to go through this helper. Each panel of a multi-panel table
 # is its own float, so the note is applied per panel to keep every float
 # self-contained.
+# LAYOUT, and why it is not just \vspace + text (cr-review PR #157). The
+# first version emitted "\vspace{0.4em}" followed by the note with no
+# \par, so the note shared a paragraph with \begin{tabular}[t]. Inside a
+# \centering float against a top-aligned tabular, that put the note's
+# first line to the RIGHT of the table and above the column headers, with
+# the rest wrapping underneath. LaTeX issues no warning for it and the
+# PDF text layer extracts in the right order, so neither the compile check
+# nor a pdftotext grep catches it -- it was found by rendering the page to
+# an image. The \par closes the tabular's paragraph and the minipage gives
+# the note its own full-width, left-ragged block.
 add_table_note <- function(tex_text, note) {
     marker <- "\\end{table}"
     pos <- max(gregexpr(marker, tex_text, fixed = TRUE)[[1]])
     if (pos < 0) return(tex_text)
-    block <- sprintf(
-        "\\vspace{0.4em}\n{\\footnotesize \\textit{Notes:} %s}\n", note
-    )
+    block <- sprintf(paste0(
+        "\\par\\vspace{0.4em}\n",
+        "\\begin{minipage}{\\linewidth}\\raggedright\n",
+        "{\\footnotesize \\textit{Notes:} %s}\n",
+        "\\end{minipage}\n"
+    ), note)
     paste0(substr(tex_text, 1, pos - 1), block,
            substr(tex_text, pos, nchar(tex_text)))
 }
@@ -287,4 +300,68 @@ eff_F_from_fit <- function(data, endog, instrs, ctrls_vec) {
     Zt <- matrix(sapply(instrs, function(z) resid_on_ctrls(data[[z]])),
                  ncol = length(instrs))
     eff_F(Dt, Zt, n_ctrl = ncol(X))
+}
+
+# ---------------------------------------------------------------------------
+# f_rows_note(classical_row_is_robust): the shared sentences explaining the
+# two first-stage F rows that Tables 8, 9 and 10 all carry.
+#
+# WHY SHARED (cr-review PR #157). Three tables were carrying near-identical
+# versions of this paragraph, and they had already drifted: Table 10's copy
+# said "with a single instrument the two coincide by construction", which is
+# true of Table 8 -- whose upper row is a ROBUST Wald F -- and FALSE of
+# Table 10, whose upper row is the CLASSICAL F (7.0 vs 4.4 in Panel A
+# column 3). One string with the one genuine difference as an argument.
+#
+# classical_row_is_robust: TRUE for Table 8, whose "First-stage F" is a
+#   squared robust t / robust Wald statistic; FALSE for Tables 9 and 10,
+#   whose row comes from fitstat_F() and assumes homoskedasticity. This is
+#   a real difference between the tables, deliberately not harmonised
+#   (agenda item C), so it is stated rather than papered over.
+# ---------------------------------------------------------------------------
+f_rows_note <- function(classical_row_is_robust) {
+    upper <- if (classical_row_is_robust) {
+        paste(
+            "``First-stage $F$'' is heteroskedasticity-robust: a squared",
+            "robust $t$ in the single-instrument columns and a robust Wald",
+            "statistic in the two-instrument column."
+        )
+    } else {
+        paste(
+            "``First-stage $F$'' is the Wald statistic for the excluded",
+            "instrument(s) in that column, computed under homoskedasticity;",
+            "note that the same row in Table~\\ref{tab:first_stage} is",
+            "instead heteroskedasticity-robust, so the two tables' values",
+            "are not the same statistic."
+        )
+    }
+    coincide <- if (classical_row_is_robust) {
+        paste(
+            "With one instrument the two rows coincide by construction,",
+            "which the single-instrument columns confirm; they differ only",
+            "where two instruments are used."
+        )
+    } else {
+        paste(
+            "The effective $F$ equals the robust Wald $F$ by construction",
+            "when there is one instrument, so in the single-instrument",
+            "columns the two rows differ only in whether the variance is",
+            "estimated under homoskedasticity -- and they are judged",
+            "against different critical values regardless."
+        )
+    }
+    paste(
+        upper,
+        "``Effective $F$ (MOP)'' is the Montiel Olea and Pflueger (2013)",
+        "effective $F$, computed with the included controls partialled out",
+        "of the treatment and the instruments. It is the one to read: these",
+        "specifications use HC1, and with two instruments the classical $F$",
+        "has no defined critical value.",
+        coincide,
+        "The Montiel Olea--Pflueger critical values these should be judged",
+        "against are discussed in Section~\\ref{sec:first_stage};",
+        "identification-robust Anderson--Rubin confidence sets for these",
+        "cells are reported in",
+        "\\texttt{results/tables/diagnostic\\_modern\\_iv.txt}."
+    )
 }

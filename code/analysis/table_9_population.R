@@ -173,23 +173,16 @@ main <- function() {
         "in log market access. All columns include baseline log market",
         "access (1960), baseline log population (1960), and the six",
         "standardized geographic controls. Robust (HC1) standard errors.",
-        "``First-stage $F$'' is the classical statistic, which assumes",
-        "homoskedasticity; ``Effective $F$ (MOP)'' is the Montiel Olea and",
-        "Pflueger effective $F$, computed with the included controls",
-        "partialled out of the treatment and the instruments. The latter is",
-        "the one to read: these specifications use HC1, and in column~(4)",
-        "the classical $F$ has no defined critical value with two",
-        "instruments. With a single instrument the effective $F$ coincides",
-        "with the robust first-stage Wald $F$ by construction, so",
-        "columns~(2) and~(3) differ from the row above them only through",
-        "the homoskedasticity assumption. The Montiel Olea--Pflueger",
-        "critical values these should be judged against, and the",
-        "identification-robust Anderson--Rubin confidence sets, are",
-        "discussed in Section~\\ref{sec:results}."
+        "Observations differ across panels because the urban and rural",
+        "outcomes are defined only for districts with positive urban or",
+        "rural population in both census years; see",
+        "Section~\\ref{sec:results}.",
+        f_rows_note(classical_row_is_robust = FALSE)
     )
     table_note_short <- paste(
-        "Sample, controls, standard errors, and the definitions of the two",
-        "$F$ rows are as in Table~\\ref{tab:population_iv}."
+        "Controls, standard errors, and the definitions of the two $F$ rows",
+        "are as in Table~\\ref{tab:population_iv}. Observations differ by",
+        "outcome, as noted there."
     )
 
     tex_chunks <- character()

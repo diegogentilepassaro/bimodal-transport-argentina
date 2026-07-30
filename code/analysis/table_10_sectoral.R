@@ -175,26 +175,20 @@ main <- function() {
     # LaTeX `%` header comments, invisible in the PDF (cr-review PR #156).
     table_note <- paste(
         "Each panel is one sectoral outcome; the regressor is the",
-        "1960--1986 change in log market access. Agricultural outcomes are",
-        "1960--1988 changes and manufacturing outcomes 1954--1985 changes,",
-        "so the samples differ across panels. All columns include baseline",
-        "log market access (1960), baseline log population (1960), and the",
-        "six standardized geographic controls. Robust (HC1) standard",
-        "errors. ``First-stage $F$'' is the classical statistic, which",
-        "assumes homoskedasticity; ``Effective $F$ (MOP)'' is the Montiel",
-        "Olea and Pflueger effective $F$, computed with the included",
-        "controls partialled out of the treatment and the instruments. The",
-        "latter is the one to read: these specifications use HC1, and in",
-        "column~(4) the classical $F$ has no defined critical value with",
-        "two instruments. With a single instrument the two coincide by",
-        "construction. The Montiel Olea--Pflueger critical values these",
-        "should be judged against are discussed in",
-        "Section~\\ref{sec:results}."
+        "1960--1986 change in log market access. Panel~A reports",
+        "manufacturing outcomes, measured as 1954--1985 changes; Panel~B",
+        "reports agricultural outcomes, measured as 1960--1988 changes.",
+        "Observations differ across outcomes, including within a panel,",
+        "because the sectoral censuses do not cover the same set of",
+        "districts. All columns include baseline log market access (1960),",
+        "baseline log population (1960), and the six standardized",
+        "geographic controls. Robust (HC1) standard errors.",
+        f_rows_note(classical_row_is_robust = FALSE)
     )
     table_note_short <- paste(
         "Controls, standard errors, and the definitions of the two $F$ rows",
-        "are as in Table~\\ref{tab:sectoral_iv}; samples differ by panel",
-        "because the sectoral censuses do not share years."
+        "are as in Table~\\ref{tab:sectoral_iv}. Observations differ by",
+        "outcome, as noted there."
     )
 
     tex_chunks <- character()
