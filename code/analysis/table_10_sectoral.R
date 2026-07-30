@@ -169,6 +169,34 @@ main <- function() {
         list("raw" = "nobs", "clean" = "Observations", "fmt" = 0)
     )
 
+    # Reader-visible notes, following table_11_other_outcomes.R: full note
+    # on the first panel, pointer on the rest. Added in PR #157 — before it
+    # the classical-vs-effective F distinction lived only in this file's
+    # LaTeX `%` header comments, invisible in the PDF (cr-review PR #156).
+    table_note <- paste(
+        "Each panel is one sectoral outcome; the regressor is the",
+        "1960--1986 change in log market access. Agricultural outcomes are",
+        "1960--1988 changes and manufacturing outcomes 1954--1985 changes,",
+        "so the samples differ across panels. All columns include baseline",
+        "log market access (1960), baseline log population (1960), and the",
+        "six standardized geographic controls. Robust (HC1) standard",
+        "errors. ``First-stage $F$'' is the classical statistic, which",
+        "assumes homoskedasticity; ``Effective $F$ (MOP)'' is the Montiel",
+        "Olea and Pflueger effective $F$, computed with the included",
+        "controls partialled out of the treatment and the instruments. The",
+        "latter is the one to read: these specifications use HC1, and in",
+        "column~(4) the classical $F$ has no defined critical value with",
+        "two instruments. With a single instrument the two coincide by",
+        "construction. The Montiel Olea--Pflueger critical values these",
+        "should be judged against are discussed in",
+        "Section~\\ref{sec:results}."
+    )
+    table_note_short <- paste(
+        "Controls, standard errors, and the definitions of the two $F$ rows",
+        "are as in Table~\\ref{tab:sectoral_iv}; samples differ by panel",
+        "because the sectoral censuses do not share years."
+    )
+
     tex_chunks <- character()
     is_first_panel <- TRUE
     for (out in outcomes) {
@@ -202,6 +230,10 @@ main <- function() {
             title    = sprintf("%s. Outcome: %s", out$panel_title, out$label)
         )
         tbl_txt <- as.character(tbl)
+        tbl_txt <- add_table_note(
+            tbl_txt,
+            if (is_first_panel) table_note else table_note_short
+        )
         if (is_first_panel) {
             tbl_txt <- inject_first_label(tbl_txt, "tab:sectoral_iv")
             is_first_panel <- FALSE
@@ -222,17 +254,16 @@ main <- function() {
         "% Each panel is one outcome. Columns (1)-(4) are OLS, IV-LP,",
         "% IV-Hypo, IV-Both. All specs include baseline log MA,",
         "% baseline log pop, and the six standardized geographic controls.",
-        "% Robust (HC1) standard errors. First-stage F is the Wald F for",
-        "% the excluded instrument(s) in that column.",
+        "% Robust (HC1) standard errors.",
         "%",
-        "% Effective F (MOP) is the Montiel Olea-Pflueger (2013) effective",
-        "% F, controls partialled out. It is the one to read: the",
-        "% first-stage F row above it is the CLASSICAL F, which assumes",
-        "% homoskedasticity while these specifications use HC1, and with two",
-        "% instruments the classical F has no defined critical value.",
-        "% Anderson-Rubin sets are in diagnostic_modern_iv.txt; the MOP",
-        "% critical values the effective F should be judged against are in",
-        "% diagnostic_mop_critical.txt (a DIFFERENT file).",
+        "% The two F rows are explained in the table's own reader-visible",
+        "% Notes block (see table_note in this script) -- not repeated here,",
+        "% because duplicating it invites the two copies to drift.",
+        "% FOR WHOEVER EDITS THIS FILE: Anderson-Rubin sets are in",
+        "% results/tables/diagnostic_modern_iv.txt, and the MOP critical",
+        "% values in results/tables/diagnostic_mop_critical.txt (a DIFFERENT",
+        "% file). Table 8's first-stage F is ROBUST while this table's is",
+        "% CLASSICAL -- deliberate, recorded in agenda item C.",
         "",
         tex_chunks
     ), out_tex)
