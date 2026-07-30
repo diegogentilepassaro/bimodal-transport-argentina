@@ -164,16 +164,7 @@ main <- function() {
             "and the six standardized geographic controls",
             "(elevation, ruggedness, wheat suitability, pre- and post-1500",
             "caloric potential, distance to Buenos Aires).",
-            "The first-stage $F$ in this table is already",
-            "heteroskedasticity-robust: a squared robust $t$ in columns (1)",
-            "and (2), a robust Wald statistic in column (3).",
-            "``Effective $F$ (MOP)'' is the Montiel Olea and Pflueger (2013)",
-            "effective $F$, computed with the included controls partialled",
-            "out of the treatment and the instruments. With one instrument",
-            "the two coincide by construction, which columns (1) and (2)",
-            "confirm. They differ only in column (3), where the effective",
-            "$F$ is the statistic with a defined critical value under two",
-            "instruments.",
+            f_rows_note(classical_row_is_robust = TRUE),
             "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."
         )
     )

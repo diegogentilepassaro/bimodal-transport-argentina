@@ -161,6 +161,30 @@ main <- function() {
     # One table per outcome, concatenated into a single .tex file with
     # a \bigskip between panels. The first panel carries the canonical
     # \label{tab:population_iv} so paper-side \ref{} resolves cleanly.
+    # Reader-visible notes, following table_11_other_outcomes.R: the full
+    # note on the first panel, a pointer on the rest, so ninety words do
+    # not repeat four times. Added in PR #157 — before it, the
+    # classical-vs-effective F distinction lived only in this file's LaTeX
+    # `%` header comments, which are invisible in the PDF, so "Effective
+    # $F$ (MOP)" appeared as an unexpanded acronym on the paper's headline
+    # table (cr-review PR #156).
+    table_note <- paste(
+        "Each panel is one outcome; the regressor is the 1960--1986 change",
+        "in log market access. All columns include baseline log market",
+        "access (1960), baseline log population (1960), and the six",
+        "standardized geographic controls. Robust (HC1) standard errors.",
+        "Observations differ across panels because the urban and rural",
+        "outcomes are defined only for districts with positive urban or",
+        "rural population in both census years; see",
+        "Section~\\ref{sec:results}.",
+        f_rows_note(classical_row_is_robust = FALSE)
+    )
+    table_note_short <- paste(
+        "Controls, standard errors, and the definitions of the two $F$ rows",
+        "are as in Table~\\ref{tab:population_iv}. Observations differ by",
+        "outcome, as noted there."
+    )
+
     tex_chunks <- character()
     is_first_panel <- TRUE
     for (out in outcomes) {
@@ -197,6 +221,10 @@ main <- function() {
             title    = sprintf("Outcome: %s", out$label)
         )
         tbl_txt <- as.character(tbl)
+        tbl_txt <- add_table_note(
+            tbl_txt,
+            if (is_first_panel) table_note else table_note_short
+        )
         if (is_first_panel) {
             tbl_txt <- inject_first_label(tbl_txt, "tab:population_iv")
             is_first_panel <- FALSE
@@ -217,23 +245,20 @@ main <- function() {
         "%",
         "% All specs include baseline log MA, baseline log pop, and the",
         "% six standardized geographic controls. Robust (HC1) standard",
-        "% errors. The first-stage F reported is the Wald F for the",
-        "% excluded instrument(s) in that column.",
+        "% errors.",
         "%",
-        "% Effective F (MOP) is the Montiel Olea-Pflueger (2013) effective",
-        "% F statistic, controls partialled out of the treatment and the",
-        "% instruments. It is the one to read here. The first-stage F row",
-        "% above it is the CLASSICAL F, which assumes homoskedasticity",
-        "% while these specifications use HC1; and in column (4) the",
-        "% classical F has no defined critical value with two instruments.",
-        "% (Note that Table 8's first-stage F is robust rather than",
-        "% classical, so the two tables' F rows are not the same statistic.)",
-        "% Identification-robust Anderson-Rubin confidence sets are in",
-        "% results/tables/diagnostic_modern_iv.txt; the MOP critical values",
-        "% the effective F should be judged against are in",
-        "% results/tables/diagnostic_mop_critical.txt (that is a DIFFERENT",
-        "% file -- diagnostic_modern_iv.R deliberately does not compute",
-        "% them). Both are wide and are reported there, not in this table.",
+        "% The two F rows are explained in the table's own reader-visible",
+        "% Notes block (see table_note in this script) -- not repeated here,",
+        "% because duplicating it invites the two copies to drift.",
+        "% FOR WHOEVER EDITS THIS FILE, the parts a reader does not need:",
+        "%   - Table 8's first-stage F is ROBUST while this table's is",
+        "%     CLASSICAL, so the two tables' F rows are not the same",
+        "%     statistic under the same label. Deliberate, recorded in",
+        "%     agenda item C; do not 'harmonize' without a decision.",
+        "%   - Anderson-Rubin sets: results/tables/diagnostic_modern_iv.txt.",
+        "%   - MOP critical values: results/tables/diagnostic_mop_critical.txt",
+        "%     (a DIFFERENT file; diagnostic_modern_iv.R deliberately does",
+        "%     not compute them).",
         "%",
         "% Urban-share caveat: IPUMS 1991 uses a different urban/rural",
         "% classification than the 1960 digitized census. See Section 3.",
