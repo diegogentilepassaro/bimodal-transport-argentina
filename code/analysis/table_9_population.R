@@ -107,6 +107,17 @@ main <- function() {
                      main_hypo_instrument, geo_controls_main)
         d_cc <- as.data.frame(d)[complete.cases(as.data.frame(d)[, cc_vars]), ]
         stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
+        # Anderson-Rubin 95% sets. Reported because the effective F above
+        # is judged against a critical value that depends on an estimated
+        # bias bound, and for the two-instrument column that bound does
+        # real work; AR inference needs no strength threshold at all, so it
+        # is the statement that survives if the bound is contested.
+        ar_of <- function(spec, instrs) {
+            cc <- safe_coef(fits[[spec]], paste0("fit_", main_treatment))
+            ar_from_fit(d_cc, y, main_treatment, instrs,
+                        geo_controls_main,
+                        beta_hat = cc$est, se_hat = cc$se)
+        }
         f_stats[[y]] <- list(
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
@@ -120,7 +131,11 @@ main <- function() {
             eff_both = eff_F_from_fit(d_cc, main_treatment,
                                       c(main_lp_instrument,
                                         main_hypo_instrument),
-                                      geo_controls_main)
+                                      geo_controls_main),
+            ar_lp   = ar_of("IV-LP", main_lp_instrument),
+            ar_hypo = ar_of("IV-H",  main_hypo_instrument),
+            ar_both = ar_of("IV-B",  c(main_lp_instrument,
+                                       main_hypo_instrument))
         )
     }
 
@@ -177,7 +192,8 @@ main <- function() {
         "outcomes are defined only for districts with positive urban or",
         "rural population in both census years; see",
         "Section~\\ref{sec:results}.",
-        f_rows_note(classical_row_is_robust = FALSE)
+        f_rows_note(classical_row_is_robust = FALSE),
+        ar_row_note()
     )
     table_note_short <- paste(
         "Controls, standard errors, and the definitions of the two $F$ rows",
@@ -200,14 +216,18 @@ main <- function() {
         fs <- f_stats[[y]]
         add_rows <- tibble::tibble(
             ` `           = c("First-stage $F$",
-                              "Effective $F$ (MOP)"),
-            `(1) OLS`     = c("---", "---"),
+                              "Effective $F$ (MOP)",
+                              "AR 95\\% set"),
+            `(1) OLS`     = c("---", "---", "---"),
             `(2) IV-LP`   = c(sprintf("%.1f", fs$lp),
-                              sprintf("%.1f", fs$eff_lp)),
+                              sprintf("%.1f", fs$eff_lp),
+                              ar_cell(fs$ar_lp)),
             `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo),
-                              sprintf("%.1f", fs$eff_hypo)),
+                              sprintf("%.1f", fs$eff_hypo),
+                              ar_cell(fs$ar_hypo)),
             `(4) IV-Both` = c(sprintf("%.1f", fs$both),
-                              sprintf("%.1f", fs$eff_both))
+                              sprintf("%.1f", fs$eff_both),
+                              ar_cell(fs$ar_both))
         )
 
         tbl <- modelsummary(
@@ -255,7 +275,8 @@ main <- function() {
         "%     CLASSICAL, so the two tables' F rows are not the same",
         "%     statistic under the same label. Deliberate, recorded in",
         "%     agenda item C; do not 'harmonize' without a decision.",
-        "%   - Anderson-Rubin sets: results/tables/diagnostic_modern_iv.txt.",
+        "%   - AR sets are IN the table since PR #158; the fuller record",
+        "%     (AR p at zero, robust F) is diagnostic_modern_iv.txt.",
         "%   - MOP critical values: results/tables/diagnostic_mop_critical.txt",
         "%     (a DIFFERENT file; diagnostic_modern_iv.R deliberately does",
         "%     not compute them).",

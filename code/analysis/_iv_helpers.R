@@ -359,9 +359,171 @@ f_rows_note <- function(classical_row_is_robust) {
         "has no defined critical value.",
         coincide,
         "The Montiel Olea--Pflueger critical values these should be judged",
-        "against are discussed in Section~\\ref{sec:first_stage};",
-        "identification-robust Anderson--Rubin confidence sets for these",
-        "cells are reported in",
-        "\\texttt{results/tables/diagnostic\\_modern\\_iv.txt}."
+        "against are discussed in Section~\\ref{sec:first_stage}."
+        # The AR pointer that used to end this string is gone (PR #158):
+        # Tables 9 and 10 now carry the AR set as a row of their own,
+        # explained by ar_row_note(), so pointing readers at a diagnostic
+        # file for something one row up would be a contradiction. Table 8
+        # has no outcome and hence no AR row, and its note has no reason
+        # to mention AR at all.
+    )
+}
+
+# ---------------------------------------------------------------------------
+# ANDERSON-RUBIN INFERENCE. ar_p() and ar_invert() moved here from
+# diagnostic_modern_iv.R in PR #158, for the same reason eff_F() was moved
+# in PR #155: Tables 9 and 10 now report the AR set, and they should compute
+# it with the implementation that diagnostic validated rather than a second
+# copy of the algebra or a read of the diagnostic's CSV.
+#
+# WHY THE PAPER REPORTS THIS AT ALL. The effective F is judged against a
+# Montiel Olea-Pflueger critical value that depends on an estimated bound on
+# worst-case bias. For the two-instrument column that bound does real work:
+# the exact critical value is 12.90 while the conservative (B = 1) version is
+# 33.26, so "the joint spec is strong" holds under the exact computation and
+# not under the conservative one. AR inference needs NO strength threshold of
+# any kind -- it is valid whatever the first stage looks like -- so it is the
+# statement that does not depend on that step.
+#
+# ar_p(beta0, ...): p-value of the AR test of H0: beta = beta0, from the
+#   heteroskedasticity-robust Wald statistic on the instrument coefficients
+#   in the regression of (Yt - beta0 * Dt) on Zt. Yt, Dt and Zt must already
+#   be residualized on the controls.
+# ---------------------------------------------------------------------------
+ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
+    u  <- Yt - beta0 * Dt
+    n  <- length(u)
+    k  <- ncol(Zt)
+    qz <- qr(Zt)
+    g  <- qr.coef(qz, u)
+    e  <- qr.resid(qz, u)
+    ZZinv <- solve(crossprod(Zt))
+    meat  <- crossprod(Zt * e, Zt * e)
+    df2   <- n - n_ctrl - k
+    vcv   <- (n / df2) * ZZinv %*% meat %*% ZZinv
+    Fst   <- as.numeric(t(g) %*% solve(vcv) %*% g) / k
+    pf(Fst, k, df2, lower.tail = FALSE)
+}
+
+# ---------------------------------------------------------------------------
+# ar_invert(): the AR confidence set, by inverting ar_p() over a grid, plus
+# the p-value at zero. Returns list(print, bounded, p0).
+#
+# The grid is dense near beta_hat and sparse in the tails, and the set shape
+# is read off whether the endpoints are accepted -- so an unbounded or
+# disjoint set is reported as such rather than silently truncated to the
+# grid. `bounded` is FALSE for those cases and callers should check it before
+# printing a set as an interval.
+#
+# alpha is a parameter rather than a file-level constant (it was AR_ALPHA in
+# diagnostic_modern_iv.R) so that a caller reporting a 95% set and a caller
+# reporting something else cannot silently disagree.
+# ---------------------------------------------------------------------------
+ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat, alpha = 0.05) {
+    grid <- sort(unique(c(
+        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat,
+            by = 0.05 * se_hat),
+        seq(beta_hat - 3 * se_hat, beta_hat + 3 * se_hat,
+            by = 0.02 * se_hat),
+        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat,
+            by = 0.05 * se_hat)
+    )))
+    acc <- vapply(grid, function(b) {
+        ar_p(b, Yt, Dt, Zt, n_ctrl) >= alpha
+    }, logical(1))
+    ng <- length(grid)
+    fmt <- function(x) sprintf("%.3f", x)
+    out <- if (all(acc)) {
+        list(print = "(-Inf, Inf)", bounded = FALSE)
+    } else if (!any(acc)) {
+        list(print = "empty", bounded = FALSE)
+    } else if (!acc[1] && !acc[ng]) {
+        b <- range(grid[acc])
+        list(print = sprintf("[%s, %s]", fmt(b[1]), fmt(b[2])), bounded = TRUE)
+    } else if (acc[1] && acc[ng]) {
+        b <- range(grid[!acc])
+        list(print = sprintf("(-Inf, %s] U [%s, Inf)", fmt(b[1]), fmt(b[2])),
+             bounded = FALSE)
+    } else if (acc[1]) {
+        b <- max(grid[acc])
+        list(print = sprintf("(-Inf, %s]", fmt(b)), bounded = FALSE)
+    } else {
+        b <- min(grid[acc])
+        list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE)
+    }
+    out$p0 <- ar_p(0, Yt, Dt, Zt, n_ctrl)
+    out
+}
+
+# ---------------------------------------------------------------------------
+# ar_from_fit(data, y, endog, instrs, ctrls_vec, beta_hat, se_hat): the AR
+# set for one cell, doing the Frisch-Waugh-Lovell residualization that
+# ar_p()/ar_invert() require. Same contract as eff_F_from_fit(): `data` must
+# already be the estimation sample, asserted rather than trusted, because a
+# statistic computed on a different sample from the coefficient beside it in
+# a table is a silent error.
+#
+# Returns the list from ar_invert(), with $print ready for a table cell in
+# LaTeX math ("$[0.035, 0.678]$" style formatting is the caller's job).
+# ---------------------------------------------------------------------------
+ar_from_fit <- function(data, y, endog, instrs, ctrls_vec,
+                        beta_hat, se_hat, alpha = 0.05) {
+    vars <- c(y, endog, instrs, ctrls_vec)
+    stopifnot(all(vars %in% names(data)))
+    stopifnot("ar_from_fit(): data must be the estimation sample" =
+                  all(complete.cases(data[, vars])))
+    X <- as.matrix(cbind(1, data[, ctrls_vec]))
+    qx <- qr(X)
+    r <- function(v) as.numeric(qr.resid(qx, v))
+    Zt <- matrix(sapply(instrs, function(z) r(data[[z]])),
+                 ncol = length(instrs))
+    ar_invert(Yt = r(data[[y]]), Dt = r(data[[endog]]), Zt = Zt,
+              n_ctrl = ncol(X), beta_hat = beta_hat, se_hat = se_hat,
+              alpha = alpha)
+}
+
+# ---------------------------------------------------------------------------
+# ar_cell(ar): format an ar_invert() result for a LaTeX table cell.
+#
+# Bounded sets print as an interval. UNBOUNDED OR DISJOINT SETS ARE NOT
+# SILENTLY PRINTED AS INTERVALS -- ar_invert() already reports their true
+# shape, and squeezing "(-Inf, Inf)" or a two-piece union into a cell that
+# looks like a confidence interval would misrepresent the inference. Those
+# print verbatim, which is wide and ugly on purpose: it should be noticed.
+# ---------------------------------------------------------------------------
+ar_cell <- function(ar) {
+    if (isTRUE(ar$bounded)) {
+        # ar_invert() already formats a bounded set as "[a, b]".
+        return(ar$print)
+    }
+    # Unbounded / disjoint / empty: print the true shape, with the symbols
+    # LaTeX-safe. No attempt to make it look like an interval.
+    s <- gsub("-Inf", "$-\\\\infty$", ar$print, fixed = FALSE)
+    s <- gsub("Inf",  "$\\\\infty$",  s)
+    gsub(" U ", " $\\\\cup$ ", s)
+}
+
+# ---------------------------------------------------------------------------
+# ar_row_note(): the sentences explaining the "AR 95% set" row, for the
+# tables that carry one (Tables 9 and 10; Table 8 has no outcome and so no
+# AR row). Shared for the same reason f_rows_note() is -- three copies of a
+# paragraph is how the drift in PR #157 happened.
+#
+# The last sentence is the one that earns the row's space: an unbounded set
+# is not a formatting artifact, it is the finding. On four of the
+# IV-Hypo cells the set is the whole line, which says "this instrument
+# cannot bound the parameter" far more legibly than an F of 4.3 does.
+# ---------------------------------------------------------------------------
+ar_row_note <- function() {
+    paste(
+        "``AR 95\\% set'' is the Anderson--Rubin confidence set, obtained by",
+        "inverting the identification-robust AR test over a grid. Unlike the",
+        "reported standard errors and unlike either $F$ row, it requires no",
+        "assumption about first-stage strength and remains valid however weak",
+        "the instruments are, so it is the inference that does not depend on",
+        "a critical-value comparison. Where the set is reported as",
+        "$(-\\infty, \\infty)$ it is genuinely unbounded: the data place no",
+        "finite bound on the coefficient under that instrument, which is a",
+        "sharper statement of weakness than the $F$ statistics give."
     )
 }

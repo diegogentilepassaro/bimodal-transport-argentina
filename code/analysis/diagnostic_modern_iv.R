@@ -71,7 +71,11 @@ suppressPackageStartupMessages({
     library(fixest)
 })
 
-AR_ALPHA <- 0.05
+# ar_p() and ar_invert() moved to _iv_helpers.R in PR #158, so that
+# Tables 9 and 10 report the AR set from the implementation this
+# diagnostic validated rather than a second copy. The former file-level
+# AR_ALPHA constant became ar_invert()'s `alpha` argument; this script
+# takes the default 0.05, which is what AR_ALPHA was.
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
@@ -175,53 +179,7 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
 # AR test inversion (robust). Returns p at beta = 0, the 95% set as a
 # print string, and a boundedness flag. Set-shape logic as in ivDiag.
 # ---------------------------------------------------------------------------
-ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
-    u  <- Yt - beta0 * Dt
-    n  <- length(u)
-    k  <- ncol(Zt)
-    qz <- qr(Zt)
-    g  <- qr.coef(qz, u)
-    e  <- qr.resid(qz, u)
-    ZZinv <- solve(crossprod(Zt))
-    meat  <- crossprod(Zt * e, Zt * e)
-    df2   <- n - n_ctrl - k
-    vcv   <- (n / df2) * ZZinv %*% meat %*% ZZinv
-    Fst   <- as.numeric(t(g) %*% solve(vcv) %*% g) / k
-    pf(Fst, k, df2, lower.tail = FALSE)
-}
 
-ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
-    grid <- sort(unique(c(
-        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat, by = 0.05 * se_hat),
-        seq(beta_hat - 3 * se_hat, beta_hat + 3 * se_hat, by = 0.02 * se_hat),
-        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat, by = 0.05 * se_hat)
-    )))
-    acc <- vapply(grid, function(b) {
-        ar_p(b, Yt, Dt, Zt, n_ctrl) >= AR_ALPHA
-    }, logical(1))
-    ng <- length(grid)
-    fmt <- function(x) sprintf("%.3f", x)
-    out <- if (all(acc)) {
-        list(print = "(-Inf, Inf)", bounded = FALSE)
-    } else if (!any(acc)) {
-        list(print = "empty", bounded = FALSE)
-    } else if (!acc[1] && !acc[ng]) {
-        b <- range(grid[acc])
-        list(print = sprintf("[%s, %s]", fmt(b[1]), fmt(b[2])), bounded = TRUE)
-    } else if (acc[1] && acc[ng]) {
-        b <- range(grid[!acc])
-        list(print = sprintf("(-Inf, %s] U [%s, Inf)", fmt(b[1]), fmt(b[2])),
-             bounded = FALSE)
-    } else if (acc[1]) {
-        b <- max(grid[acc])
-        list(print = sprintf("(-Inf, %s]", fmt(b)), bounded = FALSE)
-    } else {
-        b <- min(grid[acc])
-        list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE)
-    }
-    out$p0 <- ar_p(0, Yt, Dt, Zt, n_ctrl)
-    out
-}
 
 # ---------------------------------------------------------------------------
 # Report + CSV

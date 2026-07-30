@@ -64,6 +64,7 @@ main <- function() {
                    "diagnostic_heterogeneity",
                    "diagnostic_theta_sweep",
                    "diagnostic_theta_sweep_sectoral",
+                   "diagnostic_modern_iv",
                    "diagnostic_modern_iv_table11",
                    "diagnostic_mop_critical",
                    "diagnostic_placebo_ma1947",
@@ -152,6 +153,23 @@ main <- function() {
     # threshold -- its benchmark is the MOP critical value, which depends on
     # the number of instruments and on the estimated B, so it differs by
     # column and cannot be replaced by "10".
+    # Anderson-Rubin sets for the cells Section 5 quotes (PR #158). AR needs
+    # no first-stage strength assumption, so these are what the manufacturing
+    # claims rest on once the MOP bias-bound step is set aside.
+    miv <- tab[["diagnostic_modern_iv"]]
+    if (!is.null(miv)) {
+        ar_for <- function(out, key) {
+            row <- subset(miv, outcome == out & spec == "IV-B")
+            if (nrow(row) != 1L) return(invisible(NULL))
+            macros[[paste0("ar", key, "Set")]] <<- row$ar_set
+            macros[[paste0("ar", key, "P")]]   <<- sprintf("%.3f",
+                                                           row$ar_p_at_0)
+        }
+        ar_for("chg_log_valprod_85_54", "MfgValue")
+        ar_for("chg_log_massal_85_54",  "WageMass")
+        ar_for("chg_log_pop_91_60",     "Pop")
+    }
+
     mopc <- tab[["diagnostic_mop_critical"]]
     if (!is.null(mopc)) {
         pick <- function(sp, col) {
