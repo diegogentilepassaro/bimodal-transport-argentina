@@ -153,21 +153,28 @@ main <- function() {
     # threshold -- its benchmark is the MOP critical value, which depends on
     # the number of instruments and on the estimated B, so it differs by
     # column and cannot be replaced by "10".
-    # Anderson-Rubin sets for the cells Section 5 quotes (PR #158). AR needs
-    # no first-stage strength assumption, so these are what the manufacturing
-    # claims rest on once the MOP bias-bound step is set aside.
+    # Anderson-Rubin sets for the two cells Section 5.1 quotes (PR #158):
+    # the manufacturing results, which are what survives once the MOP
+    # bias-bound step is set aside. Exactly the macros the paper uses --
+    # an earlier version also emitted arPop*, which nothing consumed.
     miv <- tab[["diagnostic_modern_iv"]]
     if (!is.null(miv)) {
         ar_for <- function(out, key) {
             row <- subset(miv, outcome == out & spec == "IV-B")
             if (nrow(row) != 1L) return(invisible(NULL))
+            # The prose quotes the set inside math mode, which is only
+            # valid for a bounded interval. If this cell ever came back
+            # unbounded the finding would have changed and the sentence
+            # around the macro must change with it -- fail, don't render
+            # "(-Inf, Inf)" as garbled math (cr-review PR #158).
+            stopifnot("AR set quoted in prose must be bounded" =
+                          isTRUE(as.logical(row$ar_bounded)))
             macros[[paste0("ar", key, "Set")]] <<- row$ar_set
             macros[[paste0("ar", key, "P")]]   <<- sprintf("%.3f",
                                                            row$ar_p_at_0)
         }
         ar_for("chg_log_valprod_85_54", "MfgValue")
         ar_for("chg_log_massal_85_54",  "WageMass")
-        ar_for("chg_log_pop_91_60",     "Pop")
     }
 
     mopc <- tab[["diagnostic_mop_critical"]]

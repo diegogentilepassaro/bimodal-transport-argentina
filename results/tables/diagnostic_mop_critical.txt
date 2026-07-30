@@ -6,7 +6,7 @@ weakivtest). Reject 'weak' at bias tolerance tau, alpha = 5%, if
 F_eff > cv(tau). cv computed with the exact bias bound B(W) (<= 1; 
 the conservative B = 1 variant is in the CSV). K=1 cells: k_eff = 1 
 and the conservative cv(10%) is MOP's published 23.1. 
-Generated: 2026-07-25 21:25:00 
+Generated: 2026-07-30 11:50:01 
 ============================================================================================ 
  
 Cell            Spec    K  F_eff      B       cv at tau = 5/10/20/30%  verdict(10/20) 

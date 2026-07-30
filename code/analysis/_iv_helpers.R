@@ -468,6 +468,12 @@ ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat, alpha = 0.05) {
 # ---------------------------------------------------------------------------
 ar_from_fit <- function(data, y, endog, instrs, ctrls_vec,
                         beta_hat, se_hat, alpha = 0.05) {
+    # safe_coef() returns all-NA on a missing coefficient, which would
+    # crash seq() inside ar_invert() with a cryptic "'from' must be a
+    # finite number"; se_hat == 0 would silently degenerate the grid to a
+    # point. Fail here with a named error instead (cr-review PR #158).
+    stopifnot("ar_from_fit(): beta_hat/se_hat must be finite, se_hat > 0" =
+                  is.finite(beta_hat) && is.finite(se_hat) && se_hat > 0)
     vars <- c(y, endog, instrs, ctrls_vec)
     stopifnot(all(vars %in% names(data)))
     stopifnot("ar_from_fit(): data must be the estimation sample" =
@@ -521,7 +527,7 @@ ar_row_note <- function() {
         "reported standard errors and unlike either $F$ row, it requires no",
         "assumption about first-stage strength and remains valid however weak",
         "the instruments are, so it is the inference that does not depend on",
-        "a critical-value comparison. Where the set is reported as",
+        "a first-stage strength threshold. Where the set is reported as",
         "$(-\\infty, \\infty)$ it is genuinely unbounded: the data place no",
         "finite bound on the coefficient under that instrument, which is a",
         "sharper statement of weakness than the $F$ statistics give."

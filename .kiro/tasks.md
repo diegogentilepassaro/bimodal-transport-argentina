@@ -857,22 +857,36 @@ those are marked done in place.
       verified): (a) the complete-case block is duplicated across
       Tables 9 and 10 in two idioms plus a third variant in Table 8,
       and wants one helper; (b) that helper should assert the sample
-      PER COLUMN — today eff_F_from_fit() is handed the IV-B frame for
-      all three columns and only the IV-B row count is checked, so if
-      an instrument ever acquired missingness the IV-LP effective F
-      would be computed on the wrong sample silently; (c)
-      diagnostic_modern_iv_table11.R still holds its own copy of
-      fitstat_F_robust().
-- [ ] [on demand, or if a referee asks] AR sets into the paper — the
-      half of the modern-IV wiring PR #155 deliberately left out.
-      Anderson-Rubin confidence sets for the headline cells, and the
-      robust/effective F for the Table 11 outcomes. Everything is
-      computed: diagnostic_modern_iv.R has the sets with a densified
-      tail grid, diagnostic_modern_iv_table11.R has the Table 11 cells,
-      and diagnostic_mop_critical.R has the MOP verdicts. The reason to
-      hold: the sets are wide and Tables 9-10 are already dense. The
-      reason it may become necessary: AR needs no strength threshold at
-      all, so it is the clean answer if the B-attribution in item C
+      PER COLUMN — today eff_F_from_fit() AND ar_from_fit() (PR #158)
+      are handed the IV-B frame for all three columns and only the
+      IV-B row count is checked, so if an instrument ever acquired
+      missingness the IV-LP effective F would be computed on the wrong
+      sample silently — and for AR the consequence is worse, since it
+      is the test statistic itself, not a strength diagnostic; (c)
+      diagnostic_modern_iv_table11.R still holds its own copies of
+      fitstat_F_robust(), ar_p() and AR_ALPHA (the last two noted by
+      the PR #158 review).
+- [x] AR sets into the paper — DONE 2026-07-30 (PR #158), pulled
+      forward from "on demand" because the PR #156 correction exposed
+      the need: the joint column's effective-F verdict depends on an
+      estimated bias bound, and AR is the inference that does not.
+      Tables 9 and 10 carry an "AR 95% set" row in the three IV
+      columns; §5.1 quotes the manufacturing sets ([0.035, 0.678]
+      p 0.027; [0.136, 0.732] p 0.004 — both exclude zero with no
+      first-stage assumption); four IV-Hypo cells are unbounded and
+      reported as such. ar_p()/ar_invert() moved to _iv_helpers.R;
+      diagnostic_modern_iv.R expanded from 11 to 27 cells so the
+      validated record covers every cell a reader sees; BOTH modern-IV
+      diagnostics wired into main.R (D.13j/D.13k) because the paper now
+      depends on their CSVs — the same PR #121 class of from-scratch
+      failure, caught by the #158 review before it could burn a rerun.
+      STILL OPEN, genuinely on demand: the robust/effective F for the
+      Table 11 outcomes (diagnostic_modern_iv_table11.R computes them);
+      the reason AR was pulled forward does not apply there, since
+      §5.4 already quotes Table 11's AR sets in prose.
+      Old rationale, kept for the record: AR needs no strength
+      threshold at all, so it is the clean answer if the
+      B-attribution in item C
       (iv) is ever challenged.
 - [ ] [after #68 confirms] generate_scalars wiring for the
       studied-share footnote numbers.
