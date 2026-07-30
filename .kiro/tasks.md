@@ -957,8 +957,8 @@ force a rerun anyway (Diego, 2026-07-20).
       review's Consider 6 predicted. The house source-inside-main()
       pattern makes every shared-name helper a shadowing hazard; worth
       remembering when adding to _iv_helpers.R.
-      STILL OPEN: the diagnostic helper trio (tau/pop loaders, geodesic
-      pairs), four copies across the MA diagnostics.
+      STILL OPEN: the diagnostic helper trio — the pop/tau loaders at
+      four copies across the MA diagnostics, geodesic_pairs at two.
 - [ ] Standing gap (structure.md "results are regenerable"): the
       diagnostic_*.{txt,csv} outputs are committed but not produced
       by main.R (same status as every diagnostic since PR #67).

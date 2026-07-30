@@ -595,13 +595,16 @@ patnaik_cv <- function(W2, d_tau, alpha = 0.05) {
 }
 
 # ---------------------------------------------------------------------------
-# mop_check(m, yvar, endog, instrs, ctrls): effective F plus the exact-B
-# MOP critical values at 10% and 20% bias tolerance, for one cell.
-# Self-contained: residualizes on the controls itself (its own
+# mop_check(m, yvar, endog, instrs, ctrls, alpha = 0.05): effective F plus
+# the exact-B MOP critical values at 10% and 20% bias tolerance, for one
+# cell. Self-contained: residualizes on the controls itself (its own
 # complete-case subset, asserted implicitly by the algebra using one `d`).
-# Returns list(F_eff, cv10, cv20).
+# Returns list(F_eff, cv10, cv20). alpha passes through to patnaik_cv()
+# rather than being hardcoded here -- patnaik_cv gained the argument so
+# callers cannot silently disagree, and a hardcoded wrapper would
+# reintroduce exactly that (cr-review PR #159).
 # ---------------------------------------------------------------------------
-mop_check <- function(m, yvar, endog, instrs, ctrls) {
+mop_check <- function(m, yvar, endog, instrs, ctrls, alpha = 0.05) {
     vars <- c(yvar, endog, instrs, ctrls)
     d <- m[complete.cases(m[, vars]), vars]
     X <- as.matrix(cbind(1, d[, ctrls]))
@@ -626,8 +629,8 @@ mop_check <- function(m, yvar, endog, instrs, ctrls) {
     F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
     B <- B_of_W(W1, W2, W12)
     list(F_eff = F_eff,
-         cv10 = patnaik_cv(W2, B / 0.10)$cv,
-         cv20 = patnaik_cv(W2, B / 0.20)$cv)
+         cv10 = patnaik_cv(W2, B / 0.10, alpha = alpha)$cv,
+         cv20 = patnaik_cv(W2, B / 0.20, alpha = alpha)$cv)
 }
 
 # ---------------------------------------------------------------------------

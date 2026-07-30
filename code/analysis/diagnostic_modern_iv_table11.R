@@ -29,14 +29,14 @@
 #   Patnaik critical values at tau in {10%, 20%} and pass/fail, and
 #   the 95% Anderson-Rubin confidence set by robust test inversion.
 #
-# MACHINERY: residualization + AR inversion copied from
-#   diagnostic_modern_iv.R; effective F + B(W) + Patnaik cv copied
-#   from diagnostic_mop_critical.R (reduced-form residuals per MOP's
-#   setup). Diagnostics are self-contained by repo convention; NOTE
-#   this is the fourth consumer of these helpers, which per the
-#   PR #137 review triggers promotion to a shared _diagnostic_helpers
-#   file — deliberately deferred to a post-meeting refactor rather
-#   than mixed into a pre-meeting evidence task.
+# MACHINERY: shared with _iv_helpers.R since PRs #155/#158/#159 —
+#   ar_p(), fitstat_F_robust(), sargan_p(), B_of_W() and patnaik_cv()
+#   come from there. Two variants stay LOCAL BY DESIGN, renamed so the
+#   shared names cannot shadow them (the sourcing happens inside main()
+#   after this file's own definitions, so a shared same-name function
+#   silently wins — that bit ar_invert between #158 and #159):
+#   ar_invert_wide() (+/-120 SE grid, this file's cells need it) and
+#   mop_check_resid() (pre-residualized inputs over the TAUS grid).
 #
 # VERIFICATION (asserted in code, row-count-guarded):
 #   - beta and SE reproduce table_11_other_outcomes_iv.csv
@@ -208,19 +208,9 @@ mop_check_resid <- function(Yt, Dt, Zt, n_ctrl) {
 
 
 
-# Classical (homoskedastic) Sargan overid p-value; NA when k = 1
-# (not overidentified). Reported alongside the robust AR-based
-# evidence because the two can differ under heteroskedasticity —
-# the college cell is exactly that case (see the report's notes).
-sargan_p <- function(iv_model, k_instr) {
-    if (k_instr < 2L) return(NA_real_)   # just-identified: no overid test
-    s <- tryCatch(fitstat(iv_model, type = "sargan"),
-                  error = function(e) NULL)
-    if (is.list(s) && is.list(s$sargan) && !is.null(s$sargan$p)) {
-        return(as.numeric(s$sargan$p))
-    }
-    NA_real_
-}
+# sargan_p() comes from _iv_helpers.R (PR #159; the local copy was
+# identical and, being defined before the source() in main(), was
+# silently clobbered by the shared one at runtime anyway).
 
 
 
