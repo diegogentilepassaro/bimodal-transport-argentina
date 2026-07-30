@@ -92,29 +92,29 @@ main <- function() {
             all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
         }
 
-        # Pull out IV first-stage F for reporting, classical and
-        # effective. The Montiel Olea-Pflueger effective F is the
-        # statistic a referee now asks for: it is robust to
-        # heteroskedasticity (the classical F is not, and every spec here
-        # uses HC1) and, unlike the classical F, its critical values are
-        # defined for more than one instrument. eff_F_from_fit() is the
-        # implementation validated in diagnostic_modern_iv.R.
+        # Effective F (MOP) and Anderson-Rubin sets, per IV column. The
+        # effective F is the statistic a referee now asks for under HC1
+        # and with two instruments; the AR set is the inference that
+        # needs no strength threshold at all. Both are computed by the
+        # implementations validated in diagnostic_modern_iv.R.
         #
-        # Sample: fit_iv_quad NA-drops per model, so the effective F must
-        # be computed on the same complete-case rows as the fit it sits
-        # beside, not on the full frame.
-        cc_vars <- c(y, main_treatment, main_lp_instrument,
-                     main_hypo_instrument, geo_controls_main)
-        d_cc <- as.data.frame(d)[complete.cases(as.data.frame(d)[, cc_vars]), ]
-        stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
-        # Anderson-Rubin 95% sets. Reported because the effective F above
-        # is judged against a critical value that depends on an estimated
-        # bias bound, and for the two-instrument column that bound does
-        # real work; AR inference needs no strength threshold at all, so it
-        # is the statement that survives if the bound is contested.
-        ar_of <- function(spec, instrs) {
+        # SAMPLE, PER CELL (cr-review PR #155/#158, closed PR #159):
+        # fit_iv_quad NA-drops per model, so each column can in principle
+        # have its own sample. cell_frame() builds the complete-case
+        # frame from the variables THAT column's fit uses and asserts it
+        # matches nobs(fit) -- the previous single both-instruments frame
+        # was only asserted against IV-B.
+        frame_of <- function(spec, instrs) {
+            cell_frame(d, c(y, main_treatment, instrs, geo_controls_main),
+                       fits[[spec]])
+        }
+        d_lp <- frame_of("IV-LP", main_lp_instrument)
+        d_h  <- frame_of("IV-H",  main_hypo_instrument)
+        d_b  <- frame_of("IV-B",  c(main_lp_instrument,
+                                    main_hypo_instrument))
+        ar_of <- function(spec, frame, instrs) {
             cc <- safe_coef(fits[[spec]], paste0("fit_", main_treatment))
-            ar_from_fit(d_cc, y, main_treatment, instrs,
+            ar_from_fit(frame, y, main_treatment, instrs,
                         geo_controls_main,
                         beta_hat = cc$est, se_hat = cc$se)
         }
@@ -122,20 +122,20 @@ main <- function() {
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
             both = fitstat_F(fits[["IV-B"]]),
-            eff_lp   = eff_F_from_fit(d_cc, main_treatment,
+            eff_lp   = eff_F_from_fit(d_lp, main_treatment,
                                       main_lp_instrument,
                                       geo_controls_main),
-            eff_hypo = eff_F_from_fit(d_cc, main_treatment,
+            eff_hypo = eff_F_from_fit(d_h, main_treatment,
                                       main_hypo_instrument,
                                       geo_controls_main),
-            eff_both = eff_F_from_fit(d_cc, main_treatment,
+            eff_both = eff_F_from_fit(d_b, main_treatment,
                                       c(main_lp_instrument,
                                         main_hypo_instrument),
                                       geo_controls_main),
-            ar_lp   = ar_of("IV-LP", main_lp_instrument),
-            ar_hypo = ar_of("IV-H",  main_hypo_instrument),
-            ar_both = ar_of("IV-B",  c(main_lp_instrument,
-                                       main_hypo_instrument))
+            ar_lp   = ar_of("IV-LP", d_lp, main_lp_instrument),
+            ar_hypo = ar_of("IV-H",  d_h,  main_hypo_instrument),
+            ar_both = ar_of("IV-B",  d_b,  c(main_lp_instrument,
+                                             main_hypo_instrument))
         )
     }
 

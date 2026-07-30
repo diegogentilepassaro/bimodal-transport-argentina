@@ -6,7 +6,7 @@ original pass skipped. All three IV specs shown: the
 instrument-dependence is the object of interest. AR sets are 
 valid regardless of instrument strength; MOP pass/fail is at 
 the stated Nagar-bias tolerance, alpha = 5%. 
-Generated: 2026-07-27 12:45:11 
+Generated: 2026-07-30 12:13:39 
 ==================================================================================================== 
  
 Outcome           Spec    K        beta       p   F_eff    cv10 MOP10  AR status      AR 95% set             

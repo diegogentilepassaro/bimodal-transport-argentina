@@ -852,20 +852,15 @@ those are marked done in place.
       instead of Stock-Yogo 10.
       STILL OPEN: the AR-set half, tracked as its own item immediately
       below rather than described twice.
-      DEFERRED REFACTORS this PR chose not to bolt on (no live bug —
-      nobs is identical across all four columns for all nine outcomes,
-      verified): (a) the complete-case block is duplicated across
-      Tables 9 and 10 in two idioms plus a third variant in Table 8,
-      and wants one helper; (b) that helper should assert the sample
-      PER COLUMN — today eff_F_from_fit() AND ar_from_fit() (PR #158)
-      are handed the IV-B frame for all three columns and only the
-      IV-B row count is checked, so if an instrument ever acquired
-      missingness the IV-LP effective F would be computed on the wrong
-      sample silently — and for AR the consequence is worse, since it
-      is the test statistic itself, not a strength diagnostic; (c)
-      diagnostic_modern_iv_table11.R still holds its own copies of
-      fitstat_F_robust(), ar_p() and AR_ALPHA (the last two noted by
-      the PR #158 review).
+      DEFERRED REFACTORS — CLOSED 2026-07-30 (PR #159): (a)+(b) the
+      complete-case block is now cell_frame() in _iv_helpers.R, built
+      and asserted PER COLUMN against the fit each statistic annotates
+      (values unchanged, since all four columns have identical samples
+      today; the assert is what changed); (c) table11's copies of
+      fitstat_F_robust(), ar_p(), B_of_W() and patnaik_cv() are gone
+      (AR_ALPHA stays as that script's own constant for its wide
+      inversion variant, renamed ar_invert_wide — see the
+      helper-consolidation item in section 5).
 - [x] AR sets into the paper — DONE 2026-07-30 (PR #158), pulled
       forward from "on demand" because the PR #156 correction exposed
       the need: the joint column's effective-F verdict depends on an
@@ -937,30 +932,33 @@ force a rerun anyway (Diego, 2026-07-20).
 
 - [ ] If deposit slips past 2026: move IGN access-year fields + README
       dates together.
-- [ ] Tables 9 and 10 have no reader-visible notes block — their table
-      notes are LaTeX `%` comments, invisible in the PDF, which the
-      PR #141 review already ruled insufficient. Only
-      table_11_other_outcomes.R calls add_table_note(). Consequence
-      today: the classical-vs-effective F distinction PR #155 added is
-      explained to a reader of Table 8 and not to a reader of Tables 9
-      or 10. Convert both to add_table_note(). Small, and it should
-      happen before the draft goes out for comment.
+- [x] Tables 9 and 10 reader-visible notes — DONE 2026-07-30 (PR #157).
+      Both use add_table_note() with a shared f_rows_note() so the note
+      text cannot drift between tables again; the fix pass also repaired
+      add_table_note()'s layout (the note used to typeset beside the
+      tabular, unnoticed since Table 11's notes were added, invisible to
+      compile checks and pdftotext — caught by rendering the page).
 - [ ] Helper-consolidation refactor (was "post-meeting"; no longer
-      gated on anything). PARTLY DONE 2026-07-29: PR #155 moved the MOP
-      effective F and the robust Wald F into _iv_helpers.R, NOT
-      _diagnostic_helpers.R as this item assumed — _iv_helpers.R is
-      where the estimation helpers live and the tables source it.
+      gated on anything). MOSTLY DONE across PRs #155/#158/#159:
+      _iv_helpers.R now owns eff_F, fitstat_F_robust, ar_p, ar_invert,
+      ar_from_fit, B_of_W, patnaik_cv and mop_check (canonical versions;
+      both recorded drifts reconciled — patnaik_cv returns list(cv,
+      k_eff) everywhere so the k_eff columns are no longer silently
+      absent, and the beta->Inf derivation comment in B_of_W survives).
+      Two variant-by-design locals were RENAMED rather than merged, and
+      the reason matters: diagnostic_modern_iv_table11.R's
+      mop_check_resid (pre-residualized signature over the TAUS grid)
+      and ar_invert_wide (+/-120 SE grid with an analytic tail check,
+      per the PR #140 B2 finding). The shared ar_invert() from PR #158
+      had been silently SHADOWING table11's wide variant since #158
+      merged — sourcing happens inside main() after the file's own
+      top-level defs — and the first rerun failed on the ar_contiguous
+      assertion, which is exactly the class of collision the PR #152
+      review's Consider 6 predicted. The house source-inside-main()
+      pattern makes every shared-name helper a shadowing hazard; worth
+      remembering when adding to _iv_helpers.R.
       STILL OPEN: the diagnostic helper trio (tau/pop loaders, geodesic
-      pairs), and the AR inversion / B(W) / Patnaik cv machinery, which
-      still has four copies
-      (PRs #130/#135/#137/#139/#140) and two drifts to reconcile
-      and two drifts to reconcile
-      when it happens: patnaik_cv returns a bare cv in some copies
-      vs list(cv, k_eff) in diagnostic_mop_critical.R (so the k_eff
-      columns are silently absent downstream), and one copy dropped
-      the beta->Inf derivation comment in B_of_W. Flagged by the
-      PR #137 and #140 reviews; deferred deliberately so pre-meeting
-      evidence work stayed surgical.
+      pairs), four copies across the MA diagnostics.
 - [ ] Standing gap (structure.md "results are regenerable"): the
       diagnostic_*.{txt,csv} outputs are committed but not produced
       by main.R (same status as every diagnostic since PR #67).

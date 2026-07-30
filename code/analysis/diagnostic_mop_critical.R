@@ -68,6 +68,10 @@ suppressPackageStartupMessages({
 })
 
 ALPHA <- 0.05
+
+# B_of_W(), patnaik_cv() and mop_check() live in _iv_helpers.R since
+# PR #159 (shared canonical versions; patnaik_cv returns
+# list(cv, k_eff), take $cv where only the cv is wanted).
 TAUS  <- c(0.05, 0.10, 0.20, 0.30)
 
 main <- function() {
@@ -180,8 +184,8 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
     )
     for (tau in TAUS) {
         tag <- sprintf("tau%02.0f", 100 * tau)
-        ex  <- patnaik_cv(W2, d_tau = B / tau)
-        cn  <- patnaik_cv(W2, d_tau = 1 / tau)
+        ex  <- patnaik_cv(W2, d_tau = B / tau, alpha = ALPHA)
+        cn  <- patnaik_cv(W2, d_tau = 1 / tau, alpha = ALPHA)
         out[[paste0("cv_", tag)]]      <- ex$cv
         out[[paste0("keff_", tag)]]    <- ex$k_eff
         out[[paste0("cvcons_", tag)]]  <- cn$cv
@@ -195,53 +199,7 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
     out
 }
 
-# ---------------------------------------------------------------------------
-# B(W) = sup over beta and unit-sphere c0 of |n(beta,c0)| / BM(beta).
-# Inner sup analytic via eigenvalues of sym(S12(beta)); outer sup by a
-# dense grid on atan-transformed beta plus local refinement and the
-# analytic beta -> +/-Inf limit.
-# ---------------------------------------------------------------------------
-B_of_W <- function(W1, W2, W12) {
-    trW2 <- sum(diag(W2))
-    ratio_at <- function(b) {
-        S12 <- W12 - b * W2
-        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
-        sym <- (S12 + t(S12)) / 2
-        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
-        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
-                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
-        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
-        num / den
-    }
-    # beta -> +/-Inf limit: S12 ~ -b W2 and S1 ~ b^2 W2, so |n|/BM tends
-    # to max over eigenvalue extremes of |tr(W2) - 2 lambda(W2)| / trW2
-    # (the |b| factors cancel between numerator and denominator):
-    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE, only.values = TRUE)$values
-    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
-                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
-    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
-    vals <- vapply(grid, ratio_at, numeric(1))
-    i    <- which.max(vals)
-    lo   <- grid[max(1, i - 1)]
-    hi   <- grid[min(length(grid), i + 1)]
-    ref  <- optimize(ratio_at, lower = lo, upper = hi, maximum = TRUE)
-    max(vals[i], ref$objective, lim)
-}
 
-# ---------------------------------------------------------------------------
-# Patnaik critical value: upper-alpha quantile of
-# chi2_{k_eff}(k_eff * d) / k_eff with k_eff from eq. (20).
-# ---------------------------------------------------------------------------
-patnaik_cv <- function(W2, d_tau) {
-    trW2  <- sum(diag(W2))
-    trW22 <- sum(diag(crossprod(W2)))
-    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
-                       only.values = TRUE)$values)
-    k_eff <- trW2^2 * (1 + 2 * d_tau) /
-             (trW22 + 2 * d_tau * trW2 * lmax)
-    cv <- qchisq(1 - ALPHA, df = k_eff, ncp = k_eff * d_tau) / k_eff
-    list(cv = cv, k_eff = k_eff)
-}
 
 # ---------------------------------------------------------------------------
 # Verification anchors (asserted; row-count-guarded)

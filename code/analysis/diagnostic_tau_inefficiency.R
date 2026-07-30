@@ -295,74 +295,8 @@ load_tau_ineff <- function(case, pop, dist_df) {
     s[order(s$origin_geolev2, s$destination_geolev2), ]
 }
 
-# ---------------------------------------------------------------------------
-# MOP effective F + Patnaik critical values on the 1b first stage.
-# Machinery copied from diagnostic_mop_critical.R (PR #136; reduced-form
-# residuals per MOP's setup; exact bias bound B(W); alpha = 5%).
-# ---------------------------------------------------------------------------
-mop_check <- function(m, yvar, endog, instrs, ctrls) {
-    vars <- c(yvar, endog, instrs, ctrls)
-    d <- m[complete.cases(m[, vars]), vars]
-    X <- as.matrix(cbind(1, d[, ctrls]))
-    r <- function(v) as.numeric(qr.resid(qr(X), v))
-    Dt <- r(d[[endog]])
-    Yt <- r(d[[yvar]])
-    Zt <- sapply(instrs, function(z) r(d[[z]]))
-    Zt <- matrix(Zt, ncol = length(instrs))
-    n <- nrow(d); k <- ncol(Zt)
-    qz <- qr(Zt)
-    pi_ <- qr.coef(qz, Dt)
-    v2 <- qr.resid(qz, Dt)
-    v1 <- qr.resid(qz, Yt)
-    hc1 <- n / (n - ncol(X) - k)
-    Q   <- crossprod(Zt)
-    eQ  <- eigen(Q, symmetric = TRUE)
-    Qih <- eQ$vectors %*% diag(1 / sqrt(eQ$values), k) %*% t(eQ$vectors)
-    meat <- function(a, b) hc1 * crossprod(Zt * a, Zt * b)
-    W1  <- Qih %*% meat(v1, v1) %*% Qih
-    W2  <- Qih %*% meat(v2, v2) %*% Qih
-    W12 <- Qih %*% meat(v1, v2) %*% Qih
-    F_eff <- as.numeric(t(pi_) %*% Q %*% pi_ / sum(diag(W2)))
-    B <- B_of_W(W1, W2, W12)
-    list(F_eff = F_eff,
-         cv10 = patnaik_cv(W2, B / 0.10),
-         cv20 = patnaik_cv(W2, B / 0.20))
-}
 
-B_of_W <- function(W1, W2, W12) {
-    trW2 <- sum(diag(W2))
-    ratio_at <- function(b) {
-        S12 <- W12 - b * W2
-        S1  <- W1 - b * (W12 + t(W12)) + b^2 * W2
-        sym <- (S12 + t(S12)) / 2
-        ev  <- eigen(sym, symmetric = TRUE, only.values = TRUE)$values
-        num <- max(abs(sum(diag(S12)) - 2 * min(ev)),
-                   abs(sum(diag(S12)) - 2 * max(ev))) / trW2
-        den <- sqrt(max(sum(diag(S1)), .Machine$double.eps) / trW2)
-        num / den
-    }
-    evW2 <- eigen((W2 + t(W2)) / 2, symmetric = TRUE,
-                  only.values = TRUE)$values
-    lim  <- max(abs(sum(diag(W2)) - 2 * min(evW2)),
-                abs(sum(diag(W2)) - 2 * max(evW2))) / trW2
-    grid <- tan(seq(-pi / 2 + 1e-3, pi / 2 - 1e-3, length.out = 2001))
-    vals <- vapply(grid, ratio_at, numeric(1))
-    i    <- which.max(vals)
-    ref  <- optimize(ratio_at, lower = grid[max(1, i - 1)],
-                     upper = grid[min(length(grid), i + 1)],
-                     maximum = TRUE)
-    max(vals[i], ref$objective, lim)
-}
 
-patnaik_cv <- function(W2, d_tau) {
-    trW2  <- sum(diag(W2))
-    trW22 <- sum(diag(crossprod(W2)))
-    lmax  <- max(eigen((W2 + t(W2)) / 2, symmetric = TRUE,
-                       only.values = TRUE)$values)
-    k_eff <- trW2^2 * (1 + 2 * d_tau) /
-             (trW22 + 2 * d_tau * trW2 * lmax)
-    qchisq(0.95, df = k_eff, ncp = k_eff * d_tau) / k_eff
-}
 
 # ---------------------------------------------------------------------------
 # Report + CSV
