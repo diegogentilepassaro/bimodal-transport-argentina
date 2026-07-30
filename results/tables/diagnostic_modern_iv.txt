@@ -6,20 +6,36 @@ F_eff = Montiel Olea-Pflueger effective F (controls partialled
 out; = F_robust up to dof conventions when K = 1, distinct for 
 the 2-instrument IV-B cells). AR set = 95% Anderson-Rubin 
 confidence set by robust test inversion. Diagnostic only. 
-Generated: 2026-07-29 19:24:56 
+Generated: 2026-07-30 11:48:24 
 ==================================================================================== 
  
 Cell            Spec      N beta (SE)          F_cls   F_rob   F_eff  AR 95% set                 
 T9 total pop    IV-LP   311 +0.046 (0.040)      22.1    22.6    22.6  [-0.032, 0.140]            
 T9 total pop    IV-H    311 +0.069 (0.068)       6.9     4.3     4.3  [-0.221, 0.729]            
 T9 total pop    IV-B    311 +0.052 (0.031)      16.2    15.2    13.1  [-0.033, 0.136]            
+T9 urban pop    IV-LP   286 +0.064 (0.045)      23.0    22.4    22.4  [-0.022, 0.172]            
+T9 urban pop    IV-H    286 +0.056 (0.100)       3.6     2.6     2.6  (-Inf, Inf)                
 T9 urban pop    IV-B    286 +0.063 (0.038)      14.7    14.0    12.6  [-0.036, 0.173]            
+T9 rural pop    IV-LP   272 +0.110 (0.106)      11.6    14.3    14.3  [-0.124, 0.365]            
+T9 rural pop    IV-H    272 +0.127 (0.170)       6.1     3.6     3.6  (-Inf, Inf)                
 T9 rural pop    IV-B    272 +0.116 (0.087)       9.9     9.9     8.4  [-0.141, 0.369]            
+T9 urban share  IV-LP   311 +0.003 (0.018)      22.1    22.6    22.6  [-0.035, 0.042]            
+T9 urban share  IV-H    311 -0.026 (0.040)       6.9     4.3     4.3  [-0.806, 0.056]            
 T9 urban share  IV-B    311 -0.005 (0.016)      16.2    15.2    13.1  [-0.046, 0.036]            
+T10 mfg value   IV-LP   310 +0.269 (0.136)      22.5    23.0    23.0  [0.007, 0.599]             
+T10 mfg value   IV-H    310 +0.451 (0.294)       7.0     4.4     4.4  [-0.020, 6.435]            
 T10 mfg value   IV-B    310 +0.317 (0.120)      16.5    15.5    13.4  [0.035, 0.678]             
+T10 wage mass   IV-LP   309 +0.283 (0.141)      23.6    23.9    23.9  [0.012, 0.619]             
+T10 wage mass   IV-H    309 +0.657 (0.343)       7.0     4.4     4.4  [0.191, 8.635]             
 T10 wage mass   IV-B    309 +0.378 (0.124)      17.1    15.8    13.8  [0.136, 0.732]             
+T10 establish.  IV-LP   310 +0.059 (0.073)      22.5    23.0    23.0  [-0.088, 0.226]            
+T10 establish.  IV-H    310 +0.088 (0.120)       7.0     4.4     4.4  [-0.343, 1.168]            
 T10 establish.  IV-B    310 +0.067 (0.060)      16.5    15.5    13.4  [-0.094, 0.233]            
+T10 farms       IV-LP   297 +0.104 (0.101)      22.2    23.9    23.9  [-0.069, 0.372]            
+T10 farms       IV-H    297 +0.066 (0.101)       5.0     3.0     3.0  (-Inf, Inf)                
 T10 farms       IV-B    297 +0.096 (0.078)      15.3    15.1    12.7  [-0.063, 0.338]            
+T10 farmed area IV-LP   297 +0.095 (0.095)      22.2    23.9    23.9  [-0.074, 0.337]            
+T10 farmed area IV-H    297 +0.130 (0.135)       5.0     3.0     3.0  (-Inf, Inf)                
 T10 farmed area IV-B    297 +0.102 (0.077)      15.3    15.1    12.7  [-0.064, 0.351]            
  
 Reading notes: 
@@ -30,7 +46,7 @@ Reading notes:
   to 15.8. MOP critical values for K=2 are NOT computed here 
   (Patnaik approximation); for K=1 conventional benchmarks 
   apply to F_eff directly. 
-- AR sets: 0 of 11 cells are unbounded or otherwise 
+- AR sets: 4 of 27 cells are unbounded or otherwise 
   non-standard (the informative weak-IV outcome); see the 
   set column. Bounded AR sets close to the Wald CIs indicate 
   the conventional inference is not weak-IV fragile there. 

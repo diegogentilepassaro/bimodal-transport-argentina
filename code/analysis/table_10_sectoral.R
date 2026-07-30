@@ -121,6 +121,16 @@ main <- function() {
         dd <- as.data.frame(d)
         d_cc <- dd[complete.cases(dd[, cc_vars]), ]
         stopifnot(nrow(d_cc) == nobs(fits[["IV-B"]]))
+        # Anderson-Rubin 95% sets; see the note in table_9_population.R and
+        # the rationale in _iv_helpers.R. These are the cells where AR
+        # matters most: the manufacturing results are the paper's cleanest,
+        # and AR confirms them without any first-stage strength assumption.
+        ar_of <- function(spec, instrs) {
+            cc <- safe_coef(fits[[spec]], paste0("fit_", main_treatment))
+            ar_from_fit(d_cc, y, main_treatment, instrs,
+                        geo_controls_main,
+                        beta_hat = cc$est, se_hat = cc$se)
+        }
         f_stats[[y]] <- list(
             lp   = fitstat_F(fits[["IV-LP"]]),
             hypo = fitstat_F(fits[["IV-H"]]),
@@ -134,7 +144,11 @@ main <- function() {
             eff_both = eff_F_from_fit(d_cc, main_treatment,
                                       c(main_lp_instrument,
                                         main_hypo_instrument),
-                                      geo_controls_main)
+                                      geo_controls_main),
+            ar_lp   = ar_of("IV-LP", main_lp_instrument),
+            ar_hypo = ar_of("IV-H",  main_hypo_instrument),
+            ar_both = ar_of("IV-B",  c(main_lp_instrument,
+                                       main_hypo_instrument))
         )
     }
 
@@ -183,7 +197,8 @@ main <- function() {
         "districts. All columns include baseline log market access (1960),",
         "baseline log population (1960), and the six standardized",
         "geographic controls. Robust (HC1) standard errors.",
-        f_rows_note(classical_row_is_robust = FALSE)
+        f_rows_note(classical_row_is_robust = FALSE),
+        ar_row_note()
     )
     table_note_short <- paste(
         "Controls, standard errors, and the definitions of the two $F$ rows",
@@ -204,14 +219,18 @@ main <- function() {
         fs <- f_stats[[y]]
         add_rows <- tibble::tibble(
             ` `           = c("First-stage $F$",
-                              "Effective $F$ (MOP)"),
-            `(1) OLS`     = c("---", "---"),
+                              "Effective $F$ (MOP)",
+                              "AR 95\\% set"),
+            `(1) OLS`     = c("---", "---", "---"),
             `(2) IV-LP`   = c(sprintf("%.1f", fs$lp),
-                              sprintf("%.1f", fs$eff_lp)),
+                              sprintf("%.1f", fs$eff_lp),
+                              ar_cell(fs$ar_lp)),
             `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo),
-                              sprintf("%.1f", fs$eff_hypo)),
+                              sprintf("%.1f", fs$eff_hypo),
+                              ar_cell(fs$ar_hypo)),
             `(4) IV-Both` = c(sprintf("%.1f", fs$both),
-                              sprintf("%.1f", fs$eff_both))
+                              sprintf("%.1f", fs$eff_both),
+                              ar_cell(fs$ar_both))
         )
         tbl <- modelsummary(
             models_this,
@@ -253,11 +272,12 @@ main <- function() {
         "% The two F rows are explained in the table's own reader-visible",
         "% Notes block (see table_note in this script) -- not repeated here,",
         "% because duplicating it invites the two copies to drift.",
-        "% FOR WHOEVER EDITS THIS FILE: Anderson-Rubin sets are in",
-        "% results/tables/diagnostic_modern_iv.txt, and the MOP critical",
-        "% values in results/tables/diagnostic_mop_critical.txt (a DIFFERENT",
-        "% file). Table 8's first-stage F is ROBUST while this table's is",
-        "% CLASSICAL -- deliberate, recorded in agenda item C.",
+        "% FOR WHOEVER EDITS THIS FILE: AR sets are IN the table since",
+        "% PR #158; the fuller record (AR p at zero, robust F) is",
+        "% diagnostic_modern_iv.txt, and the MOP critical values are in",
+        "% diagnostic_mop_critical.txt (a DIFFERENT file). Table 8's",
+        "% first-stage F is ROBUST while this table's is CLASSICAL --",
+        "% deliberate, recorded in agenda item C.",
         "",
         tex_chunks
     ), out_tex)

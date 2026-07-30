@@ -43,10 +43,10 @@
 #       0.02 SE steps, tails to +/- 25 SE at 0.05 SE spacing;
 #       endpoint acceptance => unbounded classification.
 #
-# CELLS (the paper's headline IV surface, 11 cells):
-#   Table 9  total population: IV-LP, IV-H, IV-B
-#   Table 9  urban / rural / urban share: IV-B
-#   Table 10 five sectoral outcomes: IV-B
+# CELLS (the paper's headline IV surface, 27 cells since PR #158):
+#   every Table 9 and Table 10 outcome x {IV-LP, IV-H, IV-B} -- the same
+#   grid whose AR sets the tables now print, so this file is the
+#   validated record for every cell a reader sees.
 #
 # WHAT THIS DOES NOT DO: MOP critical values for the 2-instrument
 #   IV-B cells (they require the Patnaik-approximation simulation);
@@ -71,7 +71,11 @@ suppressPackageStartupMessages({
     library(fixest)
 })
 
-AR_ALPHA <- 0.05
+# ar_p() and ar_invert() moved to _iv_helpers.R in PR #158, so that
+# Tables 9 and 10 report the AR set from the implementation this
+# diagnostic validated rather than a second copy. The former file-level
+# AR_ALPHA constant became ar_invert()'s `alpha` argument; this script
+# takes the default 0.05, which is what AR_ALPHA was.
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
@@ -86,19 +90,28 @@ main <- function() {
     hypo_instr <- main_hypo_instrument
     endog      <- "chg_logMA_86_60_s0_elow"
 
-    cells <- list(
-        list(y = "chg_log_pop_91_60",       lab = "T9 total pop",    spec = "IV-LP"),
-        list(y = "chg_log_pop_91_60",       lab = "T9 total pop",    spec = "IV-H"),
-        list(y = "chg_log_pop_91_60",       lab = "T9 total pop",    spec = "IV-B"),
-        list(y = "chg_log_urbpop_91_60",    lab = "T9 urban pop",    spec = "IV-B"),
-        list(y = "chg_log_rur_91_60",       lab = "T9 rural pop",    spec = "IV-B"),
-        list(y = "chg_urbshr_91_60",        lab = "T9 urban share",  spec = "IV-B"),
-        list(y = "chg_log_valprod_85_54",   lab = "T10 mfg value",   spec = "IV-B"),
-        list(y = "chg_log_massal_85_54",    lab = "T10 wage mass",   spec = "IV-B"),
-        list(y = "chg_log_nestab_85_54",    lab = "T10 establish.",  spec = "IV-B"),
-        list(y = "chg_log_nexp_88_60",      lab = "T10 farms",       spec = "IV-B"),
-        list(y = "chg_log_areatot_ha_88_60", lab = "T10 farmed area", spec = "IV-B")
+    # All three IV specs for every outcome, 27 cells. Was 11 (IV-LP/IV-H
+    # only for total population): PR #158 put an AR row in Tables 9-10 for
+    # ALL THREE IV columns, which meant 16 of the table's AR cells --
+    # including every unbounded IV-Hypo set the Section 5.1 prose leans
+    # on -- existed only in the tables and not in this validated record.
+    # The grid covers them all now (cr-review PR #158).
+    outcomes_all <- list(
+        c("chg_log_pop_91_60",        "T9 total pop"),
+        c("chg_log_urbpop_91_60",     "T9 urban pop"),
+        c("chg_log_rur_91_60",        "T9 rural pop"),
+        c("chg_urbshr_91_60",         "T9 urban share"),
+        c("chg_log_valprod_85_54",    "T10 mfg value"),
+        c("chg_log_massal_85_54",     "T10 wage mass"),
+        c("chg_log_nestab_85_54",     "T10 establish."),
+        c("chg_log_nexp_88_60",       "T10 farms"),
+        c("chg_log_areatot_ha_88_60", "T10 farmed area")
     )
+    cells <- do.call(c, lapply(outcomes_all, function(o) {
+        lapply(c("IV-LP", "IV-H", "IV-B"), function(sp) {
+            list(y = o[1], lab = o[2], spec = sp)
+        })
+    }))
 
     rows <- list()
     for (cell in cells) {
@@ -175,53 +188,7 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
 # AR test inversion (robust). Returns p at beta = 0, the 95% set as a
 # print string, and a boundedness flag. Set-shape logic as in ivDiag.
 # ---------------------------------------------------------------------------
-ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
-    u  <- Yt - beta0 * Dt
-    n  <- length(u)
-    k  <- ncol(Zt)
-    qz <- qr(Zt)
-    g  <- qr.coef(qz, u)
-    e  <- qr.resid(qz, u)
-    ZZinv <- solve(crossprod(Zt))
-    meat  <- crossprod(Zt * e, Zt * e)
-    df2   <- n - n_ctrl - k
-    vcv   <- (n / df2) * ZZinv %*% meat %*% ZZinv
-    Fst   <- as.numeric(t(g) %*% solve(vcv) %*% g) / k
-    pf(Fst, k, df2, lower.tail = FALSE)
-}
 
-ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
-    grid <- sort(unique(c(
-        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat, by = 0.05 * se_hat),
-        seq(beta_hat - 3 * se_hat, beta_hat + 3 * se_hat, by = 0.02 * se_hat),
-        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat, by = 0.05 * se_hat)
-    )))
-    acc <- vapply(grid, function(b) {
-        ar_p(b, Yt, Dt, Zt, n_ctrl) >= AR_ALPHA
-    }, logical(1))
-    ng <- length(grid)
-    fmt <- function(x) sprintf("%.3f", x)
-    out <- if (all(acc)) {
-        list(print = "(-Inf, Inf)", bounded = FALSE)
-    } else if (!any(acc)) {
-        list(print = "empty", bounded = FALSE)
-    } else if (!acc[1] && !acc[ng]) {
-        b <- range(grid[acc])
-        list(print = sprintf("[%s, %s]", fmt(b[1]), fmt(b[2])), bounded = TRUE)
-    } else if (acc[1] && acc[ng]) {
-        b <- range(grid[!acc])
-        list(print = sprintf("(-Inf, %s] U [%s, Inf)", fmt(b[1]), fmt(b[2])),
-             bounded = FALSE)
-    } else if (acc[1]) {
-        b <- max(grid[acc])
-        list(print = sprintf("(-Inf, %s]", fmt(b)), bounded = FALSE)
-    } else {
-        b <- min(grid[acc])
-        list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE)
-    }
-    out$p0 <- ar_p(0, Yt, Dt, Zt, n_ctrl)
-    out
-}
 
 # ---------------------------------------------------------------------------
 # Report + CSV

@@ -458,6 +458,31 @@ stage_d_analysis <- function(makelog) {
                   paste0("table_17_counterfactual_sectoral.",
                          c("tex", "csv"))),
         makelog)
+    # Modern weak-IV inference: previously diagnostic-only, wired in when
+    # the paper started depending on their CSVs (cr-review PR #158 blocking
+    # finding — the same class as the PR #121 finding that D.13h fixed).
+    # Section 5.1 quotes AR-set scalars from diagnostic_modern_iv.csv and
+    # MOP critical values from diagnostic_mop_critical.csv; without these
+    # two steps a from-scratch run leaves those macros undefined and the
+    # paper does not compile. Order matters: mop_critical anchors its
+    # recomputed F_eff against diagnostic_modern_iv.csv, so modern_iv runs
+    # first.
+    run_step("D.13j diagnostic_modern_iv",
+             a("diagnostic_modern_iv.R"),
+             "Robust/effective F + AR sets for the headline IV cells",
+             makelog)
+    verify_outputs("D.13j",
+        file.path(dir_tables,
+                  paste0("diagnostic_modern_iv.", c("txt", "csv"))),
+        makelog)
+    run_step("D.13k diagnostic_mop_critical",
+             a("diagnostic_mop_critical.R"),
+             "Montiel Olea-Pflueger critical values (exact + conservative)",
+             makelog)
+    verify_outputs("D.13k",
+        file.path(dir_tables,
+                  paste0("diagnostic_mop_critical.", c("txt", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
