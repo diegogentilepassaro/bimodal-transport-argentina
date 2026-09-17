@@ -68,6 +68,7 @@ main <- function() {
                    "diagnostic_modern_iv_table11",
                    "diagnostic_mop_critical",
                    "diagnostic_placebo_ma1947",
+                   "diagnostic_rail_km",
                    "diagnostic_ma_unimodal")) {
         path <- file.path(dir_tables, sprintf("%s.csv", name))
         if (!file.exists(path)) {
@@ -374,6 +375,37 @@ main <- function() {
     macros[["thetaLow"]]   <- format(theta[["low"]])
     macros[["thetaHigh"]]  <- format(theta[["high"]])
     macros[["thetaLowSE"]] <- sprintf("%.2f", theta_low_se)
+
+    # Rail kilometres and segment counts, for Sections 2 and 3. Both
+    # sections used to carry these as typed literals, and they disagreed
+    # because Section 2 was quoting a different source (see
+    # diagnostic_rail_km.R's header). Macro names spell their years out
+    # because LaTeX command names cannot contain digits.
+    rk <- tab[["diagnostic_rail_km"]]
+    if (!is.null(rk)) {
+        pick <- function(q) {
+            r <- rk[rk$quantity == q, ]
+            stopifnot("one row per rail-km quantity" = nrow(r) == 1L)
+            r$value
+        }
+        thou <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
+        macros[["railKmSixty"]]           <- thou(pick("rail_km_1960"))
+        macros[["railKmEightySix"]]       <- thou(pick("rail_km_1986"))
+        macros[["railKmLost"]]            <- thou(pick("rail_km_lost"))
+        macros[["railKmDictatorship"]]    <- thou(pick("rail_km_dictatorship"))
+        macros[["railKmPreSeventySix"]]   <- thou(pick("rail_km_pre1976"))
+        macros[["railPctFall"]]           <- sprintf("%.0f",
+                                                     pick("rail_pct_fall"))
+        macros[["railShareDictatorship"]] <-
+            sprintf("%.0f", pick("rail_share_dictatorship"))
+        macros[["railSharePreSeventySix"]] <-
+            sprintf("%.0f", pick("rail_share_pre1976"))
+        macros[["railNSegments"]]         <- thou(pick("n_segments"))
+        macros[["railNStudied"]]          <- thou(pick("n_studied"))
+        macros[["railNNotStudied"]]       <- thou(pick("n_not_studied"))
+        macros[["railNDistrictsNoRail"]]  <-
+            thou(pick("n_districts_no_rail"))
+    }
 
     # AutoFill pass (post issue #22): every remaining prose-quoted
     # regression number and panel statistic.
