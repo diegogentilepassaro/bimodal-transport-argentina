@@ -303,53 +303,35 @@ eff_F_from_fit <- function(data, endog, instrs, ctrls_vec) {
 }
 
 # ---------------------------------------------------------------------------
-# f_rows_note(classical_row_is_robust): the shared sentences explaining the
-# two first-stage F rows that Tables 8, 9 and 10 all carry.
+# f_rows_note(): the shared sentences explaining the two first-stage F rows
+# that Tables 8, 9 and 10 all carry.
 #
 # WHY SHARED (cr-review PR #157). Three tables were carrying near-identical
 # versions of this paragraph, and they had already drifted: Table 10's copy
-# said "with a single instrument the two coincide by construction", which is
-# true of Table 8 -- whose upper row is a ROBUST Wald F -- and FALSE of
-# Table 10, whose upper row is the CLASSICAL F (7.0 vs 4.4 in Panel A
-# column 3). One string with the one genuine difference as an argument.
+# said "with a single instrument the two coincide by construction", which
+# was true of Table 8 -- whose upper row was a ROBUST Wald F -- and false of
+# Table 10, whose upper row was the CLASSICAL F.
 #
-# classical_row_is_robust: TRUE for Table 8, whose "First-stage F" is a
-#   squared robust t / robust Wald statistic; FALSE for Tables 9 and 10,
-#   whose row comes from fitstat_F() and assumes homoskedasticity. This is
-#   a real difference between the tables, deliberately not harmonised
-#   (agenda item C), so it is stated rather than papered over.
+# THE PARAMETER IS GONE (PR #162). It was classical_row_is_robust, TRUE for
+# Table 8 and FALSE for Tables 9 and 10, and it existed to state rather than
+# paper over a real difference: those two tables reported a homoskedastic
+# first-stage F beside heteroskedasticity-robust standard errors. On the
+# coauthor's call all three tables now report the robust statistic, so the
+# FALSE branch became dead code whose text -- "the two tables' values are
+# not the same statistic" -- would have been false if anything still
+# reached it. Both branches removed rather than left as a trap.
 # ---------------------------------------------------------------------------
-f_rows_note <- function(classical_row_is_robust) {
-    upper <- if (classical_row_is_robust) {
-        paste(
-            "``First-stage $F$'' is heteroskedasticity-robust: a squared",
-            "robust $t$ in the single-instrument columns and a robust Wald",
-            "statistic in the two-instrument column."
-        )
-    } else {
-        paste(
-            "``First-stage $F$'' is the Wald statistic for the excluded",
-            "instrument(s) in that column, computed under homoskedasticity;",
-            "note that the same row in Table~\\ref{tab:first_stage} is",
-            "instead heteroskedasticity-robust, so the two tables' values",
-            "are not the same statistic."
-        )
-    }
-    coincide <- if (classical_row_is_robust) {
-        paste(
-            "With one instrument the two rows coincide by construction,",
-            "which the single-instrument columns confirm; they differ only",
-            "where two instruments are used."
-        )
-    } else {
-        paste(
-            "The effective $F$ equals the robust Wald $F$ by construction",
-            "when there is one instrument, so in the single-instrument",
-            "columns the two rows differ only in whether the variance is",
-            "estimated under homoskedasticity -- and they are judged",
-            "against different critical values regardless."
-        )
-    }
+f_rows_note <- function() {
+    upper <- paste(
+        "``First-stage $F$'' is heteroskedasticity-robust: a squared",
+        "robust $t$ in the single-instrument columns and a robust Wald",
+        "statistic in the two-instrument column."
+    )
+    coincide <- paste(
+        "With one instrument the two rows coincide by construction,",
+        "which the single-instrument columns confirm; they differ only",
+        "where two instruments are used."
+    )
     paste(
         upper,
         "``Effective $F$ (MOP)'' is the Montiel Olea and Pflueger (2013)",
@@ -589,6 +571,58 @@ ar_from_fit <- function(data, y, endog, instrs, ctrls_vec,
 }
 
 # ---------------------------------------------------------------------------
+# robust_J(): the identification-robust overidentification statistic, the
+# minimum over beta0 of the AR quadratic form (= k * AR_F), distributed
+# chi2_{k-1}. This is the apples-to-apples counterpart of the classical
+# Sargan under HC1, and Section 5.4 designates it the primary evidence with
+# sargan_p() reported for comparability with the classical literature.
+#
+# Moved here from diagnostic_modern_iv_table11.R in PR #162, when Tables 9
+# and 10 began reporting an overidentification row: the same reason eff_F()
+# moved in #155 and ar_invert() in #158. The local copy in that file is
+# deleted -- leaving it would have been the fifth instance of the shadowing
+# hazard this project keeps hitting, since the helpers are sourced inside
+# main() after the file's own top-level definitions.
+#
+# Returns c(J, p), both NA when k < 2 (the test does not exist).
+# ---------------------------------------------------------------------------
+robust_J <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
+    k <- ncol(Zt)
+    if (k < 2L) return(c(J = NA_real_, p = NA_real_))
+    stat_at <- function(b) {
+        k * qf(ar_p(b, Yt, Dt, Zt, n_ctrl),
+               k, length(Yt) - n_ctrl - k, lower.tail = FALSE)
+    }
+    grid <- seq(beta_hat - 120 * se_hat, beta_hat + 120 * se_hat,
+                by = 0.02 * se_hat)
+    vals <- vapply(grid, stat_at, numeric(1))
+    i <- which.min(vals)
+    ref <- optimize(stat_at, lower = grid[max(1, i - 1)],
+                    upper = grid[min(length(grid), i + 1)])
+    J <- min(vals[i], ref$objective)
+    c(J = J, p = pchisq(J, df = k - 1, lower.tail = FALSE))
+}
+
+# robust_J_from_fit(): robust_J() with the Frisch-Waugh-Lovell
+# residualization done for the caller, same contract as ar_from_fit().
+robust_J_from_fit <- function(data, y, endog, instrs, ctrls_vec,
+                              beta_hat, se_hat) {
+    stopifnot("robust_J_from_fit(): beta_hat/se_hat must be finite, se > 0" =
+                  is.finite(beta_hat) && is.finite(se_hat) && se_hat > 0)
+    vars <- c(y, endog, instrs, ctrls_vec)
+    stopifnot(all(vars %in% names(data)),
+              "robust_J_from_fit(): data must be the estimation sample" =
+                  all(complete.cases(data[, vars])))
+    X <- as.matrix(cbind(1, data[, ctrls_vec]))
+    qx <- qr(X)
+    r <- function(v) as.numeric(qr.resid(qx, v))
+    Zt <- matrix(sapply(instrs, function(z) r(data[[z]])),
+                 ncol = length(instrs))
+    robust_J(Yt = r(data[[y]]), Dt = r(data[[endog]]), Zt = Zt,
+             n_ctrl = ncol(X), beta_hat = beta_hat, se_hat = se_hat)
+}
+
+# ---------------------------------------------------------------------------
 # ar_cell(ar): format an ar_invert() result for a LaTeX table cell.
 #
 # Bounded sets print as an interval. UNBOUNDED OR DISJOINT SETS ARE NOT
@@ -624,6 +658,26 @@ ar_cell <- function(ar) {
 # bounded sets 25-47 SE wide were printed as half-lines and described in the
 # text as placing no finite bound on the coefficient.
 # ---------------------------------------------------------------------------
+overid_row_note <- function() {
+    paste(
+        "The two overidentification rows test whether the instruments",
+        "identify a common parameter, and exist only in the",
+        "two-instrument column. ``Robust $J$'' is the minimum over the",
+        "hypothesized coefficient of the Anderson--Rubin statistic,",
+        "distributed $\\chi^2_{k-1}$; it is the counterpart of the",
+        "classical Sargan statistic that is valid under",
+        "heteroskedasticity, and it is the one to read here for the same",
+        "reason the effective $F$ is. The Sargan $p$-value is reported",
+        "beside it for comparability with the classical literature. One",
+        "caveat governs both: the test loses power when an instrument is",
+        "weak, and the hypothetical-road instrument is weak in these",
+        "specifications, so a failure to reject is not evidence that the",
+        "two instruments agree. Table~\\ref{tab:other_outcomes_iv}, whose",
+        "outcomes are measured over a shorter window, is where these",
+        "tests do reject."
+    )
+}
+
 ar_row_note <- function() {
     paste(
         "``AR 95\\% set'' is the Anderson--Rubin confidence set, obtained by",

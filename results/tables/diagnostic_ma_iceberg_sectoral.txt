@@ -8,7 +8,7 @@ question is on the meeting agenda and normalization reverses
 the instrument-strength ranking, PR #130). Companion to 
 diagnostic_ma_iceberg.{txt,csv} (population curve, F columns). 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
-Generated: 2026-09-17 20:47:48 
+Generated: 2026-09-17 23:11:53 
 ========================================================================================== 
  
 ---- theta = 4.14 (IV-Both) 

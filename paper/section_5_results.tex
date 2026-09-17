@@ -43,7 +43,11 @@ column~(2) uses only the hypothetical-road instrument
 $\Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i$, and column~(3) uses both
 jointly. All columns include baseline log market access, baseline log
 population, and the six standardized geographic controls. Standard
-errors are heteroskedasticity-robust.
+errors are heteroskedasticity-robust, and so is every first-stage $F$
+reported in this paper: Tables~\ref{tab:first_stage},
+\ref{tab:population_iv} and~\ref{tab:sectoral_iv} all report the robust
+statistic, so their values are comparable with each other and with the
+standard errors beside them.
 
 The Larkin Plan instrument has a coefficient of \fsLPCoef{} with a robust
 standard error of \fsLPSE{} in column~(1). The corresponding first-stage
@@ -105,7 +109,20 @@ which assumes the bound takes its maximum value, would require
 joint specification is strong at ten percent under the exact bias-bound
 computation but not under its most conservative variant, while the
 Larkin Plan instrument alone is strong at ten percent under either.
-Because that step can be contested, Tables~\ref{tab:population_iv}
+Tables~\ref{tab:population_iv} and~\ref{tab:sectoral_iv} also report
+whether the two instruments identify a common parameter. They are not
+rejected as doing so for any of the nine outcomes: the smallest
+identification-robust $p$-value across them is \overidMainMinJP{}, and
+the smallest classical Sargan $p$-value is \overidMainMinSarganP{}. That
+is a weak result rather than a reassuring one, because the test loses
+power exactly when an instrument is weak and the hypothetical-road
+instrument is weak here. It is reported because the contrast with the
+outcomes of Table~\ref{tab:other_outcomes_iv}, where the same test does
+reject, is what justifies pooling the instruments in these two tables and
+separating them in that one.
+
+Because the bias-bound step can be contested,
+Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv} also report identification-robust
 Anderson--Rubin confidence sets, which invert the AR test directly and
 therefore rely on no strength threshold of any kind: they remain valid

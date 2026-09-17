@@ -132,9 +132,12 @@ main <- function() {
                         beta_hat = cc$est, se_hat = cc$se)
         }
         f_stats[[y]] <- list(
-            lp   = fitstat_F(fits[["IV-LP"]]),
-            hypo = fitstat_F(fits[["IV-H"]]),
-            both = fitstat_F(fits[["IV-B"]]),
+            # ROBUST, not classical, since PR #162: see the note in
+            # table_9_population.R. Coauthor's call (2026-09-17).
+            lp   = fitstat_F_robust(fits[["IV-LP"]]),
+            hypo = fitstat_F_robust(fits[["IV-H"]]),
+            both = fitstat_F_robust(fits[["IV-B"]]),
+            sargan_both = sargan_p(fits[["IV-B"]], 2L),
             eff_lp   = eff_F_from_fit(d_lp, main_treatment,
                                       main_lp_instrument,
                                       geo_controls_main),
@@ -148,7 +151,16 @@ main <- function() {
             ar_lp   = ar_of("IV-LP", d_lp, main_lp_instrument),
             ar_hypo = ar_of("IV-H",  d_h,  main_hypo_instrument),
             ar_both = ar_of("IV-B",  d_b,  c(main_lp_instrument,
-                                             main_hypo_instrument))
+                                             main_hypo_instrument)),
+            rj_both = {
+                cc <- safe_coef(fits[["IV-B"]],
+                                paste0("fit_", main_treatment))
+                robust_J_from_fit(d_b, y, main_treatment,
+                                  c(main_lp_instrument,
+                                    main_hypo_instrument),
+                                  geo_controls_main,
+                                  beta_hat = cc$est, se_hat = cc$se)
+            }
         )
     }
 
@@ -197,8 +209,9 @@ main <- function() {
         "districts. All columns include baseline log market access (1960),",
         "baseline log population (1960), and the six standardized",
         "geographic controls. Robust (HC1) standard errors.",
-        f_rows_note(classical_row_is_robust = FALSE),
-        ar_row_note()
+        f_rows_note(),
+        ar_row_note(),
+        overid_row_note()
     )
     table_note_short <- paste(
         "Controls, standard errors, and the definitions of the two $F$ rows",
@@ -220,17 +233,23 @@ main <- function() {
         add_rows <- tibble::tibble(
             ` `           = c("First-stage $F$",
                               "Effective $F$ (MOP)",
-                              "AR 95\\% set"),
-            `(1) OLS`     = c("---", "---", "---"),
+                              "AR 95\\% set",
+                              "Overid. $p$ (robust $J$)",
+                              "Overid. $p$ (Sargan)"),
+            `(1) OLS`     = c("---", "---", "---", "---", "---"),
             `(2) IV-LP`   = c(sprintf("%.1f", fs$lp),
                               sprintf("%.1f", fs$eff_lp),
-                              ar_cell(fs$ar_lp)),
+                              ar_cell(fs$ar_lp),
+                              "---", "---"),
             `(3) IV-Hypo` = c(sprintf("%.1f", fs$hypo),
                               sprintf("%.1f", fs$eff_hypo),
-                              ar_cell(fs$ar_hypo)),
+                              ar_cell(fs$ar_hypo),
+                              "---", "---"),
             `(4) IV-Both` = c(sprintf("%.1f", fs$both),
                               sprintf("%.1f", fs$eff_both),
-                              ar_cell(fs$ar_both))
+                              ar_cell(fs$ar_both),
+                              sprintf("%.3f", fs$rj_both[["p"]]),
+                              sprintf("%.3f", fs$sargan_both))
         )
         tbl <- modelsummary(
             models_this,
@@ -302,7 +321,7 @@ main <- function() {
                 p_value  = co$p,
                 n_obs    = nobs(m),
                 first_stage_F = if (spec == "OLS") NA_real_ else
-                                fitstat_F(m),
+                                fitstat_F_robust(m),
                 # The .tex is gitignored, so the CSV is the only
                 # coauthor-visible copy in the repo; the effective F has
                 # to be here or it is invisible outside a LaTeX build.
@@ -313,6 +332,12 @@ main <- function() {
                     "IV-H"  = f_stats[[y]]$eff_hypo,
                     "IV-B"  = f_stats[[y]]$eff_both
                 ),
+                overid_robust_J   = if (spec == "IV-B")
+                    f_stats[[y]]$rj_both[["J"]] else NA_real_,
+                overid_robust_J_p = if (spec == "IV-B")
+                    f_stats[[y]]$rj_both[["p"]] else NA_real_,
+                overid_sargan_p   = if (spec == "IV-B")
+                    f_stats[[y]]$sargan_both else NA_real_,
                 stringsAsFactors = FALSE
             )
         }

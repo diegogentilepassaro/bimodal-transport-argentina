@@ -386,6 +386,28 @@ main <- function() {
     # file would emit a scalars.tex with these macros absent and surface as
     # an undefined control sequence in LaTeX instead of an R error
     # (cr-review PR #161).
+    # Overidentification in the nine main outcomes (Tables 9 and 10,
+    # IV-Both column). Section 5.1 quotes the range rather than nine
+    # p-values, and the contrast with Table 11 is the point, so what the
+    # prose needs is the SMALLEST p across the nine: if even that one does
+    # not reject, none of them does.
+    overid_min <- function(stem) {
+        ps <- unlist(lapply(c("table_9_population_iv", "table_10_sectoral_iv"),
+                            function(nm) {
+            t <- tab[[nm]]
+            stopifnot("overid columns must exist in the IV table" =
+                          !is.null(t) && stem %in% names(t))
+            t[[stem]][t$spec == "IV-B"]
+        }))
+        ps <- ps[is.finite(ps)]
+        stopifnot("expected nine IV-Both overid p-values" = length(ps) == 9L)
+        min(ps)
+    }
+    macros[["overidMainMinJP"]] <-
+        sprintf("%.2f", overid_min("overid_robust_J_p"))
+    macros[["overidMainMinSarganP"]] <-
+        sprintf("%.2f", overid_min("overid_sargan_p"))
+
     rk <- tab[["diagnostic_rail_km"]]
     stopifnot("diagnostic_rail_km.csv is required by Sections 2-4" =
                   !is.null(rk))

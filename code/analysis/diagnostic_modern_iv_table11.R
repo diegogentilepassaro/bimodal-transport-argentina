@@ -303,27 +303,14 @@ ar_invert_wide <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
 # is gone; see the call site in ar_row() for why keeping it would have
 # been a silent shadowing bug.
 
-# Robust overidentification statistic: J = min_beta0 of the AR
-# quadratic form g' V^-1 g (= k * AR_F), distributed chi2_{k-1}.
-# This is the apples-to-apples robust counterpart of the classical
-# Sargan, and it replaces the (incorrect) heteroskedasticity story
-# offered for the college cell in the first pass (cr-review B1).
-robust_J <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
-    k <- ncol(Zt)
-    if (k < 2L) return(c(J = NA_real_, p = NA_real_))
-    stat_at <- function(b) {
-        k * qf(ar_p(b, Yt, Dt, Zt, n_ctrl),
-               k, length(Yt) - n_ctrl - k, lower.tail = FALSE)
-    }
-    grid <- seq(beta_hat - 120 * se_hat, beta_hat + 120 * se_hat,
-                by = 0.02 * se_hat)
-    vals <- vapply(grid, stat_at, numeric(1))
-    i <- which.min(vals)
-    ref <- optimize(stat_at, lower = grid[max(1, i - 1)],
-                    upper = grid[min(length(grid), i + 1)])
-    J <- min(vals[i], ref$objective)
-    c(J = J, p = pchisq(J, df = k - 1, lower.tail = FALSE))
-}
+# robust_J() -- the identification-robust overidentification statistic this
+# file introduced (cr-review B1, replacing an incorrect heteroskedasticity
+# story for the college cell) -- MOVED to _iv_helpers.R in PR #162, when
+# Tables 9 and 10 began reporting an overidentification row. The local copy
+# is deleted rather than kept: the helpers are sourced inside main() after
+# this file's top-level definitions, so a local copy would be silently
+# shadowed by the shared one, which is the hazard that has now bitten
+# ar_invert (#159), sargan_p (#159) and ar_bounded_expected (#161).
 
 # ---------------------------------------------------------------------------
 # Verification anchors
