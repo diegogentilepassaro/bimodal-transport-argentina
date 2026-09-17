@@ -79,25 +79,31 @@ two values reappear here.
 Second, the effective $F$ has no Stock--Yogo threshold: its benchmark is
 the Montiel Olea--Pflueger critical value, which depends on the number of
 instruments and on a bound on the worst-case bias of the estimator, and so
-differs across columns. Judged that way the ranking of the columns changes.
-The Larkin Plan instrument alone, at \effFLP{}, falls just short of its
-critical value of \mopCVtenLP{} for a ten-percent bias tolerance. The joint
-specification, at \effFBoth{}, clears its critical value of
-\mopCVfiveBoth{} even at a five-percent tolerance. The hypothetical-road
-instrument alone clears no tolerance. The joint specification is therefore
-the strongest of the three by this standard, not merely the largest $F$.
+differs across columns. Judged that way, at a ten-percent bias tolerance
+the Larkin Plan instrument alone, at \effFLP{}, exceeds its critical
+value of \mopCVtenLP{}, and the joint specification, at \effFBoth{},
+exceeds its critical value of \mopCVtenBoth{}. At a five-percent
+tolerance neither does: the critical values are \mopCVfiveLP{} and
+\mopCVfiveBoth{} respectively. The hypothetical-road instrument alone
+clears no tolerance. Both ten-percent verdicts are close calls: the
+Larkin Plan statistic exceeds its critical value, and the joint statistic
+falls short of its five-percent critical value, by a fraction of one
+unit of $F$ in each case.
 
-That last conclusion rests on one step that should be stated rather than
-buried, because it is where the argument could be contested. The joint
-column does not clear its threshold because two instruments mechanically
-lower the bar. It clears it because the estimated bound on the worst-case
-bias for our weighting matrix is small: the bias-tolerance calculation
-gives a critical value of \mopCVfiveBoth{}, whereas the conservative
-version of the same test, which assumes the worst-case bound takes its
-maximum value, would require \mopCVconsBoth{} at a ten-percent tolerance
-and the joint specification would not clear it. So the claim is that the
-combined instrument set is strong under the exact bias-bound computation,
-not under its most conservative variant.
+The two ten-percent verdicts do not rest on the same footing, and the
+difference should be stated rather than buried, because it is where the
+argument could be contested. With a single instrument the worst-case
+bias bound equals one by construction, so the Larkin Plan verdict
+involves no estimated quantity beyond the $F$ statistic itself. With two
+instruments the critical value depends on an estimated bound on the
+worst-case bias for our weighting matrix, and that bound is small here:
+the exact bias-bound computation gives the ten-percent critical value of
+\mopCVtenBoth{}, whereas the conservative version of the same test,
+which assumes the bound takes its maximum value, would require
+\mopCVconsBoth{} and the joint specification would not clear it. So the
+joint specification is strong at ten percent under the exact bias-bound
+computation but not under its most conservative variant, while the
+Larkin Plan instrument alone is strong at ten percent under either.
 Because that step can be contested, Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv} also report identification-robust
 Anderson--Rubin confidence sets, which invert the AR test directly and
@@ -107,10 +113,12 @@ what follows. First, the manufacturing results do not depend on the
 bias-bound step: the AR set for production value is $\arMfgValueSet{}$
 ($p=\arMfgValueP{}$ at zero) and for wage mass $\arWageMassSet{}$
 ($p=\arWageMassP{}$), so both exclude zero under inference that makes no
-first-stage assumption at all. Second, on four hypothetical-road-only
-cells the AR set is unbounded --- the data place no finite bound on the
-coefficient using that instrument alone --- which states that
-instrument's weakness more sharply than any $F$ statistic.
+first-stage assumption at all. Second, on \arHypoWholeLine{}
+hypothetical-road-only cells the AR set is the whole real line, and on
+\arHypoHalfLine{} more it is unbounded on one side --- the data place no
+finite bound on the
+coefficient in that direction using that instrument alone --- which
+states that instrument's weakness more sharply than any $F$ statistic.
 
 \subsection{Population Effects}
 \label{sec:population}
@@ -432,7 +440,7 @@ which corresponds to a higher-elasticity calibration in the
 market-access literature. All MA variables, including the
 treatment, the two instruments, and the baseline log-MA control,
 switch to the $\theta = \thetaHigh{}$ variant. The combined IV coefficient
-is \thetaHighIVBCoef{} (\thetaHighIVBSE{}). The coefficient is approximately half the
+is \thetaHighIVBCoef{} (\thetaHighIVBSE{}). The coefficient is less than half the
 main-specification value. The direction of the effect is unchanged,
 and no coefficient flips sign.
 

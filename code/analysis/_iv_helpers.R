@@ -516,9 +516,11 @@ ar_cell <- function(ar) {
 # paragraph is how the drift in PR #157 happened.
 #
 # The last sentence is the one that earns the row's space: an unbounded set
-# is not a formatting artifact, it is the finding. On four of the
-# IV-Hypo cells the set is the whole line, which says "this instrument
-# cannot bound the parameter" far more legibly than an F of 4.3 does.
+# is not a formatting artifact, it is the finding. On several IV-Hypo
+# cells the set is the whole line, and on others it is a half-line, which
+# says "this instrument cannot bound the parameter (on that side)" far
+# more legibly than an F of 4 does. Which cells, and on which side, is
+# theta-dependent; the note is written to cover either shape.
 # ---------------------------------------------------------------------------
 ar_row_note <- function() {
     paste(
@@ -527,10 +529,11 @@ ar_row_note <- function() {
         "reported standard errors and unlike either $F$ row, it requires no",
         "assumption about first-stage strength and remains valid however weak",
         "the instruments are, so it is the inference that does not depend on",
-        "a first-stage strength threshold. Where the set is reported as",
-        "$(-\\infty, \\infty)$ it is genuinely unbounded: the data place no",
-        "finite bound on the coefficient under that instrument, which is a",
-        "sharper statement of weakness than the $F$ statistics give."
+        "a first-stage strength threshold. Where an endpoint is reported as",
+        "$\\pm\\infty$ the set is genuinely unbounded on that side: the data",
+        "place no finite bound on the coefficient in that direction under",
+        "that instrument, which is a sharper statement of weakness than the",
+        "$F$ statistics give."
     )
 }
 

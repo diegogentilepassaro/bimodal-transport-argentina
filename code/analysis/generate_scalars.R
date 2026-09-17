@@ -175,6 +175,16 @@ main <- function() {
         }
         ar_for("chg_log_valprod_85_54", "MfgValue")
         ar_for("chg_log_massal_85_54",  "WageMass")
+
+        # How many IV-Hypo cells have an unbounded AR set, split by whether
+        # the set is the whole line or a half-line. Section 5.1 quotes both
+        # counts; they are theta-dependent (at 4.55: 4 and 0; at 4.14: 4
+        # and 3), so they must not be typed into the prose.
+        h <- subset(miv, spec == "IV-H")
+        unb <- !as.logical(h$ar_bounded)
+        whole <- unb & grepl("^\\(-Inf, *Inf\\)$", h$ar_set)
+        macros[["arHypoWholeLine"]] <- num_word(sum(whole))
+        macros[["arHypoHalfLine"]]  <- num_word(sum(unb & !whole))
     }
 
     mopc <- tab[["diagnostic_mop_critical"]]
@@ -326,6 +336,15 @@ main <- function() {
                     sprintf("%.3f", r$se_int)
             }
         }
+        # Range of the market-access first-stage F across the three
+        # IV-Both interaction specifications. Section 7 used to say "an F
+        # near 7" as a typed literal; the committed values were 8.3-9.5
+        # at theta 4.55, so the literal was already stale. Emitted as
+        # macros so the sentence tracks the table.
+        hb <- het[het$spec == "IV-Both", ]
+        stopifnot(nrow(hb) == 3L, all(is.finite(hb$F_ma)))
+        macros[["heteroFMaMin"]] <- sprintf("%.1f", min(hb$F_ma))
+        macros[["heteroFMaMax"]] <- sprintf("%.1f", max(hb$F_ma))
     }
 
     # Sample sizes
@@ -373,6 +392,14 @@ main <- function() {
     for (nm in sort(names(macros))) {
         message(sprintf("  \\%-30s = %s", nm, macros[[nm]]))
     }
+}
+
+# Small counts quoted in prose follow AER style: words below ten, numerals
+# from ten. Used for the "on N cells the AR set is unbounded" sentence.
+num_word <- function(n) {
+    words <- c("zero", "one", "two", "three", "four", "five", "six",
+               "seven", "eight", "nine")
+    if (n >= 0L && n <= 9L) words[n + 1L] else as.character(n)
 }
 
 # ---------------------------------------------------------------------------
