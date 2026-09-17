@@ -176,15 +176,36 @@ main <- function() {
         ar_for("chg_log_valprod_85_54", "MfgValue")
         ar_for("chg_log_massal_85_54",  "WageMass")
 
-        # How many IV-Hypo cells have an unbounded AR set, split by whether
-        # the set is the whole line or a half-line. Section 5.1 quotes both
-        # counts; they are theta-dependent (at 4.55: 4 and 0; at 4.14: 4
-        # and 3), so they must not be typed into the prose.
-        h <- subset(miv, spec == "IV-H")
-        unb <- !as.logical(h$ar_bounded)
+        # Shape census of the nine IV-Hypo cells, for the Section 5.1
+        # sentence about what the hypothetical-road instrument alone can
+        # bound. Every shape ar_invert() can return is matched explicitly
+        # and the counts are asserted to partition the nine cells, so a
+        # shape nobody anticipated fails loudly instead of being folded
+        # into whichever bucket happens to be the complement
+        # (cr-review PR #160). Counts are theta-dependent, hence macros.
+        h     <- subset(miv, spec == "IV-H")
+        unb   <- !as.logical(h$ar_bounded)
         whole <- unb & grepl("^\\(-Inf, *Inf\\)$", h$ar_set)
+        half  <- unb & grepl("^\\(-Inf, .*\\]$|^\\[.*, Inf\\)$", h$ar_set)
+        empty <- unb & h$ar_set == "empty"
+        union <- unb & grepl(" U ", h$ar_set, fixed = TRUE)
+        stopifnot(
+            "IV-H AR shapes must partition the cells" =
+                sum(whole) + sum(half) + sum(empty) + sum(union) +
+                    sum(!unb) == nrow(h),
+            "Section 5.1 says the non-whole-line IV-H sets are bounded" =
+                sum(half) + sum(empty) + sum(union) == 0L
+        )
         macros[["arHypoWholeLine"]] <- num_word(sum(whole))
-        macros[["arHypoHalfLine"]]  <- num_word(sum(unb & !whole))
+        macros[["arHypoBounded"]]   <- num_word(sum(!unb))
+        macros[["arHypoNCells"]]    <- num_word(nrow(h))
+        # The widest bounded IV-H set, quoted in Section 5.1 as the concrete
+        # illustration that "bounded" is not the same as "informative".
+        wide <- h[!unb, ]
+        wide <- wide[which.max(wide$ar_hi - wide$ar_lo), ]
+        macros[["arHypoWidestLo"]]    <- sprintf("%.3f", wide$ar_lo)
+        macros[["arHypoWidestHi"]]    <- sprintf("%.3f", wide$ar_hi)
+        macros[["arHypoWidestLabel"]] <- sub("^T10 ", "", wide$label)
     }
 
     mopc <- tab[["diagnostic_mop_critical"]]
@@ -323,11 +344,12 @@ main <- function() {
 
     # Heterogeneity diagnostic (Section 7.2): OLS interaction terms.
     het <- tab[["diagnostic_heterogeneity"]]
+    hetero_chars <- list(
+        list(var = "log_pop_1960", stem = "heteroPop"),
+        list(var = "rurshr_1960",  stem = "heteroRur"),
+        list(var = "dist_to_BA",   stem = "heteroDist"))
     if (!is.null(het)) {
-        for (ch in list(
-                list(var = "log_pop_1960", stem = "heteroPop"),
-                list(var = "rurshr_1960",  stem = "heteroRur"),
-                list(var = "dist_to_BA",   stem = "heteroDist"))) {
+        for (ch in hetero_chars) {
             r <- het[het$characteristic == ch$var & het$spec == "OLS", ]
             if (nrow(r) == 1L) {
                 macros[[paste0(ch$stem, "IntOLS")]] <-
@@ -342,7 +364,7 @@ main <- function() {
         # at theta 4.55, so the literal was already stale. Emitted as
         # macros so the sentence tracks the table.
         hb <- het[het$spec == "IV-Both", ]
-        stopifnot(nrow(hb) == 3L, all(is.finite(hb$F_ma)))
+        stopifnot(nrow(hb) == length(hetero_chars), all(is.finite(hb$F_ma)))
         macros[["heteroFMaMin"]] <- sprintf("%.1f", min(hb$F_ma))
         macros[["heteroFMaMax"]] <- sprintf("%.1f", max(hb$F_ma))
     }
@@ -351,6 +373,7 @@ main <- function() {
     macros[["nDistricts"]] <- "312"
     macros[["thetaLow"]]   <- format(theta[["low"]])
     macros[["thetaHigh"]]  <- format(theta[["high"]])
+    macros[["thetaLowSE"]] <- sprintf("%.2f", theta_low_se)
 
     # AutoFill pass (post issue #22): every remaining prose-quoted
     # regression number and panel statistic.

@@ -1634,9 +1634,15 @@ because every other item regenerates Tables 7-12.
       sector-matched strengthening, sweep monotonicity. 27/27 Table
       9/10 AR cells match diagnostic_modern_iv.csv.
 
-STALE AT θ=4.14, deliberately NOT rerun (none feeds the paper; the only
-diagnostics the paper draws on are heterogeneity and the two θ sweeps,
-all in main.R and regenerated):
+STALE AT θ=4.14, deliberately NOT rerun. An earlier version of this entry
+said "none feeds the paper; the only diagnostics the paper draws on are
+heterogeneity and the two θ sweeps" — WRONG, and the PR's own review
+caught it. generate_scalars.R reads six diagnostic CSVs (heterogeneity,
+both θ sweeps, modern_iv, mop_critical, ma_unimodal, plus
+modern_iv_table11 and placebo_ma1947, the last two now wired into main.R
+as D.13m/D.13l), and §8 prose cites the refpoint/urbancenter/connector
+diagnostics. The correct statement is narrower: none of the families
+below feeds a paper number, and each has a reason it was not rerun:
   · draw-based families — recentering_{draws,results,treatments,
     controls,grid,hypo_draws,hypo_results,hypo_curve}, roadseg_{draws,
     results}, roadtiming_{draws,results}, fused_results. The draws store
@@ -1648,11 +1654,17 @@ all in main.R and regenerated):
     θ-free but the scripts are monolithic).
   · ma_nofluvial: its inputs (ma_*_nofluvial_*) no longer exist; was not
     runnable before this PR either.
-  ⚠ §8's "re-anchoring market access at interior points or at each
-  district's largest settlement does not raise the estimate" rests on
-  refpoint + urbancenter, last run at 4.55. Direction almost certainly
-  unchanged, but NOT verified at 4.14. Rerun before circulation
-  (~50 min) or soften the sentence.
+  ⚠ TWO §8 SENTENCES REST ON STALE DIAGNOSTICS, both flagged by the PR
+  #160 review, neither verified at 4.14:
+    · "re-anchoring market access at interior points or at each
+      district's largest settlement does not raise the estimate" —
+      rests on refpoint + urbancenter.
+    · "the hypothetical-road instrument is weak for total market access
+      once road connectors are re-costed" — rests on ma_connector. The
+      weakness itself IS confirmed at 4.14 (Table 8 F = 4.00); it is the
+      "once re-costed" qualifier that is unverified.
+  Direction almost certainly unchanged in both. Rerun before circulation
+  (~75 min for the three) or soften both sentences.
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 

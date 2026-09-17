@@ -135,8 +135,14 @@ run_cell <- function(o, sp, d, m) {
                     beta_hat = co$est, se_hat = co$se)
     F_rob <- fitstat_F_robust(m)
     # Boundedness cross-check (cr-review B2): the grid verdict must
-    # agree with the analytic tail limit.
-    exp_bounded <- ar_bounded_expected(F_rob, ncol(Zt), n, ncol(X))
+    # agree with the analytic tail limit. The local ar_bounded_expected()
+    # was DELETED in the PR #160 fix pass: _iv_helpers.R now exports one
+    # (with a different signature -- it takes the matrices and computes
+    # the limiting statistic itself), so the local copy would have been
+    # silently shadowed by it at runtime, the same collision that bit
+    # ar_invert between #158 and #159. Fourth instance of that hazard.
+    exp_bounded <- ar_bounded_expected(Dt, Zt, n_ctrl = ncol(X),
+                                       alpha = AR_ALPHA)$bounded
     stopifnot(ar$status == "EMPTY (overid)" || ar$bounded == exp_bounded)
     stopifnot(ar$ar_contiguous)
 
@@ -291,13 +297,11 @@ ar_invert_wide <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
     out
 }
 
-# Analytic boundedness cross-check: as beta0 -> +/-Inf the robust AR
-# statistic tends to the robust first-stage Wald F, so the 95% set is
-# bounded whenever that F exceeds the critical value. Used as an
-# assertion against the grid-based verdict (cr-review PR #140 B2).
-ar_bounded_expected <- function(F_robust, k, n, n_ctrl) {
-    F_robust > qf(1 - AR_ALPHA, k, n - n_ctrl - k)
-}
+# The analytic boundedness cross-check this file introduced in PR #140 B2
+# now lives in _iv_helpers.R as ar_bounded_expected(), where ar_invert()
+# uses it to decide shape rather than merely to assert it. The local copy
+# is gone; see the call site in ar_row() for why keeping it would have
+# been a silent shadowing bug.
 
 # Robust overidentification statistic: J = min_beta0 of the AR
 # quadratic form g' V^-1 g (= k * AR_F), distributed chi2_{k-1}.
@@ -417,8 +421,10 @@ write_outputs <- function(df) {
     # numeric bounds now so it cannot drift again (cr-review PR #141).
     # Whether the two single-instrument sets overlap at all is itself
     # theta-dependent (at theta_low = 4.55 they overlapped; at 4.14 they
-    # do not, by 0.0002), so the sentence below is written from the
-    # computed bounds rather than asserting overlap.
+    # do not, by 0.00029), so the sentence below is written from the
+    # computed bounds rather than asserting overlap. The bounds print at
+    # five decimals because at four the printed gap did not match the
+    # printed endpoints (cr-review PR #160).
     mig_lp <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-LP", ]
     mig_h  <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-H", ]
     ov_lo  <- max(mig_lp$ar_lo, mig_h$ar_lo)

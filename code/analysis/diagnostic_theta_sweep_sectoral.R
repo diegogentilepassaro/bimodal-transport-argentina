@@ -88,7 +88,7 @@ main <- function() {
         character(0)
     variant <- if (length(args) >= 1) args[1] else "main"
     stopifnot(variant %in% c("main", "gibbons"))
-    THETA_GRID <- sort(c(THETA_GRID_FIXED, unname(theta)))
+    THETA_GRID <- sort(unique(c(THETA_GRID_FIXED, unname(theta))))
     grid <- if (variant == "gibbons") THETA_GRID_GIBBONS else THETA_GRID
     stem <- if (variant == "gibbons") "diagnostic_theta_gibbons"
             else "diagnostic_theta_sweep_sectoral"

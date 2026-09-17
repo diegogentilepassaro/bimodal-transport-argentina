@@ -49,7 +49,7 @@ main <- function() {
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
 
-    THETA_GRID <- sort(c(THETA_GRID_FIXED, unname(theta)))
+    THETA_GRID <- sort(unique(c(THETA_GRID_FIXED, unname(theta))))
 
     report_path <- file.path(dir_tables, "diagnostic_theta_sweep.txt")
     con <- file(report_path, open = "wt")

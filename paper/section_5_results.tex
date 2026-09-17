@@ -85,10 +85,11 @@ value of \mopCVtenLP{}, and the joint specification, at \effFBoth{},
 exceeds its critical value of \mopCVtenBoth{}. At a five-percent
 tolerance neither does: the critical values are \mopCVfiveLP{} and
 \mopCVfiveBoth{} respectively. The hypothetical-road instrument alone
-clears no tolerance. Both ten-percent verdicts are close calls: the
-Larkin Plan statistic exceeds its critical value, and the joint statistic
-falls short of its five-percent critical value, by a fraction of one
-unit of $F$ in each case.
+clears no tolerance. Two of these verdicts are close calls: the Larkin
+Plan statistic exceeds its ten-percent critical value, and the joint
+statistic falls short of its five-percent critical value, by a fraction
+of one unit of $F$ in each case. The joint specification's ten-percent
+verdict is not close: it clears that threshold by more than four units.
 
 The two ten-percent verdicts do not rest on the same footing, and the
 difference should be stated rather than buried, because it is where the
@@ -113,12 +114,14 @@ what follows. First, the manufacturing results do not depend on the
 bias-bound step: the AR set for production value is $\arMfgValueSet{}$
 ($p=\arMfgValueP{}$ at zero) and for wage mass $\arWageMassSet{}$
 ($p=\arWageMassP{}$), so both exclude zero under inference that makes no
-first-stage assumption at all. Second, on \arHypoWholeLine{}
-hypothetical-road-only cells the AR set is the whole real line, and on
-\arHypoHalfLine{} more it is unbounded on one side --- the data place no
-finite bound on the
-coefficient in that direction using that instrument alone --- which
-states that instrument's weakness more sharply than any $F$ statistic.
+first-stage assumption at all. Second, on \arHypoWholeLine{} of the
+\arHypoNCells{} hypothetical-road-only cells the AR set is the whole real
+line: the data place no finite bound on the coefficient using that
+instrument alone. In the \arHypoBounded{} remaining cells the set is
+bounded but far too wide to restrict the magnitude of the coefficient,
+running from \arHypoWidestLo{} to \arHypoWidestHi{} in the widest case
+(manufacturing \arHypoWidestLabel{}). Both statements describe that
+instrument's weakness more sharply than any $F$ statistic does.
 
 \subsection{Population Effects}
 \label{sec:population}

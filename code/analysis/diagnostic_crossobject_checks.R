@@ -86,12 +86,12 @@ suppressPackageStartupMessages({
 
 CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
 
-# Donaldson & Hornbeck (2016) NLS estimate. The paper's own theta_low is
-# read from config.R, so the object list is assembled after config is
-# sourced (inside main) rather than at load time.
-THETA_DH <- 8.22
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R, so the
+# object list is assembled in a function, called after config is sourced,
+# rather than at load time.
 placebo_objects <- function() {
     th_low <- theta[["low"]]
+    THETA_DH <- theta_dh
     list(
         list(id = "raw (anchor)",    kind = "raw",     theta = th_low,   V = NA),
         list(id = "decay th=0.5",    kind = "raw",     theta = 0.50,     V = NA),

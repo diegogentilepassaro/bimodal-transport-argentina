@@ -323,10 +323,25 @@ tau_units_to_pesos <- 1000
 #
 # Main results use theta["low"]; theta["high"] appears in Table 12 Panel A.
 #
-# This is the ONLY place either literal may appear in code. Every script,
-# table note, plot annotation, and scalar macro reads theta[["low"]] or
-# theta[["high"]] from here.
+# This is the ONLY place either value may appear in EXECUTABLE code. Every
+# script, table note, plot annotation, and scalar macro reads theta[["low"]]
+# or theta[["high"]] from here. Three comments still name 4.55 and 4.14, to
+# record what changed and why: the HISTORY note above, generate_scalars.R's
+# note on the theta-dependent AR shape counts, and
+# diagnostic_modern_iv_table11.R's note on the AR-overlap branch.
 theta <- c(low = 4.14, high = 8.11)
+
+# Standard error of theta["low"] as reported by Simonovska & Waugh, quoted
+# in Section 3 via the \thetaLowSE macro. Lives here so that one edit moves
+# the value and its uncertainty together.
+theta_low_se <- 0.09
+
+# Donaldson & Hornbeck (2016) NLS estimate. Not a specification value: the
+# iceberg, route-inefficiency and cross-object diagnostics report their
+# grids at theta["low"] AND at this value, to show where our object sits
+# relative to the benchmark paper's. Was declared four times across those
+# diagnostics before the PR #160 fix pass.
+theta_dh <- 8.22
 
 # ---- 9. Network period codes ----------------------------------------------
 #

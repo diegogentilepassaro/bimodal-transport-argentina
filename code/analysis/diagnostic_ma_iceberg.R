@@ -82,10 +82,9 @@ CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
 # on each side; 4400 ~ the median raw tau in pesos/ton.
 V_GRID_PESOS <- c(100, 500, 1000, 2000, 4400, 10000, 20000, 50000, 100000)
 
-# Donaldson & Hornbeck (2016) NLS estimate; the paper's own theta_low is
-# read from config.R, so the pair is assembled after config is sourced.
-THETA_DH <- 8.22
-thetas_run <- function() c(theta[["low"]], THETA_DH)
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R; the pair is
+# assembled in a function so it is read after config is sourced.
+thetas_run <- function() c(theta[["low"]], theta_dh)
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)

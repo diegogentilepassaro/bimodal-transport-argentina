@@ -390,8 +390,11 @@ f_rows_note <- function(classical_row_is_robust) {
 #   in the regression of (Yt - beta0 * Dt) on Zt. Yt, Dt and Zt must already
 #   be residualized on the controls.
 # ---------------------------------------------------------------------------
-ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
-    u  <- Yt - beta0 * Dt
+# ar_wald(u, Zt, n_ctrl): the robust Wald statistic itself, factored out of
+# ar_p() so that ar_invert()'s boundedness test uses the SAME statistic as
+# the test it inverts rather than a second copy of the algebra. Returns the
+# statistic, its p-value, and the two degrees of freedom.
+ar_wald <- function(u, Zt, n_ctrl) {
     n  <- length(u)
     k  <- ncol(Zt)
     qz <- qr(Zt)
@@ -402,56 +405,153 @@ ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
     df2   <- n - n_ctrl - k
     vcv   <- (n / df2) * ZZinv %*% meat %*% ZZinv
     Fst   <- as.numeric(t(g) %*% solve(vcv) %*% g) / k
-    pf(Fst, k, df2, lower.tail = FALSE)
+    list(F = Fst, p = pf(Fst, k, df2, lower.tail = FALSE), k = k, df2 = df2)
+}
+
+ar_p <- function(beta0, Yt, Dt, Zt, n_ctrl) {
+    ar_wald(Yt - beta0 * Dt, Zt, n_ctrl)$p
 }
 
 # ---------------------------------------------------------------------------
-# ar_invert(): the AR confidence set, by inverting ar_p() over a grid, plus
-# the p-value at zero. Returns list(print, bounded, p0).
+# ar_bounded_expected(Dt, Zt, n_ctrl, alpha): whether the AR set is bounded,
+# decided analytically instead of by how wide a grid someone chose.
 #
-# The grid is dense near beta_hat and sparse in the tails, and the set shape
-# is read off whether the endpoints are accepted -- so an unbounded or
-# disjoint set is reported as such rather than silently truncated to the
-# grid. `bounded` is FALSE for those cases and callers should check it before
-# printing a set as an interval.
+# As beta0 -> +/-Inf, u(beta0) = Yt - beta0*Dt is dominated by -beta0*Dt, and
+# ar_wald() is invariant to scaling u (numerator and variance both scale by
+# the square), so the AR statistic tends to the robust first-stage Wald F of
+# Dt on Zt. The tails are therefore rejected -- and the set is bounded --
+# exactly when that limiting statistic exceeds the critical value.
+#
+# This is the criterion, not a heuristic, and it is why ar_invert() no longer
+# infers shape from grid endpoints. Near the threshold the two verdicts come
+# apart badly: a cell with a limiting F just ABOVE the critical value has a
+# bounded set that can extend tens of standard errors, which a fixed grid
+# reports as unbounded (cr-review PR #160, blocking 1: three IV-Hypo cells
+# with limiting F 4.00-4.13 against a critical value of 3.87 were printed as
+# half-lines when their sets are [0.23, 19.4], [-0.01, 14.8] and
+# [-2.54, 0.06]). diagnostic_modern_iv_table11.R has carried an equivalent
+# check since PR #140 B2; this is that check, shared.
+# ---------------------------------------------------------------------------
+ar_bounded_expected <- function(Dt, Zt, n_ctrl, alpha = 0.05) {
+    w  <- ar_wald(Dt, Zt, n_ctrl)
+    cv <- qf(1 - alpha, w$k, w$df2)
+    list(tail_F = w$F, cv = cv, bounded = w$F > cv)
+}
+
+# ---------------------------------------------------------------------------
+# ar_invert(): the AR confidence set, plus the p-value at zero. Returns
+# list(print, bounded, p0, lo, hi, tail_F, tail_cv, bounded_expected,
+# r_used, contiguous).
+#
+# SHAPE IS DECIDED ANALYTICALLY, NOT BY GRID WIDTH (cr-review PR #160,
+# blocking 1). The previous version inverted ar_p() over a fixed +/-25 SE
+# grid and called a set unbounded whenever a grid endpoint was accepted.
+# That is a heuristic, and it fails exactly where it matters: three IV-Hypo
+# cells whose limiting statistic sits just above the critical value have
+# BOUNDED sets extending 25-47 SE, and they were printed as half-lines --
+# which the paper then described as "the data place no finite bound", a
+# false claim. ar_bounded_expected() above is the criterion; the grid's job
+# is now only to LOCATE endpoints, and its radius is chosen adaptively:
+# double until both tails are rejected (with one doubling of lookahead so a
+# non-monotone stretch cannot stop the search early), then place the
+# endpoints by bisecting ar_p() - alpha across the bracketing pair, so a
+# printed endpoint no longer inherits the grid's step size.
+#
+# The grid and analytic verdicts are then required to AGREE. They can only
+# disagree if the acceptance region extends past r_max, in which case the
+# right response is to raise r_max, not to publish a shape.
 #
 # alpha is a parameter rather than a file-level constant (it was AR_ALPHA in
 # diagnostic_modern_iv.R) so that a caller reporting a 95% set and a caller
-# reporting something else cannot silently disagree.
+# reporting something else cannot silently disagree. r_core keeps the old
+# dense-grid radius so that sets well inside it reproduce as before.
 # ---------------------------------------------------------------------------
-ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat, alpha = 0.05) {
-    grid <- sort(unique(c(
-        seq(beta_hat - 25 * se_hat, beta_hat - 3.1 * se_hat,
+ar_invert <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat, alpha = 0.05,
+                      r_core = 25, r_max = 25 * 2^14) {
+    stopifnot("ar_invert(): beta_hat/se_hat must be finite, se_hat > 0" =
+                  is.finite(beta_hat) && is.finite(se_hat) && se_hat > 0)
+    acc   <- function(b) ar_p(b, Yt, Dt, Zt, n_ctrl) >= alpha
+    tails <- function(rr) c(acc(beta_hat - rr * se_hat),
+                            acc(beta_hat + rr * se_hat))
+    tl <- ar_bounded_expected(Dt, Zt, n_ctrl, alpha)
+
+    # 1. A radius that contains the whole acceptance region.
+    r <- r_core
+    repeat {
+        r2 <- min(2 * r, r_max)
+        if (!any(tails(r)) && !any(tails(r2))) break
+        if (r >= r_max) break
+        r <- r2
+    }
+    tail_acc <- tails(r)
+    if (!any(tail_acc) != isTRUE(tl$bounded)) {
+        stop(sprintf(paste0(
+            "ar_invert(): grid and analytic boundedness disagree ",
+            "(grid says %s, limiting F = %.4f vs critical value %.4f at ",
+            "radius %.0f SE). Raise r_max."),
+            if (any(tail_acc)) "unbounded" else "bounded",
+            tl$tail_F, tl$cv, r))
+    }
+
+    # 2. Grid: the old dense core, plus log-spaced points out to r.
+    core <- c(
+        seq(beta_hat - r_core * se_hat, beta_hat - 3.1 * se_hat,
             by = 0.05 * se_hat),
         seq(beta_hat - 3 * se_hat, beta_hat + 3 * se_hat,
             by = 0.02 * se_hat),
-        seq(beta_hat + 3.1 * se_hat, beta_hat + 25 * se_hat,
+        seq(beta_hat + 3.1 * se_hat, beta_hat + r_core * se_hat,
             by = 0.05 * se_hat)
-    )))
-    acc <- vapply(grid, function(b) {
-        ar_p(b, Yt, Dt, Zt, n_ctrl) >= alpha
-    }, logical(1))
-    ng <- length(grid)
-    fmt <- function(x) sprintf("%.3f", x)
-    out <- if (all(acc)) {
-        list(print = "(-Inf, Inf)", bounded = FALSE)
-    } else if (!any(acc)) {
-        list(print = "empty", bounded = FALSE)
-    } else if (!acc[1] && !acc[ng]) {
-        b <- range(grid[acc])
-        list(print = sprintf("[%s, %s]", fmt(b[1]), fmt(b[2])), bounded = TRUE)
-    } else if (acc[1] && acc[ng]) {
-        b <- range(grid[!acc])
-        list(print = sprintf("(-Inf, %s] U [%s, Inf)", fmt(b[1]), fmt(b[2])),
-             bounded = FALSE)
-    } else if (acc[1]) {
-        b <- max(grid[acc])
-        list(print = sprintf("(-Inf, %s]", fmt(b)), bounded = FALSE)
-    } else {
-        b <- min(grid[acc])
-        list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE)
+    )
+    outer_grid <- if (r > r_core) {
+        mult <- exp(seq(log(r_core), log(r), length.out = 200L))
+        c(beta_hat - mult * se_hat, beta_hat + mult * se_hat)
+    } else numeric(0)
+    grid <- sort(unique(c(core, outer_grid)))
+    accv <- vapply(grid, acc, logical(1))
+    ng   <- length(grid)
+    idx  <- which(accv)
+
+    # 3. Endpoints by bisection across the accepted/rejected bracket.
+    fmt  <- function(x) sprintf("%.3f", x)
+    edge <- function(b_acc, b_rej) {
+        f <- function(b) ar_p(b, Yt, Dt, Zt, n_ctrl) - alpha
+        stats::uniroot(f, lower = min(b_acc, b_rej), upper = max(b_acc, b_rej),
+                       tol = 1e-4 * se_hat)$root
     }
-    out$p0 <- ar_p(0, Yt, Dt, Zt, n_ctrl)
+    out <- if (length(idx) == 0L) {
+        list(print = "empty", bounded = FALSE)
+    } else if (accv[1] && accv[ng]) {
+        rej <- which(!accv)
+        if (length(rej) == 0L) {
+            list(print = "(-Inf, Inf)", bounded = FALSE)
+        } else {
+            lo <- edge(grid[min(rej) - 1L], grid[min(rej)])
+            hi <- edge(grid[max(rej) + 1L], grid[max(rej)])
+            list(print = sprintf("(-Inf, %s] U [%s, Inf)", fmt(lo), fmt(hi)),
+                 bounded = FALSE)
+        }
+    } else if (accv[1]) {
+        b <- edge(grid[max(idx)], grid[max(idx) + 1L])
+        list(print = sprintf("(-Inf, %s]", fmt(b)), bounded = FALSE)
+    } else if (accv[ng]) {
+        b <- edge(grid[min(idx)], grid[min(idx) - 1L])
+        list(print = sprintf("[%s, Inf)", fmt(b)), bounded = FALSE)
+    } else {
+        lo <- edge(grid[min(idx)], grid[min(idx) - 1L])
+        hi <- edge(grid[max(idx)], grid[max(idx) + 1L])
+        list(print = sprintf("[%s, %s]", fmt(lo), fmt(hi)),
+             bounded = TRUE, lo = lo, hi = hi)
+    }
+    if (is.null(out$lo)) out$lo <- NA_real_
+    if (is.null(out$hi)) out$hi <- NA_real_
+    out$p0               <- ar_p(0, Yt, Dt, Zt, n_ctrl)
+    out$tail_F           <- tl$tail_F
+    out$tail_cv          <- tl$cv
+    out$bounded_expected <- tl$bounded
+    out$r_used           <- r
+    # The robust AR variance depends on beta0, so an interval is not
+    # guaranteed a priori; callers that print a hull should check this.
+    out$contiguous <- length(idx) == 0L || all(diff(idx) == 1L)
     out
 }
 
@@ -515,12 +615,14 @@ ar_cell <- function(ar) {
 # AR row). Shared for the same reason f_rows_note() is -- three copies of a
 # paragraph is how the drift in PR #157 happened.
 #
-# The last sentence is the one that earns the row's space: an unbounded set
-# is not a formatting artifact, it is the finding. On several IV-Hypo
-# cells the set is the whole line, and on others it is a half-line, which
-# says "this instrument cannot bound the parameter (on that side)" far
-# more legibly than an F of 4 does. Which cells, and on which side, is
-# theta-dependent; the note is written to cover either shape.
+# The last sentences are the ones that earn the row's space. An unbounded set
+# is not a formatting artifact, it is the finding: on four IV-Hypo cells the
+# set is the whole line, which says "this instrument cannot bound the
+# parameter" far more legibly than an F of 3 does. And the note states that
+# boundedness is decided analytically, because the alternative -- reading it
+# off a grid -- produced a false claim in the first version of this PR: three
+# bounded sets 25-47 SE wide were printed as half-lines and described in the
+# text as placing no finite bound on the coefficient.
 # ---------------------------------------------------------------------------
 ar_row_note <- function() {
     paste(
@@ -529,11 +631,14 @@ ar_row_note <- function() {
         "reported standard errors and unlike either $F$ row, it requires no",
         "assumption about first-stage strength and remains valid however weak",
         "the instruments are, so it is the inference that does not depend on",
-        "a first-stage strength threshold. Where an endpoint is reported as",
-        "$\\pm\\infty$ the set is genuinely unbounded on that side: the data",
-        "place no finite bound on the coefficient in that direction under",
-        "that instrument, which is a sharper statement of weakness than the",
-        "$F$ statistics give."
+        "a first-stage strength threshold. Where the set is reported as",
+        "$(-\\infty, \\infty)$ it is genuinely unbounded: the data place no",
+        "finite bound on the coefficient under that instrument, which is a",
+        "sharper statement of weakness than the $F$ statistics give.",
+        "Whether a set is bounded is determined analytically, from whether",
+        "the limiting value of the AR statistic as the hypothesized",
+        "coefficient grows without bound exceeds the critical value, and not",
+        "from the width of the grid used to locate the endpoints."
     )
 }
 

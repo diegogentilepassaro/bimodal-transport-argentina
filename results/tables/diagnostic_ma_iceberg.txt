@@ -7,7 +7,7 @@ V is NOT sourced yet (archive lookup, issue #68 visit): read the
 curve, do not pick a point. V->0 = raw tau (scale cancels); 
 V->Inf: tau'->1, Delta log MA -> 0 for every district (no 
 regression exists at that limit). 
-Generated: 2026-09-17 15:07:48 
+Generated: 2026-09-17 20:47:40 
 ============================================================================== 
  
 ---- theta = 4.14 (main-spec continuity) 
