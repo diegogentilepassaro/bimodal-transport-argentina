@@ -21,7 +21,8 @@
 #   population) is the clean comparator for this paper — NOT Donaldson &
 #   Hornbeck (expansion, 19th c., land value). Per Cote's correction.
 #
-# THETA GRID: 1, 2, 3, 4.55 (main), 6, 8.11 (alt), 10, 12.
+# THETA GRID: 1, 2, 3, theta_low (main), 6, theta_high (alt), 10, 12,
+#   with the two paper values read from config.R.
 #
 # READS:
 #   data/derived/03_taus/tau_actual_{1960,1986}_s0.parquet
@@ -38,13 +39,17 @@ suppressPackageStartupMessages({
     library(fixest)
 })
 
-THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
+# Grid points other than the two paper values; theta[["low"]] and
+# theta[["high"]] are spliced in from config.R inside main().
+THETA_GRID_FIXED <- c(1, 2, 3, 6, 10, 12)
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
+
+    THETA_GRID <- sort(c(THETA_GRID_FIXED, unname(theta)))
 
     report_path <- file.path(dir_tables, "diagnostic_theta_sweep.txt")
     con <- file(report_path, open = "wt")
@@ -122,8 +127,8 @@ main <- function() {
 
         b_ols <- coef(m_ols)["chg"]; s_ols <- m_ols$se["chg"]
         b_iv  <- coef(m_iv)["fit_chg"]; s_iv <- m_iv$se["fit_chg"]
-        tag <- if (abs(th - 4.55) < 1e-9) " <- main"
-               else if (abs(th - 8.11) < 1e-9) " <- alt" else ""
+        tag <- if (abs(th - theta[["low"]]) < 1e-9) " <- main"
+               else if (abs(th - theta[["high"]]) < 1e-9) " <- alt" else ""
         rep("%-7.2f  %+6.3f (%.3f)     %+6.3f (%.3f)     %6.1f%s",
             th, b_ols, s_ols, b_iv, s_iv, fs, tag)
 
@@ -158,8 +163,8 @@ main <- function() {
         "\\midrule")
     for (i in seq_len(nrow(df))) {
         r <- df[i, ]
-        tag <- if (abs(r$theta - 4.55) < 1e-9) " (main)"
-               else if (abs(r$theta - 8.11) < 1e-9) " (alt.)" else ""
+        tag <- if (abs(r$theta - theta[["low"]]) < 1e-9) " (main)"
+               else if (abs(r$theta - theta[["high"]]) < 1e-9) " (alt.)" else ""
         tex <- c(tex, sprintf("%.2f%s & %s & %s & %.1f \\\\",
                               r$theta, tag,
                               tex_cell(r$ols_beta, r$ols_se),

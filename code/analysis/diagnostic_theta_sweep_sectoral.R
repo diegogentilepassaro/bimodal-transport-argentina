@@ -26,7 +26,8 @@
 #   chg_log_nexp_88_60         agriculture farms (Table 10 B)
 #   chg_log_areatot_ha_88_60   agriculture farmed area (Table 10 B)
 #
-# THETA GRID: 1, 2, 3, 4.55 (main), 6, 8.11 (alt), 10, 12 (matches the
+# THETA GRID: 1, 2, 3, theta_low (main), 6, theta_high (alt), 10, 12,
+#   with the two paper values read from config.R (matches the
 #   population sweep).
 #
 # READS:
@@ -55,7 +56,9 @@ suppressPackageStartupMessages({
     library(fixest)
 })
 
-THETA_GRID <- c(1, 2, 3, 4.55, 6, 8.11, 10, 12)
+# Grid points other than the two paper values; theta[["low"]] and
+# theta[["high"]] are spliced in from config.R inside main().
+THETA_GRID_FIXED <- c(1, 2, 3, 6, 10, 12)
 THETA_GRID_GIBBONS <- c(0.25, 0.5, 0.75)
 
 OUTCOMES <- list(
@@ -85,6 +88,7 @@ main <- function() {
         character(0)
     variant <- if (length(args) >= 1) args[1] else "main"
     stopifnot(variant %in% c("main", "gibbons"))
+    THETA_GRID <- sort(c(THETA_GRID_FIXED, unname(theta)))
     grid <- if (variant == "gibbons") THETA_GRID_GIBBONS else THETA_GRID
     stem <- if (variant == "gibbons") "diagnostic_theta_gibbons"
             else "diagnostic_theta_sweep_sectoral"
@@ -307,8 +311,8 @@ write_paper_tex <- function(df) {
                paste(col_lab[sec_outs], collapse = " & "), " \\\\"),
         "\\midrule")
     for (th in thetas) {
-        tag <- if (abs(th - 4.55) < 1e-9) " (main)"
-               else if (abs(th - 8.11) < 1e-9) " (alt.)" else ""
+        tag <- if (abs(th - theta[["low"]]) < 1e-9) " (main)"
+               else if (abs(th - theta[["high"]]) < 1e-9) " (alt.)" else ""
         cells <- vapply(sec_outs, function(o) {
             tex_cell(df[df$outcome == o & abs(df$theta - th) < 1e-9, ])
         }, character(1))

@@ -72,7 +72,7 @@ main <- function() {
 
     # ---- 1. Confirm the 91% gain ------------------------------------------
     chg <- d$chg_logMA_86_60_s0_elow
-    rep("\n[1] MA CHANGE 1960->1986 (sector 0, theta=4.55)")
+    rep("\n[1] MA CHANGE 1960->1986 (sector 0, theta=%s)", format(theta[["low"]]))
     rep("    N districts:        %d", sum(!is.na(chg)))
     rep("    Share gaining (>0):  %.1f%%", 100 * mean(chg > 0, na.rm = TRUE))
     rep("    Share losing (<0):   %.1f%%", 100 * mean(chg < 0, na.rm = TRUE))

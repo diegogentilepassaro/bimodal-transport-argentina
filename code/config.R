@@ -283,20 +283,30 @@ tau_units_to_pesos <- 1000
 # Used in market access formula:
 #   MA_i = sum_{j != i} Pop_j / tau_ij^theta
 #
-# theta["low"]  = 4.55
-# theta["high"] = 8.11
+# theta["low"]  = 4.14  Simonovska & Waugh (2014, JIE 92(1)) benchmark:
+#                       exactly identified SMM estimate on 2004 ICP price
+#                       and trade-flow data, 123 countries, SE 0.09
+#                       (their Table 5 and abstract). Their overidentified
+#                       case gives 4.10, which is the figure Donaldson &
+#                       Hornbeck (2016, fn. 55) quote; the NBER revision
+#                       of the paper reported 4.12. We use the published
+#                       benchmark.
+# theta["high"] = 8.11  Caliendo & Parro (2015) agricultural trade
+#                       elasticity (via Donaldson & Hornbeck 2016 fn. 55).
 #
-# PENDING JUSTIFICATION — and a deeper conceptual flag (see
-# .kiro/theta_benchmark_note.md for the full analysis).
+# HISTORY: the pipeline inherited theta_low = 4.55 with no traceable
+# source (provenance search documented in .kiro/theta_benchmark_note.md
+# and in the comments of paper/section_3_data.tex). Replaced by the
+# Simonovska-Waugh benchmark after the coauthor exchange of September
+# 2026. theta_high was already sourced and is unchanged.
 #
-# These two values were inherited from the old pipeline. They ARE
-# trade-elasticity numbers: 8.11 = Caliendo-Parro agricultural trade
-# elasticity; 4.55 is near Simonovska-Waugh (4.10) / Donaldson-Raj (3.80).
 # The literature trade-elasticity range is ~3.6-12.9 (Eaton & Kortum 2002;
 # Donaldson & Hornbeck 2016 use theta=8.22 estimated by NLS).
 #
-# BUT: the trade elasticity is the correct exponent ONLY on a NORMALIZED
-# ICEBERG trade cost (a dimensionless multiplier >= 1, = absolute cost
+# A deeper conceptual flag remains open (see .kiro/theta_benchmark_note.md
+# for the full analysis): the trade elasticity is the correct exponent
+# ONLY on a NORMALIZED ICEBERG trade cost (a dimensionless multiplier
+# >= 1, = absolute cost
 # divided by the value of goods shipped; D&H 2016 footnote 32). Our tau is
 # the RAW accumulated generalized transport cost (pesos/ton-km over the
 # least-cost path), NOT normalized. Applying a trade-elasticity exponent to
@@ -306,14 +316,17 @@ tau_units_to_pesos <- 1000
 # exponent of 0.5 on raw travel time). The theta sweep (PR #67) shows our
 # elasticity reaches ~0.3 at theta ~ 1.
 #
-# RESOLUTION PENDING coauthor decision: either (a) normalize tau to a true
-# iceberg cost and keep theta ~ 4-8, or (b) treat the index as a centrality
-# measure with decay ~ 0.5-1. Do NOT cite a specific source as
-# justification for 4.55/8.11 until this is resolved.
+# RESOLUTION PENDING coauthor decision (memo Decision A): either (a)
+# normalize tau to a true iceberg cost and keep theta ~ 4-8, or (b) treat
+# the index as a centrality measure with decay ~ 0.5-1. Citing the source
+# of theta_low does not resolve this; it only removes the orphaned number.
 #
-# Main results use theta["low"]; theta["high"] is reported in the appendix
-# robustness table (task C34).
-theta <- c(low = 4.55, high = 8.11)
+# Main results use theta["low"]; theta["high"] appears in Table 12 Panel A.
+#
+# This is the ONLY place either literal may appear in code. Every script,
+# table note, plot annotation, and scalar macro reads theta[["low"]] or
+# theta[["high"]] from here.
+theta <- c(low = 4.14, high = 8.11)
 
 # ---- 9. Network period codes ----------------------------------------------
 #

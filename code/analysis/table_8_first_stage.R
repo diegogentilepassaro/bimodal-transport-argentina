@@ -158,7 +158,7 @@ main <- function() {
         title     = "First stage: instrument strength",
         notes     = paste(
             "Dependent variable: $\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
-            "(sector $s=0$, $\\theta=4.55$).",
+            sprintf("(sector $s=0$, $\\theta=%s$).", format(theta[["low"]])),
             "Robust (HC1) standard errors in parentheses.",
             "All columns include baseline log MA, baseline log population,",
             "and the six standardized geographic controls",

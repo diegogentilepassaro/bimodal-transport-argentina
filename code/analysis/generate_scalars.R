@@ -330,8 +330,8 @@ main <- function() {
 
     # Sample sizes
     macros[["nDistricts"]] <- "312"
-    macros[["thetaLow"]]   <- "4.55"
-    macros[["thetaHigh"]]  <- "8.11"
+    macros[["thetaLow"]]   <- format(theta[["low"]])
+    macros[["thetaHigh"]]  <- format(theta[["high"]])
 
     # AutoFill pass (post issue #22): every remaining prose-quoted
     # regression number and panel statistic.
