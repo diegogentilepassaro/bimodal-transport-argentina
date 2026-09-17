@@ -336,13 +336,12 @@ values near 4, with a credible range of roughly 4 to 8;
 \citet{caliendoparro2015} estimate 8.11 for agriculture; and
 \citet{donaldson2018} estimates 3.8, the only estimate from
 railroad-borne trade (colonial India). We report
-two values within this range: $\theta_{\mathrm{low}} = \thetaLow{}$,
-a midpoint choice within the modern range of estimates rather than a
-value taken from any single study --- the
-\citet{simonovskawaugh2014} benchmark of approximately 4.1 and the
-\citet{donaldson2018} estimate sit nearby --- and
-$\theta_{\mathrm{high}} = \thetaHigh{}$, the \citet{caliendoparro2015}
-agricultural trade elasticity. Main results use
+two values within this range, each taken from a single study:
+$\theta_{\mathrm{low}} = \thetaLow{}$, the \citet{simonovskawaugh2014}
+benchmark estimate (their exactly identified simulated-moments estimate
+on 2004 price and trade-flow data for 123 countries, standard error
+0.09), and $\theta_{\mathrm{high}} = \thetaHigh{}$, the
+\citet{caliendoparro2015} agricultural trade elasticity. Main results use
 $\theta_{\mathrm{low}}$; $\theta_{\mathrm{high}}$
 appears in the sensitivity tables, and
 Section~\ref{sec:results_robustness} reports the estimates over the
@@ -351,28 +350,19 @@ Section~\ref{sec:discussion} discusses what the sweep implies for
 comparisons with the literature.
 \placeholder{whether a trade-elasticity exponent is the right object
 for our raw generalized cost $\tau$ is memo Decision~A, unresolved}
-% PROPOSED TEXT (theta justification) — needs Cote's sign-off. Open
-% points flagged in the PR: (1) 8.11 traces to Caliendo-Parro's
-% agricultural trade elasticity (per .kiro/theta_benchmark_note.md via
-% D&H 2016 fn. 55) and is now cited as such; 4.55 still has no pinned
-% source (near Simonovska-Waugh 4.10 / D&H-Raj 3.8 territory, exact
-% decimal unexplained; the planned draft also had the roles swapped:
-% 8.11 main, 4.55 robustness). (2) The deeper theta-tau compatibility
-% question (memo Decision A: a D&H-sized exponent is calibrated for a
-% NORMALIZED iceberg tau near 1, ours is a raw accumulated cost) is NOT
-% resolved by this paragraph — see .kiro/theta_benchmark_note.md.
-% PROVENANCE SEARCH (2026-07-16, documented dead end): the exact value
-% 4.55 was searched for and NOT found in Simonovska-Waugh 2014 (WP
-% w16796 full text: zero occurrences; their benchmark is ~4.1),
-% Caliendo-Parro 2015 (aggregate 8.64 avg, agriculture 8.11),
-% Donaldson-Hornbeck 2016 fn. 55's literature list, Fajgelbaum-Redding
-% 2022 (Argentina; elasticity-of-substitution object, no 4.55), or the
-% old draft (which had no MA-theta framework at all).
-% RESOLVED 2026-07-24 (Cote email): he does not recall a source, so
-% 4.55 is now declared a midpoint choice within the modern range with
-% SW ~4.1 cited as the nearby benchmark (his suggested option; text
-% above updated accordingly). Memo Decision A (theta-tau object)
-% remains open and is flagged separately in the placeholder.
+% THETA PROVENANCE. 8.11 traces to Caliendo-Parro's agricultural trade
+% elasticity (via D&H 2016 fn. 55). The pipeline inherited theta_low =
+% 4.55 with no traceable source: a provenance search (2026-07-16) found
+% no occurrence in Simonovska-Waugh 2014, Caliendo-Parro 2015, D&H 2016
+% fn. 55, Fajgelbaum-Redding 2022, or the old draft; Cote (2026-07-24)
+% did not recall one, and 4.55 was carried as a declared midpoint.
+% RESOLVED 2026-09 (Cote email, Diego approval): theta_low is now the
+% Simonovska-Waugh published benchmark 4.14 (SE 0.09; their Table 5 and
+% abstract; the NBER revision said 4.12 and D&H fn. 55 quote the
+% overidentified 4.10). Every output regenerated; see config.R section
+% 8. Memo Decision A (whether a trade-elasticity exponent belongs on a
+% raw, non-normalized tau at all) is NOT resolved by citing the source
+% and stays in the placeholder above.
 
 \paragraph{Change in log MA.}
 The main treatment variable is
