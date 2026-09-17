@@ -49,16 +49,16 @@ references.\footnote{The report's Figure~V--5 was scanned,
 georeferenced, and hand-traced in GIS; the resulting file contains
 \railNSegments{} line segments. District-level rail kilometres are
 computed by intersecting the segments with the district polygons, which
-changes the network total by less than 0.05~percent.} This is a single
+changes the network total by \railClipLossPct{}~percent.} This is a single
 1979 snapshot: the project has no rail map at a second date, and the
 periods below are reconstructed from it. Each digitised
 segment carries the information needed to reconstruct the network and
 to build the instrument. First, a three-way closure status: whether the
 segment remained active through 1986, was closed before 1976, or was
-closed during the military dictatorship (1976--1983). The status is
-categorical and undated, so it supports two clean cross sections --- the
-network active in 1986, and the network before the dictatorship closures
---- and a third, 1960, under the assumption that the segments closed
+closed during the military dictatorship (1976--1983). Two cross sections follow from the field's own
+definitions: the network active in 1986, and the network standing before
+the dictatorship closures. A third, 1960, requires an assumption,
+because the status is undated: that the segments recorded as closed
 before 1976 were still open in 1960. Second, its Larkin
 Plan status: whether the segment was among the \railNStudied{} segments the
 1962 Larkin Plan selected for detailed study --- segments falling
@@ -74,7 +74,8 @@ Total rail kilometres fall from \railKmSixty{}
 in 1960 to \railKmEightySix{} in 1986, a \railPctFall{}\% reduction. Of
 the \railKmLost{}~km lost, \railKmDictatorship{}~km
 (\railShareDictatorship{}\%) were closed during the dictatorship and
-\railKmPreSeventySix{}~km (\railSharePreSeventySix{}\%) before 1976.
+\railKmClosedPreSeventySix{}~km
+(\railShareClosedPreSeventySix{}\%) before 1976.
 Figure~\ref{fig:networks}a shows the
 geography of the rail network and highlights the dictatorship closures
 in red. \railNDistrictsNoRail{} of the \nDistricts{} districts have no

@@ -381,31 +381,43 @@ main <- function() {
     # because Section 2 was quoting a different source (see
     # diagnostic_rail_km.R's header). Macro names spell their years out
     # because LaTeX command names cannot contain digits.
+    # No `if (!is.null(rk))` guard: diagnostic_rail_km is a main.R step
+    # (D.13n), so its CSV is not optional. Skipping the group on a missing
+    # file would emit a scalars.tex with these macros absent and surface as
+    # an undefined control sequence in LaTeX instead of an R error
+    # (cr-review PR #161).
     rk <- tab[["diagnostic_rail_km"]]
-    if (!is.null(rk)) {
-        pick <- function(q) {
-            r <- rk[rk$quantity == q, ]
-            stopifnot("one row per rail-km quantity" = nrow(r) == 1L)
-            r$value
-        }
-        thou <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
-        macros[["railKmSixty"]]           <- thou(pick("rail_km_1960"))
-        macros[["railKmEightySix"]]       <- thou(pick("rail_km_1986"))
-        macros[["railKmLost"]]            <- thou(pick("rail_km_lost"))
-        macros[["railKmDictatorship"]]    <- thou(pick("rail_km_dictatorship"))
-        macros[["railKmPreSeventySix"]]   <- thou(pick("rail_km_pre1976"))
-        macros[["railPctFall"]]           <- sprintf("%.0f",
-                                                     pick("rail_pct_fall"))
-        macros[["railShareDictatorship"]] <-
-            sprintf("%.0f", pick("rail_share_dictatorship"))
-        macros[["railSharePreSeventySix"]] <-
-            sprintf("%.0f", pick("rail_share_pre1976"))
-        macros[["railNSegments"]]         <- thou(pick("n_segments"))
-        macros[["railNStudied"]]          <- thou(pick("n_studied"))
-        macros[["railNNotStudied"]]       <- thou(pick("n_not_studied"))
-        macros[["railNDistrictsNoRail"]]  <-
-            thou(pick("n_districts_no_rail"))
+    stopifnot("diagnostic_rail_km.csv is required by Sections 2-4" =
+                  !is.null(rk))
+    pick_rail <- function(q) {
+        r <- rk[rk$quantity == q, ]
+        stopifnot("one row per rail-km quantity" = nrow(r) == 1L,
+                  "rail-km quantity must be finite" = is.finite(r$value))
+        r$value
     }
+    macros[["railKmSixty"]]        <- big(pick_rail("rail_km_1960"))
+    macros[["railKmEightySix"]]    <- big(pick_rail("rail_km_1986"))
+    macros[["railKmLost"]]         <- big(pick_rail("rail_km_lost"))
+    macros[["railKmDictatorship"]] <- big(pick_rail("rail_km_dictatorship"))
+    macros[["railKmClosedPreSeventySix"]] <-
+        big(pick_rail("rail_km_closed_pre1976"))
+    macros[["railPctFall"]] <- sprintf("%.0f", pick_rail("rail_pct_fall"))
+    macros[["railShareDictatorship"]] <-
+        sprintf("%.0f", pick_rail("rail_share_dictatorship"))
+    macros[["railShareClosedPreSeventySix"]] <-
+        sprintf("%.0f", pick_rail("rail_share_closed_pre1976"))
+    macros[["railClipLossPct"]] <-
+        sprintf("%.2f", pick_rail("rail_clip_loss_pct"))
+    macros[["railNSegments"]]        <- big(pick_rail("n_segments"))
+    macros[["railNStudied"]]         <- big(pick_rail("n_studied"))
+    macros[["railNNotStudied"]]      <- big(pick_rail("n_not_studied"))
+    macros[["railNDistrictsNoRail"]] <- big(pick_rail("n_districts_no_rail"))
+    # Section 4's studied-share footnote.
+    macros[["railKmNewStudy"]] <- big(pick_rail("rail_km_newstudy"))
+    macros[["railStudiedShare"]] <-
+        sprintf("%.1f", pick_rail("rail_studied_share"))
+    macros[["railStudiedShareExNewStudy"]] <-
+        sprintf("%.1f", pick_rail("rail_studied_share_ex_newstudy"))
 
     # AutoFill pass (post issue #22): every remaining prose-quoted
     # regression number and panel statistic.
@@ -448,6 +460,12 @@ main <- function() {
         message(sprintf("  \\%-30s = %s", nm, macros[[nm]]))
     }
 }
+
+# Thousands separator in LaTeX math-safe form. File scope because both
+# main() (rail kilometres) and add_prose_table_macros() (district areas,
+# population totals) need it; it was defined twice, identically, before the
+# PR #161 review.
+big <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
 
 # Small counts quoted in prose follow AER style: words below ten, numerals
 # from ten. Used for the "on N cells the AR set is unbounded" sentence.
@@ -913,8 +931,6 @@ add_panel_macros <- function(macros) {
         return(macros)
     }
     p <- as.data.frame(arrow::read_parquet(panel_path))
-
-    big <- function(x) formatC(round(x), format = "d", big.mark = "{,}")
 
     # Mean district area (all 312 districts; Section 8.2 granularity
     # comparison with Gibbons 2024; cr-review PR #116)
