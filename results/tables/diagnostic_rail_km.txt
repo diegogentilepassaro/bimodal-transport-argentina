@@ -1,0 +1,46 @@
+========================================================================
+RAIL KILOMETRES: the quantities Sections 2, 3 and 4 quote
+Generated: 2026-09-17 22:19:42
+========================================================================
+
+SOURCE: lp_1979.shp, a single 1979 snapshot. status1979 is a STATUS,
+not a date; the file has no date field and there is no second rail
+map. The 1960 and 1986 networks are status buckets of this one map.
+
+Segments by status (unclipped):
+  status         n           km  meaning
+  1            424      33304.1  active 1979 and 1986
+  2             69       5564.1  closed during the dictatorship (1976-1983)
+  3             72       3921.6  closed before 1976
+
+The three cuts the status field supports:
+  1960     (1+2+3)      42789.9 km   by assumption: status 3 open in 1960
+  pre-1976 (1+2)        38868.2 km   clean: the field's own definition
+  1986     (1)          33304.1 km   clean
+
+District clipping loses 9.9 km of 42789.9, 0.023% of the 1960 total.
+It is NOT uniform across buckets: the status-3 bucket loses 0.19%,
+about 8x the aggregate rate, and status 3 is the bucket whose km
+the paper prints (3914 clipped against 3922 unclipped).
+
+What Sections 2 and 3 quote (all AutoFilled from this file):
+  1960 -> 1986: 42780 -> 33303 km, a 22% fall
+  of 9477 km lost: 5563 (59%) dictatorship, 3914 (41%) pre-1976
+  565 segments, 237 studied by the Larkin Plan, 328 not
+  30 districts with no rail in any period
+
+What Section 4's studied-share footnote quotes:
+  studied                       20866.7 km  48.77% of the 1960 network
+  of which new-study (recom 3)   4921.8 km
+  studied excluding new-study   15944.9 km  37.26%
+  Measured on whole segments; clipping moves these shares by less
+  than 0.03pp. The previously reported 2,310 / 14,377 / 5,197 km
+  (16,687 km, 38.4%) do not reproduce geodesically from this file,
+  which is byte-identical to the copy they came from; the likely
+  cause is lengths taken in a single planar CRS.
+
+NOT IN THIS FILE, DELIBERATELY: the national track-kilometre series
+(1857-1989) that Section 2 used to quote. It is a second source, it
+runs ~2.5% above this map uniformly across all three cuts, and its
+provenance is unresolved, so it is not cited in the paper and not
+read by any script. See .kiro/rail_km_sources_note.md.

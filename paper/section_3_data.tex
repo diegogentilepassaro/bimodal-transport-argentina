@@ -37,9 +37,9 @@ we construct market access from transport cost surfaces.
 \label{ssec:networks}
 
 We combine two georeferenced networks: the railway network at its 1979
-status, which we map to 1960 and 1986 via documented closure dates, and
-the paved-and-gravel road network at three cross sections (1954, 1970,
-1986).
+status, which we map to 1960 and 1986 via each segment's recorded closure
+status, and the paved-and-gravel road network at three cross sections
+(1954, 1970, 1986).
 
 \paragraph{Railways.}
 The rail network comes from the network map in Argentina's 1979
@@ -47,30 +47,39 @@ The rail network comes from the network map in Argentina's 1979
 which we digitised against official IGN geographic
 references.\footnote{The report's Figure~V--5 was scanned,
 georeferenced, and hand-traced in GIS; the resulting file contains
-565 line segments. District-level rail kilometres are computed by
-intersecting the segments with the district polygons.} Each digitised
+\railNSegments{} line segments. District-level rail kilometres are
+computed by intersecting the segments with the district polygons, which
+changes the network total by \railClipLossPct{}~percent.} This is a single
+1979 snapshot: the project has no rail map at a second date, and the
+periods below are reconstructed from it. Each digitised
 segment carries the information needed to reconstruct the network and
-to build the instrument. First, its operating
-history: whether the segment remained active through 1986, was closed
-between 1960 and 1966, or was closed during the military dictatorship
-(1976--1983). We use these closure dates to reconstruct the network as
-it stood in 1960 and as it stood in 1986. Second, its Larkin
-Plan status: whether the segment was among the 237 segments the
+to build the instrument. First, a three-way closure status: whether the
+segment remained active through 1986, was closed before 1976, or was
+closed during the military dictatorship (1976--1983). Two cross sections follow from the field's own
+definitions: the network active in 1986, and the network standing before
+the dictatorship closures. A third, 1960, requires an assumption,
+because the status is undated: that the segments recorded as closed
+before 1976 were still open in 1960. Second, its Larkin
+Plan status: whether the segment was among the \railNStudied{} segments the
 1962 Larkin Plan selected for detailed study --- segments falling
 below the Plan's freight-density thresholds, whose closure it then
 evaluated on explicit revenue and operating-cost grounds --- or among
-the 328 segments the Plan did not evaluate. For studied segments, the
+the \railNNotStudied{} segments the Plan did not evaluate. For studied segments, the
 digitisation also records which of the Plan's three recommendations
 (maintain, close, or perform a new study) was issued.
 The studied/non-studied distinction is the basis of the first
 instrument (Section~\ref{sec:identification}).
 
-Total rail kilometres fall from 42{,}780
-in 1960 to 33{,}303 in 1986, a 22\% reduction. Of the 9{,}477~km lost,
-5{,}563~km (59\%) were closed during the dictatorship and 3{,}914~km (41\%)
-were closed between 1960 and 1966. Figure~\ref{fig:networks}a shows the
+Total rail kilometres fall from \railKmSixty{}
+in 1960 to \railKmEightySix{} in 1986, a \railPctFall{}\% reduction. Of
+the \railKmLost{}~km lost, \railKmDictatorship{}~km
+(\railShareDictatorship{}\%) were closed during the dictatorship and
+\railKmClosedPreSeventySix{}~km
+(\railShareClosedPreSeventySix{}\%) before 1976.
+Figure~\ref{fig:networks}a shows the
 geography of the rail network and highlights the dictatorship closures
-in red. 30 of the 312 districts have no rail in any period;
+in red. \railNDistrictsNoRail{} of the \nDistricts{} districts have no
+rail in any period;
 these are concentrated in Patagonia and Tierra del Fuego.
 
 \paragraph{Roads.}

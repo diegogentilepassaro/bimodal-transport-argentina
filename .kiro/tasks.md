@@ -747,12 +747,21 @@ item's follow-up work is tracked elsewhere, the pointer is noted.
         `estado` for it (item G (5)).
 - [ ] Issue #68 studied-share — SUBSTANTIALLY RESOLVED (PR #119
       reconciliation footnote in the paper; recom_code semantics
-      decoded: 1 maintain 2,310 km / 2 close 14,377 km / 3
-      new-study 5,197 km; excluding new-study gives 38.4% on §2's
-      43,500 km). Awaiting Cote's 10-minute lookup: the report's
-      studied definition (excludes new-study?) and its network
-      denominator (§2's 15,000 km ~ 32% implies ~46,900 → 35.6%).
-      generate_scalars wiring deferred until confirmed (section 2).
+      decoded: 1 maintain / 2 close / 3 new-study).
+      ⚠ NUMBERS SUPERSEDED 2026-09-17 by PR #161: the km figures
+      recorded here (2,310 / 14,377 / 5,197, giving 16,687 km and
+      38.4% on §2's 43,500 km) do NOT reproduce from the shapefile
+      under geodesic measurement. Same bytes (md5 verified), so the
+      cause is method — most likely lengths taken in a single planar
+      CRS. Geodesic: 2,202 / 13,743 / 4,922, studied share 48.8%,
+      37.3% excluding new-study, on the map's 42,780 km 1960 network.
+      §4's footnote now AutoFills all three from
+      diagnostic_rail_km.R, and §2 no longer states 43,500 as a
+      network total, so the old denominator is gone from the paper.
+      Still awaiting Cote's 10-minute lookup: the report's studied
+      definition (excludes new-study?) and its network denominator
+      (§2's 15,000 km ~ 32% implies ~46,900 → 35.6%). The
+      generate_scalars wiring this entry deferred is DONE.
       The V-sourcing for Decision A option 1a rides the same
       archive visit.
 - [ ] Issue #113 — hypo-instrument node set omits CABA (curation
@@ -1676,6 +1685,54 @@ version is a Stage C item, propose after Cote confirms); quintile
 pre-trend dummies (sectoral outcomes; population case flagged for the
 pop60 shared-error mechanism); contamination-vs-treatment diagnostic
 once Cote sends the 23 provincial 1960 totals.
+
+### 11. Completed 2026-09-17 (second batch), record
+- [x] PR #161 (paper/rail-km-sources) — the paper quoted the rail
+      network's size from two different sources without saying so.
+      Cote's kms-via block established that the digitised 1979 map runs
+      a uniform ~2.5% below a national track-kilometre series across
+      all three cross sections it can compare, i.e. a proportional
+      measurement difference, not missing lines. Reproduced here
+      independently in R (sf vs his pyproj, agreeing to 0.01%) and the
+      shapefile md5 verified identical to his copy.
+      RESOLUTION: §2 now quotes the map, so the paper has one rail
+      source. The series is recorded in
+      .kiro/rail_km_sources_note.md and cited nowhere, because its
+      provenance is unresolved — asked of Cote, rides his archive visit.
+      LABELS CORRECTED: §3 called status1979 "documented closure dates"
+      (it is an undated three-level status) and labelled the status-3
+      kilometres "closed between 1960 and 1966" where the field's own
+      documentation and the clean_railroads manifest both say "closed
+      before 1976". The code was right throughout; only the prose was
+      wrong. This is the standing-caution failure class again.
+      §2's "over 6,000 km between 1976 and 1979" was supported by
+      neither source (map 5,563, series 5,495) and is gone.
+      NEW: code/analysis/diagnostic_rail_km.R (main.R step D.13n)
+      measures every rail-km, segment-count and studied-share quantity
+      §§2-4 quote and emits 16 AutoFill macros. Thirteen typed literals
+      in §3, three in §4, three in §2 replaced.
+      THIRD DISCREPANCY, found in the fix pass: §4's recom_code figures
+      do not reproduce geodesically — see the Issue #68 entry above.
+      This is the only printed number in the paper that CHANGED:
+      studied share 49.0 → 48.8%, new-study 5,197 → 4,922 km, share
+      excluding new-study 38.4 → 37.3%.
+      REVIEW caught six blocking items, two of them real errors in the
+      first pass: §4 still quoted 43,500 while pointing at the rewritten
+      §2, and the replacement §2 sentence assigned a 1976-1983 bucket
+      and then denied anything happened after 1979. Also: a hand-typed
+      0.05% clip bound guarded by a 0.1% assertion, NA-permeable guards
+      that could have rendered "NA" into the paper, and a deposited
+      provenance file asserting numbers from a source deliberately
+      absent from the package. All fixed in the same PR.
+      STILL DEFERRED, on the series provenance: §2's "remained stable at
+      around 43,500 kilometers" for the Peronist period (accurate
+      against the series, unsourceable from the map, which has no 1947
+      information — now carries a footnote saying so) and the
+      1947-stands-for-1960 assumption (series confirms +0.84%).
+      Where §2's original "approximately 4,000" and "over 6,000" came
+      from is still open; Diego does not recall. The series suggests
+      4,000 is the 1960-1970 decline, which is hedged as suggestive in
+      the note, not asserted.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 

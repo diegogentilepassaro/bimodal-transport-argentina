@@ -508,6 +508,15 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_modern_iv_table11.", c("txt", "csv"))),
         makelog)
+
+    run_step("D.13n diagnostic_rail_km",
+             a("diagnostic_rail_km.R"),
+             "Rail kilometres and segment counts quoted in Sections 2 and 3",
+             makelog)
+    verify_outputs("D.13n",
+        file.path(dir_tables,
+                  paste0("diagnostic_rail_km.", c("txt", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
