@@ -15,7 +15,7 @@
 #          (chg_logMA_86_60_sX_elow), both instruments
 #          (chg_logMA_stu_sX_elow, chg_logMA_lcp_mst_sX_elow), and the
 #          baseline log-MA control (logMA_actual_1960_sX_elow). Geographic
-#          controls, baseline log population, theta (= 4.55), and HC1
+#          controls, baseline log population, theta (theta_low), and HC1
 #          standard errors are identical across rows.
 #
 #          The script also computes the cross-schedule correlations of

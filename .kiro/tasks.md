@@ -1327,10 +1327,12 @@ the verification record.
 
 Closed by Cote's 2026-07-24 email (implementation = PR #116 above):
 
-- [x] Theta 4.55 provenance — CLOSED: he does not recall the source;
-      4.55 declared a midpoint with Simonovska-Waugh ~4.1 cited
-      (adopting 4.1 as the computed θ would force a full MA/tau
-      recompute; not done). Decision A flag kept.
+- [x] Theta 4.55 provenance — CLOSED 2026-07-24: he does not recall
+      the source; 4.55 declared a midpoint with Simonovska-Waugh ~4.1
+      cited. SUPERSEDED 2026-09-17 (section 10): theta_low is now the
+      SW published benchmark 4.14, adopted on Cote's vote. The "would
+      force a full MA/tau recompute" worry was wrong — τ is θ-free, the
+      recompute is C.4 onward (~80 s). Decision A flag kept.
 - [x] Abstract wording sign-off — CLOSED for now ("me sirve como
       está por ahora"); Cote rewrites it himself at publication
       time, together with title/narrative.
@@ -1568,6 +1570,112 @@ and neither the build nor the test suite catches it. Treat every
 generated verdict string, every "this shows" sentence, and every
 statistic computed from a filtered subset as a claim to re-verify
 against its own source.
+
+### 10. Completed 2026-09-17, record
+Cote's reply to the 2026-07-29/30 emails arrived 2026-09-17 (decisions
+3.1, 3.4, 3.5 closed; 3.2/3.3 to a call; θ vote = Simonovska-Waugh;
+geocoding asks answered; three findings incl. the provincial 1960
+undercount). Diego green-lit five items plus the θ switch. θ went first
+because every other item regenerates Tables 7-12.
+- [x] PR-θ (feat/theta-simonovska-waugh) — theta_low 4.55 → 4.14.
+      SOURCE: Simonovska & Waugh (2014, JIE 92(1)) published benchmark,
+      Table 5 and abstract, exactly identified SMM on 2004 ICP data,
+      123 countries, SE 0.09 — read from the PDF Diego added to Related
+      Papers/. Three numbers were in circulation for "the SW value":
+      4.10 (their overidentified case; what D&H fn. 55 quotes and what
+      Cote and the old config comment said), 4.12 (the NBER revision
+      text), 4.14 (the published benchmark). Adopted 4.14. theta_high
+      8.11 (Caliendo-Parro agriculture) was already sourced; unchanged.
+      CODE: config.R is now the only file carrying either literal.
+      Forty-odd hardcoded 4.55s across ~20 scripts replaced. Pattern
+      for top-level constants that need theta before main() has
+      sourced config: keep the fixed grid points at top level and
+      splice theta in inside main() (sweeps), or wrap the pair in a
+      function called after config loads (thetas_run(),
+      placebo_objects()).
+      RERUN: C.4 → D.19 in main.R order (35 steps, ~80 s; τ is θ-free)
+      plus twelve θ-dependent on-demand diagnostics in fresh processes,
+      all exit 0, all anchor assertions hold. 207 of 281 scalar macros
+      moved (coefficients +10-15%).
+      TWO VERDICTS FLIPPED, both in the §5.1 MOP paragraph, both on
+      knife edges:
+        · Larkin alone: F_eff 23.28 vs cv10 23.11 — now PASSES the 10%
+          bias tolerance (was 22.64, failed). K=1 ⇒ B=1 ⇒ unconditional.
+        · Joint IV-B: F_eff 13.07 vs exact cv05 13.20 — now FAILS 5%
+          (was 13.11 vs 12.90, passed). Still passes exact cv10 8.86;
+          still fails conservative cv10 20.03.
+      §5.1 rewritten to the new facts. ⚠ BOTH EMAILS TO COTE (07-29
+      §2.3 and the 07-30 correction) stated the OLD verdicts ("Larkin
+      no llega, por poco"; "el conjunto pasa al 5%"). The 07-30 email's
+      structural point (B=1 for K=1 makes the Larkin verdict
+      unconditional; the joint verdict rides the bias-bound step) is
+      unchanged and now cuts the other way: at 10% the unconditional
+      verdict is the one that passes. This bears on decision 3.2 and
+      must be in the next email to him.
+      ALSO CAUGHT by the prose audit: (a) IV-Hypo AR sets are now 4
+      whole-line + 3 half-line (urban share, mfg value, wage mass); the
+      table note and §5.1 covered only the two-sided case — generalized,
+      and the two counts are macros (\arHypoWholeLine, \arHypoHalfLine)
+      not typed words. (b) §7 "F near 7" for the heterogeneity first
+      stage was ALREADY STALE at 4.55 (committed 8.3-9.5; now 8.6-9.7)
+      — a typed literal in prose, exactly the standing-caution failure;
+      now \heteroFMaMin/\heteroFMaMax. (c) Table 12 Panel A
+      "approximately half" → "less than half" (0.024/0.059 = 0.41).
+      (d) diagnostic_modern_iv_table11 asserted the migration IV-LP and
+      IV-H AR sets overlap; at 4.14 they are disjoint by 0.0003 — the
+      assertion did its job, the report now branches on the computed
+      bounds. (e) generate_scalars.R reads diagnostic_placebo_ma1947
+      and _table11 CSVs, so it must run AFTER those on-demand
+      diagnostics, not only as main.R step D.14; first pass had stale
+      \placeboMAwt* until rerun. Ordering hazard to remember.
+      Verified unchanged in status: placebo p 0.093 (10% not 5%), pop
+      p 0.091, every "significant at N percent" in §§4-8, Conley SEs
+      still sharpen the placebo, mechanism attenuation and F ordering,
+      sector-matched strengthening, sweep monotonicity. 27/27 Table
+      9/10 AR cells match diagnostic_modern_iv.csv.
+
+STALE AT θ=4.14, deliberately NOT rerun. An earlier version of this entry
+said "none feeds the paper; the only diagnostics the paper draws on are
+heterogeneity and the two θ sweeps" — WRONG, and the PR's own review
+caught it. generate_scalars.R reads six diagnostic CSVs (heterogeneity,
+both θ sweeps, modern_iv, mop_critical, ma_unimodal, plus
+modern_iv_table11 and placebo_ma1947, the last two now wired into main.R
+as D.13m/D.13l), and §8 prose cites the refpoint/urbancenter/connector
+diagnostics. The correct statement is narrower: none of the families
+below feeds a paper number, and each has a reason it was not rerun:
+  · draw-based families — recentering_{draws,results,treatments,
+    controls,grid,hypo_draws,hypo_results,hypo_curve}, roadseg_{draws,
+    results}, roadtiming_{draws,results}, fused_results. The draws store
+    logMA at θ, so regenerating means hours of Dijkstra; and the
+    *_results stages must NOT be rerun alone (they would mix a 4.14
+    estimation sample with 4.55 draws). Rerun as a set, on demand.
+  · τ-rebuilding variants — caba_node, ma_connector, ma_refpoint,
+    ma_urbancenter, ma_rail_firststage (~25 min each; the stored τ is
+    θ-free but the scripts are monolithic).
+  · ma_nofluvial: its inputs (ma_*_nofluvial_*) no longer exist; was not
+    runnable before this PR either.
+  ⚠ TWO §8 SENTENCES REST ON STALE DIAGNOSTICS, both flagged by the PR
+  #160 review, neither verified at 4.14:
+    · "re-anchoring market access at interior points or at each
+      district's largest settlement does not raise the estimate" —
+      rests on refpoint + urbancenter.
+    · "the hypothetical-road instrument is weak for total market access
+      once road connectors are re-costed" — rests on ma_connector. The
+      weakness itself IS confirmed at 4.14 (Table 8 F = 4.00); it is the
+      "once re-costed" qualifier that is unverified.
+  Direction almost certainly unchanged in both. Rerun before circulation
+  (~75 min for the three) or soften both sentences.
+Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
+identically) not run for this PR; stays on the pre-submission checklist.
+
+NEXT (green-lit, in order): housekeeping PR (robust F everywhere in
+Tables 8-10, Sargan p row in 9/10, #113 CABA wording); controls ladder
+(Table 12 Panel D + sectoral appendix ladder); population-free baseline
+control (unit weights on existing 1960 τ; the rail-only 1947-dated
+version is a Stage C item, propose after Cote confirms); quintile
+pre-trend dummies (sectoral outcomes; population case flagged for the
+pop60 shared-error mechanism); contamination-vs-treatment diagnostic
+once Cote sends the 23 provincial 1960 totals.
 
 ## CURRENT STATUS (updated after PR #104, 2026-07-17)
 
@@ -1967,7 +2075,7 @@ Remaining items not covered by the memo (most flagged in
    coauthors; the Conclusion states the remaining steps.
 3. ~~**Elasticity justification**~~ — superseded by memo Decision A (θ / τ object).
 4. ~~**Tau calculation**~~ — superseded by memo Decision B/A (connector re-cost, transshipment already screened in PR #66).
-5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.55) throughout.
+5. **Sector interpretation**: Confirmed sectors 0/1/2 = overall/agriculture/manufacturing in config.R. Block 1 uses sector 0 + θ_low (4.14 since 2026-09-17; was 4.55) throughout.
 6. **Pre-trends not clean null** — REOPENED 2026-07-27, see agenda item B. Was struck through as "superseded by memo Decision E" when the 1947-consistent spec looked like a clean null; PR #143 showed that reading does not hold. Published Table 7 numbers are OLS +0.0386** and IV-Both +0.0870** on the 237-district placebo subset (the old entry's 0.035/0.078 and "235 districts" were stale). Under the adopted pop47 spec: OLS +0.0275 (p=0.149), IV-Both +0.0839 (p=0.085) — a marginal rejection, not a clean null.
 7. ~~**Migration sign wrong-way**~~ — superseded by memo Decision E (carried unchanged; no new evidence).
 8. ~~**Hypo instrument is weak**~~ — superseded by memo Decision C (estimand) — the rail-vs-total-MA question replaces the two-instrument-vs-LP-only framing.

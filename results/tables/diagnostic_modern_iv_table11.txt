@@ -6,22 +6,22 @@ original pass skipped. All three IV specs shown: the
 instrument-dependence is the object of interest. AR sets are 
 valid regardless of instrument strength; MOP pass/fail is at 
 the stated Nagar-bias tolerance, alpha = 5%. 
-Generated: 2026-07-30 12:41:17 
+Generated: 2026-09-17 20:47:15 
 ==================================================================================================== 
  
 Outcome           Spec    K        beta       p   F_eff    cv10 MOP10  AR status      AR 95% set             
-college share     IV-LP   1    +0.00103   0.107    22.6    23.1 fail   covers 0       [-0.0003, 0.0024]      
-college share     IV-H    1    -0.00205   0.220     4.3    23.1 fail   covers 0       [-0.0477, 0.0005]      
-college share     IV-B    2    +0.00022   0.710    13.1     7.7 PASS   covers 0       [-0.0005, 0.0013]      
-secondary share   IV-LP   1    +0.00594   0.007    22.6    23.1 fail   excludes 0     [0.0019, 0.0114]       
-secondary share   IV-H    1    -0.01011   0.149     4.3    23.1 fail   excludes 0     [-0.2118, -0.0002]     
-secondary share   IV-B    2    +0.00175   0.422    13.1     8.0 PASS   EMPTY (overid) empty                  
-recent migration  IV-LP   1    -0.00660   0.518    22.6    23.1 fail   covers 0       [-0.0303, 0.0138]      
-recent migration  IV-H    1    -0.06421   0.029     4.3    23.1 fail   excludes 0     [-1.0796, -0.0297]     
-recent migration  IV-B    2    -0.02166   0.007    13.1     8.4 PASS   EMPTY (overid) empty                  
-employment rate   IV-LP   1    -0.01213   0.042    22.6    23.1 fail   excludes 0     [-0.0283, -0.0021]     
-employment rate   IV-H    1    -0.00755   0.487     4.3    23.1 fail   covers 0       [-0.1208, 0.0353]      
-employment rate   IV-B    2    -0.01094   0.032    13.1     7.5 PASS   excludes 0     [-0.0280, -0.0003]     
+college share     IV-LP   1    +0.00117   0.098    23.3    23.1 PASS   covers 0       [-0.0003, 0.0027]      
+college share     IV-H    1    -0.00243   0.219     4.0    23.1 fail   covers 0       [-0.1599, 0.0004]      
+college share     IV-B    2    +0.00027   0.687    13.1     7.9 PASS   covers 0       [-0.0004, 0.0014]      
+secondary share   IV-LP   1    +0.00667   0.006    23.3    23.1 PASS   excludes 0     [0.0022, 0.0126]       
+secondary share   IV-H    1    -0.01173   0.155     4.0    23.1 fail   excludes 0     [-0.6984, -0.0002]     
+secondary share   IV-B    2    +0.00206   0.399    13.1     8.2 PASS   EMPTY (overid) empty                  
+recent migration  IV-LP   1    -0.00763   0.500    23.3    23.1 PASS   covers 0       [-0.0339, 0.0148]      
+recent migration  IV-H    1    -0.07457   0.033     4.0    23.1 fail   excludes 0     [-3.5945, -0.0341]     
+recent migration  IV-B    2    -0.02440   0.007    13.1     8.5 PASS   EMPTY (overid) empty                  
+employment rate   IV-LP   1    -0.01366   0.037    23.3    23.1 PASS   excludes 0     [-0.0313, -0.0026]     
+employment rate   IV-H    1    -0.00904   0.468     4.0    23.1 fail   covers 0       [-0.3339, 0.0463]      
+employment rate   IV-B    2    -0.01250   0.028    13.1     7.7 PASS   excludes 0     [-0.0318, -0.0006]     
  
 Note: the first-stage columns (F_eff, cv) depend only on the 
 spec — all four outcomes share the same 311-district sample — 
@@ -30,17 +30,18 @@ spec, not four independent ones (asserted in code).
  
 An EMPTY AR set means the joint K=2 AR test rejects EVERY beta 
 at 5%: the two moment conditions cannot both hold. (Note the 
-individual AR sets can still overlap — for migration they do, 
-on [-0.0303, -0.0297] — so state this in joint-moment terms, 
-not as 'no beta is compatible with either instrument'.) An 
+individual AR sets can still overlap; for migration they do 
+NOT — the IV-LP lower bound -0.0339 sits above the IV-H upper bound 
+-0.0341, a gap of 0.0003 — so here the single-instrument sets 
+already disagree before the joint test is run.) An 
 empty set is NOT evidence of a precisely estimated effect. 
  
 OVERIDENTIFICATION, the decisive statistics (IV-B cells): 
 Outcome               Sargan p     robust J   robust J p      AR status 
-college share           0.0344        4.647       0.0311       covers 0 
-secondary share         0.0078        7.329       0.0068 EMPTY (overid) 
-recent migration        0.0056        6.304       0.0120 EMPTY (overid) 
-employment rate         0.7373        0.125       0.7236     excludes 0 
+college share           0.0290        4.861       0.0275       covers 0 
+secondary share         0.0071        7.283       0.0070 EMPTY (overid) 
+recent migration        0.0045        6.620       0.0101 EMPTY (overid) 
+employment rate         0.7657        0.098       0.7542     excludes 0 
  
 The robust J (= min over beta of the AR quadratic form, 
 chi2_{k-1}) is the apples-to-apples counterpart of the 
@@ -53,30 +54,30 @@ statistic has k-1 df, so the emptiness criterion is strictly
 more conservative. 
  
 Margins to keep in view: the EMPTY verdicts rest on largest- 
-AR-p of 0.044 (migration) and 0.027 (secondary) — genuine but 
+AR-p of 0.038 (migration) and 0.027 (secondary) — genuine but 
 close to the 5% threshold, so quote the Sargan / robust-J 
 values as the primary evidence and emptiness as corroboration. 
 (ar_maxp is a CONSERVATIVE overid p-value, not a robust-J 
 analogue; it is ~1 by construction for every K=1 cell.) 
  
 Reading notes (per outcome, the item-D relevant facts): 
-- college share    IV-LP +0.00103 (p=0.107) | IV-H -0.00205 (p=0.220) | IV-B +0.00022 (p=0.710) 
-                   AR: LP covers 0, H covers 0, B covers 0; Sargan p = 0.0344 
-- secondary share  IV-LP +0.00594 (p=0.007) | IV-H -0.01011 (p=0.149) | IV-B +0.00175 (p=0.422) 
-                   AR: LP excludes 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0078 
-- recent migration IV-LP -0.00660 (p=0.518) | IV-H -0.06421 (p=0.029) | IV-B -0.02166 (p=0.007) 
-                   AR: LP covers 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0056 
-- employment rate  IV-LP -0.01213 (p=0.042) | IV-H -0.00755 (p=0.487) | IV-B -0.01094 (p=0.032) 
-                   AR: LP excludes 0, H covers 0, B excludes 0; Sargan p = 0.7373 
+- college share    IV-LP +0.00117 (p=0.098) | IV-H -0.00243 (p=0.219) | IV-B +0.00027 (p=0.687) 
+                   AR: LP covers 0, H covers 0, B covers 0; Sargan p = 0.0290 
+- secondary share  IV-LP +0.00667 (p=0.006) | IV-H -0.01173 (p=0.155) | IV-B +0.00206 (p=0.399) 
+                   AR: LP excludes 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0071 
+- recent migration IV-LP -0.00763 (p=0.500) | IV-H -0.07457 (p=0.033) | IV-B -0.02440 (p=0.007) 
+                   AR: LP covers 0, H excludes 0, B EMPTY (overid); Sargan p = 0.0045 
+- employment rate  IV-LP -0.01366 (p=0.037) | IV-H -0.00904 (p=0.468) | IV-B -0.01250 (p=0.028) 
+                   AR: LP excludes 0, H covers 0, B excludes 0; Sargan p = 0.7657 
  
 How to read this for item D: 
 - A result is defensible when the STRONGER instrument (Larkin, 
-  F_eff 22.6 — passes MOP at tau = 20%, marginally fails at 
+  F_eff 23.3 — passes MOP at tau = 20%, marginally fails at 
   10%: cv 23.11) carries it, its AR set excludes zero, and the 
   overid test does not reject. 
 - A result is NOT defensible when it appears only in a spec 
   whose overid test rejects, or only under the hypothetical 
-  instrument (F_eff 4.3, MOP-fails at every tolerance). 
+  instrument (F_eff 4.0, MOP-fails at every tolerance). 
 - An overid rejection does not say WHICH moment fails. Given 
   the instrument-strength evidence, the natural reading is 
   that the hypothetical instrument is the suspect one — under 

@@ -1,6 +1,6 @@
 ==============================================================================
 THE 1960 POPULATION UNIVERSE MISMATCH: WHAT IS AND IS NOT SETTLED
-Generated: 2026-07-29 17:34:48
+Generated: 2026-09-17 15:07:19
 ==============================================================================
 
 PART 0 - THE MISMATCH
@@ -37,9 +37,9 @@ PART 1 - IS THE ERROR CORRELATED WITH THE INSTRUMENTS?
   RAW correlations (DESCRIPTION ONLY - see the conditional tests
   below, which are the evidence):
     target                           cov60  urbshr60
-    chg_logMA_86_60_s0_elow         -0.264    -0.124
-    chg_logMA_stu_s0_elow           +0.029    +0.098
-    chg_logMA_lcp_mst_s0_elow       -0.056    +0.034
+    chg_logMA_86_60_s0_elow         -0.265    -0.126
+    chg_logMA_stu_s0_elow           +0.033    +0.100
+    chg_logMA_lcp_mst_s0_elow       -0.059    +0.032
     chg_log_pop_91_60               -0.794    -0.253  <- IDENTITY, not evidence: pop_1960 sits in both
     dist_to_BA_std                  -0.453    -0.340
     urbshr_1960                     +0.429        NA
@@ -48,15 +48,15 @@ PART 1 - IS THE ERROR CORRELATED WITH THE INSTRUMENTS?
   Orthogonality has to hold after partialling out the controls the
   regression uses, not in raw data.
     proxy                      LP p     hypo p    joint p
-    growth_gap_70_60          0.918      0.425      0.724
-    cov60                     0.939      0.610      0.872
-    urbshr_1960               0.007      0.110      0.018
+    growth_gap_70_60          0.939      0.427      0.724
+    cov60                     0.915      0.612      0.869
+    urbshr_1960               0.006      0.110      0.017
 
     partial corr with the treatment (sign is what the stopping
     rule compares):
-      growth_gap_70_60     +0.138 (p=0.058)
-      cov60                -0.119 (p=0.065)
-      urbshr_1960          +0.069 (p=0.278)
+      growth_gap_70_60     +0.139 (p=0.059)
+      cov60                -0.119 (p=0.067)
+      urbshr_1960          +0.070 (p=0.272)
 
   VERDICT (rule fixed before the numbers): the two proxies DISAGREE in sign
   => THIS PART IS INCONCLUSIVE on whether the measurement error
@@ -69,10 +69,10 @@ PART 1 - IS THE ERROR CORRELATED WITH THE INSTRUMENTS?
 
   Headline population regression with c_i added as a control:
     spec             as published                  + c_i
-    OLS       +0.0247 (0.0123)    +0.0089 (0.0089)
-    IV-LP     +0.0456 (0.0399)    +0.0487 (0.0293)
-    IV-H      +0.0694 (0.0684)    +0.0422 (0.0599)
-    IV-B      +0.0518 (0.0311)    +0.0471 (0.0258)
+    OLS       +0.0282 (0.0139)    +0.0105 (0.0101)
+    IV-LP     +0.0516 (0.0443)    +0.0560 (0.0328)
+    IV-H      +0.0803 (0.0778)    +0.0490 (0.0687)
+    IV-B      +0.0588 (0.0347)    +0.0543 (0.0289)
   c_i IS A BAD CONTROL and this row is DESCRIPTIVE, not a
   measurement-error correction. Two reasons:
     (i) log(c_i) = -(log pop_1970 - log pop_1960) exactly (max abs
@@ -87,26 +87,26 @@ PART 1 - IS THE ERROR CORRELATED WITH THE INSTRUMENTS?
 
 PART 2 - OUTCOMES ON ONE UNIVERSE
   Outcome / window          Spec         beta        SE        p      N
-  pop_91_60_published       OLS       +0.0247    0.0123    0.046    311
-  pop_91_60_published       IV-LP     +0.0456    0.0399    0.254    311
-  pop_91_60_published       IV-H      +0.0694    0.0684    0.311    311
-  pop_91_60_published       IV-B      +0.0518    0.0311    0.096    311
-                            IV-H first-stage F = 6.9
-  pop_91_70_consistent      OLS       +0.0047    0.0087    0.593    311
-  pop_91_70_consistent      IV-LP     +0.0451    0.0297    0.130    311
-  pop_91_70_consistent      IV-H      +0.0151    0.0587    0.798    311
-  pop_91_70_consistent      IV-B      +0.0373    0.0271    0.170    311
-                            IV-H first-stage F = 6.9
-  urbshr_91_60_published    OLS       +0.0012    0.0054    0.820    311
-  urbshr_91_60_published    IV-LP     +0.0030    0.0178    0.868    311
-  urbshr_91_60_published    IV-H      -0.0260    0.0395    0.512    311
-  urbshr_91_60_published    IV-B      -0.0046    0.0159    0.773    311
-                            IV-H first-stage F = 6.9
-  urbshr_91_80_consistent   OLS       +0.0014    0.0018    0.457    311
-  urbshr_91_80_consistent   IV-LP     +0.0084    0.0065    0.198    311
-  urbshr_91_80_consistent   IV-H      -0.0065    0.0110    0.551    311
-  urbshr_91_80_consistent   IV-B      +0.0045    0.0055    0.416    311
-                            IV-H first-stage F = 6.9
+  pop_91_60_published       OLS       +0.0282    0.0139    0.043    311
+  pop_91_60_published       IV-LP     +0.0516    0.0443    0.245    311
+  pop_91_60_published       IV-H      +0.0803    0.0778    0.303    311
+  pop_91_60_published       IV-B      +0.0588    0.0347    0.091    311
+                            IV-H first-stage F = 6.7
+  pop_91_70_consistent      OLS       +0.0057    0.0099    0.568    311
+  pop_91_70_consistent      IV-LP     +0.0519    0.0332    0.120    311
+  pop_91_70_consistent      IV-H      +0.0181    0.0677    0.789    311
+  pop_91_70_consistent      IV-B      +0.0434    0.0305    0.156    311
+                            IV-H first-stage F = 6.7
+  urbshr_91_60_published    OLS       +0.0013    0.0060    0.834    311
+  urbshr_91_60_published    IV-LP     +0.0036    0.0195    0.855    311
+  urbshr_91_60_published    IV-H      -0.0301    0.0453    0.507    311
+  urbshr_91_60_published    IV-B      -0.0049    0.0176    0.783    311
+                            IV-H first-stage F = 6.7
+  urbshr_91_80_consistent   OLS       +0.0015    0.0020    0.475    311
+  urbshr_91_80_consistent   IV-LP     +0.0094    0.0072    0.196    311
+  urbshr_91_80_consistent   IV-H      -0.0072    0.0124    0.561    311
+  urbshr_91_80_consistent   IV-B      +0.0052    0.0062    0.397    311
+                            IV-H first-stage F = 6.7
 
   MISALIGNMENT, an alternative explanation for these rows: the
   treatment is the 1960-86 market-access change, so a 1970 or 1980

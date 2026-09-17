@@ -28,7 +28,7 @@
 # NAMING CONVENTION:
 #   logMA_<case>_<s>_<e>
 #     s0/s1/s2 = overall / agricultural / manufacturing
-#     elow/ehigh = θ = 4.55 / 8.11
+#     elow/ehigh = θ_low / θ_high as set in config.R
 #   chg_logMA_<timing>_<s>_<e>
 #     86_60   = actual_1986 − actual_1960 (main treatment variable)
 #     stu     = instrument_stu − actual_1960 (Larkin-plan instrument)
@@ -234,7 +234,8 @@ save_and_manifest <- function(panel) {
       "\n",
       "  Sector labels: s0 = overall (medium density); s1 = agricultural\n",
       "  (high density); s2 = manufacturing (low density).\n",
-      "  Elasticity labels: elow = θ = 4.55; ehigh = θ = 8.11.\n",
+      sprintf("  Elasticity labels: elow = θ = %s; ehigh = θ = %s.\n",
+              format(theta[["low"]]), format(theta[["high"]])),
       "\n",
       "  Tierra del Fuego districts (32094001, 32094002) are NA in all\n",
       "  land-only logMA columns (actual_*, instrument_stu) because they\n",

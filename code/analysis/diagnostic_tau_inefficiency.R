@@ -30,7 +30,7 @@
 #   treatment + both instrument deltas, run the Table 9/10 spec for
 #   SIX outcomes (population + five sectoral), IV-Both AND IV-LP with
 #   first-stage Fs (the A x C interaction is the meeting question).
-#   theta = 4.55 and 8.22. Baseline logMA control = the 1b-object 1960
+#   theta = theta_low (config.R) and 8.22 (D&H). Baseline logMA control = the 1b-object 1960
 #   logMA (internal consistency, as the iceberg diagnostics).
 #
 # VERIFICATION (asserted in code, row-count-guarded):
@@ -62,7 +62,9 @@ suppressPackageStartupMessages({
 })
 
 CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
-THETAS <- c(4.55, 8.22)
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R; the pair is
+# assembled in a function so it is read after config is sourced.
+thetas_run <- function() c(theta[["low"]], theta_dh)
 
 OUTCOMES <- list(
     list(var = "chg_log_pop_91_60",        lab = "population"),
@@ -102,7 +104,7 @@ main <- function() {
 
     rows <- list()
     desc <- list()
-    for (th in THETAS) {
+    for (th in thetas_run()) {
         res <- run_theta(th, sym, est, ctrls)
         rows[[length(rows) + 1L]] <- res$rows
         desc[[length(desc) + 1L]] <- res$desc
@@ -241,9 +243,10 @@ run_theta <- function(th, sym, est, ctrls) {
 # Verification (construction-level; no raw-anchor nesting exists for 1b)
 # ---------------------------------------------------------------------------
 verify <- function(df) {
-    stopifnot(nrow(df) == length(THETAS) * length(OUTCOMES))
-    n_by_out <- df$n_obs[df$theta == THETAS[1]]
-    names(n_by_out) <- df$outcome[df$theta == THETAS[1]]
+    thetas <- thetas_run()
+    stopifnot(nrow(df) == length(thetas) * length(OUTCOMES))
+    n_by_out <- df$n_obs[df$theta == thetas[1]]
+    names(n_by_out) <- df$outcome[df$theta == thetas[1]]
     expect <- c(chg_log_pop_91_60 = 311L, chg_log_valprod_85_54 = 310L,
                 chg_log_massal_85_54 = 309L, chg_log_nestab_85_54 = 310L,
                 chg_log_nexp_88_60 = 297L, chg_log_areatot_ha_88_60 = 297L)

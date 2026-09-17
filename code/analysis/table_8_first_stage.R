@@ -155,22 +155,31 @@ main <- function() {
         stars     = c('*' = .1, '**' = .05, '***' = .01),
         escape    = FALSE,
         add_rows  = footer,
-        title     = "First stage: instrument strength",
-        notes     = paste(
-            "Dependent variable: $\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
-            "(sector $s=0$, $\\theta=4.55$).",
-            "Robust (HC1) standard errors in parentheses.",
-            "All columns include baseline log MA, baseline log population,",
-            "and the six standardized geographic controls",
-            "(elevation, ruggedness, wheat suitability, pre- and post-1500",
-            "caloric potential, distance to Buenos Aires).",
-            f_rows_note(classical_row_is_robust = TRUE),
-            "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."
-        )
+        title     = "First stage: instrument strength"
+    )
+    # The note goes through add_table_note(), the same path as Tables 9
+    # and 10, not modelsummary's `notes=`. That path strips backslashes
+    # from the note text (the emitted .tex read "$Delta ln mathrm{MA}$"
+    # and "Section~ref{sec:first_stage}"), and the bare underscore in
+    # the un-backslashed \ref argument then raised four "Missing $
+    # inserted" LaTeX errors on every compile. pdflatex recovers and
+    # still writes the PDF, so the errors only show up when the log is
+    # grepped for "^!"; found during the theta_low = 4.14 recompile.
+    note <- paste(
+        "Dependent variable: $\\Delta \\ln \\mathrm{MA}^{\\mathrm{full}}$",
+        sprintf("(sector $s=0$, $\\theta=%s$).", format(theta[["low"]])),
+        "Robust (HC1) standard errors in parentheses.",
+        "All columns include baseline log MA, baseline log population,",
+        "and the six standardized geographic controls",
+        "(elevation, ruggedness, wheat suitability, pre- and post-1500",
+        "caloric potential, distance to Buenos Aires).",
+        f_rows_note(classical_row_is_robust = TRUE),
+        "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."
     )
 
     out_tex <- file.path(dir_tables, "table_8_first_stage.tex")
     tbl_txt <- inject_first_label(as.character(tbl), "tab:first_stage")
+    tbl_txt <- add_table_note(tbl_txt, note)
     writeLines(tbl_txt, out_tex)
     message("Saved: ", out_tex)
 

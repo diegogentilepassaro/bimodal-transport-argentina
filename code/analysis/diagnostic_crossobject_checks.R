@@ -11,7 +11,8 @@
 #     standardized geo + log pop 1947 + the baseline MA. PR #120's
 #     ledger entry says "revisit after each MA-definition change", and
 #     Decision A may still change the MA definition. Rows: raw anchor
-#     (theta 4.55; must reproduce the committed pop47 numbers exactly),
+#     (theta_low from config.R; must reproduce the committed pop47
+#     numbers exactly),
 #     decay theta = 0.5, iceberg V = 4,400 and 20,000 pesos/ton at
 #     theta 8.22, and the route-inefficiency object at both thetas.
 #
@@ -85,14 +86,23 @@ suppressPackageStartupMessages({
 
 CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
 
-PLACEBO_OBJECTS <- list(
-    list(id = "raw (anchor)",    kind = "raw",     theta = 4.55, V = NA),
-    list(id = "decay th=0.5",    kind = "raw",     theta = 0.50, V = NA),
-    list(id = "iceberg V=4400",  kind = "iceberg", theta = 8.22, V = 4400),
-    list(id = "iceberg V=20000", kind = "iceberg", theta = 8.22, V = 20000),
-    list(id = "ineff th=4.55",   kind = "ineff",   theta = 4.55, V = NA),
-    list(id = "ineff th=8.22",   kind = "ineff",   theta = 8.22, V = NA)
-)
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R, so the
+# object list is assembled in a function, called after config is sourced,
+# rather than at load time.
+placebo_objects <- function() {
+    th_low <- theta[["low"]]
+    THETA_DH <- theta_dh
+    list(
+        list(id = "raw (anchor)",    kind = "raw",     theta = th_low,   V = NA),
+        list(id = "decay th=0.5",    kind = "raw",     theta = 0.50,     V = NA),
+        list(id = "iceberg V=4400",  kind = "iceberg", theta = THETA_DH, V = 4400),
+        list(id = "iceberg V=20000", kind = "iceberg", theta = THETA_DH, V = 20000),
+        list(id = sprintf("ineff th=%s", format(th_low)),
+                                     kind = "ineff",   theta = th_low,   V = NA),
+        list(id = sprintf("ineff th=%s", format(THETA_DH)),
+                                     kind = "ineff",   theta = THETA_DH, V = NA)
+    )
+}
 
 DECAY_GRID <- c(0.25, 0.50, 0.75)
 
@@ -169,7 +179,7 @@ ma_deltas <- function(obj, sym, dist_df) {
 run_placebo <- function(sym, dist_df, est, geo6) {
     y <- "chg_log_placebo_pop_60_47"
     rows <- list()
-    for (obj in PLACEBO_OBJECTS) {
+    for (obj in placebo_objects()) {
         ma <- ma_deltas(obj, sym, dist_df)
         m  <- merge(est, ma, by = "geolev2", all.x = FALSE)
         stopifnot(nrow(m) == nrow(est))

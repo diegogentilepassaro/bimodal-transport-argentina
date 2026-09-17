@@ -16,7 +16,7 @@
 #          schedule: treatment (chg_logMA_86_60_sX_elow), both
 #          instruments (chg_logMA_stu_sX_elow, chg_logMA_lcp_mst_sX_elow),
 #          and the baseline log-MA control (logMA_actual_1960_sX_elow).
-#          Other controls, theta (= 4.55), and HC1 SE identical to
+#          Other controls, theta (theta_low), and HC1 SE identical to
 #          Table 10, whose baseline-schedule (s0) estimates are the
 #          comparison the prose quotes.
 #

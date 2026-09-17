@@ -30,11 +30,11 @@
 #   log pop 1960. HC1.
 #
 # GRID: same as diagnostic_ma_iceberg.R — raw (V->0) anchor + V in
-#   {100, ..., 100000} pesos/ton; theta 8.22 (D&H headline) and 4.55
-#   (continuity).
+#   {100, ..., 100000} pesos/ton; theta 8.22 (D&H headline) and theta_low
+#   from config.R (continuity).
 #
 # VERIFICATION (asserted in code):
-#   - Raw anchor at theta 4.55 must reproduce Table 10's committed
+#   - Raw anchor at theta_low must reproduce Table 10's committed
 #     IV-B estimates exactly (results/tables/table_10_sectoral_iv.csv),
 #     and the population row must reproduce Table 9's IV-B.
 #   - The population rows must match diagnostic_ma_iceberg.csv's IV-B
@@ -60,7 +60,9 @@ suppressPackageStartupMessages({
 
 CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
 V_GRID_PESOS <- c(100, 500, 1000, 2000, 4400, 10000, 20000, 50000, 100000)
-THETAS <- c(4.55, 8.22)
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R; the pair is
+# assembled in a function so it is read after config is sourced.
+thetas_run <- function() c(theta[["low"]], theta_dh)
 
 OUTCOMES <- list(
     list(var = "chg_log_pop_91_60",        lab = "population"),
@@ -88,7 +90,7 @@ main <- function() {
     ctrls <- c(geo_ctrls, "logMA_iceberg_1960", "log_pop_1960")
 
     rows <- list()
-    for (th in THETAS) {
+    for (th in thetas_run()) {
         rows[[length(rows) + 1L]] <-
             run_one(th, V_pesos = 0, sym, est, ctrls, raw_anchor = TRUE)
         for (v in V_GRID_PESOS) {
@@ -217,7 +219,7 @@ verify <- function(df) {
     # (3) Population rows match diagnostic_ma_iceberg.csv at every (theta, V)
     ib <- read.csv(file.path(dir_tables, "diagnostic_ma_iceberg.csv"))
     pop <- df[df$outcome == "chg_log_pop_91_60", ]
-    n_cells <- length(THETAS) * (length(V_GRID_PESOS) + 1L)
+    n_cells <- length(thetas_run()) * (length(V_GRID_PESOS) + 1L)
     stopifnot(nrow(pop) == n_cells)
     chk <- merge(pop,
                  ib[, c("theta", "V_pesos", "ivb_beta", "ivb_se",

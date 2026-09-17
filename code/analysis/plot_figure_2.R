@@ -3,7 +3,7 @@
 #
 # PURPOSE: Paper's Figure 2 — district-level choropleth of the main
 #          treatment variable Δlog MA (actual 1986 − actual 1960),
-#          sector 0 (overall), θ_low = 4.55.
+#          sector 0 (overall), θ_low from config.R.
 #
 # READS:
 #   data/derived/05_panel/departments_wide_panel.parquet  (chg_logMA)

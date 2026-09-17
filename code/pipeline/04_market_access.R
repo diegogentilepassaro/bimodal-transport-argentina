@@ -10,7 +10,7 @@
 #
 # PRODUCES:
 #   data/derived/04_market_access/ma_<case>_<elas>.parquet
-#       where <elas> ∈ {elow, ehigh} identifies θ = 4.55 vs 8.11.
+#       where <elas> ∈ {elow, ehigh} identifies θ_low vs θ_high (config.R).
 #       Columns: geolev2 (chr, key), MA (num), logMA (num).
 #
 # FORMULA:
@@ -28,7 +28,7 @@
 #     Districts missing from the census file (none currently) would
 #     enter with pop = 0; the defensive NA -> 0 below keeps that
 #     behavior explicit.
-#   - theta: both θ_low = 4.55 and θ_high = 8.11 are computed in one pass,
+#   - theta: both θ_low and θ_high (config.R) are computed in one pass,
 #     yielding two output files per case.
 #   - Inf tau (disconnected pair) contributes exactly 0 to the sum since
 #     1/Inf^θ = 0.

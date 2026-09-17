@@ -483,6 +483,31 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_mop_critical.", c("txt", "csv"))),
         makelog)
+
+    # D.13l and D.13m were on-demand diagnostics until the PR #160 fix
+    # pass. They are wired in because generate_scalars.R (D.14) READS
+    # their CSVs: on a cold run from an empty results/ the macros
+    # \placeboMAwt*, \migrationAR* and the robust-J p-values would be
+    # undefined and the paper would not compile. AEA requires the package
+    # to run end to end with no manual step, so anything the paper's
+    # macros depend on has to be in main.R.
+    run_step("D.13l diagnostic_placebo_ma1947",
+             a("diagnostic_placebo_ma1947.R"),
+             "Placebo under a 1947-weighted baseline MA control",
+             makelog)
+    verify_outputs("D.13l",
+        file.path(dir_tables,
+                  paste0("diagnostic_placebo_ma1947.", c("txt", "csv"))),
+        makelog)
+
+    run_step("D.13m diagnostic_modern_iv_table11",
+             a("diagnostic_modern_iv_table11.R"),
+             "Robust J, AR sets and MOP check for the Table 11 outcomes",
+             makelog)
+    verify_outputs("D.13m",
+        file.path(dir_tables,
+                  paste0("diagnostic_modern_iv_table11.", c("txt", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),

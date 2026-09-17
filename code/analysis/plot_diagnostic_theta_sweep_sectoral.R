@@ -25,8 +25,8 @@
 #   - One panel per outcome (3x2 grid), independent y per panel so each
 #     panel's significance shape is legible despite very different scales.
 #   - 95% CI band = beta +/- 1.96 * SE (HC1), drawn as a shaded polygon.
-#   - Horizontal line at 0; vertical dashed line at theta = 4.55 (main),
-#     dotted at theta = 8.11 (alt).
+#   - Horizontal line at 0; vertical dashed line at theta_low (main),
+#     dotted at theta_high (alt), both read from config.R.
 #   - Gibbons ~0.3 is a POPULATION benchmark, not sectoral, so it is noted
 #     in the caption rather than drawn across every panel.
 # ===========================================================================
@@ -80,7 +80,8 @@ draw_panels <- function(d, outcome_levels) {
 
     mtext("Sectoral elasticity vs theta (IV-Both, 95% CI)",
           outer = TRUE, side = 3, cex = 0.95, font = 2)
-    mtext(paste("Dashed = main theta (4.55), dotted = alt (8.11).",
+    mtext(paste(sprintf("Dashed = main theta (%s), dotted = alt (%s).",
+                        format(theta[["low"]]), format(theta[["high"]])),
                 "HC1 SE. Population benchmark Gibbons ~0.3."),
           outer = TRUE, side = 1, cex = 0.7, col = "grey40", line = 1)
 }
@@ -94,8 +95,8 @@ draw_one <- function(di, oc) {
             col = grDevices::adjustcolor("#2166ac", alpha.f = 0.18),
             border = NA)
     abline(h = 0, col = "grey60", lwd = 0.8)
-    abline(v = 4.55, lty = 2, col = "grey50")
-    abline(v = 8.11, lty = 3, col = "grey50")
+    abline(v = theta[["low"]], lty = 2, col = "grey50")
+    abline(v = theta[["high"]], lty = 3, col = "grey50")
     lines(di$theta, di$beta, col = "#2166ac", lwd = 1.6)
     points(di$theta, di$beta, col = "#2166ac", pch = 19, cex = 0.7)
 }

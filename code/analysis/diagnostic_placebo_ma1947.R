@@ -544,7 +544,7 @@ main <- function() {
     census60 <- data.frame(geolev2 = census60$geolev2,
                            pop = as.numeric(census60$pop))
 
-    th   <- theta[["low"]]     # 4.55, matches logMA_actual_1960_s0_elow
+    th   <- theta[["low"]]     # matches logMA_actual_1960_s0_elow
     gate <- gate_pipeline(tau, census60, th, d)
     caba_id <- setdiff(gate$ma_full$geolev2, d$geolev2)
     stopifnot(length(caba_id) == 1L)

@@ -1,5 +1,18 @@
 # Theta: what the benchmarks use, and what ours means
 
+**Status update 2026-09-17.** theta_low is now 4.14, the Simonovska &
+Waugh (2014, JIE) published benchmark (Table 5, SE 0.09), adopted on
+Cote's vote after his 2026-09-17 email. The "4.10" quoted below from D&H
+footnote 55 is SW's overidentified estimate; their exactly identified
+benchmark, which is the number they state in the abstract, is 4.14 (the
+NBER revision said 4.12). The historical text below, including the
+sweep table and every "4.55", is left as written: it records why 4.55
+was questioned and is still the right analysis of the theta/tau object
+question (memo Decision A), which citing a source for theta_low does not
+resolve. The regenerated sweep at the new grid is in
+results/tables/diagnostic_theta_sweep.csv; the theta_low row is now
+4.14 (IV-Both 0.059, F 16.5).
+
 Research note prompted by Cote's review and the theta sweep (PR #67).
 Question: our main-spec elasticity (0.046) is far below Gibbons et al.
 2024 (~0.3). The sweep shows the elasticity is highly sensitive to theta

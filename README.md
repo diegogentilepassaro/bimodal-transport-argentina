@@ -143,7 +143,7 @@ geographic rasters.
 ## Description of Programs
 
 - `code/config.R` — all paths (rooted via `here::here()`), parameters
-  (θ = 4.55/8.11, Baumgartner–Palazzo cost vectors), and main-spec constants.
+  (θ = 4.14/8.11, Baumgartner–Palazzo cost vectors), and main-spec constants.
 - `code/00_setup.R` — environment restore, directory creation.
 - `code/main.R` — master script; four stages, each step wrapped in
   `run_step()` (START/END logging) with `verify_outputs()` assertions:

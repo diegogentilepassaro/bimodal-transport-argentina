@@ -13,7 +13,7 @@
 #   REUSES the existing transition grids (no raster rebuild). Only the
 #   point set fed to gdistance::costDistance changes. ~6 min per case.
 #
-# CASES re-extracted (sector 0, theta 4.55 + 8.11):
+# CASES re-extracted (sector 0, theta_low + theta_high from config.R):
 #   actual_1960, actual_1986        -> main treatment Δlog MA
 #   instrument_stu, instrument_lcp_mst -> the two main instruments
 #

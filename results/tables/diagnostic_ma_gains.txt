@@ -1,13 +1,13 @@
 ====================================================================== 
 MA GAINS DIAGNOSTIC  (Cote review P2 / C28 / Bloque 1) 
-Generated: 2026-05-30 10:21:50 
+Generated: 2026-09-17 15:07:55 
 ====================================================================== 
 
-[1] MA CHANGE 1960->1986 (sector 0, theta=4.55) 
-    N districts:        312 
+[1] MA CHANGE 1960->1986 (sector 0, theta=4.14) 
+    N districts:        311 
     Share gaining (>0):  91.0% 
     Share losing (<0):   9.0% 
-    mean=1.559  median=0.639  sd=2.483  min=-7.176  max=9.580 
+    mean=1.349  median=0.548  sd=2.180  min=-6.864  max=8.632 
 
 [2] PAIRWISE TRANSPORT-COST (tau) CHANGES, 1960 -> 1986 
     O-D pairs with finite tau both years: 48516 
@@ -17,19 +17,19 @@ Generated: 2026-05-30 10:21:50
     tau-ratio quantiles: p5=0.26 p25=0.55 p50=0.80 p75=0.95 p95=1.04 
 
 [3] MA GAIN vs LOCAL ROAD DENSIFICATION (C16: centroid+HMI) 
-    cor(dlogMA, d road km) = 0.279   (N=309) 
+    cor(dlogMA, d road km) = 0.281   (N=308) 
     If high & positive: MA gain tracks LOCAL road building, 
     consistent with the centroid+HMI off-network channel inflating 
     MA where roads densify near the district reference point. 
 
 [4] MA GAIN vs DISTANCE TO BUENOS AIRES (C28: fluvial/BA corridor) 
-    cor(dlogMA, dist_to_BA) = 0.268   (N=312) 
+    cor(dlogMA, dist_to_BA) = 0.267   (N=311) 
     Negative => districts FAR from BA gain LESS; near gain more. 
 
 [5] THE 28 DISTRICTS THAT LOSE MA 
-    mean dist_to_BA, losers:  518.677  (vs 668.644 all) 
-    mean d road km, losers:   123.8  (vs 169.3 all) 
-    mean d rail km, losers:   -79.8  (vs -30.4 all) 
+    mean dist_to_BA, losers:  494.931  (vs 670.745 all) 
+    mean d road km, losers:   127.1  (vs 169.8 all) 
+    mean d rail km, losers:   -83.3  (vs -30.5 all) 
 
 ====================================================================== 
 INTERPRETATION GUIDE (for the meeting) 

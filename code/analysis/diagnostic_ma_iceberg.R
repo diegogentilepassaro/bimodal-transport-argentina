@@ -33,8 +33,9 @@
 #     fit_iv_quad (OLS / IV-LP / IV-H / IV-B, HC1), with the baseline
 #     log-MA control replaced by the V-SPECIFIC 1960 log MA for internal
 #     consistency (raw-tau baseline would mix objects).
-#   - theta: 8.22 (D&H preferred, the headline) and 4.55 (main-spec
-#     continuity column). V -> 0 anchor = raw tau at the same theta
+#   - theta: 8.22 (D&H preferred, the headline) and theta_low from
+#     config.R (main-spec continuity column). V -> 0 anchor = raw tau at
+#     the same theta
 #     (affine ~ pure rescale there, which cancels in logs). V -> Inf is
 #     analytic: tau' -> 1, Delta log MA -> 0 for every district, no
 #     regression exists; reported as a note, not a row.
@@ -81,7 +82,9 @@ CASES <- c("actual_1960", "actual_1986", "instrument_stu", "instrument_lcp_mst")
 # on each side; 4400 ~ the median raw tau in pesos/ton.
 V_GRID_PESOS <- c(100, 500, 1000, 2000, 4400, 10000, 20000, 50000, 100000)
 
-THETAS <- c(4.55, 8.22)
+# theta_dh (Donaldson & Hornbeck) and theta come from config.R; the pair is
+# assembled in a function so it is read after config is sourced.
+thetas_run <- function() c(theta[["low"]], theta_dh)
 
 main <- function() {
     source(file.path(here::here(), "code", "config.R"), echo = FALSE)
@@ -110,7 +113,7 @@ main <- function() {
 
     # ---- Sweep ----------------------------------------------------------
     rows <- list()
-    for (th in THETAS) {
+    for (th in thetas_run()) {
         # V -> 0 anchor: raw tau at this theta (scale cancels in logs)
         rows[[length(rows) + 1L]] <-
             run_one(th, V_pesos = 0, sym, tau60_pairs, est, ctrls,

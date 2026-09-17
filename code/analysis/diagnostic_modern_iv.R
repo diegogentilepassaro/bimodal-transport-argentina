@@ -175,6 +175,15 @@ run_cell <- function(cell, est, endog, instrs, lp_instr, hypo_instr) {
         ar_p_at_0   = ar$p0,
         ar_set      = ar$print,
         ar_bounded  = ar$bounded,
+        # Endpoints as numbers (NA when the set is not a bounded interval)
+        # and the analytic boundedness inputs, added in the PR #160 fix
+        # pass so that downstream consumers read the bounds instead of
+        # parsing ar_set, and so the shape verdict is auditable from the
+        # CSV: bounded iff ar_tail_F > ar_tail_cv.
+        ar_lo       = ar$lo,
+        ar_hi       = ar$hi,
+        ar_tail_F   = ar$tail_F,
+        ar_tail_cv  = ar$tail_cv,
         stringsAsFactors = FALSE
     )
 }
