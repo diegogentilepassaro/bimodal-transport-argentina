@@ -415,17 +415,34 @@ write_outputs <- function(df) {
     # drifted from the AR bounds actually reported above (it read
     # -0.0294 against an IV-H upper bound of -0.0297). Computed from the
     # numeric bounds now so it cannot drift again (cr-review PR #141).
+    # Whether the two single-instrument sets overlap at all is itself
+    # theta-dependent (at theta_low = 4.55 they overlapped; at 4.14 they
+    # do not, by 0.0002), so the sentence below is written from the
+    # computed bounds rather than asserting overlap.
     mig_lp <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-LP", ]
     mig_h  <- df[df$outcome == "chg_mig5_91_70" & df$spec == "IV-H", ]
     ov_lo  <- max(mig_lp$ar_lo, mig_h$ar_lo)
     ov_hi  <- min(mig_lp$ar_hi, mig_h$ar_hi)
-    stopifnot(!is.na(ov_lo), !is.na(ov_hi), ov_lo < ov_hi)
+    stopifnot(!is.na(ov_lo), !is.na(ov_hi))
     wline("An EMPTY AR set means the joint K=2 AR test rejects EVERY beta")
     wline("at 5%%: the two moment conditions cannot both hold. (Note the")
-    wline("individual AR sets can still overlap — for migration they do,")
-    wline("on [%.4f, %.4f] — so state this in joint-moment terms,",
-          ov_lo, ov_hi)
-    wline("not as 'no beta is compatible with either instrument'.) An")
+    if (ov_lo < ov_hi) {
+        wline("individual AR sets can still overlap — for migration they do,")
+        wline("on [%.4f, %.4f] — so state this in joint-moment terms,",
+              ov_lo, ov_hi)
+        wline("not as 'no beta is compatible with either instrument'.) An")
+    } else {
+        # Disjoint: the larger lower bound (ov_lo) sits above the smaller
+        # upper bound (ov_hi). Name which spec each belongs to.
+        lo_spec <- if (mig_lp$ar_lo >= mig_h$ar_lo) "IV-LP" else "IV-H"
+        hi_spec <- if (mig_lp$ar_hi <= mig_h$ar_hi) "IV-LP" else "IV-H"
+        wline("individual AR sets can still overlap; for migration they do")
+        wline("NOT — the %s lower bound %.4f sits above the %s upper bound",
+              lo_spec, ov_lo, hi_spec)
+        wline("%.4f, a gap of %.4f — so here the single-instrument sets",
+              ov_hi, ov_lo - ov_hi)
+        wline("already disagree before the joint test is run.) An")
+    }
     wline("empty set is NOT evidence of a precisely estimated effect.")
     wline("")
     wline("OVERIDENTIFICATION, the decisive statistics (IV-B cells):")
