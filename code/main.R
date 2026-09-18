@@ -543,8 +543,11 @@ stage_d_analysis <- function(makelog) {
                    "depend on the baselines entering linearly?"),
              makelog)
     verify_outputs("D.13p",
-        file.path(dir_tables,
-                  paste0("diagnostic_pretrend_quintiles.", c("txt", "csv"))),
+        c(file.path(dir_tables,
+                    paste0("diagnostic_pretrend_quintiles.",
+                           c("txt", "csv"))),
+          file.path(dir_tables,
+                    "diagnostic_pretrend_quintiles_tests.csv")),
         makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
