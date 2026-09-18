@@ -1677,11 +1677,61 @@ below feeds a paper number, and each has a reason it was not rerun:
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 
-NEXT (green-lit, in order): quintile pre-trend dummies (sectoral
-outcomes; population case flagged for the pop60 shared-error mechanism);
-full `R CMD BATCH main.R`; contamination-vs-treatment diagnostic once
-Cote sends the 23 provincial 1960 totals. The rail-only 1947-dated
-baseline variant remains a Stage C item, to propose after Cote confirms.
+NEXT (green-lit, in order): full `R CMD BATCH main.R`;
+contamination-vs-treatment diagnostic once Cote sends the 23 provincial
+1960 totals. The rail-only 1947-dated baseline variant remains a Stage C
+item, to propose after Cote confirms.
+
+- [x] PR #165 (analysis/pretrend-quintiles) — coauthor request: do the
+      results depend on the baseline controls entering LINEARLY? Replaces
+      a linear baseline level with dummies for its quintiles, so
+      convergence is absorbed flexibly. DIAGNOSTIC ONLY.
+      READING CONFIRMED BY DIEGO as quintiles of a BASELINE LEVEL, not of
+      the pre-trend. That removed the design problem the plan was built
+      around: both baselines are complete on all 311 districts, so the
+      form changes without the sample changing, and no
+      selection-vs-form decomposition is needed. Asserted, not assumed:
+      N is constant across the four specifications within every outcome.
+      FOUR SPECS per outcome: C0 both baselines linear (the published
+      spec), C1 quintiles of baseline log MA, C2 quintiles of baseline log
+      pop, C3 quintiles of both additively. All three combinations are
+      reported because there are two baseline controls and 4 df each
+      against N = 311 is cheap. Bins cut once on the full sample so they
+      are the same object across outcomes; cells 62-63 each.
+      ⚠ THE RESULT, AND IT IS SUBSTANTIVE. The two manufacturing outcomes
+      that carry the paper's sectoral claim DO NOT MOVE: production value
+      −1% under C1 and −5% under C3, wage mass −6% and −13%. Neither
+      depends on linearity.
+      Two outcomes DO move, and differently, so the two baselines are not
+      interchangeable: manufacturing establishments −68% under C1 but only
+      −8% under C2, so it turns on baseline-MA linearity; TOTAL POPULATION
+      moves under both, −42% (C1), −55% (C2), −74% (C3), from +0.059 to
+      +0.034 under C1 alone.
+      C1 IS THE CELL FOR COTE: it is the only one of the three that
+      carries none of the pop60 objection, since it bins on baseline MA
+      rather than on the mismeasured log_pop_1960. The paper already
+      reports the population elasticity as not distinguishable from zero;
+      under C1 it is smaller still. Consistent with
+      baseline_ma_control_note.md, which records that including baseline
+      log MA roughly doubles that coefficient — relaxing its functional
+      form gives back a good part of it.
+      INSTRUMENT STRENGTH IS NOT THE EXPLANATION: the IV-Both robust F
+      spans 12.59 to 17.29 across all 24 cells and rises about as often as
+      it falls, so the movements are not a weak-instrument artifact. An
+      earlier draft of the output asserted the F "is expected to fall",
+      which its own numbers contradicted; corrected before commit.
+      POPULATION BLOCK FLAGGED, NOT OMITTED: C2 and C3 bin on
+      log_pop_1960, which carries the locality-universe error and is also
+      the initial level inside chg_log_pop_91_60, so binning misassigns on
+      a mismeasured variable whose error is shared with the outcome. C1 is
+      exempt. Stated in the artifact beside the block.
+      GUARD, applying the lesson of #163 and #164 up front rather than
+      after review: `assert_c0_matches()` requires C0 to reproduce Table 9
+      (population) and Table 10 (sectoral) on estimate AND SE at 1e-10,
+      all four columns, all six outcomes. Verified to fire by dropping a
+      geo control from C0.
+      Wired as main.R step D.13p. See
+      results/tables/diagnostic_pretrend_quintiles.txt.
 
 - [x] PR #163 (analysis/controls-ladder) — coauthor request (i), the
       controls ladder. Table 12 Panel D on total population and new

@@ -1,0 +1,136 @@
+==========================================================================
+BASELINE CONTROLS AS QUINTILE DUMMIES (coauthor request)
+Does the result depend on the baseline levels entering linearly?
+Generated: 2026-09-18 12:43:50
+==========================================================================
+
+--------------------------------------------------------------------------
+[0] THE BINS
+--------------------------------------------------------------------------
+  cut once on the full 311-district sample, so the bins are the
+  same object for every outcome and every specification.
+  quintiles of logMA_actual_1960_s0_elow    63 / 62 / 62 / 62 / 62
+  quintiles of log_pop_1960                 63 / 62 / 62 / 62 / 62
+
+--------------------------------------------------------------------------
+Mfg. establishments
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    +0.034 (0.020)    +0.075 (0.067)    15.67 / 310
+  C1   quintiles of baseline log MA    +0.003 (0.021)    +0.024 (0.063)    15.22 / 310
+  C2   quintiles of baseline log pop   +0.032 (0.020)    +0.068 (0.063)    16.28 / 310
+  C3   quintiles of both (additive)    +0.004 (0.021)    +0.023 (0.058)    16.33 / 310
+
+--------------------------------------------------------------------------
+Mfg. production value
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    +0.099 (0.045)    +0.359 (0.135)    15.67 / 310
+  C1   quintiles of baseline log MA    +0.096 (0.046)    +0.356 (0.133)    15.22 / 310
+  C2   quintiles of baseline log pop   +0.105 (0.045)    +0.341 (0.133)    16.28 / 310
+  C3   quintiles of both (additive)    +0.105 (0.046)    +0.342 (0.129)    16.33 / 310
+
+--------------------------------------------------------------------------
+Mfg. wage mass
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    +0.134 (0.042)    +0.427 (0.139)    15.97 / 309
+  C1   quintiles of baseline log MA    +0.120 (0.043)    +0.400 (0.138)    15.56 / 309
+  C2   quintiles of baseline log pop   +0.137 (0.042)    +0.396 (0.132)    17.08 / 309
+  C3   quintiles of both (additive)    +0.127 (0.043)    +0.373 (0.127)    17.29 / 309
+
+--------------------------------------------------------------------------
+Ag. farms
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    -0.010 (0.014)    +0.110 (0.088)    15.02 / 297
+  C1   quintiles of baseline log MA    -0.017 (0.014)    +0.101 (0.086)    12.59 / 297
+  C2   quintiles of baseline log pop   -0.009 (0.014)    +0.114 (0.087)    14.53 / 297
+  C3   quintiles of both (additive)    -0.015 (0.014)    +0.105 (0.083)    12.61 / 297
+
+--------------------------------------------------------------------------
+Ag. farmed area
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    -0.001 (0.020)    +0.115 (0.086)    15.02 / 297
+  C1   quintiles of baseline log MA    +0.002 (0.020)    +0.129 (0.086)    12.59 / 297
+  C2   quintiles of baseline log pop   +0.006 (0.020)    +0.110 (0.087)    14.53 / 297
+  C3   quintiles of both (additive)    +0.009 (0.020)    +0.125 (0.084)    12.61 / 297
+
+--------------------------------------------------------------------------
+Total population   [SEE THE NOTE BELOW]
+--------------------------------------------------------------------------
+  spec controls                        OLS               IV-Both           F / N
+  C0   both baselines linear (main)    +0.028 (0.014)    +0.059 (0.035)    15.32 / 311
+  C1   quintiles of baseline log MA    +0.013 (0.014)    +0.034 (0.033)    14.94 / 311
+  C2   quintiles of baseline log pop   +0.027 (0.013)    +0.026 (0.034)    15.93 / 311
+  C3   quintiles of both (additive)    +0.017 (0.013)    +0.015 (0.032)    16.08 / 311
+
+==========================================================================
+THE POPULATION BLOCK IS NOT A ROBUSTNESS RESULT
+==========================================================================
+  C2 and C3 bin on log_pop_1960, which carries the
+  locality-universe measurement error documented in
+  diagnostic_pop1960_universe.R AND is the initial level inside
+  the outcome chg_log_pop_91_60. Binning on a mismeasured
+  variable misassigns districts to bins, and that error is shared
+  with the outcome, so those two cells cannot be read as
+  robustness. C1 bins on baseline MA and does not have the
+  problem. The population block is here because the coauthors
+  will ask for it, flagged rather than omitted.
+==========================================================================
+
+==========================================================================
+READING
+==========================================================================
+  WHAT MOVES. Compare C0 with C1-C3 within an outcome; the sample
+  is identical by construction and asserted so, so any movement is
+  functional form and nothing else.
+  INSTRUMENT STRENGTH IS NOT WHAT CHANGES. Four dummies could in
+  principle absorb more of the instruments' variation than one
+  slope, which is the mechanism PR #163's ladder measured on
+  baseline MA, but here it does not bite: the IV-Both robust F
+  spans 12.59 to 17.29 across all 24 cells and it RISES about as
+  often as it falls. So the coefficient movements below are not a
+  weak-instrument artifact.
+  WHAT THIS CANNOT SETTLE. Quintiles are one flexible form among
+  many. A result that survives them has survived one departure
+  from linearity, not every departure; nothing here tests
+  linearity against the data.
+==========================================================================
+
+==========================================================================
+WHAT MOVES: IV-Both under C1 (baseline-MA quintiles) vs C0
+==========================================================================
+  percent change in the IV-Both coefficient against C0
+  outcome                        C0      C1      C2      C3  flagged?
+  Mfg. establishments        +0.075    -68%     -8%    -69%  
+  Mfg. production value      +0.359     -1%     -5%     -5%  
+  Mfg. wage mass             +0.427     -6%     -7%    -13%  
+  Ag. farms                  +0.110     -8%     +4%     -4%  
+  Ag. farmed area            +0.115    +12%     -4%     +9%  
+  Total population           +0.059    -42%    -55%    -74%  yes
+
+  THE TWO OUTCOMES THAT CARRY THE PAPER'S SECTORAL RESULT DO NOT
+  MOVE. Manufacturing production value changes by 1% under C1
+  and 5% under C3; wage mass by 6% and 13%. Neither
+  depends on the baselines being linear.
+
+  TWO OUTCOMES DO MOVE, and they move differently, so the two
+  baselines are not interchangeable here:
+    Manufacturing establishments moves under C1 (-68%) and
+    barely under C2 (-8%), so it is the linearity of BASELINE
+    MA that it depends on.
+    Total population moves under BOTH, -42% under C1 and
+    -55% under C2, compounding to -74% under C3. So for
+    population BOTH baselines matter, not baseline MA alone.
+
+  The C1 population cell is the one to take to the coauthors,
+  because it is the only one of the three that carries none of the
+  pop60 objection. The paper already reports that elasticity as
+  not distinguishable from zero; under C1 it is smaller still.
+  It is also consistent with baseline_ma_control_note.md, which
+  records that including baseline log MA roughly doubles the
+  population coefficient: relaxing its functional form gives back
+  a good part of that.
+==========================================================================
