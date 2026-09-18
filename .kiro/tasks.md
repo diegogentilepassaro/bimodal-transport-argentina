@@ -1677,14 +1677,110 @@ below feeds a paper number, and each has a reason it was not rerun:
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 
-NEXT (green-lit, in order): housekeeping PR (robust F everywhere in
-Tables 8-10, Sargan p row in 9/10, #113 CABA wording); controls ladder
-(Table 12 Panel D + sectoral appendix ladder); population-free baseline
-control (unit weights on existing 1960 τ; the rail-only 1947-dated
-version is a Stage C item, propose after Cote confirms); quintile
-pre-trend dummies (sectoral outcomes; population case flagged for the
-pop60 shared-error mechanism); contamination-vs-treatment diagnostic
-once Cote sends the 23 provincial 1960 totals.
+NEXT (green-lit, in order): quintile pre-trend dummies (sectoral
+outcomes; population case flagged for the pop60 shared-error mechanism);
+full `R CMD BATCH main.R`; contamination-vs-treatment diagnostic once
+Cote sends the 23 provincial 1960 totals. The rail-only 1947-dated
+baseline variant remains a Stage C item, to propose after Cote confirms.
+
+- [x] PR #163 (analysis/controls-ladder) — coauthor request (i), the
+      controls ladder. Table 12 Panel D on total population and new
+      appendix Table B3 on the five sectoral outcomes, four rungs from no
+      controls to the published spec, rung definition shared in
+      `controls_ladder()` so the two cannot drift. §5.5 carries the prose
+      and twelve macros.
+      THE FINDING: the hypothetical-road instrument's robust F is 26.3
+      without the baseline-MA control and 3.7 with it, while the Larkin
+      Plan instrument holds between 20.0 and 25.6 on every rung. The
+      weak-hypo fact the paper reports is specific to specifications that
+      condition on baseline MA. This is the same absorption mechanism
+      baseline_ma_control_note.md records at the overall level (F 29.9
+      without → 13.6 with, numbers now stale at θ = 4.14); the ladder
+      localizes it to the hypothetical instrument.
+      ⚠ TWO READINGS, NOT ADJUDICATED, FOR COTE: the instrument may have
+      little variation orthogonal to baseline MA, which would be a
+      property of the instrument; or the conditioning may absorb variation
+      it would otherwise supply. §5.5 states both and draws no conclusion.
+      Bears directly on the open IV-LP-only question.
+      Manufacturing STRENGTHENS as the baselines enter: value of
+      production 0.251 → 0.359, wage mass 0.249 → 0.427, both at 1% on
+      every rung. Agriculture null throughout. The sectoral result is not
+      an artifact of the control set.
+      REVIEW caught three blocking, two of them the same class of error:
+      both top-rung checks were tautologies (refit with the same controls
+      on the same data, then compared), and both passed vacuously on a
+      missing coefficient since all.equal(NA, NA) is TRUE and blank cells
+      render as spaces. Both now read the parent table's CSV and compare
+      estimate and SE at 1e-10; verified by perturbing Table 10's CSV by
+      1e-6 and confirming the assertion fires.
+      STILL OPEN: Table B2 numbers its rungs (1) full baselines → (4)
+      none while B3 and Panel D run the other way. Aligning them means
+      renumbering B2, whose figures Cote already has. Diego's call.
+
+- [x] PR #164 (analysis/pop-free-baseline) — coauthor request (ii), the
+      population-free baseline control. Unit weights on the existing 1960
+      τ: MA^unit_i = Σ_{j≠i} 1/τ_ij^θ, which keeps the spatial structure
+      and the convergence-control role while removing pop_1960 from the
+      control. Addresses ONE of the three channels through which the
+      pop_1960 locality-universe error enters (the other two, the
+      outcome's 1960 denominator and the log_pop_1960 control, are
+      untouched).
+      DIAGNOSTIC ONLY, and deliberately so. The plan gated a paper panel
+      on the collinearity, measured first rather than assumed, because PR
+      #143's 1947-population version came back at 0.9990 partial and
+      tasks.md already records that such a contrast "never had power to
+      separate the two controls".
+      VERDICT: near-uninformative at BOTH calibrations. Partial corr after
+      the other seven controls is 0.9907 at θ_low = 4.14 and 0.9958 at
+      θ_high = 8.11, both above the pre-agreed 0.95 gate. IV-B moves
+      +0.059 → +0.052 at θ_low and +0.024 → +0.023 at θ_high, and neither
+      movement carries weight because there was almost nothing to remove.
+      NOT in the paper as a robustness result. Unit weighting does not
+      escape the position PR #143 reached on the 1947 version: both are
+      distance-decay sums over the same 1960 τ, and that shared structure
+      is what drives the correlation.
+      ⚠ THE FIRST VERSION OF THIS ENTRY CLAIMED THE OPPOSITE at θ_high
+      (0.8991, "the informative cell", "partial reassurance about the
+      control channel"). That was an artifact of a silent no-op:
+      `setdiff(geo_controls_main, ctrl_pop)` removes nothing at θ_high,
+      because geo_controls_main carries the ELOW baseline name and never
+      the ehigh one, so the ehigh branch residualised against a set that
+      still contained the elow pop-weighted baseline and stripped the
+      variance being measured. Caught by the cr-review, confirmed
+      independently, retracted. The mechanism offered for the "asymmetry"
+      was an explanation of the artifact. This is the same failure mode
+      `controls_ladder()` was guarded against in PR #163, one commit
+      earlier.
+      GUARDS ADDED SO IT CANNOT RECUR: the residualising set is built by
+      always removing the elow name and is asserted not to contain the
+      θ-specific baseline; and `assert_matches_published()` requires the
+      pop-weighted arm to reproduce Table 12's committed CSV (Panel C
+      "Full sample" at θ_low, Panel A at θ_high) on estimate AND SE at
+      1e-10. The elow arm always matched to 1e-13; the ehigh arm matched
+      nothing and nothing said so. Both verified to fire by reintroducing
+      the bug.
+      CONSTRUCTION GATE: the same machinery with population weights
+      reproduces both committed controls to 0.000e+00. Verified
+      non-vacuous by perturbing θ 0.01%. Note what it did NOT catch: it
+      gates the MA CONSTRUCTION, not the CONTROL SET, which is where the
+      bug was.
+      ⚠ "POPULATION-FREE" IS A CLAIM ABOUT CONSTRUCTION, NOT EFFECT
+      (part [3], added on the review's prompting). Unit weights remove the
+      1960 population data and with it the locality-universe measurement
+      error, which is what was asked. They do not make the control
+      independent of population: it still correlates +0.509 with
+      log_pop_1960 against the pop-weighted level's +0.532. And they add a
+      dependence on the administrative partition — areas span 3,177×, the
+      level correlates −0.679 with a district's own area, and a province
+      cut into many small departamentos contributes more than one large
+      unit over the same ground. That partition is plausibly endogenous to
+      historical settlement, the thing the control is meant to absorb. An
+      area-weighted variant is the natural third leg; not computed here
+      because Capital Federal is a destination without an area in the
+      estimation sample, so it would rest on 311 of 312 destinations and
+      not be comparable.
+      Wired as main.R step D.13o. See
+      results/tables/diagnostic_ma_unitweight.txt.
 
 ### 11. Completed 2026-09-17 (second batch), record
 - [x] PR #161 (paper/rail-km-sources) — the paper quoted the rail
