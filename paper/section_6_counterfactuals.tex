@@ -94,9 +94,17 @@ three point estimates are of similar magnitude; none is statistically
 distinguishable from zero at conventional levels, and none is
 distinguishable from the others. What differs sharply across panels is
 identification strength: the Larkin Plan instrument predicts
-rail-driven market access far more strongly ($F$ between \cfRailFMin{} and
-\cfRailFMax{} across outcomes) than either instrument predicts its respective
-measure in the other panels.
+rail-driven market access more strongly ($F$ between \cfRailFMin{} and
+\cfRailFMax{} across outcomes) than the hypothetical network predicts
+road-driven market access, though the margin is narrower than a
+homoskedastic first-stage statistic would suggest.\footnote{The gap
+between the two is unusually large for this measure. On total
+population the only-rail first stage has a homoskedastic $F$ of
+\cfRailFIVPopIID{} but a heteroskedasticity-robust $F$ of
+\cfRailFIVPop{}, because a few
+high-leverage districts carry much of the fit. We report the robust
+statistic throughout, as elsewhere in the paper, since it is the one
+that matches the standard errors used for inference.}
 
 \input{../results/tables/table_13_counterfactual.tex}
 
@@ -149,11 +157,13 @@ outcomes, so the only-road panel is less precisely identified
 throughout.
 
 Third, differences in precision across panels reflect the instruments,
-not the economics. The only-rail panel is the best-identified object
-in this paper ($F = \cfRailFIVPop{}$ for total population,
-\cfRailFSectMin{}--\cfRailFSectMax{} across the sectoral outcomes);
-this makes its estimates the most credible, not the largest or the
-most important.
+not the economics. The only-rail panel is the better identified of the
+two ($F = \cfRailFIVPop{}$ for total population,
+\cfRailFSectMin{}--\cfRailFSectMax{} across the sectoral outcomes,
+against \cfRoadFIVPop{} and
+\cfRoadFSectMin{}--\cfRoadFSectMax{} for only-road);
+this makes its estimates the more credible of the two, not the largest
+or the most important.
 
 With these limits stated, the decomposition supports one suggestive
 conclusion: both modal shocks contribute to the outcomes that respond

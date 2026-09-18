@@ -386,6 +386,40 @@ main <- function() {
     # file would emit a scalars.tex with these macros absent and surface as
     # an undefined control sequence in LaTeX instead of an R error
     # (cr-review PR #161).
+    # Overidentification in the nine main outcomes (Tables 9 and 10,
+    # IV-Both column). Section 5.1 quotes the range rather than nine
+    # p-values, and the contrast with Table 11 is the point, so what the
+    # prose needs is the SMALLEST p across the nine: if even that one does
+    # not reject, none of them does.
+    overid_min <- function(stem) {
+        # Count comes from the tables, not a literal: an outcome added to
+        # either table should widen the range the prose quotes, not trip an
+        # assertion about the number nine.
+        ps <- unlist(lapply(c("table_9_population_iv", "table_10_sectoral_iv"),
+                            function(nm) {
+            t <- tab[[nm]]
+            stopifnot("overid columns must exist in the IV table" =
+                          !is.null(t) && stem %in% names(t))
+            v <- t[[stem]][t$spec == "IV-B"]
+            stopifnot("each IV table must have at least one IV-B row" =
+                          length(v) >= 1L)
+            v
+        }))
+        stopifnot("every IV-Both overid p-value must compute" =
+                      all(is.finite(ps)))
+        # Section 5.1 states in prose that the test does not reject for ANY
+        # of these outcomes. Assert it, so a rerun that changed the verdict
+        # fails here instead of printing a rejecting p-value next to a
+        # sentence claiming none rejects (cr-review PR #162).
+        stopifnot("Section 5.1 claims no main-table overid test rejects" =
+                      min(ps) > 0.05)
+        min(ps)
+    }
+    macros[["overidMainMinJP"]] <-
+        sprintf("%.2f", overid_min("overid_robust_J_p"))
+    macros[["overidMainMinSarganP"]] <-
+        sprintf("%.2f", overid_min("overid_sargan_p"))
+
     rk <- tab[["diagnostic_rail_km"]]
     stopifnot("diagnostic_rail_km.csv is required by Sections 2-4" =
                   !is.null(rk))
@@ -763,6 +797,12 @@ add_prose_table_macros <- function(macros, tab) {
         b <- t13[t13$panel == "B", ]
         macros[["cfRailFMin"]] <- f1(min(b$iv_F))
         macros[["cfRailFMax"]] <- f1(max(b$iv_F))
+        # Section 6.2 footnote: the only-rail population first stage is the
+        # one cell where the homoskedastic and robust F differ by an order of
+        # magnitude, which is why the footnote exists. Both numbers come from
+        # here so neither is hardcoded in the prose.
+        r <- row1(t13, panel = "B", outcome = "chg_log_pop_91_60")
+        macros[["cfRailFIVPopIID"]] <- f1(r$iv_F_iid)
         # Section 6.3: only-road identification weakens from total to
         # urban population. (Total-pop F is the existing \cfRoadFIVPop.)
         r <- row1(t13, panel = "C", outcome = "chg_log_urbpop_91_60")

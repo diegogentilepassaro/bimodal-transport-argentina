@@ -43,7 +43,9 @@ column~(2) uses only the hypothetical-road instrument
 $\Delta \ln \mathrm{MA}^{\mathrm{hypo}}_i$, and column~(3) uses both
 jointly. All columns include baseline log market access, baseline log
 population, and the six standardized geographic controls. Standard
-errors are heteroskedasticity-robust.
+errors are heteroskedasticity-robust, and so is every first-stage $F$
+this paper reports. All of them are the robust statistic, so they are
+comparable with each other and with the standard errors beside them.
 
 The Larkin Plan instrument has a coefficient of \fsLPCoef{} with a robust
 standard error of \fsLPSE{} in column~(1). The corresponding first-stage
@@ -105,7 +107,23 @@ which assumes the bound takes its maximum value, would require
 joint specification is strong at ten percent under the exact bias-bound
 computation but not under its most conservative variant, while the
 Larkin Plan instrument alone is strong at ten percent under either.
-Because that step can be contested, Tables~\ref{tab:population_iv}
+
+Tables~\ref{tab:population_iv} and~\ref{tab:sectoral_iv} also report
+whether the two instruments identify a common parameter. They are not
+rejected as doing so for any of the nine outcomes: the smallest
+identification-robust $p$-value across them is \overidMainMinJP{}, and
+the smallest classical Sargan $p$-value is \overidMainMinSarganP{}. We
+do not read that as support for pooling the instruments. The test loses
+power exactly when an instrument is weak, and the hypothetical-road
+instrument is weak here, so a failure to reject is close to
+uninformative. What the row does establish is the absence of the
+positive evidence \emph{against} pooling that the same test provides for
+three of the four outcomes in Table~\ref{tab:other_outcomes_iv}, which
+is why those outcomes are reported instrument by instrument and these
+are not.
+
+Because the bias-bound step can be contested,
+Tables~\ref{tab:population_iv}
 and~\ref{tab:sectoral_iv} also report identification-robust
 Anderson--Rubin confidence sets, which invert the AR test directly and
 therefore rely on no strength threshold of any kind: they remain valid

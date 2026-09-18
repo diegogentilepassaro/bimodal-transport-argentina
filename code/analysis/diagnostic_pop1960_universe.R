@@ -306,7 +306,7 @@ run_part2 <- function(d, t9, S) {
                             o$tag, sp, cc$est, cc$se, cc$p, nobs(m)))
         }
         S$add(part = "2_firstF", stat = o$tag, var = "IV-H",
-              value = fitstat_F(fits[["IV-H"]]), n_obs = nobs(fits[["IV-H"]]))
+              value = fitstat_F_robust(fits[["IV-H"]]), n_obs = nobs(fits[["IV-H"]]))
     }
 }
 

@@ -173,7 +173,7 @@ main <- function() {
         "and the six standardized geographic controls",
         "(elevation, ruggedness, wheat suitability, pre- and post-1500",
         "caloric potential, distance to Buenos Aires).",
-        f_rows_note(classical_row_is_robust = TRUE),
+        f_rows_note(),
         "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."
     )
 

@@ -48,6 +48,9 @@ main <- function() {
     source(file.path(dir_code, "base", "utils.R"), echo = FALSE)
     source(file.path(dir_code, "analysis", "_diagnostic_helpers.R"),
            echo = FALSE)
+    # For fitstat_F_robust(): this sweep re-estimates Table 9's spec, so it
+    # reports Table 9's statistic (PR #162).
+    source(file.path(dir_code, "analysis", "_iv_helpers.R"), echo = FALSE)
 
     THETA_GRID <- sort(unique(c(THETA_GRID_FIXED, unname(theta))))
 
@@ -119,11 +122,12 @@ main <- function() {
             as.formula(sprintf(
                 "chg_log_pop_91_60 ~ %s | chg ~ chgstu + chglcp", ctrls_th)),
             data = m, vcov = "hetero"))
-        fs <- tryCatch({
-            f <- fitstat(m_iv, type = "ivf")
-            if (is.list(f) && !is.null(f[[1]]$stat)) as.numeric(f[[1]]$stat)
-            else NA_real_
-        }, error = function(e) NA_real_)
+        # ROBUST since PR #162. This sweep's note says it re-estimates the
+        # combined-IV specification of Table 9, and Table 9 reports the
+        # robust F, so an ivf (homoskedastic) statistic here printed a
+        # different number for the same cell under the same row label:
+        # 16.5 against Table 9's 15.3 at theta_low.
+        fs <- fitstat_F_robust(m_iv)
 
         b_ols <- coef(m_ols)["chg"]; s_ols <- m_ols$se["chg"]
         b_iv  <- coef(m_iv)["fit_chg"]; s_iv <- m_iv$se["fit_chg"]

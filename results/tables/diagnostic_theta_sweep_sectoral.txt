@@ -1,7 +1,7 @@
 ====================================================================== 
 THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta) 
 Is 'manufacturing responds, agriculture does not' robust to theta? 
-Generated: 2026-09-17 20:48:09 
+Generated: 2026-09-18 09:33:58 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
 ====================================================================== 
 
@@ -15,15 +15,15 @@ mfg establishments        +0.510    +0.197    +0.112    +0.075    +0.048    +0.0
 ag farms                  +0.771    +0.302    +0.169    +0.110    +0.065    +0.044    +0.034    +0.027 
 ag farmed area            +0.717    +0.293    +0.172    +0.115    +0.072    +0.049    +0.038    +0.031 
 
-First-stage F (ivf, IID — comparable to outcome Tables 9/10/11): 
+First-stage F (robust — the statistic Tables 8/9/10/11 report): 
 outcome \ theta             1.00      2.00      3.00      4.14      6.00      8.11     10.00     12.00 
 ------------------------------------------------------------------------------------------------------ 
-population                  14.6      16.1      16.9      16.5      14.8      13.4      12.8      12.5 
-mfg production value        14.9      16.4      17.2      16.9      15.1      13.6      13.0      12.8 
-mfg wage mass               15.5      17.1      17.9      17.4      15.6      14.0      13.4      13.1 
-mfg establishments          14.9      16.4      17.2      16.9      15.1      13.6      13.0      12.8 
-ag farms                    11.5      13.8      15.3      15.5      14.3      13.1      12.6      12.4 
-ag farmed area              11.5      13.8      15.3      15.5      14.3      13.1      12.6      12.4 
+population                  12.9      14.6      15.2      15.3      14.3      13.2      12.6      12.4 
+mfg production value        13.1      14.9      15.5      15.7      14.7      13.5      12.9      12.7 
+mfg wage mass               13.8      15.4      15.9      16.0      14.9      13.5      12.9      12.6 
+mfg establishments          13.1      14.9      15.5      15.7      14.7      13.5      12.9      12.7 
+ag farms                    11.2      13.4      14.4      15.0      14.7      14.0      13.5      13.3 
+ag farmed area              11.2      13.4      14.4      15.0      14.7      14.0      13.5      13.3 
 
 ====================================================================== 
 READING: scan each row across theta. If the mfg rows stay 

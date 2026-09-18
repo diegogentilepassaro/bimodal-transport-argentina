@@ -15,7 +15,8 @@
 #
 # SPEC: IV-Both per outcome, controls = geo_controls_main with the baseline
 #   logMA control recomputed at THIS theta (l60). HC1 SE. First-stage F
-#   reported as ivf (IID, comparable to outcome Tables 9/10/11) AND robust
+#   reported as robust (comparable to outcome Tables 8/9/10/11, which all
+#   report the robust statistic since PR #162) AND as ivf for reference
 #   (ivwald joint Wald).
 #
 # OUTCOMES (six):
@@ -196,8 +197,8 @@ build_ma_changes <- function(tau, pop, th) {
 # Fit IV-Both for one outcome at one theta. Mirrors the population template:
 # six standardized geo controls + log_pop_1960 + baseline logMA at THIS theta
 # (l60). Two instruments (chgstu = Larkin, chglcp = LCP-MST). HC1 SE.
-# Returns one row. F_ivf = IID first-stage F (comparable to outcome Tables
-# 9/10/11, which report ivf via fitstat_F); F_robust = heteroskedasticity-
+# Returns one row. F_robust = robust first-stage F, the statistic the
+# outcome tables report (PR #162) and the one tabulated below; F_ivf is
 # robust joint first-stage Wald (model vcov; ~ Table 8's robust Wald).
 fit_iv_both <- function(d0, yvar, th) {
     d0 <- d0[is.finite(d0$chg) & is.finite(d0$chgstu) &
@@ -253,14 +254,14 @@ print_matrix <- function(df, rep) {
         rep("%s", line)
     }
 
-    rep("\n%s", "First-stage F (ivf, IID — comparable to outcome Tables 9/10/11):")
+    rep("\n%s", "First-stage F (robust — the statistic Tables 8/9/10/11 report):")
     rep("%s", hdr)
     rep("%s", strrep("-", nchar(hdr)))
     for (o in outs) {
         line <- sprintf("%-22s", o)
         for (th in thetas) {
             r <- df[df$outcome == o & abs(df$theta - th) < 1e-9, ]
-            line <- paste0(line, sprintf(" %9.1f", r$F_ivf))
+            line <- paste0(line, sprintf(" %9.1f", r$F_robust))
         }
         rep("%s", line)
     }
@@ -320,7 +321,9 @@ write_paper_tex <- function(df) {
                               paste(cells, collapse = " & ")))
     }
     n_rng <- range(df$n_obs[df$outcome %in% sec_outs])
-    f_rng <- range(df$F_ivf[df$outcome %in% sec_outs])
+    # Robust, matching the statistic the note says this table re-estimates
+    # (Table 10) and the column tabulated above (PR #162).
+    f_rng <- range(df$F_robust[df$outcome %in% sec_outs])
     tex <- c(tex,
         "\\bottomrule",
         "\\end{tabular}",

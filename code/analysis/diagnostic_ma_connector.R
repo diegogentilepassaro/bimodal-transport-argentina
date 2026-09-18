@@ -215,8 +215,9 @@ summarise_and_regress <- function(out_dir, rep) {
     rep("\n%s", strrep("-", 70))
     rep("[B] POPULATION ELASTICITY under connector re-cost (s0, theta low)")
     rep("    Full four-column grid (OLS / IV-LP / IV-Hypo / IV-Both).")
-    rep("    Uses the canonical fit_iv_quad() + fitstat_F() (ivf) helpers,")
-    rep("    so F is the SAME statistic the baseline tables report.")
+    rep("    Uses fit_iv_quad() + fitstat_F() (ivf). The outcome tables")
+    rep("    report the ROBUST F since PR #162, so the F below is not")
+    rep("    the same statistic as theirs.")
     rep("%s", strrep("-", 70))
     m <- merge(
         base[, c("geolev2", "chg_log_pop_91_60", "log_pop_1960",
