@@ -137,7 +137,9 @@ main <- function() {
             lp   = fitstat_F_robust(fits[["IV-LP"]]),
             hypo = fitstat_F_robust(fits[["IV-H"]]),
             both = fitstat_F_robust(fits[["IV-B"]]),
-            sargan_both = sargan_p(fits[["IV-B"]], 2L),
+            sargan_both = sargan_p(fits[["IV-B"]],
+                                  length(c(main_lp_instrument,
+                                           main_hypo_instrument))),
             eff_lp   = eff_F_from_fit(d_lp, main_treatment,
                                       main_lp_instrument,
                                       geo_controls_main),
@@ -214,8 +216,9 @@ main <- function() {
         overid_row_note()
     )
     table_note_short <- paste(
-        "Controls, standard errors, and the definitions of the two $F$ rows",
-        "are as in Table~\\ref{tab:sectoral_iv}. Observations differ by",
+        "Controls, standard errors, and the definitions of the two $F$",
+        "rows, the AR set and the two overidentification rows are as in",
+        "Table~\\ref{tab:sectoral_iv}. Observations differ by",
         "outcome, as noted there."
     )
 

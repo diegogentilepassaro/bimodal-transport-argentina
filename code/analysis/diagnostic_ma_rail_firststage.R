@@ -15,7 +15,8 @@
 # FIRST STAGE (LP only):
 #   endogenous  d.logMA_rail_86_60 = logMA_rail(1986) - logMA_rail(1960)
 #   instrument  d.logMA_rail_stu   = logMA_rail(instrument_stu) - logMA_rail(1960)
-#   F via fitstat_F() (ivf) — same statistic as the baseline tables.
+#   F via fitstat_F() (ivf). NOTE: the outcome tables report the ROBUST
+#   F since PR #162, so this is NOT the same statistic as those tables.
 #   (Second stage on population is reported as a bonus: the rail-MA estimand.)
 #
 # CASES / taus:

@@ -123,7 +123,12 @@ main <- function() {
             co_ols <- safe_coef(m_ols, p$treatment)
             co_iv  <- safe_coef(m_iv,  paste0("fit_", p$treatment))
 
-            fs <- fitstat_F(m_iv)
+            fs <- fitstat_F_robust(m_iv)
+            # The homoskedastic F is recorded but not printed. Section 6.2's
+            # footnote contrasts the two for the only-rail population cell,
+            # where they differ by an order of magnitude, and that footnote
+            # should read its numbers from here rather than hardcode them.
+            fs_iid <- fitstat_F(m_iv)
 
             rows[[length(rows) + 1L]] <- data.frame(
                 panel        = p$id,
@@ -132,6 +137,7 @@ main <- function() {
                 ols_est      = co_ols$est, ols_se = co_ols$se, ols_p = co_ols$p,
                 iv_est       = co_iv$est,  iv_se  = co_iv$se,  iv_p  = co_iv$p,
                 iv_F         = fs,
+                iv_F_iid     = fs_iid,
                 n_obs        = nobs(m_ols),
                 stringsAsFactors = FALSE
             )

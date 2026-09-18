@@ -99,9 +99,9 @@ main <- function() {
             iv_lp_est = co_lp$est,  iv_lp_se = co_lp$se,  iv_lp_p = co_lp$p,
             iv_h_est  = co_h$est,   iv_h_se  = co_h$se,   iv_h_p  = co_h$p,
             iv_b_est  = co_b$est,   iv_b_se  = co_b$se,   iv_b_p  = co_b$p,
-            iv_lp_F   = fitstat_F(fits[["IV-LP"]]),
-            iv_h_F    = fitstat_F(fits[["IV-H"]]),
-            iv_b_F    = fitstat_F(fits[["IV-B"]]),
+            iv_lp_F   = fitstat_F_robust(fits[["IV-LP"]]),
+            iv_h_F    = fitstat_F_robust(fits[["IV-H"]]),
+            iv_b_F    = fitstat_F_robust(fits[["IV-B"]]),
             n_obs     = nobs(fits[["OLS"]]),
             stringsAsFactors = FALSE
         )

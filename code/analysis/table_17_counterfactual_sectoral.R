@@ -102,7 +102,7 @@ main <- function() {
 
             co_ols <- safe_coef(m_ols, p$treatment)
             co_iv  <- safe_coef(m_iv,  paste0("fit_", p$treatment))
-            fs <- fitstat_F(m_iv)
+            fs <- fitstat_F_robust(m_iv)
 
             rows[[length(rows) + 1L]] <- data.frame(
                 panel       = p$id,

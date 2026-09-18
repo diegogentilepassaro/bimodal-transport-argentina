@@ -97,9 +97,9 @@ main <- function() {
             all_models[[paste(y, spec, sep = "_")]] <- fits[[spec]]
         }
         f_stats[[y]] <- list(
-            lp   = fitstat_F(fits[["IV-LP"]]),
-            hypo = fitstat_F(fits[["IV-H"]]),
-            both = fitstat_F(fits[["IV-B"]])
+            lp   = fitstat_F_robust(fits[["IV-LP"]]),
+            hypo = fitstat_F_robust(fits[["IV-H"]]),
+            both = fitstat_F_robust(fits[["IV-B"]])
         )
     }
 
@@ -248,7 +248,7 @@ main <- function() {
                 t_value  = co$t,
                 p_value  = co$p,
                 n_obs    = nobs(m),
-                first_stage_F = if (spec == "OLS") NA_real_ else fitstat_F(m),
+                first_stage_F = if (spec == "OLS") NA_real_ else fitstat_F_robust(m),
                 sargan_p = sargan_p(m, k_instr = if (spec == "IV-B") 2L
                                                  else 1L),
                 stringsAsFactors = FALSE

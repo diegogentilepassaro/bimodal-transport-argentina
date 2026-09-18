@@ -392,15 +392,27 @@ main <- function() {
     # prose needs is the SMALLEST p across the nine: if even that one does
     # not reject, none of them does.
     overid_min <- function(stem) {
+        # Count comes from the tables, not a literal: an outcome added to
+        # either table should widen the range the prose quotes, not trip an
+        # assertion about the number nine.
         ps <- unlist(lapply(c("table_9_population_iv", "table_10_sectoral_iv"),
                             function(nm) {
             t <- tab[[nm]]
             stopifnot("overid columns must exist in the IV table" =
                           !is.null(t) && stem %in% names(t))
-            t[[stem]][t$spec == "IV-B"]
+            v <- t[[stem]][t$spec == "IV-B"]
+            stopifnot("each IV table must have at least one IV-B row" =
+                          length(v) >= 1L)
+            v
         }))
-        ps <- ps[is.finite(ps)]
-        stopifnot("expected nine IV-Both overid p-values" = length(ps) == 9L)
+        stopifnot("every IV-Both overid p-value must compute" =
+                      all(is.finite(ps)))
+        # Section 5.1 states in prose that the test does not reject for ANY
+        # of these outcomes. Assert it, so a rerun that changed the verdict
+        # fails here instead of printing a rejecting p-value next to a
+        # sentence claiming none rejects (cr-review PR #162).
+        stopifnot("Section 5.1 claims no main-table overid test rejects" =
+                      min(ps) > 0.05)
         min(ps)
     }
     macros[["overidMainMinJP"]] <-
@@ -785,6 +797,12 @@ add_prose_table_macros <- function(macros, tab) {
         b <- t13[t13$panel == "B", ]
         macros[["cfRailFMin"]] <- f1(min(b$iv_F))
         macros[["cfRailFMax"]] <- f1(max(b$iv_F))
+        # Section 6.2 footnote: the only-rail population first stage is the
+        # one cell where the homoskedastic and robust F differ by an order of
+        # magnitude, which is why the footnote exists. Both numbers come from
+        # here so neither is hardcoded in the prose.
+        r <- row1(t13, panel = "B", outcome = "chg_log_pop_91_60")
+        macros[["cfRailFIVPopIID"]] <- f1(r$iv_F_iid)
         # Section 6.3: only-road identification weakens from total to
         # urban population. (Total-pop F is the existing \cfRoadFIVPop.)
         r <- row1(t13, panel = "C", outcome = "chg_log_urbpop_91_60")

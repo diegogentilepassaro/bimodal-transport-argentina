@@ -126,15 +126,18 @@ $\Delta$(rail km) and $\Delta$(road km) is $-0.25$.
 We also construct four hypothetical road networks that connect
 Argentina's largest cities under stylised routing rules. The node set
 is the 54~cities that were provincial capitals or had population of
-at least 15{,}000 in 1960.\footnote{Capital Federal is not among the
-nodes, although it does enter every district's market access as a
-destination. The asymmetry is deliberate rather than an omission: the
-market-access weights ask which destinations a district could reach,
-and access to Buenos~Aires counts for all of them, whereas the
-hypothetical network asks which intercity links a road programme could
-have built, and Buenos~Aires is the terminus those links run to rather
-than one of the cities to be connected.} The first network links every pair of
-cities with a straight line (1{,}431 segments); the second is the
+at least 15{,}000 in 1960.\footnote{Capital Federal is absent from the
+node list although it satisfies both criteria, and although it does
+enter every district's market access as a destination. The omission
+comes from the city layer we digitised rather than from a modelling
+choice, and it is immaterial: rebuilding the spanning tree with Capital
+Federal added as a fifty-fifth node leaves the instrument unchanged to
+six decimal places, with a maximum absolute deviation across districts
+of zero at the precision we report. Five other Greater Buenos~Aires
+municipalities are nodes, so the network is not one that routes around
+the capital region.}
+The first network links every pair of cities with a straight
+line (1{,}431 segments); the second is the
 minimum spanning tree of those straight-line distances (53 edges).
 The third replaces straight lines with least-cost paths routed over a
 construction-cost surface that, following \citet{faber2014},

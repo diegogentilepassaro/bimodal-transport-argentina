@@ -106,7 +106,7 @@ main <- function() {
 
         fits[[s$id]] <- m_iv
         co <- safe_coef(m_iv, paste0("fit_", endog))
-        fs <- fitstat_F(m_iv)
+        fs <- fitstat_F_robust(m_iv)
 
         # Pull Z_i coefficients (NA when not in this spec)
         co_chg_rail  <- safe_coef(m_iv, "chg_tot_rails_86_60")
@@ -141,7 +141,7 @@ main <- function() {
         spec_id    = "(1cs)",
         spec_label = "Baseline, common km-measure sample (CSV only)",
         ma_est     = co_cs$est, ma_se = co_cs$se, ma_p = co_cs$p,
-        ma_F       = fitstat_F(m_cs),
+        ma_F       = fitstat_F_robust(m_cs),
         chg_rail_est  = NA_real_, chg_rail_se  = NA_real_,
         chg_road_est  = NA_real_, chg_road_se  = NA_real_,
         lost_rail_est = NA_real_, lost_rail_se = NA_real_,

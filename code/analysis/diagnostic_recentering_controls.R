@@ -118,8 +118,9 @@ main <- function() {
         # HC1 inference used throughout. It is systematically larger
         # here than the classical ivf that fitstat_F reports (and that
         # PR #111's CSV shows: e.g. C1 10.8 classical vs 13.3 robust).
-        # Stage B reports the classical ivf per fitstat_F for
-        # comparability with the paper's tables; both are labelled.
+        # Stage B reports the classical ivf per fitstat_F; both are
+        # labelled. NOTE: the paper's tables report the ROBUST F since
+        # PR #162, so it is this row, not Stage B's, that matches them.
         fs_F[nm] <- (tz$est / tz$se)^2
         m_mu <- feols(as.formula(paste(
             "mu ~", paste(setdiff(s$ctrl, "mu"), collapse = " + "),

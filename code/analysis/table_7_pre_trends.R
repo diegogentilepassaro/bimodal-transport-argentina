@@ -81,9 +81,9 @@ main <- function() {
     m_iv_b  <- fits[["IV-B"]]
 
     # First-stage F-stats per IV spec
-    fs_lp <- fitstat_F(m_iv_lp)
-    fs_h  <- fitstat_F(m_iv_h)
-    fs_b  <- fitstat_F(m_iv_b)
+    fs_lp <- fitstat_F_robust(m_iv_lp)
+    fs_h  <- fitstat_F_robust(m_iv_h)
+    fs_b  <- fitstat_F_robust(m_iv_b)
 
     message("\n[t7] Pre-trends placebo on Δlog(pop_60_47):")
     message(sprintf("%-12s  %-20s  N = %d", "OLS",
@@ -204,7 +204,7 @@ main <- function() {
             t_value       = co$t,
             p_value       = co$p,
             n_obs         = nobs(m),
-            first_stage_F = if (is_ols) NA_real_ else fitstat_F(m),
+            first_stage_F = if (is_ols) NA_real_ else fitstat_F_robust(m),
             stringsAsFactors = FALSE
         )
     }
@@ -271,7 +271,7 @@ write_ladder <- function(d) {
             control_set = s$tag,
             ols_est = co_o$est, ols_se = co_o$se, ols_p = co_o$p,
             ivb_est = co_b$est, ivb_se = co_b$se, ivb_p = co_b$p,
-            ivb_F = fitstat_F(fits[["IV-B"]]), n_obs = nobs(fits[["IV-B"]]),
+            ivb_F = fitstat_F_robust(fits[["IV-B"]]), n_obs = nobs(fits[["IV-B"]]),
             stringsAsFactors = FALSE)
     }
     L <- do.call(rbind, rows)

@@ -12,7 +12,16 @@
 #          table_9_population.R, table_10_sectoral.R, and any future
 #          table that consumes the same 4-spec grid.
 #
-# Helpers exported:
+# Helpers exported. The list below documents the originals in detail; the
+# statistics moved here later, each because a paper table began reporting
+# what a diagnostic had validated, are named here and documented at their
+# definitions: fitstat_F_robust() and eff_F()/eff_F_from_fit() (PR #155),
+# sargan_p(), the Anderson-Rubin family ar_wald()/ar_p()/
+# ar_bounded_expected()/ar_invert()/ar_from_fit()/ar_cell() (PR #158, #161),
+# the MOP machinery B_of_W()/patnaik_cv()/mop_check() (PR #159),
+# robust_J()/robust_J_from_fit() (PR #162), and the shared table-note
+# builders f_rows_note()/ar_row_note()/overid_row_note()/add_table_note().
+#
 #   fit_iv_quad(y, data, endog, lp_instr, hypo_instr, ctrls_vec)
 #       Fits the 4 specifications for outcome y and returns a named
 #       list with keys "OLS", "IV-LP", "IV-H", "IV-B". Uses HC1
@@ -165,10 +174,9 @@ add_table_note <- function(tex_text, note) {
 #
 # CAVEAT for callers: this statistic assumes homoskedasticity, while
 # every specification in this project uses HC1. Quote the
-# identification-robust counterpart (J from the minimized
-# Anderson-Rubin statistic, computed in
-# code/analysis/diagnostic_modern_iv_table11.R) as the primary
-# evidence and this one for comparability with the classical
+# identification-robust counterpart, robust_J() below in this file
+# (moved here from diagnostic_modern_iv_table11.R in PR #162), as the
+# primary evidence and this one for comparability with the classical
 # literature.
 # ---------------------------------------------------------------------------
 sargan_p <- function(iv_model, k_instr) {
@@ -593,12 +601,21 @@ robust_J <- function(Yt, Dt, Zt, n_ctrl, beta_hat, se_hat) {
         k * qf(ar_p(b, Yt, Dt, Zt, n_ctrl),
                k, length(Yt) - n_ctrl - k, lower.tail = FALSE)
     }
+    # The grid is wide (+/-120 SE) because it inherits the width Table 11's
+    # cells needed, where the AR sets reach -105 SE; the minimizer itself
+    # sits within a fraction of an SE of beta_hat in every cell measured so
+    # far, so this is roughly two orders of magnitude wider than required.
     grid <- seq(beta_hat - 120 * se_hat, beta_hat + 120 * se_hat,
                 by = 0.02 * se_hat)
     vals <- vapply(grid, stat_at, numeric(1))
     i <- which.min(vals)
-    ref <- optimize(stat_at, lower = grid[max(1, i - 1)],
-                    upper = grid[min(length(grid), i + 1)])
+    # An argmin at either end would mean the minimum lies outside the grid,
+    # and optimize() would then be handed a half-width bracket and return a
+    # boundary value as if it were the minimum. Fail instead: the statistic
+    # would be wrong, not merely imprecise.
+    stopifnot("robust_J(): minimum at a grid boundary, widen the grid" =
+                  i > 1L && i < length(grid))
+    ref <- optimize(stat_at, lower = grid[i - 1L], upper = grid[i + 1L])
     J <- min(vals[i], ref$objective)
     c(J = J, p = pchisq(J, df = k - 1, lower.tail = FALSE))
 }
@@ -658,6 +675,20 @@ ar_cell <- function(ar) {
 # bounded sets 25-47 SE wide were printed as half-lines and described in the
 # text as placing no finite bound on the coefficient.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# overid_row_note(): the sentences explaining the two overidentification rows
+# that Tables 9 and 10 carry (added PR #162 on the coauthor's request).
+#
+# The caveat is the substance. Both tests fail to reject for all nine main
+# outcomes, and with the hypothetical-road instrument's effective F at about
+# 4 that is close to uninformative rather than reassuring, so the note says
+# so rather than letting a reader take non-rejection as validation. It also
+# points at Table 11, where the tests DO reject for three of four outcomes,
+# because that contrast is why those outcomes are reported instrument by
+# instrument and these are pooled. The employment-rate exception is named:
+# an earlier version of this note said Table 11 is simply "where these tests
+# do reject", which contradicted Section 5.4 thirty lines later.
+# ---------------------------------------------------------------------------
 overid_row_note <- function() {
     paste(
         "The two overidentification rows test whether the instruments",
@@ -672,9 +703,9 @@ overid_row_note <- function() {
         "caveat governs both: the test loses power when an instrument is",
         "weak, and the hypothetical-road instrument is weak in these",
         "specifications, so a failure to reject is not evidence that the",
-        "two instruments agree. Table~\\ref{tab:other_outcomes_iv}, whose",
-        "outcomes are measured over a shorter window, is where these",
-        "tests do reject."
+        "two instruments agree. The same tests reject for three of the four",
+        "outcomes in Table~\\ref{tab:other_outcomes_iv}, which are measured",
+        "over a shorter window; the exception there is the employment rate."
     )
 }
 
