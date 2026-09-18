@@ -184,17 +184,47 @@ stage_b_base <- function(makelog) {
 stage_c_pipeline <- function(makelog) {
     p <- function(fname) file.path(dir_code, "pipeline", fname)
 
+    # The four cases the main specification is built from: the two actual
+    # cross sections, the Larkin Plan instrument and the main hypothetical
+    # instrument (config.R's main_treatment, main_lp_instrument,
+    # main_hypo_instrument). Stage C's verify_outputs calls below assert
+    # THESE rather than an exhaustive list, because 03b, 03c and 04 derive
+    # their work lists by scanning directories, so the full set is a
+    # function of what happens to be on disk. These four are the ones
+    # without which Stage D cannot run.
+    #
+    # WHY THE ASSERTS EXIST (added PR #166). Stage C had none. C.3c ran in
+    # 0 seconds on a warm tree and logged "No cases to process", and
+    # nothing noticed -- it was caught by a human reading step timings.
+    # These asserts do NOT catch that case: on a warm tree the taus are
+    # present, so verification passes. What they catch is the cold-start
+    # version of the same bug, where the skip logic leaves an output
+    # genuinely missing and the failure would otherwise surface much later
+    # as a confusing error in Stage D.
+    core_cases <- c("actual_1960_s0", "actual_1986_s0",
+                    "instrument_stu_s0", "instrument_lcp_mst_s0")
+
     # Cost rasters for the main actual network configurations
     run_step("C.1  cost_raster (actual)",
              p("01_cost_raster.R"),
              "Build cost rasters from actual rail+road networks",
              makelog)
+    verify_outputs("C.1",
+        file.path(dir_derived_rasters,
+                  sprintf("ucost_%s.tif",
+                          grep("^actual_", core_cases, value = TRUE))),
+        makelog)
 
     # Cost rasters for hypothetical networks and counterfactual configs
     run_step("C.2  cost_raster (hypothetical)",
              p("02_hypothetical_networks.R"),
              "Build cost rasters for hypothetical-road instruments",
              makelog)
+    verify_outputs("C.2",
+        file.path(dir_derived_rasters,
+                  sprintf("ucost_%s.tif",
+                          grep("^instrument_", core_cases, value = TRUE))),
+        makelog)
 
     # District-level intersection of the hypothetical networks. Lives in
     # code/base/networks/ but depends on C.2's geometries, so it runs here,
@@ -212,24 +242,44 @@ stage_c_pipeline <- function(makelog) {
              p("03a_build_cost_raster.R"),
              "Assemble all cost rasters (period × sector × elasticity)",
              makelog)
+    verify_outputs("C.3a",
+        file.path(dir_derived_rasters,
+                  sprintf("ucost_%s.tif", core_cases)),
+        makelog)
 
     # Transition grids for Dijkstra
     run_step("C.3b transition_grids",
              p("03b_transition_grids.R"),
              "Convert cost rasters to gdistance transition grids",
              makelog)
+    verify_outputs("C.3b",
+        file.path(dir_derived_transitions,
+                  sprintf("transition_%s.rds", core_cases)),
+        makelog)
 
-    # Tau matrices (parallel Dijkstra)
+    # Tau matrices (parallel Dijkstra). Computes only the cases whose tau is
+    # absent (03c: setdiff against the tau directory), so this step is a
+    # no-op on a warm tree and the assert below is the cold-start guard.
     run_step("C.3c compute_taus",
              p("03c_compute_taus_parallel.R"),
              "Pairwise transport costs via Dijkstra (parallel)",
              makelog)
+    verify_outputs("C.3c",
+        file.path(dir_derived_taus,
+                  sprintf("tau_%s.parquet", core_cases)),
+        makelog)
 
     # Market access indices
     run_step("C.4  market_access",
              p("04_market_access.R"),
              "MA = Σ Pop_j / tau_ij^θ, all cases × sectors × elasticities",
              makelog)
+    verify_outputs("C.4",
+        file.path(dir_derived_ma,
+                  sprintf("ma_%s_%s.parquet",
+                          rep(core_cases, each = 2L),
+                          c("elow", "ehigh"))),
+        makelog)
 
     # Wide panel assembly
     run_step("C.5  build_panel",
@@ -500,6 +550,32 @@ stage_d_analysis <- function(makelog) {
     # undefined and the paper would not compile. AEA requires the package
     # to run end to end with no manual step, so anything the paper's
     # macros depend on has to be in main.R.
+    # D.13l0 MUST precede D.13l: diagnostic_placebo_ma1947.R reads
+    # diagnostic_placebo_1947.csv, and this is the only script that writes
+    # it. Until PR #166 this script was not in main.R at all, so a cold
+    # start halted at D.13l on an unguarded read.csv -- taking
+    # generate_scalars (D.14) and every later step with it, which means no
+    # scalars.tex and a paper that does not compile. The warm run never
+    # showed it because the file was already on disk from an ad-hoc run.
+    #
+    # The rule this violated is written down in table_7_pre_trends.R: "no
+    # paper exhibit depends on a diagnostic output". D.13l breaks it
+    # transitively, via scalars.tex. Wiring the producer is the small fix;
+    # the standing alternative is to have D.13l compute its own anchors,
+    # which is a larger change to a script whose numbers are already in the
+    # ledger.
+    #
+    # Reads only estimation_sample.parquet plus D.8's two CSVs, so it must
+    # sit after D.8 and costs under a second.
+    run_step("D.13l0 diagnostic_placebo_1947baseline",
+             a("diagnostic_placebo_1947baseline.R"),
+             "Placebo under the four baseline-control sets (D.13l's anchor)",
+             makelog)
+    verify_outputs("D.13l0",
+        file.path(dir_tables,
+                  paste0("diagnostic_placebo_1947.", c("txt", "csv"))),
+        makelog)
+
     run_step("D.13l diagnostic_placebo_ma1947",
              a("diagnostic_placebo_ma1947.R"),
              "Placebo under a 1947-weighted baseline MA control",
