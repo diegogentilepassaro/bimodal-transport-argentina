@@ -56,6 +56,7 @@ main <- function() {
                    "table_10_sectoral_iv",
                    "table_11_other_outcomes_iv",
                    "table_12_robustness",
+                   "table_b3_sectoral_ladder",
                    "table_13_counterfactual",
                    "table_17_counterfactual_sectoral",
                    "table_14_mechanisms",
@@ -776,6 +777,57 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["subIVBCoef"]] <- f3(r$iv_b_est)
         macros[["subIVBSE"]]   <- f3(r$iv_b_se)
         macros[["subIVBP"]]    <- f3(r$iv_b_p)
+        # Panel D, the controls ladder. The two hypo-F values are the
+        # substance of the panel: the hypothetical-road instrument's
+        # apparent strength turns on whether baseline market access is
+        # conditioned on. Macros rather than typed figures, because they
+        # move with theta (cr-review PR #163, blocking 3).
+        ld <- t12[t12$panel == "D", ]
+        stopifnot("Panel D must have four rungs" = nrow(ld) == 4L)
+        rung <- function(pat) {
+            x <- ld[grepl(pat, ld$label, fixed = TRUE), ]
+            stopifnot(nrow(x) == 1L)
+            x
+        }
+        no_ma   <- rung("(2) + geography")
+        with_ma <- rung("(3) + baseline log MA")
+        macros[["ladderHypoFNoMA"]]   <- f1(no_ma$iv_h_F)
+        macros[["ladderHypoFWithMA"]] <- f1(with_ma$iv_h_F)
+        macros[["ladderLPFMin"]] <- f1(min(ld$iv_lp_F))
+        macros[["ladderLPFMax"]] <- f1(max(ld$iv_lp_F))
+        macros[["ladderIVBMin"]] <- f3(min(ld$iv_b_est))
+        macros[["ladderIVBMax"]] <- f3(max(ld$iv_b_est))
+        macros[["ladderOLSNoCtrl"]] <- f3(rung("(1) No controls")$ols_est)
+        macros[["ladderN"]] <- as.character(unique(ld$n_obs))
+        stopifnot("Panel D rungs must share one N" =
+                      length(unique(ld$n_obs)) == 1L)
+    }
+    # -- Table B3 (Section 5.5): sectoral controls ladder ---------------------
+    b3 <- tab[["table_b3_sectoral_ladder"]]
+    if (!is.null(b3)) {
+        # The manufacturing claim is what the ladder is asked about, so the
+        # macros are the two outcomes that carry it, at the coarsest and
+        # finest rungs.
+        mfg <- function(v, col) {
+            lo <- b3[b3$outcome == v & grepl("(1) No controls", b3$rung,
+                                             fixed = TRUE), ]
+            hi <- b3[b3$outcome == v & grepl("(4) +", b3$rung,
+                                             fixed = TRUE), ]
+            stopifnot(nrow(lo) == 1L, nrow(hi) == 1L)
+            c(lo[[col]], hi[[col]])
+        }
+        vp <- mfg("chg_log_valprod_85_54", "iv_b_est")
+        wm <- mfg("chg_log_massal_85_54",  "iv_b_est")
+        macros[["ladderValprodLo"]] <- f3(vp[1])
+        macros[["ladderValprodHi"]] <- f3(vp[2])
+        macros[["ladderMassalLo"]]  <- f3(wm[1])
+        macros[["ladderMassalHi"]]  <- f3(wm[2])
+        # The claim in the prose is that both stay significant at 1% on
+        # every rung. Assert it rather than trusting it to stay true.
+        mfg_p <- b3$iv_b_p[b3$outcome %in% c("chg_log_valprod_85_54",
+                                             "chg_log_massal_85_54")]
+        stopifnot("Section 5.5 claims the two mfg outcomes hold at 1% on every rung" =
+                      length(mfg_p) == 8L && all(mfg_p < 0.01))
     }
 
     # -- Table 13 (Section 6.2): counterfactual urban/rural ------------------
@@ -805,6 +857,7 @@ add_prose_table_macros <- function(macros, tab) {
         macros[["cfRailFIVPopIID"]] <- f1(r$iv_F_iid)
         # Section 6.3: only-road identification weakens from total to
         # urban population. (Total-pop F is the existing \cfRoadFIVPop.)
+        # placeholder kept adjacent; ladder macros live with Table 12 below.
         r <- row1(t13, panel = "C", outcome = "chg_log_urbpop_91_60")
         macros[["cfRoadFUrb"]] <- f1(r$iv_F)
     }
