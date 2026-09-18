@@ -1,0 +1,90 @@
+======================================================================
+POPULATION-FREE BASELINE MA CONTROL (coauthor request ii)
+Unit weights on the 1960 tau: MA_i = sum_j 1 / tau_ij^theta
+Generated: 2026-09-18 12:15:51
+======================================================================
+
+----------------------------------------------------------------------
+[0] GATE -- population weights must reproduce the pipeline control
+----------------------------------------------------------------------
+  destinations: 312   estimation sample: 311
+  max|constructed - committed control| = 0.000e+00
+  PASS
+
+----------------------------------------------------------------------
+[1] elow (theta = 4.140) -- CORRELATION OF THE TWO LEVELS
+----------------------------------------------------------------------
+  raw corr(unit-weighted, pop-weighted)        = 0.9929
+  partial, after the other 7 controls          = 0.9907
+  partial, excluding log_pop_1960 from those   = 0.9912
+  share of post-control variation NOT shared   = 0.0186
+  REFERENCE: the 1947-population version of this check came
+  back at 0.9994 raw / 0.9990 partial, which tasks.md records
+  as having had no power to separate the controls (PR #143).
+
+[2] elow -- HEADLINE POPULATION ELASTICITY UNDER THE SWAP
+  spec                       pop-weighted ctrl      unit-weighted ctrl    
+  OLS                        +0.028 (0.014) p 0.043   +0.026 (0.014) p 0.068
+  IV-LP                      +0.052 (0.044) p 0.245   +0.048 (0.045) p 0.280
+                             F 23.28                F 23.49
+  IV-H                       +0.080 (0.078) p 0.303   +0.064 (0.076) p 0.402
+                             F  4.00                F  4.28
+  IV-B                       +0.059 (0.035) p 0.091   +0.052 (0.035) p 0.135
+                             F 15.32                F 15.60
+
+----------------------------------------------------------------------
+[1] ehigh (theta = 8.110) -- CORRELATION OF THE TWO LEVELS
+----------------------------------------------------------------------
+  raw corr(unit-weighted, pop-weighted)        = 0.9965
+  partial, after the other 7 controls          = 0.8991
+  partial, excluding log_pop_1960 from those   = 0.9000
+  share of post-control variation NOT shared   = 0.1916
+  REFERENCE: the 1947-population version of this check came
+  back at 0.9994 raw / 0.9990 partial, which tasks.md records
+  as having had no power to separate the controls (PR #143).
+
+[2] ehigh -- HEADLINE POPULATION ELASTICITY UNDER THE SWAP
+  spec                       pop-weighted ctrl      unit-weighted ctrl    
+  OLS                        +0.010 (0.006) p 0.091   +0.009 (0.006) p 0.109
+  IV-LP                      +0.023 (0.021) p 0.289   +0.021 (0.022) p 0.339
+                             F 16.71                F 16.18
+  IV-H                       +0.027 (0.033) p 0.409   +0.029 (0.032) p 0.366
+                             F  5.97                F  6.59
+  IV-B                       +0.024 (0.016) p 0.144   +0.024 (0.016) p 0.145
+                             F 13.10                F 13.23
+
+======================================================================
+READING
+======================================================================
+  The correlation governs, and it differs sharply by elasticity.
+  theta_low  (4.140): partial corr 0.9907
+  theta_high (8.110): partial corr 0.8991
+  Higher theta concentrates market access on nearby destinations,
+  where the choice between counting destinations and weighting
+  them by population bites hardest, so the two levels separate
+  more at theta_high. That is a mechanical consequence of the
+  formula, not a finding about Argentina.
+
+  AT THE MAIN CALIBRATION the check is near-uninformative.
+  At partial corr 0.9907 the two controls are near-collinear,
+  so IV-B moving +0.059 -> +0.052 is NOT evidence that the
+  pop_1960 universe problem fails to reach the estimate
+  through the control: there was little to remove. This is
+  the position PR #143 reached on the 1947 version, and on
+  this reading the check belongs in the record rather than in
+  the paper as a robustness result.
+
+  AT theta_high THE COMPARISON DOES HAVE POWER, and there the
+  swap moves nothing: IV-B +0.024 -> +0.024, p 0.144 -> 0.145.
+  That is the informative cell in this table. It is partial
+  reassurance about the control channel at one calibration,
+  and it is not the calibration the paper reports.
+
+  SCOPE. This addresses only the CONTROL channel. The outcome's
+  1960 denominator and the log_pop_1960 control carry the same
+  measurement error and are untouched here, so nothing above
+  speaks to those two.
+  The 0.95 threshold is a reporting convention agreed with the
+  coauthors, not a test: nothing here computes a p-value for
+  collinearity, and the cut is arbitrary at the margin.
+======================================================================

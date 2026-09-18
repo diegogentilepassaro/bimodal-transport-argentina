@@ -526,6 +526,16 @@ stage_d_analysis <- function(makelog) {
         file.path(dir_tables,
                   paste0("diagnostic_rail_km.", c("txt", "csv"))),
         makelog)
+
+    run_step("D.13o diagnostic_ma_unitweight",
+             a("diagnostic_ma_unitweight.R"),
+             paste("Population-free (unit-weighted) baseline MA control:",
+                   "collinearity with the population-weighted control"),
+             makelog)
+    verify_outputs("D.13o",
+        file.path(dir_tables,
+                  paste0("diagnostic_ma_unitweight.", c("txt", "csv"))),
+        makelog)
     # AutoFill scalars — must run after all tables so it has every CSV
     run_step("D.14 generate_scalars",
              a("generate_scalars.R"),
