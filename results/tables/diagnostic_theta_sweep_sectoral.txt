@@ -1,7 +1,7 @@
 ====================================================================== 
 THETA SWEEP — SECTORAL PATTERN (IV-Both beta by outcome x theta) 
 Is 'manufacturing responds, agriculture does not' robust to theta? 
-Generated: 2026-09-18 09:33:58 
+Generated: 2026-09-18 15:07:44 
 Stars: * p<.10  ** p<.05  *** p<.01 ; HC1 SE 
 ====================================================================== 
 

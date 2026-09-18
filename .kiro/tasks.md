@@ -1677,10 +1677,69 @@ below feeds a paper number, and each has a reason it was not rerun:
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 
-NEXT (green-lit, in order): full `R CMD BATCH main.R`;
+NEXT (green-lit, in order): COLD-START run (wipe data/derived + results,
+then `R CMD BATCH main.R`) — the warm run below does not exercise C.3c or
+D.13f; wire the 63 orphan artifacts into main.R or retire them;
 contamination-vs-treatment diagnostic once Cote sends the 23 provincial
 1960 totals. The rail-only 1947-dated baseline variant remains a Stage C
 item, to propose after Cote confirms.
+
+- [x] PR #166 (chore/full-pipeline-run) — full warm `R CMD BATCH
+      --no-save --no-restore code/main.R logs/main.Rout`, the
+      pre-submission reproduction gate. First end-to-end run of the
+      current working set.
+      RESULT: CLEAN. 55 of 55 steps started and ended, exit 0, zero
+      errors, zero "Execution halted", 50 min 03 sec wall clock — the
+      ledger's ≈50 min estimate was right.
+      ✅ ZERO SUBSTANTIVE DIVERGENCE. All 114 committed artifacts (113
+      tracked under results/ plus the gitignored scalars.tex) were
+      snapshotted with mtimes before the run and compared after. 49 were
+      rewritten; of those, 12 differ in content and ALL 12 differ only in
+      a `Generated:` timestamp line. Same for the 12 tracked
+      data_file_manifest.log files. scalars.tex regenerated with exactly
+      321 macros, unchanged. So every artifact main.R produces is
+      content-identical to what is committed.
+      ✅ PAPER COMPILES against freshly generated inputs: 0 errors, 0
+      undefined references, 62 pages, the same 5 pre-existing prose
+      overfull boxes.
+      SLOWEST STEPS: C.3b transition_grids 1332s, C.3a build_cost_raster
+      529s, C.2 cost_raster (hypothetical) 361s, D.13p
+      diagnostic_pretrend_quintiles 306s (the bootstrap, as estimated),
+      B.2 ipums 160s, C.1 cost_raster (actual) 144s.
+      ⚠ FINDING 1 — 63 OF 114 COMMITTED ARTIFACTS ARE ORPHANS. main.R
+      never rewrites them: their mtimes did not move. They come from
+      roughly 26 on-demand diagnostic scripts that were never wired in
+      (the recentering family, roadseg/roadtiming, ma_refpoint,
+      ma_urbancenter, ma_iceberg, pretrends_conley, pop1960_universe,
+      caba_node, tau_units, theta_gibbons, several .png previews, and
+      others). structure.md requires results/ to be deletable and fully
+      regenerable by main.R, and 63 files break that.
+      NOT A CORRECTNESS PROBLEM, checked rather than assumed: no orphan is
+      \input by the paper or read by generate_scalars.R. The one apparent
+      hit, diagnostic_theta_sweep_sectoral, resolves to the .tex (wired as
+      D.13h, regenerated) while the orphan is an unreferenced .png. So
+      this is AEA housekeeping — wire them in or retire them — not a
+      threat to any number in the paper.
+      ⚠ FINDING 2 — C.3c IS A NO-OP ON A WARM TREE, AND MY PLAN SAID
+      OTHERWISE. C.3c compute_taus ran in 0 seconds and logged "No cases
+      to process." 03c_compute_taus_parallel.R selects work via
+      `cases <- setdiff(all_cases, done_cases)` against the tau directory,
+      so with all 34 taus present it does nothing. I had grepped for
+      `file.exists` and `skip` in that script, found neither, and told
+      Diego at the plan gate that the run "genuinely rebuilds all 34
+      transition grids and all 34 tau matrices". The transition grids were
+      rebuilt (1332s, no skip logic there); the TAUS WERE NOT. So this run
+      does NOT verify that tau is reproducible, which is the most
+      expensive and most fragile artifact in the package. D.13f
+      unimodal_taus is the same (it skips existing, which the plan did
+      flag).
+      CONSEQUENCE: a cold-start run is still required before deposit and
+      is the only thing that exercises C.3c and D.13f. It is now the top
+      queue item rather than a footnote.
+      AI involvement: run and analysed by Kiro (Claude) under the gated
+      lifecycle; plan approved before execution, cr-review run and
+      published. logs/main.Rout and logs/makelog.log are gitignored, so
+      the evidence above is recorded here rather than committed.
 
 - [x] PR #165 (analysis/pretrend-quintiles) — coauthor request: do the
       results depend on the baseline controls entering LINEARLY? Replaces
