@@ -1,15 +1,16 @@
 ======================================================================
 POPULATION-FREE BASELINE MA CONTROL (coauthor request ii)
 Unit weights on the 1960 tau: MA_i = sum_j 1 / tau_ij^theta
-Generated: 2026-09-18 12:15:51
+Generated: 2026-09-18 12:33:56
 ======================================================================
 
 ----------------------------------------------------------------------
 [0] GATE -- population weights must reproduce the pipeline control
 ----------------------------------------------------------------------
   destinations: 312   estimation sample: 311
-  max|constructed - committed control| = 0.000e+00
-  PASS
+  logMA_actual_1960_s0_elow        max|diff| = 0.000e+00
+  logMA_actual_1960_s0_ehigh       max|diff| = 0.000e+00
+  PASS (both elasticities)
 
 ----------------------------------------------------------------------
 [1] elow (theta = 4.140) -- CORRELATION OF THE TWO LEVELS
@@ -36,54 +37,78 @@ Generated: 2026-09-18 12:15:51
 [1] ehigh (theta = 8.110) -- CORRELATION OF THE TWO LEVELS
 ----------------------------------------------------------------------
   raw corr(unit-weighted, pop-weighted)        = 0.9965
-  partial, after the other 7 controls          = 0.8991
-  partial, excluding log_pop_1960 from those   = 0.9000
-  share of post-control variation NOT shared   = 0.1916
+  partial, after the other 7 controls          = 0.9958
+  partial, excluding log_pop_1960 from those   = 0.9960
+  share of post-control variation NOT shared   = 0.0085
   REFERENCE: the 1947-population version of this check came
   back at 0.9994 raw / 0.9990 partial, which tasks.md records
   as having had no power to separate the controls (PR #143).
 
 [2] ehigh -- HEADLINE POPULATION ELASTICITY UNDER THE SWAP
   spec                       pop-weighted ctrl      unit-weighted ctrl    
-  OLS                        +0.010 (0.006) p 0.091   +0.009 (0.006) p 0.109
-  IV-LP                      +0.023 (0.021) p 0.289   +0.021 (0.022) p 0.339
-                             F 16.71                F 16.18
-  IV-H                       +0.027 (0.033) p 0.409   +0.029 (0.032) p 0.366
-                             F  5.97                F  6.59
-  IV-B                       +0.024 (0.016) p 0.144   +0.024 (0.016) p 0.145
-                             F 13.10                F 13.23
+  OLS                        +0.010 (0.006) p 0.084   +0.010 (0.006) p 0.101
+  IV-LP                      +0.021 (0.022) p 0.334   +0.021 (0.022) p 0.350
+                             F 16.71                F 16.31
+  IV-H                       +0.030 (0.032) p 0.345   +0.026 (0.032) p 0.401
+                             F  6.05                F  6.40
+  IV-B                       +0.024 (0.016) p 0.138   +0.023 (0.016) p 0.165
+                             F 13.18                F 13.21
+
+----------------------------------------------------------------------
+[3] IS THE UNIT-WEIGHTED LEVEL ACTUALLY POPULATION-FREE?
+----------------------------------------------------------------------
+  sd(log district area)                        = 1.55
+  largest / smallest district by area          = 3177x
+  corr(logMA_unit, log own area)               = -0.679
+  corr(logMA_unit,      log_pop_1960)          = +0.509
+  corr(pop-weighted MA, log_pop_1960)          = +0.532
+  area-weighted leg SKIPPED: 1 of 312 destinations lack an
+  area in the estimation sample (Capital Federal is a
+  destination but not an observation). Computing it on 311
+  destinations would not be comparable with the unit-weighted
+  level above, which uses all 312.
+  READING: unit weights remove the 1960 population DATA, and with
+  it the locality-universe measurement error, which is what the
+  request asked for. They do NOT remove population CONTENT -- the
+  unit-weighted level still correlates with log_pop_1960 at almost
+  the same magnitude as the population-weighted one -- and they
+  add dependence on the administrative partition, which is
+  plausibly endogenous to historical settlement. An area-weighted
+  variant is the natural third leg if this line is pursued.
 
 ======================================================================
 READING
 ======================================================================
-  The correlation governs, and it differs sharply by elasticity.
+  The partial correlation is a SCREENING RULE, not a test. A high
+  value means the swap has little room to move anything, so a
+  similar coefficient carries no information. A low value would
+  not by itself make the comparison decisive.
   theta_low  (4.140): partial corr 0.9907
-  theta_high (8.110): partial corr 0.8991
-  Higher theta concentrates market access on nearby destinations,
-  where the choice between counting destinations and weighting
-  them by population bites hardest, so the two levels separate
-  more at theta_high. That is a mechanical consequence of the
-  formula, not a finding about Argentina.
+  theta_high (8.110): partial corr 0.9958
 
-  AT THE MAIN CALIBRATION the check is near-uninformative.
-  At partial corr 0.9907 the two controls are near-collinear,
-  so IV-B moving +0.059 -> +0.052 is NOT evidence that the
-  pop_1960 universe problem fails to reach the estimate
-  through the control: there was little to remove. This is
-  the position PR #143 reached on the 1947 version, and on
-  this reading the check belongs in the record rather than in
-  the paper as a robustness result.
+  BOTH CALIBRATIONS ARE ABOVE THE 0.95 GATE, so the check is
+  near-uninformative throughout. IV-B moves +0.059 -> +0.052 at
+  theta_low and +0.024 -> +0.023 at theta_high, and NEITHER is
+  evidence that the pop_1960 universe problem fails to reach the
+  estimate through the baseline control: there was almost nothing
+  to remove in either case. This is the position PR #143 reached
+  on the 1947-population version, and unit weighting does not
+  escape it. The check belongs in the record, not in the paper as
+  a robustness result.
 
-  AT theta_high THE COMPARISON DOES HAVE POWER, and there the
-  swap moves nothing: IV-B +0.024 -> +0.024, p 0.144 -> 0.145.
-  That is the informative cell in this table. It is partial
-  reassurance about the control channel at one calibration,
-  and it is not the calibration the paper reports.
+  WHAT WOULD BE NEEDED to answer the question: a baseline control
+  that keeps the convergence role while carrying variation the
+  population-weighted level does not. Unit weights do not deliver
+  that, and neither did 1947 population. Both are still
+  distance-decay sums over the same 1960 tau, and that shared
+  structure is what drives the correlation.
 
   SCOPE. This addresses only the CONTROL channel. The outcome's
   1960 denominator and the log_pop_1960 control carry the same
   measurement error and are untouched here, so nothing above
   speaks to those two.
+  UNIT WEIGHTS ARE NOT POPULATION-FREE IN EFFECT, only in
+  construction; see [3] above.
   The 0.95 threshold is a reporting convention agreed with the
   coauthors, not a test: nothing here computes a p-value for
   collinearity, and the cut is arbitrary at the margin.

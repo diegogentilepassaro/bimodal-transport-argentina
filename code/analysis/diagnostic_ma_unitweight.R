@@ -24,10 +24,24 @@
 #     MA^unit_i = sum_{j != i} 1 / tau_ij^theta,
 #
 # which keeps the spatial structure and the convergence-control role
-# (baseline_ma_control_note.md) while removing 1960 population from the
-# control entirely. The treatment and both instruments keep population
-# weights: reweighting those would change what market access means and is
-# a different exercise. So this isolates the control channel.
+# (baseline_ma_control_note.md) while removing 1960 population DATA from
+# the control. The treatment and both instruments keep population weights:
+# reweighting those would change what market access means and is a
+# different exercise. So this isolates the control channel.
+#
+# "POPULATION-FREE" IS A CLAIM ABOUT CONSTRUCTION, NOT ABOUT EFFECT, and
+# part [3] measures the difference. Unit weights remove the 1960 population
+# data, and with it the locality-universe measurement error, which is what
+# the request asked for. They do not make the control independent of
+# population: the unit-weighted level still correlates +0.51 with
+# log_pop_1960 against the population-weighted level's +0.53. And they add
+# a dependence of their own, because counting every district equally makes
+# the control depend on how the country is cut into departamentos -- areas
+# span a factor of 3,177, the level correlates -0.68 with a district's own
+# area, and a province divided into many small units contributes more than
+# one large unit covering the same ground. That partition is plausibly
+# related to historical settlement, which is what the control is meant to
+# absorb. Raised by the cr-review of PR #164.
 #
 # WHAT DECIDES WHETHER THE ANSWER IS INFORMATIVE, and why that is measured
 # first. PR #143 ran the nearest available version of this check by
@@ -101,22 +115,109 @@ main <- function() {
     rep("\n%s", strrep("-", 70))
     rep("[0] GATE -- population weights must reproduce the pipeline control")
     rep(strrep("-", 70))
-    ma_pop <- build_ma_level(tau, census60, theta[["low"]], all_dest)
-    g <- merge(d[, c("geolev2", "logMA_actual_1960_s0_elow")],
-               ma_pop[, c("geolev2", "logMA")], by = "geolev2")
-    stopifnot(nrow(g) == nrow(d))
-    dmax <- max(abs(g$logMA - g$logMA_actual_1960_s0_elow))
     rep("  destinations: %d   estimation sample: %d", length(all_dest),
         nrow(d))
-    rep("  max|constructed - committed control| = %.3e", dmax)
-    stopifnot("unit-weight machinery must reproduce the pipeline MA" =
-                  dmax < 1e-10)
-    rep("  PASS")
+    # Both elasticities, not just theta_low: gating the second costs one
+    # more pass over 48,516 pairs and the ehigh arm is a published
+    # specification too (cr-review PR #164).
+    for (pair in list(c("elow", "low"), c("ehigh", "high"))) {
+        ctrl <- sprintf("logMA_actual_1960_s0_%s", pair[1])
+        ma_pop <- build_ma_level(tau, census60, theta[[pair[2]]], all_dest)
+        g <- merge(d[, c("geolev2", ctrl)],
+                   ma_pop[, c("geolev2", "logMA")], by = "geolev2")
+        stopifnot(nrow(g) == nrow(d))
+        dmax <- max(abs(g$logMA - g[[ctrl]]))
+        rep("  %-32s max|diff| = %.3e", ctrl, dmax)
+        stopifnot("the MA machinery must reproduce the pipeline control" =
+                      dmax < 1e-10)
+    }
+    rep("  PASS (both elasticities)")
 
     # ---- The unit-weighted level ----------------------------------------
     unit_w <- data.frame(geolev2 = census60$geolev2, w = 1)
     rows <- list()
-    for (pair in list(c("elow", "low"), c("ehigh", "high"))) {
+    # Per-elasticity comparison, in compare_one_theta() below: the
+    # correlation screen, the coefficient swap, and the assertion that the
+    # pop-weighted arm reproduces the published specification.
+    rows <- unlist(lapply(list(c("elow", "low"), c("ehigh", "high")),
+                          function(pr) compare_one_theta(pr, d, tau, unit_w,
+                                                         all_dest, rep,
+                                                         dir_tables)),
+                   recursive = FALSE)
+    df <- do.call(rbind, rows)
+
+    # Part [3]: what "population-free" actually buys. In
+    # report_population_content() below.
+    report_population_content(d, tau, unit_w, all_dest, rep)
+    # ---- What this does and does not establish ---------------------------
+    pc_lo <- unique(df$partial_corr[df$elasticity == "elow"])
+    pc_hi <- unique(df$partial_corr[df$elasticity == "ehigh"])
+    ivb <- function(el, col) {
+        v <- df[[col]][df$elasticity == el & df$spec == "IV-B"]
+        stopifnot(length(v) == 1L)
+        v
+    }
+    stopifnot(length(pc_lo) == 1L, length(pc_hi) == 1L)
+    rep("\n%s", strrep("=", 70))
+    rep("READING")
+    rep(strrep("=", 70))
+    rep("  The partial correlation is a SCREENING RULE, not a test. A high")
+    rep("  value means the swap has little room to move anything, so a")
+    rep("  similar coefficient carries no information. A low value would")
+    rep("  not by itself make the comparison decisive.")
+    rep("  theta_low  (%.3f): partial corr %.4f", theta[["low"]], pc_lo)
+    rep("  theta_high (%.3f): partial corr %.4f", theta[["high"]], pc_hi)
+    rep("")
+    rep("  BOTH CALIBRATIONS ARE ABOVE THE 0.95 GATE, so the check is")
+    rep("  near-uninformative throughout. IV-B moves %+.3f -> %+.3f at",
+        ivb("elow", "est_pop"), ivb("elow", "est_unit"))
+    rep("  theta_low and %+.3f -> %+.3f at theta_high, and NEITHER is",
+        ivb("ehigh", "est_pop"), ivb("ehigh", "est_unit"))
+    rep("  evidence that the pop_1960 universe problem fails to reach the")
+    rep("  estimate through the baseline control: there was almost nothing")
+    rep("  to remove in either case. This is the position PR #143 reached")
+    rep("  on the 1947-population version, and unit weighting does not")
+    rep("  escape it. The check belongs in the record, not in the paper as")
+    rep("  a robustness result.")
+    stopifnot(
+        "the reading below assumes both calibrations exceed the gate" =
+            pc_lo > 0.95 && pc_hi > 0.95
+    )
+    rep("")
+    rep("  WHAT WOULD BE NEEDED to answer the question: a baseline control")
+    rep("  that keeps the convergence role while carrying variation the")
+    rep("  population-weighted level does not. Unit weights do not deliver")
+    rep("  that, and neither did 1947 population. Both are still")
+    rep("  distance-decay sums over the same 1960 tau, and that shared")
+    rep("  structure is what drives the correlation.")
+    rep("")
+    rep("  SCOPE. This addresses only the CONTROL channel. The outcome's")
+    rep("  1960 denominator and the log_pop_1960 control carry the same")
+    rep("  measurement error and are untouched here, so nothing above")
+    rep("  speaks to those two.")
+    rep("  UNIT WEIGHTS ARE NOT POPULATION-FREE IN EFFECT, only in")
+    rep("  construction; see [3] above.")
+    rep("  The 0.95 threshold is a reporting convention agreed with the")
+    rep("  coauthors, not a test: nothing here computes a p-value for")
+    rep("  collinearity, and the cut is arbitrary at the margin.")
+    rep(strrep("=", 70))
+
+    out_txt <- file.path(dir_tables, "diagnostic_ma_unitweight.txt")
+    writeLines(out, out_txt)
+    message("\nSaved: ", out_txt)
+    out_csv <- file.path(dir_tables, "diagnostic_ma_unitweight.csv")
+    write.csv(df, out_csv, row.names = FALSE)
+    message("Saved: ", out_csv)
+}
+
+# ---------------------------------------------------------------------------
+# compare_one_theta(): parts [1] and [2] for one elasticity. Returns the
+# CSV rows for that elasticity. Split out of main() for the 200-line
+# function limit (cr-review PR #164).
+# ---------------------------------------------------------------------------
+compare_one_theta <- function(pair, d, tau, unit_w, all_dest, rep,
+                              dir_tables) {
+    rows <- list()
         el  <- pair[1]
         th  <- theta[[pair[2]]]
         ctrl_pop  <- sprintf("logMA_actual_1960_s0_%s", el)
@@ -125,14 +226,32 @@ main <- function() {
         dd <- merge(d, ma_unit[, c("geolev2", "logMA_unit")], by = "geolev2")
         stopifnot(nrow(dd) == nrow(d))
 
-        # --- Correlation, the gate on interpretation ---------------------
+        # --- Correlation, the screening rule on interpretation -----------
         # Partial correlation is the margin that matters: the regression
-        # already conditions on the other seven controls, so what decides
-        # whether the swap can move anything is the independent variation
-        # left AFTER they are partialled out. Reported both ways because
-        # log_pop_1960 is itself a population term, and a reader will want
-        # to know whether the two levels separate only through it.
-        others_full <- setdiff(geo_controls_main, ctrl_pop)
+        # already conditions on the other controls, so what decides whether
+        # the swap CAN move anything is the independent variation left AFTER
+        # they are partialled out. Reported both ways because log_pop_1960
+        # is itself a population term, and a reader will want to know
+        # whether the two levels separate only through it.
+        #
+        # ALWAYS REMOVE THE ELOW NAME, then re-add the theta-specific one.
+        # geo_controls_main carries logMA_actual_1960_s0_ELOW and never the
+        # ehigh name, so setdiff(geo_controls_main, ctrl_pop) is a SILENT
+        # NO-OP at theta_high: the elow baseline stays in, the residualising
+        # set strips the variance being measured, and the partial
+        # correlation comes back 0.8991 instead of 0.9958 -- which inverted
+        # this script's conclusion in its first version (cr-review PR
+        # #164, blocking 1). Same pattern as table_12_robustness.R:64, and
+        # the same failure mode controls_ladder() was guarded against one
+        # commit earlier. The length assertion is the guard.
+        others_full <- c(setdiff(geo_controls_main,
+                                 "logMA_actual_1960_s0_elow"))
+        stopifnot(
+            "the theta-specific baseline must not be in the residualising set" =
+                !(ctrl_pop %in% others_full),
+            "the residualising set must be the other seven controls" =
+                length(others_full) == length(geo_controls_main) - 1L
+        )
         others_nopop <- setdiff(others_full, "log_pop_1960")
         pcor <- function(ctrls) {
             r <- function(v) residuals(lm(
@@ -148,14 +267,16 @@ main <- function() {
         rep("[1] %s (theta = %.3f) -- CORRELATION OF THE TWO LEVELS", el, th)
         rep(strrep("-", 70))
         rep("  raw corr(unit-weighted, pop-weighted)        = %.4f", raw)
-        rep("  partial, after the other 7 controls          = %.4f", p_all)
+        rep("  partial, after the other %d controls          = %.4f",
+            length(others_full), p_all)
         rep("  partial, excluding log_pop_1960 from those   = %.4f", p_nop)
-        # Share of the pop-weighted control's POST-CONTROL variation that
-        # the unit-weighted level does not share, i.e. 1 - partial^2. This
-        # is the quantity that bounds how much the swap could move: an
-        # earlier version printed 1 - R^2 from a regression that also
-        # included the other controls, which is a much smaller number
-        # measuring something else and read as far more reassuring.
+        # Share of the pop-weighted control's POST-CONTROL variation that the
+        # unit-weighted level does not share, i.e. 1 - partial^2. It is NOT a
+        # bound on how far the coefficient can move -- an earlier version of
+        # this line said it was, and the elow output falsifies that reading:
+        # 1 - p^2 is under two percent while IV-B moves about twelve
+        # (cr-review PR #164). It is a descriptive measure of how much
+        # independent variation the swap has to work with, nothing more.
         rep("  share of post-control variation NOT shared   = %.4f",
             1 - p_all^2)
         rep("  REFERENCE: the 1947-population version of this check came")
@@ -176,6 +297,18 @@ main <- function() {
                                 c(others_full, ctrl_pop))
         fit_unit <- fit_iv_quad("chg_log_pop_91_60", dd, endog, lp, hy,
                                 ctrls_unit)
+        # fit_pop IS a published specification, so assert it against the
+        # published output rather than assuming it. This is the check that
+        # would have caught blocking 1: the elow branch matched Table 12 to
+        # 1e-13 while the ehigh branch matched nothing, and nothing said so
+        # (cr-review PR #164, blocking 4). The gate in [0] verifies the MA
+        # CONSTRUCTION; this verifies the CONTROL SET, which is where the
+        # bug was.
+        assert_matches_published(fit_pop, endog, el, dir_tables)
+        stopifnot(
+            "both fits must use the same rows" =
+                nobs(fit_pop[["IV-B"]]) == nobs(fit_unit[["IV-B"]])
+        )
 
         rep("\n[2] %s -- HEADLINE POPULATION ELASTICITY UNDER THE SWAP", el)
         rep("  %-26s %-22s %-22s", "spec", "pop-weighted ctrl",
@@ -202,70 +335,121 @@ main <- function() {
                 n_obs = nobs(fit_pop[[key]]),
                 stringsAsFactors = FALSE)
         }
-    }
-    df <- do.call(rbind, rows)
+    rows
+}
 
-    # ---- What this does and does not establish ---------------------------
-    pc_lo <- unique(df$partial_corr[df$elasticity == "elow"])
-    pc_hi <- unique(df$partial_corr[df$elasticity == "ehigh"])
-    ivb <- function(el, col) {
-        v <- df[[col]][df$elasticity == el & df$spec == "IV-B"]
-        stopifnot(length(v) == 1L)
-        v
-    }
-    stopifnot(length(pc_lo) == 1L, length(pc_hi) == 1L)
-    rep("\n%s", strrep("=", 70))
-    rep("READING")
-    rep(strrep("=", 70))
-    rep("  The correlation governs, and it differs sharply by elasticity.")
-    rep("  theta_low  (%.3f): partial corr %.4f", theta[["low"]], pc_lo)
-    rep("  theta_high (%.3f): partial corr %.4f", theta[["high"]], pc_hi)
-    rep("  Higher theta concentrates market access on nearby destinations,")
-    rep("  where the choice between counting destinations and weighting")
-    rep("  them by population bites hardest, so the two levels separate")
-    rep("  more at theta_high. That is a mechanical consequence of the")
-    rep("  formula, not a finding about Argentina.")
-    rep("")
-    if (pc_lo > 0.95) {
-        rep("  AT THE MAIN CALIBRATION the check is near-uninformative.")
-        rep("  At partial corr %.4f the two controls are near-collinear,", pc_lo)
-        rep("  so IV-B moving %+.3f -> %+.3f is NOT evidence that the",
-            ivb("elow", "est_pop"), ivb("elow", "est_unit"))
-        rep("  pop_1960 universe problem fails to reach the estimate")
-        rep("  through the control: there was little to remove. This is")
-        rep("  the position PR #143 reached on the 1947 version, and on")
-        rep("  this reading the check belongs in the record rather than in")
-        rep("  the paper as a robustness result.")
+# ---------------------------------------------------------------------------
+# report_population_content(): part [3], measuring what "population-free"
+# actually buys. Split out of main() for the 200-line limit.
+# ---------------------------------------------------------------------------
+report_population_content <- function(d, tau, unit_w, all_dest, rep) {
+    # ---- [3] What "population-free" actually buys -------------------------
+    # Raised by the cr-review of PR #164 and measured here rather than
+    # asserted. Unit weights remove 1960 POPULATION DATA from the control.
+    # They do not make the control independent of population, and they
+    # introduce a different dependence: counting every district equally
+    # means the control depends on how the country happens to be cut into
+    # departamentos, and a province divided into many small units
+    # contributes more than one large unit covering the same ground. That
+    # partition is plausibly related to historical settlement, which is the
+    # very thing the control is meant to absorb.
+    ma_unit_lo <- build_ma_level(tau, unit_w, theta[["low"]], all_dest)
+    names(ma_unit_lo)[names(ma_unit_lo) == "logMA"] <- "logMA_unit"
+    area_w <- data.frame(geolev2 = d$geolev2, w = d$area_km2)
+    stopifnot("area must be positive for every district" =
+                  all(is.finite(area_w$w) & area_w$w > 0))
+    # Area weights need an area for every DESTINATION. area_km2 comes from
+    # the estimation sample, which is 311 of the 312 destinations because
+    # Capital Federal is a destination j but not an observation i
+    # (build_estimation_sample.R). Dropping it from the destination set
+    # instead would make the area-weighted level incommensurable with the
+    # unit-weighted one, which uses all 312, so the leg is SKIPPED rather
+    # than computed on a different footing. Getting it would mean reading
+    # the district geometry, which is more than this leg is worth: it is
+    # here to show that unit weights buy a different dependence, not to be
+    # a third estimate.
+    miss_area <- setdiff(all_dest, area_w$geolev2)
+    ma_area <- if (length(miss_area) == 0L) {
+        m <- build_ma_level(tau, area_w, theta[["low"]], all_dest)
+        names(m)[names(m) == "logMA"] <- "logMA_area"
+        m
+    } else NULL
+    a <- merge(d[, c("geolev2", "log_pop_1960", "area_km2",
+                     "logMA_actual_1960_s0_elow")],
+               ma_unit_lo[, c("geolev2", "logMA_unit")], by = "geolev2")
+    rep("\n%s", strrep("-", 70))
+    rep("[3] IS THE UNIT-WEIGHTED LEVEL ACTUALLY POPULATION-FREE?")
+    rep(strrep("-", 70))
+    rep("  sd(log district area)                        = %.2f",
+        sd(log(a$area_km2)))
+    rep("  largest / smallest district by area          = %.0fx",
+        max(a$area_km2) / min(a$area_km2))
+    rep("  corr(logMA_unit, log own area)               = %+.3f",
+        cor(a$logMA_unit, log(a$area_km2)))
+    rep("  corr(logMA_unit,      log_pop_1960)          = %+.3f",
+        cor(a$logMA_unit, a$log_pop_1960))
+    rep("  corr(pop-weighted MA, log_pop_1960)          = %+.3f",
+        cor(a$logMA_actual_1960_s0_elow, a$log_pop_1960))
+    if (!is.null(ma_area)) {
+        a2 <- merge(a, ma_area[, c("geolev2", "logMA_area")], by = "geolev2")
+        rep("  corr(logMA_unit, AREA-weighted MA)           = %+.3f",
+            cor(a2$logMA_unit, a2$logMA_area))
+        rep("  (destinations with area: all %d)", length(all_dest))
     } else {
-        rep("  At the main calibration the levels separate enough for the")
-        rep("  comparison in [2] to be read directly.")
+        rep("  area-weighted leg SKIPPED: %d of %d destinations lack an",
+            length(miss_area), length(all_dest))
+        rep("  area in the estimation sample (Capital Federal is a")
+        rep("  destination but not an observation). Computing it on 311")
+        rep("  destinations would not be comparable with the unit-weighted")
+        rep("  level above, which uses all %d.", length(all_dest))
     }
-    rep("")
-    if (pc_hi <= 0.95) {
-        rep("  AT theta_high THE COMPARISON DOES HAVE POWER, and there the")
-        rep("  swap moves nothing: IV-B %+.3f -> %+.3f, p %.3f -> %.3f.",
-            ivb("ehigh", "est_pop"), ivb("ehigh", "est_unit"),
-            ivb("ehigh", "p_pop"), ivb("ehigh", "p_unit"))
-        rep("  That is the informative cell in this table. It is partial")
-        rep("  reassurance about the control channel at one calibration,")
-        rep("  and it is not the calibration the paper reports.")
-    }
-    rep("")
-    rep("  SCOPE. This addresses only the CONTROL channel. The outcome's")
-    rep("  1960 denominator and the log_pop_1960 control carry the same")
-    rep("  measurement error and are untouched here, so nothing above")
-    rep("  speaks to those two.")
-    rep("  The 0.95 threshold is a reporting convention agreed with the")
-    rep("  coauthors, not a test: nothing here computes a p-value for")
-    rep("  collinearity, and the cut is arbitrary at the margin.")
-    rep(strrep("=", 70))
+    rep("  READING: unit weights remove the 1960 population DATA, and with")
+    rep("  it the locality-universe measurement error, which is what the")
+    rep("  request asked for. They do NOT remove population CONTENT -- the")
+    rep("  unit-weighted level still correlates with log_pop_1960 at almost")
+    rep("  the same magnitude as the population-weighted one -- and they")
+    rep("  add dependence on the administrative partition, which is")
+    rep("  plausibly endogenous to historical settlement. An area-weighted")
+    rep("  variant is the natural third leg if this line is pursued.")
 
-    out_txt <- file.path(dir_tables, "diagnostic_ma_unitweight.txt")
-    writeLines(out, out_txt)
-    message("\nSaved: ", out_txt)
-    out_csv <- file.path(dir_tables, "diagnostic_ma_unitweight.csv")
-    write.csv(df, out_csv, row.names = FALSE)
-    message("Saved: ", out_csv)
+    invisible(TRUE)
+}
+# ---------------------------------------------------------------------------
+# assert_matches_published(fits, endog, el, dir_tables)
+#
+# The pop-weighted arm of each comparison is a specification the paper
+# already reports, so it must reproduce Table 12's committed CSV:
+#   elow  -> Panel C, "Full sample (for reference)" (the main spec)
+#   ehigh -> Panel A, the alternative-theta row
+# Estimate AND standard error, explicit 1e-10 on both.
+#
+# WHY THIS EXISTS: without it the ehigh arm silently used the wrong control
+# set for a whole PR, and the conclusion drawn from it was the opposite of
+# the truth. A diagnostic that re-estimates a published specification should
+# prove it re-estimated that specification (cr-review PR #164).
+# ---------------------------------------------------------------------------
+assert_matches_published <- function(fits, endog, el, dir_tables) {
+    t12 <- read.csv(file.path(dir_tables, "table_12_robustness.csv"),
+                    stringsAsFactors = FALSE)
+    ref <- if (el == "elow") {
+        t12[t12$panel == "C" & grepl("Full sample", t12$label), ]
+    } else {
+        t12[t12$panel == "A", ]
+    }
+    stopifnot("Table 12 must carry the reference row" = nrow(ref) == 1L)
+    for (pair in list(c("OLS", "ols"), c("IV-LP", "iv_lp"),
+                      c("IV-H", "iv_h"), c("IV-B", "iv_b"))) {
+        nm <- if (pair[1] == "OLS") endog else paste0("fit_", endog)
+        co <- safe_coef(fits[[pair[1]]], nm)
+        stopifnot(
+            "the pop-weighted arm must compute" = !is.na(co$est),
+            "the pop-weighted arm must reproduce Table 12's estimate" =
+                abs(co$est - ref[[paste0(pair[2], "_est")]]) < 1e-10,
+            "the pop-weighted arm must reproduce Table 12's SE" =
+                abs(co$se - ref[[paste0(pair[2], "_se")]]) < 1e-10
+        )
+    }
+    invisible(TRUE)
 }
 
 # ---------------------------------------------------------------------------
@@ -278,11 +462,19 @@ main <- function() {
 # self-contained by repo convention, and the gate in main() requires this
 # to reproduce the committed control exactly when w is 1960 population.
 #
+# The stored tau is upper-triangle only -- 48,516 rows = 312*311/2, no
+# diagonal, no duplicated unordered pair -- so the rbind builds each
+# ordered pair exactly once and does not double count. TWO DEVIATIONS from
+# the pipeline, both deliberate: destinations are restricted to dest_keep,
+# and the i == j term is dropped by an explicit filter here rather than by
+# the pipeline's construction. An absent weight is an ERROR, never coerced
+# to 0, because silently weighting a destination 0 is the failure this
+# script would be least able to see.
+#
 # Generalised from diagnostic_placebo_ma1947.R's version by taking a
 # WEIGHT column rather than a population column, so the same code path
-# serves the population-weighted gate and the unit-weighted object. An
-# absent weight is an error, never coerced to 0: silently weighting a
-# destination 0 is the failure this diagnostic would be least able to see.
+# serves the population-weighted gate, the unit-weighted object and the
+# area-weighted leg of part [3].
 # ---------------------------------------------------------------------------
 build_ma_level <- function(tau_df, w_df, theta_val, dest_keep) {
     sym <- rbind(

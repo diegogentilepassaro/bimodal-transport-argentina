@@ -1730,23 +1730,55 @@ baseline variant remains a Stage C item, to propose after Cote confirms.
       #143's 1947-population version came back at 0.9990 partial and
       tasks.md already records that such a contrast "never had power to
       separate the two controls".
-      VERDICT AT THE MAIN CALIBRATION: partial corr 0.9907 after the other
-      seven controls, so the check is near-uninformative at θ = 4.14. IV-B
-      moves +0.059 → +0.052 (p 0.091 → 0.135) and that movement carries no
-      weight, because there was almost nothing to remove. NOT in the paper
-      as a robustness result, by the pre-agreed 0.95 gate.
-      THE INFORMATIVE CELL, unanticipated by the plan: at θ_high = 8.11
-      the partial correlation is 0.8991, below the gate, and there the
-      swap moves nothing at all — IV-B +0.024 → +0.024, p 0.144 → 0.145.
-      Higher θ concentrates MA on nearby destinations, where counting
-      destinations versus weighting them by population differs most, so
-      the levels separate more; that is mechanical, not a fact about
-      Argentina. So there IS partial reassurance about the control
-      channel, at a calibration the paper does not report. Cote's call
-      whether that is worth saying in print.
-      GATE: the same construction with population weights reproduces the
-      committed `logMA_actual_1960_s0_elow` to 0.000e+00, so the
-      reweighting machinery is verified before any conclusion rests on it.
+      VERDICT: near-uninformative at BOTH calibrations. Partial corr after
+      the other seven controls is 0.9907 at θ_low = 4.14 and 0.9958 at
+      θ_high = 8.11, both above the pre-agreed 0.95 gate. IV-B moves
+      +0.059 → +0.052 at θ_low and +0.024 → +0.023 at θ_high, and neither
+      movement carries weight because there was almost nothing to remove.
+      NOT in the paper as a robustness result. Unit weighting does not
+      escape the position PR #143 reached on the 1947 version: both are
+      distance-decay sums over the same 1960 τ, and that shared structure
+      is what drives the correlation.
+      ⚠ THE FIRST VERSION OF THIS ENTRY CLAIMED THE OPPOSITE at θ_high
+      (0.8991, "the informative cell", "partial reassurance about the
+      control channel"). That was an artifact of a silent no-op:
+      `setdiff(geo_controls_main, ctrl_pop)` removes nothing at θ_high,
+      because geo_controls_main carries the ELOW baseline name and never
+      the ehigh one, so the ehigh branch residualised against a set that
+      still contained the elow pop-weighted baseline and stripped the
+      variance being measured. Caught by the cr-review, confirmed
+      independently, retracted. The mechanism offered for the "asymmetry"
+      was an explanation of the artifact. This is the same failure mode
+      `controls_ladder()` was guarded against in PR #163, one commit
+      earlier.
+      GUARDS ADDED SO IT CANNOT RECUR: the residualising set is built by
+      always removing the elow name and is asserted not to contain the
+      θ-specific baseline; and `assert_matches_published()` requires the
+      pop-weighted arm to reproduce Table 12's committed CSV (Panel C
+      "Full sample" at θ_low, Panel A at θ_high) on estimate AND SE at
+      1e-10. The elow arm always matched to 1e-13; the ehigh arm matched
+      nothing and nothing said so. Both verified to fire by reintroducing
+      the bug.
+      CONSTRUCTION GATE: the same machinery with population weights
+      reproduces both committed controls to 0.000e+00. Verified
+      non-vacuous by perturbing θ 0.01%. Note what it did NOT catch: it
+      gates the MA CONSTRUCTION, not the CONTROL SET, which is where the
+      bug was.
+      ⚠ "POPULATION-FREE" IS A CLAIM ABOUT CONSTRUCTION, NOT EFFECT
+      (part [3], added on the review's prompting). Unit weights remove the
+      1960 population data and with it the locality-universe measurement
+      error, which is what was asked. They do not make the control
+      independent of population: it still correlates +0.509 with
+      log_pop_1960 against the pop-weighted level's +0.532. And they add a
+      dependence on the administrative partition — areas span 3,177×, the
+      level correlates −0.679 with a district's own area, and a province
+      cut into many small departamentos contributes more than one large
+      unit over the same ground. That partition is plausibly endogenous to
+      historical settlement, the thing the control is meant to absorb. An
+      area-weighted variant is the natural third leg; not computed here
+      because Capital Federal is a destination without an area in the
+      estimation sample, so it would rest on 311 of 312 destinations and
+      not be comparable.
       Wired as main.R step D.13o. See
       results/tables/diagnostic_ma_unitweight.txt.
 
