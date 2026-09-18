@@ -851,20 +851,31 @@ mop_check <- function(m, yvar, endog, instrs, ctrls, alpha = 0.05) {
 # control vector into a formula string, and an empty vector yields
 # "y ~ endog + " and "y ~ | endog ~ z", neither of which parses.
 # ---------------------------------------------------------------------------
-controls_ladder <- function(full_set) {
-    baselines <- c("logMA_actual_1960_s0_elow", "log_pop_1960")
+controls_ladder <- function(full_set, baselines = c("logMA_actual_1960_s0_elow",
+                                                    "log_pop_1960")) {
     geo <- setdiff(full_set, baselines)
-    # A rename in config.R would make the setdiff a no-op, silently
-    # collapsing rungs 2 and 4 into the same specification. Assert the
-    # block sizes rather than trusting the names.
-    stopifnot(
-        "controls_ladder(): expected six geographic controls" =
-            length(geo) == 6L,
-        "controls_ladder(): expected both baselines in the full set" =
-            all(baselines %in% full_set),
-        "controls_ladder(): expected an eight-term full set" =
-            length(full_set) == 8L
-    )
+    # A rename in config.R makes the setdiff a no-op and would silently
+    # collapse rungs 2 and 4 into the same specification. The MEMBERSHIP
+    # check is the one that catches that, so it goes first: stopifnot stops
+    # at the first failure, and the earlier ordering reported "expected six
+    # geographic controls" for a rename, pointing the maintainer at the
+    # wrong line (cr-review PR #163). The size checks that follow catch a
+    # legitimate change to the control set, which is not an error in the
+    # code but does require a decision about the rungs, so the message says
+    # what to do.
+    # stop() rather than stopifnot() so the guidance fits inside the line
+    # limit; stopifnot condition names have to be single literals.
+    if (!all(baselines %in% full_set)) {
+        stop("controls_ladder(): a baseline name is missing from the ",
+             "control set. If it was renamed in config.R, update the ",
+             "`baselines` default in this function.", call. = FALSE)
+    }
+    if (length(geo) != 6L || length(full_set) != 8L) {
+        stop("controls_ladder(): the control set is no longer six ",
+             "geographic terms plus two baselines. Decide which rung a ",
+             "new control belongs to, then update this function.",
+             call. = FALSE)
+    }
     list(
         list(ctrls = "1",  label = "(1) No controls"),
         list(ctrls = geo,  label = "(2) + geography"),

@@ -138,55 +138,17 @@ main <- function() {
         fits = fits_main, endog = main_treatment
     )
 
-    # ----------------------------------------------------------------------
-    # Panel D: controls ladder (coauthor request, 2026-09). Adds the
-    # control blocks one at a time so the sensitivity of the headline
-    # estimate to the control set is on the page.
-    #
-    # READ THIS BEFORE READING THE PANEL. The rungs are NOT the same
-    # estimator with fewer covariates; controls_ladder() in _iv_helpers.R
-    # documents why. The short version is that the baseline log-MA term is
-    # part of the identification, so removing it changes the first stage.
-    # In this panel that is the largest single movement: the
-    # hypothetical-road instrument's robust F is 26.35 at rung (2) and
-    # 3.75 at rung (3). The weak-hypo fact the paper reports is therefore
-    # a consequence of conditioning on baseline MA rather than a property
-    # of the instrument on its own. Every rung prints its F so the reader
-    # can see which of the two is moving.
-    #
-    # The rungs come from controls_ladder() in _iv_helpers.R so that this
-    # panel and appendix Table B3 cannot drift apart.
-    # ----------------------------------------------------------------------
-    ladder <- controls_ladder(geo_controls_main)
-    fits_D_last <- NULL
-    for (rung in ladder) {
-        fits_D <- fit_iv_quad(
-            y = "chg_log_pop_91_60", data = d,
-            endog = main_treatment,
-            lp_instr = main_lp_instrument,
-            hypo_instr = main_hypo_instrument,
-            ctrls_vec = rung$ctrls
-        )
-        rows[[length(rows) + 1L]] <- build_row(
-            panel = "D", label = rung$label,
-            fits = fits_D, endog = main_treatment
-        )
-        fits_D_last <- fits_D
-    }
-    # The top rung IS the main specification, so it must reproduce the
-    # Panel C reference row exactly. If it does not, the ladder is built
-    # on a different control set than the paper's tables and every rung
-    # below is uninterpretable. Machine precision, not display precision.
-    for (key in c("OLS", "IV-LP", "IV-H", "IV-B")) {
-        nm <- if (key == "OLS") main_treatment else paste0("fit_", main_treatment)
-        stopifnot(
-            "Panel D rung (4) must reproduce the main specification" =
-                isTRUE(all.equal(
-                    safe_coef(fits_D_last[[key]], nm)$est,
-                    safe_coef(fits_main[[key]], nm)$est
-                ))
-        )
-    }
+    # ------------------------------------------------------------------
+    # Panel D: controls ladder. Built in build_panel_d() below, both to
+    # keep main() inside the 200-line limit and because the panel needs
+    # its own sample and its own assertions. Read that function before
+    # reading the panel: the rungs change the first stage, not only the
+    # control set.
+    # ------------------------------------------------------------------
+    D_out <- build_panel_d(d, dir_tables = dir_tables)
+    rows_D <- D_out$rows
+    n_D <- D_out$n_obs
+    rows <- c(rows, rows_D)
 
     # ----------------------------------------------------------------------
     # Assemble data frame and print summary
@@ -208,6 +170,134 @@ main <- function() {
                         r$n_obs))
     }
 
+    # ------------------------------------------------------------------
+    # LaTeX output. Extracted to write_tex() below: with Panel D added,
+    # main() ran past the 200-line limit in the project standards.
+    # ------------------------------------------------------------------
+    write_tex(df, n_sub = n_sub, n_D = n_D, theta = theta,
+              dir_tables = dir_tables)
+
+    out_csv <- file.path(dir_tables, "table_12_robustness.csv")
+    write.csv(df, out_csv, row.names = FALSE)
+    message("Saved: ", out_csv)
+}
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------
+# build_panel_d(): the controls-ladder rows of Panel D, with the panel's
+# own complete-case sample and its own assertions. Returns the row list
+# and the shared N. Split out of main() for the 200-line limit
+# (cr-review PR #163).
+# --------------------------------------------------------------------------
+build_panel_d <- function(d, dir_tables) {
+    # ----------------------------------------------------------------------
+    # Panel D: controls ladder (coauthor request, 2026-09). Adds the
+    # control blocks one at a time so the sensitivity of the headline
+    # estimate to the control set is on the page.
+    #
+    # READ THIS BEFORE READING THE PANEL. The rungs are NOT the same
+    # estimator with fewer covariates; controls_ladder() in _iv_helpers.R
+    # documents why. The short version is that the baseline log-MA term is
+    # part of the identification, so removing it changes the first stage.
+    # In this panel that is the largest single movement: the
+    # hypothetical-road instrument's robust F is about 26 at rung (2) and
+    # about 4 at rung (3), while the Larkin Plan instrument's holds in the
+    # low twenties throughout. Figures are approximate on purpose -- the
+    # exact values move with theta, which changed from 4.55 to 4.14 this
+    # cycle, and the CSV is the place to read them.
+    #
+    # WHAT THAT DOES AND DOES NOT ESTABLISH. It locates the weakness of
+    # the hypothetical-road instrument in its relationship with baseline
+    # market access. Two readings are available and this code does not
+    # choose between them: that the weakness is an artifact of
+    # conditioning, or that the instrument genuinely has little variation
+    # orthogonal to baseline MA, which would be a property of the
+    # instrument. Section 5.1's characterization and the open question
+    # about an LP-only main specification both turn on which is right, so
+    # it is a coauthor decision (cr-review PR #163). Every rung prints its
+    # F so the reader can see the movement and judge.
+    #
+    # The rungs come from controls_ladder() in _iv_helpers.R so that this
+    # panel and appendix Table B3 cannot drift apart.
+    #
+    # ONE SAMPLE ACROSS RUNGS, per table_7_pre_trends.R: complete cases on
+    # the union of every rung's variables, so the panel isolates the
+    # control set rather than the sample. The controls contribute no
+    # missingness today and the rungs would share a sample anyway, but one
+    # NA in a future control would silently turn this into a
+    # sample-composition ladder. The row count is asserted constant below
+    # and reported in the table note.
+    # ----------------------------------------------------------------------
+    ladder <- controls_ladder(geo_controls_main)
+    y_D <- "chg_log_pop_91_60"
+    all_v_D <- unique(c(y_D, main_treatment, main_lp_instrument,
+                        main_hypo_instrument,
+                        setdiff(unlist(lapply(ladder, `[[`, "ctrls")), "1")))
+    d_D <- as.data.frame(d)[complete.cases(as.data.frame(d)[, all_v_D]), ]
+    rows_D <- list()
+    for (rung in ladder) {
+        fits_D <- fit_iv_quad(
+            y = y_D, data = d_D,
+            endog = main_treatment,
+            lp_instr = main_lp_instrument,
+            hypo_instr = main_hypo_instrument,
+            ctrls_vec = rung$ctrls
+        )
+        rows_D[[length(rows_D) + 1L]] <- build_row(
+            panel = "D", label = rung$label,
+            fits = fits_D, endog = main_treatment
+        )
+    }
+    D <- do.call(rbind, rows_D)
+    n_D <- unique(D$n_obs)
+    # Every cell must compute. safe_coef() returns NA when the coefficient
+    # name is absent, all.equal(NA, NA) is TRUE, and tex_cell() renders NA
+    # as a blank -- so without this the top-rung check below could pass on
+    # a panel of empty cells (cr-review PR #163). Assert presence first.
+    stopifnot(
+        "Panel D must have one row per rung" = nrow(D) == length(ladder),
+        "Panel D rungs must share one sample" = length(n_D) == 1L,
+        "Panel D estimates must all compute" =
+            !any(is.na(c(D$ols_est, D$iv_lp_est, D$iv_h_est, D$iv_b_est))),
+        "Panel D first-stage F must all compute" =
+            !any(is.na(c(D$iv_lp_F, D$iv_h_F, D$iv_b_F)))
+    )
+    # The top rung IS the specification Table 9 reports, so assert it
+    # against Table 9's OWN CSV rather than against a refit here. A refit
+    # with the same control vector on the same data is the same call to a
+    # deterministic function: it cannot disagree, and asserting it while
+    # the table note tells the reader the published table was reproduced
+    # is a tautology dressed as an external check (cr-review PR #163).
+    # Explicit 1e-10, and the SE too: all.equal's default 1.5e-8 relative
+    # tolerance is not "machine precision", and a vcov change could move
+    # the SE while leaving the point estimate untouched.
+    t9_csv <- read.csv(file.path(dir_tables, "table_9_population_iv.csv"),
+                       stringsAsFactors = FALSE)
+    top <- D[D$label == ladder[[length(ladder)]]$label, ]
+    for (pair in list(c("OLS", "ols"), c("IV-LP", "iv_lp"),
+                      c("IV-H", "iv_h"), c("IV-B", "iv_b"))) {
+        ref <- t9_csv[t9_csv$outcome == y_D & t9_csv$spec == pair[1], ]
+        stopifnot(
+            "Table 9 must carry this outcome and spec" = nrow(ref) == 1L,
+            "Panel D top rung must reproduce Table 9's estimate" =
+                abs(top[[paste0(pair[2], "_est")]] - ref$estimate) < 1e-10,
+            "Panel D top rung must reproduce Table 9's SE" =
+                abs(top[[paste0(pair[2], "_se")]] - ref$std_err) < 1e-10
+        )
+    }
+    list(rows = rows_D, n_obs = n_D)
+}
+
+# --------------------------------------------------------------------------
+# write_tex(): emit the Table 12 LaTeX. Split out of main() when Panel D
+# pushed it over the 200-line function limit (cr-review PR #163). Takes
+# what it needs explicitly rather than reaching for config.R globals,
+# which are local to main() in this project's pattern.
+# --------------------------------------------------------------------------
+write_tex <- function(df, n_sub, n_D, theta, dir_tables) {
     # ----------------------------------------------------------------------
     # LaTeX output: one table with panel headers
     # ----------------------------------------------------------------------
@@ -223,9 +313,10 @@ main <- function() {
         "%          robust first-stage F, because the rungs change the",
         "%          instrument as well as the control set.",
         "%",
-        "% Columns (1)-(4) are OLS / IV-LP / IV-Hypo / IV-Both. All specs",
+        "% Columns (1)-(4) are OLS / IV-LP / IV-Hypo / IV-Both. Panels A-C",
         "% include baseline log MA, baseline log pop, and the six",
-        "% standardized geographic controls. Robust (HC1) standard errors.",
+        "% standardized geographic controls; Panel D varies that set by",
+        "% construction. Robust (HC1) standard errors throughout.",
         "",
         "\\begin{table}[htbp]",
         "\\centering",
@@ -263,7 +354,9 @@ main <- function() {
         }
         # Panel D carries a third line per IV cell holding the first-stage
         # F, because the rungs change the instrument as well as the control
-        # set. See the block comment on Panel D above.
+        # set. See the block comment on Panel D above. if/else rather than
+        # a `next`, so that any per-row logic added at the end of this loop
+        # later applies to Panel D too (cr-review PR #163).
         if (r$panel == "D") {
             tex_lines <- c(tex_lines,
                 sprintf("%s & %s & %s & %s & %s & %s \\\\",
@@ -274,17 +367,17 @@ main <- function() {
                         tex_cell_F(r$iv_h_est,  r$iv_h_se,  r$iv_h_p,  r$iv_h_F),
                         tex_cell_F(r$iv_b_est,  r$iv_b_se,  r$iv_b_p,  r$iv_b_F))
             )
-            next
+        } else {
+            tex_lines <- c(tex_lines,
+                sprintf("%s & %s & %s & %s & %s & %s \\\\",
+                        r$panel,
+                        r$label,
+                        tex_cell(r$ols_est,   r$ols_se,   r$ols_p),
+                        tex_cell(r$iv_lp_est, r$iv_lp_se, r$iv_lp_p),
+                        tex_cell(r$iv_h_est,  r$iv_h_se,  r$iv_h_p),
+                        tex_cell(r$iv_b_est,  r$iv_b_se,  r$iv_b_p))
+            )
         }
-        tex_lines <- c(tex_lines,
-            sprintf("%s & %s & %s & %s & %s & %s \\\\",
-                    r$panel,
-                    r$label,
-                    tex_cell(r$ols_est,   r$ols_se,   r$ols_p),
-                    tex_cell(r$iv_lp_est, r$iv_lp_se, r$iv_lp_p),
-                    tex_cell(r$iv_h_est,  r$iv_h_se,  r$iv_h_p),
-                    tex_cell(r$iv_b_est,  r$iv_b_se,  r$iv_b_p))
-        )
     }
 
     tex_lines <- c(tex_lines,
@@ -306,17 +399,23 @@ main <- function() {
                        n_sub),
                "subset for which the 1947 placebo outcome is defined. ",
                "Panel~D adds the control blocks one at a time, ending at ",
-               "the specification used in Table~\\ref{tab:population_iv}; ",
-               "the bracketed figure in each instrumented cell is that ",
-               "rung's heteroskedasticity-robust first-stage $F$. The ",
-               "rungs are not the same estimator with fewer covariates: ",
-               "the baseline log market access term is the convergence ",
-               "control that makes the instruments' variation comparable ",
-               "across districts, so removing it changes the first stage ",
-               "and not only the second. Movement between rungs~(2) ",
-               "and~(3) therefore mixes sensitivity to the control set ",
-               "with a change in instrument strength, which is why the ",
-               "$F$ is shown on every rung. ",
+               "the specification used in Table~\\ref{tab:population_iv}, ",
+               sprintf("on one common sample of %d districts so that ", n_D),
+               "differences across rungs come from the control set and ",
+               "not from sample composition; the top rung reproduces ",
+               "Table~\\ref{tab:population_iv} exactly, which the ",
+               "generating script asserts against that table's own ",
+               "output. The bracketed figure in each instrumented cell is ",
+               "that rung's heteroskedasticity-robust first-stage $F$. ",
+               "The rungs are not the same estimator with fewer ",
+               "covariates: baseline log market access is the standard ",
+               "convergence control, separating the effect of changing ",
+               "market access from the level at which a district started, ",
+               "so removing it changes the first stage and not only the ",
+               "second. Movement between rungs~(2) and~(3) therefore ",
+               "mixes sensitivity to the control set with a change in ",
+               "instrument strength, which is why the $F$ is shown on ",
+               "every rung. ",
                "Robust (HC1) SE. Significance: ",
                "$^{*}p<0.10,\\;^{**}p<0.05,\\;^{***}p<0.01$."),
         "\\end{table}"
@@ -325,29 +424,10 @@ main <- function() {
     out_tex <- file.path(dir_tables, "table_12_robustness.tex")
     writeLines(tex_lines, out_tex)
     message("\nSaved: ", out_tex)
-
-    out_csv <- file.path(dir_tables, "table_12_robustness.csv")
-    write.csv(df, out_csv, row.names = FALSE)
-    message("Saved: ", out_csv)
 }
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-# tex_cell_F(): tex_cell() plus a third line holding the first-stage F.
-#
-# Used by Panel D only. The shared tex_cell() in _table_helpers.R is left
-# alone so that Panels A-C, and every other table that calls it, are
-# unchanged byte for byte.
-tex_cell_F <- function(est, se, p, F_stat) {
-    if (is.na(est)) return(" ")
-    sprintf(
-        paste0("\\begin{tabular}{@{}c@{}} %.3f%s \\\\ (%.3f) \\\\ ",
-               "{\\scriptsize [%.1f]} \\end{tabular}"),
-        est, star_str(p, tex = TRUE), se, F_stat
-    )
-}
+# tex_cell_F() now lives in _table_helpers.R, shared with appendix Table
+# B3 (cr-review PR #163). Panel D takes the stacked default.
 
 # Build one row of the results data frame from a fit_iv_quad() output
 build_row <- function(panel, label, fits, endog) {

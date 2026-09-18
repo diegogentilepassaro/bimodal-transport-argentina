@@ -446,7 +446,7 @@ the timing of outcome measurement post-dates treatment.
 \subsection{Robustness}
 \label{sec:results_robustness}
 
-Table~\ref{tab:robustness} reports three stress tests of the main
+Table~\ref{tab:robustness} reports four stress tests of the main
 population elasticity estimated in
 Section~\ref{sec:population} (Panel~A of
 Table~\ref{tab:population_iv}): the coefficient on $\Delta \ln
@@ -551,5 +551,42 @@ coefficient and the post-reform coefficient are of the same order
 of magnitude on the common sample. This co-movement is consistent
 with both candidate readings offered in Section~\ref{sec:pre_trends}
 and does not adjudicate between them.
+
+\paragraph{Panel D --- controls ladder.}
+Panel~D adds the control blocks one at a time, on one common sample of
+\ladderN{} districts, ending at the main specification. The OLS
+coefficient falls from \ladderOLSNoCtrl{} with no controls to
+\popOLSCoef{} at the full set, and almost all of that movement comes
+from the six geographic controls rather than from the two baselines.
+The combined IV coefficient ranges from \ladderIVBMin{} to
+\ladderIVBMax{} across the four rungs.
+
+The rungs are not the same estimator with fewer covariates. Baseline
+log market access is the convergence control introduced in
+Section~\ref{sec:identification}, so removing it changes the first
+stage as well as the second, and Panel~D reports each rung's
+first-stage $F$ for that reason. The Larkin Plan instrument's $F$ stays
+between \ladderLPFMin{} and \ladderLPFMax{} on every rung. The
+hypothetical-road instrument's does not: it is \ladderHypoFNoMA{}
+without the baseline market-access control and \ladderHypoFWithMA{}
+with it. The weakness of the hypothetical-road instrument reported in
+Section~\ref{sec:first_stage_tab} is therefore specific to
+specifications that condition on baseline market access. Two readings
+are available. The instrument may have little variation orthogonal to
+baseline market access, which would be a property of the instrument
+itself; or the conditioning may absorb variation the instrument would
+otherwise supply. The estimates in this table do not distinguish them,
+and we draw no conclusion from the contrast here.
+
+Table~\ref{tab:sectoral_ladder} in Appendix~\ref{app:tables} repeats
+the ladder for the five sectoral outcomes of
+Table~\ref{tab:sectoral_iv}. The two manufacturing outcomes that carry
+the sectoral result of Section~\ref{sec:sectoral} strengthen as the
+baselines enter rather than weakening: value of production goes from
+\ladderValprodLo{} at the no-controls rung to \ladderValprodHi{} at the
+main specification, and wage mass from \ladderMassalLo{} to
+\ladderMassalHi{}, both significant at the one-percent level on every
+rung. Neither agricultural outcome is distinguishable from zero on any
+rung.
 
 \input{../results/tables/table_12_robustness.tex}
