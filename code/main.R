@@ -368,10 +368,19 @@ stage_d_analysis <- function(makelog) {
 
     run_step("D.13 table_12_robustness",
              a("table_12_robustness.R"),
-             "Table 12: robustness (alt theta, alt hypo, subsample)",
+             paste("Table 12: robustness (alt theta, alt hypo, subsample,",
+                   "controls ladder)"),
              makelog)
     verify_outputs("D.13",
         file.path(dir_tables, "table_12_robustness.tex"), makelog)
+
+    run_step("D.13a table_b3_sectoral_ladder",
+             a("table_b3_sectoral_ladder.R"),
+             "Table B3: controls ladder on the sectoral outcomes", makelog)
+    verify_outputs("D.13a",
+        file.path(dir_tables,
+                  paste0("table_b3_sectoral_ladder.", c("tex", "csv"))),
+        makelog)
 
     run_step("D.13b table_13_counterfactual",
              a("table_13_counterfactual.R"),

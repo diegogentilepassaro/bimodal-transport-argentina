@@ -827,6 +827,55 @@ mop_check <- function(m, yvar, endog, instrs, ctrls, alpha = 0.05) {
 }
 
 # ---------------------------------------------------------------------------
+# controls_ladder(full_set): the rungs of the controls ladder, shared by
+# Table 12 Panel D (population) and Table B3 (sectoral outcomes), so the
+# two tables cannot drift apart. Added PR #163 on the coauthor's request.
+#
+# Returns a list of list(ctrls, label), coarse to fine, ending at the full
+# set passed in. The caller passes geo_controls_main, which stays the only
+# place the control set is written down.
+#
+# WHAT THE RUNGS MEAN, AND WHAT THEY DO NOT. This is not the usual
+# add-covariates-and-watch-beta exercise. The baseline log-MA term is part
+# of the identifying argument, not a nuisance covariate: it is the
+# convergence control that makes the instruments' variation comparable
+# across districts. Removing it changes the FIRST STAGE, not only the
+# second, and in this application the effect is large -- the
+# hypothetical-road instrument's robust F is about 26 without it and about
+# 4 with it. Both tables therefore print the first-stage F on every rung,
+# and their notes say that movement across the MA-baseline rung mixes two
+# different things. A ladder that reported only coefficients here would
+# invite the reader to attribute all of it to omitted variables.
+#
+# Rung 1 passes "1" rather than character(0): fit_iv_quad() pastes the
+# control vector into a formula string, and an empty vector yields
+# "y ~ endog + " and "y ~ | endog ~ z", neither of which parses.
+# ---------------------------------------------------------------------------
+controls_ladder <- function(full_set) {
+    baselines <- c("logMA_actual_1960_s0_elow", "log_pop_1960")
+    geo <- setdiff(full_set, baselines)
+    # A rename in config.R would make the setdiff a no-op, silently
+    # collapsing rungs 2 and 4 into the same specification. Assert the
+    # block sizes rather than trusting the names.
+    stopifnot(
+        "controls_ladder(): expected six geographic controls" =
+            length(geo) == 6L,
+        "controls_ladder(): expected both baselines in the full set" =
+            all(baselines %in% full_set),
+        "controls_ladder(): expected an eight-term full set" =
+            length(full_set) == 8L
+    )
+    list(
+        list(ctrls = "1",  label = "(1) No controls"),
+        list(ctrls = geo,  label = "(2) + geography"),
+        list(ctrls = c(geo, baselines[1]),
+             label = "(3) + baseline log MA"),
+        list(ctrls = full_set,
+             label = "(4) + baseline log pop (main)")
+    )
+}
+
+# ---------------------------------------------------------------------------
 # cell_frame(data, vars, fit): the complete-case frame for ONE table cell,
 # asserted against the fit it will sit beside.
 #
