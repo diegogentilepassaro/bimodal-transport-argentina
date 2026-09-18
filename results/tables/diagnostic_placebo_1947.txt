@@ -1,5 +1,5 @@
 Placebo baseline experiment (Cote 1.1, email 2026-07-24)
-Generated: 2026-09-17 23:11:54.509122  |  common N = 237
+Generated: 2026-09-18 15:57:43.109956  |  common N = 237
 
 DV = chg_log_placebo_pop_60_47; endog/instruments as Table 7.
 NOTE: no 1947 MA exists (no 1947 network); 'full47' is the
@@ -16,25 +16,25 @@ swapping pop to 1947 alone only moves IV-B p from 0.034 to
 
 t7  (controls: elev_mean_std, rugged_mea_std, wheat_std, preCal_std, postCal_std, dist_to_BA_std, logMA_actual_1960_s0_elow, log_pop_1960)
   OLS    b=+0.0449  se=0.0192  p=0.020  F=--  N=237
-  IV-LP  b=+0.0813  se=0.0555  p=0.144  F=20.4  N=237
-  IV-H   b=+0.2335  se=0.3007  p=0.438  F=1.5  N=237
-  IV-B   b=+0.0966  se=0.0459  p=0.036  F=12.0  N=237
+  IV-LP  b=+0.0813  se=0.0555  p=0.144  F=18.9  N=237
+  IV-H   b=+0.2335  se=0.3007  p=0.438  F=1.1  N=237
+  IV-B   b=+0.0966  se=0.0459  p=0.036  F=10.8  N=237
 
 pop47  (controls: elev_mean_std, rugged_mea_std, wheat_std, preCal_std, postCal_std, dist_to_BA_std, logMA_actual_1960_s0_elow, log_pop_1947)
   OLS    b=+0.0323  se=0.0213  p=0.132  F=--  N=237
-  IV-LP  b=+0.0558  se=0.0637  p=0.382  F=19.3  N=237
-  IV-H   b=+0.3965  se=0.4722  p=0.402  F=1.5  N=237
-  IV-B   b=+0.0913  se=0.0542  p=0.093  F=11.4  N=237
+  IV-LP  b=+0.0558  se=0.0637  p=0.382  F=17.2  N=237
+  IV-H   b=+0.3965  se=0.4722  p=0.402  F=1.1  N=237
+  IV-B   b=+0.0913  se=0.0542  p=0.093  F=10.0  N=237
 
 full47  (controls: elev_mean_std, rugged_mea_std, wheat_std, preCal_std, postCal_std, dist_to_BA_std, log_pop_1947)
   OLS    b=-0.0137  se=0.0191  p=0.476  F=--  N=237
-  IV-LP  b=+0.0047  se=0.0544  p=0.931  F=25.0  N=237
-  IV-H   b=-0.0227  se=0.0622  p=0.715  F=15.7  N=237
-  IV-B   b=-0.0062  se=0.0361  p=0.863  F=23.4  N=237
+  IV-LP  b=+0.0047  se=0.0544  p=0.931  F=17.9  N=237
+  IV-H   b=-0.0227  se=0.0622  p=0.715  F=15.1  N=237
+  IV-B   b=-0.0062  se=0.0361  p=0.863  F=18.3  N=237
 
 nobase  (controls: elev_mean_std, rugged_mea_std, wheat_std, preCal_std, postCal_std, dist_to_BA_std)
   OLS    b=-0.0083  se=0.0190  p=0.662  F=--  N=237
-  IV-LP  b=+0.0131  se=0.0518  p=0.800  F=26.9  N=237
+  IV-LP  b=+0.0131  se=0.0518  p=0.800  F=19.2  N=237
   IV-H   b=-0.0230  se=0.0628  p=0.715  F=15.3  N=237
-  IV-B   b=-0.0005  se=0.0347  p=0.988  F=24.3  N=237
+  IV-B   b=-0.0005  se=0.0347  p=0.988  F=18.9  N=237
 

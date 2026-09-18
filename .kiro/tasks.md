@@ -1677,10 +1677,148 @@ below feeds a paper number, and each has a reason it was not rerun:
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 
-NEXT (green-lit, in order): full `R CMD BATCH main.R`;
-contamination-vs-treatment diagnostic once Cote sends the 23 provincial
-1960 totals. The rail-only 1947-dated baseline variant remains a Stage C
-item, to propose after Cote confirms.
+NEXT (green-lit, in order, and the ORDER MATTERS):
+1. Wire or retire the remaining 62 orphan artifacts. Two of the 63 are
+   already resolved (diagnostic_placebo_1947.{csv,txt}, now D.13l0). Each
+   one is either a pipeline output, in which case it belongs in main.R, or
+   it is exploratory, in which case it should not be committed. Expect
+   more instances of Finding 3: an unwired script is an unrun script, so
+   any of them may have silently rotted since the change that broke it.
+   Known already: diagnostic_ma_rail_firststage.R (needs a railonly raster
+   the pipeline never builds for the instrument case) and
+   diagnostic_recentering_controls.R (asserts identity-vs-panel deviation
+   < 1e-6, gets 7.23), both from #162.
+2. THEN the COLD-START run. Not before: wiping data/derived destroys the
+   fused raster/transition/tau that main.R never rebuilds, which would
+   make several committed orphans unregenerable. This is the only thing
+   that exercises C.3c and D.13f.
+3. Contamination-vs-treatment diagnostic once Cote sends the 23
+   provincial 1960 totals.
+Also queued, from the #166 review: make the artifacts DETERMINISTIC rather
+than arguing about which timestamp is less stale — a git SHA instead of
+wall-clock in the `Generated:` headers, and SOURCE_DATE_EPOCH for pdftex.
+That removes the timestamp churn permanently (paper.pdf is 3.2 MB
+re-committed for 116 bytes of metadata, 47 revisions, an 85 MiB pack).
+The rail-only 1947-dated baseline variant remains a Stage C item, to
+propose after Cote confirms.
+
+- [x] PR #166 (chore/full-pipeline-run) — full warm `R CMD BATCH
+      --no-save --no-restore code/main.R logs/main.Rout`, the
+      pre-submission reproduction gate. First end-to-end run of the
+      current working set.
+      RESULT: CLEAN. 55 of 55 steps started and ended, exit 0, zero
+      errors, zero "Execution halted", 50 min 03 sec wall clock — the
+      ledger's ≈50 min estimate was right.
+      ✅ ZERO SUBSTANTIVE DIVERGENCE. All 114 committed artifacts (113
+      tracked under results/ plus the gitignored scalars.tex) were
+      snapshotted with mtimes before the run and compared after. 49 were
+      rewritten and 63 were not (the remaining 2 are .gitkeep files, which
+      the earlier version of this entry filtered silently, leaving the
+      arithmetic not closing). Of the 49, 12 differ in content and ALL 12
+      differ only in a `Generated:` timestamp line. The review added a
+      check worth keeping: paper.pdf's extracted text is byte-identical
+      across revisions (cmp -l = 116 bytes, all metadata), which
+      indirectly confirms the ~26 gitignored .tex paper inputs were
+      content-identical too. Same for the 12 tracked
+      data_file_manifest.log files. scalars.tex regenerated with exactly
+      321 macros, unchanged. So every artifact main.R produces is
+      content-identical to what is committed.
+      ✅ PAPER COMPILES against freshly generated inputs: 0 errors, 0
+      undefined references, 62 pages, the same 5 pre-existing prose
+      overfull boxes.
+      SLOWEST STEPS: C.3b transition_grids 1332s, C.3a build_cost_raster
+      529s, C.2 cost_raster (hypothetical) 361s, D.13p
+      diagnostic_pretrend_quintiles 306s (the bootstrap, as estimated),
+      B.2 ipums 160s, C.1 cost_raster (actual) 144s.
+      ⚠ FINDING 1 — 63 OF 114 COMMITTED ARTIFACTS ARE ORPHANS. main.R
+      never rewrites them: their mtimes did not move. They come from
+      roughly 26 on-demand diagnostic scripts that were never wired in
+      (the recentering family, roadseg/roadtiming, ma_refpoint,
+      ma_urbancenter, ma_iceberg, pretrends_conley, pop1960_universe,
+      caba_node, tau_units, theta_gibbons, several .png previews, and
+      others). structure.md requires results/ to be deletable and fully
+      regenerable by main.R, and 63 files break that.
+      ⚠ MY SAFETY CLAIM HERE WAS WRONG, corrected after the cr-review. I
+      checked whether the PAPER or generate_scalars.R read an orphan —
+      neither does, and that part holds (all 19 \inputs, 7
+      \includegraphics and 22 scalars CSVs resolve to wired outputs; the
+      apparent diagnostic_theta_sweep_sectoral hit is the wired .tex, the
+      orphan being an unreferenced .png). What I did NOT check is whether
+      a WIRED script reads an orphan's output. One does:
+      diagnostic_placebo_ma1947.R (D.13l) does an unguarded
+      read.csv("diagnostic_placebo_1947.csv"), written only by
+      diagnostic_placebo_1947baseline.R, which was NOT in main.R and is
+      orphan #60 on my own list. run_step() uses a bare source() with no
+      tryCatch, so on a cold start main.R HALTS at D.13l, step 48 of 55,
+      losing D.13m-D.13p, D.14 generate_scalars and D.15-D.19. No
+      scalars.tex, so the paper does not compile. Proven by moving the
+      file aside and running D.13l. So the paper's macros DO transitively
+      depend on an orphan.
+      The rule this broke is written down in table_7_pre_trends.R: "no
+      paper exhibit depends on a diagnostic output". D.13l breaks it via
+      scalars.tex.
+      ⚠ FINDING 3, found while fixing that and worse than the dependency
+      itself: diagnostic_placebo_1947baseline.R HAS BEEN BROKEN SINCE PR
+      #162 and nobody noticed, because it is not in main.R. Its
+      check_anchor() compares its own first-stage F against
+      table_7_pre_trends.csv, and #162 switched table_7 to
+      fitstat_F_robust() while this script still called fitstat_F(). The
+      two are different statistics (IV-LP 19.27 classical against 17.17
+      robust), so the assertion failed and the script aborted. That means
+      scalars.tex could not have been produced on a cold start by ANY
+      wiring, not merely by the wiring that was missing. I made the #162
+      change, so this is my regression.
+      RESOLUTION: one line, fitstat_F() to fitstat_F_robust(), which is
+      the post-#162 convention its own anchor requires. Its 12 F values
+      move classical to robust (pop47 IV-LP now 17.1652563228532, exactly
+      table_7's value, so the anchor holds); coefficients, SEs, p-values
+      and N are unchanged. Wired as D.13l0 before D.13l. Verified: the
+      whole chain D.13l0 to D.13l to D.14 runs, and scalars.tex is
+      UNCHANGED at 321 macros, so no paper number moves.
+      ⚠ FINDING 2 — C.3c IS A NO-OP ON A WARM TREE, AND MY PLAN SAID
+      OTHERWISE. C.3c compute_taus ran in 0 seconds and logged "No cases
+      to process." 03c_compute_taus_parallel.R selects work via
+      `cases <- setdiff(all_cases, done_cases)` against the tau directory,
+      so with all 34 taus present it does nothing. I had grepped for
+      `file.exists` and `skip` in that script, found neither, and told
+      Diego at the plan gate that the run "genuinely rebuilds all 34
+      transition grids and all 34 tau matrices". The transition grids were
+      rebuilt; the TAUS WERE NOT. So this run does NOT verify that tau is
+      reproducible, the most expensive and most fragile artifact in the
+      package. D.13f unimodal_taus is the same (the plan did flag that
+      one).
+      NARROWER THAN I FIRST WROTE, per the review: 03b, 03c and 04 all
+      derive their work lists by SCANNING directories, so the warm run
+      processed 7 extra transition grids (instrument_fused plus the six
+      single-mode) and 14 extra MA cases that a cold start would not have
+      at that point. The 1332s C.3b figure is therefore not
+      cold-start-representative. 06_merge_ma_into_panel.R is declarative
+      over 54 named files, so the panel is deterministic — by accident of
+      being the one Stage C script that does not scan.
+      GUARDS ADDED: Stage C had NO verify_outputs at all, which is why a
+      0-second no-op passed unnoticed and was caught only by a human
+      reading step timings. C.1, C.2, C.3a, C.3b, C.3c and C.4 now assert
+      the four core cases (the two actual cross sections plus the two main
+      instruments, from config.R's main_* constants) rather than an
+      exhaustive scan-derived list. Note what these do and do not catch:
+      on a warm tree the taus are present so C.3c's assert passes; it is
+      the COLD-START version of the bug they catch, where the skip logic
+      leaves an output genuinely missing.
+      ⚠ MY MTIME METHOD WAS LUCKIER THAN IT WAS SOUND. "mtime moved =>
+      rewritten" is fine; "mtime did not move => main.R never writes it"
+      is NOT, and the six single-mode taus are live counterexamples —
+      main.R does output them via D.13f, but skipped, so their July mtimes
+      survive. The 63-file list holds only because it is scoped to
+      results/ and no skip-guarded step writes there.
+      CONSEQUENCE, and the scope is now corrected: the cold start must NOT
+      simply wipe data/derived. Doing so destroys the fused raster,
+      transition and tau that main.R never rebuilds, which would make the
+      committed fused/recentering/roadseg/roadtiming orphans
+      unregenerable. Wire or retire the orphans FIRST, then wipe.
+      AI involvement: run and analysed by Kiro (Claude) under the gated
+      lifecycle; plan approved before execution, cr-review run and
+      published. logs/main.Rout and logs/makelog.log are gitignored, so
+      the evidence above is recorded here rather than committed.
 
 - [x] PR #165 (analysis/pretrend-quintiles) — coauthor request: do the
       results depend on the baseline controls entering LINEARLY? Replaces

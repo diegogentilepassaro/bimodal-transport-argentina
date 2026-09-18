@@ -149,7 +149,16 @@ main <- function() {
             cn <- if (sp == "OLS") "chg_logMA_86_60_s0_elow" else
                 "fit_chg_logMA_86_60_s0_elow"
             cc <- safe_coef(m, cn)
-            Fv <- if (sp == "OLS") NA_real_ else fitstat_F(m)
+            # ROBUST, not classical. PR #162 switched every paper-facing
+            # table to fitstat_F_robust(), table_7_pre_trends.R among them,
+            # and check_anchor() below compares this F against that table's
+            # CSV. With fitstat_F() the two are different statistics
+            # (IV-LP 19.27 classical against 17.17 robust) and the anchor
+            # assertion fails, so this script has been unrunnable since
+            # #162. It went unnoticed because it was not in main.R --
+            # which is also why the cold start could not have produced
+            # scalars.tex (PR #166 review).
+            Fv <- if (sp == "OLS") NA_real_ else fitstat_F_robust(m)
             if (vn == "pop47") check_anchor(sp, cc, Fv, nobs(m))
             if (sp %in% c("OLS", "IV-B")) check_ladder(vn, sp, cc)
             add_row(variant = vn, spec = sp, stat = "coef",
