@@ -1,0 +1,175 @@
+==========================================================================
+ARE THE BASELINE CONTROLS LINEAR? (coauthor request)
+Quintile dummies for the baseline levels, tested and compared.
+Generated: 2026-09-18 14:08:56
+==========================================================================
+
+--------------------------------------------------------------------------
+[0] THE BINS
+--------------------------------------------------------------------------
+  cut once on the full 311-district sample.
+  quintiles of logMA_actual_1960_s0_elow    63 / 62 / 62 / 62 / 62
+  quintiles of log_pop_1960                 63 / 62 / 62 / 62 / 62
+
+==========================================================================
+[1] JOINT TEST OF LINEARITY -- the primary result
+==========================================================================
+  Linear baseline KEPT, its quintile dummies added, dummies
+  tested jointly (robust Wald, 3 restrictions).
+  outcome                  baseline log MA     baseline log pop   
+  Mfg. establishments      F  3.45  p 0.0089   F  2.09  p 0.0825
+  Mfg. production value    F  2.09  p 0.0815   F  2.86  p 0.0239
+  Mfg. wage mass           F  1.93  p 0.1047   F  4.57  p 0.0013
+  Ag. farms                F  0.18  p 0.9470   F  2.36  p 0.0539
+  Ag. farmed area          F  0.80  p 0.5231   F  3.21  p 0.0134
+  Total population         F  2.68  p 0.0320   F  8.62  p 0.0000
+  Both baselines are kept linear in every column here; only the
+  dummies being tested are added, so this is a pure test of
+  functional form and not a respecification.
+
+==========================================================================
+[2] THE FOUR SPECIFICATIONS, all four columns
+==========================================================================
+
+Mfg. establishments
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines +0.034    +0.065 (23.69)  +0.103 ( 4.12)  +0.075 (15.67)
+  C1   quintiles of b +0.003    +0.041 (18.58)  -0.014 ( 7.54)  +0.024 (15.22)
+  C2   quintiles of b +0.032    +0.059 (24.46)  +0.096 ( 3.98)  +0.068 (16.28)
+  C3   quintiles of b +0.004    +0.037 (20.11)  -0.010 ( 7.43)  +0.023 (16.33)
+
+Mfg. production value
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines +0.099    +0.303 (23.69)  +0.523 ( 4.12)  +0.359 (15.67)
+  C1   quintiles of b +0.096    +0.305 (18.58)  +0.476 ( 7.54)  +0.356 (15.22)
+  C2   quintiles of b +0.105    +0.293 (24.46)  +0.482 ( 3.98)  +0.341 (16.28)
+  C3   quintiles of b +0.105    +0.292 (20.11)  +0.459 ( 7.43)  +0.342 (16.33)
+
+Mfg. wage mass
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines +0.134    +0.319 (24.61)  +0.761 ( 4.13)  +0.427 (15.97)
+  C1   quintiles of b +0.120    +0.316 (19.30)  +0.608 ( 7.54)  +0.400 (15.56)
+  C2   quintiles of b +0.137    +0.295 (26.07)  +0.703 ( 3.99)  +0.396 (17.08)
+  C3   quintiles of b +0.127    +0.290 (21.83)  +0.584 ( 7.42)  +0.373 (17.29)
+
+Ag. farms
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines -0.010    +0.117 (24.30)  +0.080 ( 2.74)  +0.110 (15.02)
+  C1   quintiles of b -0.017    +0.112 (17.84)  +0.064 ( 4.12)  +0.101 (12.59)
+  C2   quintiles of b -0.009    +0.126 (23.63)  +0.064 ( 2.55)  +0.114 (14.53)
+  C3   quintiles of b -0.015    +0.120 (17.94)  +0.050 ( 3.93)  +0.105 (12.61)
+
+Ag. farmed area
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines -0.001    +0.104 (24.30)  +0.157 ( 2.74)  +0.115 (15.02)
+  C1   quintiles of b +0.002    +0.112 (17.84)  +0.190 ( 4.12)  +0.129 (12.59)
+  C2   quintiles of b +0.006    +0.106 (23.63)  +0.126 ( 2.55)  +0.110 (14.53)
+  C3   quintiles of b +0.009    +0.114 (17.94)  +0.166 ( 3.93)  +0.125 (12.61)
+
+Total population   [SEE [5] BELOW]
+  spec controls       OLS       IV-LP (F)       IV-Hypo (F)     IV-Both (F)    
+  C0   both baselines +0.028    +0.052 (23.28)  +0.080 ( 4.00)  +0.059 (15.32)
+  C1   quintiles of b +0.013    +0.040 (18.29)  +0.019 ( 7.39)  +0.034 (14.94)
+  C2   quintiles of b +0.027    +0.021 (24.04)  +0.041 ( 3.89)  +0.026 (15.93)
+  C3   quintiles of b +0.017    +0.016 (19.86)  +0.014 ( 7.30)  +0.015 (16.08)
+
+==========================================================================
+[3] IS THE C0-TO-C1 CHANGE DISTINGUISHABLE FROM NOISE?
+==========================================================================
+  Pairs bootstrap, 1000 replications, seed 20260918; bins recut in each
+  replication. Reported for the IV-Both column.
+  outcome                    change  boot SE       t       p  95% CI
+  Mfg. establishments       -0.0504   0.0265   -1.90   0.057  [-0.102, +0.002]
+  Mfg. production value     -0.0025   0.0460   -0.06   0.956  [-0.092, +0.097]
+  Mfg. wage mass            -0.0268   0.0475   -0.56   0.573  [-0.117, +0.078]
+  Ag. farms                 -0.0083   0.0187   -0.44   0.658  [-0.048, +0.025]
+  Ag. farmed area           +0.0138   0.0232   +0.59   0.552  [-0.029, +0.063]
+  Total population          -0.0250   0.0174   -1.44   0.150  [-0.062, +0.006]
+  The CI is the percentile interval on the CHANGE, not on either
+  coefficient. A CI containing zero means the two specifications
+  are not distinguishable, whatever the percent change looks like.
+
+==========================================================================
+[4] DO THE DUMMIES ABSORB THE IDENTIFYING VARIATION?
+==========================================================================
+  R2 of ...              on C0 controls   on C1 controls
+  treatment              0.3054           0.3060
+  Larkin Plan instrument 0.1028           0.1024
+  corr(baseline log MA, Larkin Plan instrument) = -0.0077
+  NO. The dummies explain essentially nothing extra, and the
+  instrument is close to orthogonal to the control being
+  relaxed, so whatever moves in [2] is not the comparison
+  running on less identifying variation. Note also that
+  absorbing identifying variation inflates a standard error; it
+  does not pull a point estimate toward zero.
+
+==========================================================================
+[5] THE POPULATION BLOCK IS NOT A ROBUSTNESS RESULT
+==========================================================================
+  C2 and C3 bin on log_pop_1960, which carries the
+  locality-universe measurement error documented in
+  diagnostic_pop1960_universe.R and is also the initial level
+  inside the outcome chg_log_pop_91_60, so they bin on a
+  mismeasured variable whose error is shared with the outcome.
+  C1 IS THE LEAST CONTAMINATED OF THE THREE, NOT EXEMPT. An
+  earlier version of this note claimed it carried none of the
+  objection, which is wrong: baseline MA is built FROM
+  pop_1960, so binning on it bins on a tau-weighted sum of the
+  same mismeasured variable. The error is missing dispersed
+  rural population, hence rural-concentrated and spatially
+  correlated, so a district's baseline MA inherits a
+  neighbour-weighted version of an error correlated with its own.
+  What genuinely attenuates the channel is that the MA sum
+  excludes the district itself (04_market_access.R), so a
+  district is never binned on its own mismeasured population.
+  Attenuated, not closed (cr-review PR #165).
+
+==========================================================================
+READING, in order of evidential weight
+==========================================================================
+  [1] LINEARITY IS REJECTED IN SEVERAL PLACES. At the five
+  percent level the baseline-log-MA dummies are jointly
+  significant for 2 of 6 outcomes and the baseline-log-pop
+  dummies for 4 of 6. The two are not the same outcomes: in
+  baseline MA it is establishments (p = 0.0089) and population
+  (p = 0.0320); in baseline population it includes the two
+  manufacturing outcomes the paper leans on, production value
+  p = 0.0239 and wage mass p = 0.0013, and population at p = 0.0000.
+  So the honest statement is NOT that the linear form is fine
+  where the paper needs it. It is rejected there too, in the
+  population baseline.
+
+  [1] AND [2] TOGETHER ARE THE POINT, and they point the same way
+  for a reason worth stating. A control's functional form being
+  rejected is not the same thing as the coefficient of interest
+  being biased by it. Wage mass is the cleanest case: linearity
+  in baseline population is rejected at p = 0.0013, and relaxing it
+  moves the IV-Both estimate by 7% (C2). Production value:
+  rejected at p = 0.0239, moves 5%. The misspecification is
+  real and it is orthogonal to the estimand.
+
+  [3] SAYS NO CHANGE IS DISTINGUISHABLE FROM ZERO. The smallest
+  bootstrap p across the six outcomes is 0.057 (Mfg. establishments),
+  and every 95% interval contains zero. Population, the largest
+  percent change at 42%, has p = 0.150 and an interval of
+  [-0.062, +0.006]. The percent changes are large mainly because
+  the denominators are small: every IV-Both estimate in the two
+  blocks that move is insignificant under every specification.
+  An earlier version of this script reported those percentages
+  alone and read them as a finding.
+
+  WHICH COLUMN MOVES. For population the strong column moves
+  least: IV-LP +0.052 to +0.040 against IV-Hypo +0.080 to +0.019.
+  The mix shifts too: the LP first stage weakens (23.28 to 18.29)
+  while the hypothetical one strengthens (4.00 to 7.39), so
+  IV-Both under C1 leans more on the weak instrument than under
+  C0. That makes IV-Both a less clean comparison than it looks,
+  which is a second reason to read [1] instead.
+
+  WHAT THIS STILL CANNOT SETTLE. Quintiles are one departure from
+  linearity. [1] tests that departure and no other.
+  There are 16 distinct first stages here, not 24: outcomes that
+  share a sample share a first stage.
+  baseline_ma_control_note.md's +0.046 (0.033), F 13.6 predates
+  the theta switch to 4.14 and is not the C0 row here.
+==========================================================================

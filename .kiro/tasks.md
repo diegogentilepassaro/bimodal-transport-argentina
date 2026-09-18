@@ -1677,11 +1677,85 @@ below feeds a paper number, and each has a reason it was not rerun:
 Full `R CMD BATCH main.R` (≈50 min, regenerates rasters C.1-C.3b
 identically) not run for this PR; stays on the pre-submission checklist.
 
-NEXT (green-lit, in order): quintile pre-trend dummies (sectoral
-outcomes; population case flagged for the pop60 shared-error mechanism);
-full `R CMD BATCH main.R`; contamination-vs-treatment diagnostic once
-Cote sends the 23 provincial 1960 totals. The rail-only 1947-dated
-baseline variant remains a Stage C item, to propose after Cote confirms.
+NEXT (green-lit, in order): full `R CMD BATCH main.R`;
+contamination-vs-treatment diagnostic once Cote sends the 23 provincial
+1960 totals. The rail-only 1947-dated baseline variant remains a Stage C
+item, to propose after Cote confirms.
+
+- [x] PR #165 (analysis/pretrend-quintiles) — coauthor request: do the
+      results depend on the baseline controls entering LINEARLY? Replaces
+      a linear baseline level with dummies for its quintiles, so
+      convergence is absorbed flexibly. DIAGNOSTIC ONLY.
+      READING CONFIRMED BY DIEGO as quintiles of a BASELINE LEVEL, not of
+      the pre-trend. That removed the design problem the plan was built
+      around: both baselines are complete on all 311 districts, so the
+      form changes without the sample changing, and no
+      selection-vs-form decomposition is needed. Asserted, not assumed:
+      N is constant across the four specifications within every outcome.
+      FOUR SPECS per outcome: C0 both baselines linear (the published
+      spec), C1 quintiles of baseline log MA, C2 quintiles of baseline log
+      pop, C3 quintiles of both additively. All three combinations are
+      reported because there are two baseline controls and 4 df each
+      against N = 311 is cheap. Bins cut once on the full sample so they
+      are the same object across outcomes; cells 62-63 each.
+      THE RESULT, in the form the cr-review forced it into. Three pieces
+      of evidence, in order of weight:
+      [1] JOINT WALD TEST of the quintile dummies with the linear term
+      KEPT — the omnibus test of linearity, and the primary result.
+      Linearity in the MA baseline is rejected at 5% for 2 of 6 outcomes
+      (establishments p = 0.0089, population p = 0.0320); in the
+      POPULATION baseline for 4 of 6, INCLUDING the two manufacturing
+      outcomes the paper leans on (production value p = 0.0239, wage mass
+      p = 0.0013) and population at p = 1.4e-06.
+      [2] The four specifications, all four IV columns.
+      [3] PAIRS BOOTSTRAP (1000 reps, seed 20260918, bins recut per rep)
+      on the C0→C1 change: NO outcome's change is distinguishable from
+      zero. Smallest p is 0.057 (establishments); population p = 0.150,
+      CI [−0.062, +0.006]; every interval contains zero.
+      ⚠ THE SYNTHESIS, and it is better than either half. Linearity IS
+      rejected for the outcomes the paper depends on, and relaxing it
+      barely moves them: wage mass rejected at p = 0.0013 moves 7%,
+      production value rejected at p = 0.0239 moves 5%. A control whose
+      functional form is misspecified does not thereby bias the
+      coefficient of interest, and here the misspecification is close to
+      orthogonal to the estimand. That is the finding to give Cote.
+      ABSORPTION RULED OUT by measurement, not argument: treatment R² on
+      the controls 0.3054 → 0.3060, LP-instrument R² 0.1028 → 0.1024,
+      cor(baseline MA, LP instrument) = −0.008. The dummies absorb
+      essentially nothing, and absorbing identifying variation would
+      inflate an SE rather than pull an estimate toward zero.
+      COLUMN COMPOSITION, missed in the first version: for population the
+      STRONG column moves least (IV-LP +0.052 → +0.040) while IV-Hypo
+      moves +0.080 → +0.019, and the mix shifts — LP F 23.3 → 18.3 while
+      hypo F 4.0 → 7.4 — so IV-Both under C1 leans more on the weak
+      instrument. IV-Both is a less clean comparison than it looks.
+      POPULATION BLOCK FLAGGED, NOT OMITTED, and the flag is now correct.
+      C2/C3 bin on log_pop_1960 directly. C1 is the LEAST CONTAMINATED of
+      the three, NOT exempt: an earlier version claimed exemption, which
+      is wrong because baseline MA is built FROM pop_1960, and the error
+      (missing dispersed rural population) is rural-concentrated and
+      spatially correlated, so a district's baseline MA inherits a
+      neighbour-weighted version of an error correlated with its own. What
+      genuinely attenuates it is that the MA sum excludes the district
+      itself, so no district is binned on its own mismeasured population.
+      ⚠ THREE ERRORS OF MINE IN THE FIRST VERSION, all caught by review:
+      percent changes narrated as findings with no inference on the change
+      (their denominators are statistically zero, which is why they look
+      large); the C1 pop60 exemption; and "nothing here tests linearity
+      against the data", which was false and cost the diagnostic its best
+      result. Also wrong: df arithmetic (C1/C2 cost 3 extra parameters not
+      4, C3 costs 6 not 8, an interacted 5×5 is 24 dummies not 25) and a
+      claim that the F "is expected to fall" that its own numbers
+      contradicted.
+      GUARD: `assert_c0_matches()` requires C0 to reproduce Table 9
+      (population) and Table 10 (sectoral) on estimate, SE AND N, all four
+      columns, all six outcomes. Both failure modes verified to fire.
+      Fully deterministic despite the bootstrap: all three artifacts
+      byte-identical across runs.
+      Wired as main.R step D.13p (~4.7 min, almost all bootstrap). See
+      results/tables/diagnostic_pretrend_quintiles{,_tests}.csv.
+      AI involvement: written by Kiro (Claude) under the gated lifecycle;
+      plan approved before implementation, cr-review run and published.
 
 - [x] PR #163 (analysis/controls-ladder) — coauthor request (i), the
       controls ladder. Table 12 Panel D on total population and new
